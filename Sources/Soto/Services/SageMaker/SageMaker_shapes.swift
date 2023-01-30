@@ -1550,6 +1550,7 @@ extension SageMaker {
         case mlP32Xlarge = "ml.p3.2xlarge"
         case mlP38Xlarge = "ml.p3.8xlarge"
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
+        case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR524Xlarge = "ml.r5.24xlarge"
         case mlR52Xlarge = "ml.r5.2xlarge"
@@ -2071,6 +2072,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum TrainingRepositoryAccessMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case platform = "Platform"
+        case vpc = "Vpc"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TransformInstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case mlC42Xlarge = "ml.c4.2xlarge"
         case mlC44Xlarge = "ml.c4.4xlarge"
@@ -2492,15 +2499,18 @@ extension SageMaker {
         public let metricDefinitions: [MetricDefinition]?
         /// The registry path of the Docker image that contains the training algorithm. For information about docker registry paths for SageMaker built-in algorithms, see Docker Registry Paths and Example Code in the Amazon SageMaker developer guide. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information about using your custom training container, see Using Your Own Algorithms with Amazon SageMaker.  You must specify either the algorithm name to the AlgorithmName parameter or the image URI of the algorithm container to the TrainingImage parameter. For more information, see the note in the AlgorithmName parameter description.
         public let trainingImage: String?
+        /// The configuration to use an image from a private Docker registry for a training job.
+        public let trainingImageConfig: TrainingImageConfig?
         public let trainingInputMode: TrainingInputMode
 
-        public init(algorithmName: String? = nil, containerArguments: [String]? = nil, containerEntrypoint: [String]? = nil, enableSageMakerMetricsTimeSeries: Bool? = nil, metricDefinitions: [MetricDefinition]? = nil, trainingImage: String? = nil, trainingInputMode: TrainingInputMode) {
+        public init(algorithmName: String? = nil, containerArguments: [String]? = nil, containerEntrypoint: [String]? = nil, enableSageMakerMetricsTimeSeries: Bool? = nil, metricDefinitions: [MetricDefinition]? = nil, trainingImage: String? = nil, trainingImageConfig: TrainingImageConfig? = nil, trainingInputMode: TrainingInputMode) {
             self.algorithmName = algorithmName
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
             self.enableSageMakerMetricsTimeSeries = enableSageMakerMetricsTimeSeries
             self.metricDefinitions = metricDefinitions
             self.trainingImage = trainingImage
+            self.trainingImageConfig = trainingImageConfig
             self.trainingInputMode = trainingInputMode
         }
 
@@ -2526,6 +2536,7 @@ extension SageMaker {
             try self.validate(self.metricDefinitions, name: "metricDefinitions", parent: name, max: 40)
             try self.validate(self.trainingImage, name: "trainingImage", parent: name, max: 255)
             try self.validate(self.trainingImage, name: "trainingImage", parent: name, pattern: ".*")
+            try self.trainingImageConfig?.validate(name: "\(name).trainingImageConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2535,6 +2546,7 @@ extension SageMaker {
             case enableSageMakerMetricsTimeSeries = "EnableSageMakerMetricsTimeSeries"
             case metricDefinitions = "MetricDefinitions"
             case trainingImage = "TrainingImage"
+            case trainingImageConfig = "TrainingImageConfig"
             case trainingInputMode = "TrainingInputMode"
         }
     }
@@ -15461,7 +15473,7 @@ extension SageMaker {
         public let monitoringSchedules: [MonitoringSchedule]?
         /// A list of the production variants hosted on the endpoint. Each production variant is a model.
         public let productionVariants: [ProductionVariantSummary]?
-        /// A list of the shadow variants hosted on the endpoint. Each shadow variant is a model in shadow mode with production traffic replicated from the proudction variant.
+        /// A list of the shadow variants hosted on the endpoint. Each shadow variant is a model in shadow mode with production traffic replicated from the production variant.
         public let shadowProductionVariants: [ProductionVariantSummary]?
         /// A list of the tags associated with the endpoint. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
@@ -17026,6 +17038,8 @@ extension SageMaker {
         public let enableManagedSpotTraining: Bool?
         /// Isolates the training container. No inbound or outbound network calls can be made, except for calls between peers within a training cluster for distributed training. If network isolation is used for training jobs that are configured to use a VPC, SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.
         public let enableNetworkIsolation: Bool?
+        /// An environment variable that you can pass into the SageMaker CreateTrainingJob API. You can use an existing environment variable from the training container or use your own. See Define metrics and variables for more information.  The maximum number of items specified for Map Entries refers to the maximum number of environment variables for each TrainingJobDefinition and also the maximum for the hyperparameter tuning job itself. That is, the sum of the number of environment variables for all the training job definitions can't exceed the maximum number specified.
+        public let environment: [String: String]?
         public let hyperParameterRanges: ParameterRanges?
         /// The configuration for the hyperparameter tuning resources, including the compute instances and storage volumes, used for training jobs launched by the tuning job. By default, storage volumes hold model artifacts and incremental states. Choose File for TrainingInputMode in the AlgorithmSpecification parameter to additionally store training data in the storage volume (optional).
         public let hyperParameterTuningResourceConfig: HyperParameterTuningResourceConfig?
@@ -17047,13 +17061,14 @@ extension SageMaker {
         /// The VpcConfig object that specifies the VPC that you want the training jobs that this hyperparameter tuning job launches to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: HyperParameterAlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, definitionName: String? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, hyperParameterRanges: ParameterRanges? = nil, hyperParameterTuningResourceConfig: HyperParameterTuningResourceConfig? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String, staticHyperParameters: [String: String]? = nil, stoppingCondition: StoppingCondition, tuningObjective: HyperParameterTuningJobObjective? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: HyperParameterAlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, definitionName: String? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, hyperParameterRanges: ParameterRanges? = nil, hyperParameterTuningResourceConfig: HyperParameterTuningResourceConfig? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String, staticHyperParameters: [String: String]? = nil, stoppingCondition: StoppingCondition, tuningObjective: HyperParameterTuningJobObjective? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.checkpointConfig = checkpointConfig
             self.definitionName = definitionName
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.enableManagedSpotTraining = enableManagedSpotTraining
             self.enableNetworkIsolation = enableNetworkIsolation
+            self.environment = environment
             self.hyperParameterRanges = hyperParameterRanges
             self.hyperParameterTuningResourceConfig = hyperParameterTuningResourceConfig
             self.inputDataConfig = inputDataConfig
@@ -17073,6 +17088,13 @@ extension SageMaker {
             try self.validate(self.definitionName, name: "definitionName", parent: name, max: 64)
             try self.validate(self.definitionName, name: "definitionName", parent: name, min: 1)
             try self.validate(self.definitionName, name: "definitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.environment?.forEach {
+                try validate($0.key, name: "environment.key", parent: name, max: 512)
+                try validate($0.key, name: "environment.key", parent: name, pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$")
+                try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, pattern: "^[\\S\\s]*$")
+            }
+            try self.validate(self.environment, name: "environment", parent: name, max: 48)
             try self.hyperParameterRanges?.validate(name: "\(name).hyperParameterRanges")
             try self.hyperParameterTuningResourceConfig?.validate(name: "\(name).hyperParameterTuningResourceConfig")
             try self.inputDataConfig?.forEach {
@@ -17105,6 +17127,7 @@ extension SageMaker {
             case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
             case enableManagedSpotTraining = "EnableManagedSpotTraining"
             case enableNetworkIsolation = "EnableNetworkIsolation"
+            case environment = "Environment"
             case hyperParameterRanges = "HyperParameterRanges"
             case hyperParameterTuningResourceConfig = "HyperParameterTuningResourceConfig"
             case inputDataConfig = "InputDataConfig"
@@ -17177,7 +17200,7 @@ extension SageMaker {
     }
 
     public struct HyperParameterTuningInstanceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The number of instances of the type specified by InstanceType. Choose an instance count larger than 1 for distributed training algorithms. See SageMaker distributed training jobs for more informcration.
+        /// The number of instances of the type specified by InstanceType. Choose an instance count larger than 1 for distributed training algorithms. See SageMaker distributed training jobs for more information.
         public let instanceCount: Int
         /// The instance type used for processing of hyperparameter optimization jobs. Choose from general purpose (no GPUs) instance types: ml.m5.xlarge, ml.m5.2xlarge, and ml.m5.4xlarge or compute optimized (no GPUs) instance types: ml.c5.xlarge and ml.c5.2xlarge. For more information about instance types, see instance type descriptions.
         public let instanceType: TrainingInstanceType
@@ -17828,17 +17851,21 @@ extension SageMaker {
         public let metrics: RecommendationMetrics
         /// Defines the model configuration.
         public let modelConfiguration: ModelConfiguration
+        /// The recommendation ID which uniquely identifies each recommendation.
+        public let recommendationId: String?
 
-        public init(endpointConfiguration: EndpointOutputConfiguration, metrics: RecommendationMetrics, modelConfiguration: ModelConfiguration) {
+        public init(endpointConfiguration: EndpointOutputConfiguration, metrics: RecommendationMetrics, modelConfiguration: ModelConfiguration, recommendationId: String? = nil) {
             self.endpointConfiguration = endpointConfiguration
             self.metrics = metrics
             self.modelConfiguration = modelConfiguration
+            self.recommendationId = recommendationId
         }
 
         private enum CodingKeys: String, CodingKey {
             case endpointConfiguration = "EndpointConfiguration"
             case metrics = "Metrics"
             case modelConfiguration = "ModelConfiguration"
+            case recommendationId = "RecommendationId"
         }
     }
 
@@ -23978,17 +24005,21 @@ extension SageMaker {
     }
 
     public struct ModelConfiguration: AWSDecodableShape {
+        /// The name of the compilation job used to create the recommended model artifacts.
+        public let compilationJobName: String?
         /// Defines the environment parameters that includes key, value types, and values.
         public let environmentParameters: [EnvironmentParameter]?
         /// The inference specification name in the model package version.
         public let inferenceSpecificationName: String?
 
-        public init(environmentParameters: [EnvironmentParameter]? = nil, inferenceSpecificationName: String? = nil) {
+        public init(compilationJobName: String? = nil, environmentParameters: [EnvironmentParameter]? = nil, inferenceSpecificationName: String? = nil) {
+            self.compilationJobName = compilationJobName
             self.environmentParameters = environmentParameters
             self.inferenceSpecificationName = inferenceSpecificationName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compilationJobName = "CompilationJobName"
             case environmentParameters = "EnvironmentParameters"
             case inferenceSpecificationName = "InferenceSpecificationName"
         }
@@ -27332,7 +27363,7 @@ extension SageMaker {
         public let serverlessConfig: ProductionVariantServerlessConfig?
         /// The name of the production variant.
         public let variantName: String
-        /// The size, in GB, of the ML storage volume attached to individual inference instance associated with the production variant. Currenly only Amazon EBS gp2 storage volumes are supported.
+        /// The size, in GB, of the ML storage volume attached to individual inference instance associated with the production variant. Currently only Amazon EBS gp2 storage volumes are supported.
         public let volumeSizeInGB: Int?
 
         public init(acceleratorType: ProductionVariantAcceleratorType? = nil, containerStartupHealthCheckTimeoutInSeconds: Int? = nil, coreDumpConfig: ProductionVariantCoreDumpConfig? = nil, initialInstanceCount: Int? = nil, initialVariantWeight: Float? = nil, instanceType: ProductionVariantInstanceType? = nil, modelDataDownloadTimeoutInSeconds: Int? = nil, modelName: String, serverlessConfig: ProductionVariantServerlessConfig? = nil, variantName: String, volumeSizeInGB: Int? = nil) {
@@ -28169,6 +28200,8 @@ extension SageMaker {
     }
 
     public struct RecommendationJobContainerConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the name and shape of the expected data inputs for your trained model with a JSON dictionary form. This field is used for optimizing your model using SageMaker Neo. For more information, see DataInputConfig.
+        public let dataInputConfig: String?
         /// The machine learning domain of the model and its components. Valid Values: COMPUTER_VISION | NATURAL_LANGUAGE_PROCESSING | MACHINE_LEARNING
         public let domain: String?
         /// The machine learning framework of the container image. Valid Values: TENSORFLOW | PYTORCH | XGBOOST | SAGEMAKER-SCIKIT-LEARN
@@ -28184,7 +28217,8 @@ extension SageMaker {
         /// The machine learning task that the model accomplishes. Valid Values: IMAGE_CLASSIFICATION | OBJECT_DETECTION | TEXT_GENERATION | IMAGE_SEGMENTATION | FILL_MASK | CLASSIFICATION | REGRESSION | OTHER
         public let task: String?
 
-        public init(domain: String? = nil, framework: String? = nil, frameworkVersion: String? = nil, nearestModelName: String? = nil, payloadConfig: RecommendationJobPayloadConfig? = nil, supportedInstanceTypes: [String]? = nil, task: String? = nil) {
+        public init(dataInputConfig: String? = nil, domain: String? = nil, framework: String? = nil, frameworkVersion: String? = nil, nearestModelName: String? = nil, payloadConfig: RecommendationJobPayloadConfig? = nil, supportedInstanceTypes: [String]? = nil, task: String? = nil) {
+            self.dataInputConfig = dataInputConfig
             self.domain = domain
             self.framework = framework
             self.frameworkVersion = frameworkVersion
@@ -28194,7 +28228,14 @@ extension SageMaker {
             self.task = task
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dataInputConfig, name: "dataInputConfig", parent: name, max: 1024)
+            try self.validate(self.dataInputConfig, name: "dataInputConfig", parent: name, min: 1)
+            try self.validate(self.dataInputConfig, name: "dataInputConfig", parent: name, pattern: "^[\\S\\s]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case dataInputConfig = "DataInputConfig"
             case domain = "Domain"
             case framework = "Framework"
             case frameworkVersion = "FrameworkVersion"
@@ -28236,8 +28277,10 @@ extension SageMaker {
         public let endpoints: [EndpointInfo]?
         /// Specifies the maximum duration of the job, in seconds.>
         public let jobDurationInSeconds: Int?
+        /// The name of the created model.
+        public let modelName: String?
         /// The Amazon Resource Name (ARN) of a versioned model package.
-        public let modelPackageVersionArn: String
+        public let modelPackageVersionArn: String?
         /// Defines the resource limit of the job.
         public let resourceLimit: RecommendationJobResourceLimit?
         /// Specifies the traffic pattern of the job.
@@ -28247,11 +28290,12 @@ extension SageMaker {
         /// Inference Recommender provisions SageMaker endpoints with access to VPC in the inference recommendation job.
         public let vpcConfig: RecommendationJobVpcConfig?
 
-        public init(containerConfig: RecommendationJobContainerConfig? = nil, endpointConfigurations: [EndpointInputConfiguration]? = nil, endpoints: [EndpointInfo]? = nil, jobDurationInSeconds: Int? = nil, modelPackageVersionArn: String, resourceLimit: RecommendationJobResourceLimit? = nil, trafficPattern: TrafficPattern? = nil, volumeKmsKeyId: String? = nil, vpcConfig: RecommendationJobVpcConfig? = nil) {
+        public init(containerConfig: RecommendationJobContainerConfig? = nil, endpointConfigurations: [EndpointInputConfiguration]? = nil, endpoints: [EndpointInfo]? = nil, jobDurationInSeconds: Int? = nil, modelName: String? = nil, modelPackageVersionArn: String? = nil, resourceLimit: RecommendationJobResourceLimit? = nil, trafficPattern: TrafficPattern? = nil, volumeKmsKeyId: String? = nil, vpcConfig: RecommendationJobVpcConfig? = nil) {
             self.containerConfig = containerConfig
             self.endpointConfigurations = endpointConfigurations
             self.endpoints = endpoints
             self.jobDurationInSeconds = jobDurationInSeconds
+            self.modelName = modelName
             self.modelPackageVersionArn = modelPackageVersionArn
             self.resourceLimit = resourceLimit
             self.trafficPattern = trafficPattern
@@ -28260,6 +28304,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.containerConfig?.validate(name: "\(name).containerConfig")
             try self.endpointConfigurations?.forEach {
                 try $0.validate(name: "\(name).endpointConfigurations[]")
             }
@@ -28270,6 +28315,8 @@ extension SageMaker {
             }
             try self.validate(self.endpoints, name: "endpoints", parent: name, max: 1)
             try self.validate(self.jobDurationInSeconds, name: "jobDurationInSeconds", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 63)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, max: 2048)
             try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, min: 1)
             try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:model-package/")
@@ -28285,6 +28332,7 @@ extension SageMaker {
             case endpointConfigurations = "EndpointConfigurations"
             case endpoints = "Endpoints"
             case jobDurationInSeconds = "JobDurationInSeconds"
+            case modelName = "ModelName"
             case modelPackageVersionArn = "ModelPackageVersionArn"
             case resourceLimit = "ResourceLimit"
             case trafficPattern = "TrafficPattern"
@@ -28417,22 +28465,30 @@ extension SageMaker {
         public let costPerHour: Float
         /// Defines the cost per inference for the instance .
         public let costPerInference: Float
+        /// The expected CPU utilization at maximum invocations per minute for the instance.  NaN indicates that the value is not available.
+        public let cpuUtilization: Float?
         /// The expected maximum number of requests per minute for the instance.
         public let maxInvocations: Int
+        /// The expected memory utilization at maximum invocations per minute for the instance.  NaN indicates that the value is not available.
+        public let memoryUtilization: Float?
         /// The expected model latency at maximum invocation per minute for the instance.
         public let modelLatency: Int
 
-        public init(costPerHour: Float, costPerInference: Float, maxInvocations: Int, modelLatency: Int) {
+        public init(costPerHour: Float, costPerInference: Float, cpuUtilization: Float? = nil, maxInvocations: Int, memoryUtilization: Float? = nil, modelLatency: Int) {
             self.costPerHour = costPerHour
             self.costPerInference = costPerInference
+            self.cpuUtilization = cpuUtilization
             self.maxInvocations = maxInvocations
+            self.memoryUtilization = memoryUtilization
             self.modelLatency = modelLatency
         }
 
         private enum CodingKeys: String, CodingKey {
             case costPerHour = "CostPerHour"
             case costPerInference = "CostPerInference"
+            case cpuUtilization = "CpuUtilization"
             case maxInvocations = "MaxInvocations"
+            case memoryUtilization = "MemoryUtilization"
             case modelLatency = "ModelLatency"
         }
     }
@@ -30282,6 +30338,27 @@ extension SageMaker {
         }
     }
 
+    public struct TrainingImageConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The method that your training job will use to gain access to the images in your private Docker registry. For access to an image in a private Docker registry, set to Vpc.
+        public let trainingRepositoryAccessMode: TrainingRepositoryAccessMode
+        /// An object containing authentication information for a private Docker registry containing your training images.
+        public let trainingRepositoryAuthConfig: TrainingRepositoryAuthConfig?
+
+        public init(trainingRepositoryAccessMode: TrainingRepositoryAccessMode, trainingRepositoryAuthConfig: TrainingRepositoryAuthConfig? = nil) {
+            self.trainingRepositoryAccessMode = trainingRepositoryAccessMode
+            self.trainingRepositoryAuthConfig = trainingRepositoryAuthConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.trainingRepositoryAuthConfig?.validate(name: "\(name).trainingRepositoryAuthConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainingRepositoryAccessMode = "TrainingRepositoryAccessMode"
+            case trainingRepositoryAuthConfig = "TrainingRepositoryAuthConfig"
+        }
+    }
+
     public struct TrainingJob: AWSDecodableShape {
         /// Information about the algorithm used for training, and algorithm metadata.
         public let algorithmSpecification: AlgorithmSpecification?
@@ -30561,6 +30638,25 @@ extension SageMaker {
             case trainingJobName = "TrainingJobName"
             case trainingJobStatus = "TrainingJobStatus"
             case warmPoolStatus = "WarmPoolStatus"
+        }
+    }
+
+    public struct TrainingRepositoryAuthConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services Lambda function used to give SageMaker access credentials to your private Docker registry.
+        public let trainingRepositoryCredentialsProviderArn: String
+
+        public init(trainingRepositoryCredentialsProviderArn: String) {
+            self.trainingRepositoryCredentialsProviderArn = trainingRepositoryCredentialsProviderArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.trainingRepositoryCredentialsProviderArn, name: "trainingRepositoryCredentialsProviderArn", parent: name, max: 2048)
+            try self.validate(self.trainingRepositoryCredentialsProviderArn, name: "trainingRepositoryCredentialsProviderArn", parent: name, min: 1)
+            try self.validate(self.trainingRepositoryCredentialsProviderArn, name: "trainingRepositoryCredentialsProviderArn", parent: name, pattern: "^arn:[\\p{Alnum}\\-]+:lambda:[\\p{Alnum}\\-]+:[0-9]{12}:function:")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainingRepositoryCredentialsProviderArn = "TrainingRepositoryCredentialsProviderArn"
         }
     }
 
@@ -31843,7 +31939,7 @@ extension SageMaker {
         public let endpointConfigName: String
         /// The name of the endpoint whose configuration you want to update.
         public let endpointName: String
-        /// When you are updating endpoint resources with UpdateEndpointInput$RetainAllVariantProperties, whose value is set to true, ExcludeRetainedVariantProperties specifies the list of type VariantProperty to override with the values provided by EndpointConfig. If you don't specify a value for ExcludeAllVariantProperties, no variant properties are overridden.
+        /// When you are updating endpoint resources with UpdateEndpointInput$RetainAllVariantProperties, whose value is set to true, ExcludeRetainedVariantProperties specifies the list of type VariantProperty to override with the values provided by EndpointConfig. If you don't specify a value for ExcludeRetainedVariantProperties, no variant properties are overridden.
         public let excludeRetainedVariantProperties: [VariantProperty]?
         /// When updating endpoint resources, enables or disables the retention of variant properties, such as the instance count or the variant weight. To retain the variant properties of an endpoint when updating it, set RetainAllVariantProperties to true. To use the variant properties specified in a new EndpointConfig call when updating an endpoint, set RetainAllVariantProperties to false. The default is false.
         public let retainAllVariantProperties: Bool?

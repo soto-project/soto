@@ -64,6 +64,11 @@ public struct MediaTailor: AWSService {
 
     // MARK: API Calls
 
+    /// Configures Amazon CloudWatch log settings for a channel.
+    public func configureLogsForChannel(_ input: ConfigureLogsForChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigureLogsForChannelResponse> {
+        return self.client.execute(operation: "ConfigureLogsForChannel", path: "/configureLogs/channel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Amazon CloudWatch log settings for a playback configuration.
     public func configureLogsForPlaybackConfiguration(_ input: ConfigureLogsForPlaybackConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigureLogsForPlaybackConfigurationResponse> {
         return self.client.execute(operation: "ConfigureLogsForPlaybackConfiguration", path: "/configureLogs/playbackConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

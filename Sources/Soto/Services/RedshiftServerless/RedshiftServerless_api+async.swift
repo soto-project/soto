@@ -183,7 +183,7 @@ extension RedshiftServerless {
         return try await self.client.execute(operation: "RestoreFromSnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Restores a table from a snapshot to your Amazon Redshift Serverless instance.
+    /// Restores a table from a snapshot to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys.
     public func restoreTableFromSnapshot(_ input: RestoreTableFromSnapshotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RestoreTableFromSnapshotResponse {
         return try await self.client.execute(operation: "RestoreTableFromSnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -203,7 +203,7 @@ extension RedshiftServerless {
         return try await self.client.execute(operation: "UpdateEndpointAccess", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a namespace with the specified settings.
+    /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request.
     public func updateNamespace(_ input: UpdateNamespaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateNamespaceResponse {
         return try await self.client.execute(operation: "UpdateNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -218,7 +218,7 @@ extension RedshiftServerless {
         return try await self.client.execute(operation: "UpdateUsageLimit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a workgroup with the specified configuration settings.
+    /// Updates a workgroup with the specified configuration settings. You can't update multiple parameters in one request. For example, you can update baseCapacity or port in a single request, but you can't update both in the same request.
     public func updateWorkgroup(_ input: UpdateWorkgroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateWorkgroupResponse {
         return try await self.client.execute(operation: "UpdateWorkgroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

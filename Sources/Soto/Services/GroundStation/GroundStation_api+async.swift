@@ -33,7 +33,7 @@ extension GroundStation {
         return try await self.client.execute(operation: "CreateConfig", path: "/config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig  to specify which endpoints to use during a contact.  When a contact uses multiple DataflowEndpointConfig objects, each Config  must match a DataflowEndpoint in the same group.
+    /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig  to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config  must match a DataflowEndpoint in the same group.
     public func createDataflowEndpointGroup(_ input: CreateDataflowEndpointGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DataflowEndpointGroupIdResponse {
         return try await self.client.execute(operation: "CreateDataflowEndpointGroup", path: "/dataflowEndpointGroup", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -330,6 +330,29 @@ extension GroundStation {
             logger: logger,
             on: eventLoop
         )
+    }
+}
+
+// MARK: Waiters
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension GroundStation {
+    public func waitUntilContactScheduled(
+        _ input: DescribeContactRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .failure, matcher: try! JMESPathMatcher("contactStatus", expected: "FAILED_TO_SCHEDULE")),
+                .init(state: .success, matcher: try! JMESPathMatcher("contactStatus", expected: "SCHEDULED")),
+            ],
+            minDelayTime: .seconds(5),
+            maxDelayTime: .seconds(900),
+            command: self.describeContact
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 }
 

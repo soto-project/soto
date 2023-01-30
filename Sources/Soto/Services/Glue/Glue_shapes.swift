@@ -306,6 +306,14 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum HudiTargetCompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case gzip = "gzip"
+        case lzo = "lzo"
+        case snappy = "snappy"
+        case uncompressed = "uncompressed"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JDBCDataType: String, CustomStringConvertible, Codable, _SotoSendable {
         case `struct` = "STRUCT"
         case array = "ARRAY"
@@ -614,6 +622,7 @@ extension Glue {
     public enum TargetFormat: String, CustomStringConvertible, Codable, _SotoSendable {
         case avro = "avro"
         case csv = "csv"
+        case hudi = "hudi"
         case json = "json"
         case orc = "orc"
         case parquet = "parquet"
@@ -2149,6 +2158,48 @@ extension Glue {
         }
     }
 
+    public struct CatalogHudiSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options.
+        public let additionalHudiOptions: [String: String]?
+        /// The name of the database to read from.
+        public let database: String
+        /// The name of the Hudi data source.
+        public let name: String
+        /// Specifies the data schema for the Hudi source.
+        public let outputSchemas: [GlueSchema]?
+        /// The name of the table in the database to read from.
+        public let table: String
+
+        public init(additionalHudiOptions: [String: String]? = nil, database: String, name: String, outputSchemas: [GlueSchema]? = nil, table: String) {
+            self.additionalHudiOptions = additionalHudiOptions
+            self.database = database
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalHudiOptions?.forEach {
+                try validate($0.key, name: "additionalHudiOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.value, name: "additionalHudiOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalHudiOptions = "AdditionalHudiOptions"
+            case database = "Database"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+            case table = "Table"
+        }
+    }
+
     public struct CatalogImportStatus: AWSDecodableShape {
         ///  True if the migration has completed, or False otherwise.
         public let importCompleted: Bool?
@@ -2440,6 +2491,8 @@ extension Glue {
         public let applyMapping: ApplyMapping?
         /// Specifies a connector to an Amazon Athena data source.
         public let athenaConnectorSource: AthenaConnectorSource?
+        /// Specifies a Hudi data source that is registered in the Glue Data Catalog.
+        public let catalogHudiSource: CatalogHudiSource?
         /// Specifies an Apache Kafka data store in the Data Catalog.
         public let catalogKafkaSource: CatalogKafkaSource?
         /// Specifies a Kinesis data source in the Glue Data Catalog.
@@ -2506,6 +2559,8 @@ extension Glue {
         public let relationalCatalogSource: RelationalCatalogSource?
         /// Specifies a transform that renames a single data property key.
         public let renameField: RenameField?
+        /// Specifies a Hudi data source that is registered in the Glue Data Catalog. The Hudi data source must be stored in Amazon S3.
+        public let s3CatalogHudiSource: S3CatalogHudiSource?
         /// Specifies an Amazon S3 data store in the Glue Data Catalog.
         public let s3CatalogSource: S3CatalogSource?
         /// Specifies a data target that writes to Amazon S3 using the Glue Data Catalog.
@@ -2516,6 +2571,12 @@ extension Glue {
         public let s3DirectTarget: S3DirectTarget?
         /// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar storage.
         public let s3GlueParquetTarget: S3GlueParquetTarget?
+        /// Specifies a target that writes to a Hudi data source in the Glue Data Catalog.
+        public let s3HudiCatalogTarget: S3HudiCatalogTarget?
+        /// Specifies a target that writes to a Hudi data source in Amazon S3.
+        public let s3HudiDirectTarget: S3HudiDirectTarget?
+        /// Specifies a Hudi data source stored in Amazon S3.
+        public let s3HudiSource: S3HudiSource?
         /// Specifies a JSON data store stored in Amazon S3.
         public let s3JsonSource: S3JsonSource?
         /// Specifies an Apache Parquet data store stored in Amazon S3.
@@ -2537,10 +2598,11 @@ extension Glue {
         /// Specifies a transform that combines the rows from two or more datasets into a single result.
         public let union: Union?
 
-        public init(aggregate: Aggregate? = nil, applyMapping: ApplyMapping? = nil, athenaConnectorSource: AthenaConnectorSource? = nil, catalogKafkaSource: CatalogKafkaSource? = nil, catalogKinesisSource: CatalogKinesisSource? = nil, catalogSource: CatalogSource? = nil, catalogTarget: BasicCatalogTarget? = nil, customCode: CustomCode? = nil, directKafkaSource: DirectKafkaSource? = nil, directKinesisSource: DirectKinesisSource? = nil, dropDuplicates: DropDuplicates? = nil, dropFields: DropFields? = nil, dropNullFields: DropNullFields? = nil, dynamicTransform: DynamicTransform? = nil, dynamoDBCatalogSource: DynamoDBCatalogSource? = nil, evaluateDataQuality: EvaluateDataQuality? = nil, fillMissingValues: FillMissingValues? = nil, filter: Filter? = nil, governedCatalogSource: GovernedCatalogSource? = nil, governedCatalogTarget: GovernedCatalogTarget? = nil, jdbcConnectorSource: JDBCConnectorSource? = nil, jdbcConnectorTarget: JDBCConnectorTarget? = nil, join: Join? = nil, merge: Merge? = nil, microsoftSQLServerCatalogSource: MicrosoftSQLServerCatalogSource? = nil, microsoftSQLServerCatalogTarget: MicrosoftSQLServerCatalogTarget? = nil, mySQLCatalogSource: MySQLCatalogSource? = nil, mySQLCatalogTarget: MySQLCatalogTarget? = nil, oracleSQLCatalogSource: OracleSQLCatalogSource? = nil, oracleSQLCatalogTarget: OracleSQLCatalogTarget? = nil, piiDetection: PIIDetection? = nil, postgreSQLCatalogSource: PostgreSQLCatalogSource? = nil, postgreSQLCatalogTarget: PostgreSQLCatalogTarget? = nil, redshiftSource: RedshiftSource? = nil, redshiftTarget: RedshiftTarget? = nil, relationalCatalogSource: RelationalCatalogSource? = nil, renameField: RenameField? = nil, s3CatalogSource: S3CatalogSource? = nil, s3CatalogTarget: S3CatalogTarget? = nil, s3CsvSource: S3CsvSource? = nil, s3DirectTarget: S3DirectTarget? = nil, s3GlueParquetTarget: S3GlueParquetTarget? = nil, s3JsonSource: S3JsonSource? = nil, s3ParquetSource: S3ParquetSource? = nil, selectFields: SelectFields? = nil, selectFromCollection: SelectFromCollection? = nil, sparkConnectorSource: SparkConnectorSource? = nil, sparkConnectorTarget: SparkConnectorTarget? = nil, sparkSQL: SparkSQL? = nil, spigot: Spigot? = nil, splitFields: SplitFields? = nil, union: Union? = nil) {
+        public init(aggregate: Aggregate? = nil, applyMapping: ApplyMapping? = nil, athenaConnectorSource: AthenaConnectorSource? = nil, catalogHudiSource: CatalogHudiSource? = nil, catalogKafkaSource: CatalogKafkaSource? = nil, catalogKinesisSource: CatalogKinesisSource? = nil, catalogSource: CatalogSource? = nil, catalogTarget: BasicCatalogTarget? = nil, customCode: CustomCode? = nil, directKafkaSource: DirectKafkaSource? = nil, directKinesisSource: DirectKinesisSource? = nil, dropDuplicates: DropDuplicates? = nil, dropFields: DropFields? = nil, dropNullFields: DropNullFields? = nil, dynamicTransform: DynamicTransform? = nil, dynamoDBCatalogSource: DynamoDBCatalogSource? = nil, evaluateDataQuality: EvaluateDataQuality? = nil, fillMissingValues: FillMissingValues? = nil, filter: Filter? = nil, governedCatalogSource: GovernedCatalogSource? = nil, governedCatalogTarget: GovernedCatalogTarget? = nil, jdbcConnectorSource: JDBCConnectorSource? = nil, jdbcConnectorTarget: JDBCConnectorTarget? = nil, join: Join? = nil, merge: Merge? = nil, microsoftSQLServerCatalogSource: MicrosoftSQLServerCatalogSource? = nil, microsoftSQLServerCatalogTarget: MicrosoftSQLServerCatalogTarget? = nil, mySQLCatalogSource: MySQLCatalogSource? = nil, mySQLCatalogTarget: MySQLCatalogTarget? = nil, oracleSQLCatalogSource: OracleSQLCatalogSource? = nil, oracleSQLCatalogTarget: OracleSQLCatalogTarget? = nil, piiDetection: PIIDetection? = nil, postgreSQLCatalogSource: PostgreSQLCatalogSource? = nil, postgreSQLCatalogTarget: PostgreSQLCatalogTarget? = nil, redshiftSource: RedshiftSource? = nil, redshiftTarget: RedshiftTarget? = nil, relationalCatalogSource: RelationalCatalogSource? = nil, renameField: RenameField? = nil, s3CatalogHudiSource: S3CatalogHudiSource? = nil, s3CatalogSource: S3CatalogSource? = nil, s3CatalogTarget: S3CatalogTarget? = nil, s3CsvSource: S3CsvSource? = nil, s3DirectTarget: S3DirectTarget? = nil, s3GlueParquetTarget: S3GlueParquetTarget? = nil, s3HudiCatalogTarget: S3HudiCatalogTarget? = nil, s3HudiDirectTarget: S3HudiDirectTarget? = nil, s3HudiSource: S3HudiSource? = nil, s3JsonSource: S3JsonSource? = nil, s3ParquetSource: S3ParquetSource? = nil, selectFields: SelectFields? = nil, selectFromCollection: SelectFromCollection? = nil, sparkConnectorSource: SparkConnectorSource? = nil, sparkConnectorTarget: SparkConnectorTarget? = nil, sparkSQL: SparkSQL? = nil, spigot: Spigot? = nil, splitFields: SplitFields? = nil, union: Union? = nil) {
             self.aggregate = aggregate
             self.applyMapping = applyMapping
             self.athenaConnectorSource = athenaConnectorSource
+            self.catalogHudiSource = catalogHudiSource
             self.catalogKafkaSource = catalogKafkaSource
             self.catalogKinesisSource = catalogKinesisSource
             self.catalogSource = catalogSource
@@ -2575,11 +2637,15 @@ extension Glue {
             self.redshiftTarget = redshiftTarget
             self.relationalCatalogSource = relationalCatalogSource
             self.renameField = renameField
+            self.s3CatalogHudiSource = s3CatalogHudiSource
             self.s3CatalogSource = s3CatalogSource
             self.s3CatalogTarget = s3CatalogTarget
             self.s3CsvSource = s3CsvSource
             self.s3DirectTarget = s3DirectTarget
             self.s3GlueParquetTarget = s3GlueParquetTarget
+            self.s3HudiCatalogTarget = s3HudiCatalogTarget
+            self.s3HudiDirectTarget = s3HudiDirectTarget
+            self.s3HudiSource = s3HudiSource
             self.s3JsonSource = s3JsonSource
             self.s3ParquetSource = s3ParquetSource
             self.selectFields = selectFields
@@ -2596,6 +2662,7 @@ extension Glue {
             try self.aggregate?.validate(name: "\(name).aggregate")
             try self.applyMapping?.validate(name: "\(name).applyMapping")
             try self.athenaConnectorSource?.validate(name: "\(name).athenaConnectorSource")
+            try self.catalogHudiSource?.validate(name: "\(name).catalogHudiSource")
             try self.catalogKafkaSource?.validate(name: "\(name).catalogKafkaSource")
             try self.catalogKinesisSource?.validate(name: "\(name).catalogKinesisSource")
             try self.catalogSource?.validate(name: "\(name).catalogSource")
@@ -2630,11 +2697,15 @@ extension Glue {
             try self.redshiftTarget?.validate(name: "\(name).redshiftTarget")
             try self.relationalCatalogSource?.validate(name: "\(name).relationalCatalogSource")
             try self.renameField?.validate(name: "\(name).renameField")
+            try self.s3CatalogHudiSource?.validate(name: "\(name).s3CatalogHudiSource")
             try self.s3CatalogSource?.validate(name: "\(name).s3CatalogSource")
             try self.s3CatalogTarget?.validate(name: "\(name).s3CatalogTarget")
             try self.s3CsvSource?.validate(name: "\(name).s3CsvSource")
             try self.s3DirectTarget?.validate(name: "\(name).s3DirectTarget")
             try self.s3GlueParquetTarget?.validate(name: "\(name).s3GlueParquetTarget")
+            try self.s3HudiCatalogTarget?.validate(name: "\(name).s3HudiCatalogTarget")
+            try self.s3HudiDirectTarget?.validate(name: "\(name).s3HudiDirectTarget")
+            try self.s3HudiSource?.validate(name: "\(name).s3HudiSource")
             try self.s3JsonSource?.validate(name: "\(name).s3JsonSource")
             try self.s3ParquetSource?.validate(name: "\(name).s3ParquetSource")
             try self.selectFields?.validate(name: "\(name).selectFields")
@@ -2651,6 +2722,7 @@ extension Glue {
             case aggregate = "Aggregate"
             case applyMapping = "ApplyMapping"
             case athenaConnectorSource = "AthenaConnectorSource"
+            case catalogHudiSource = "CatalogHudiSource"
             case catalogKafkaSource = "CatalogKafkaSource"
             case catalogKinesisSource = "CatalogKinesisSource"
             case catalogSource = "CatalogSource"
@@ -2685,11 +2757,15 @@ extension Glue {
             case redshiftTarget = "RedshiftTarget"
             case relationalCatalogSource = "RelationalCatalogSource"
             case renameField = "RenameField"
+            case s3CatalogHudiSource = "S3CatalogHudiSource"
             case s3CatalogSource = "S3CatalogSource"
             case s3CatalogTarget = "S3CatalogTarget"
             case s3CsvSource = "S3CsvSource"
             case s3DirectTarget = "S3DirectTarget"
             case s3GlueParquetTarget = "S3GlueParquetTarget"
+            case s3HudiCatalogTarget = "S3HudiCatalogTarget"
+            case s3HudiDirectTarget = "S3HudiDirectTarget"
+            case s3HudiSource = "S3HudiSource"
             case s3JsonSource = "S3JsonSource"
             case s3ParquetSource = "S3ParquetSource"
             case selectFields = "SelectFields"
@@ -15027,6 +15103,48 @@ extension Glue {
         }
     }
 
+    public struct S3CatalogHudiSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options.
+        public let additionalHudiOptions: [String: String]?
+        /// The name of the database to read from.
+        public let database: String
+        /// The name of the Hudi data source.
+        public let name: String
+        /// Specifies the data schema for the Hudi source.
+        public let outputSchemas: [GlueSchema]?
+        /// The name of the table in the database to read from.
+        public let table: String
+
+        public init(additionalHudiOptions: [String: String]? = nil, database: String, name: String, outputSchemas: [GlueSchema]? = nil, table: String) {
+            self.additionalHudiOptions = additionalHudiOptions
+            self.database = database
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalHudiOptions?.forEach {
+                try validate($0.key, name: "additionalHudiOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.value, name: "additionalHudiOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalHudiOptions = "AdditionalHudiOptions"
+            case database = "Database"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+            case table = "Table"
+        }
+    }
+
     public struct S3CatalogSource: AWSEncodableShape & AWSDecodableShape {
         /// Specifies additional connection options.
         public let additionalOptions: S3SourceAdditionalOptions?
@@ -15351,6 +15469,154 @@ extension Glue {
             case partitionKeys = "PartitionKeys"
             case path = "Path"
             case schemaChangePolicy = "SchemaChangePolicy"
+        }
+    }
+
+    public struct S3HudiCatalogTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options for the connector.
+        public let additionalOptions: [String: String]
+        /// The name of the database to write to.
+        public let database: String
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// Specifies native partitioning using a sequence of keys.
+        public let partitionKeys: [[String]]?
+        public let schemaChangePolicy: CatalogSchemaChangePolicy?
+        /// The name of the table in the database to write to.
+        public let table: String
+
+        public init(additionalOptions: [String: String], database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
+            self.additionalOptions = additionalOptions
+            self.database = database
+            self.inputs = inputs
+            self.name = name
+            self.partitionKeys = partitionKeys
+            self.schemaChangePolicy = schemaChangePolicy
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalOptions.forEach {
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case database = "Database"
+            case inputs = "Inputs"
+            case name = "Name"
+            case partitionKeys = "PartitionKeys"
+            case schemaChangePolicy = "SchemaChangePolicy"
+            case table = "Table"
+        }
+    }
+
+    public struct S3HudiDirectTarget: AWSEncodableShape & AWSDecodableShape {
+        public let additionalOptions: [String: String]
+        /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
+        public let compression: HudiTargetCompressionType
+        /// Specifies the data output format for the target.
+        public let format: TargetFormat
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// Specifies native partitioning using a sequence of keys.
+        public let partitionKeys: [[String]]?
+        /// The Amazon S3 path of your Hudi data source to write to.
+        public let path: String
+        public let schemaChangePolicy: DirectSchemaChangePolicy?
+
+        public init(additionalOptions: [String: String], compression: HudiTargetCompressionType, format: TargetFormat, inputs: [String], name: String, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
+            self.additionalOptions = additionalOptions
+            self.compression = compression
+            self.format = format
+            self.inputs = inputs
+            self.name = name
+            self.partitionKeys = partitionKeys
+            self.path = path
+            self.schemaChangePolicy = schemaChangePolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalOptions.forEach {
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.schemaChangePolicy?.validate(name: "\(name).schemaChangePolicy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case compression = "Compression"
+            case format = "Format"
+            case inputs = "Inputs"
+            case name = "Name"
+            case partitionKeys = "PartitionKeys"
+            case path = "Path"
+            case schemaChangePolicy = "SchemaChangePolicy"
+        }
+    }
+
+    public struct S3HudiSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options.
+        public let additionalHudiOptions: [String: String]?
+        public let additionalOptions: S3DirectSourceAdditionalOptions?
+        /// The name of the Hudi source.
+        public let name: String
+        /// Specifies the data schema for the Hudi source.
+        public let outputSchemas: [GlueSchema]?
+        /// A list of the Amazon S3 paths to read from.
+        public let paths: [String]
+
+        public init(additionalHudiOptions: [String: String]? = nil, additionalOptions: S3DirectSourceAdditionalOptions? = nil, name: String, outputSchemas: [GlueSchema]? = nil, paths: [String]) {
+            self.additionalHudiOptions = additionalHudiOptions
+            self.additionalOptions = additionalOptions
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.paths = paths
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalHudiOptions?.forEach {
+                try validate($0.key, name: "additionalHudiOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.value, name: "additionalHudiOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.additionalOptions?.validate(name: "\(name).additionalOptions")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.paths.forEach {
+                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalHudiOptions = "AdditionalHudiOptions"
+            case additionalOptions = "AdditionalOptions"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+            case paths = "Paths"
         }
     }
 

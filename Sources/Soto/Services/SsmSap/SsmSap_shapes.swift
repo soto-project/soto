@@ -68,6 +68,13 @@ extension SsmSap {
         public var description: String { return self.rawValue }
     }
 
+    public enum FilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case equals = "Equals"
+        case greaterThanOrEquals = "GreaterThanOrEquals"
+        case lessThanOrEquals = "LessThanOrEquals"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HostRole: String, CustomStringConvertible, Codable, _SotoSendable {
         case leader = "LEADER"
         case standby = "STANDBY"
@@ -91,13 +98,21 @@ extension SsmSap {
     // MARK: Shapes
 
     public struct Application: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Application Registry.
         public let appRegistryArn: String?
+        /// The Amazon Resource Name (ARN) of the application.
         public let arn: String?
+        /// The components of the application.
         public let components: [String]?
+        /// The ID of the application.
         public let id: String?
+        /// The time at which the application was last updated.
         public let lastUpdated: Date?
+        /// The status of the application.
         public let status: ApplicationStatus?
+        /// The status message.
         public let statusMessage: String?
+        /// The type of the application.
         public let type: ApplicationType?
 
         public init(appRegistryArn: String? = nil, arn: String? = nil, components: [String]? = nil, id: String? = nil, lastUpdated: Date? = nil, status: ApplicationStatus? = nil, statusMessage: String? = nil, type: ApplicationType? = nil) {
@@ -124,8 +139,11 @@ extension SsmSap {
     }
 
     public struct ApplicationCredential: AWSEncodableShape & AWSDecodableShape {
+        /// The type of the application credentials.
         public let credentialType: CredentialType
+        /// The name of the SAP HANA database.
         public let databaseName: String
+        /// The secret ID created in AWS Secrets Manager to store the credentials of the SAP application.
         public let secretId: String
 
         public init(credentialType: CredentialType, databaseName: String, secretId: String) {
@@ -149,9 +167,13 @@ extension SsmSap {
     }
 
     public struct ApplicationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the application.
         public let arn: String?
+        /// The ID of the application.
         public let id: String?
+        /// The tags on the application.
         public let tags: [String: String]?
+        /// The type of the application.
         public let type: ApplicationType?
 
         public init(arn: String? = nil, id: String? = nil, tags: [String: String]? = nil, type: ApplicationType? = nil) {
@@ -170,13 +192,21 @@ extension SsmSap {
     }
 
     public struct Component: AWSDecodableShape {
+        /// The ID of the application.
         public let applicationId: String?
+        /// The ID of the component.
         public let componentId: String?
+        /// The type of the component.
         public let componentType: ComponentType?
+        /// The SAP HANA databases of the component.
         public let databases: [String]?
+        /// The hosts of the component.
         public let hosts: [Host]?
+        /// The time at which the component was last updated.
         public let lastUpdated: Date?
+        /// The primary host of the component.
         public let primaryHost: String?
+        /// The status of the component.
         public let status: ComponentStatus?
 
         public init(applicationId: String? = nil, componentId: String? = nil, componentType: ComponentType? = nil, databases: [String]? = nil, hosts: [Host]? = nil, lastUpdated: Date? = nil, primaryHost: String? = nil, status: ComponentStatus? = nil) {
@@ -203,9 +233,13 @@ extension SsmSap {
     }
 
     public struct ComponentSummary: AWSDecodableShape {
+        /// The ID of the application.
         public let applicationId: String?
+        /// The ID of the component.
         public let componentId: String?
+        /// The type of the component.
         public let componentType: ComponentType?
+        /// The tags of the component.
         public let tags: [String: String]?
 
         public init(applicationId: String? = nil, componentId: String? = nil, componentType: ComponentType? = nil, tags: [String: String]? = nil) {
@@ -224,16 +258,27 @@ extension SsmSap {
     }
 
     public struct Database: AWSDecodableShape {
+        /// The ID of the application.
         public let applicationId: String?
+        /// The Amazon Resource Name (ARN) of the database.
         public let arn: String?
+        /// The ID of the component.
         public let componentId: String?
+        /// The credentials of the database.
         public let credentials: [ApplicationCredential]?
+        /// The ID of the SAP HANA database.
         public let databaseId: String?
+        /// The name of the database.
         public let databaseName: String?
+        /// The type of the database.
         public let databaseType: DatabaseType?
+        /// The time at which the database was last updated.
         public let lastUpdated: Date?
+        /// The primary host of the database.
         public let primaryHost: String?
+        /// The SQL port of the database.
         public let sqlPort: Int?
+        /// The status of the database.
         public let status: DatabaseStatus?
 
         public init(applicationId: String? = nil, arn: String? = nil, componentId: String? = nil, credentials: [ApplicationCredential]? = nil, databaseId: String? = nil, databaseName: String? = nil, databaseType: DatabaseType? = nil, lastUpdated: Date? = nil, primaryHost: String? = nil, sqlPort: Int? = nil, status: DatabaseStatus? = nil) {
@@ -266,11 +311,17 @@ extension SsmSap {
     }
 
     public struct DatabaseSummary: AWSDecodableShape {
+        /// The ID of the application.
         public let applicationId: String?
+        /// The Amazon Resource Name (ARN) of the database.
         public let arn: String?
+        /// The ID of the component.
         public let componentId: String?
+        /// The ID of the database.
         public let databaseId: String?
+        /// The type of the database.
         public let databaseType: DatabaseType?
+        /// The tags of the database.
         public let tags: [String: String]?
 
         public init(applicationId: String? = nil, arn: String? = nil, componentId: String? = nil, databaseId: String? = nil, databaseType: DatabaseType? = nil, tags: [String: String]? = nil) {
@@ -293,8 +344,11 @@ extension SsmSap {
     }
 
     public struct DeleteResourcePermissionInput: AWSEncodableShape {
+        /// Delete or restore the permissions on the target database.
         public let actionType: PermissionActionType?
+        /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
+        /// The Amazon Resource Name (ARN) of the source resource.
         public let sourceResourceArn: String?
 
         public init(actionType: PermissionActionType? = nil, resourceArn: String, sourceResourceArn: String? = nil) {
@@ -316,6 +370,7 @@ extension SsmSap {
     }
 
     public struct DeleteResourcePermissionOutput: AWSDecodableShape {
+        /// The policy that removes permissions on the target database.
         public let policy: String?
 
         public init(policy: String? = nil) {
@@ -328,6 +383,7 @@ extension SsmSap {
     }
 
     public struct DeregisterApplicationInput: AWSEncodableShape {
+        /// The ID of the application.
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -347,28 +403,65 @@ extension SsmSap {
         public init() {}
     }
 
-    public struct GetApplicationInput: AWSEncodableShape {
-        public let applicationArn: String?
-        public let applicationId: String?
+    public struct Filter: AWSEncodableShape {
+        /// The name of the filter. Filter names are case-sensitive.
+        public let name: String
+        /// The operator for the filter.
+        public let `operator`: FilterOperator
+        /// The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values
+        public let value: String
 
-        public init(applicationArn: String? = nil, applicationId: String? = nil) {
+        public init(name: String, operator: FilterOperator, value: String) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 64)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case value = "Value"
+        }
+    }
+
+    public struct GetApplicationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the application.
+        public let applicationArn: String?
+        /// The ID of the application.
+        public let applicationId: String?
+        /// The Amazon Resource Name (ARN) of the application registry.
+        public let appRegistryArn: String?
+
+        public init(applicationArn: String? = nil, applicationId: String? = nil, appRegistryArn: String? = nil) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
+            self.appRegistryArn = appRegistryArn
         }
 
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\\/.+$")
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+            try self.validate(self.appRegistryArn, name: "appRegistryArn", parent: name, pattern: "^arn:aws:servicecatalog:[a-z0-9:\\/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationArn = "ApplicationArn"
             case applicationId = "ApplicationId"
+            case appRegistryArn = "AppRegistryArn"
         }
     }
 
     public struct GetApplicationOutput: AWSDecodableShape {
+        /// Returns all of the metadata of an application registered with AWS Systems Manager for SAP.
         public let application: Application?
+        /// The tags of a registered application.
         public let tags: [String: String]?
 
         public init(application: Application? = nil, tags: [String: String]? = nil) {
@@ -383,7 +476,9 @@ extension SsmSap {
     }
 
     public struct GetComponentInput: AWSEncodableShape {
+        /// The ID of the application.
         public let applicationId: String
+        /// The ID of the component.
         public let componentId: String
 
         public init(applicationId: String, componentId: String) {
@@ -403,6 +498,7 @@ extension SsmSap {
     }
 
     public struct GetComponentOutput: AWSDecodableShape {
+        /// The component of an application registered with AWS Systems Manager for SAP.
         public let component: Component?
 
         public init(component: Component? = nil) {
@@ -415,9 +511,13 @@ extension SsmSap {
     }
 
     public struct GetDatabaseInput: AWSEncodableShape {
+        /// The ID of the application.
         public let applicationId: String?
+        /// The ID of the component.
         public let componentId: String?
+        /// The Amazon Resource Name (ARN) of the database.
         public let databaseArn: String?
+        /// The ID of the database.
         public let databaseId: String?
 
         public init(applicationId: String? = nil, componentId: String? = nil, databaseArn: String? = nil, databaseId: String? = nil) {
@@ -443,7 +543,9 @@ extension SsmSap {
     }
 
     public struct GetDatabaseOutput: AWSDecodableShape {
+        /// The SAP HANA database of an application registered with AWS Systems Manager for SAP.
         public let database: Database?
+        /// The tags of a database.
         public let tags: [String: String]?
 
         public init(database: Database? = nil, tags: [String: String]? = nil) {
@@ -458,6 +560,7 @@ extension SsmSap {
     }
 
     public struct GetOperationInput: AWSEncodableShape {
+        /// The ID of the operation.
         public let operationId: String
 
         public init(operationId: String) {
@@ -474,6 +577,7 @@ extension SsmSap {
     }
 
     public struct GetOperationOutput: AWSDecodableShape {
+        /// Returns the details of an operation.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -487,6 +591,7 @@ extension SsmSap {
 
     public struct GetResourcePermissionInput: AWSEncodableShape {
         public let actionType: PermissionActionType?
+        /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(actionType: PermissionActionType? = nil, resourceArn: String) {
@@ -517,9 +622,13 @@ extension SsmSap {
     }
 
     public struct Host: AWSDecodableShape {
+        /// The IP address of the Dedicated Host.
         public let hostIp: String?
+        /// The name of the Dedicated Host.
         public let hostName: String?
+        /// The role of the Dedicated Host.
         public let hostRole: HostRole?
+        /// The instance ID of the instance on the Dedicated Host.
         public let instanceId: String?
 
         public init(hostIp: String? = nil, hostName: String? = nil, hostRole: HostRole? = nil, instanceId: String? = nil) {
@@ -538,7 +647,9 @@ extension SsmSap {
     }
 
     public struct ListApplicationsInput: AWSEncodableShape {
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
+        /// The token for the next page of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -559,7 +670,9 @@ extension SsmSap {
     }
 
     public struct ListApplicationsOutput: AWSDecodableShape {
+        /// The applications registered with AWS Systems Manager for SAP.
         public let applications: [ApplicationSummary]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(applications: [ApplicationSummary]? = nil, nextToken: String? = nil) {
@@ -574,8 +687,11 @@ extension SsmSap {
     }
 
     public struct ListComponentsInput: AWSEncodableShape {
+        /// The ID of the application.
         public let applicationId: String?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you do not specify a value for MaxResults, the request returns 50 items per page by default.
         public let maxResults: Int?
+        /// The token for the next page of results.
         public let nextToken: String?
 
         public init(applicationId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -599,7 +715,9 @@ extension SsmSap {
     }
 
     public struct ListComponentsOutput: AWSDecodableShape {
+        /// List of components registered with AWS System Manager for SAP.
         public let components: [ComponentSummary]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(components: [ComponentSummary]? = nil, nextToken: String? = nil) {
@@ -614,9 +732,13 @@ extension SsmSap {
     }
 
     public struct ListDatabasesInput: AWSEncodableShape {
+        /// The ID of the application.
         public let applicationId: String?
+        /// The ID of the component.
         public let componentId: String?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you do not specify a value for MaxResults, the request returns 50 items per page by default.
         public let maxResults: Int?
+        /// The token for the next page of results.
         public let nextToken: String?
 
         public init(applicationId: String? = nil, componentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -643,7 +765,9 @@ extension SsmSap {
     }
 
     public struct ListDatabasesOutput: AWSDecodableShape {
+        /// The SAP HANA databases of an application.
         public let databases: [DatabaseSummary]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(databases: [DatabaseSummary]? = nil, nextToken: String? = nil) {
@@ -657,11 +781,66 @@ extension SsmSap {
         }
     }
 
+    public struct ListOperationsInput: AWSEncodableShape {
+        /// The ID of the application.
+        public let applicationId: String
+        /// The filters of an operation.
+        public let filters: [Filter]?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you do not specify a value for MaxResults, the request returns 50 items per page by default.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(applicationId: String, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationId = applicationId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 10)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,1024}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListOperationsOutput: AWSDecodableShape {
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// List of operations performed by AWS Systems Manager for SAP.
+        public let operations: [Operation]?
+
+        public init(nextToken: String? = nil, operations: [Operation]? = nil) {
+            self.nextToken = nextToken
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case operations = "Operations"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
+        /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -688,16 +867,27 @@ extension SsmSap {
     }
 
     public struct Operation: AWSDecodableShape {
+        /// The end time of the operation.
         public let endTime: Date?
+        /// The ID of the operation.
         public let id: String?
+        /// The time at which the operation was last updated.
         public let lastUpdatedTime: Date?
+        /// The properties of the operation.
         public let properties: [String: String]?
+        /// The Amazon Resource Name (ARN) of the operation.
         public let resourceArn: String?
+        /// The resource ID of the operation.
         public let resourceId: String?
+        /// The resource type of the operation.
         public let resourceType: String?
+        /// The start time of the operation.
         public let startTime: Date?
+        /// The status of the operation.
         public let status: OperationStatus?
+        /// The status message of the operation.
         public let statusMessage: String?
+        /// The type of the operation.
         public let type: String?
 
         public init(endTime: Date? = nil, id: String? = nil, lastUpdatedTime: Date? = nil, properties: [String: String]? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceType: String? = nil, startTime: Date? = nil, status: OperationStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
@@ -765,12 +955,19 @@ extension SsmSap {
     }
 
     public struct RegisterApplicationInput: AWSEncodableShape {
+        /// The ID of the application.
         public let applicationId: String
+        /// The type of the application.
         public let applicationType: ApplicationType
+        /// The credentials of the SAP application.
         public let credentials: [ApplicationCredential]
+        /// The Amazon EC2 instances on which your SAP application is running.
         public let instances: [String]
+        /// The SAP instance number of the application.
         public let sapInstanceNumber: String?
+        /// The System ID of the application.
         public let sid: String?
+        /// The tags to be attached to the SAP application.
         public let tags: [String: String]?
 
         public init(applicationId: String, applicationType: ApplicationType, credentials: [ApplicationCredential], instances: [String], sapInstanceNumber: String? = nil, sid: String? = nil, tags: [String: String]? = nil) {
@@ -816,7 +1013,9 @@ extension SsmSap {
     }
 
     public struct RegisterApplicationOutput: AWSDecodableShape {
+        /// The application registered with AWS Systems Manager for SAP.
         public let application: Application?
+        /// The ID of the operation.
         public let operationId: String?
 
         public init(application: Application? = nil, operationId: String? = nil) {
@@ -835,7 +1034,9 @@ extension SsmSap {
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
+        /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
+        /// The tags on a resource.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -867,6 +1068,7 @@ extension SsmSap {
             AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
+        /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// Adds/updates or removes credentials for applications registered with AWS Systems Manager for SAP.
         public let tagKeys: [String]
@@ -891,8 +1093,11 @@ extension SsmSap {
     }
 
     public struct UpdateApplicationSettingsInput: AWSEncodableShape {
+        /// The ID of the application.
         public let applicationId: String
+        /// The credentials to be added or updated.
         public let credentialsToAddOrUpdate: [ApplicationCredential]?
+        /// The credentials to be removed.
         public let credentialsToRemove: [ApplicationCredential]?
 
         public init(applicationId: String, credentialsToAddOrUpdate: [ApplicationCredential]? = nil, credentialsToRemove: [ApplicationCredential]? = nil) {
@@ -923,7 +1128,9 @@ extension SsmSap {
     }
 
     public struct UpdateApplicationSettingsOutput: AWSDecodableShape {
+        /// The update message.
         public let message: String?
+        /// The IDs of the operations.
         public let operationIds: [String]?
 
         public init(message: String? = nil, operationIds: [String]? = nil) {
@@ -967,9 +1174,13 @@ public struct SsmSapErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// A conflict has occurred.
     public static var conflictException: Self { .init(.conflictException) }
+    /// An internal error has occurred.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The resource is not available.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The input fails to satisfy the constraints specified by an AWS service.
     public static var validationException: Self { .init(.validationException) }
 }
 

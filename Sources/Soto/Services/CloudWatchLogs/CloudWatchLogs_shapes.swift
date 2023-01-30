@@ -632,9 +632,9 @@ extension CloudWatchLogs {
         public let descending: Bool?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
-        /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
+        /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN.   You must include either logGroupIdentifier or logGroupName, but not  both.
         public let logGroupIdentifier: String?
-        /// The name of the log group.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
+        /// The name of the log group.   You must include either logGroupIdentifier or logGroupName, but not  both.
         public let logGroupName: String?
         /// The prefix to match. If orderBy is LastEventTime, you cannot specify this parameter.
         public let logStreamNamePrefix: String?
@@ -828,7 +828,6 @@ extension CloudWatchLogs {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.queryDefinitionNamePrefix, name: "queryDefinitionNamePrefix", parent: name, max: 255)
             try self.validate(self.queryDefinitionNamePrefix, name: "queryDefinitionNamePrefix", parent: name, min: 1)
-            try self.validate(self.queryDefinitionNamePrefix, name: "queryDefinitionNamePrefix", parent: name, pattern: "^([^:*\\/]+\\/?)*[^:*\\/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1085,9 +1084,9 @@ extension CloudWatchLogs {
         public let interleaved: Bool?
         /// The maximum number of events to return. The default is 10,000 events.
         public let limit: Int?
-        /// Specify either the name or ARN of the log group to view log events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
+        /// Specify either the name or ARN of the log group to view log events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN.   You must include either logGroupIdentifier or logGroupName, but not  both.
         public let logGroupIdentifier: String?
-        /// The name of the log group to search.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
+        /// The name of the log group to search.   You must include either logGroupIdentifier or logGroupName, but not  both.
         public let logGroupName: String?
         /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames, but the value for logStreamNamePrefix does not match any log stream names specified in logStreamNames, the action returns an InvalidParameterException error.
         public let logStreamNamePrefix: String?
@@ -1264,9 +1263,9 @@ extension CloudWatchLogs {
         public let endTime: Int64?
         /// The maximum number of log events returned. If you don't specify a limit, the default is as many log events as can fit in a response size of 1 MB (up to 10,000 log events).
         public let limit: Int?
-        /// Specify either the name or ARN of the log group to view events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
+        /// Specify either the name or ARN of the log group to view events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN.   You must include either logGroupIdentifier or logGroupName, but not  both.
         public let logGroupIdentifier: String?
-        /// The name of the log group.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
+        /// The name of the log group.   You must include either logGroupIdentifier or logGroupName, but not  both.
         public let logGroupName: String?
         /// The name of the log stream.
         public let logStreamName: String
@@ -1343,9 +1342,9 @@ extension CloudWatchLogs {
     }
 
     public struct GetLogGroupFieldsRequest: AWSEncodableShape {
-        /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must specify the ARN.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
+        /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must specify the ARN.   You must include either logGroupIdentifier or logGroupName, but not  both.
         public let logGroupIdentifier: String?
-        /// The name of the log group to search.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
+        /// The name of the log group to search.   You must include either logGroupIdentifier or logGroupName, but not  both.
         public let logGroupName: String?
         /// The time to set as the center of the query. If you specify time, the 15 minutes before this time are queries. If you omit time, the 8 minutes before and 8 minutes after this time are searched. The time value is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let time: Int64?
@@ -2014,7 +2013,6 @@ extension CloudWatchLogs {
             }
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([^:*\\/]+\\/?)*[^:*\\/]+$")
             try self.validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, max: 256)
             try self.validate(self.queryString, name: "queryString", parent: name, max: 10000)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)

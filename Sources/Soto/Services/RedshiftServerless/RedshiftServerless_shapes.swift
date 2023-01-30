@@ -76,7 +76,7 @@ extension RedshiftServerless {
     // MARK: Shapes
 
     public struct ConfigParameter: AWSEncodableShape & AWSDecodableShape {
-        /// The key of the parameter. The options are datestyle, enable_user_activity_logging, query_group, search_path, and max_query_execution_time.
+        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitivity_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let  you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
         public let parameterKey: String?
         /// The value of the parameter to set.
         public let parameterValue: String?
@@ -334,7 +334,7 @@ extension RedshiftServerless {
     public struct CreateWorkgroupRequest: AWSEncodableShape {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for more control over a serverless database. The options are datestyle, enable_user_activity_logging, query_group, search_path, and max_query_execution_time.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitivity_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see   Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
         /// The value that specifies whether to turn on enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
         public let enhancedVpcRouting: Bool?
@@ -1885,19 +1885,19 @@ extension RedshiftServerless {
     }
 
     public struct UpdateNamespaceRequest: AWSEncodableShape {
-        /// The username of the administrator for the first database created in the namespace.
+        /// The username of the administrator for the first database created in the namespace. This parameter must be updated together with adminUserPassword.
         public let adminUsername: String?
-        /// The password of the administrator for the first database created in the namespace.
+        /// The password of the administrator for the first database created in the namespace. This parameter must be updated together with adminUsername.
         public let adminUserPassword: String?
-        /// The Amazon Resource Name (ARN) of the IAM role to set as a default in the namespace.
+        /// The Amazon Resource Name (ARN) of the IAM role to set as a default in the namespace. This parameter must be updated together with iamRoles.
         public let defaultIamRoleArn: String?
-        /// A list of IAM roles to associate with the namespace.
+        /// A list of IAM roles to associate with the namespace. This parameter must be updated together with defaultIamRoleArn.
         public let iamRoles: [String]?
         /// The ID of the Amazon Web Services Key Management Service key used to encrypt your data.
         public let kmsKeyId: String?
         /// The types of logs the namespace can export. The export types are userlog, connectionlog, and useractivitylog.
         public let logExports: [LogExport]?
-        /// The name of the namespace.
+        /// The name of the namespace to update. You can't update the name of a namespace once it is created.
         public let namespaceName: String
 
         public init(adminUsername: String? = nil, adminUserPassword: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, logExports: [LogExport]? = nil, namespaceName: String) {
@@ -2008,7 +2008,7 @@ extension RedshiftServerless {
     public struct UpdateWorkgroupRequest: AWSEncodableShape {
         /// The new base data warehouse capacity in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for advanced control over a database. The options are datestyle, enable_user_activity_logging, query_group, search_path, and max_query_execution_time.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitivity_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let you  define performance boundaries. For more information about query monitoring rules and available metrics, see   Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
         /// The value that specifies whether to turn on enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public let enhancedVpcRouting: Bool?
@@ -2020,7 +2020,7 @@ extension RedshiftServerless {
         public let securityGroupIds: [String]?
         /// An array of VPC subnet IDs to associate with the workgroup.
         public let subnetIds: [String]?
-        /// The name of the workgroup to update.
+        /// The name of the workgroup to update. You can't update the name of a workgroup once it is created.
         public let workgroupName: String
 
         public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, workgroupName: String) {
@@ -2143,7 +2143,7 @@ extension RedshiftServerless {
     public struct Workgroup: AWSDecodableShape {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for finer control over a database. The options are datestyle, enable_user_activity_logging, query_group, search_path, and max_query_execution_time.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitivity_identifier, enable_user_activity_logging, query_group, , search_path, and query monitoring metrics that let you define performance boundaries.  For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
         /// The creation date of the workgroup.
         public let creationDate: Date?

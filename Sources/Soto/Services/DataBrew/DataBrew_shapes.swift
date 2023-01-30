@@ -46,8 +46,8 @@ extension DataBrew {
     }
 
     public enum EncryptionMode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case sseKms = "SSE-KMS"
-        case sseS3 = "SSE-S3"
+        case ssekms = "SSE-KMS"
+        case sses3 = "SSE-S3"
         public var description: String { return self.rawValue }
     }
 
@@ -141,8 +141,8 @@ extension DataBrew {
     }
 
     public enum Source: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dataCatalog = "DATA-CATALOG"
         case database = "DATABASE"
+        case datacatalog = "DATA-CATALOG"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }

@@ -433,6 +433,7 @@ extension IoTFleetWise {
             try self.vehicles.forEach {
                 try $0.validate(name: "\(name).vehicles[]")
             }
+            try self.validate(self.vehicles, name: "vehicles", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -469,6 +470,7 @@ extension IoTFleetWise {
             try self.vehicles.forEach {
                 try $0.validate(name: "\(name).vehicles[]")
             }
+            try self.validate(self.vehicles, name: "vehicles", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

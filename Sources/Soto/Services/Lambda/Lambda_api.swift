@@ -66,6 +66,7 @@ public struct Lambda: AWSService {
                     "ap-southeast-1": "lambda.ap-southeast-1.api.aws",
                     "ap-southeast-2": "lambda.ap-southeast-2.api.aws",
                     "ap-southeast-3": "lambda.ap-southeast-3.api.aws",
+                    "ap-southeast-4": "lambda.ap-southeast-4.api.aws",
                     "ca-central-1": "lambda.ca-central-1.api.aws",
                     "cn-north-1": "lambda.cn-north-1.api.amazonwebservices.com.cn",
                     "cn-northwest-1": "lambda.cn-northwest-1.api.amazonwebservices.com.cn",
@@ -265,6 +266,11 @@ public struct Lambda: AWSService {
         return self.client.execute(operation: "GetProvisionedConcurrencyConfig", path: "/2019-09-30/functions/{FunctionName}/provisioned-concurrency", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves the runtime management configuration for a function's version. If the runtime update mode is Manual, this includes the ARN of the  runtime version and the runtime update mode. If the runtime update mode is Auto or Function update,  this includes the runtime update mode and null is returned for the ARN. For more information, see Runtime updates.
+    public func getRuntimeManagementConfig(_ input: GetRuntimeManagementConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRuntimeManagementConfigResponse> {
+        return self.client.execute(operation: "GetRuntimeManagementConfig", path: "/2021-07-20/functions/{FunctionName}/runtime-management-config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. To invoke a function asynchronously, set InvocationType to Event. For synchronous invocation, details about the function response, including errors, are included in the response body and headers. For either invocation type, you can find more information in the execution log and trace. When an error occurs, your function may be invoked multiple times. Retry behavior varies by error type, client, event source, and invocation type. For example, if you invoke a function asynchronously and it returns an error, Lambda executes the function up to two more times. For more information, see Error handling and automatic retries in Lambda. For asynchronous invocation, Lambda adds events to a queue before sending them to your function. If your function does not have enough capacity to keep up with the queue, events may be lost. Occasionally, your function may receive the same event multiple times, even if no error occurs. To retain events that were not processed, configure your function with a dead-letter queue. The status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your function from executing, such as permissions errors, quota errors, or issues with your function's code and configuration. For example, Lambda returns TooManyRequestsException if running the function would cause you to exceed a concurrency limit at either the account level (ConcurrentInvocationLimitExceeded) or function level (ReservedFunctionConcurrentInvocationLimitExceeded). For functions with a long timeout, your client might disconnect during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings. This operation requires permission for the lambda:InvokeFunction action. For details on how to set up permissions for cross-account invocations, see Granting function access to other accounts.
     public func invoke(_ input: InvocationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<InvocationResponse> {
         return self.client.execute(operation: "Invoke", path: "/2015-03-31/functions/{FunctionName}/invocations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -300,7 +306,7 @@ public struct Lambda: AWSService {
         return self.client.execute(operation: "ListFunctionUrlConfigs", path: "/2021-10-31/functions/{FunctionName}/urls", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version.  The ListFunctions operation returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode) for a function or version, use GetFunction.
+    /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version.  The ListFunctions operation returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode,  RuntimeVersionConfig) for a function or version, use GetFunction.
     public func listFunctions(_ input: ListFunctionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionsResponse> {
         return self.client.execute(operation: "ListFunctions", path: "/2015-03-31/functions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -363,6 +369,11 @@ public struct Lambda: AWSService {
     /// Adds a provisioned concurrency configuration to a function's alias or version.
     public func putProvisionedConcurrencyConfig(_ input: PutProvisionedConcurrencyConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutProvisionedConcurrencyConfigResponse> {
         return self.client.execute(operation: "PutProvisionedConcurrencyConfig", path: "/2019-09-30/functions/{FunctionName}/provisioned-concurrency", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Sets the runtime management configuration for a function's version. For more information,  see Runtime updates.
+    public func putRuntimeManagementConfig(_ input: PutRuntimeManagementConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRuntimeManagementConfigResponse> {
+        return self.client.execute(operation: "PutRuntimeManagementConfig", path: "/2021-07-20/functions/{FunctionName}/runtime-management-config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes a statement from the permissions policy for a version of an Lambda layer. For more information, see AddLayerVersionPermission.
@@ -698,7 +709,7 @@ extension Lambda {
         )
     }
 
-    /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version.  The ListFunctions operation returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode) for a function or version, use GetFunction.
+    /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version.  The ListFunctions operation returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode,  RuntimeVersionConfig) for a function or version, use GetFunction.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

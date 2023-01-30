@@ -415,7 +415,7 @@ extension EventBridge {
     }
 
     public struct Connection: AWSDecodableShape {
-        /// The authorization type specified for the connection.
+        /// The authorization type specified for the connection.  OAUTH tokens are refreshed when a 401 or 407 response is returned.
         public let authorizationType: ConnectionAuthorizationType?
         /// The ARN of the connection.
         public let connectionArn: String?
@@ -937,7 +937,7 @@ extension EventBridge {
     }
 
     public struct CreateConnectionRequest: AWSEncodableShape {
-        /// The type of authorization to use for the connection.
+        /// The type of authorization to use for the connection.  OAUTH tokens are refreshed when a 401 or 407 response is returned.
         public let authorizationType: ConnectionAuthorizationType
         /// A CreateConnectionAuthRequestParameters object that contains the authorization parameters to use to authorize with the endpoint.
         public let authParameters: CreateConnectionAuthRequestParameters
@@ -1002,7 +1002,7 @@ extension EventBridge {
         public let eventBuses: [EndpointEventBus]
         /// The name of the global endpoint. For example, "Name":"us-east-2-custom_bus_A-endpoint".
         public let name: String
-        /// Enable or disable event replication.
+        /// Enable or disable event replication. The default state is ENABLED which means you must supply a RoleArn. If you don't have a  RoleArn or you don't want event replication enabled, set the state to DISABLED.
         public let replicationConfig: ReplicationConfig?
         /// The ARN of the role used for replication.
         public let roleArn: String?
@@ -1085,7 +1085,7 @@ extension EventBridge {
     public struct CreateEventBusRequest: AWSEncodableShape {
         /// If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
         public let eventSourceName: String?
-        /// The name of the new event bus.  Event bus names cannot contain the / character. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus. If this is a partner event bus, the name must exactly match the name of the partner event source that this event bus is matched to.
+        /// The name of the new event bus.  Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus.
         public let name: String
         /// Tags to associate with the event bus.
         public let tags: [Tag]?
@@ -2168,7 +2168,7 @@ extension EventBridge {
         public let creationTime: Date?
         /// A description for the endpoint.
         public let description: String?
-        /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.
+        /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.
         public let endpointId: String?
         /// The URL of the endpoint.
         public let endpointUrl: String?
@@ -2178,7 +2178,7 @@ extension EventBridge {
         public let lastModifiedTime: Date?
         /// The name of the endpoint.
         public let name: String?
-        /// Whether event replication was enabled or disabled for this endpoint.
+        /// Whether event replication was enabled or disabled for this endpoint. The default state is ENABLED which means you must supply a RoleArn.  If you don't have a RoleArn or you don't want event replication enabled, set the state to DISABLED.
         public let replicationConfig: ReplicationConfig?
         /// The ARN of the role used by event replication for the endpoint.
         public let roleArn: String?
@@ -2318,11 +2318,11 @@ extension EventBridge {
     }
 
     public struct HttpParameters: AWSEncodableShape & AWSDecodableShape {
-        /// The headers that need to be sent as part of request invoking the API Gateway REST API or EventBridge ApiDestination.
+        /// The headers that need to be sent as part of request invoking the API Gateway API or EventBridge ApiDestination.
         public let headerParameters: [String: String]?
-        /// The path parameter values to be used to populate API Gateway REST API or EventBridge ApiDestination path wildcards ("*").
+        /// The path parameter values to be used to populate API Gateway API or EventBridge ApiDestination path wildcards ("*").
         public let pathParameterValues: [String]?
-        /// The query string keys/values that need to be sent as part of request invoking the API Gateway  REST API or EventBridge ApiDestination.
+        /// The query string keys/values that need to be sent as part of request invoking the API Gateway  API or EventBridge ApiDestination.
         public let queryStringParameters: [String: String]?
 
         public init(headerParameters: [String: String]? = nil, pathParameterValues: [String]? = nil, queryStringParameters: [String: String]? = nil) {
@@ -2359,8 +2359,7 @@ extension EventBridge {
     public struct InputTransformer: AWSEncodableShape & AWSDecodableShape {
         /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output you want to be sent to the target.  InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 100 key-value pairs. You must use JSON dot notation, not bracket notation. The keys cannot start with "Amazon Web Services."
         public let inputPathsMap: [String: String]?
-        /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: value> The InputTemplate must be valid JSON.
-        ///  If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder cannot be used as an object key.   The following example shows the syntax for using InputPathsMap and InputTemplate.  "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": " is in state "   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:  "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": " is in state \"\""   }  The InputTemplate can also be valid JSON with varibles in quotes or out, as in the following example:  "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": '{"myInstance": ,"myStatus": " is in state \"\""}'   }
+        /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: value>  If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder cannot be used as an object key.   The following example shows the syntax for using InputPathsMap and InputTemplate.  "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": " is in state "   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:  "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": " is in state \"\""   }  The InputTemplate can also be valid JSON with varibles in quotes or out, as in the following example:  "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": '{"myInstance": ,"myStatus": " is in state \"\""}'   }
         public let inputTemplate: String
 
         public init(inputPathsMap: [String: String]? = nil, inputTemplate: String) {
@@ -3185,7 +3184,7 @@ extension EventBridge {
     }
 
     public struct PutEventsRequest: AWSEncodableShape {
-        /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.  When using Java, you must include auth-crt on the class path.
+        /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.  When using Java, you must include auth-crt on the class path.
         public let endpointId: String?
         /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
         public let entries: [PutEventsRequestEntry]
@@ -3215,7 +3214,7 @@ extension EventBridge {
     public struct PutEventsRequestEntry: AWSEncodableShape {
         /// A valid JSON object. There is no other schema imposed. The JSON object may contain fields and nested subobjects.
         public let detail: String?
-        /// Free-form string used to decide what fields to expect in the event detail.
+        /// Free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.
         public let detailType: String?
         /// The name or ARN of the event bus to receive the event. Only the rules that are associated with this event bus are used to match the event. If you omit this, the default event bus is used.  If you're using a global endpoint with a custom bus, you must enter the name, not the ARN, of the event bus in either  the primary or secondary Region here and the corresponding event bus in the  other Region will be determined based on the endpoint referenced by the EndpointId.
         public let eventBusName: String?
@@ -3261,7 +3260,7 @@ extension EventBridge {
     }
 
     public struct PutEventsResponse: AWSDecodableShape {
-        /// The successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry has the event ID in it. Otherwise, you can use the error code and error message to identify the problem with the entry.
+        /// The successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry has the event ID in it. Otherwise, you can use the error code and error message to identify the problem with the entry. For each record, the index of the response element is the same as the index in the request array.
         public let entries: [PutEventsResultEntry]?
         /// The number of failed entries.
         public let failedEntryCount: Int?
@@ -3322,7 +3321,7 @@ extension EventBridge {
     public struct PutPartnerEventsRequestEntry: AWSEncodableShape {
         /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested subobjects.
         public let detail: String?
-        /// A free-form string used to decide what fields to expect in the event detail.
+        /// A free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.
         public let detailType: String?
         /// Amazon Web Services resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public let resources: [String]?
@@ -3398,15 +3397,13 @@ extension EventBridge {
     public struct PutPermissionRequest: AWSEncodableShape {
         /// The action that you are enabling the other account to perform.
         public let action: String?
-        /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain Amazon Web Services organization. For more information about Amazon Web Services Organizations, see What Is Amazon Web Services  Organizations in the Amazon Web Services Organizations User Guide. If you specify Condition with an Amazon Web Services organization ID, and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization.
-        ///  The Condition is a JSON string which must contain Type, Key, and Value fields.
+        /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain Amazon Web Services organization. For more information about Amazon Web Services Organizations, see What Is Amazon Web Services  Organizations in the Amazon Web Services Organizations User Guide. If you specify Condition with an Amazon Web Services organization ID, and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
         public let condition: Condition?
         /// The name of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// A JSON string that describes the permission policy statement. You can include a Policy parameter in the request instead of using the StatementId, Action, Principal, or Condition parameters.
         public let policy: String?
-        /// The 12-digit Amazon Web Services account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus.
-        ///  If you specify "*" without specifying Condition, avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
+        /// The 12-digit Amazon Web Services account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*" without specifying Condition, avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
         public let principal: String?
         /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.  Each StatementId must be unique.
         public let statementId: String?
@@ -3450,7 +3447,7 @@ extension EventBridge {
         public let description: String?
         /// The name or ARN of the event bus to associate with this rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
-        /// The event pattern. For more information, see EventBridge event patterns in the Amazon EventBridge User Guide.
+        /// The event pattern. For more information, see Amazon EventBridge event patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String?
         /// The name of the rule that you are creating or updating.
         public let name: String
@@ -3592,7 +3589,7 @@ extension EventBridge {
     public struct RedshiftDataParameters: AWSEncodableShape & AWSDecodableShape {
         /// The name of the database. Required when authenticating using temporary credentials.
         public let database: String
-        /// The database user name. Required when authenticating using temporary credentials.
+        /// The database user name. Required when authenticating using temporary credentials. Do not provide this parameter when connecting to a Redshift Serverless workgroup.
         public let dbUser: String?
         /// The name or ARN of the secret that enables access to the database. Required when authenticating using Amazon Web Services Secrets Manager.
         public let secretManagerArn: String?
@@ -4175,13 +4172,13 @@ extension EventBridge {
         public let deadLetterConfig: DeadLetterConfig?
         /// Contains the Amazon ECS task definition and task count to be used, if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions  in the Amazon EC2 Container Service Developer Guide.
         public let ecsParameters: EcsParameters?
-        /// Contains the HTTP parameters to use when the target is a API Gateway REST endpoint or EventBridge ApiDestination. If you specify an API Gateway REST API or EventBridge ApiDestination as a target, you can use this parameter to specify headers, path parameters, and query string keys/values as part of your target invoking request. If you're using ApiDestinations, the corresponding Connection can also have these values configured. In case of any conflicting keys, values from the Connection take precedence.
+        /// Contains the HTTP parameters to use when the target is a API Gateway endpoint or EventBridge ApiDestination. If you specify an API Gateway API or EventBridge ApiDestination as a target, you can use this parameter to specify headers, path parameters, and query string keys/values as part of your target invoking request. If you're using ApiDestinations, the corresponding Connection can also have these values configured. In case of any conflicting keys, values from the Connection take precedence.
         public let httpParameters: HttpParameters?
         /// The ID of the target within the specified rule. Use this ID to reference the target when updating the rule. We recommend using a memorable and unique string.
         public let id: String
         /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format.
         public let input: String?
-        /// The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. You must use JSON dot notation, not bracket notation. For more information about JSON paths, see JSONPath.
+        /// The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. You may use JSON dot notation or bracket notation. For more information about JSON paths, see JSONPath.
         public let inputPath: String?
         /// Settings to enable you to provide custom input to a target based on certain event data. You can extract one or more key-value pairs from the event and then use that data to send customized input to the target.
         public let inputTransformer: InputTransformer?
@@ -4675,7 +4672,7 @@ extension EventBridge {
         public let replicationConfig: ReplicationConfig?
         /// The ARN of the role used by event replication for this request.
         public let roleArn: String?
-        /// Configure the routing policy, including the health check and secondary Region..
+        /// Configure the routing policy, including the health check and secondary Region.
         public let routingConfig: RoutingConfig?
 
         public init(description: String? = nil, eventBuses: [EndpointEventBus]? = nil, name: String, replicationConfig: ReplicationConfig? = nil, roleArn: String? = nil, routingConfig: RoutingConfig? = nil) {

@@ -217,6 +217,13 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
+    public enum UpdateRuntimeOn: String, CustomStringConvertible, Codable, _SotoSendable {
+        case auto = "Auto"
+        case functionUpdate = "FunctionUpdate"
+        case manual = "Manual"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AccountLimit: AWSDecodableShape {
@@ -1716,6 +1723,8 @@ extension Lambda {
         public let role: String?
         /// The runtime environment for the Lambda function.
         public let runtime: Runtime?
+        /// The ARN of the runtime and any errors that occured.
+        public let runtimeVersionConfig: RuntimeVersionConfig?
         /// The ARN of the signing job.
         public let signingJobArn: String?
         /// The ARN of the signing profile version.
@@ -1737,7 +1746,7 @@ extension Lambda {
         /// The function's networking configuration.
         public let vpcConfig: VpcConfigResponse?
 
-        public init(architectures: [Architecture]? = nil, codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, imageConfigResponse: ImageConfigResponse? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, snapStart: SnapStartResponse? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
+        public init(architectures: [Architecture]? = nil, codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, imageConfigResponse: ImageConfigResponse? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, runtimeVersionConfig: RuntimeVersionConfig? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, snapStart: SnapStartResponse? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
             self.architectures = architectures
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
@@ -1762,6 +1771,7 @@ extension Lambda {
             self.revisionId = revisionId
             self.role = role
             self.runtime = runtime
+            self.runtimeVersionConfig = runtimeVersionConfig
             self.signingJobArn = signingJobArn
             self.signingProfileVersionArn = signingProfileVersionArn
             self.snapStart = snapStart
@@ -1799,6 +1809,7 @@ extension Lambda {
             case revisionId = "RevisionId"
             case role = "Role"
             case runtime = "Runtime"
+            case runtimeVersionConfig = "RuntimeVersionConfig"
             case signingJobArn = "SigningJobArn"
             case signingProfileVersionArn = "SigningProfileVersionArn"
             case snapStart = "SnapStart"
@@ -2450,6 +2461,51 @@ extension Lambda {
             case requestedProvisionedConcurrentExecutions = "RequestedProvisionedConcurrentExecutions"
             case status = "Status"
             case statusReason = "StatusReason"
+        }
+    }
+
+    public struct GetRuntimeManagementConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
+            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
+        ]
+
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the  $LATEST version is returned.
+        public let qualifier: String?
+
+        public init(functionName: String, qualifier: String? = nil) {
+            self.functionName = functionName
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^(|[a-zA-Z0-9$_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRuntimeManagementConfigResponse: AWSDecodableShape {
+        /// The ARN of the runtime the function is configured to use. If the runtime update mode is Manual, the ARN is returned, otherwise null  is returned.
+        public let runtimeVersionArn: String?
+        /// The current runtime update mode of the function.
+        public let updateRuntimeOn: UpdateRuntimeOn?
+
+        public init(runtimeVersionArn: String? = nil, updateRuntimeOn: UpdateRuntimeOn? = nil) {
+            self.runtimeVersionArn = runtimeVersionArn
+            self.updateRuntimeOn = updateRuntimeOn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runtimeVersionArn = "RuntimeVersionArn"
+            case updateRuntimeOn = "UpdateRuntimeOn"
         }
     }
 
@@ -3754,6 +3810,67 @@ extension Lambda {
         }
     }
 
+    public struct PutRuntimeManagementConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
+            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
+        ]
+
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the  $LATEST version is returned.
+        public let qualifier: String?
+        /// The ARN of the runtime version you want the function to use.  This is only required if you're using the Manual runtime update mode.
+        public let runtimeVersionArn: String?
+        /// Specify the runtime update mode.    Auto (default) - Automatically update to the most recent and secure runtime version using a Two-phase runtime version rollout. This is the best  choice for most customers to ensure they always benefit from runtime updates.    Function update - Lambda updates the runtime of your function  to the most recent and secure runtime version when you update your  function. This approach synchronizes runtime updates with function deployments, giving you control over when runtime updates are applied and allowing you to detect and  mitigate rare runtime update incompatibilities early. When using this setting, you need to regularly update your functions to keep their runtime up-to-date.    Manual - You specify a runtime version in your function configuration. The function will use this runtime version indefinitely.  In the rare case where a new runtime version is incompatible with an existing function, this allows you to roll back your function to an earlier runtime version. For more information,  see Roll back a runtime version.
+        public let updateRuntimeOn: UpdateRuntimeOn
+
+        public init(functionName: String, qualifier: String? = nil, runtimeVersionArn: String? = nil, updateRuntimeOn: UpdateRuntimeOn) {
+            self.functionName = functionName
+            self.qualifier = qualifier
+            self.runtimeVersionArn = runtimeVersionArn
+            self.updateRuntimeOn = updateRuntimeOn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^(|[a-zA-Z0-9$_-]+)$")
+            try self.validate(self.runtimeVersionArn, name: "runtimeVersionArn", parent: name, max: 2048)
+            try self.validate(self.runtimeVersionArn, name: "runtimeVersionArn", parent: name, min: 26)
+            try self.validate(self.runtimeVersionArn, name: "runtimeVersionArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}::runtime:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runtimeVersionArn = "RuntimeVersionArn"
+            case updateRuntimeOn = "UpdateRuntimeOn"
+        }
+    }
+
+    public struct PutRuntimeManagementConfigResponse: AWSDecodableShape {
+        /// The ARN of the function
+        public let functionArn: String
+        /// The ARN of the runtime the function is configured to use. If the runtime update mode is manual, the ARN is returned, otherwise null  is returned.
+        public let runtimeVersionArn: String?
+        /// The runtime update mode.
+        public let updateRuntimeOn: UpdateRuntimeOn
+
+        public init(functionArn: String, runtimeVersionArn: String? = nil, updateRuntimeOn: UpdateRuntimeOn) {
+            self.functionArn = functionArn
+            self.runtimeVersionArn = runtimeVersionArn
+            self.updateRuntimeOn = updateRuntimeOn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionArn = "FunctionArn"
+            case runtimeVersionArn = "RuntimeVersionArn"
+            case updateRuntimeOn = "UpdateRuntimeOn"
+        }
+    }
+
     public struct RemoveLayerVersionPermissionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "layerName", location: .uri("LayerName")),
@@ -3827,6 +3944,40 @@ extension Lambda {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RuntimeVersionConfig: AWSDecodableShape {
+        /// Error response when Lambda is unable to retrieve the runtime version for a function.
+        public let error: RuntimeVersionError?
+        /// The ARN of the runtime version you want the function to use.
+        public let runtimeVersionArn: String?
+
+        public init(error: RuntimeVersionError? = nil, runtimeVersionArn: String? = nil) {
+            self.error = error
+            self.runtimeVersionArn = runtimeVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "Error"
+            case runtimeVersionArn = "RuntimeVersionArn"
+        }
+    }
+
+    public struct RuntimeVersionError: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: String?
+        /// The error message.
+        public let message: String?
+
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+        }
     }
 
     public struct ScalingConfig: AWSEncodableShape & AWSDecodableShape {
@@ -4678,11 +4829,11 @@ public struct LambdaErrorType: AWSErrorType {
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
     /// The Lambda service encountered an internal error.
     public static var serviceException: Self { .init(.serviceException) }
-    /// The runtime restore hook encountered an error. For more information, check the Amazon CloudWatch logs.
+    /// The afterRestore() runtime hook encountered an error. For more information, check the Amazon CloudWatch logs.
     public static var snapStartException: Self { .init(.snapStartException) }
     /// Lambda is initializing your function. You can invoke the function when the function state becomes Active.
     public static var snapStartNotReadyException: Self { .init(.snapStartNotReadyException) }
-    /// The runtime restore hook failed to complete within the timeout limit (2 seconds).
+    /// Lambda couldn't restore the snapshot within the timeout limit.
     public static var snapStartTimeoutException: Self { .init(.snapStartTimeoutException) }
     /// Lambda couldn't set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
     public static var subnetIPAddressLimitReachedException: Self { .init(.subnetIPAddressLimitReachedException) }

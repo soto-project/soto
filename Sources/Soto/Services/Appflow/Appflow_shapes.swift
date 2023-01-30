@@ -68,6 +68,7 @@ extension Appflow {
         case infornexus = "Infornexus"
         case lookoutmetrics = "LookoutMetrics"
         case marketo = "Marketo"
+        case pardot = "Pardot"
         case redshift = "Redshift"
         case s3 = "S3"
         case salesforce = "Salesforce"
@@ -270,6 +271,24 @@ extension Appflow {
         case multiplication = "MULTIPLICATION"
         case noOp = "NO_OP"
         case notEqualTo = "NOT_EQUAL_TO"
+        case projection = "PROJECTION"
+        case subtraction = "SUBTRACTION"
+        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
+        case validateNonNull = "VALIDATE_NON_NULL"
+        case validateNonZero = "VALIDATE_NON_ZERO"
+        case validateNumeric = "VALIDATE_NUMERIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PardotConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case addition = "ADDITION"
+        case division = "DIVISION"
+        case equalTo = "EQUAL_TO"
+        case maskAll = "MASK_ALL"
+        case maskFirstN = "MASK_FIRST_N"
+        case maskLastN = "MASK_LAST_N"
+        case multiplication = "MULTIPLICATION"
+        case noOp = "NO_OP"
         case projection = "PROJECTION"
         case subtraction = "SUBTRACTION"
         case validateNonNegative = "VALIDATE_NON_NEGATIVE"
@@ -1012,6 +1031,8 @@ extension Appflow {
         public let inforNexus: InforNexusMetadata?
         ///  The connector metadata specific to Marketo.
         public let marketo: MarketoMetadata?
+        /// The connector metadata specific to Salesforce Pardot.
+        public let pardot: PardotMetadata?
         ///  The connector metadata specific to Amazon Redshift.
         public let redshift: RedshiftMetadata?
         ///  The connector metadata specific to Amazon S3.
@@ -1036,7 +1057,7 @@ extension Appflow {
         ///  The connector metadata specific to Zendesk.
         public let zendesk: ZendeskMetadata?
 
-        public init(amplitude: AmplitudeMetadata? = nil, customerProfiles: CustomerProfilesMetadata? = nil, datadog: DatadogMetadata? = nil, dynatrace: DynatraceMetadata? = nil, eventBridge: EventBridgeMetadata? = nil, googleAnalytics: GoogleAnalyticsMetadata? = nil, honeycode: HoneycodeMetadata? = nil, inforNexus: InforNexusMetadata? = nil, marketo: MarketoMetadata? = nil, redshift: RedshiftMetadata? = nil, s3: S3Metadata? = nil, salesforce: SalesforceMetadata? = nil, sapoData: SAPODataMetadata? = nil, serviceNow: ServiceNowMetadata? = nil, singular: SingularMetadata? = nil, slack: SlackMetadata? = nil, snowflake: SnowflakeMetadata? = nil, trendmicro: TrendmicroMetadata? = nil, upsolver: UpsolverMetadata? = nil, veeva: VeevaMetadata? = nil, zendesk: ZendeskMetadata? = nil) {
+        public init(amplitude: AmplitudeMetadata? = nil, customerProfiles: CustomerProfilesMetadata? = nil, datadog: DatadogMetadata? = nil, dynatrace: DynatraceMetadata? = nil, eventBridge: EventBridgeMetadata? = nil, googleAnalytics: GoogleAnalyticsMetadata? = nil, honeycode: HoneycodeMetadata? = nil, inforNexus: InforNexusMetadata? = nil, marketo: MarketoMetadata? = nil, pardot: PardotMetadata? = nil, redshift: RedshiftMetadata? = nil, s3: S3Metadata? = nil, salesforce: SalesforceMetadata? = nil, sapoData: SAPODataMetadata? = nil, serviceNow: ServiceNowMetadata? = nil, singular: SingularMetadata? = nil, slack: SlackMetadata? = nil, snowflake: SnowflakeMetadata? = nil, trendmicro: TrendmicroMetadata? = nil, upsolver: UpsolverMetadata? = nil, veeva: VeevaMetadata? = nil, zendesk: ZendeskMetadata? = nil) {
             self.amplitude = amplitude
             self.customerProfiles = customerProfiles
             self.datadog = datadog
@@ -1046,6 +1067,7 @@ extension Appflow {
             self.honeycode = honeycode
             self.inforNexus = inforNexus
             self.marketo = marketo
+            self.pardot = pardot
             self.redshift = redshift
             self.s3 = s3
             self.salesforce = salesforce
@@ -1070,6 +1092,7 @@ extension Appflow {
             case honeycode = "Honeycode"
             case inforNexus = "InforNexus"
             case marketo = "Marketo"
+            case pardot = "Pardot"
             case redshift = "Redshift"
             case s3 = "S3"
             case salesforce = "Salesforce"
@@ -1124,6 +1147,8 @@ extension Appflow {
         public let inforNexus: InforNexusConnectorOperator?
         ///  The operation to be performed on the provided Marketo source fields.
         public let marketo: MarketoConnectorOperator?
+        /// The operation to be performed on the provided Salesforce Pardot source fields.
+        public let pardot: PardotConnectorOperator?
         ///  The operation to be performed on the provided Amazon S3 source fields.
         public let s3: S3ConnectorOperator?
         ///  The operation to be performed on the provided Salesforce source fields.
@@ -1143,7 +1168,7 @@ extension Appflow {
         ///  The operation to be performed on the provided Zendesk source fields.
         public let zendesk: ZendeskConnectorOperator?
 
-        public init(amplitude: AmplitudeConnectorOperator? = nil, customConnector: Operator? = nil, datadog: DatadogConnectorOperator? = nil, dynatrace: DynatraceConnectorOperator? = nil, googleAnalytics: GoogleAnalyticsConnectorOperator? = nil, inforNexus: InforNexusConnectorOperator? = nil, marketo: MarketoConnectorOperator? = nil, s3: S3ConnectorOperator? = nil, salesforce: SalesforceConnectorOperator? = nil, sapoData: SAPODataConnectorOperator? = nil, serviceNow: ServiceNowConnectorOperator? = nil, singular: SingularConnectorOperator? = nil, slack: SlackConnectorOperator? = nil, trendmicro: TrendmicroConnectorOperator? = nil, veeva: VeevaConnectorOperator? = nil, zendesk: ZendeskConnectorOperator? = nil) {
+        public init(amplitude: AmplitudeConnectorOperator? = nil, customConnector: Operator? = nil, datadog: DatadogConnectorOperator? = nil, dynatrace: DynatraceConnectorOperator? = nil, googleAnalytics: GoogleAnalyticsConnectorOperator? = nil, inforNexus: InforNexusConnectorOperator? = nil, marketo: MarketoConnectorOperator? = nil, pardot: PardotConnectorOperator? = nil, s3: S3ConnectorOperator? = nil, salesforce: SalesforceConnectorOperator? = nil, sapoData: SAPODataConnectorOperator? = nil, serviceNow: ServiceNowConnectorOperator? = nil, singular: SingularConnectorOperator? = nil, slack: SlackConnectorOperator? = nil, trendmicro: TrendmicroConnectorOperator? = nil, veeva: VeevaConnectorOperator? = nil, zendesk: ZendeskConnectorOperator? = nil) {
             self.amplitude = amplitude
             self.customConnector = customConnector
             self.datadog = datadog
@@ -1151,6 +1176,7 @@ extension Appflow {
             self.googleAnalytics = googleAnalytics
             self.inforNexus = inforNexus
             self.marketo = marketo
+            self.pardot = pardot
             self.s3 = s3
             self.salesforce = salesforce
             self.sapoData = sapoData
@@ -1170,6 +1196,7 @@ extension Appflow {
             case googleAnalytics = "GoogleAnalytics"
             case inforNexus = "InforNexus"
             case marketo = "Marketo"
+            case pardot = "Pardot"
             case s3 = "S3"
             case salesforce = "Salesforce"
             case sapoData = "SAPOData"
@@ -1269,6 +1296,8 @@ extension Appflow {
         public let inforNexus: InforNexusConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Marketo.
         public let marketo: MarketoConnectorProfileCredentials?
+        /// The connector-specific credentials required when using Salesforce Pardot.
+        public let pardot: PardotConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Amazon Redshift.
         public let redshift: RedshiftConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Salesforce.
@@ -1289,7 +1318,7 @@ extension Appflow {
         ///  The connector-specific credentials required when using Zendesk.
         public let zendesk: ZendeskConnectorProfileCredentials?
 
-        public init(amplitude: AmplitudeConnectorProfileCredentials? = nil, customConnector: CustomConnectorProfileCredentials? = nil, datadog: DatadogConnectorProfileCredentials? = nil, dynatrace: DynatraceConnectorProfileCredentials? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileCredentials? = nil, honeycode: HoneycodeConnectorProfileCredentials? = nil, inforNexus: InforNexusConnectorProfileCredentials? = nil, marketo: MarketoConnectorProfileCredentials? = nil, redshift: RedshiftConnectorProfileCredentials? = nil, salesforce: SalesforceConnectorProfileCredentials? = nil, sapoData: SAPODataConnectorProfileCredentials? = nil, serviceNow: ServiceNowConnectorProfileCredentials? = nil, singular: SingularConnectorProfileCredentials? = nil, slack: SlackConnectorProfileCredentials? = nil, snowflake: SnowflakeConnectorProfileCredentials? = nil, trendmicro: TrendmicroConnectorProfileCredentials? = nil, veeva: VeevaConnectorProfileCredentials? = nil, zendesk: ZendeskConnectorProfileCredentials? = nil) {
+        public init(amplitude: AmplitudeConnectorProfileCredentials? = nil, customConnector: CustomConnectorProfileCredentials? = nil, datadog: DatadogConnectorProfileCredentials? = nil, dynatrace: DynatraceConnectorProfileCredentials? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileCredentials? = nil, honeycode: HoneycodeConnectorProfileCredentials? = nil, inforNexus: InforNexusConnectorProfileCredentials? = nil, marketo: MarketoConnectorProfileCredentials? = nil, pardot: PardotConnectorProfileCredentials? = nil, redshift: RedshiftConnectorProfileCredentials? = nil, salesforce: SalesforceConnectorProfileCredentials? = nil, sapoData: SAPODataConnectorProfileCredentials? = nil, serviceNow: ServiceNowConnectorProfileCredentials? = nil, singular: SingularConnectorProfileCredentials? = nil, slack: SlackConnectorProfileCredentials? = nil, snowflake: SnowflakeConnectorProfileCredentials? = nil, trendmicro: TrendmicroConnectorProfileCredentials? = nil, veeva: VeevaConnectorProfileCredentials? = nil, zendesk: ZendeskConnectorProfileCredentials? = nil) {
             self.amplitude = amplitude
             self.customConnector = customConnector
             self.datadog = datadog
@@ -1298,6 +1327,7 @@ extension Appflow {
             self.honeycode = honeycode
             self.inforNexus = inforNexus
             self.marketo = marketo
+            self.pardot = pardot
             self.redshift = redshift
             self.salesforce = salesforce
             self.sapoData = sapoData
@@ -1319,6 +1349,7 @@ extension Appflow {
             try self.honeycode?.validate(name: "\(name).honeycode")
             try self.inforNexus?.validate(name: "\(name).inforNexus")
             try self.marketo?.validate(name: "\(name).marketo")
+            try self.pardot?.validate(name: "\(name).pardot")
             try self.redshift?.validate(name: "\(name).redshift")
             try self.salesforce?.validate(name: "\(name).salesforce")
             try self.sapoData?.validate(name: "\(name).sapoData")
@@ -1340,6 +1371,7 @@ extension Appflow {
             case honeycode = "Honeycode"
             case inforNexus = "InforNexus"
             case marketo = "Marketo"
+            case pardot = "Pardot"
             case redshift = "Redshift"
             case salesforce = "Salesforce"
             case sapoData = "SAPOData"
@@ -1370,6 +1402,8 @@ extension Appflow {
         public let inforNexus: InforNexusConnectorProfileProperties?
         ///  The connector-specific properties required by Marketo.
         public let marketo: MarketoConnectorProfileProperties?
+        /// The connector-specific properties required by Salesforce Pardot.
+        public let pardot: PardotConnectorProfileProperties?
         ///  The connector-specific properties required by Amazon Redshift.
         public let redshift: RedshiftConnectorProfileProperties?
         ///  The connector-specific properties required by Salesforce.
@@ -1390,7 +1424,7 @@ extension Appflow {
         ///  The connector-specific properties required by Zendesk.
         public let zendesk: ZendeskConnectorProfileProperties?
 
-        public init(amplitude: AmplitudeConnectorProfileProperties? = nil, customConnector: CustomConnectorProfileProperties? = nil, datadog: DatadogConnectorProfileProperties? = nil, dynatrace: DynatraceConnectorProfileProperties? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileProperties? = nil, honeycode: HoneycodeConnectorProfileProperties? = nil, inforNexus: InforNexusConnectorProfileProperties? = nil, marketo: MarketoConnectorProfileProperties? = nil, redshift: RedshiftConnectorProfileProperties? = nil, salesforce: SalesforceConnectorProfileProperties? = nil, sapoData: SAPODataConnectorProfileProperties? = nil, serviceNow: ServiceNowConnectorProfileProperties? = nil, singular: SingularConnectorProfileProperties? = nil, slack: SlackConnectorProfileProperties? = nil, snowflake: SnowflakeConnectorProfileProperties? = nil, trendmicro: TrendmicroConnectorProfileProperties? = nil, veeva: VeevaConnectorProfileProperties? = nil, zendesk: ZendeskConnectorProfileProperties? = nil) {
+        public init(amplitude: AmplitudeConnectorProfileProperties? = nil, customConnector: CustomConnectorProfileProperties? = nil, datadog: DatadogConnectorProfileProperties? = nil, dynatrace: DynatraceConnectorProfileProperties? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileProperties? = nil, honeycode: HoneycodeConnectorProfileProperties? = nil, inforNexus: InforNexusConnectorProfileProperties? = nil, marketo: MarketoConnectorProfileProperties? = nil, pardot: PardotConnectorProfileProperties? = nil, redshift: RedshiftConnectorProfileProperties? = nil, salesforce: SalesforceConnectorProfileProperties? = nil, sapoData: SAPODataConnectorProfileProperties? = nil, serviceNow: ServiceNowConnectorProfileProperties? = nil, singular: SingularConnectorProfileProperties? = nil, slack: SlackConnectorProfileProperties? = nil, snowflake: SnowflakeConnectorProfileProperties? = nil, trendmicro: TrendmicroConnectorProfileProperties? = nil, veeva: VeevaConnectorProfileProperties? = nil, zendesk: ZendeskConnectorProfileProperties? = nil) {
             self.amplitude = amplitude
             self.customConnector = customConnector
             self.datadog = datadog
@@ -1399,6 +1433,7 @@ extension Appflow {
             self.honeycode = honeycode
             self.inforNexus = inforNexus
             self.marketo = marketo
+            self.pardot = pardot
             self.redshift = redshift
             self.salesforce = salesforce
             self.sapoData = sapoData
@@ -1417,6 +1452,7 @@ extension Appflow {
             try self.dynatrace?.validate(name: "\(name).dynatrace")
             try self.inforNexus?.validate(name: "\(name).inforNexus")
             try self.marketo?.validate(name: "\(name).marketo")
+            try self.pardot?.validate(name: "\(name).pardot")
             try self.redshift?.validate(name: "\(name).redshift")
             try self.salesforce?.validate(name: "\(name).salesforce")
             try self.sapoData?.validate(name: "\(name).sapoData")
@@ -1436,6 +1472,7 @@ extension Appflow {
             case honeycode = "Honeycode"
             case inforNexus = "InforNexus"
             case marketo = "Marketo"
+            case pardot = "Pardot"
             case redshift = "Redshift"
             case salesforce = "Salesforce"
             case sapoData = "SAPOData"
@@ -3607,6 +3644,91 @@ extension Appflow {
         }
     }
 
+    public struct PardotConnectorProfileCredentials: AWSEncodableShape {
+        /// The credentials used to access protected Salesforce Pardot resources.
+        public let accessToken: String?
+        /// The secret manager ARN, which contains the client ID and client secret of the connected app.
+        public let clientCredentialsArn: String?
+        public let oAuthRequest: ConnectorOAuthRequest?
+        /// The credentials used to acquire new access tokens.
+        public let refreshToken: String?
+
+        public init(accessToken: String? = nil, clientCredentialsArn: String? = nil, oAuthRequest: ConnectorOAuthRequest? = nil, refreshToken: String? = nil) {
+            self.accessToken = accessToken
+            self.clientCredentialsArn = clientCredentialsArn
+            self.oAuthRequest = oAuthRequest
+            self.refreshToken = refreshToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 4096)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "^\\S+$")
+            try self.validate(self.clientCredentialsArn, name: "clientCredentialsArn", parent: name, max: 2048)
+            try self.validate(self.clientCredentialsArn, name: "clientCredentialsArn", parent: name, min: 20)
+            try self.validate(self.clientCredentialsArn, name: "clientCredentialsArn", parent: name, pattern: "^arn:aws:secretsmanager:.*:[0-9]+:")
+            try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 2048)
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken = "accessToken"
+            case clientCredentialsArn = "clientCredentialsArn"
+            case oAuthRequest = "oAuthRequest"
+            case refreshToken = "refreshToken"
+        }
+    }
+
+    public struct PardotConnectorProfileProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The business unit id of Salesforce Pardot instance.
+        public let businessUnitId: String?
+        /// The location of the Salesforce Pardot resource.
+        public let instanceUrl: String?
+        /// Indicates whether the connector profile applies to a sandbox or production environment.
+        public let isSandboxEnvironment: Bool?
+
+        public init(businessUnitId: String? = nil, instanceUrl: String? = nil, isSandboxEnvironment: Bool? = nil) {
+            self.businessUnitId = businessUnitId
+            self.instanceUrl = instanceUrl
+            self.isSandboxEnvironment = isSandboxEnvironment
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.businessUnitId, name: "businessUnitId", parent: name, max: 18)
+            try self.validate(self.businessUnitId, name: "businessUnitId", parent: name, pattern: "^\\S+$")
+            try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, max: 256)
+            try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case businessUnitId = "businessUnitId"
+            case instanceUrl = "instanceUrl"
+            case isSandboxEnvironment = "isSandboxEnvironment"
+        }
+    }
+
+    public struct PardotMetadata: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PardotSourceProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The object specified in the Salesforce Pardot flow source.
+        public let object: String
+
+        public init(object: String) {
+            self.object = object
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.object, name: "object", parent: name, max: 512)
+            try self.validate(self.object, name: "object", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case object = "object"
+        }
+    }
+
     public struct PrefixConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether the destination file path includes either or both of the following elements:  EXECUTION_ID  The ID that Amazon AppFlow assigns to the flow run.  SCHEMA_VERSION  The version number of your data schema. Amazon AppFlow assigns this version number. The version number increases by one when you change any of the following settings in your flow configuration:   Source-to-destination field mappings   Field data types   Partition keys
         public let pathPrefixHierarchy: [PathPrefix]?
@@ -4624,6 +4746,8 @@ extension Appflow {
         public let inforNexus: InforNexusSourceProperties?
         ///  Specifies the information that is required for querying Marketo.
         public let marketo: MarketoSourceProperties?
+        /// Specifies the information that is required for querying Salesforce Pardot.
+        public let pardot: PardotSourceProperties?
         ///  Specifies the information that is required for querying Amazon S3.
         public let s3: S3SourceProperties?
         ///  Specifies the information that is required for querying Salesforce.
@@ -4642,7 +4766,7 @@ extension Appflow {
         ///  Specifies the information that is required for querying Zendesk.
         public let zendesk: ZendeskSourceProperties?
 
-        public init(amplitude: AmplitudeSourceProperties? = nil, customConnector: CustomConnectorSourceProperties? = nil, datadog: DatadogSourceProperties? = nil, dynatrace: DynatraceSourceProperties? = nil, googleAnalytics: GoogleAnalyticsSourceProperties? = nil, inforNexus: InforNexusSourceProperties? = nil, marketo: MarketoSourceProperties? = nil, s3: S3SourceProperties? = nil, salesforce: SalesforceSourceProperties? = nil, sapoData: SAPODataSourceProperties? = nil, serviceNow: ServiceNowSourceProperties? = nil, singular: SingularSourceProperties? = nil, slack: SlackSourceProperties? = nil, trendmicro: TrendmicroSourceProperties? = nil, veeva: VeevaSourceProperties? = nil, zendesk: ZendeskSourceProperties? = nil) {
+        public init(amplitude: AmplitudeSourceProperties? = nil, customConnector: CustomConnectorSourceProperties? = nil, datadog: DatadogSourceProperties? = nil, dynatrace: DynatraceSourceProperties? = nil, googleAnalytics: GoogleAnalyticsSourceProperties? = nil, inforNexus: InforNexusSourceProperties? = nil, marketo: MarketoSourceProperties? = nil, pardot: PardotSourceProperties? = nil, s3: S3SourceProperties? = nil, salesforce: SalesforceSourceProperties? = nil, sapoData: SAPODataSourceProperties? = nil, serviceNow: ServiceNowSourceProperties? = nil, singular: SingularSourceProperties? = nil, slack: SlackSourceProperties? = nil, trendmicro: TrendmicroSourceProperties? = nil, veeva: VeevaSourceProperties? = nil, zendesk: ZendeskSourceProperties? = nil) {
             self.amplitude = amplitude
             self.customConnector = customConnector
             self.datadog = datadog
@@ -4650,6 +4774,7 @@ extension Appflow {
             self.googleAnalytics = googleAnalytics
             self.inforNexus = inforNexus
             self.marketo = marketo
+            self.pardot = pardot
             self.s3 = s3
             self.salesforce = salesforce
             self.sapoData = sapoData
@@ -4669,6 +4794,7 @@ extension Appflow {
             try self.googleAnalytics?.validate(name: "\(name).googleAnalytics")
             try self.inforNexus?.validate(name: "\(name).inforNexus")
             try self.marketo?.validate(name: "\(name).marketo")
+            try self.pardot?.validate(name: "\(name).pardot")
             try self.s3?.validate(name: "\(name).s3")
             try self.salesforce?.validate(name: "\(name).salesforce")
             try self.sapoData?.validate(name: "\(name).sapoData")
@@ -4688,6 +4814,7 @@ extension Appflow {
             case googleAnalytics = "GoogleAnalytics"
             case inforNexus = "InforNexus"
             case marketo = "Marketo"
+            case pardot = "Pardot"
             case s3 = "S3"
             case salesforce = "Salesforce"
             case sapoData = "SAPOData"

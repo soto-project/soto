@@ -6694,6 +6694,34 @@ extension QuickSight {
         }
     }
 
+    public struct DataBarsOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The field ID for the data bars options.
+        public let fieldId: String
+        /// The color of the negative data bar.
+        public let negativeColor: String?
+        /// The color of the positive data bar.
+        public let positiveColor: String?
+
+        public init(fieldId: String, negativeColor: String? = nil, positiveColor: String? = nil) {
+            self.fieldId = fieldId
+            self.negativeColor = negativeColor
+            self.positiveColor = positiveColor
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.validate(self.negativeColor, name: "negativeColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.validate(self.positiveColor, name: "positiveColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldId = "FieldId"
+            case negativeColor = "NegativeColor"
+            case positiveColor = "PositiveColor"
+        }
+    }
+
     public struct DataColor: AWSEncodableShape & AWSDecodableShape {
         /// The color that is applied to the data value.
         public let color: String?
@@ -16854,7 +16882,7 @@ extension QuickSight {
     public struct LogicalTable: AWSEncodableShape & AWSDecodableShape {
         /// A display name for the logical table.
         public let alias: String
-        /// Transform operations that act on this logical table.
+        /// Transform operations that act on this logical table. For this structure to be valid, only one of the attributes can be non-null.
         public let dataTransforms: [TransformOperation]?
         /// Source of this logical table.
         public let source: LogicalTableSource
@@ -18598,15 +18626,15 @@ extension QuickSight {
             try self.columns?.forEach {
                 try $0.validate(name: "\(name).columns[]")
             }
-            try self.validate(self.columns, name: "columns", parent: name, max: 20)
+            try self.validate(self.columns, name: "columns", parent: name, max: 40)
             try self.rows?.forEach {
                 try $0.validate(name: "\(name).rows[]")
             }
-            try self.validate(self.rows, name: "rows", parent: name, max: 20)
+            try self.validate(self.rows, name: "rows", parent: name, max: 40)
             try self.values?.forEach {
                 try $0.validate(name: "\(name).values[]")
             }
-            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, max: 40)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -22094,16 +22122,19 @@ extension QuickSight {
         public let paginatedReportOptions: TablePaginatedReportOptions?
         /// The sort configuration for a TableVisual.
         public let sortConfiguration: TableSortConfiguration?
+        /// A collection of inline visualizations to display within a chart.
+        public let tableInlineVisualizations: [TableInlineVisualization]?
         /// The table options for a table visual.
         public let tableOptions: TableOptions?
         /// The total options for a table visual.
         public let totalOptions: TotalOptions?
 
-        public init(fieldOptions: TableFieldOptions? = nil, fieldWells: TableFieldWells? = nil, paginatedReportOptions: TablePaginatedReportOptions? = nil, sortConfiguration: TableSortConfiguration? = nil, tableOptions: TableOptions? = nil, totalOptions: TotalOptions? = nil) {
+        public init(fieldOptions: TableFieldOptions? = nil, fieldWells: TableFieldWells? = nil, paginatedReportOptions: TablePaginatedReportOptions? = nil, sortConfiguration: TableSortConfiguration? = nil, tableInlineVisualizations: [TableInlineVisualization]? = nil, tableOptions: TableOptions? = nil, totalOptions: TotalOptions? = nil) {
             self.fieldOptions = fieldOptions
             self.fieldWells = fieldWells
             self.paginatedReportOptions = paginatedReportOptions
             self.sortConfiguration = sortConfiguration
+            self.tableInlineVisualizations = tableInlineVisualizations
             self.tableOptions = tableOptions
             self.totalOptions = totalOptions
         }
@@ -22112,6 +22143,10 @@ extension QuickSight {
             try self.fieldOptions?.validate(name: "\(name).fieldOptions")
             try self.fieldWells?.validate(name: "\(name).fieldWells")
             try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.tableInlineVisualizations?.forEach {
+                try $0.validate(name: "\(name).tableInlineVisualizations[]")
+            }
+            try self.validate(self.tableInlineVisualizations, name: "tableInlineVisualizations", parent: name, max: 200)
             try self.tableOptions?.validate(name: "\(name).tableOptions")
             try self.totalOptions?.validate(name: "\(name).totalOptions")
         }
@@ -22121,6 +22156,7 @@ extension QuickSight {
             case fieldWells = "FieldWells"
             case paginatedReportOptions = "PaginatedReportOptions"
             case sortConfiguration = "SortConfiguration"
+            case tableInlineVisualizations = "TableInlineVisualizations"
             case tableOptions = "TableOptions"
             case totalOptions = "TotalOptions"
         }
@@ -22321,6 +22357,23 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case tableAggregatedFieldWells = "TableAggregatedFieldWells"
             case tableUnaggregatedFieldWells = "TableUnaggregatedFieldWells"
+        }
+    }
+
+    public struct TableInlineVisualization: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of the inline visualization of the data bars within a chart.
+        public let dataBars: DataBarsOptions?
+
+        public init(dataBars: DataBarsOptions? = nil) {
+            self.dataBars = dataBars
+        }
+
+        public func validate(name: String) throws {
+            try self.dataBars?.validate(name: "\(name).dataBars")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataBars = "DataBars"
         }
     }
 
@@ -22687,6 +22740,7 @@ extension QuickSight {
         public let message: String?
         /// Type of error.
         public let type: TemplateErrorType?
+        /// An error path that shows which entities caused the template error.
         public let violatedEntities: [Entity]?
 
         public init(message: String? = nil, type: TemplateErrorType? = nil, violatedEntities: [Entity]? = nil) {
@@ -22806,7 +22860,7 @@ extension QuickSight {
         public let sheets: [Sheet]?
         /// The Amazon Resource Name (ARN) of an analysis or template that was used to create this template.
         public let sourceEntityArn: String?
-        /// The HTTP status of the request.
+        /// The status that is associated with the template.    CREATION_IN_PROGRESS     CREATION_SUCCESSFUL     CREATION_FAILED     UPDATE_IN_PROGRESS     UPDATE_SUCCESSFUL     UPDATE_FAILED     DELETED
         public let status: ResourceStatus?
         /// The ARN of the theme associated with this version of the template.
         public let themeArn: String?

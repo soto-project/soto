@@ -33,8 +33,7 @@ extension CodeArtifact {
         return try await self.client.execute(operation: "CopyPackageVersions", path: "/v1/package/versions/copy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Creates a domain. CodeArtifact domains make it easier to manage multiple repositories across an organization. You can use a domain to apply permissions across many repositories owned by different Amazon Web Services accounts. An asset is stored only once in a domain, even if it's in multiple repositories.
-    ///  Although you can have multiple domains, we recommend a single production domain that contains all published artifacts so that your development teams can find and share packages. You can use a second pre-production domain to test changes to the production domain configuration.
+    ///  Creates a domain. CodeArtifact domains make it easier to manage multiple repositories across an organization. You can use a domain to apply permissions across many repositories owned by different Amazon Web Services accounts. An asset is stored only once in a domain, even if it's in multiple repositories.   Although you can have multiple domains, we recommend a single production domain that contains all published artifacts so that your development teams can find and share packages. You can use a second pre-production domain to test changes to the production domain configuration.
     public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDomainResult {
         return try await self.client.execute(operation: "CreateDomain", path: "/v1/domain", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -54,7 +53,7 @@ extension CodeArtifact {
         return try await self.client.execute(operation: "DeleteDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Deletes one or more versions of a package. A deleted package version cannot be restored in your repository. If you want to remove a package version from your repository and be able to restore it later, set its status to Archived. Archived packages cannot be downloaded from a repository and don't show up with list package APIs (for example, ListackageVersions), but you can restore them using UpdatePackageVersionsStatus.
+    ///  Deletes one or more versions of a package. A deleted package version cannot be restored in your repository. If you want to remove a package version from your repository and be able to restore it later, set its status to Archived. Archived packages cannot be downloaded from a repository and don't show up with list package APIs (for example, ListPackageVersions), but you can restore them using UpdatePackageVersionsStatus.
     public func deletePackageVersions(_ input: DeletePackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeletePackageVersionsResult {
         return try await self.client.execute(operation: "DeletePackageVersions", path: "/v1/package/versions/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -94,7 +93,7 @@ extension CodeArtifact {
         return try await self.client.execute(operation: "DisassociateExternalConnection", path: "/v1/repository/external-connection", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Deletes the assets in package versions and sets the package versions' status to Disposed. A disposed package version cannot be restored in your repository because its assets are deleted.    To view all disposed package versions in a repository, use ListPackageVersions and set the  status parameter  to Disposed.    To view information about a disposed package version, use DescribePackageVersion.
+    ///  Deletes the assets in package versions and sets the package versions' status to Disposed. A disposed package version cannot be restored in your repository because its assets are deleted.   To view all disposed package versions in a repository, use ListPackageVersions and set the  status parameter  to Disposed.   To view information about a disposed package version, use DescribePackageVersion.
     public func disposePackageVersions(_ input: DisposePackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisposePackageVersionsResult {
         return try await self.client.execute(operation: "DisposePackageVersions", path: "/v1/package/versions/dispose", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -114,7 +113,7 @@ extension CodeArtifact {
         return try await self.client.execute(operation: "GetPackageVersionAsset", path: "/v1/package/version/asset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Gets the readme file or descriptive text for a package version. For packages that do not contain a readme file, CodeArtifact extracts a description from a metadata file. For example, from the  element in the pom.xml file of a Maven package.   The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
+    ///  Gets the readme file or descriptive text for a package version.   The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
     public func getPackageVersionReadme(_ input: GetPackageVersionReadmeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPackageVersionReadmeResult {
         return try await self.client.execute(operation: "GetPackageVersionReadme", path: "/v1/package/version/readme", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

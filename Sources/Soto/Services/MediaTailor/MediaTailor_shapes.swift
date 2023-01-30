@@ -33,6 +33,11 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
+    public enum LogType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case asRun = "AS_RUN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MessageType: String, CustomStringConvertible, Codable, _SotoSendable {
         case spliceInsert = "SPLICE_INSERT"
         case timeSignal = "TIME_SIGNAL"
@@ -255,11 +260,13 @@ extension MediaTailor {
         /// The timestamp of when the channel was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
-        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR  PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP  PlaybackMode.
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
         public let fillerSlate: SlateSource?
         /// The timestamp of when the channel was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
+        /// The log configuration.
+        public let logConfiguration: LogConfigurationForChannel
         /// The channel's output properties.
         public let outputs: [ResponseOutputItem]
         /// The type of playback mode for this channel.  LINEAR - Programs play back-to-back only once.  LOOP - Programs play back-to-back in an endless loop. When the last program in the schedule plays, playback loops back to the first program in the schedule.
@@ -269,13 +276,14 @@ extension MediaTailor {
         /// The tier for this channel. STANDARD tier channels can contain live programs.
         public let tier: String
 
-        public init(arn: String, channelName: String, channelState: String, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem], playbackMode: String, tags: [String: String]? = nil, tier: String) {
+        public init(arn: String, channelName: String, channelState: String, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, logConfiguration: LogConfigurationForChannel, outputs: [ResponseOutputItem], playbackMode: String, tags: [String: String]? = nil, tier: String) {
             self.arn = arn
             self.channelName = channelName
             self.channelState = channelState
             self.creationTime = creationTime
             self.fillerSlate = fillerSlate
             self.lastModifiedTime = lastModifiedTime
+            self.logConfiguration = logConfiguration
             self.outputs = outputs
             self.playbackMode = playbackMode
             self.tags = tags
@@ -289,10 +297,45 @@ extension MediaTailor {
             case creationTime = "CreationTime"
             case fillerSlate = "FillerSlate"
             case lastModifiedTime = "LastModifiedTime"
+            case logConfiguration = "LogConfiguration"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
             case tags = "tags"
             case tier = "Tier"
+        }
+    }
+
+    public struct ConfigureLogsForChannelRequest: AWSEncodableShape {
+        /// The name of the channel.
+        public let channelName: String
+        /// The types of logs to collect.
+        public let logTypes: [LogType]
+
+        public init(channelName: String, logTypes: [LogType]) {
+            self.channelName = channelName
+            self.logTypes = logTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName = "ChannelName"
+            case logTypes = "LogTypes"
+        }
+    }
+
+    public struct ConfigureLogsForChannelResponse: AWSDecodableShape {
+        /// The name of the channel.
+        public let channelName: String?
+        /// The types of logs collected.
+        public let logTypes: [LogType]?
+
+        public init(channelName: String? = nil, logTypes: [LogType]? = nil) {
+            self.channelName = channelName
+            self.logTypes = logTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName = "ChannelName"
+            case logTypes = "LogTypes"
         }
     }
 
@@ -337,7 +380,7 @@ extension MediaTailor {
 
         /// The name of the channel.
         public let channelName: String
-        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR  PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP  PlaybackMode.
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
         public let fillerSlate: SlateSource?
         /// The channel's output properties.
         public let outputs: [RequestOutputItem]
@@ -1060,6 +1103,8 @@ extension MediaTailor {
         /// The timestamp of when the channel was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
+        /// The log configuration for the channel.
+        public let logConfiguration: LogConfigurationForChannel
         /// The channel's output properties.
         public let outputs: [ResponseOutputItem]?
         /// The channel's playback mode.
@@ -1069,13 +1114,14 @@ extension MediaTailor {
         /// The channel's tier.
         public let tier: String?
 
-        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil, tier: String? = nil) {
+        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, logConfiguration: LogConfigurationForChannel, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil, tier: String? = nil) {
             self.arn = arn
             self.channelName = channelName
             self.channelState = channelState
             self.creationTime = creationTime
             self.fillerSlate = fillerSlate
             self.lastModifiedTime = lastModifiedTime
+            self.logConfiguration = logConfiguration
             self.outputs = outputs
             self.playbackMode = playbackMode
             self.tags = tags
@@ -1089,6 +1135,7 @@ extension MediaTailor {
             case creationTime = "CreationTime"
             case fillerSlate = "FillerSlate"
             case lastModifiedTime = "LastModifiedTime"
+            case logConfiguration = "LogConfiguration"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
             case tags = "tags"
@@ -2034,6 +2081,19 @@ extension MediaTailor {
         }
     }
 
+    public struct LogConfigurationForChannel: AWSDecodableShape {
+        /// The log types.
+        public let logTypes: [LogType]?
+
+        public init(logTypes: [LogType]? = nil) {
+            self.logTypes = logTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logTypes = "LogTypes"
+        }
+    }
+
     public struct ManifestProcessingRules: AWSEncodableShape & AWSDecodableShape {
         /// For HLS, when set to true, MediaTailor passes through EXT-X-CUE-IN, EXT-X-CUE-OUT, and EXT-X-SPLICEPOINT-SCTE35 ad markers from the origin manifest to the MediaTailor personalized manifest. No logic is applied to these ad markers. For example, if EXT-X-CUE-OUT has a value of 60, but no ads are filled for that ad break, MediaTailor will not set the value to 0.
         public let adMarkerPassthrough: AdMarkerPassthrough?
@@ -2780,7 +2840,7 @@ extension MediaTailor {
         public let relativeProgram: String?
         /// The date and time that the program is scheduled to start, in epoch milliseconds.
         public let scheduledStartTimeMillis: Int64?
-        /// Defines when the program plays in the schedule. You can set the value to ABSOLUTE or RELATIVE.  ABSOLUTE - The program plays at a specific wall clock time. This setting can only be used for channels using the LINEAR  PlaybackMode. Note the following considerations when using ABSOLUTE transitions: If the preceding program in the schedule has a duration that extends past the wall clock time, MediaTailor truncates the preceding program on a common segment boundary. If there are gaps in playback, MediaTailor plays the FillerSlate you configured for your linear channel.  RELATIVE - The program is inserted into the schedule either before or after a program that you specify via RelativePosition.
+        /// Defines when the program plays in the schedule. You can set the value to ABSOLUTE or RELATIVE.  ABSOLUTE - The program plays at a specific wall clock time. This setting can only be used for channels using the LINEAR PlaybackMode. Note the following considerations when using ABSOLUTE transitions: If the preceding program in the schedule has a duration that extends past the wall clock time, MediaTailor truncates the preceding program on a common segment boundary. If there are gaps in playback, MediaTailor plays the FillerSlate you configured for your linear channel.  RELATIVE - The program is inserted into the schedule either before or after a program that you specify via RelativePosition.
         public let type: String
 
         public init(durationMillis: Int64? = nil, relativePosition: RelativePosition, relativeProgram: String? = nil, scheduledStartTimeMillis: Int64? = nil, type: String) {
@@ -2826,7 +2886,7 @@ extension MediaTailor {
 
         /// The name of the channel.
         public let channelName: String
-        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR  PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP  PlaybackMode.
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
         public let fillerSlate: SlateSource?
         /// The channel's output properties.
         public let outputs: [RequestOutputItem]
@@ -2853,7 +2913,7 @@ extension MediaTailor {
         /// The timestamp of when the channel was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
-        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR  PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP  PlaybackMode.
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
         public let fillerSlate: SlateSource?
         /// The timestamp that indicates when the channel was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>

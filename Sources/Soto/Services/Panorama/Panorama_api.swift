@@ -68,7 +68,7 @@ public struct Panorama: AWSService {
         return self.client.execute(operation: "CreateApplicationInstance", path: "/application-instances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a job to run on one or more devices. A job can update a device's software or reboot it.
+    /// Creates a job to run on a device. A job can update a device's software or reboot it.
     public func createJobForDevices(_ input: CreateJobForDevicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateJobForDevicesResponse> {
         return self.client.execute(operation: "CreateJobForDevices", path: "/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -58,6 +58,8 @@ public struct M2: AWSService {
                 [.fips]: .init(endpoints: [
                     "ca-central-1": "m2-fips.ca-central-1.amazonaws.com",
                     "us-east-1": "m2-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "m2-fips.us-east-2.amazonaws.com",
+                    "us-west-1": "m2-fips.us-west-1.amazonaws.com",
                     "us-west-2": "m2-fips.us-west-2.amazonaws.com"
                 ])
             ],

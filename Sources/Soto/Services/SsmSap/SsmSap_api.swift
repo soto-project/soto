@@ -113,6 +113,11 @@ public struct SsmSap: AWSService {
         return self.client.execute(operation: "ListDatabases", path: "/list-databases", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the operations performed by AWS Systems Manager for SAP.
+    public func listOperations(_ input: ListOperationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOperationsOutput> {
+        return self.client.execute(operation: "ListOperations", path: "/list-operations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists all tags on an SAP HANA application and/or database registered with AWS Systems Manager for SAP.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -138,6 +143,7 @@ public struct SsmSap: AWSService {
         return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates the settings of an application registered with AWS Systems Manager for SAP.
     public func updateApplicationSettings(_ input: UpdateApplicationSettingsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApplicationSettingsOutput> {
         return self.client.execute(operation: "UpdateApplicationSettings", path: "/update-application-settings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -313,6 +319,59 @@ extension SsmSap {
             onPage: onPage
         )
     }
+
+    /// Lists the operations performed by AWS Systems Manager for SAP.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listOperationsPaginator<Result>(
+        _ input: ListOperationsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListOperationsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listOperations,
+            inputKey: \ListOperationsInput.nextToken,
+            outputKey: \ListOperationsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listOperationsPaginator(
+        _ input: ListOperationsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListOperationsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listOperations,
+            inputKey: \ListOperationsInput.nextToken,
+            outputKey: \ListOperationsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension SsmSap.ListApplicationsInput: AWSPaginateToken {
@@ -339,6 +398,17 @@ extension SsmSap.ListDatabasesInput: AWSPaginateToken {
         return .init(
             applicationId: self.applicationId,
             componentId: self.componentId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension SsmSap.ListOperationsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SsmSap.ListOperationsInput {
+        return .init(
+            applicationId: self.applicationId,
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
         )

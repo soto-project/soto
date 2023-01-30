@@ -29,19 +29,19 @@ extension Glacier {
     }
 
     public enum CannedACL: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
         case bucketOwnerFullControl = "bucket-owner-full-control"
         case bucketOwnerRead = "bucket-owner-read"
-        case `private` = "private"
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
         public var description: String { return self.rawValue }
     }
 
     public enum EncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case aes256 = "AES256"
-        case awsKms = "aws:kms"
+        case kms = "aws:kms"
+        case s3 = "AES256"
         public var description: String { return self.rawValue }
     }
 
@@ -68,7 +68,7 @@ extension Glacier {
 
     public enum QuoteFields: String, CustomStringConvertible, Codable, _SotoSendable {
         case always = "ALWAYS"
-        case asneeded = "ASNEEDED"
+        case asNeeded = "ASNEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -82,7 +82,7 @@ extension Glacier {
     public enum StorageClass: String, CustomStringConvertible, Codable, _SotoSendable {
         case reducedRedundancy = "REDUCED_REDUNDANCY"
         case standard = "STANDARD"
-        case standardIa = "STANDARD_IA"
+        case standardInfrequentAccess = "STANDARD_IA"
         public var description: String { return self.rawValue }
     }
 

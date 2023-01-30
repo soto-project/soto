@@ -129,6 +129,7 @@ extension Cloud9 {
 
         public func validate(name: String) throws {
             try self.validate(self.automaticStopTimeMinutes, name: "automaticStopTimeMinutes", parent: name, max: 20160)
+            try self.validate(self.automaticStopTimeMinutes, name: "automaticStopTimeMinutes", parent: name, min: 0)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x20-\\x7E]{10,128}$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.imageId, name: "imageId", parent: name, max: 512)

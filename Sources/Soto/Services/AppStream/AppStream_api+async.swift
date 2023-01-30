@@ -78,7 +78,7 @@ extension AppStream {
         return try await self.client.execute(operation: "CreateFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an image builder. An image builder is a virtual machine that is used to create an image.  The initial state of the builder is PENDING. When it is ready, the state is RUNNING.
+    /// Creates an image builder. An image builder is a virtual machine that is used to create an image. The initial state of the builder is PENDING. When it is ready, the state is RUNNING.
     public func createImageBuilder(_ input: CreateImageBuilderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateImageBuilderResult {
         return try await self.client.execute(operation: "CreateImageBuilder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -98,7 +98,7 @@ extension AppStream {
         return try await self.client.execute(operation: "CreateStreamingURL", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new image with the latest Windows operating system updates, driver updates, and AppStream 2.0 agent software.  For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates" section in Administer Your AppStream 2.0 Images, in the Amazon AppStream 2.0 Administration Guide.
+    /// Creates a new image with the latest Windows operating system updates, driver updates, and AppStream 2.0 agent software. For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates" section in Administer Your AppStream 2.0 Images, in the Amazon AppStream 2.0 Administration Guide.
     public func createUpdatedImage(_ input: CreateUpdatedImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateUpdatedImageResult {
         return try await self.client.execute(operation: "CreateUpdatedImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -308,7 +308,7 @@ extension AppStream {
         return try await self.client.execute(operation: "StopImageBuilder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key,  this operation updates its value.  To list the current tags for your resources, use ListTagsForResource. To disassociate tags from your resources, use UntagResource. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+    /// Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key,  this operation updates its value. To list the current tags for your resources, use ListTagsForResource. To disassociate tags from your resources, use UntagResource. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -410,9 +410,9 @@ extension AppStream {
     ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: try! JMESAllPathMatcher("fleets[].state", expected: "ACTIVE")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("fleets[].state", expected: "PENDING_DEACTIVATE")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("fleets[].state", expected: "INACTIVE")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("fleets[].state", expected: "RUNNING")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("fleets[].state", expected: "STOPPING")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("fleets[].state", expected: "STOPPED")),
             ],
             minDelayTime: .seconds(30),
             command: self.describeFleets
@@ -428,9 +428,9 @@ extension AppStream {
     ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: try! JMESAllPathMatcher("fleets[].state", expected: "INACTIVE")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("fleets[].state", expected: "PENDING_ACTIVATE")),
-                .init(state: .failure, matcher: try! JMESAnyPathMatcher("fleets[].state", expected: "ACTIVE")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("fleets[].state", expected: "STOPPED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("fleets[].state", expected: "STARTING")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("fleets[].state", expected: "RUNNING")),
             ],
             minDelayTime: .seconds(30),
             command: self.describeFleets

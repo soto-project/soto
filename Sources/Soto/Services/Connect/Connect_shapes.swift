@@ -572,6 +572,12 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum RehydrationType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case entirePastSession = "ENTIRE_PAST_SESSION"
+        case fromSegment = "FROM_SEGMENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RulePublishStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case draft = "DRAFT"
         case published = "PUBLISHED"
@@ -1557,10 +1563,12 @@ extension Connect {
         public let previousContactId: String?
         /// If this contact was queued, this contains information about the queue.
         public let queueInfo: QueueInfo?
+        /// The contactId that is related to this contact.
+        public let relatedContactId: String?
         /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
         public let scheduledTimestamp: Date?
 
-        public init(agentInfo: AgentInfo? = nil, arn: String? = nil, channel: Channel? = nil, description: String? = nil, disconnectTimestamp: Date? = nil, id: String? = nil, initialContactId: String? = nil, initiationMethod: ContactInitiationMethod? = nil, initiationTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, name: String? = nil, previousContactId: String? = nil, queueInfo: QueueInfo? = nil, scheduledTimestamp: Date? = nil) {
+        public init(agentInfo: AgentInfo? = nil, arn: String? = nil, channel: Channel? = nil, description: String? = nil, disconnectTimestamp: Date? = nil, id: String? = nil, initialContactId: String? = nil, initiationMethod: ContactInitiationMethod? = nil, initiationTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, name: String? = nil, previousContactId: String? = nil, queueInfo: QueueInfo? = nil, relatedContactId: String? = nil, scheduledTimestamp: Date? = nil) {
             self.agentInfo = agentInfo
             self.arn = arn
             self.channel = channel
@@ -1574,6 +1582,7 @@ extension Connect {
             self.name = name
             self.previousContactId = previousContactId
             self.queueInfo = queueInfo
+            self.relatedContactId = relatedContactId
             self.scheduledTimestamp = scheduledTimestamp
         }
 
@@ -1591,6 +1600,7 @@ extension Connect {
             case name = "Name"
             case previousContactId = "PreviousContactId"
             case queueInfo = "QueueInfo"
+            case relatedContactId = "RelatedContactId"
             case scheduledTimestamp = "ScheduledTimestamp"
         }
     }
@@ -2507,7 +2517,7 @@ extension Connect {
         public let permissions: [String]?
         /// The name of the security profile.
         public let securityProfileName: String
-        /// The list of resources that a security profile applies tag restrictions to in Amazon Connect. Following are acceptable ResourceNames: User | SecurityProfile | Queue |  RoutingProfile
+        /// The list of resources that a security profile applies tag restrictions to in Amazon Connect. Following are acceptable ResourceNames: User | SecurityProfile | Queue | RoutingProfile
         public let tagRestrictedResources: [String]?
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
@@ -4701,7 +4711,7 @@ extension Connect {
         public let currentMetrics: [CurrentMetric]
         /// The filters to apply to returned metrics. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Channels: 3 (VOICE, CHAT, and TASK channels are supported.)   Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request.  Currently tagging is only supported on the resources that are passed in the filter.
         public let filters: Filters
-        /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.    If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.   If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is  required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.   If no Grouping is included in the request, a summary of metrics is returned.
+        /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.    If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.   If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.   If no Grouping is included in the request, a summary of metrics is returned.
         public let groupings: [Grouping]?
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
@@ -7613,7 +7623,7 @@ extension Connect {
     public struct ParticipantTimerConfiguration: AWSEncodableShape {
         /// The role of the participant in the chat conversation.
         public let participantRole: TimerEligibleParticipantRoles
-        /// The type of timer. IDLE indicates the timer applies for considering a human chat participant as idle.  DISCONNECT_NONCUSTOMER indicates the timer applies to automatically disconnecting a chat participant due to idleness.
+        /// The type of timer. IDLE indicates the timer applies for considering a human chat participant as idle. DISCONNECT_NONCUSTOMER indicates the timer applies to automatically disconnecting a chat participant due to idleness.
         public let timerType: ParticipantTimerType
         /// The value of the timer. Either the timer action (Unset to delete the timer), or the duration of the timer in minutes. Only one value can be set.
         public let timerValue: ParticipantTimerValue
@@ -7632,6 +7642,28 @@ extension Connect {
             case participantRole = "ParticipantRole"
             case timerType = "TimerType"
             case timerValue = "TimerValue"
+        }
+    }
+
+    public struct PersistentChat: AWSEncodableShape {
+        /// The contactId that is used for rehydration depends on the rehydration type. RehydrationType is required for persistent chat.     ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Amazon Connect determines the most recent chat contact on the specified chat session that has ended, and uses it to start a persistent chat.     FROM_SEGMENT: Rehydrates a chat from the past chat contact that is specified in the sourceContactId field.    The actual contactId used for rehydration is provided in the response of this API.
+        public let rehydrationType: RehydrationType?
+        /// The contactId from which a persistent chat session must be started.
+        public let sourceContactId: String?
+
+        public init(rehydrationType: RehydrationType? = nil, sourceContactId: String? = nil) {
+            self.rehydrationType = rehydrationType
+            self.sourceContactId = sourceContactId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceContactId, name: "sourceContactId", parent: name, max: 256)
+            try self.validate(self.sourceContactId, name: "sourceContactId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rehydrationType = "RehydrationType"
+            case sourceContactId = "SourceContactId"
         }
     }
 
@@ -9118,10 +9150,12 @@ extension Connect {
         public let instanceId: String
         /// Information identifying the participant.
         public let participantDetails: ParticipantDetails
+        /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see  Enable persistent chat.
+        public let persistentChat: PersistentChat?
         /// The supported chat message content types. Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain: [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain, application/json].
         public let supportedMessagingContentTypes: [String]?
 
-        public init(attributes: [String: String]? = nil, chatDurationInMinutes: Int? = nil, clientToken: String? = StartChatContactRequest.idempotencyToken(), contactFlowId: String, initialMessage: ChatMessage? = nil, instanceId: String, participantDetails: ParticipantDetails, supportedMessagingContentTypes: [String]? = nil) {
+        public init(attributes: [String: String]? = nil, chatDurationInMinutes: Int? = nil, clientToken: String? = StartChatContactRequest.idempotencyToken(), contactFlowId: String, initialMessage: ChatMessage? = nil, instanceId: String, participantDetails: ParticipantDetails, persistentChat: PersistentChat? = nil, supportedMessagingContentTypes: [String]? = nil) {
             self.attributes = attributes
             self.chatDurationInMinutes = chatDurationInMinutes
             self.clientToken = clientToken
@@ -9129,6 +9163,7 @@ extension Connect {
             self.initialMessage = initialMessage
             self.instanceId = instanceId
             self.participantDetails = participantDetails
+            self.persistentChat = persistentChat
             self.supportedMessagingContentTypes = supportedMessagingContentTypes
         }
 
@@ -9146,6 +9181,7 @@ extension Connect {
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.participantDetails.validate(name: "\(name).participantDetails")
+            try self.persistentChat?.validate(name: "\(name).persistentChat")
             try self.supportedMessagingContentTypes?.forEach {
                 try validate($0, name: "supportedMessagingContentTypes[]", parent: name, max: 100)
                 try validate($0, name: "supportedMessagingContentTypes[]", parent: name, min: 1)
@@ -9160,6 +9196,7 @@ extension Connect {
             case initialMessage = "InitialMessage"
             case instanceId = "InstanceId"
             case participantDetails = "ParticipantDetails"
+            case persistentChat = "PersistentChat"
             case supportedMessagingContentTypes = "SupportedMessagingContentTypes"
         }
     }
@@ -9167,19 +9204,23 @@ extension Connect {
     public struct StartChatContactResponse: AWSDecodableShape {
         /// The identifier of this contact within the Amazon Connect instance.
         public let contactId: String?
+        /// The contactId from which a persistent chat session is started. This field is populated only for persistent chats.
+        public let continuedFromContactId: String?
         /// The identifier for a chat participant. The participantId for a chat participant is the same throughout the chat lifecycle.
         public let participantId: String?
         /// The token used by the chat participant to call CreateParticipantConnection. The participant token is valid for the lifetime of a chat participant.
         public let participantToken: String?
 
-        public init(contactId: String? = nil, participantId: String? = nil, participantToken: String? = nil) {
+        public init(contactId: String? = nil, continuedFromContactId: String? = nil, participantId: String? = nil, participantToken: String? = nil) {
             self.contactId = contactId
+            self.continuedFromContactId = continuedFromContactId
             self.participantId = participantId
             self.participantToken = participantToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case contactId = "ContactId"
+            case continuedFromContactId = "ContinuedFromContactId"
             case participantId = "ParticipantId"
             case participantToken = "ParticipantToken"
         }

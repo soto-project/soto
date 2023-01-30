@@ -72,6 +72,14 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImageSource: String, CustomStringConvertible, Codable, _SotoSendable {
+        case amazonManaged = "AMAZON_MANAGED"
+        case awsMarketplace = "AWS_MARKETPLACE"
+        case custom = "CUSTOM"
+        case imported = "IMPORTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImageStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case available = "AVAILABLE"
         case building = "BUILDING"
@@ -94,9 +102,10 @@ extension Imagebuilder {
     }
 
     public enum Ownership: String, CustomStringConvertible, Codable, _SotoSendable {
-        case amazon = "Amazon"
         case _self = "Self"
+        case amazon = "Amazon"
         case shared = "Shared"
+        case thirdparty = "ThirdParty"
         public var description: String { return self.rawValue }
     }
 
@@ -124,19 +133,11 @@ extension Imagebuilder {
         /// Contains settings for the Systems Manager agent on your build instance.
         public let systemsManagerAgent: SystemsManagerAgent?
         /// Use this property to provide commands or a command script to run when you launch
-        /// 			your build instance.
-        /// 		       The userDataOverride property replaces any commands that Image Builder might have added to ensure
+        /// 			your build instance. The userDataOverride property replaces any commands that Image Builder might have added to ensure
         /// 			that Systems Manager is installed on your Linux build instance. If you override the user data,
         /// 			make sure that you add commands to install Systems Manager, if it is not pre-installed on your
-        /// 			base image.
-        ///
-        /// 			         The user data is always base 64 encoded. For example, the
-        /// 				following commands are encoded as IyEvYmluL2Jhc2gKbWtkaXIgLXAgL3Zhci9iYi8KdG91Y2ggL3Zhci$:
-        ///
-        /// 			          #!/bin/bash
-        /// 			         mkdir -p /var/bb/
-        /// 			         touch /var
-        ///
+        /// 			base image.  The user data is always base 64 encoded. For example, the
+        /// 				following commands are encoded as IyEvYmluL2Jhc2gKbWtkaXIgLXAgL3Zhci9iYi8KdG91Y2ggL3Zhci$:  #!/bin/bash  mkdir -p /var/bb/ touch /var
         public let userDataOverride: String?
 
         public init(systemsManagerAgent: SystemsManagerAgent? = nil, userDataOverride: String? = nil) {
@@ -297,7 +298,7 @@ extension Imagebuilder {
         public let changeDescription: String?
         /// Component data contains the YAML document content for the component.
         public let data: String?
-        /// The date that the component was created.
+        /// The date that Image Builder created the component.
         public let dateCreated: String?
         /// The description of the component.
         public let description: String?
@@ -307,28 +308,35 @@ extension Imagebuilder {
         public let kmsKeyId: String?
         /// The name of the component.
         public let name: String?
+        /// Indicates whether component source is hidden from view in the console,
+        /// 			and from component detail results for API, CLI, or SDK operations.
+        public let obfuscate: Bool?
         /// The owner of the component.
         public let owner: String?
-        /// Contains parameter details for each of the parameters that are defined for the component.
+        /// Contains parameter details for each of the parameters that the component document
+        /// 			defined for the component.
         public let parameters: [ComponentParameterDetail]?
-        /// The platform of the component.
+        /// The operating system platform of the component.
         public let platform: Platform?
+        /// Contains the name of the publisher if this is a third-party component. Otherwise,
+        /// 			this property is empty.
+        public let publisher: String?
         /// Describes the current status of the component. This is used for
         /// 			components that are no longer active.
         public let state: ComponentState?
         /// The operating system (OS) version supported by the component. If the OS information is
-        /// 			available, a prefix match is performed against the base image OS version during image recipe
+        /// 			available, Image Builder performs a prefix match against the base image OS version during image recipe
         /// 			creation.
         public let supportedOsVersions: [String]?
-        /// The tags associated with the component.
+        /// The tags that apply to the component.
         public let tags: [String: String]?
-        /// The type of the component denotes whether the component is used to build the image or only
+        /// The component type specifies whether Image Builder uses the component to build the image or only
         /// 			to test it.
         public let type: ComponentType?
         /// The version of the component.
         public let version: String?
 
-        public init(arn: String? = nil, changeDescription: String? = nil, data: String? = nil, dateCreated: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, owner: String? = nil, parameters: [ComponentParameterDetail]? = nil, platform: Platform? = nil, state: ComponentState? = nil, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, changeDescription: String? = nil, data: String? = nil, dateCreated: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, obfuscate: Bool? = nil, owner: String? = nil, parameters: [ComponentParameterDetail]? = nil, platform: Platform? = nil, publisher: String? = nil, state: ComponentState? = nil, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
             self.arn = arn
             self.changeDescription = changeDescription
             self.data = data
@@ -337,9 +345,11 @@ extension Imagebuilder {
             self.encrypted = encrypted
             self.kmsKeyId = kmsKeyId
             self.name = name
+            self.obfuscate = obfuscate
             self.owner = owner
             self.parameters = parameters
             self.platform = platform
+            self.publisher = publisher
             self.state = state
             self.supportedOsVersions = supportedOsVersions
             self.tags = tags
@@ -356,9 +366,11 @@ extension Imagebuilder {
             case encrypted = "encrypted"
             case kmsKeyId = "kmsKeyId"
             case name = "name"
+            case obfuscate = "obfuscate"
             case owner = "owner"
             case parameters = "parameters"
             case platform = "platform"
+            case publisher = "publisher"
             case state = "state"
             case supportedOsVersions = "supportedOsVersions"
             case tags = "tags"
@@ -370,7 +382,7 @@ extension Imagebuilder {
     public struct ComponentConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the component.
         public let componentArn: String
-        /// A group of parameter settings that are used to configure the component for a specific recipe.
+        /// A group of parameter settings that Image Builder uses to configure the component for a specific recipe.
         public let parameters: [ComponentParameter]?
 
         public init(componentArn: String, parameters: [ComponentParameter]? = nil) {
@@ -463,40 +475,48 @@ extension Imagebuilder {
     public struct ComponentSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the component.
         public let arn: String?
-        /// The change description of the component.
+        /// The change description for the current version of the component.
         public let changeDescription: String?
-        /// The date that the component was created.
+        /// The original creation date of the component.
         public let dateCreated: String?
         /// The description of the component.
         public let description: String?
         /// The name of the component.
         public let name: String?
+        /// Indicates whether component source is hidden from view in the console,
+        /// 			and from component detail results for API, CLI, or SDK operations.
+        public let obfuscate: Bool?
         /// The owner of the component.
         public let owner: String?
-        /// The platform of the component.
+        /// The operating system platform of the component.
         public let platform: Platform?
+        /// Contains the name of the publisher if this is a third-party component. Otherwise,
+        /// 			this property is empty.
+        public let publisher: String?
         /// Describes the current status of the component.
         public let state: ComponentState?
-        /// The operating system (OS) version supported by the component. If the OS information is
-        /// 			available, a prefix match is performed against the base image OS version during image recipe
+        /// The operating system (OS) version that the component supports. If the OS information is
+        /// 			available, Image Builder performs a prefix match against the base image OS version during image recipe
         /// 			creation.
         public let supportedOsVersions: [String]?
-        /// The tags associated with the component.
+        /// The tags that apply to the component.
         public let tags: [String: String]?
-        /// The type of the component denotes whether the component is used to build the image or only
+        /// The component type specifies whether Image Builder uses the component to build the image or only
         /// 			to test it.
         public let type: ComponentType?
         /// The version of the component.
         public let version: String?
 
-        public init(arn: String? = nil, changeDescription: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, state: ComponentState? = nil, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, changeDescription: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, obfuscate: Bool? = nil, owner: String? = nil, platform: Platform? = nil, publisher: String? = nil, state: ComponentState? = nil, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
             self.arn = arn
             self.changeDescription = changeDescription
             self.dateCreated = dateCreated
             self.description = description
             self.name = name
+            self.obfuscate = obfuscate
             self.owner = owner
             self.platform = platform
+            self.publisher = publisher
             self.state = state
             self.supportedOsVersions = supportedOsVersions
             self.tags = tags
@@ -510,8 +530,10 @@ extension Imagebuilder {
             case dateCreated = "dateCreated"
             case description = "description"
             case name = "name"
+            case obfuscate = "obfuscate"
             case owner = "owner"
             case platform = "platform"
+            case publisher = "publisher"
             case state = "state"
             case supportedOsVersions = "supportedOsVersions"
             case tags = "tags"
@@ -521,19 +543,9 @@ extension Imagebuilder {
     }
 
     public struct ComponentVersion: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the component.
-        ///
-        /// 			         Semantic versioning is included in each object's Amazon Resource Name (ARN),
-        /// 	at the level that applies to that object as follows:
-        ///
-        /// 			               Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are
-        /// 				either left off entirely, or they are specified as wildcards, for example: x.x.x.
-        ///
-        /// 			               Version ARNs have only the first three nodes: ..
-        ///
-        /// 			               Build version ARNs have all four nodes, and point to a specific build for a specific version of an object.
-        ///
-        ///
+        /// The Amazon Resource Name (ARN) of the component.  Semantic versioning is included in each object's Amazon Resource Name (ARN),
+        /// 	at the level that applies to that object as follows:   Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are
+        /// 				either left off entirely, or they are specified as wildcards, for example: x.x.x.   Version ARNs have only the first three nodes: ..   Build version ARNs have all four nodes, and point to a specific build for a specific version of an object.
         public let arn: String?
         /// The date that the component was created.
         public let dateCreated: String?
@@ -552,21 +564,15 @@ extension Imagebuilder {
         /// The type of the component denotes whether the component is used to build the image or only
         /// 			to test it.
         public let type: ComponentType?
-        /// The semantic version of the component.
-        ///
-        /// 			         The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.
-        /// 			          Assignment: For the first three nodes you can assign any positive integer value, including
+        /// The semantic version of the component.  The semantic version has four nodes: ../.
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
         /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
-        /// 	build number to the fourth node.
-        /// 			          Patterns: You can use any numeric pattern that adheres to the assignment requirements for
+        /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
-        /// 	a date, such as 2021.01.01.
-        /// 			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
+        /// 	a date, such as 2021.01.01.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
         /// 	to specify the most recent versions or nodes when selecting the base image or components for your
         /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
         /// 	wildcards.
-        ///
         public let version: String?
 
         public init(arn: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, supportedOsVersions: [String]? = nil, type: ComponentType? = nil, version: String? = nil) {
@@ -643,21 +649,12 @@ extension Imagebuilder {
     }
 
     public struct ContainerRecipe: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the container recipe.
-        ///
-        /// 			         Semantic versioning is included in each object's Amazon Resource Name (ARN),
-        /// 	at the level that applies to that object as follows:
-        ///
-        /// 			               Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are
-        /// 				either left off entirely, or they are specified as wildcards, for example: x.x.x.
-        ///
-        /// 			               Version ARNs have only the first three nodes: ..
-        ///
-        /// 			               Build version ARNs have all four nodes, and point to a specific build for a specific version of an object.
-        ///
-        ///
+        /// The Amazon Resource Name (ARN) of the container recipe.  Semantic versioning is included in each object's Amazon Resource Name (ARN),
+        /// 	at the level that applies to that object as follows:   Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are
+        /// 				either left off entirely, or they are specified as wildcards, for example: x.x.x.   Version ARNs have only the first three nodes: ..   Build version ARNs have all four nodes, and point to a specific build for a specific version of an object.
         public let arn: String?
-        /// Components for build and test that are included in the container recipe.
+        /// Build and test components that are included in the container recipe. Recipes require a minimum of one build component, and can
+        /// 			have a maximum of 20 build and test components in any combination.
         public let components: [ComponentConfiguration]?
         /// Specifies the type of container, such as Docker.
         public let containerType: ContainerType?
@@ -685,21 +682,15 @@ extension Imagebuilder {
         public let tags: [String: String]?
         /// The destination repository for the container image.
         public let targetRepository: TargetContainerRepository?
-        /// The semantic version of the container recipe.
-        ///
-        /// 			         The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.
-        /// 			          Assignment: For the first three nodes you can assign any positive integer value, including
+        /// The semantic version of the container recipe.  The semantic version has four nodes: ../.
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
         /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
-        /// 	build number to the fourth node.
-        /// 			          Patterns: You can use any numeric pattern that adheres to the assignment requirements for
+        /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
-        /// 	a date, such as 2021.01.01.
-        /// 			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
+        /// 	a date, such as 2021.01.01.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
         /// 	to specify the most recent versions or nodes when selecting the base image or components for your
         /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
         /// 	wildcards.
-        ///
         public let version: String?
         /// The working directory for use during build and test workflows.
         public let workingDirectory: String?
@@ -796,37 +787,31 @@ extension Imagebuilder {
         /// 			Alternatively, you can specify the uri of a YAML document file stored in
         /// 			Amazon S3. However, you cannot specify both properties.
         public let data: String?
-        /// The description of the component. Describes the contents of the component.
+        /// Describes the contents of the component.
         public let description: String?
-        /// The ID of the KMS key that should be used to encrypt this component.
+        /// The ID of the KMS key that is used to encrypt this component.
         public let kmsKeyId: String?
         /// The name of the component.
         public let name: String
-        /// The platform of the component.
+        /// The operating system platform of the component.
         public let platform: Platform
-        /// The semantic version of the component. This version follows the semantic version syntax.
-        ///
-        /// 			         The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.
-        /// 			          Assignment: For the first three nodes you can assign any positive integer value, including
+        /// The semantic version of the component. This version follows the semantic version syntax.  The semantic version has four nodes: ../.
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
         /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
-        /// 	build number to the fourth node.
-        /// 			          Patterns: You can use any numeric pattern that adheres to the assignment requirements for
+        /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
         /// 	a date, such as 2021.01.01.
-        ///
         public let semanticVersion: String
         ///  The operating system (OS) version supported by the component. If the OS information is
         /// 			available, a prefix match is performed against the base image OS version during image recipe
         /// 			creation.
         public let supportedOsVersions: [String]?
-        /// The tags of the component.
+        /// The tags that apply to the component.
         public let tags: [String: String]?
         /// The uri of a YAML component document file. This must be an S3 URL
         /// 			(s3://bucket/key), and the requester must have permission to access
         /// 			the S3 bucket it points to. If you use Amazon S3, you can specify component content
-        /// 			up to your service quota.
-        /// 		       Alternatively, you can specify the YAML document inline, using the component
+        /// 			up to your service quota. Alternatively, you can specify the YAML document inline, using the component
         /// 			data property. You cannot specify both properties.
         public let uri: String?
 
@@ -912,7 +897,8 @@ extension Imagebuilder {
     public struct CreateContainerRecipeRequest: AWSEncodableShape {
         /// The client token used to make this request idempotent.
         public let clientToken: String
-        /// Components for build and test that are included in the container recipe.
+        /// Components for build and test that are included in the container recipe. Recipes require a minimum of one build component, and can
+        /// 			have a maximum of 20 build and test components in any combination.
         public let components: [ComponentConfiguration]
         /// The type of container to create.
         public let containerType: ContainerType
@@ -934,17 +920,12 @@ extension Imagebuilder {
         public let parentImage: String
         /// Specifies the operating system platform when you use a custom base image.
         public let platformOverride: Platform?
-        /// The semantic version of the container recipe. This version follows the semantic version syntax.
-        ///
-        /// 			         The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.
-        /// 			          Assignment: For the first three nodes you can assign any positive integer value, including
+        /// The semantic version of the container recipe. This version follows the semantic version syntax.  The semantic version has four nodes: ../.
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
         /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
-        /// 	build number to the fourth node.
-        /// 			          Patterns: You can use any numeric pattern that adheres to the assignment requirements for
+        /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
         /// 	a date, such as 2021.01.01.
-        ///
         public let semanticVersion: String
         /// Tags that are attached to the container recipe.
         public let tags: [String: String]?
@@ -1229,7 +1210,7 @@ extension Imagebuilder {
         public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
         /// The idempotency token used to make this request idempotent.
         public let clientToken: String
-        /// The components of the image recipe.
+        /// The components included in the image recipe.
         public let components: [ComponentConfiguration]
         ///  The description of the image recipe.
         public let description: String?
@@ -1242,17 +1223,12 @@ extension Imagebuilder {
         /// 			all of the fields. If you enter an AMI ID for the string value, you must have access to the AMI,
         /// 			and the AMI must be in the same Region in which you are using Image Builder.
         public let parentImage: String
-        /// The semantic version of the image recipe. This version follows the semantic version syntax.
-        ///
-        /// 			         The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.
-        /// 			          Assignment: For the first three nodes you can assign any positive integer value, including
+        /// The semantic version of the image recipe. This version follows the semantic version syntax.  The semantic version has four nodes: ../.
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
         /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
-        /// 	build number to the fourth node.
-        /// 			          Patterns: You can use any numeric pattern that adheres to the assignment requirements for
+        /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
         /// 	a date, such as 2021.01.01.
-        ///
         public let semanticVersion: String
         ///  The tags of the image recipe.
         public let tags: [String: String]?
@@ -1446,12 +1422,9 @@ extension Imagebuilder {
         public let resourceTags: [String: String]?
         /// The security group IDs to associate with the instance used to customize your Amazon EC2 AMI.
         public let securityGroupIds: [String]?
-        /// The Amazon Resource Name (ARN) for the SNS topic to which we send image build event notifications.
-        ///
-        /// 			         EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys
+        /// The Amazon Resource Name (ARN) for the SNS topic to which we send image build event notifications.  EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys
         /// 				from other accounts. The key that is used to encrypt the SNS topic must reside in the
         /// 				account that the Image Builder service runs under.
-        ///
         public let snsTopicArn: String?
         /// The subnet ID in which to place the instance used to customize your Amazon EC2 AMI.
         public let subnetId: String?
@@ -2524,57 +2497,43 @@ extension Imagebuilder {
     }
 
     public struct Image: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the image.
-        ///
-        /// 			         Semantic versioning is included in each object's Amazon Resource Name (ARN),
-        /// 	at the level that applies to that object as follows:
-        ///
-        /// 			               Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are
-        /// 				either left off entirely, or they are specified as wildcards, for example: x.x.x.
-        ///
-        /// 			               Version ARNs have only the first three nodes: ..
-        ///
-        /// 			               Build version ARNs have all four nodes, and point to a specific build for a specific version of an object.
-        ///
-        ///
+        /// The Amazon Resource Name (ARN) of the image.  Semantic versioning is included in each object's Amazon Resource Name (ARN),
+        /// 	at the level that applies to that object as follows:   Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are
+        /// 				either left off entirely, or they are specified as wildcards, for example: x.x.x.   Version ARNs have only the first three nodes: ..   Build version ARNs have all four nodes, and point to a specific build for a specific version of an object.
         public let arn: String?
         /// Indicates the type of build that created this image. The build can be initiated
-        /// 			in the following ways:
-        ///
-        /// 				            USER_INITIATED – A manual
-        /// 					pipeline build request.
-        ///
-        /// 				            SCHEDULED – A pipeline build
-        /// 					initiated by a cron expression in the Image Builder pipeline, or from EventBridge.
-        ///
-        /// 				            IMPORT – A VM import created
+        /// 			in the following ways:    USER_INITIATED – A manual
+        /// 					pipeline build request.    SCHEDULED – A pipeline build
+        /// 					initiated by a cron expression in the Image Builder pipeline, or from EventBridge.    IMPORT – A VM import created
         /// 					the image to use as the base image for the recipe.
-        ///
         public let buildType: BuildType?
-        /// The recipe that is used to create an Image Builder container image.
+        /// For container images, this is the container recipe that Image Builder used to create the
+        /// 			image. For images that distribute an AMI, this is empty.
         public let containerRecipe: ContainerRecipe?
-        /// The date on which this image was created.
+        /// The date on which Image Builder created this image.
         public let dateCreated: String?
-        /// The distribution configuration used when creating this image.
+        /// The distribution configuration that Image Builder used to create this image.
         public let distributionConfiguration: DistributionConfiguration?
-        ///  Collects additional information about the image being created, including the operating
-        /// 			system (OS) version and package list. This information is used to enhance the overall
-        /// 			experience of using EC2 Image Builder. Enabled by default.
+        /// Indicates whether Image Builder collects additional information about the image, such as the
+        /// 			operating system (OS) version and package list.
         public let enhancedImageMetadataEnabled: Bool?
-        /// The image recipe used when creating the image.
+        /// For images that distribute an AMI, this is the image recipe that Image Builder used to
+        /// 			create the image. For container images, this is empty.
         public let imageRecipe: ImageRecipe?
-        /// The image tests configuration used when creating this image.
+        /// The origin of the base image that Image Builder used to build this image.
+        public let imageSource: ImageSource?
+        /// The image tests that ran when that Image Builder created this image.
         public let imageTestsConfiguration: ImageTestsConfiguration?
-        /// The infrastructure used when creating this image.
+        /// The infrastructure that Image Builder used to create this image.
         public let infrastructureConfiguration: InfrastructureConfiguration?
         /// The name of the image.
         public let name: String?
-        /// The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or
-        /// 			Microsoft Windows Server 2019.
+        /// The operating system version for instances that launch from this image. For example,
+        /// 			Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
         public let osVersion: String?
-        /// The output resources produced when creating this image.
+        /// The output resources that Image Builder produces for this image.
         public let outputResources: OutputResources?
-        /// The platform of the image.
+        /// The image operating system platform, such as Linux or Windows.
         public let platform: Platform?
         /// The Amazon Resource Name (ARN) of the image pipeline that created this image.
         public let sourcePipelineArn: String?
@@ -2582,28 +2541,22 @@ extension Imagebuilder {
         public let sourcePipelineName: String?
         /// The state of the image.
         public let state: ImageState?
-        /// The tags of the image.
+        /// The tags that apply to this image.
         public let tags: [String: String]?
-        /// Specifies whether this is an AMI or container image.
+        /// Specifies whether this image produces an AMI or a container image.
         public let type: ImageType?
-        /// The semantic version of the image.
-        ///
-        /// 			         The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.
-        /// 			          Assignment: For the first three nodes you can assign any positive integer value, including
+        /// The semantic version of the image.  The semantic version has four nodes: ../.
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
         /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
-        /// 	build number to the fourth node.
-        /// 			          Patterns: You can use any numeric pattern that adheres to the assignment requirements for
+        /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
-        /// 	a date, such as 2021.01.01.
-        /// 			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
+        /// 	a date, such as 2021.01.01.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
         /// 	to specify the most recent versions or nodes when selecting the base image or components for your
         /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
         /// 	wildcards.
-        ///
         public let version: String?
 
-        public init(arn: String? = nil, buildType: BuildType? = nil, containerRecipe: ContainerRecipe? = nil, dateCreated: String? = nil, distributionConfiguration: DistributionConfiguration? = nil, enhancedImageMetadataEnabled: Bool? = nil, imageRecipe: ImageRecipe? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfiguration: InfrastructureConfiguration? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, platform: Platform? = nil, sourcePipelineArn: String? = nil, sourcePipelineName: String? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, buildType: BuildType? = nil, containerRecipe: ContainerRecipe? = nil, dateCreated: String? = nil, distributionConfiguration: DistributionConfiguration? = nil, enhancedImageMetadataEnabled: Bool? = nil, imageRecipe: ImageRecipe? = nil, imageSource: ImageSource? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfiguration: InfrastructureConfiguration? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, platform: Platform? = nil, sourcePipelineArn: String? = nil, sourcePipelineName: String? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
             self.arn = arn
             self.buildType = buildType
             self.containerRecipe = containerRecipe
@@ -2611,6 +2564,7 @@ extension Imagebuilder {
             self.distributionConfiguration = distributionConfiguration
             self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
             self.imageRecipe = imageRecipe
+            self.imageSource = imageSource
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfiguration = infrastructureConfiguration
             self.name = name
@@ -2633,6 +2587,7 @@ extension Imagebuilder {
             case distributionConfiguration = "distributionConfiguration"
             case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
             case imageRecipe = "imageRecipe"
+            case imageSource = "imageSource"
             case imageTestsConfiguration = "imageTestsConfiguration"
             case infrastructureConfiguration = "infrastructureConfiguration"
             case name = "name"
@@ -2672,9 +2627,9 @@ extension Imagebuilder {
         public let containerRecipeArn: String?
         /// The date on which this image pipeline was created.
         public let dateCreated: String?
-        /// The date on which this image pipeline was last run.
+        /// This is no longer supported, and does not return a value.
         public let dateLastRun: String?
-        /// The date on which this image pipeline will next be run.
+        /// This is no longer supported, and does not return a value.
         public let dateNextRun: String?
         /// The date on which this image pipeline was last updated.
         public let dateUpdated: String?
@@ -2757,7 +2712,8 @@ extension Imagebuilder {
         public let arn: String?
         /// The block device mappings to apply when creating images from this recipe.
         public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
-        /// The components of the image recipe.
+        /// The components that are included in the image recipe. Recipes require a minimum of one build component, and can
+        /// 			have a maximum of 20 build and test components in any combination.
         public let components: [ComponentConfiguration]?
         /// The date on which this image recipe was created.
         public let dateCreated: String?
@@ -2874,44 +2830,40 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image.
         public let arn: String?
         /// Indicates the type of build that created this image. The build can be initiated
-        /// 			in the following ways:
-        ///
-        /// 				            USER_INITIATED – A manual
-        /// 					pipeline build request.
-        ///
-        /// 				            SCHEDULED – A pipeline build
-        /// 					initiated by a cron expression in the Image Builder pipeline, or from EventBridge.
-        ///
-        /// 				            IMPORT – A VM import created
+        /// 			in the following ways:    USER_INITIATED – A manual
+        /// 					pipeline build request.    SCHEDULED – A pipeline build
+        /// 					initiated by a cron expression in the Image Builder pipeline, or from EventBridge.    IMPORT – A VM import created
         /// 					the image to use as the base image for the recipe.
-        ///
         public let buildType: BuildType?
-        /// The date on which this image was created.
+        /// The date on which Image Builder created this image.
         public let dateCreated: String?
+        /// The origin of the base image that Image Builder used to build this image.
+        public let imageSource: ImageSource?
         /// The name of the image.
         public let name: String?
-        /// The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or
-        /// 			Microsoft Windows Server 2019.
+        /// The operating system version of the instances that launch from this image. For
+        /// 			example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
         public let osVersion: String?
-        /// The output resources produced when creating this image.
+        /// The output resources that Image Builder produced when it created this image.
         public let outputResources: OutputResources?
         /// The owner of the image.
         public let owner: String?
-        /// The platform of the image.
+        /// The image operating system platform, such as Linux or Windows.
         public let platform: Platform?
         /// The state of the image.
         public let state: ImageState?
-        /// The tags of the image.
+        /// The tags that apply to this image.
         public let tags: [String: String]?
-        /// Specifies whether this is an AMI or container image.
+        /// Specifies whether this image produces an AMI or a container image.
         public let type: ImageType?
         /// The version of the image.
         public let version: String?
 
-        public init(arn: String? = nil, buildType: BuildType? = nil, dateCreated: String? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, owner: String? = nil, platform: Platform? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, buildType: BuildType? = nil, dateCreated: String? = nil, imageSource: ImageSource? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, owner: String? = nil, platform: Platform? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
             self.arn = arn
             self.buildType = buildType
             self.dateCreated = dateCreated
+            self.imageSource = imageSource
             self.name = name
             self.osVersion = osVersion
             self.outputResources = outputResources
@@ -2927,6 +2879,7 @@ extension Imagebuilder {
             case arn = "arn"
             case buildType = "buildType"
             case dateCreated = "dateCreated"
+            case imageSource = "imageSource"
             case name = "name"
             case osVersion = "osVersion"
             case outputResources = "outputResources"
@@ -2943,7 +2896,7 @@ extension Imagebuilder {
         /// Determines if tests should run after building the image. Image Builder defaults
         /// 			to enable tests to run following the image build, before image distribution.
         public let imageTestsEnabled: Bool?
-        /// The maximum time in minutes that tests are permitted to run.
+        /// The maximum time in minutes that tests are permitted to run.  The timeoutMinutes attribute is not currently active. This value is ignored.
         public let timeoutMinutes: Int?
 
         public init(imageTestsEnabled: Bool? = nil, timeoutMinutes: Int? = nil) {
@@ -2963,35 +2916,20 @@ extension Imagebuilder {
     }
 
     public struct ImageVersion: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of a specific version of an Image Builder image.
-        ///
-        /// 			         Semantic versioning is included in each object's Amazon Resource Name (ARN),
-        /// 	at the level that applies to that object as follows:
-        ///
-        /// 			               Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are
-        /// 				either left off entirely, or they are specified as wildcards, for example: x.x.x.
-        ///
-        /// 			               Version ARNs have only the first three nodes: ..
-        ///
-        /// 			               Build version ARNs have all four nodes, and point to a specific build for a specific version of an object.
-        ///
-        ///
+        /// The Amazon Resource Name (ARN) of a specific version of an Image Builder image.  Semantic versioning is included in each object's Amazon Resource Name (ARN),
+        /// 	at the level that applies to that object as follows:   Versionless ARNs and Name ARNs do not include specific values in any of the nodes. The nodes are
+        /// 				either left off entirely, or they are specified as wildcards, for example: x.x.x.   Version ARNs have only the first three nodes: ..   Build version ARNs have all four nodes, and point to a specific build for a specific version of an object.
         public let arn: String?
         /// Indicates the type of build that created this image. The build can be initiated
-        /// 			in the following ways:
-        ///
-        /// 				            USER_INITIATED – A manual
-        /// 					pipeline build request.
-        ///
-        /// 				            SCHEDULED – A pipeline build
-        /// 					initiated by a cron expression in the Image Builder pipeline, or from EventBridge.
-        ///
-        /// 				            IMPORT – A VM import created
+        /// 			in the following ways:    USER_INITIATED – A manual
+        /// 					pipeline build request.    SCHEDULED – A pipeline build
+        /// 					initiated by a cron expression in the Image Builder pipeline, or from EventBridge.    IMPORT – A VM import created
         /// 					the image to use as the base image for the recipe.
-        ///
         public let buildType: BuildType?
         /// The date on which this specific version of the Image Builder image was created.
         public let dateCreated: String?
+        /// The origin of the base image that Image Builder used to build this image.
+        public let imageSource: ImageSource?
         /// The name of this specific version of an Image Builder image.
         public let name: String?
         /// The operating system version of the Amazon EC2 build instance. For example, Amazon Linux 2, Ubuntu 18, or
@@ -2999,31 +2937,26 @@ extension Imagebuilder {
         public let osVersion: String?
         /// The owner of the image version.
         public let owner: String?
-        /// The platform of the image version, for example "Windows" or "Linux".
+        /// The operating system platform of the image version, for example "Windows" or "Linux".
         public let platform: Platform?
-        /// Specifies whether this image is an AMI or a container image.
+        /// Specifies whether this image produces an AMI or a container image.
         public let type: ImageType?
-        /// Details for a specific version of an Image Builder image. This version follows the semantic version syntax.
-        ///
-        /// 			         The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.
-        /// 			          Assignment: For the first three nodes you can assign any positive integer value, including
+        /// Details for a specific version of an Image Builder image. This version follows the semantic version syntax.  The semantic version has four nodes: ../.
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
         /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
-        /// 	build number to the fourth node.
-        /// 			          Patterns: You can use any numeric pattern that adheres to the assignment requirements for
+        /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
-        /// 	a date, such as 2021.01.01.
-        /// 			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
+        /// 	a date, such as 2021.01.01.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
         /// 	to specify the most recent versions or nodes when selecting the base image or components for your
         /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
         /// 	wildcards.
-        ///
         public let version: String?
 
-        public init(arn: String? = nil, buildType: BuildType? = nil, dateCreated: String? = nil, name: String? = nil, osVersion: String? = nil, owner: String? = nil, platform: Platform? = nil, type: ImageType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, buildType: BuildType? = nil, dateCreated: String? = nil, imageSource: ImageSource? = nil, name: String? = nil, osVersion: String? = nil, owner: String? = nil, platform: Platform? = nil, type: ImageType? = nil, version: String? = nil) {
             self.arn = arn
             self.buildType = buildType
             self.dateCreated = dateCreated
+            self.imageSource = imageSource
             self.name = name
             self.osVersion = osVersion
             self.owner = owner
@@ -3036,6 +2969,7 @@ extension Imagebuilder {
             case arn = "arn"
             case buildType = "buildType"
             case dateCreated = "dateCreated"
+            case imageSource = "imageSource"
             case name = "name"
             case osVersion = "osVersion"
             case owner = "owner"
@@ -3064,15 +2998,11 @@ extension Imagebuilder {
         public let name: String
         /// The platform of the component.
         public let platform: Platform
-        /// The semantic version of the component. This version follows the semantic version syntax.
-        ///
-        /// 			         The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.
-        /// 			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
+        /// The semantic version of the component. This version follows the semantic version syntax.  The semantic version has four nodes: ../.
+        /// 	You can assign values for the first three, and can filter on all of them.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
         /// 	to specify the most recent versions or nodes when selecting the base image or components for your
         /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
         /// 	wildcards.
-        ///
         public let semanticVersion: String
         /// The tags of the component.
         public let tags: [String: String]?
@@ -3172,17 +3102,12 @@ extension Imagebuilder {
         /// The operating system platform for the imported VM.
         public let platform: Platform
         /// The semantic version to attach to the base image that was created during the
-        /// 			import process. This version follows the semantic version syntax.
-        ///
-        /// 			         The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.
-        /// 			          Assignment: For the first three nodes you can assign any positive integer value, including
+        /// 			import process. This version follows the semantic version syntax.  The semantic version has four nodes: ../.
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
         /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
-        /// 	build number to the fourth node.
-        /// 			          Patterns: You can use any numeric pattern that adheres to the assignment requirements for
+        /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
         /// 	a date, such as 2021.01.01.
-        ///
         public let semanticVersion: String
         /// Tags that are attached to the import resources.
         public let tags: [String: String]?
@@ -3283,12 +3208,9 @@ extension Imagebuilder {
         public let resourceTags: [String: String]?
         /// The security group IDs of the infrastructure configuration.
         public let securityGroupIds: [String]?
-        /// The Amazon Resource Name (ARN) for the SNS topic to which we send image build event notifications.
-        ///
-        /// 			         EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys
+        /// The Amazon Resource Name (ARN) for the SNS topic to which we send image build event notifications.  EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys
         /// 				from other accounts. The key that is used to encrypt the SNS topic must reside in the
         /// 				account that the Image Builder service runs under.
-        ///
         public let snsTopicArn: String?
         /// The subnet ID of the infrastructure configuration.
         public let subnetId: String?
@@ -3444,20 +3366,15 @@ extension Imagebuilder {
 
     public struct InstanceMetadataOptions: AWSEncodableShape & AWSDecodableShape {
         /// Limit the number of hops that an instance metadata request can traverse to reach its
-        /// 			destination.
+        /// 			destination. The default is one hop. However, if HTTP tokens are required, container
+        /// 			image builds need a minimum of two hops.
         public let httpPutResponseHopLimit: Int?
         /// Indicates whether a signed token header is required for instance metadata retrieval requests.
-        /// 			The values affect the response as follows:
-        ///
-        /// 				            required – When you retrieve the
-        /// 					IAM role credentials, version 2.0 credentials are returned in all cases.
-        ///
-        /// 				            optional – You can include a signed token header
+        /// 			The values affect the response as follows:    required – When you retrieve the
+        /// 					IAM role credentials, version 2.0 credentials are returned in all cases.    optional – You can include a signed token header
         /// 					in your request to retrieve instance metadata, or you can leave it out. If you
         /// 					include it, version 2.0 credentials are returned for the IAM role. Otherwise,
-        /// 					version 1.0 credentials are returned.
-        ///
-        /// 		       The default setting is optional.
+        /// 					version 1.0 credentials are returned.   The default setting is optional.
         public let httpTokens: String?
 
         public init(httpPutResponseHopLimit: Int? = nil, httpTokens: String? = nil) {
@@ -3606,20 +3523,19 @@ extension Imagebuilder {
     }
 
     public struct ListComponentsRequest: AWSEncodableShape {
-        /// Returns the list of component build versions for the specified name.
+        /// Returns the list of components for the specified name.
         public let byName: Bool?
-        /// Use the following filters to streamline results:
-        /// 		          description     name     platform     supportedOsVersion     type     version
+        /// Use the following filters to streamline results:    description     name     platform     supportedOsVersion     type     version
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the NextToken from a previously
         /// 			truncated response.
         public let nextToken: String?
-        /// The owner defines which components you want to list. By default, this request will only
-        /// 			show components owned by your account. You can use this field to specify if you want to view
-        /// 			components owned by yourself, by Amazon, or those components that have been shared with you by
-        /// 			other customers.
+        /// Filters results based on the type of owner for the component. By default, this request
+        /// 			returns a list of components that your account owns. To see results for other types of owners,
+        /// 			you can specify components that Amazon manages, third party components, or components that
+        /// 			other accounts have shared with you.
         public let owner: Ownership?
 
         public init(byName: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Ownership? = nil) {
@@ -3652,11 +3568,8 @@ extension Imagebuilder {
     }
 
     public struct ListComponentsResponse: AWSDecodableShape {
-        /// The list of component semantic versions.
-        ///
-        /// 			         The semantic version has four nodes: ../.
+        /// The list of component semantic versions.  The semantic version has four nodes: ../.
         /// 	You can assign values for the first three, and can filter on all of them.
-        ///
         public let componentVersionList: [ComponentVersion]?
         /// The next token used for paginated responses. When this is not empty, there are additional
         /// 			elements that the service has not included in this request. Use this token with the next
@@ -3679,8 +3592,7 @@ extension Imagebuilder {
     }
 
     public struct ListContainerRecipesRequest: AWSEncodableShape {
-        /// Use the following filters to streamline results:
-        /// 		          containerType     name     parentImage     platform
+        /// Use the following filters to streamline results:    containerType     name     parentImage     platform
         public let filters: [Filter]?
         /// The maximum number of results to return in the list.
         public let maxResults: Int?
@@ -3795,8 +3707,7 @@ extension Imagebuilder {
     }
 
     public struct ListImageBuildVersionsRequest: AWSEncodableShape {
-        /// Use the following filters to streamline results:
-        /// 		          name     osVersion     platform     type     version
+        /// Use the following filters to streamline results:    name     osVersion     platform     type     version
         public let filters: [Filter]?
         /// The Amazon Resource Name (ARN) of the image whose build versions you want to retrieve.
         public let imageVersionArn: String
@@ -3908,8 +3819,7 @@ extension Imagebuilder {
     }
 
     public struct ListImagePipelineImagesRequest: AWSEncodableShape {
-        /// Use the following filters to streamline results:
-        /// 		          name     version
+        /// Use the following filters to streamline results:    name     version
         public let filters: [Filter]?
         /// The Amazon Resource Name (ARN) of the image pipeline whose images you want to view.
         public let imagePipelineArn: String
@@ -3971,8 +3881,7 @@ extension Imagebuilder {
     }
 
     public struct ListImagePipelinesRequest: AWSEncodableShape {
-        /// Use the following filters to streamline results:
-        /// 		          description     distributionConfigurationArn     imageRecipeArn     infrastructureConfigurationArn     name     status
+        /// Use the following filters to streamline results:    description     distributionConfigurationArn     imageRecipeArn     infrastructureConfigurationArn     name     status
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
@@ -4029,8 +3938,7 @@ extension Imagebuilder {
     }
 
     public struct ListImageRecipesRequest: AWSEncodableShape {
-        /// Use the following filters to streamline results:
-        /// 		          name     parentImage     platform
+        /// Use the following filters to streamline results:    name     parentImage     platform
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
@@ -4096,8 +4004,7 @@ extension Imagebuilder {
     public struct ListImagesRequest: AWSEncodableShape {
         /// Requests a list of images with a specific recipe name.
         public let byName: Bool?
-        /// Use the following filters to streamline results:
-        /// 		          name     osVersion     platform     type     version
+        /// Use the following filters to streamline results:    name     osVersion     platform     type     version
         public let filters: [Filter]?
         /// Includes deprecated images in the response list.
         public let includeDeprecated: Bool?
@@ -4144,15 +4051,11 @@ extension Imagebuilder {
     }
 
     public struct ListImagesResponse: AWSDecodableShape {
-        /// The list of image semantic versions.
-        ///
-        /// 			         The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.
-        /// 			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
+        /// The list of image semantic versions.  The semantic version has four nodes: ../.
+        /// 	You can assign values for the first three, and can filter on all of them.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
         /// 	to specify the most recent versions or nodes when selecting the base image or components for your
         /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
         /// 	wildcards.
-        ///
         public let imageVersionList: [ImageVersion]?
         /// The next token used for paginated responses. When this is not empty, there are additional
         /// 			elements that the service has not included in this request. Use this token with the next
@@ -4459,17 +4362,10 @@ extension Imagebuilder {
 
     public struct S3ExportConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Export the updated image to one of the following supported disk
-        /// 			image formats:
-        ///
-        /// 				            Virtual Hard Disk (VHD) –
-        /// 					Compatible with Citrix Xen and Microsoft Hyper-V virtualization products.
-        ///
-        /// 				            Stream-optimized ESX Virtual Machine Disk
+        /// 			image formats:    Virtual Hard Disk (VHD) –
+        /// 					Compatible with Citrix Xen and Microsoft Hyper-V virtualization products.    Stream-optimized ESX Virtual Machine Disk
         /// 					(VMDK) – Compatible with VMware ESX and
-        /// 					VMware vSphere versions 4, 5, and 6.
-        ///
-        /// 				            Raw – Raw format.
-        ///
+        /// 					VMware vSphere versions 4, 5, and 6.    Raw – Raw format.
         public let diskImageFormat: DiskImageFormat
         /// The name of the role that grants VM Import/Export permission to
         /// 			export images to your S3 bucket.
@@ -4539,8 +4435,7 @@ extension Imagebuilder {
         /// 					Reference.
         public let pipelineExecutionStartCondition: PipelineExecutionStartCondition?
         /// The cron expression determines how often EC2 Image Builder evaluates your
-        /// 			pipelineExecutionStartCondition.
-        /// 		       For information on how to format a cron expression in Image Builder, see Use cron
+        /// 			pipelineExecutionStartCondition. For information on how to format a cron expression in Image Builder, see Use cron
         /// 			expressions in EC2 Image Builder.
         public let scheduleExpression: String?
         /// The timezone that applies to the scheduling expression. For example, "Etc/UTC",
@@ -4882,16 +4777,11 @@ extension Imagebuilder {
         public let infrastructureConfigurationArn: String
         /// The instance metadata options that you can set for the HTTP requests that pipeline builds
         /// 			use to launch EC2 build and test instances. For more information about instance metadata
-        /// 			options, see one of the following links:
-        ///
-        /// 				            Configure
+        /// 			options, see one of the following links:    Configure
         /// 					the instance metadata options in the  Amazon EC2 User Guide
-        /// 					for Linux instances.
-        ///
-        /// 				            Configure
+        /// 					for Linux instances.    Configure
         /// 					the instance metadata options in the  Amazon EC2 Windows Guide
         /// 					for Windows instances.
-        ///
         public let instanceMetadataOptions: InstanceMetadataOptions?
         /// The instance profile to associate with the instance used to customize your Amazon EC2 AMI.
         public let instanceProfileName: String
@@ -4908,12 +4798,9 @@ extension Imagebuilder {
         public let resourceTags: [String: String]?
         /// The security group IDs to associate with the instance used to customize your Amazon EC2 AMI.
         public let securityGroupIds: [String]?
-        /// The Amazon Resource Name (ARN) for the SNS topic to which we send image build event notifications.
-        ///
-        /// 			         EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys
+        /// The Amazon Resource Name (ARN) for the SNS topic to which we send image build event notifications.  EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys
         /// 				from other accounts. The key that is used to encrypt the SNS topic must reside in the
         /// 				account that the Image Builder service runs under.
-        ///
         public let snsTopicArn: String?
         /// The subnet ID to place the instance used to customize your Amazon EC2 AMI in.
         public let subnetId: String?

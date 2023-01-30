@@ -7950,6 +7950,8 @@ extension MediaLive {
         public let scte35Control: M2tsScte35Control?
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let scte35Pid: String?
+        /// Defines the amount SCTE-35 preroll will be increased (in milliseconds) on the output. Preroll is the amount of time between the presence of a SCTE-35 indication in a transport stream and the PTS of the video frame it references. Zero means don't add pullup (it doesn't mean set the preroll to zero). Negative pullup is not supported, which means that you can't make the preroll shorter. Be aware that latency in the output will increase by the pullup amount.
+        public let scte35PrerollPullupMilliseconds: Double?
         /// Inserts segmentation markers at each segmentationTime period. raiSegstart sets the Random Access Indicator bit in the adaptation field. raiAdapt sets the RAI bit and adds the current timecode in the private data bytes. psiSegstart inserts PAT and PMT tables at the start of segments. ebp adds Encoder Boundary Point information to the adaptation field as per OpenCable specification OC-SP-EBP-I01-130118. ebpLegacy adds Encoder Boundary Point information to the adaptation field using a legacy proprietary format.
         public let segmentationMarkers: M2tsSegmentationMarkers?
         /// The segmentation style parameter controls how segmentation markers are inserted into the transport stream. With avails, it is possible that segments may be truncated, which can influence where future segmentation markers are inserted.
@@ -7967,7 +7969,7 @@ extension MediaLive {
         /// Packet Identifier (PID) of the elementary video stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let videoPid: String?
 
-        public init(absentInputAudioBehavior: M2tsAbsentInputAudioBehavior? = nil, arib: M2tsArib? = nil, aribCaptionsPid: String? = nil, aribCaptionsPidControl: M2tsAribCaptionsPidControl? = nil, audioBufferModel: M2tsAudioBufferModel? = nil, audioFramesPerPes: Int? = nil, audioPids: String? = nil, audioStreamType: M2tsAudioStreamType? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, ccDescriptor: M2tsCcDescriptor? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: String? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: String? = nil, ebif: M2tsEbifControl? = nil, ebpAudioInterval: M2tsAudioInterval? = nil, ebpLookaheadMs: Int? = nil, ebpPlacement: M2tsEbpPlacement? = nil, ecmPid: String? = nil, esRateInPes: M2tsEsRateInPes? = nil, etvPlatformPid: String? = nil, etvSignalPid: String? = nil, fragmentTime: Double? = nil, klv: M2tsKlv? = nil, klvDataPids: String? = nil, nielsenId3Behavior: M2tsNielsenId3Behavior? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPeriod: Int? = nil, pcrPid: String? = nil, pmtInterval: Int? = nil, pmtPid: String? = nil, programNum: Int? = nil, rateMode: M2tsRateMode? = nil, scte27Pids: String? = nil, scte35Control: M2tsScte35Control? = nil, scte35Pid: String? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataBehavior: M2tsTimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int? = nil, videoPid: String? = nil) {
+        public init(absentInputAudioBehavior: M2tsAbsentInputAudioBehavior? = nil, arib: M2tsArib? = nil, aribCaptionsPid: String? = nil, aribCaptionsPidControl: M2tsAribCaptionsPidControl? = nil, audioBufferModel: M2tsAudioBufferModel? = nil, audioFramesPerPes: Int? = nil, audioPids: String? = nil, audioStreamType: M2tsAudioStreamType? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, ccDescriptor: M2tsCcDescriptor? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: String? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: String? = nil, ebif: M2tsEbifControl? = nil, ebpAudioInterval: M2tsAudioInterval? = nil, ebpLookaheadMs: Int? = nil, ebpPlacement: M2tsEbpPlacement? = nil, ecmPid: String? = nil, esRateInPes: M2tsEsRateInPes? = nil, etvPlatformPid: String? = nil, etvSignalPid: String? = nil, fragmentTime: Double? = nil, klv: M2tsKlv? = nil, klvDataPids: String? = nil, nielsenId3Behavior: M2tsNielsenId3Behavior? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPeriod: Int? = nil, pcrPid: String? = nil, pmtInterval: Int? = nil, pmtPid: String? = nil, programNum: Int? = nil, rateMode: M2tsRateMode? = nil, scte27Pids: String? = nil, scte35Control: M2tsScte35Control? = nil, scte35Pid: String? = nil, scte35PrerollPullupMilliseconds: Double? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataBehavior: M2tsTimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int? = nil, videoPid: String? = nil) {
             self.absentInputAudioBehavior = absentInputAudioBehavior
             self.arib = arib
             self.aribCaptionsPid = aribCaptionsPid
@@ -8008,6 +8010,7 @@ extension MediaLive {
             self.scte27Pids = scte27Pids
             self.scte35Control = scte35Control
             self.scte35Pid = scte35Pid
+            self.scte35PrerollPullupMilliseconds = scte35PrerollPullupMilliseconds
             self.segmentationMarkers = segmentationMarkers
             self.segmentationStyle = segmentationStyle
             self.segmentationTime = segmentationTime
@@ -8078,6 +8081,7 @@ extension MediaLive {
             case scte27Pids = "scte27Pids"
             case scte35Control = "scte35Control"
             case scte35Pid = "scte35Pid"
+            case scte35PrerollPullupMilliseconds = "scte35PrerollPullupMilliseconds"
             case segmentationMarkers = "segmentationMarkers"
             case segmentationStyle = "segmentationStyle"
             case segmentationTime = "segmentationTime"

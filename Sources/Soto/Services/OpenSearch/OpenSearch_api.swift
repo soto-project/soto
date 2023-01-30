@@ -79,7 +79,7 @@ public struct OpenSearch: AWSService {
         return self.client.execute(operation: "AcceptInboundConnection", path: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}/accept", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attaches tags to an existing Amazon OpenSearch Service domain. Tags are a set of case-sensitive key-value pairs. An domain can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service domains.
+    /// Attaches tags to an existing Amazon OpenSearch Service domain. Tags are a set of case-sensitive key-value pairs. A domain can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service domains.
     @discardableResult public func addTags(_ input: AddTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "AddTags", path: "/2021-01-01/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -167,6 +167,11 @@ public struct OpenSearch: AWSService {
     /// Returns domain configuration information about the specified Amazon OpenSearch Service domains.
     public func describeDomains(_ input: DescribeDomainsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainsResponse> {
         return self.client.execute(operation: "DescribeDomains", path: "/2021-01-01/opensearch/domain-info", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the progress of a pre-update dry run analysis on an Amazon OpenSearch Service domain. For more information, see Determining whether a change will cause a blue/green deployment.
+    public func describeDryRunProgress(_ input: DescribeDryRunProgressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDryRunProgressResponse> {
+        return self.client.execute(operation: "DescribeDryRunProgress", path: "/2021-01-01/opensearch/domain/{DomainName}/dryRun", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all the inbound cross-cluster search connections for a destination (remote) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.

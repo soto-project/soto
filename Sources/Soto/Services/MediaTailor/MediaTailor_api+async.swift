@@ -23,6 +23,11 @@ import SotoCore
 extension MediaTailor {
     // MARK: Async API Calls
 
+    /// Configures Amazon CloudWatch log settings for a channel.
+    public func configureLogsForChannel(_ input: ConfigureLogsForChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ConfigureLogsForChannelResponse {
+        return try await self.client.execute(operation: "ConfigureLogsForChannel", path: "/configureLogs/channel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Amazon CloudWatch log settings for a playback configuration.
     public func configureLogsForPlaybackConfiguration(_ input: ConfigureLogsForPlaybackConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ConfigureLogsForPlaybackConfigurationResponse {
         return try await self.client.execute(operation: "ConfigureLogsForPlaybackConfiguration", path: "/configureLogs/playbackConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

@@ -412,7 +412,9 @@ extension CloudWatch {
     /// 			metric stream send additional statistics in the stream. Streaming additional statistics
     /// 			incurs additional costs. For more information, see Amazon CloudWatch Pricing.  When you use PutMetricStream to create a new metric stream, the stream
     /// 		is created in the running state. If you use it to update an existing stream,
-    /// 		the state of the stream is not changed.
+    /// 		the state of the stream is not changed. If you are using CloudWatch cross-account observability and you create a metric stream in a monitoring account,
+    /// 			you can choose whether to include metrics from source accounts in the stream. For more information, see
+    /// 			CloudWatch cross-account observability.
     public func putMetricStream(_ input: PutMetricStreamInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutMetricStreamOutput {
         return try await self.client.execute(operation: "PutMetricStream", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
