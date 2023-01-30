@@ -694,8 +694,10 @@ extension S3 {
             } else {
                 // supply payload data
                 inputStream(eventLoop).flatMap { payload -> EventLoopFuture<Bool> in
-                    // if no data returned then return success
-                    guard let size = payload.size, size > 0 else {
+                    // if no data returned then return success. If this is the first part
+                    // and it is empty then that means the entire file is empty. In that
+                    // case, we do still "upload" this first empty part.
+                    guard let size = payload.size, size > 0 || partNumber == 1 else {
                         return eventLoop.makeSucceededFuture(true)
                     }
                     // upload payload
