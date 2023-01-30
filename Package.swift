@@ -462,7 +462,7 @@ let package = Package(
         .target(name: "SotoDynamoDB", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/", sources: ["Services/DynamoDB", "Extensions/DynamoDB"]),
         .target(name: "SotoDynamoDBStreams", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/DynamoDBStreams"),
         .target(name: "SotoEBS", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/EBS"),
-        .target(name: "SotoEC2", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/", sources: ["Services/EC2", "Extensions/EC2"]),
+        .target(name: "SotoEC2", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/EC2"),
         .target(name: "SotoEC2InstanceConnect", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/EC2InstanceConnect"),
         .target(name: "SotoECR", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/ECR"),
         .target(name: "SotoECRPublic", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/ECRPublic"),
