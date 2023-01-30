@@ -1419,16 +1419,19 @@ extension Outposts {
         public let outpostId: String?
         /// The payment option for the order.
         public let paymentOption: PaymentOption?
+        /// The payment term.
+        public let paymentTerm: PaymentTerm?
         /// The status of the order.    PREPARING - Order is received and being prepared.    IN_PROGRESS - Order is either being built, shipped, or installed. To get more details, see the line item status.    COMPLETED - Order is complete.    CANCELLED - Order is cancelled.    ERROR - Customer should contact support.    The following status are deprecated: RECEIVED, PENDING, PROCESSING, INSTALLING, and FULFILLED.
         public let status: OrderStatus?
 
-        public init(lineItems: [LineItem]? = nil, orderFulfilledDate: Date? = nil, orderId: String? = nil, orderSubmissionDate: Date? = nil, outpostId: String? = nil, paymentOption: PaymentOption? = nil, status: OrderStatus? = nil) {
+        public init(lineItems: [LineItem]? = nil, orderFulfilledDate: Date? = nil, orderId: String? = nil, orderSubmissionDate: Date? = nil, outpostId: String? = nil, paymentOption: PaymentOption? = nil, paymentTerm: PaymentTerm? = nil, status: OrderStatus? = nil) {
             self.lineItems = lineItems
             self.orderFulfilledDate = orderFulfilledDate
             self.orderId = orderId
             self.orderSubmissionDate = orderSubmissionDate
             self.outpostId = outpostId
             self.paymentOption = paymentOption
+            self.paymentTerm = paymentTerm
             self.status = status
         }
 
@@ -1439,6 +1442,7 @@ extension Outposts {
             case orderSubmissionDate = "OrderSubmissionDate"
             case outpostId = "OutpostId"
             case paymentOption = "PaymentOption"
+            case paymentTerm = "PaymentTerm"
             case status = "Status"
         }
     }

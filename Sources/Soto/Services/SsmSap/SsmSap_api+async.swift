@@ -73,6 +73,11 @@ extension SsmSap {
         return try await self.client.execute(operation: "ListDatabases", path: "/list-databases", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the operations performed by AWS Systems Manager for SAP.
+    public func listOperations(_ input: ListOperationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListOperationsOutput {
+        return try await self.client.execute(operation: "ListOperations", path: "/list-operations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists all tags on an SAP HANA application and/or database registered with AWS Systems Manager for SAP.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -98,6 +103,7 @@ extension SsmSap {
         return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates the settings of an application registered with AWS Systems Manager for SAP.
     public func updateApplicationSettings(_ input: UpdateApplicationSettingsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateApplicationSettingsOutput {
         return try await self.client.execute(operation: "UpdateApplicationSettings", path: "/update-application-settings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -168,6 +174,28 @@ extension SsmSap {
             command: self.listDatabases,
             inputKey: \ListDatabasesInput.nextToken,
             outputKey: \ListDatabasesOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists the operations performed by AWS Systems Manager for SAP.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listOperationsPaginator(
+        _ input: ListOperationsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListOperationsInput, ListOperationsOutput> {
+        return .init(
+            input: input,
+            command: self.listOperations,
+            inputKey: \ListOperationsInput.nextToken,
+            outputKey: \ListOperationsOutput.nextToken,
             logger: logger,
             on: eventLoop
         )

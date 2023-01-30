@@ -71,13 +71,8 @@ public struct Imagebuilder: AWSService {
 
     /// Creates a new component that can be used to build, validate, test, and assess your
     /// 			image. The component is based on a YAML document that you specify using exactly one
-    /// 			of the following methods:
-    ///
-    /// 				           Inline, using the data property in the request body.
-    ///
-    /// 				           A URL that points to a YAML document file stored in Amazon S3, using the
+    /// 			of the following methods:   Inline, using the data property in the request body.   A URL that points to a YAML document file stored in Amazon S3, using the
     /// 					uri property in the request body.
-    ///
     public func createComponent(_ input: CreateComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateComponentResponse> {
         return self.client.execute(operation: "CreateComponent", path: "/CreateComponent", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -135,17 +130,10 @@ public struct Imagebuilder: AWSService {
 
     /// Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container images
     /// 			that are created during the image build process. You must clean those up separately,
-    /// 			using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI commands.
-    ///
-    /// 				           To deregister an EC2 Linux AMI, see Deregister
-    /// 						your Linux AMI in the  Amazon EC2 User Guide .
-    ///
-    /// 				           To deregister an EC2 Windows AMI, see Deregister
-    /// 						your Windows AMI in the  Amazon EC2 Windows Guide .
-    ///
-    /// 				           To delete a container image from Amazon ECR, see Deleting
+    /// 			using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI commands.   To deregister an EC2 Linux AMI, see Deregister
+    /// 						your Linux AMI in the  Amazon EC2 User Guide .   To deregister an EC2 Windows AMI, see Deregister
+    /// 						your Windows AMI in the  Amazon EC2 Windows Guide .   To delete a container image from Amazon ECR, see Deleting
     /// 						an image in the Amazon ECR User Guide.
-    ///
     public func deleteImage(_ input: DeleteImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteImageResponse> {
         return self.client.execute(operation: "DeleteImage", path: "/DeleteImage", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -230,36 +218,28 @@ public struct Imagebuilder: AWSService {
     /// 			snapshots of your VM’s environment, settings, and data. The Amazon EC2 API
     /// 			ImportImage
     /// 			action uses those files to import your VM and create an AMI. To import using the
-    /// 			CLI command, see import-image
-    ///
-    /// 		       You can reference the task ID from the VM import to pull in the AMI that
+    /// 			CLI command, see import-image  You can reference the task ID from the VM import to pull in the AMI that
     /// 			the import created as the base image for your Image Builder recipe.
     public func importVmImage(_ input: ImportVmImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportVmImageResponse> {
         return self.client.execute(operation: "ImportVmImage", path: "/ImportVmImage", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns the list of component build versions for the specified semantic version.
-    ///
-    /// 			         The semantic version has four nodes: ../.
-    /// 	You can assign values for the first three, and can filter on all of them.
-    /// 			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
+    ///  Returns the list of component build versions for the specified semantic version.  The semantic version has four nodes: ../.
+    /// 	You can assign values for the first three, and can filter on all of them.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
     /// 	to specify the most recent versions or nodes when selecting the base image or components for your
     /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
     /// 	wildcards.
-    ///
     public func listComponentBuildVersions(_ input: ListComponentBuildVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListComponentBuildVersionsResponse> {
         return self.client.execute(operation: "ListComponentBuildVersions", path: "/ListComponentBuildVersions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the list of component build versions for the specified semantic version.
-    ///
-    /// 			         The semantic version has four nodes: ../.
-    /// 	You can assign values for the first three, and can filter on all of them.
-    /// 			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
+    /// Returns the list of components that can be filtered by name, or by using
+    /// 			the listed filters to streamline results. Newly created components
+    /// 			can take up to two minutes to appear in the ListComponents API Results.  The semantic version has four nodes: ../.
+    /// 	You can assign values for the first three, and can filter on all of them.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
     /// 	to specify the most recent versions or nodes when selecting the base image or components for your
     /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
     /// 	wildcards.
-    ///
     public func listComponents(_ input: ListComponentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListComponentsResponse> {
         return self.client.execute(operation: "ListComponents", path: "/ListComponents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -284,7 +264,7 @@ public struct Imagebuilder: AWSService {
         return self.client.execute(operation: "ListImagePackages", path: "/ListImagePackages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of images created by the specified pipeline.
+    /// Returns a list of images created by the specified pipeline.
     public func listImagePipelineImages(_ input: ListImagePipelineImagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImagePipelineImagesResponse> {
         return self.client.execute(operation: "ListImagePipelineImages", path: "/ListImagePipelineImages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -299,7 +279,8 @@ public struct Imagebuilder: AWSService {
         return self.client.execute(operation: "ListImageRecipes", path: "/ListImageRecipes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns the list of images that you have access to.
+    /// Returns the list of images that you have access to. Newly created images
+    /// 			can take up to two minutes to appear in the ListImages API Results.
     public func listImages(_ input: ListImagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImagesResponse> {
         return self.client.execute(operation: "ListImages", path: "/ListImages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -362,8 +343,7 @@ public struct Imagebuilder: AWSService {
     }
 
     ///  Updates an image pipeline. Image pipelines enable you to automate the creation and
-    /// 			distribution of images.
-    /// 		        UpdateImagePipeline does not support selective updates for the pipeline.
+    /// 			distribution of images.  UpdateImagePipeline does not support selective updates for the pipeline.
     /// 			You must specify all of the required properties in the update request, not just
     /// 			the properties that have changed.
     public func updateImagePipeline(_ input: UpdateImagePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateImagePipelineResponse> {
@@ -389,15 +369,11 @@ extension Imagebuilder {
 // MARK: Paginators
 
 extension Imagebuilder {
-    ///  Returns the list of component build versions for the specified semantic version.
-    ///
-    /// 			         The semantic version has four nodes: ../.
-    /// 	You can assign values for the first three, and can filter on all of them.
-    /// 			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
+    ///  Returns the list of component build versions for the specified semantic version.  The semantic version has four nodes: ../.
+    /// 	You can assign values for the first three, and can filter on all of them.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
     /// 	to specify the most recent versions or nodes when selecting the base image or components for your
     /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
     /// 	wildcards.
-    ///
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -450,15 +426,13 @@ extension Imagebuilder {
         )
     }
 
-    /// Returns the list of component build versions for the specified semantic version.
-    ///
-    /// 			         The semantic version has four nodes: ../.
-    /// 	You can assign values for the first three, and can filter on all of them.
-    /// 			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
+    /// Returns the list of components that can be filtered by name, or by using
+    /// 			the listed filters to streamline results. Newly created components
+    /// 			can take up to two minutes to appear in the ListComponents API Results.  The semantic version has four nodes: ../.
+    /// 	You can assign values for the first three, and can filter on all of them.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
     /// 	to specify the most recent versions or nodes when selecting the base image or components for your
     /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
     /// 	wildcards.
-    ///
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -723,7 +697,7 @@ extension Imagebuilder {
         )
     }
 
-    ///  Returns a list of images created by the specified pipeline.
+    /// Returns a list of images created by the specified pipeline.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -882,7 +856,8 @@ extension Imagebuilder {
         )
     }
 
-    ///  Returns the list of images that you have access to.
+    /// Returns the list of images that you have access to. Newly created images
+    /// 			can take up to two minutes to appear in the ListImages API Results.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

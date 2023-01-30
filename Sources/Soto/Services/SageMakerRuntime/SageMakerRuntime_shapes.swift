@@ -31,6 +31,7 @@ extension SageMakerRuntime {
             AWSMemberEncoding(label: "endpointName", location: .uri("EndpointName")),
             AWSMemberEncoding(label: "inferenceId", location: .header("X-Amzn-SageMaker-Inference-Id")),
             AWSMemberEncoding(label: "inputLocation", location: .header("X-Amzn-SageMaker-InputLocation")),
+            AWSMemberEncoding(label: "invocationTimeoutSeconds", location: .header("X-Amzn-SageMaker-InvocationTimeoutSeconds")),
             AWSMemberEncoding(label: "requestTTLSeconds", location: .header("X-Amzn-SageMaker-RequestTTLSeconds"))
         ]
 
@@ -38,9 +39,7 @@ extension SageMakerRuntime {
         public let accept: String?
         /// The MIME type of the input data in the request body.
         public let contentType: String?
-        /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1).
-        ///  The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function.
-        ///  This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
+        /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1).  The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function.  This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
         public let customAttributes: String?
         /// The name of the endpoint that you specified when you created the endpoint using the  CreateEndpoint API.
         public let endpointName: String
@@ -48,16 +47,19 @@ extension SageMakerRuntime {
         public let inferenceId: String?
         /// The Amazon S3 URI where the inference request payload is stored.
         public let inputLocation: String
+        /// Maximum amount of time in seconds a request can be processed before it is marked as expired.
+        public let invocationTimeoutSeconds: Int?
         /// Maximum age in seconds a request can be in the queue before it is marked as expired.
         public let requestTTLSeconds: Int?
 
-        public init(accept: String? = nil, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, inferenceId: String? = nil, inputLocation: String, requestTTLSeconds: Int? = nil) {
+        public init(accept: String? = nil, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, inferenceId: String? = nil, inputLocation: String, invocationTimeoutSeconds: Int? = nil, requestTTLSeconds: Int? = nil) {
             self.accept = accept
             self.contentType = contentType
             self.customAttributes = customAttributes
             self.endpointName = endpointName
             self.inferenceId = inferenceId
             self.inputLocation = inputLocation
+            self.invocationTimeoutSeconds = invocationTimeoutSeconds
             self.requestTTLSeconds = requestTTLSeconds
         }
 
@@ -76,6 +78,8 @@ extension SageMakerRuntime {
             try self.validate(self.inputLocation, name: "inputLocation", parent: name, max: 1024)
             try self.validate(self.inputLocation, name: "inputLocation", parent: name, min: 1)
             try self.validate(self.inputLocation, name: "inputLocation", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.validate(self.invocationTimeoutSeconds, name: "invocationTimeoutSeconds", parent: name, max: 3600)
+            try self.validate(self.invocationTimeoutSeconds, name: "invocationTimeoutSeconds", parent: name, min: 1)
             try self.validate(self.requestTTLSeconds, name: "requestTTLSeconds", parent: name, max: 21600)
             try self.validate(self.requestTTLSeconds, name: "requestTTLSeconds", parent: name, min: 60)
         }
@@ -126,8 +130,7 @@ extension SageMakerRuntime {
         public let body: AWSPayload
         /// The MIME type of the input data in the request body.
         public let contentType: String?
-        /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1).  The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function.
-        ///  This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
+        /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1).  The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
         public let customAttributes: String?
         /// An optional JMESPath expression used to override the EnableExplanations parameter of the ClarifyExplainerConfig API. See the EnableExplanations section in the developer guide for more information.
         public let enableExplanations: String?

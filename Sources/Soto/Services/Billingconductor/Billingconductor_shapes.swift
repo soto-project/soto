@@ -661,9 +661,11 @@ extension Billingconductor {
         public let modifierPercentage: Double?
         ///  The pricing rule name. The names must be unique to each pricing rule.
         public let name: String
+        ///  Operation is the specific Amazon Web Services action covered by this line item. This describes the specific usage of the line item.  If the Scope attribute is set to SKU, this attribute indicates which operation the PricingRule is modifying. For example, a value of RunInstances:0202 indicates the operation of running an Amazon EC2 instance.
+        public let operation: String?
         ///  The scope of pricing rule that indicates if it's globally applicable, or it's service-specific.
         public let scope: PricingRuleScope
-        ///  If the Scope attribute is set to SERVICE, the attribute indicates which service the PricingRule is applicable for.
+        ///  If the Scope attribute is set to SERVICE or SKU, the attribute indicates which service the PricingRule is applicable for.
         public let service: String?
         ///  A map that contains tag keys and tag values that are attached to a pricing rule.
         public let tags: [String: String]?
@@ -671,18 +673,22 @@ extension Billingconductor {
         public let tiering: CreateTieringInput?
         ///  The type of pricing rule.
         public let type: PricingRuleType
+        ///  Usage type is the unit that each service uses to measure the usage of a specific type of resource. If the Scope attribute is set to SKU, this attribute indicates which usage type the PricingRule is modifying. For example, USW2-BoxUsage:m2.2xlarge describes an M2 High Memory Double Extra Large instance in the US West (Oregon) Region.
+        public let usageType: String?
 
-        public init(billingEntity: String? = nil, clientToken: String? = CreatePricingRuleInput.idempotencyToken(), description: String? = nil, modifierPercentage: Double? = nil, name: String, scope: PricingRuleScope, service: String? = nil, tags: [String: String]? = nil, tiering: CreateTieringInput? = nil, type: PricingRuleType) {
+        public init(billingEntity: String? = nil, clientToken: String? = CreatePricingRuleInput.idempotencyToken(), description: String? = nil, modifierPercentage: Double? = nil, name: String, operation: String? = nil, scope: PricingRuleScope, service: String? = nil, tags: [String: String]? = nil, tiering: CreateTieringInput? = nil, type: PricingRuleType, usageType: String? = nil) {
             self.billingEntity = billingEntity
             self.clientToken = clientToken
             self.description = description
             self.modifierPercentage = modifierPercentage
             self.name = name
+            self.operation = operation
             self.scope = scope
             self.service = service
             self.tags = tags
             self.tiering = tiering
             self.type = type
+            self.usageType = usageType
         }
 
         public func validate(name: String) throws {
@@ -695,6 +701,9 @@ extension Billingconductor {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\+=\\.\\-@]+$")
+            try self.validate(self.operation, name: "operation", parent: name, max: 256)
+            try self.validate(self.operation, name: "operation", parent: name, min: 1)
+            try self.validate(self.operation, name: "operation", parent: name, pattern: "^\\S+$")
             try self.validate(self.service, name: "service", parent: name, max: 128)
             try self.validate(self.service, name: "service", parent: name, min: 1)
             try self.validate(self.service, name: "service", parent: name, pattern: "^[a-zA-Z0-9]+$")
@@ -705,6 +714,9 @@ extension Billingconductor {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.usageType, name: "usageType", parent: name, max: 256)
+            try self.validate(self.usageType, name: "usageType", parent: name, min: 1)
+            try self.validate(self.usageType, name: "usageType", parent: name, pattern: "^\\S+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -712,11 +724,13 @@ extension Billingconductor {
             case description = "Description"
             case modifierPercentage = "ModifierPercentage"
             case name = "Name"
+            case operation = "Operation"
             case scope = "Scope"
             case service = "Service"
             case tags = "Tags"
             case tiering = "Tiering"
             case type = "Type"
+            case usageType = "UsageType"
         }
     }
 
@@ -2510,6 +2524,8 @@ extension Billingconductor {
         public let modifierPercentage: Double?
         ///  The new name of the pricing rule. The name must be unique to each pricing rule.
         public let name: String?
+        /// Operation refers to the specific Amazon Web Services covered by this line item. This describes the specific usage of the line item.  If the Scope attribute is set to SKU, this attribute indicates which operation the PricingRule is modifying. For example, a value of RunInstances:0202 indicates the operation of running an Amazon EC2 instance.
+        public let operation: String?
         ///  The scope of pricing rule that indicates if it's globally applicable, or it's service-specific.
         public let scope: PricingRuleScope?
         ///  If the Scope attribute is set to SERVICE, the attribute indicates which service the PricingRule is applicable for.
@@ -2518,8 +2534,10 @@ extension Billingconductor {
         public let tiering: UpdateTieringInput?
         ///  The new pricing rule type.
         public let type: PricingRuleType?
+        /// Usage type is the unit that each service uses to measure the usage of a specific type of resource. If the Scope attribute is set to SKU, this attribute indicates which usage type the PricingRule is modifying. For example, USW2-BoxUsage:m2.2xlarge describes an M2 High Memory Double Extra Large instance in the US West (Oregon) Region.
+        public let usageType: String?
 
-        public init(arn: String? = nil, associatedPricingPlanCount: Int64? = nil, billingEntity: String? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, modifierPercentage: Double? = nil, name: String? = nil, scope: PricingRuleScope? = nil, service: String? = nil, tiering: UpdateTieringInput? = nil, type: PricingRuleType? = nil) {
+        public init(arn: String? = nil, associatedPricingPlanCount: Int64? = nil, billingEntity: String? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, modifierPercentage: Double? = nil, name: String? = nil, operation: String? = nil, scope: PricingRuleScope? = nil, service: String? = nil, tiering: UpdateTieringInput? = nil, type: PricingRuleType? = nil, usageType: String? = nil) {
             self.arn = arn
             self.associatedPricingPlanCount = associatedPricingPlanCount
             self.billingEntity = billingEntity
@@ -2527,10 +2545,12 @@ extension Billingconductor {
             self.lastModifiedTime = lastModifiedTime
             self.modifierPercentage = modifierPercentage
             self.name = name
+            self.operation = operation
             self.scope = scope
             self.service = service
             self.tiering = tiering
             self.type = type
+            self.usageType = usageType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2541,10 +2561,12 @@ extension Billingconductor {
             case lastModifiedTime = "LastModifiedTime"
             case modifierPercentage = "ModifierPercentage"
             case name = "Name"
+            case operation = "Operation"
             case scope = "Scope"
             case service = "Service"
             case tiering = "Tiering"
             case type = "Type"
+            case usageType = "UsageType"
         }
     }
 

@@ -388,7 +388,7 @@ extension Panorama {
     }
 
     public struct CreateJobForDevicesRequest: AWSEncodableShape {
-        /// IDs of target devices.
+        /// ID of target device.
         public let deviceIds: [String]
         /// Configuration settings for a software update job.
         public let deviceJobConfig: DeviceJobConfig?
@@ -2488,10 +2488,13 @@ extension Panorama {
     }
 
     public struct OTAJobConfig: AWSEncodableShape {
+        /// Whether to apply the update if it is a major version change.
+        public let allowMajorVersionUpdate: Bool?
         /// The target version of the device software.
         public let imageVersion: String
 
-        public init(imageVersion: String) {
+        public init(allowMajorVersionUpdate: Bool? = nil, imageVersion: String) {
+            self.allowMajorVersionUpdate = allowMajorVersionUpdate
             self.imageVersion = imageVersion
         }
 
@@ -2502,6 +2505,7 @@ extension Panorama {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowMajorVersionUpdate = "AllowMajorVersionUpdate"
             case imageVersion = "ImageVersion"
         }
     }

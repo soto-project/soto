@@ -70,6 +70,12 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum DryRunMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case basic = "Basic"
+        case verbose = "Verbose"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EngineType: String, CustomStringConvertible, Codable, _SotoSendable {
         case elasticsearch = "Elasticsearch"
         case openSearch = "OpenSearch"
@@ -1306,7 +1312,7 @@ extension OpenSearch {
     public struct CreateVpcEndpointRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier to ensure idempotency of the request.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the domain to grant access to.
+        /// The Amazon Resource Name (ARN) of the domain to create the endpoint for.
         public let domainArn: String
         /// Options to specify the subnets and security groups for the endpoint.
         public let vpcOptions: VPCOptions
@@ -1697,6 +1703,59 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case domainStatusList = "DomainStatusList"
+        }
+    }
+
+    public struct DescribeDryRunProgressRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "dryRunId", location: .querystring("dryRunId")),
+            AWSMemberEncoding(label: "loadDryRunConfig", location: .querystring("loadDryRunConfig"))
+        ]
+
+        /// The name of the domain.
+        public let domainName: String
+        /// The unique identifier of the dry run.
+        public let dryRunId: String?
+        /// Whether to include the configuration of the dry run in the response. The configuration specifies the updates that you're planning to make on the domain.
+        public let loadDryRunConfig: Bool?
+
+        public init(domainName: String, dryRunId: String? = nil, loadDryRunConfig: Bool? = nil) {
+            self.domainName = domainName
+            self.dryRunId = dryRunId
+            self.loadDryRunConfig = loadDryRunConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.validate(self.dryRunId, name: "dryRunId", parent: name, max: 36)
+            try self.validate(self.dryRunId, name: "dryRunId", parent: name, min: 36)
+            try self.validate(self.dryRunId, name: "dryRunId", parent: name, pattern: "^\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeDryRunProgressResponse: AWSDecodableShape {
+        /// Details about the changes you're planning to make on the domain.
+        public let dryRunConfig: DomainStatus?
+        /// The current status of the dry run, including any validation errors.
+        public let dryRunProgressStatus: DryRunProgressStatus?
+        /// The results of the dry run.
+        public let dryRunResults: DryRunResults?
+
+        public init(dryRunConfig: DomainStatus? = nil, dryRunProgressStatus: DryRunProgressStatus? = nil, dryRunResults: DryRunResults? = nil) {
+            self.dryRunConfig = dryRunConfig
+            self.dryRunProgressStatus = dryRunProgressStatus
+            self.dryRunResults = dryRunResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRunConfig = "DryRunConfig"
+            case dryRunProgressStatus = "DryRunProgressStatus"
+            case dryRunResults = "DryRunResults"
         }
     }
 
@@ -2382,6 +2441,35 @@ extension OpenSearch {
             case snapshotOptions = "SnapshotOptions"
             case upgradeProcessing = "UpgradeProcessing"
             case vpcOptions = "VPCOptions"
+        }
+    }
+
+    public struct DryRunProgressStatus: AWSDecodableShape {
+        /// The timestamp when the dry run was initiated.
+        public let creationDate: String
+        /// The unique identifier of the dry run.
+        public let dryRunId: String
+        /// The current status of the dry run.
+        public let dryRunStatus: String
+        /// The timestamp when the dry run was last updated.
+        public let updateDate: String
+        /// Any validation failures that occurred as a result of the dry run.
+        public let validationFailures: [ValidationFailure]?
+
+        public init(creationDate: String, dryRunId: String, dryRunStatus: String, updateDate: String, validationFailures: [ValidationFailure]? = nil) {
+            self.creationDate = creationDate
+            self.dryRunId = dryRunId
+            self.dryRunStatus = dryRunStatus
+            self.updateDate = updateDate
+            self.validationFailures = validationFailures
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case dryRunId = "DryRunId"
+            case dryRunStatus = "DryRunStatus"
+            case updateDate = "UpdateDate"
+            case validationFailures = "ValidationFailures"
         }
     }
 
@@ -4058,8 +4146,10 @@ extension OpenSearch {
         public let domainEndpointOptions: DomainEndpointOptions?
         /// The name of the domain that you're updating.
         public let domainName: String
-        /// This flag, when set to True, specifies whether the UpdateDomain request should return the results of validation check without actually applying the change.
+        /// This flag, when set to True, specifies whether the UpdateDomain request should return the results of a dry run analysis without actually applying the change. A dry run determines what type of deployment the update will cause.
         public let dryRun: Bool?
+        /// The type of dry run to perform.    Basic only returns the type of deployment (blue/green or dynamic) that the update will cause.    Verbose runs an additional check to validate the changes you're making. For more information, see Validating a domain update.
+        public let dryRunMode: DryRunMode?
         /// The type and size of the EBS volume to attach to instances in the domain.
         public let ebsOptions: EBSOptions?
         /// Encryption at rest options for the domain.
@@ -4073,7 +4163,7 @@ extension OpenSearch {
         /// Options to specify the subnets and security groups for a VPC endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
         public let vpcOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -4083,6 +4173,7 @@ extension OpenSearch {
             self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
             self.dryRun = dryRun
+            self.dryRunMode = dryRunMode
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.logPublishingOptions = logPublishingOptions
@@ -4116,6 +4207,7 @@ extension OpenSearch {
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
             case dryRun = "DryRun"
+            case dryRunMode = "DryRunMode"
             case ebsOptions = "EBSOptions"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case logPublishingOptions = "LogPublishingOptions"
@@ -4128,16 +4220,20 @@ extension OpenSearch {
     public struct UpdateDomainConfigResponse: AWSDecodableShape {
         /// The status of the updated domain.
         public let domainConfig: DomainConfig
-        /// Results of a dry run performed in an update domain request.
+        /// The status of the dry run being performed on the domain, if any.
+        public let dryRunProgressStatus: DryRunProgressStatus?
+        /// Results of the dry run performed in the update domain request.
         public let dryRunResults: DryRunResults?
 
-        public init(domainConfig: DomainConfig, dryRunResults: DryRunResults? = nil) {
+        public init(domainConfig: DomainConfig, dryRunProgressStatus: DryRunProgressStatus? = nil, dryRunResults: DryRunResults? = nil) {
             self.domainConfig = domainConfig
+            self.dryRunProgressStatus = dryRunProgressStatus
             self.dryRunResults = dryRunResults
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainConfig = "DomainConfig"
+            case dryRunProgressStatus = "DryRunProgressStatus"
             case dryRunResults = "DryRunResults"
         }
     }
@@ -4395,6 +4491,23 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case securityGroupIds = "SecurityGroupIds"
             case subnetIds = "SubnetIds"
+        }
+    }
+
+    public struct ValidationFailure: AWSDecodableShape {
+        /// The error code of the failure.
+        public let code: String?
+        /// A message corresponding to the failure.
+        public let message: String?
+
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 

@@ -558,17 +558,27 @@ extension GroundStation {
     }
 
     public struct CreateDataflowEndpointGroupRequest: AWSEncodableShape {
+        /// Amount of time, in seconds, after a contact ends for the contact to remain in a POSTPASS state. A CloudWatch event is emitted when the contact enters and exits the POSTPASS state.
+        public let contactPostPassDurationSeconds: Int?
+        /// Amount of time, in seconds, prior to contact start for the contact to remain in a PREPASS state. A CloudWatch event is emitted when the contact enters and exits the PREPASS state.
+        public let contactPrePassDurationSeconds: Int?
         /// Endpoint details of each endpoint in the dataflow endpoint group.
         public let endpointDetails: [EndpointDetails]
         /// Tags of a dataflow endpoint group.
         public let tags: [String: String]?
 
-        public init(endpointDetails: [EndpointDetails], tags: [String: String]? = nil) {
+        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, endpointDetails: [EndpointDetails], tags: [String: String]? = nil) {
+            self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
+            self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
             self.endpointDetails = endpointDetails
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, max: 480)
+            try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, min: 120)
+            try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, max: 480)
+            try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, min: 120)
             try self.endpointDetails.forEach {
                 try $0.validate(name: "\(name).endpointDetails[]")
             }
@@ -576,6 +586,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case contactPostPassDurationSeconds = "contactPostPassDurationSeconds"
+            case contactPrePassDurationSeconds = "contactPrePassDurationSeconds"
             case endpointDetails = "endpointDetails"
             case tags = "tags"
         }
@@ -639,7 +651,7 @@ extension GroundStation {
         public let contactPostPassDurationSeconds: Int?
         /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
         public let contactPrePassDurationSeconds: Int?
-        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
+        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
         public let dataflowEdges: [[String]]
         /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
         public let minimumViableContactDurationSeconds: Int
@@ -1353,6 +1365,10 @@ extension GroundStation {
     }
 
     public struct GetDataflowEndpointGroupResponse: AWSDecodableShape {
+        /// Amount of time, in seconds, after a contact ends for the contact to remain in a POSTPASS state. A CloudWatch event is emitted when the contact enters and exits the POSTPASS state.
+        public let contactPostPassDurationSeconds: Int?
+        /// Amount of time, in seconds, prior to contact start for the contact to remain in a PREPASS state. A CloudWatch event is emitted when the contact enters and exits the PREPASS state.
+        public let contactPrePassDurationSeconds: Int?
         /// ARN of a dataflow endpoint group.
         public let dataflowEndpointGroupArn: String?
         /// UUID of a dataflow endpoint group.
@@ -1362,7 +1378,9 @@ extension GroundStation {
         /// Tags assigned to a dataflow endpoint group.
         public let tags: [String: String]?
 
-        public init(dataflowEndpointGroupArn: String? = nil, dataflowEndpointGroupId: String? = nil, endpointsDetails: [EndpointDetails]? = nil, tags: [String: String]? = nil) {
+        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEndpointGroupArn: String? = nil, dataflowEndpointGroupId: String? = nil, endpointsDetails: [EndpointDetails]? = nil, tags: [String: String]? = nil) {
+            self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
+            self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
             self.dataflowEndpointGroupArn = dataflowEndpointGroupArn
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
             self.endpointsDetails = endpointsDetails
@@ -1370,6 +1388,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case contactPostPassDurationSeconds = "contactPostPassDurationSeconds"
+            case contactPrePassDurationSeconds = "contactPrePassDurationSeconds"
             case dataflowEndpointGroupArn = "dataflowEndpointGroupArn"
             case dataflowEndpointGroupId = "dataflowEndpointGroupId"
             case endpointsDetails = "endpointsDetails"
@@ -1456,7 +1476,7 @@ extension GroundStation {
         public let contactPostPassDurationSeconds: Int?
         /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
         public let contactPrePassDurationSeconds: Int?
-        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to  Config.
+        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
         public let dataflowEdges: [[String]]?
         /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
         public let minimumViableContactDurationSeconds: Int?
@@ -2493,7 +2513,7 @@ extension GroundStation {
         public let contactPostPassDurationSeconds: Int?
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
         public let contactPrePassDurationSeconds: Int?
-        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to  Config.
+        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
         public let dataflowEdges: [[String]]?
         /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
         public let minimumViableContactDurationSeconds: Int?

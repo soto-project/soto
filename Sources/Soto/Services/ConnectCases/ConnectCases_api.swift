@@ -55,6 +55,12 @@ public struct ConnectCases: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2022-10-03",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "cases-fips.us-east-1.amazonaws.com",
+                    "us-west-2": "cases-fips.us-west-2.amazonaws.com"
+                ])
+            ],
             errorType: ConnectCasesErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

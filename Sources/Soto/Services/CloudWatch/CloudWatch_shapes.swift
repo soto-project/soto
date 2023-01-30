@@ -1576,6 +1576,9 @@ extension CloudWatch {
         /// 		metric namespaces that are streamed by this metric stream.
         @OptionalCustomCoding<StandardArrayCoder>
         public var includeFilters: [MetricStreamFilter]?
+        /// If this is true and this metric stream is in a monitoring account, then the stream includes
+        /// 			metrics from source accounts that the monitoring account is linked to.
+        public let includeLinkedAccountsMetrics: Bool?
         /// The date of the most recent update to the metric stream's configuration.
         public let lastUpdateDate: Date?
         /// The name of the metric stream.
@@ -1597,12 +1600,13 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder>
         public var statisticsConfigurations: [MetricStreamStatisticsConfiguration]?
 
-        public init(arn: String? = nil, creationDate: Date? = nil, excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String? = nil, includeFilters: [MetricStreamFilter]? = nil, lastUpdateDate: Date? = nil, name: String? = nil, outputFormat: MetricStreamOutputFormat? = nil, roleArn: String? = nil, state: String? = nil, statisticsConfigurations: [MetricStreamStatisticsConfiguration]? = nil) {
+        public init(arn: String? = nil, creationDate: Date? = nil, excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String? = nil, includeFilters: [MetricStreamFilter]? = nil, includeLinkedAccountsMetrics: Bool? = nil, lastUpdateDate: Date? = nil, name: String? = nil, outputFormat: MetricStreamOutputFormat? = nil, roleArn: String? = nil, state: String? = nil, statisticsConfigurations: [MetricStreamStatisticsConfiguration]? = nil) {
             self.arn = arn
             self.creationDate = creationDate
             self.excludeFilters = excludeFilters
             self.firehoseArn = firehoseArn
             self.includeFilters = includeFilters
+            self.includeLinkedAccountsMetrics = includeLinkedAccountsMetrics
             self.lastUpdateDate = lastUpdateDate
             self.name = name
             self.outputFormat = outputFormat
@@ -1617,6 +1621,7 @@ extension CloudWatch {
             case excludeFilters = "ExcludeFilters"
             case firehoseArn = "FirehoseArn"
             case includeFilters = "IncludeFilters"
+            case includeLinkedAccountsMetrics = "IncludeLinkedAccountsMetrics"
             case lastUpdateDate = "LastUpdateDate"
             case name = "Name"
             case outputFormat = "OutputFormat"
@@ -3440,6 +3445,9 @@ extension CloudWatch {
         /// 		in the same operation.
         @OptionalCustomCoding<StandardArrayCoder>
         public var includeFilters: [MetricStreamFilter]?
+        /// If you are creating a metric stream in a monitoring account,
+        /// 			specify true to include metrics from source accounts in the metric stream.
+        public let includeLinkedAccountsMetrics: Bool?
         /// If you are creating a new metric stream, this is the name for the new stream. The name
         /// 		must be different than the names of other metric streams in this account and Region. If you are updating a metric stream, specify the name of that stream here. Valid characters are A-Z, a-z, 0-9, "-" and "_".
         public let name: String
@@ -3476,10 +3484,11 @@ extension CloudWatch {
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
 
-        public init(excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String, includeFilters: [MetricStreamFilter]? = nil, name: String, outputFormat: MetricStreamOutputFormat, roleArn: String, statisticsConfigurations: [MetricStreamStatisticsConfiguration]? = nil, tags: [Tag]? = nil) {
+        public init(excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String, includeFilters: [MetricStreamFilter]? = nil, includeLinkedAccountsMetrics: Bool? = nil, name: String, outputFormat: MetricStreamOutputFormat, roleArn: String, statisticsConfigurations: [MetricStreamStatisticsConfiguration]? = nil, tags: [Tag]? = nil) {
             self.excludeFilters = excludeFilters
             self.firehoseArn = firehoseArn
             self.includeFilters = includeFilters
+            self.includeLinkedAccountsMetrics = includeLinkedAccountsMetrics
             self.name = name
             self.outputFormat = outputFormat
             self.roleArn = roleArn
@@ -3512,6 +3521,7 @@ extension CloudWatch {
             case excludeFilters = "ExcludeFilters"
             case firehoseArn = "FirehoseArn"
             case includeFilters = "IncludeFilters"
+            case includeLinkedAccountsMetrics = "IncludeLinkedAccountsMetrics"
             case name = "Name"
             case outputFormat = "OutputFormat"
             case roleArn = "RoleArn"

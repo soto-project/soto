@@ -129,11 +129,30 @@ extension M2 {
         }
     }
 
-    public enum BatchJobIdentifier: AWSEncodableShape, _SotoSendable {
+    public enum BatchJobIdentifier: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
         /// Specifies a file associated with a specific batch job.
         case fileBatchJobIdentifier(FileBatchJobIdentifier)
         /// A batch job identifier in which the batch job to run is identified by the script name.
         case scriptBatchJobIdentifier(ScriptBatchJobIdentifier)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .fileBatchJobIdentifier:
+                let value = try container.decode(FileBatchJobIdentifier.self, forKey: .fileBatchJobIdentifier)
+                self = .fileBatchJobIdentifier(value)
+            case .scriptBatchJobIdentifier:
+                let value = try container.decode(ScriptBatchJobIdentifier.self, forKey: .scriptBatchJobIdentifier)
+                self = .scriptBatchJobIdentifier(value)
+            }
+        }
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -433,6 +452,7 @@ extension M2 {
     public struct BatchJobExecutionSummary: AWSDecodableShape {
         /// The unique identifier of the application that hosts this batch job.
         public let applicationId: String
+        public let batchJobIdentifier: BatchJobIdentifier?
         /// The timestamp when this batch job execution ended.
         public let endTime: Date?
         /// The unique identifier of this execution of the batch job.
@@ -443,29 +463,34 @@ extension M2 {
         public let jobName: String?
         /// The type of a particular batch job execution.
         public let jobType: BatchJobType?
+        public let returnCode: String?
         /// The timestamp when a particular batch job execution started.
         public let startTime: Date
         /// The status of a particular batch job execution.
         public let status: BatchJobExecutionStatus
 
-        public init(applicationId: String, endTime: Date? = nil, executionId: String, jobId: String? = nil, jobName: String? = nil, jobType: BatchJobType? = nil, startTime: Date, status: BatchJobExecutionStatus) {
+        public init(applicationId: String, batchJobIdentifier: BatchJobIdentifier? = nil, endTime: Date? = nil, executionId: String, jobId: String? = nil, jobName: String? = nil, jobType: BatchJobType? = nil, returnCode: String? = nil, startTime: Date, status: BatchJobExecutionStatus) {
             self.applicationId = applicationId
+            self.batchJobIdentifier = batchJobIdentifier
             self.endTime = endTime
             self.executionId = executionId
             self.jobId = jobId
             self.jobName = jobName
             self.jobType = jobType
+            self.returnCode = returnCode
             self.startTime = startTime
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationId = "applicationId"
+            case batchJobIdentifier = "batchJobIdentifier"
             case endTime = "endTime"
             case executionId = "executionId"
             case jobId = "jobId"
             case jobName = "jobName"
             case jobType = "jobType"
+            case returnCode = "returnCode"
             case startTime = "startTime"
             case status = "status"
         }
@@ -1124,7 +1149,7 @@ extension M2 {
         }
     }
 
-    public struct FileBatchJobIdentifier: AWSEncodableShape {
+    public struct FileBatchJobIdentifier: AWSEncodableShape & AWSDecodableShape {
         /// The file name for the batch job identifier.
         public let fileName: String
         /// The relative path to the file name for the batch job identifier.
@@ -1389,6 +1414,7 @@ extension M2 {
     public struct GetBatchJobExecutionResponse: AWSDecodableShape {
         /// The identifier of the application.
         public let applicationId: String
+        public let batchJobIdentifier: BatchJobIdentifier?
         /// The timestamp when the batch job execution ended.
         public let endTime: Date?
         /// The unique identifier for this batch job execution.
@@ -1401,6 +1427,7 @@ extension M2 {
         public let jobType: BatchJobType?
         /// The user for the job.
         public let jobUser: String?
+        public let returnCode: String?
         /// The timestamp when the batch job execution started.
         public let startTime: Date
         /// The status of the batch job execution.
@@ -1408,14 +1435,16 @@ extension M2 {
         /// The reason for the reported status.
         public let statusReason: String?
 
-        public init(applicationId: String, endTime: Date? = nil, executionId: String, jobId: String? = nil, jobName: String? = nil, jobType: BatchJobType? = nil, jobUser: String? = nil, startTime: Date, status: BatchJobExecutionStatus, statusReason: String? = nil) {
+        public init(applicationId: String, batchJobIdentifier: BatchJobIdentifier? = nil, endTime: Date? = nil, executionId: String, jobId: String? = nil, jobName: String? = nil, jobType: BatchJobType? = nil, jobUser: String? = nil, returnCode: String? = nil, startTime: Date, status: BatchJobExecutionStatus, statusReason: String? = nil) {
             self.applicationId = applicationId
+            self.batchJobIdentifier = batchJobIdentifier
             self.endTime = endTime
             self.executionId = executionId
             self.jobId = jobId
             self.jobName = jobName
             self.jobType = jobType
             self.jobUser = jobUser
+            self.returnCode = returnCode
             self.startTime = startTime
             self.status = status
             self.statusReason = statusReason
@@ -1423,12 +1452,14 @@ extension M2 {
 
         private enum CodingKeys: String, CodingKey {
             case applicationId = "applicationId"
+            case batchJobIdentifier = "batchJobIdentifier"
             case endTime = "endTime"
             case executionId = "executionId"
             case jobId = "jobId"
             case jobName = "jobName"
             case jobType = "jobType"
             case jobUser = "jobUser"
+            case returnCode = "returnCode"
             case startTime = "startTime"
             case status = "status"
             case statusReason = "statusReason"
@@ -2348,7 +2379,7 @@ extension M2 {
         }
     }
 
-    public struct ScriptBatchJobIdentifier: AWSEncodableShape {
+    public struct ScriptBatchJobIdentifier: AWSEncodableShape & AWSDecodableShape {
         /// The name of the script containing the batch job definition.
         public let scriptName: String
 

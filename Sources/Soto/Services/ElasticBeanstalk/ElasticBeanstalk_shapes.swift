@@ -524,9 +524,7 @@ extension ElasticBeanstalk {
         public let artifactName: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
         public let codeBuildServiceRole: String
-        /// Information about the compute resources the build project will use.    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds
-        /// 	               BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds
-        /// 	               BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds
+        /// Information about the compute resources the build project will use.    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds     BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds     BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds
         public let computeType: ComputeType?
         /// The ID of the Docker image to use for this build project.
         public let image: String
@@ -966,7 +964,7 @@ extension ElasticBeanstalk {
         /// Option values for the Elastic Beanstalk configuration, such as the instance type. If specified, these values override the values obtained from the solution stack or the source configuration template. For a complete list of Elastic Beanstalk configuration options, see Option Values in the AWS Elastic Beanstalk Developer Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var optionSettings: [ConfigurationOptionSetting]?
-        /// The Amazon Resource Name (ARN) of the custom platform. For more information, see  Custom Platforms in the AWS Elastic Beanstalk Developer Guide.   If you specify PlatformArn, then don't specify SolutionStackName.
+        /// The Amazon Resource Name (ARN) of the custom platform. For more information, see  Custom Platforms in the AWS Elastic Beanstalk Developer Guide.  If you specify PlatformArn, then don't specify SolutionStackName.
         public let platformArn: String?
         /// The name of an Elastic Beanstalk solution stack (platform version) that this configuration uses. For example, 64bit Amazon Linux 2013.09 running Tomcat 7 Java 7. A solution stack specifies the operating system, runtime, and application server for a configuration template. It also determines the set of configuration options as well as the possible and default values. For more information, see Supported Platforms in the AWS Elastic Beanstalk Developer Guide. You must specify SolutionStackName if you don't specify PlatformArn, EnvironmentId, or SourceConfiguration. Use the  ListAvailableSolutionStacks API to obtain a list of available solution stacks.
         public let solutionStackName: String?
@@ -1037,7 +1035,7 @@ extension ElasticBeanstalk {
         /// A list of custom user-defined configuration options to remove from the configuration set for this new environment.
         @OptionalCustomCoding<StandardArrayCoder>
         public var optionsToRemove: [OptionSpecification]?
-        /// The Amazon Resource Name (ARN) of the custom platform to use with the environment. For more information, see Custom Platforms in the AWS Elastic Beanstalk Developer Guide.   If you specify PlatformArn, don't specify SolutionStackName.
+        /// The Amazon Resource Name (ARN) of the custom platform to use with the environment. For more information, see Custom Platforms in the AWS Elastic Beanstalk Developer Guide.  If you specify PlatformArn, don't specify SolutionStackName.
         public let platformArn: String?
         /// The name of an Elastic Beanstalk solution stack (platform version) to use with the environment. If specified, Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms in the AWS Elastic Beanstalk Platforms guide.  If you specify SolutionStackName, don't specify PlatformArn or TemplateName.
         public let solutionStackName: String?
@@ -1940,8 +1938,7 @@ extension ElasticBeanstalk {
         public let resources: EnvironmentResourcesDescription?
         ///  The name of the SolutionStack deployed with this environment.
         public let solutionStackName: String?
-        /// The current operational status of the environment:
-        ///     Launching: Environment is in the process of initial deployment.    Updating: Environment is in the process of updating its configuration settings or application version.    Ready: Environment is available to have an action performed on it, such as update or terminate.    Terminating: Environment is in the shut-down process.    Terminated: Environment is not running.
+        /// The current operational status of the environment:    Launching: Environment is in the process of initial deployment.    Updating: Environment is in the process of updating its configuration settings or application version.    Ready: Environment is available to have an action performed on it, such as update or terminate.    Terminating: Environment is in the shut-down process.    Terminated: Environment is not running.
         public let status: EnvironmentStatus?
         /// The name of the configuration template used to originally launch this environment.
         public let templateName: String?
@@ -3208,23 +3205,17 @@ extension ElasticBeanstalk {
     }
 
     public struct SourceBuildInformation: AWSEncodableShape & AWSDecodableShape {
-        /// The location of the source code, as a formatted string, depending on the value of SourceRepository
-        /// 	              For CodeCommit,
+        /// The location of the source code, as a formatted string, depending on the value of SourceRepository    For CodeCommit,
         /// 	the format is the repository name and commit ID, separated by a forward slash.
         /// 	For example,
-        /// 	my-git-repo/265cfa0cf6af46153527f55d6503ec030551f57a.
-        /// 	              For S3,
+        /// 	my-git-repo/265cfa0cf6af46153527f55d6503ec030551f57a.   For S3,
         /// 	the format is the S3 bucket name and object key, separated by a forward slash.
         /// 	For example,
         /// 	my-s3-bucket/Folders/my-source-file.
         public let sourceLocation: String
-        /// Location where the repository is stored.
-        /// 	               CodeCommit
-        /// 	               S3
+        /// Location where the repository is stored.    CodeCommit     S3
         public let sourceRepository: SourceRepository
-        /// The type of repository.
-        /// 	               Git
-        /// 	               Zip
+        /// The type of repository.    Git     Zip
         public let sourceType: SourceType
 
         public init(sourceLocation: String, sourceRepository: SourceRepository, sourceType: SourceType) {
@@ -3769,13 +3760,7 @@ public struct ElasticBeanstalkErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
     public static var resourceTypeNotSupportedException: Self { .init(.resourceTypeNotSupportedException) }
-    /// The specified S3 bucket does not belong to the S3 region in which the service is running. The following regions are supported:
-    /// 	              IAD/us-east-1
-    ///
-    /// 	              PDX/us-west-2
-    ///
-    /// 	              DUB/eu-west-1
-    ///
+    /// The specified S3 bucket does not belong to the S3 region in which the service is running. The following regions are supported:   IAD/us-east-1   PDX/us-west-2   DUB/eu-west-1
     public static var s3LocationNotInServiceRegionException: Self { .init(.s3LocationNotInServiceRegionException) }
     /// The specified account does not have a subscription to Amazon S3.
     public static var s3SubscriptionRequiredException: Self { .init(.s3SubscriptionRequiredException) }

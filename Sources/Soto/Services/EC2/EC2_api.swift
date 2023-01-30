@@ -136,7 +136,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "AllocateHosts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Allocate a CIDR from an IPAM pool. In IPAM, an allocation is a CIDR assignment from an IPAM pool to another resource or IPAM pool. For more information, see Allocate CIDRs in the Amazon VPC IPAM User Guide.
+    /// Allocate a CIDR from an IPAM pool. In IPAM, an allocation is a CIDR assignment from an IPAM pool to another IPAM pool or to a resource. For more information, see Allocate CIDRs in the Amazon VPC IPAM User Guide.
     public func allocateIpamPoolCidr(_ input: AllocateIpamPoolCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AllocateIpamPoolCidrResult> {
         return self.client.execute(operation: "AllocateIpamPoolCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -196,6 +196,11 @@ public struct EC2: AWSService {
     /// Associates one or more targets with an event window. Only one type of target (instance IDs, Dedicated Host IDs, or tags) can be specified with an event window. For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide.
     public func associateInstanceEventWindow(_ input: AssociateInstanceEventWindowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateInstanceEventWindowResult> {
         return self.client.execute(operation: "AssociateInstanceEventWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Associates an IPAM resource discovery with an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM Service to manage and monitor resources that belong to the owning account.
+    public func associateIpamResourceDiscovery(_ input: AssociateIpamResourceDiscoveryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateIpamResourceDiscoveryResult> {
+        return self.client.execute(operation: "AssociateIpamResourceDiscovery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Associates a subnet in your VPC or an internet gateway or virtual private gateway attached to your VPC with a route table in your VPC. This association causes traffic from the subnet or gateway to be routed according to the routes in the route table. The action returns an association ID, which you need in order to disassociate the route table later. A route table can be associated with multiple subnets. For more information, see Route tables in the Amazon Virtual Private Cloud User Guide.
@@ -512,6 +517,11 @@ public struct EC2: AWSService {
     /// Create an IP address pool for Amazon VPC IP Address Manager (IPAM). In IPAM, a pool is a collection of contiguous IP addresses CIDRs. Pools enable you to organize your IP addresses according to your routing and security needs. For example, if you have separate routing and security needs for development and production applications, you can create a pool for each. For more information, see Create a top-level pool in the Amazon VPC IPAM User Guide.
     public func createIpamPool(_ input: CreateIpamPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIpamPoolResult> {
         return self.client.execute(operation: "CreateIpamPool", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates an IPAM resource discovery. A resource discovery is an IPAM component that enables IPAM Service to manage and monitor resources that belong to the owning account.
+    public func createIpamResourceDiscovery(_ input: CreateIpamResourceDiscoveryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIpamResourceDiscoveryResult> {
+        return self.client.execute(operation: "CreateIpamResourceDiscovery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Create an IPAM scope. In IPAM, a scope is the highest-level container within IPAM. An IPAM contains two default scopes. Each scope represents the IP space for a single network. The private scope is intended for all private IP address space. The public scope is intended for all public IP address space. Scopes enable you to reuse IP addresses across multiple unconnected networks without causing IP address overlap or conflict. For more information, see Add a scope in the Amazon VPC IPAM User Guide.
@@ -912,6 +922,11 @@ public struct EC2: AWSService {
     /// Delete an IPAM pool.  You cannot delete an IPAM pool if there are allocations in it or CIDRs provisioned to it. To release  allocations, see ReleaseIpamPoolAllocation. To deprovision pool  CIDRs, see DeprovisionIpamPoolCidr.  For more information, see Delete a pool in the Amazon VPC IPAM User Guide.
     public func deleteIpamPool(_ input: DeleteIpamPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteIpamPoolResult> {
         return self.client.execute(operation: "DeleteIpamPool", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an IPAM resource discovery. A resource discovery is an IPAM component that enables IPAM Service to manage and monitor resources that belong to the owning account.
+    public func deleteIpamResourceDiscovery(_ input: DeleteIpamResourceDiscoveryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteIpamResourceDiscoveryResult> {
+        return self.client.execute(operation: "DeleteIpamResourceDiscovery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Delete the scope for an IPAM. You cannot delete the default scopes. For more information, see Delete a scope in the Amazon VPC IPAM User Guide.
@@ -1522,6 +1537,16 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DescribeIpamPools", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes IPAM resource discoveries. A resource discovery is an IPAM component that enables IPAM Service to manage and monitor resources that belong to the owning account.
+    public func describeIpamResourceDiscoveries(_ input: DescribeIpamResourceDiscoveriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeIpamResourceDiscoveriesResult> {
+        return self.client.execute(operation: "DescribeIpamResourceDiscoveries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes resource discovery association with an Amazon VPC IPAM. An associated resource discovery is a resource discovery that has been associated with an IPAM..
+    public func describeIpamResourceDiscoveryAssociations(_ input: DescribeIpamResourceDiscoveryAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeIpamResourceDiscoveryAssociationsResult> {
+        return self.client.execute(operation: "DescribeIpamResourceDiscoveryAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Get information about your IPAM scopes.
     public func describeIpamScopes(_ input: DescribeIpamScopesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeIpamScopesResult> {
         return self.client.execute(operation: "DescribeIpamScopes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2105,6 +2130,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DisassociateInstanceEventWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Disassociates a resource discovery from an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM Service to manage and monitor resources that belong to the owning account.
+    public func disassociateIpamResourceDiscovery(_ input: DisassociateIpamResourceDiscoveryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateIpamResourceDiscoveryResult> {
+        return self.client.execute(operation: "DisassociateIpamResourceDiscovery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Disassociates a subnet or gateway from a route table. After you perform this action, the subnet no longer uses the routes in the route table.
     /// 				Instead, it uses the routes in the VPC's main route table. For more information
     /// 				about route tables, see Route
@@ -2339,6 +2369,16 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "GetIpamAddressHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets IPAM discovered accounts. A discovered account is an Amazon Web Services account that is monitored under a resource discovery. If you have integrated IPAM with Amazon Web Services Organizations, all accounts in the organization are discovered accounts. Only the IPAM account can get all discovered accounts in the organization.
+    public func getIpamDiscoveredAccounts(_ input: GetIpamDiscoveredAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIpamDiscoveredAccountsResult> {
+        return self.client.execute(operation: "GetIpamDiscoveredAccounts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns the resource CIDRs that are monitored as part of a resource discovery. A discovered resource is a resource CIDR monitored under a resource discovery. The following resources can be discovered: VPCs, Public IPv4 pools, VPC subnets, and Elastic IP addresses.
+    public func getIpamDiscoveredResourceCidrs(_ input: GetIpamDiscoveredResourceCidrsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIpamDiscoveredResourceCidrsResult> {
+        return self.client.execute(operation: "GetIpamDiscoveredResourceCidrs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Get a list of all the CIDR allocations in an IPAM pool.
     public func getIpamPoolAllocations(_ input: GetIpamPoolAllocationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIpamPoolAllocationsResult> {
         return self.client.execute(operation: "GetIpamPoolAllocations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2349,7 +2389,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "GetIpamPoolCidrs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get information about the resources in a scope.
+    /// Returns resource CIDRs managed by IPAM in a given scope. If an IPAM is associated with more than one resource discovery, the resource CIDRs across all of the resource discoveries is returned. A resource discovery is an IPAM component that enables IPAM Service to manage and monitor resources that belong to the owning account.
     public func getIpamResourceCidrs(_ input: GetIpamResourceCidrsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIpamResourceCidrsResult> {
         return self.client.execute(operation: "GetIpamResourceCidrs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2632,6 +2672,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ModifyIpamResourceCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Modifies a resource discovery. A resource discovery is an IPAM component that enables IPAM Service to manage and monitor resources that belong to the owning account.
+    public func modifyIpamResourceDiscovery(_ input: ModifyIpamResourceDiscoveryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyIpamResourceDiscoveryResult> {
+        return self.client.execute(operation: "ModifyIpamResourceDiscovery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Modify an IPAM scope.
     public func modifyIpamScope(_ input: ModifyIpamScopeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyIpamScopeResult> {
         return self.client.execute(operation: "ModifyIpamScope", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2841,7 +2886,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "MoveAddressToVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Move an BYOIP IPv4 CIDR to IPAM from a public IPv4 pool. If you already have an IPv4 BYOIP CIDR with Amazon Web Services, you can move the CIDR to IPAM from a public IPv4 pool. You cannot move an IPv6 CIDR to IPAM. If you are bringing a new IP address to Amazon Web Services for the first time, complete the steps in Tutorial: BYOIP address CIDRs to IPAM.
+    /// Move a BYOIPv4 CIDR to IPAM from a public IPv4 pool. If you already have a BYOIPv4 CIDR with Amazon Web Services, you can move the CIDR to IPAM from a public IPv4 pool. You cannot move an IPv6 CIDR to IPAM. If you are bringing a new IP address to Amazon Web Services for the first time, complete the steps in Tutorial: BYOIP address CIDRs to IPAM.
     public func moveByoipCidrToIpam(_ input: MoveByoipCidrToIpamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MoveByoipCidrToIpamResult> {
         return self.client.execute(operation: "MoveByoipCidrToIpam", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -5151,6 +5196,112 @@ extension EC2 {
             command: self.describeIpamPools,
             inputKey: \DescribeIpamPoolsRequest.nextToken,
             outputKey: \DescribeIpamPoolsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Describes IPAM resource discoveries. A resource discovery is an IPAM component that enables IPAM Service to manage and monitor resources that belong to the owning account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeIpamResourceDiscoveriesPaginator<Result>(
+        _ input: DescribeIpamResourceDiscoveriesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeIpamResourceDiscoveriesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeIpamResourceDiscoveries,
+            inputKey: \DescribeIpamResourceDiscoveriesRequest.nextToken,
+            outputKey: \DescribeIpamResourceDiscoveriesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeIpamResourceDiscoveriesPaginator(
+        _ input: DescribeIpamResourceDiscoveriesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeIpamResourceDiscoveriesResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeIpamResourceDiscoveries,
+            inputKey: \DescribeIpamResourceDiscoveriesRequest.nextToken,
+            outputKey: \DescribeIpamResourceDiscoveriesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Describes resource discovery association with an Amazon VPC IPAM. An associated resource discovery is a resource discovery that has been associated with an IPAM..
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeIpamResourceDiscoveryAssociationsPaginator<Result>(
+        _ input: DescribeIpamResourceDiscoveryAssociationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeIpamResourceDiscoveryAssociationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeIpamResourceDiscoveryAssociations,
+            inputKey: \DescribeIpamResourceDiscoveryAssociationsRequest.nextToken,
+            outputKey: \DescribeIpamResourceDiscoveryAssociationsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeIpamResourceDiscoveryAssociationsPaginator(
+        _ input: DescribeIpamResourceDiscoveryAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeIpamResourceDiscoveryAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeIpamResourceDiscoveryAssociations,
+            inputKey: \DescribeIpamResourceDiscoveryAssociationsRequest.nextToken,
+            outputKey: \DescribeIpamResourceDiscoveryAssociationsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -9193,6 +9344,112 @@ extension EC2 {
         )
     }
 
+    /// Gets IPAM discovered accounts. A discovered account is an Amazon Web Services account that is monitored under a resource discovery. If you have integrated IPAM with Amazon Web Services Organizations, all accounts in the organization are discovered accounts. Only the IPAM account can get all discovered accounts in the organization.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getIpamDiscoveredAccountsPaginator<Result>(
+        _ input: GetIpamDiscoveredAccountsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetIpamDiscoveredAccountsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.getIpamDiscoveredAccounts,
+            inputKey: \GetIpamDiscoveredAccountsRequest.nextToken,
+            outputKey: \GetIpamDiscoveredAccountsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getIpamDiscoveredAccountsPaginator(
+        _ input: GetIpamDiscoveredAccountsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetIpamDiscoveredAccountsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.getIpamDiscoveredAccounts,
+            inputKey: \GetIpamDiscoveredAccountsRequest.nextToken,
+            outputKey: \GetIpamDiscoveredAccountsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns the resource CIDRs that are monitored as part of a resource discovery. A discovered resource is a resource CIDR monitored under a resource discovery. The following resources can be discovered: VPCs, Public IPv4 pools, VPC subnets, and Elastic IP addresses.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getIpamDiscoveredResourceCidrsPaginator<Result>(
+        _ input: GetIpamDiscoveredResourceCidrsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetIpamDiscoveredResourceCidrsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.getIpamDiscoveredResourceCidrs,
+            inputKey: \GetIpamDiscoveredResourceCidrsRequest.nextToken,
+            outputKey: \GetIpamDiscoveredResourceCidrsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getIpamDiscoveredResourceCidrsPaginator(
+        _ input: GetIpamDiscoveredResourceCidrsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetIpamDiscoveredResourceCidrsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.getIpamDiscoveredResourceCidrs,
+            inputKey: \GetIpamDiscoveredResourceCidrsRequest.nextToken,
+            outputKey: \GetIpamDiscoveredResourceCidrsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Get a list of all the CIDR allocations in an IPAM pool.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -9299,7 +9556,7 @@ extension EC2 {
         )
     }
 
-    /// Get information about the resources in a scope.
+    /// Returns resource CIDRs managed by IPAM in a given scope. If an IPAM is associated with more than one resource discovery, the resource CIDRs across all of the resource discoveries is returned. A resource discovery is an IPAM component that enables IPAM Service to manage and monitor resources that belong to the owning account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -10538,6 +10795,30 @@ extension EC2.DescribeIpamPoolsRequest: AWSPaginateToken {
     }
 }
 
+extension EC2.DescribeIpamResourceDiscoveriesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeIpamResourceDiscoveriesRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamResourceDiscoveryIds: self.ipamResourceDiscoveryIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.DescribeIpamResourceDiscoveryAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeIpamResourceDiscoveryAssociationsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamResourceDiscoveryAssociationIds: self.ipamResourceDiscoveryAssociationIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension EC2.DescribeIpamScopesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeIpamScopesRequest {
         return .init(
@@ -10585,6 +10866,7 @@ extension EC2.DescribeLaunchTemplateVersionsRequest: AWSPaginateToken {
             maxVersion: self.maxVersion,
             minVersion: self.minVersion,
             nextToken: token,
+            resolveAlias: self.resolveAlias,
             versions: self.versions
         )
     }
@@ -11472,6 +11754,32 @@ extension EC2.GetIpamAddressHistoryRequest: AWSPaginateToken {
             nextToken: token,
             startTime: self.startTime,
             vpcId: self.vpcId
+        )
+    }
+}
+
+extension EC2.GetIpamDiscoveredAccountsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetIpamDiscoveredAccountsRequest {
+        return .init(
+            discoveryRegion: self.discoveryRegion,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamResourceDiscoveryId: self.ipamResourceDiscoveryId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.GetIpamDiscoveredResourceCidrsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetIpamDiscoveredResourceCidrsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamResourceDiscoveryId: self.ipamResourceDiscoveryId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceRegion: self.resourceRegion
         )
     }
 }

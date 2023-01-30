@@ -354,6 +354,8 @@ extension ConnectParticipant {
         public let absoluteTime: String?
         /// Provides information about the attachments.
         public let attachments: [AttachmentItem]?
+        /// The contactId on which the transcript item was originally sent. This field is populated only when the transcript item is from the current chat session.
+        public let contactId: String?
         /// The content of the message or event.
         public let content: String?
         /// The type of content of the item.
@@ -368,12 +370,15 @@ extension ConnectParticipant {
         public let participantId: String?
         /// The role of the sender. For example, is it a customer, agent, or system.
         public let participantRole: ParticipantRole?
+        /// The contactId on which the transcript item was originally sent. This field is only populated for persistent chats when the transcript item is from the past chat session. For more information, see Enable persistent chat.
+        public let relatedContactId: String?
         /// Type of the item: message or event.
         public let type: ChatItemType?
 
-        public init(absoluteTime: String? = nil, attachments: [AttachmentItem]? = nil, content: String? = nil, contentType: String? = nil, displayName: String? = nil, id: String? = nil, messageMetadata: MessageMetadata? = nil, participantId: String? = nil, participantRole: ParticipantRole? = nil, type: ChatItemType? = nil) {
+        public init(absoluteTime: String? = nil, attachments: [AttachmentItem]? = nil, contactId: String? = nil, content: String? = nil, contentType: String? = nil, displayName: String? = nil, id: String? = nil, messageMetadata: MessageMetadata? = nil, participantId: String? = nil, participantRole: ParticipantRole? = nil, relatedContactId: String? = nil, type: ChatItemType? = nil) {
             self.absoluteTime = absoluteTime
             self.attachments = attachments
+            self.contactId = contactId
             self.content = content
             self.contentType = contentType
             self.displayName = displayName
@@ -381,12 +386,14 @@ extension ConnectParticipant {
             self.messageMetadata = messageMetadata
             self.participantId = participantId
             self.participantRole = participantRole
+            self.relatedContactId = relatedContactId
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case absoluteTime = "AbsoluteTime"
             case attachments = "Attachments"
+            case contactId = "ContactId"
             case content = "Content"
             case contentType = "ContentType"
             case displayName = "DisplayName"
@@ -394,6 +401,7 @@ extension ConnectParticipant {
             case messageMetadata = "MessageMetadata"
             case participantId = "ParticipantId"
             case participantRole = "ParticipantRole"
+            case relatedContactId = "RelatedContactId"
             case type = "Type"
         }
     }
