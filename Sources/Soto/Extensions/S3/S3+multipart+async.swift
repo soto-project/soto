@@ -637,7 +637,10 @@ extension S3 {
                 }
 
                 let payload = try await inputStream(eventLoop)
-                guard let size = payload.size, size > 0 else {
+                // if no data returned then break out of loop. If this is the first part
+                // and it is empty then that means the entire file is empty. In that
+                // case, we do still "upload" this first empty part.
+                guard let size = payload.size, size > 0 || partNumber == 1 else {
                     break
                 }
 

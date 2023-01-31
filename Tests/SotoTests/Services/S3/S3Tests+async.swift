@@ -578,6 +578,29 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
+    func testMultiPartEmptyUploadAsync() async throws {
+        let s3 = Self.s3.with(timeout: .minutes(2))
+        let data = Data() // Empty
+        let name = TestEnvironment.generateResourceName()
+        let filename = "testMultiPartEmptyUploadAsync"
+
+        XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
+        defer {
+            XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
+        }
+
+        try await self.s3Test(bucket: name) {
+            let request = S3.CreateMultipartUploadRequest(
+                bucket: name,
+                key: name
+            )
+            _ = try await s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
+
+            let download = try await s3.getObject(.init(bucket: name, key: name), logger: TestEnvironment.logger)
+            XCTAssert(download.body?.isEmpty != false)
+        }
+    }
+
     func testResumeMultiPartUploadAsync() async throws {
         struct CancelError: Error {}
         let s3 = Self.s3.with(timeout: .minutes(2))

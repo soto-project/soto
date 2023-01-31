@@ -236,6 +236,46 @@ class S3ExtensionTests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
+    func testMultiPartUploadEmpty() {
+        let s3 = Self.s3.with(timeout: .minutes(2))
+        let data = Data() // Empty
+        let name = TestEnvironment.generateResourceName()
+        let filenameUpload = "S3MultipartUploadTestEmpty"
+        let filenameDownload = "S3MultipartUploadTestEmpty-Downloaded"
+
+        XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filenameUpload)))
+        defer {
+            XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filenameUpload))
+        }
+
+        let response = S3Tests.createBucket(name: name, s3: s3)
+            .flatMap { _ -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
+                let request = S3.CreateMultipartUploadRequest(
+                    bucket: name,
+                    key: name
+                )
+                return s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filenameUpload, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
+            }
+            .flatMap { _ -> EventLoopFuture<Int64> in
+                // Download the empty file
+                let request = S3.GetObjectRequest(bucket: name, key: name)
+                return s3.multipartDownload(request, partSize: 1024 * 1024, filename: filenameDownload, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
+            }
+            .flatMapErrorThrowing { error in
+                print("\(error)")
+                throw error
+            }
+            .flatMapThrowing { size in
+                XCTAssertEqual(size, 0) // Empty
+                XCTAssert(FileManager.default.fileExists(atPath: filenameDownload))
+                try FileManager.default.removeItem(atPath: filenameDownload)
+            }
+            .flatAlways { _ in
+                return S3Tests.deleteBucket(name: name, s3: s3)
+            }
+        XCTAssertNoThrow(try response.wait())
+    }
+
     func testMultiPartUploadFailure() {
         let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
