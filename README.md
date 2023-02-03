@@ -1,7 +1,7 @@
 # Soto for AWS
 
 [![sswg:incubating|104x20](https://img.shields.io/badge/sswg-incubating-blue.svg)](https://github.com/swift-server/sswg/blob/master/process/incubation.md#incubating-level)
-[<img src="http://img.shields.io/badge/swift-5.2-brightgreen.svg" alt="Swift 5.2" />](https://swift.org)
+[<img src="http://img.shields.io/badge/swift-5.4-brightgreen.svg" alt="Swift 5.4" />](https://swift.org)
 [<img src="https://github.com/soto-project/soto/workflows/CI/badge.svg" />](https://github.com/soto-project/soto/actions?query=workflow%3ACI)
 
 Soto is a Swift language SDK for Amazon Web Services (AWS), working on Linux, macOS and iOS. This library provides access to all AWS services. The service APIs it provides are a direct mapping of the REST APIs Amazon publishes for each of its services. Soto is a community supported project and is in no way affiliated with AWS.
@@ -56,7 +56,6 @@ Soto works on Linux, macOS and iOS. It requires v2.0 of [Swift NIO](https://gith
 |---------|-------|-------|--------|--------------------|--------|
 | 6.x     | 5.4 - | ✓     | 12.0 - | Ubuntu 18.04-22.04 | 4.0    |
 | 5.x     | 5.2 - | ✓     | 12.0 - | Ubuntu 18.04-20.04 | 4.0    |
-| 4.x     | 5.0 - | ✓     | 12.0 - | Ubuntu 18.04-20.04 | 4.0    |
 
 ## Configuring Credentials
 
@@ -88,31 +87,27 @@ let client = AWSClient(
 )
 let s3 = S3(client: client, region: .uswest2)
 
-func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
+func createBucketPutGetObject() async throws -> S3.GetObjectOutput {
     // Create Bucket, Put an Object, Get the Object
     let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
-
-    s3.createBucket(createBucketRequest)
-        .flatMap { response -> EventLoopFuture<S3.PutObjectOutput> in
-            // Upload text file to the s3
-            let bodyData = "hello world".data(using: .utf8)!
-            let putObjectRequest = S3.PutObjectRequest(
-                acl: .publicRead,
-                body: bodyData,
-                bucket: bucket,
-                key: "hello.txt"
-            )
-            return s3.putObject(putObjectRequest)
-        }
-        .flatMap { response -> EventLoopFuture<S3.GetObjectOutput> in
-            let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
-            return s3.getObject(getObjectRequest)
-        }
-        .whenSuccess { response in
-            if let body = response.body {
-                print(String(data: body, encoding: .utf8)!)
-            }
+    _ = try await s3.createBucket(createBucketRequest)
+    // Upload text file to the s3
+    let bodyData = "hello world"
+    let putObjectRequest = S3.PutObjectRequest(
+        acl: .publicRead,
+        body: .string(bodyData),
+        bucket: bucket,
+        key: "hello.txt"
+    )
+    _ = try await s3.putObject(putObjectRequest)
+    // download text file just uploaded to S3
+    let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
+    let response = try await s3.getObject(getObjectRequest)
+    // print contents of response
+    if let body = response.body?.asString() {
+        print(body)
     }
+    return response
 }
 ```
 
