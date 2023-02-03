@@ -152,8 +152,8 @@ Soto is released under the [Apache License, Version 2.0](http://www.apache.org/l
 ## Backers
 Support development of Soto by becoming a [backer](https://github.com/sponsors/adam-fowler)
 
-<a href="https://github.com/0xTim">
-    <img src="https://avatars1.githubusercontent.com/u/9938337?s=120" width="60px">
+<a href="https://github.com/brokenhandsio">
+    <img src="https://avatars1.githubusercontent.com/u/23179490?s=120" width="60px">
 </a>
 <a href="https://github.com/bitwit">
     <img src="https://avatars1.githubusercontent.com/u/707507?s=120" width="60px">
@@ -161,12 +161,12 @@ Support development of Soto by becoming a [backer](https://github.com/sponsors/a
 <a href="https://github.com/slashmo">
     <img src="https://avatars1.githubusercontent.com/u/16192401?s=120" width="60px">
 </a>
-<a href="https://github.com/zentered">
-    <img src="https://avatars1.githubusercontent.com/u/32449351?s=120" width="60px">
-</a>
 <a href="https://github.com/idelfonsog2">
     <img src="https://avatars1.githubusercontent.com/u/7195235?s=120" width="60px">
 </a>
 <a href="https://github.com/Yasumoto">
     <img src="https://avatars1.githubusercontent.com/u/48383?s=120" width="60px">
+</a>
+<a href="https://github.com/rausnitz">
+    <img src="https://avatars1.githubusercontent.com/u/6132143?s=120" width="60px">
 </a>
