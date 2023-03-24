@@ -670,6 +670,118 @@ extension S3 {
     }
 }
 
+/// AsyncSequence version of multipart upload
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension S3 {
+    /// Multipart upload of AsyncSequence to S3.
+    ///
+    /// Uploads file using multipart upload commands. If you want the function to not abort the multipart upload when it receives an error then set `abortOnFail` to false. With this you
+    /// can then use `resumeMultipartUpload` to resume the failed upload. If you set `abortOnFail` to false but don't call `resumeMultipartUpload` on failure you will have
+    /// to call `abortMultipartUpload` yourself.
+    ///
+    /// - parameters:
+    ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
+    ///     - partSize: Size of each part to upload. This has to be at least 5MB
+    ///     - filename: Full path of file to upload
+    ///     - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after a fail this should be set to false
+    ///     - on: EventLoop to process parts for upload, if nil an eventLoop is taken from the clients eventLoopGroup
+    ///     - eventLoop: Eventloop to run upload on
+    ///     - threadPoolProvider: Provide a thread pool to use or create a new one
+    ///     - progress: Callback that returns the progress of the upload. It is called after each part is uploaded with a value between 0.0 and 1.0 indicating how far the upload is complete (1.0 meaning finished).
+    /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
+    public func multipartUpload<ByteBufferSequence: AsyncSequence & Sendable>(
+        _ input: CreateMultipartUploadRequest,
+        partSize: Int = 5 * 1024 * 1024,
+        bufferSequence: ByteBufferSequence,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        threadPoolProvider: ThreadPoolProvider = .createNew,
+        progress: @escaping (Double) throws -> Void = { _ in }
+    ) async throws -> CompleteMultipartUploadOutput where ByteBufferSequence.Element == ByteBuffer {
+        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
+        // initialize multipart upload
+        let upload = try await createMultipartUpload(input, logger: logger, on: eventLoop)
+        guard let uploadId = upload.uploadId else {
+            throw S3ErrorType.multipart.noUploadId
+        }
+
+        do {
+            // upload all the parts
+            let parts = try await self.multipartUploadParts(
+                input,
+                uploadId: uploadId,
+                logger: logger,
+                on: eventLoop,
+                bufferSequence: bufferSequence.fixedSizeSequence(chunkSize: partSize)
+            )
+
+            // complete multipart upload
+            let request = S3.CompleteMultipartUploadRequest(
+                bucket: input.bucket,
+                key: input.key,
+                multipartUpload: S3.CompletedMultipartUpload(parts: parts),
+                requestPayer: input.requestPayer,
+                uploadId: uploadId
+            )
+            do {
+                return try await self.completeMultipartUpload(request, logger: logger, on: eventLoop)
+            } catch {
+                throw MultipartUploadError(error: error, completedParts: parts)
+            }
+        } catch {
+            // if failure then abort the multipart upload
+            let request = S3.AbortMultipartUploadRequest(
+                bucket: input.bucket,
+                key: input.key,
+                requestPayer: input.requestPayer,
+                uploadId: uploadId
+            )
+            _ = try await self.abortMultipartUpload(request, logger: logger, on: eventLoop)
+            throw error
+        }
+    }
+
+    /// used internally in multipartUpload, loads all the parts once the multipart upload has been initiated
+    func multipartUploadParts<ByteBufferSequence: AsyncSequence>(
+        _ input: CreateMultipartUploadRequest,
+        uploadId: String,
+        logger: Logger,
+        on eventLoop: EventLoop,
+        bufferSequence: ByteBufferSequence
+    ) async throws -> [S3.CompletedPart] where ByteBufferSequence.Element == ByteBuffer {
+        var completedParts: [S3.CompletedPart] = []
+
+        // Multipart uploads part numbers start at 1 not 0
+        var partNumber = 1
+        do {
+            for try await buffer in bufferSequence {
+                // upload part
+                let request = S3.UploadPartRequest(
+                    body: .byteBuffer(buffer),
+                    bucket: input.bucket,
+                    key: input.key,
+                    partNumber: partNumber,
+                    requestPayer: input.requestPayer,
+                    sseCustomerAlgorithm: input.sseCustomerAlgorithm,
+                    sseCustomerKey: input.sseCustomerKey,
+                    sseCustomerKeyMD5: input.sseCustomerKeyMD5,
+                    uploadId: uploadId
+                )
+                // request upload future
+                let uploadOutput = try await self.uploadPart(request, logger: logger, on: eventLoop)
+                let part = S3.CompletedPart(eTag: uploadOutput.eTag, partNumber: partNumber)
+                completedParts.append(part)
+
+                partNumber += 1
+            }
+        } catch {
+            throw MultipartUploadError(error: error, completedParts: completedParts)
+        }
+
+        return completedParts
+    }
+}
+
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Sequence {
     #if compiler(>=5.6)

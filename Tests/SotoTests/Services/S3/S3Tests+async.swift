@@ -578,6 +578,25 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
+    func testMultiPartUploadAsyncSequence() async throws {
+        let s3 = Self.s3.with(timeout: .minutes(2))
+        let name = TestEnvironment.generateResourceName()
+        let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
+        let buffer = ByteBufferAllocator().buffer(data: data)
+        let seq = TestByteBufferSequence(source: buffer, range: 32768..<65536)
+
+        try await self.s3Test(bucket: name) {
+            let request = S3.CreateMultipartUploadRequest(
+                bucket: name,
+                key: name
+            )
+            _ = try await s3.multipartUpload(request, partSize: 5 * 1024 * 1024, bufferSequence: seq, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
+
+            let download = try await s3.getObject(.init(bucket: name, key: name), logger: TestEnvironment.logger)
+            XCTAssertEqual(download.body?.asData(), data)
+        }
+    }
+
     func testMultiPartEmptyUploadAsync() async throws {
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = Data() // Empty
@@ -686,6 +705,32 @@ class S3AsyncTests: XCTestCase {
                 XCTAssertEqual(object.body?.asData(), data)
             }
         }
+    }
+}
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+struct TestByteBufferSequence: AsyncSequence {
+    typealias Element = ByteBuffer
+    let source: ByteBuffer
+    let range: Range<Int>
+
+    struct AsyncIterator: AsyncIteratorProtocol {
+        var source: ByteBuffer
+        var range: Range<Int>
+
+        mutating func next() async throws -> ByteBuffer? {
+            let size = Swift.min(Int.random(in: self.range), self.source.readableBytes)
+            if size == 0 {
+                return nil
+            } else {
+                return self.source.readSlice(length: size)
+            }
+        }
+    }
+
+    /// Make async iterator
+    public func makeAsyncIterator() -> AsyncIterator {
+        return AsyncIterator(source: self.source, range: self.range)
     }
 }
 
