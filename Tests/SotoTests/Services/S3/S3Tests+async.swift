@@ -557,7 +557,7 @@ class S3AsyncTests: XCTestCase {
 
     func testMultiPartUploadAsync() async throws {
         let s3 = Self.s3.with(timeout: .minutes(2))
-        let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
+        let data = S3Tests.createRandomBuffer(size: 8 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
         let filename = "testMultiPartUploadAsync"
 
@@ -581,7 +581,7 @@ class S3AsyncTests: XCTestCase {
     func testMultiPartUploadAsyncSequence() async throws {
         let s3 = Self.s3.with(timeout: .minutes(2))
         let name = TestEnvironment.generateResourceName()
-        let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
+        let data = S3Tests.createRandomBuffer(size: 8 * 1024 * 1024)
         let buffer = ByteBufferAllocator().buffer(data: data)
         let seq = TestByteBufferSequence(source: buffer, range: 32768..<65536)
 
