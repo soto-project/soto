@@ -783,61 +783,6 @@ extension S3 {
 }
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-extension Sequence {
-    #if compiler(>=5.6)
-    public typealias ConcurrentMapTransform<T> = @Sendable (Element) async throws -> T
-    #else
-    public typealias ConcurrentMapTransform<T> = (Element) async throws -> T
-    #endif
-
-    /// Returns an array containing the results of mapping the given async closure over
-    /// the sequence’s elements.
-    ///
-    /// This differs from `asyncMap` in that it uses a `TaskGroup` to run the transform
-    /// closure for all the elements of the Sequence. This allows all the transform closures
-    /// to run concurrently instead of serially. Returns only when the closure has been run
-    /// on all the elements of the Sequence.
-    /// - Parameters:
-    ///   - priority: Task priority for tasks in TaskGroup
-    ///   - transform: An async  mapping closure. transform accepts an
-    ///     element of this sequence as its parameter and returns a transformed value of
-    ///     the same or of a different type.
-    /// - Returns: An array containing the transformed elements of this sequence.
-    public func concurrentMap<T: _SotoSendable>(priority: TaskPriority? = nil, _ transform: @escaping ConcurrentMapTransform<T>) async rethrows -> [T] where Element: _SotoSendable {
-        try await withThrowingTaskGroup(of: (Int, T).self) { group in
-            self.enumerated().forEach { element in
-                group.addTask(priority: priority) {
-                    let result = try await transform(element.1)
-                    return (element.0, result)
-                }
-            }
-            // Code for collating results copied from Sequence.map in Swift codebase
-            let initialCapacity = underestimatedCount
-            var result = ContiguousArray<(Int, T)>()
-            result.reserveCapacity(initialCapacity)
-
-            // Add elements up to the initial capacity without checking for regrowth.
-            for _ in 0..<initialCapacity {
-                try await result.append(group.next()!)
-            }
-            // Add remaining elements, if any.
-            while let element = try await group.next() {
-                result.append(element)
-            }
-
-            // return result.sorted(by: {$0.0 < $1.0}).map(\.1)
-            // construct final array and fill in elements
-            return Array(unsafeUninitializedCapacity: result.count) { buffer, count in
-                for value in result {
-                    (buffer.baseAddress! + value.0).initialize(to: value.1)
-                }
-                count = result.count
-            }
-        }
-    }
-}
-
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension S3.ThreadPoolProvider {
     /// async version of destroy
     func destroy(_ threadPool: NIOThreadPool) async throws {
