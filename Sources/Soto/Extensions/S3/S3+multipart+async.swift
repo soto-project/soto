@@ -551,7 +551,7 @@ extension S3 {
                 return .init(bucket: input.bucket, copySource: input.copySource, copySourceRange: copyRange, copySourceSSECustomerAlgorithm: input.copySourceSSECustomerAlgorithm, copySourceSSECustomerKey: input.copySourceSSECustomerKey, copySourceSSECustomerKeyMD5: input.copySourceSSECustomerKeyMD5, expectedBucketOwner: input.expectedBucketOwner, expectedSourceBucketOwner: input.expectedSourceBucketOwner, key: input.key, partNumber: part, requestPayer: input.requestPayer, sseCustomerAlgorithm: input.sseCustomerAlgorithm, sseCustomerKey: input.sseCustomerKey, sseCustomerKeyMD5: input.sseCustomerKeyMD5, uploadId: uploadId)
             }
             // send upload part copy requests to AWS
-            let parts: [S3.CompletedPart] = try await uploadPartRequests.concurrentMap {
+            let parts: [S3.CompletedPart] = try await uploadPartRequests.concurrentMap(maxConcurrentTasks: 8) {
                 let response = try await self.uploadPartCopy($0, logger: logger, on: eventLoop)
                 guard let copyPartResult = response.copyPartResult else { throw S3ErrorType.multipart.noCopyPartResult }
                 return S3.CompletedPart(eTag: copyPartResult.eTag, partNumber: $0.partNumber)
@@ -687,22 +687,32 @@ extension S3 {
     ///     - on: EventLoop to process parts for upload, if nil an eventLoop is taken from the clients eventLoopGroup
     ///     - eventLoop: Eventloop to run upload on
     ///     - threadPoolProvider: Provide a thread pool to use or create a new one
-    ///     - progress: Callback that returns the progress of the upload. It is called after each part is uploaded with a value between 0.0 and 1.0 indicating how far the upload is complete (1.0 meaning finished).
+    ///     - progress: Callback that returns the progress of the upload. It is called after each part and is called with how many bytes have been uploaded so far.
     /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
     public func multipartUpload<ByteBufferSequence: AsyncSequence & Sendable>(
         _ input: CreateMultipartUploadRequest,
         partSize: Int = 5 * 1024 * 1024,
         bufferSequence: ByteBufferSequence,
+        abortOnFail: Bool = true,
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
         threadPoolProvider: ThreadPoolProvider = .createNew,
-        progress: @escaping (Double) throws -> Void = { _ in }
+        progress: (@Sendable (Int) throws -> Void)? = nil
     ) async throws -> CompleteMultipartUploadOutput where ByteBufferSequence.Element == ByteBuffer {
-        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
         // initialize multipart upload
         let upload = try await createMultipartUpload(input, logger: logger, on: eventLoop)
         guard let uploadId = upload.uploadId else {
             throw S3ErrorType.multipart.noUploadId
+        }
+
+        let size = ManagedAtomic(0)
+        var newProgress: (@Sendable (Int) throws -> Void)?
+        if let progress = progress {
+            @Sendable func accumulatingProgress(_ amount: Int) throws {
+                let totalSize = size.wrappingIncrementThenLoad(by: amount, ordering: .relaxed)
+                try progress(totalSize)
+            }
+            newProgress = accumulatingProgress
         }
 
         do {
@@ -710,9 +720,10 @@ extension S3 {
             let parts = try await self.multipartUploadParts(
                 input,
                 uploadId: uploadId,
+                bufferSequence: bufferSequence.fixedSizeSequence(chunkSize: partSize),
+                progress: newProgress,
                 logger: logger,
-                on: eventLoop,
-                bufferSequence: bufferSequence.fixedSizeSequence(chunkSize: partSize)
+                on: eventLoop
             )
 
             // complete multipart upload
@@ -729,6 +740,20 @@ extension S3 {
                 throw MultipartUploadError(error: error, completedParts: parts)
             }
         } catch {
+            guard abortOnFail else {
+                // if error is MultipartUploadError then we have completed uploading some parts and should include that in the error
+                if let error = error as? MultipartUploadError {
+                    throw S3ErrorType.multipart.abortedUpload(
+                        resumeRequest: .init(uploadRequest: input, uploadId: uploadId, completedParts: error.completedParts),
+                        error: error.error
+                    )
+                } else {
+                    throw S3ErrorType.multipart.abortedUpload(
+                        resumeRequest: .init(uploadRequest: input, uploadId: uploadId, completedParts: []),
+                        error: error
+                    )
+                }
+            }
             // if failure then abort the multipart upload
             let request = S3.AbortMultipartUploadRequest(
                 bucket: input.bucket,
@@ -742,43 +767,71 @@ extension S3 {
     }
 
     /// used internally in multipartUpload, loads all the parts once the multipart upload has been initiated
+    ///
+    /// - Parameters:
+    ///   - input: multipart upload request
+    ///   - uploadId: upload id
+    ///   - bufferSequence: AsyncSequence supplying fixed size ByteBuffers
+    ///   - progress: Progress function updated with amount uploaded. This is not the accumlulated amount
+    ///   - logger: logger
+    ///   - eventLoop: eventloop to run Soto calls on
+    /// - Returns: Array of completed parts
     func multipartUploadParts<ByteBufferSequence: AsyncSequence>(
         _ input: CreateMultipartUploadRequest,
         uploadId: String,
+        bufferSequence: ByteBufferSequence,
+        progress: (@Sendable (Int) throws -> Void)? = nil,
         logger: Logger,
-        on eventLoop: EventLoop,
-        bufferSequence: ByteBufferSequence
+        on eventLoop: EventLoop?
     ) async throws -> [S3.CompletedPart] where ByteBufferSequence.Element == ByteBuffer {
-        var completedParts: [S3.CompletedPart] = []
-
         // Multipart uploads part numbers start at 1 not 0
-        var partNumber = 1
-        do {
-            for try await buffer in bufferSequence {
-                // upload part
-                let request = S3.UploadPartRequest(
-                    body: .byteBuffer(buffer),
-                    bucket: input.bucket,
-                    key: input.key,
-                    partNumber: partNumber,
-                    requestPayer: input.requestPayer,
-                    sseCustomerAlgorithm: input.sseCustomerAlgorithm,
-                    sseCustomerKey: input.sseCustomerKey,
-                    sseCustomerKeyMD5: input.sseCustomerKeyMD5,
-                    uploadId: uploadId
-                )
-                // request upload future
-                let uploadOutput = try await self.uploadPart(request, logger: logger, on: eventLoop)
-                let part = S3.CompletedPart(eTag: uploadOutput.eTag, partNumber: partNumber)
-                completedParts.append(part)
+        return try await withThrowingTaskGroup(of: (Int, S3.CompletedPart).self) { group in
+            let semaphore = AsyncSemaphore(value: 4)
+            for try await buffer in bufferSequence.enumerated() {
+                try await semaphore.wait()
+                let body: AWSPayload
+                if let progress = progress {
+                    body = .asyncSequence(buffer.1.asyncSequence(chunkSize: 64 * 1024).reportProgress(reportFn: progress), size: buffer.1.readableBytes)
+                } else {
+                    body = .asyncSequence(buffer.1.asyncSequence(chunkSize: 64 * 1024), size: buffer.1.readableBytes)
+                }
+                group.addTask {
+                    let request = S3.UploadPartRequest(
+                        body: body,
+                        bucket: input.bucket,
+                        key: input.key,
+                        partNumber: buffer.0 + 1,
+                        requestPayer: input.requestPayer,
+                        sseCustomerAlgorithm: input.sseCustomerAlgorithm,
+                        sseCustomerKey: input.sseCustomerKey,
+                        sseCustomerKeyMD5: input.sseCustomerKeyMD5,
+                        uploadId: uploadId
+                    )
+                    // request upload future
+                    let uploadOutput = try await self.uploadPart(request, logger: logger, on: eventLoop)
+                    let part = S3.CompletedPart(eTag: uploadOutput.eTag, partNumber: buffer.0 + 1)
 
-                partNumber += 1
+                    semaphore.signal()
+                    return (buffer.0, part)
+                }
             }
-        } catch {
-            throw MultipartUploadError(error: error, completedParts: completedParts)
-        }
 
-        return completedParts
+            var result = ContiguousArray<(Int, S3.CompletedPart)>()
+            do {
+                while let element = try await group.next() {
+                    result.append(element)
+                }
+            } catch {
+                throw MultipartUploadError(error: error, completedParts: result.sorted { $0.0 < $1.0 }.map { $0.1 })
+            }
+            // construct final array and fill in elements
+            return [S3.CompletedPart](unsafeUninitializedCapacity: result.count) { buffer, count in
+                for value in result {
+                    (buffer.baseAddress! + value.0).initialize(to: value.1)
+                }
+                count = result.count
+            }
+        }
     }
 }
 

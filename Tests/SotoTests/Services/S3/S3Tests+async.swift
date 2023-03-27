@@ -557,7 +557,7 @@ class S3AsyncTests: XCTestCase {
 
     func testMultiPartUploadAsync() async throws {
         let s3 = Self.s3.with(timeout: .minutes(2))
-        let data = S3Tests.createRandomBuffer(size: 8 * 1024 * 1024)
+        let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
         let filename = "testMultiPartUploadAsync"
 
@@ -571,17 +571,26 @@ class S3AsyncTests: XCTestCase {
                 bucket: name,
                 key: name
             )
+            let date = Date()
             _ = try await s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
+            print(-date.timeIntervalSinceNow)
 
             let download = try await s3.getObject(.init(bucket: name, key: name), logger: TestEnvironment.logger)
             XCTAssertEqual(download.body?.asData(), data)
         }
     }
 
+    func testByteBufferAsyncSequence() async throws {
+        let data = S3Tests.createRandomBuffer(size: 2 * 1024 * 1024)
+        let buffer = ByteBufferAllocator().buffer(data: data)
+        let buffer2 = try await buffer.asyncSequence(chunkSize: 129 * 1024).collect(upTo: .max)
+        XCTAssertEqual(buffer, buffer2)
+    }
+
     func testMultiPartUploadAsyncSequence() async throws {
         let s3 = Self.s3.with(timeout: .minutes(2))
         let name = TestEnvironment.generateResourceName()
-        let data = S3Tests.createRandomBuffer(size: 8 * 1024 * 1024)
+        let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
         let buffer = ByteBufferAllocator().buffer(data: data)
         let seq = TestByteBufferSequence(source: buffer, range: 32768..<65536)
 
@@ -590,7 +599,9 @@ class S3AsyncTests: XCTestCase {
                 bucket: name,
                 key: name
             )
-            _ = try await s3.multipartUpload(request, partSize: 5 * 1024 * 1024, bufferSequence: seq, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
+            let date = Date()
+            _ = try await s3.multipartUpload(request, partSize: 5 * 1024 * 1024, bufferSequence: seq, logger: TestEnvironment.logger) { print("Progress \($0 * 100) bytes") }
+            print(-date.timeIntervalSinceNow)
 
             let download = try await s3.getObject(.init(bucket: name, key: name), logger: TestEnvironment.logger)
             XCTAssertEqual(download.body?.asData(), data)
