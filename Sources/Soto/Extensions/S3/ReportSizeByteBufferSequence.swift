@@ -18,13 +18,13 @@ import NIOCore
 
 /// An AsyncSequence that reports the amount of ByteBuffer provided via its iterator
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-public struct ReportProgressByteBufferAsyncSequence<Base: AsyncSequence>: AsyncSequence where Base.Element == ByteBuffer {
-    public typealias Element = ByteBuffer
+struct ReportProgressByteBufferAsyncSequence<Base: AsyncSequence>: AsyncSequence where Base.Element == ByteBuffer {
+    typealias Element = ByteBuffer
 
-    public let base: Base
-    public let reportFn: @Sendable (Int) throws -> Void
+    let base: Base
+    let reportFn: @Sendable (Int) throws -> Void
 
-    public struct AsyncIterator: AsyncIteratorProtocol {
+    struct AsyncIterator: AsyncIteratorProtocol {
         @usableFromInline
         var iterator: Base.AsyncIterator
         @usableFromInline
@@ -47,7 +47,7 @@ public struct ReportProgressByteBufferAsyncSequence<Base: AsyncSequence>: AsyncS
     }
 
     /// Make async iterator
-    public __consuming func makeAsyncIterator() -> AsyncIterator {
+    __consuming func makeAsyncIterator() -> AsyncIterator {
         return AsyncIterator(iterator: self.base.makeAsyncIterator(), reportFn: self.reportFn)
     }
 }
@@ -56,7 +56,7 @@ public struct ReportProgressByteBufferAsyncSequence<Base: AsyncSequence>: AsyncS
 extension AsyncSequence where Element == ByteBuffer {
     /// Return an AsyncSequence that returns ByteBuffers of a fixed size
     /// - Parameter chunkSize: Size of each chunk
-    public func reportProgress(reportFn: @Sendable @escaping (Int) throws -> Void) -> ReportProgressByteBufferAsyncSequence<Self> {
+    func reportProgress(reportFn: @Sendable @escaping (Int) throws -> Void) -> ReportProgressByteBufferAsyncSequence<Self> {
         return .init(base: self, reportFn: reportFn)
     }
 }

@@ -19,7 +19,7 @@ import NIOPosix
 import SotoCore
 import XCTest
 
-import SotoS3
+@testable import SotoS3
 import SotoS3Control
 
 #if compiler(>=5.5.2) && canImport(_Concurrency)

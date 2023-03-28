@@ -19,8 +19,8 @@ import NIOPosix
 
 /// Provide ByteBuffer as an AsyncSequence of equal size blocks
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-public struct ByteBufferAsyncSequence: AsyncSequence {
-    public typealias Element = ByteBuffer
+struct ByteBufferAsyncSequence: AsyncSequence {
+    typealias Element = ByteBuffer
 
     let byteBuffer: ByteBuffer
     let chunkSize: Int
@@ -33,11 +33,11 @@ public struct ByteBufferAsyncSequence: AsyncSequence {
         self.chunkSize = chunkSize
     }
 
-    public struct AsyncIterator: AsyncIteratorProtocol {
+    struct AsyncIterator: AsyncIteratorProtocol {
         var byteBuffer: ByteBuffer
         let chunkSize: Int
 
-        public mutating func next() async throws -> ByteBuffer? {
+        mutating func next() async throws -> ByteBuffer? {
             let size = Swift.min(self.chunkSize, self.byteBuffer.readableBytes)
             if size > 0 {
                 return self.byteBuffer.readSlice(length: size)
@@ -46,14 +46,14 @@ public struct ByteBufferAsyncSequence: AsyncSequence {
         }
     }
 
-    public func makeAsyncIterator() -> AsyncIterator {
+    func makeAsyncIterator() -> AsyncIterator {
         .init(byteBuffer: self.byteBuffer, chunkSize: self.chunkSize)
     }
 }
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ByteBuffer {
-    public func asyncSequence(chunkSize: Int) -> ByteBufferAsyncSequence {
+    func asyncSequence(chunkSize: Int) -> ByteBufferAsyncSequence {
         return ByteBufferAsyncSequence(self, chunkSize: chunkSize)
     }
 }

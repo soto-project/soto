@@ -308,16 +308,21 @@ extension S3 {
             on: eventLoop,
             threadPoolProvider: threadPoolProvider
         ) { fileHandle, fileRegion, fileIO in
-            try await self.multipartUpload(
+            let length = Double(fileRegion.readableBytes)
+            return try await self.multipartUpload(
                 input,
                 partSize: partSize,
-                fileHandle: fileHandle,
-                fileIO: fileIO,
-                uploadSize: fileRegion.readableBytes,
+                bufferSequence: FileByteBufferAsyncSequence(
+                    fileHandle,
+                    fileIO: fileIO,
+                    chunkSize: partSize,
+                    byteBufferAllocator: self.config.byteBufferAllocator,
+                    eventLoop: eventLoop
+                ),
                 abortOnFail: abortOnFail,
                 logger: logger,
                 on: eventLoop,
-                progress: progress
+                progress: { try progress(Double($0) / length) }
             )
         }
     }
