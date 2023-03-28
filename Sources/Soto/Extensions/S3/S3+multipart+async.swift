@@ -710,23 +710,13 @@ extension S3 {
             throw S3ErrorType.multipart.noUploadId
         }
 
-        let size = ManagedAtomic(0)
-        var newProgress: (@Sendable (Int) throws -> Void)?
-        if let progress = progress {
-            @Sendable func accumulatingProgress(_ amount: Int) throws {
-                let totalSize = size.wrappingIncrementThenLoad(by: amount, ordering: .relaxed)
-                try progress(totalSize)
-            }
-            newProgress = accumulatingProgress
-        }
-
         do {
             // upload all the parts
             let parts = try await self.multipartUploadParts(
                 input,
                 uploadId: uploadId,
                 bufferSequence: bufferSequence.fixedSizeSequence(chunkSize: partSize),
-                progress: newProgress,
+                progress: progress,
                 logger: logger,
                 on: eventLoop
             )
@@ -777,7 +767,7 @@ extension S3 {
     ///   - input: multipart upload request
     ///   - uploadId: upload id
     ///   - bufferSequence: AsyncSequence supplying fixed size ByteBuffers
-    ///   - progress: Progress function updated with amount uploaded. This is not the accumlulated amount
+    ///   - progress: Progress function updated with accumulated amount uploaded.
     ///   - logger: logger
     ///   - eventLoop: eventloop to run Soto calls on
     /// - Returns: Array of completed parts
@@ -789,13 +779,23 @@ extension S3 {
         logger: Logger,
         on eventLoop: EventLoop?
     ) async throws -> [S3.CompletedPart] where ByteBufferSequence.Element == ByteBuffer {
+        var newProgress: (@Sendable (Int) throws -> Void)?
+        if let progress = progress {
+            let size = ManagedAtomic(0)
+            @Sendable func accumulatingProgress(_ amount: Int) throws {
+                let totalSize = size.wrappingIncrementThenLoad(by: amount, ordering: .relaxed)
+                try progress(totalSize)
+            }
+            newProgress = accumulatingProgress
+        }
+
         // Multipart uploads part numbers start at 1 not 0
         return try await withThrowingTaskGroup(of: (Int, S3.CompletedPart).self) { group in
             let semaphore = AsyncSemaphore(value: 4)
             for try await buffer in bufferSequence.enumerated() {
                 try await semaphore.wait()
                 let body: AWSPayload
-                if let progress = progress {
+                if let progress = newProgress {
                     body = .asyncSequence(buffer.1.asyncSequence(chunkSize: 64 * 1024).reportProgress(reportFn: progress), size: buffer.1.readableBytes)
                 } else {
                     body = .asyncSequence(buffer.1.asyncSequence(chunkSize: 64 * 1024), size: buffer.1.readableBytes)
