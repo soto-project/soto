@@ -820,7 +820,27 @@ extension S3 {
                     return (buffer.0, part)
                 }
             }
+            if group.isEmpty {
+                group.addTask {
+                    let request = S3.UploadPartRequest(
+                        body: .empty,
+                        bucket: input.bucket,
+                        key: input.key,
+                        partNumber: 1,
+                        requestPayer: input.requestPayer,
+                        sseCustomerAlgorithm: input.sseCustomerAlgorithm,
+                        sseCustomerKey: input.sseCustomerKey,
+                        sseCustomerKeyMD5: input.sseCustomerKeyMD5,
+                        uploadId: uploadId
+                    )
+                    // request upload future
+                    let uploadOutput = try await self.uploadPart(request, logger: logger, on: eventLoop)
+                    let part = S3.CompletedPart(eTag: uploadOutput.eTag, partNumber: 1)
 
+                    semaphore.signal()
+                    return (0, part)
+                }
+            }
             var result = ContiguousArray<(Int, S3.CompletedPart)>()
             do {
                 while let element = try await group.next() {
