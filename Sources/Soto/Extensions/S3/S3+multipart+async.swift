@@ -497,7 +497,6 @@ extension S3 {
             partSize: partSize,
             partSequence: partSequence,
             abortOnFail: abortOnFail,
-            numberOfPartsAlreadyUploaded: partsSet.count,
             progress: progress,
             logger: logger,
             on: eventLoop
@@ -521,7 +520,6 @@ extension S3 {
         partSize: Int = 5 * 1024 * 1024,
         partSequence: PartsSequence,
         abortOnFail: Bool = true,
-        numberOfPartsAlreadyUploaded: Int = 0,
         progress: (@Sendable (Int) throws -> Void)? = nil,
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil
@@ -534,11 +532,12 @@ extension S3 {
                 uploadRequest,
                 uploadId: input.uploadId,
                 partSequence: partSequence,
-                initialProgress: numberOfPartsAlreadyUploaded * partSize,
+                initialProgress: input.completedParts.count * partSize,
                 progress: progress,
                 logger: logger,
                 on: eventLoop
             )
+            // combine array of already uploaded parts prior to the resume with the parts just uploaded
             let completedParts = (input.completedParts + parts).sorted { $0.partNumber! < $1.partNumber! }
 
             let request = S3.CompleteMultipartUploadRequest(
@@ -615,6 +614,8 @@ extension S3 {
             var count = 0
             for try await(index, buffer) in partSequence {
                 count += 1
+                // once we have kicked off 4 tasks we can start waiting for a task to finish before
+                // starting another
                 if count > 4 {
                     if let element = try await group.next() {
                         results.append(element)
@@ -639,14 +640,15 @@ extension S3 {
                         sseCustomerKeyMD5: input.sseCustomerKeyMD5,
                         uploadId: uploadId
                     )
-                    // request upload future
                     let uploadOutput = try await self.uploadPart(request, logger: logger, on: eventLoop)
                     let part = S3.CompletedPart(eTag: uploadOutput.eTag, partNumber: index + 1)
 
                     return (index, part)
                 }
             }
-            if count == 0 {
+            // if no parts were uploaded and this is not called from resumeMultipartUpload then
+            // upload an empty part
+            if count == 0, initialProgress == 0 {
                 group.addTask {
                     let request = S3.UploadPartRequest(
                         body: .empty,
@@ -659,7 +661,6 @@ extension S3 {
                         sseCustomerKeyMD5: input.sseCustomerKeyMD5,
                         uploadId: uploadId
                     )
-                    // request upload future
                     let uploadOutput = try await self.uploadPart(request, logger: logger, on: eventLoop)
                     let part = S3.CompletedPart(eTag: uploadOutput.eTag, partNumber: 1)
 
