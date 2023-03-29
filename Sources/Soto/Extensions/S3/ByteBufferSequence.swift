@@ -19,7 +19,7 @@ import NIOPosix
 
 /// Provide ByteBuffer as an AsyncSequence of equal size blocks
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-struct ByteBufferAsyncSequence: AsyncSequence {
+struct ByteBufferAsyncSequence: AsyncSequence, Sendable {
     typealias Element = ByteBuffer
 
     let byteBuffer: ByteBuffer

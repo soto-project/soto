@@ -594,11 +594,14 @@ class S3AsyncTests: XCTestCase {
                 key: name
             )
             let date = Date()
-            _ = try await s3.multipartUpload(request, partSize: 5 * 1024 * 1024, bufferSequence: seq, logger: TestEnvironment.logger) { print("Progress \($0 * 100) bytes") }
+            @Sendable func printProgress(_ value: Int) {
+                print("Progress \(value) bytes")
+            }
+            _ = try await s3.multipartUpload(request, partSize: 5 * 1024 * 1024, bufferSequence: seq, logger: TestEnvironment.logger, progress: printProgress)
             print(-date.timeIntervalSinceNow)
 
-            // let download = try await s3.getObject(.init(bucket: name, key: name), logger: TestEnvironment.logger)
-            // XCTAssertEqual(download.body?.asByteBuffer(), buffer)
+            let download = try await s3.getObject(.init(bucket: name, key: name), logger: TestEnvironment.logger)
+            XCTAssertEqual(download.body?.asByteBuffer(), buffer)
         }
     }
 

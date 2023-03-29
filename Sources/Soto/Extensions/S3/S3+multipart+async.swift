@@ -298,7 +298,7 @@ extension S3 {
         logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
         threadPoolProvider: ThreadPoolProvider = .createNew,
-        progress: @escaping (Double) throws -> Void = { _ in }
+        progress: @escaping @Sendable (Double) throws -> Void = { _ in }
     ) async throws -> CompleteMultipartUploadOutput {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
 
@@ -309,6 +309,9 @@ extension S3 {
             threadPoolProvider: threadPoolProvider
         ) { fileHandle, fileRegion, fileIO in
             let length = Double(fileRegion.readableBytes)
+            @Sendable func percentProgress(_ value: Int) throws {
+                try progress(Double(value) / length)
+            }
             return try await self.multipartUpload(
                 input,
                 partSize: partSize,
@@ -322,7 +325,7 @@ extension S3 {
                 abortOnFail: abortOnFail,
                 logger: logger,
                 on: eventLoop,
-                progress: { try progress(Double($0) / length) }
+                progress: percentProgress
             )
         }
     }
