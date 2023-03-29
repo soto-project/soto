@@ -530,22 +530,16 @@ class S3AsyncTests: XCTestCase {
     }
 
     func testMultiPartDownloadAsync() async throws {
-        // doesnt work with LocalStack
-        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1028)
         let name = TestEnvironment.generateResourceName()
         let filename = "testMultiPartDownloadAsync"
 
         try await self.s3Test(bucket: name) {
-            var buffer = ByteBuffer(data: data)
+            let buffer = ByteBuffer(data: data)
+            let bufferSequence = TestByteBufferSequence(source: buffer, size: 1024 * 1024)
             let putRequest = S3.CreateMultipartUploadRequest(bucket: name, key: filename)
-            _ = try await s3.multipartUploadFromStream(putRequest, logger: TestEnvironment.logger) { _ -> AWSPayload in
-                let blockSize = min(buffer.readableBytes, 5 * 1024 * 1024)
-                let slice = buffer.readSlice(length: blockSize)!
-                return .byteBuffer(slice)
-            }
+            _ = try await s3.multipartUpload(putRequest, bufferSequence: bufferSequence, logger: TestEnvironment.logger)
 
             let request = S3.GetObjectRequest(bucket: name, key: filename)
             let size = try await s3.multipartDownload(request, partSize: 1024 * 1024, filename: filename, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
@@ -631,7 +625,7 @@ class S3AsyncTests: XCTestCase {
     func testResumeMultiPartUploadAsync() async throws {
         struct CancelError: Error {}
         let s3 = Self.s3.with(timeout: .minutes(2))
-        let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
+        let data = Self.randomBytes!
         let name = TestEnvironment.generateResourceName()
         let filename = "testResumeMultiPartUploadAsync"
 
@@ -721,6 +715,16 @@ struct TestByteBufferSequence: AsyncSequence {
     typealias Element = ByteBuffer
     let source: ByteBuffer
     let range: Range<Int>
+
+    init(source: ByteBuffer, range: Range<Int>) {
+        self.source = source
+        self.range = range
+    }
+
+    init(source: ByteBuffer, size: Int) {
+        self.source = source
+        self.range = size..<size + 1
+    }
 
     struct AsyncIterator: AsyncIteratorProtocol {
         var source: ByteBuffer

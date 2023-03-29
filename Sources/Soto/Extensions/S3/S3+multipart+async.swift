@@ -792,23 +792,28 @@ extension S3 {
             newProgress = accumulatingProgress
         }
 
-        // Multipart uploads part numbers start at 1 not 0
         return try await withThrowingTaskGroup(of: (Int, S3.CompletedPart).self) { group in
-            let semaphore = AsyncSemaphore(value: 4)
-            for try await buffer in bufferSequence.enumerated() {
-                try await semaphore.wait()
+            var results = ContiguousArray<(Int, S3.CompletedPart)>()
+
+            for try await(index, buffer) in bufferSequence.enumerated() {
+                if index >= 4 {
+                    if let element = try await group.next() {
+                        results.append(element)
+                    }
+                }
                 let body: AWSPayload
                 if let progress = newProgress {
-                    body = .asyncSequence(buffer.1.asyncSequence(chunkSize: 64 * 1024).reportProgress(reportFn: progress), size: buffer.1.readableBytes)
+                    body = .asyncSequence(buffer.asyncSequence(chunkSize: 64 * 1024).reportProgress(reportFn: progress), size: buffer.readableBytes)
                 } else {
-                    body = .asyncSequence(buffer.1.asyncSequence(chunkSize: 64 * 1024), size: buffer.1.readableBytes)
+                    body = .asyncSequence(buffer.asyncSequence(chunkSize: 64 * 1024), size: buffer.readableBytes)
                 }
                 group.addTask {
+                    // Multipart uploads part numbers start at 1 not 0
                     let request = S3.UploadPartRequest(
                         body: body,
                         bucket: input.bucket,
                         key: input.key,
-                        partNumber: buffer.0 + 1,
+                        partNumber: index + 1,
                         requestPayer: input.requestPayer,
                         sseCustomerAlgorithm: input.sseCustomerAlgorithm,
                         sseCustomerKey: input.sseCustomerKey,
@@ -817,10 +822,9 @@ extension S3 {
                     )
                     // request upload future
                     let uploadOutput = try await self.uploadPart(request, logger: logger, on: eventLoop)
-                    let part = S3.CompletedPart(eTag: uploadOutput.eTag, partNumber: buffer.0 + 1)
+                    let part = S3.CompletedPart(eTag: uploadOutput.eTag, partNumber: index + 1)
 
-                    semaphore.signal()
-                    return (buffer.0, part)
+                    return (index, part)
                 }
             }
             if group.isEmpty {
@@ -840,24 +844,22 @@ extension S3 {
                     let uploadOutput = try await self.uploadPart(request, logger: logger, on: eventLoop)
                     let part = S3.CompletedPart(eTag: uploadOutput.eTag, partNumber: 1)
 
-                    semaphore.signal()
                     return (0, part)
                 }
             }
-            var result = ContiguousArray<(Int, S3.CompletedPart)>()
             do {
                 while let element = try await group.next() {
-                    result.append(element)
+                    results.append(element)
                 }
             } catch {
-                throw MultipartUploadError(error: error, completedParts: result.sorted { $0.0 < $1.0 }.map { $0.1 })
+                throw MultipartUploadError(error: error, completedParts: results.sorted { $0.0 < $1.0 }.map { $0.1 })
             }
             // construct final array and fill in elements
-            return [S3.CompletedPart](unsafeUninitializedCapacity: result.count) { buffer, count in
-                for value in result {
-                    (buffer.baseAddress! + value.0).initialize(to: value.1)
+            return [S3.CompletedPart](unsafeUninitializedCapacity: results.count) { buffer, count in
+                for (index, result) in results {
+                    (buffer.baseAddress! + index).initialize(to: result)
                 }
-                count = result.count
+                count = results.count
             }
         }
     }
