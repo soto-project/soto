@@ -54,7 +54,7 @@ class EC2Tests: XCTestCase {
     }
 
     func testDescribeInstanceTypes() {
-        let response = Self.ec2.describeInstanceTypesPaginator(.init(), []) { result, response, eventLoop in
+        let response = Self.ec2.describeInstanceTypesPaginator(.init(), [EC2.InstanceTypeInfo]()) { result, response, eventLoop in
             let newResult = result + (response.instanceTypes ?? [])
             return eventLoop.makeSucceededFuture((true, newResult))
         }
