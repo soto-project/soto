@@ -14,6 +14,7 @@
 
 #if compiler(>=5.5.2) && canImport(_Concurrency)
 
+import Atomics
 import Logging
 import NIOCore
 import NIOPosix
@@ -131,15 +132,15 @@ extension S3 {
         let threadPool = threadPoolProvider.create()
         let fileIO = NonBlockingFileIO(threadPool: threadPool)
         let fileHandle = try await fileIO.openFile(path: filename, mode: .write, flags: .allowFileCreation(), eventLoop: eventLoop).get()
-        let progressValue: UnsafeMutableTransferBox<Int64> = .init(0)
+        let progressValue = ManagedAtomic(0)
 
         let downloaded: Int64
         do {
             downloaded = try await self.multipartDownload(input, partSize: partSize, logger: logger, on: eventLoop) { byteBuffer, fileSize, eventLoop in
                 let bufferSize = byteBuffer.readableBytes
                 return fileIO.write(fileHandle: fileHandle, buffer: byteBuffer, eventLoop: eventLoop).flatMapThrowing { _ in
-                    progressValue.wrappedValue += Int64(bufferSize)
-                    try progress(Double(progressValue.wrappedValue) / Double(fileSize))
+                    let progressIntValue = progressValue.wrappingIncrementThenLoad(by: bufferSize, ordering: .relaxed)
+                    try progress(Double(progressIntValue) / Double(fileSize))
                 }
             }.get()
         } catch {
