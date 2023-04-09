@@ -98,11 +98,7 @@ extension CognitoIdentity {
 
     /// Protocol providing Cognito Identity id and tokens
     public struct ExternalIdentityProvider: IdentityProvider {
-        #if compiler(>=5.6)
         typealias LoginProvider = @Sendable (Context) -> EventLoopFuture<[String: String]>
-        #else
-        typealias LoginProvider = (Context) -> EventLoopFuture<[String: String]>
-        #endif
         /// The context passed to the logins provider closure
         public struct Context: _SotoSendable {
             public let client: AWSClient
