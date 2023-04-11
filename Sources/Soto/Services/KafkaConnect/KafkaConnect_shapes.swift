@@ -578,7 +578,7 @@ extension KafkaConnect {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.revision, name: "revision", parent: name, max: -9223372036854775808)
+            try self.validate(self.revision, name: "revision", parent: name, max: 9223372036854775807)
             try self.validate(self.revision, name: "revision", parent: name, min: 1)
         }
 
@@ -1625,7 +1625,7 @@ extension KafkaConnect {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.revision, name: "revision", parent: name, max: -9223372036854775808)
+            try self.validate(self.revision, name: "revision", parent: name, max: 9223372036854775807)
             try self.validate(self.revision, name: "revision", parent: name, min: 1)
         }
 

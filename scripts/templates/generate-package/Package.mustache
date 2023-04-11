@@ -1,10 +1,10 @@
 {{%CONTENT_TYPE:TEXT}}
-// swift-tools-version:5.2
+// swift-tools-version:5.6
 //===----------------------------------------------------------------------===//
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -25,7 +25,7 @@ let package = Package(
 {{/targets}}
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", .branch("main"))
+        .package(url: "https://github.com/soto-project/soto-core.git", branch: "main")
     ],
     targets: [
 {{#targets}}

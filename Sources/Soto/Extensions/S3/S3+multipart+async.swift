@@ -12,8 +12,6 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if compiler(>=5.5.2) && canImport(_Concurrency)
-
 import Atomics
 import Logging
 import NIOCore
@@ -744,5 +742,3 @@ extension S3.ThreadPoolProvider {
         }
     }
 }
-
-#endif // compiler(>=5.5.2) && canImport(_Concurrency)
