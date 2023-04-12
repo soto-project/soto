@@ -22,8 +22,6 @@ import XCTest
 import SotoS3
 import SotoS3Control
 
-#if compiler(>=5.5.2) && canImport(_Concurrency)
-
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class S3AsyncTests: XCTestCase {
     static var client: AWSClient!
@@ -745,5 +743,3 @@ struct TestByteBufferSequence: AsyncSequence {
         return AsyncIterator(source: self.source, range: self.range)
     }
 }
-
-#endif

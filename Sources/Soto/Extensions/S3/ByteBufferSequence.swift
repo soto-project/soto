@@ -12,8 +12,6 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if compiler(>=5.5.2) && canImport(_Concurrency)
-
 import NIOCore
 import NIOPosix
 
@@ -57,5 +55,3 @@ extension ByteBuffer {
         return ByteBufferAsyncSequence(self, chunkSize: chunkSize)
     }
 }
-
-#endif // compiler(>=5.5.2) && canImport(_Concurrency)

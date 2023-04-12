@@ -12,8 +12,6 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if compiler(>=5.5.2) && canImport(_Concurrency)
-
 import NIOCore
 
 /// An AsyncSequence that reports the amount of ByteBuffer provided via its iterator
@@ -63,5 +61,3 @@ extension AsyncSequence where Element == ByteBuffer {
         return .init(base: self, reportFn: reportFn)
     }
 }
-
-#endif // compiler(>=5.5.2) && canImport(_Concurrency)

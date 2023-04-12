@@ -12,8 +12,6 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if compiler(>=5.5.2) && canImport(_Concurrency)
-
 import NIOCore
 import NIOPosix
 
@@ -82,5 +80,3 @@ struct FileByteBufferAsyncSequence: AsyncSequence {
 // Cannot set this to Sendable as it contains a `NIOFileHandle` but the context that this is
 // used in is a fairly limited situation and will not cause an issue
 extension FileByteBufferAsyncSequence: @unchecked Sendable {}
-
-#endif // compiler(>=5.5.2) && canImport(_Concurrency)
