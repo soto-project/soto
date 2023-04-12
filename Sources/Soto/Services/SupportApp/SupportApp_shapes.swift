@@ -21,13 +21,13 @@ import SotoCore
 extension SupportApp {
     // MARK: Enums
 
-    public enum AccountType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccountType: String, CustomStringConvertible, Codable, Sendable {
         case management = "management"
         case member = "member"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationSeverityLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotificationSeverityLevel: String, CustomStringConvertible, Codable, Sendable {
         case all = "all"
         case high = "high"
         case none = "none"

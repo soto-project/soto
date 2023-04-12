@@ -21,13 +21,13 @@ import SotoCore
 extension Macie2 {
     // MARK: Enums
 
-    public enum AdminStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AdminStatus: String, CustomStringConvertible, Codable, Sendable {
         case disablingInProgress = "DISABLING_IN_PROGRESS"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AllowListStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AllowListStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case ok = "OK"
         case s3ObjectAccessDenied = "S3_OBJECT_ACCESS_DENIED"
         case s3ObjectEmpty = "S3_OBJECT_EMPTY"
@@ -39,56 +39,56 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum AllowsUnencryptedObjectUploads: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AllowsUnencryptedObjectUploads: String, CustomStringConvertible, Codable, Sendable {
         case `false` = "FALSE"
         case `true` = "TRUE"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutomatedDiscoveryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutomatedDiscoveryStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AvailabilityCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AvailabilityCode: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum BucketMetadataErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BucketMetadataErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClassificationScopeUpdateOperation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClassificationScopeUpdateOperation: String, CustomStringConvertible, Codable, Sendable {
         case add = "ADD"
         case remove = "REMOVE"
         case replace = "REPLACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Currency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Currency: String, CustomStringConvertible, Codable, Sendable {
         case usd = "USD"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataIdentifierSeverity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataIdentifierSeverity: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataIdentifierType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataIdentifierType: String, CustomStringConvertible, Codable, Sendable {
         case custom = "CUSTOM"
         case managed = "MANAGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable {
         case friday = "FRIDAY"
         case monday = "MONDAY"
         case saturday = "SATURDAY"
@@ -99,14 +99,14 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum EffectivePermission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EffectivePermission: String, CustomStringConvertible, Codable, Sendable {
         case `public` = "PUBLIC"
         case notPublic = "NOT_PUBLIC"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
         case aes256 = "AES256"
         case awsKms = "aws:kms"
         case none = "NONE"
@@ -114,37 +114,37 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case clientError = "ClientError"
         case internalError = "InternalError"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingActionType: String, CustomStringConvertible, Codable, Sendable {
         case awsApiCall = "AWS_API_CALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingCategory: String, CustomStringConvertible, Codable, Sendable {
         case classification = "CLASSIFICATION"
         case policy = "POLICY"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingPublishingFrequency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingPublishingFrequency: String, CustomStringConvertible, Codable, Sendable {
         case fifteenMinutes = "FIFTEEN_MINUTES"
         case oneHour = "ONE_HOUR"
         case sixHours = "SIX_HOURS"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingStatisticsSortAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingStatisticsSortAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case count = "count"
         case groupKey = "groupKey"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingType: String, CustomStringConvertible, Codable, Sendable {
         case policyIamuserS3Blockpublicaccessdisabled = "Policy:IAMUser/S3BlockPublicAccessDisabled"
         case policyIamuserS3Bucketencryptiondisabled = "Policy:IAMUser/S3BucketEncryptionDisabled"
         case policyIamuserS3Bucketpublic = "Policy:IAMUser/S3BucketPublic"
@@ -158,13 +158,13 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingsFilterAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingsFilterAction: String, CustomStringConvertible, Codable, Sendable {
         case archive = "ARCHIVE"
         case noop = "NOOP"
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GroupBy: String, CustomStringConvertible, Codable, Sendable {
         case classificationDetailsJobid = "classificationDetails.jobId"
         case resourcesAffectedS3BucketName = "resourcesAffected.s3Bucket.name"
         case severityDescription = "severity.description"
@@ -172,21 +172,21 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum IsDefinedInJob: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IsDefinedInJob: String, CustomStringConvertible, Codable, Sendable {
         case `false` = "FALSE"
         case `true` = "TRUE"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum IsMonitoredByJob: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IsMonitoredByJob: String, CustomStringConvertible, Codable, Sendable {
         case `false` = "FALSE"
         case `true` = "TRUE"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobComparator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobComparator: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CONTAINS"
         case eq = "EQ"
         case gt = "GT"
@@ -198,7 +198,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case complete = "COMPLETE"
         case idle = "IDLE"
@@ -208,19 +208,19 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobType: String, CustomStringConvertible, Codable, Sendable {
         case oneTime = "ONE_TIME"
         case scheduled = "SCHEDULED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LastRunErrorStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LastRunErrorStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListJobsFilterKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListJobsFilterKey: String, CustomStringConvertible, Codable, Sendable {
         case createdAt = "createdAt"
         case jobStatus = "jobStatus"
         case jobType = "jobType"
@@ -228,7 +228,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListJobsSortAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListJobsSortAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case createdAt = "createdAt"
         case jobStatus = "jobStatus"
         case jobType = "jobType"
@@ -236,13 +236,13 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum MacieStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MacieStatus: String, CustomStringConvertible, Codable, Sendable {
         case enabled = "ENABLED"
         case paused = "PAUSED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ManagedDataIdentifierSelector: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ManagedDataIdentifierSelector: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
@@ -250,19 +250,19 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrderBy: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OriginType: String, CustomStringConvertible, Codable, Sendable {
         case automatedSensitiveDataDiscovery = "AUTOMATED_SENSITIVE_DATA_DISCOVERY"
         case sensitiveDataDiscoveryJob = "SENSITIVE_DATA_DISCOVERY_JOB"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelationshipStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RelationshipStatus: String, CustomStringConvertible, Codable, Sendable {
         case accountSuspended = "AccountSuspended"
         case created = "Created"
         case emailVerificationFailed = "EmailVerificationFailed"
@@ -276,20 +276,20 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum RevealRequestStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RevealRequestStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case processing = "PROCESSING"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RevealStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RevealStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScopeFilterKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScopeFilterKey: String, CustomStringConvertible, Codable, Sendable {
         case objectExtension = "OBJECT_EXTENSION"
         case objectKey = "OBJECT_KEY"
         case objectLastModifiedDate = "OBJECT_LAST_MODIFIED_DATE"
@@ -297,13 +297,13 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchResourcesComparator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SearchResourcesComparator: String, CustomStringConvertible, Codable, Sendable {
         case eq = "EQ"
         case ne = "NE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchResourcesSimpleCriterionKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SearchResourcesSimpleCriterionKey: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "ACCOUNT_ID"
         case s3BucketEffectivePermission = "S3_BUCKET_EFFECTIVE_PERMISSION"
         case s3BucketName = "S3_BUCKET_NAME"
@@ -311,7 +311,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchResourcesSortAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SearchResourcesSortAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "ACCOUNT_ID"
         case resourceName = "RESOURCE_NAME"
         case s3ClassifiableObjectCount = "S3_CLASSIFIABLE_OBJECT_COUNT"
@@ -319,7 +319,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SensitiveDataItemCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SensitiveDataItemCategory: String, CustomStringConvertible, Codable, Sendable {
         case credentials = "CREDENTIALS"
         case customIdentifier = "CUSTOM_IDENTIFIER"
         case financialInformation = "FINANCIAL_INFORMATION"
@@ -327,14 +327,14 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SeverityDescription: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SeverityDescription: String, CustomStringConvertible, Codable, Sendable {
         case high = "High"
         case low = "Low"
         case medium = "Medium"
         public var description: String { return self.rawValue }
     }
 
-    public enum SharedAccess: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SharedAccess: String, CustomStringConvertible, Codable, Sendable {
         case `internal` = "INTERNAL"
         case external = "EXTERNAL"
         case notShared = "NOT_SHARED"
@@ -342,7 +342,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SimpleCriterionKeyForJob: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SimpleCriterionKeyForJob: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "ACCOUNT_ID"
         case s3BucketEffectivePermission = "S3_BUCKET_EFFECTIVE_PERMISSION"
         case s3BucketName = "S3_BUCKET_NAME"
@@ -350,7 +350,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
         case glacierIr = "GLACIER_IR"
@@ -363,18 +363,18 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TagTarget: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TagTarget: String, CustomStringConvertible, Codable, Sendable {
         case s3Object = "S3_OBJECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeRange: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimeRange: String, CustomStringConvertible, Codable, Sendable {
         case monthToDate = "MONTH_TO_DATE"
         case past30Days = "PAST_30_DAYS"
         public var description: String { return self.rawValue }
     }
 
-    public enum UnavailabilityReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UnavailabilityReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case invalidClassificationResult = "INVALID_CLASSIFICATION_RESULT"
         case objectExceedsSizeQuota = "OBJECT_EXCEEDS_SIZE_QUOTA"
         case objectUnavailable = "OBJECT_UNAVAILABLE"
@@ -383,12 +383,12 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum Unit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Unit: String, CustomStringConvertible, Codable, Sendable {
         case terabytes = "TERABYTES"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageStatisticsFilterComparator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageStatisticsFilterComparator: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CONTAINS"
         case eq = "EQ"
         case gt = "GT"
@@ -399,7 +399,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageStatisticsFilterKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageStatisticsFilterKey: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "accountId"
         case freeTrialStartDate = "freeTrialStartDate"
         case serviceLimit = "serviceLimit"
@@ -407,7 +407,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageStatisticsSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageStatisticsSortKey: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "accountId"
         case freeTrialStartDate = "freeTrialStartDate"
         case serviceLimitValue = "serviceLimitValue"
@@ -415,7 +415,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageType: String, CustomStringConvertible, Codable, Sendable {
         case automatedObjectMonitoring = "AUTOMATED_OBJECT_MONITORING"
         case automatedSensitiveDataDiscovery = "AUTOMATED_SENSITIVE_DATA_DISCOVERY"
         case dataInventoryEvaluation = "DATA_INVENTORY_EVALUATION"
@@ -423,7 +423,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum UserIdentityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UserIdentityType: String, CustomStringConvertible, Codable, Sendable {
         case assumedRole = "AssumedRole"
         case awsAccount = "AWSAccount"
         case awsService = "AWSService"
@@ -433,7 +433,7 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
         case aes256 = "AES256"
         case awsKms = "aws:kms"
         case none = "NONE"

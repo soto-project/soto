@@ -21,13 +21,13 @@ import SotoCore
 extension FinspaceData {
     // MARK: Enums
 
-    public enum ApiAccess: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApiAccess: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationPermission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationPermission: String, CustomStringConvertible, Codable, Sendable {
         case accessNotebooks = "AccessNotebooks"
         case createDataset = "CreateDataset"
         case getTemporaryCredentials = "GetTemporaryCredentials"
@@ -38,14 +38,14 @@ extension FinspaceData {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable {
         case append = "APPEND"
         case modify = "MODIFY"
         case replace = "REPLACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ColumnDataType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ColumnDataType: String, CustomStringConvertible, Codable, Sendable {
         case bigint = "BIGINT"
         case binary = "BINARY"
         case boolean = "BOOLEAN"
@@ -61,7 +61,7 @@ extension FinspaceData {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataViewStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataViewStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
         case failedCleanupFailed = "FAILED_CLEANUP_FAILED"
@@ -73,13 +73,13 @@ extension FinspaceData {
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetKind: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatasetKind: String, CustomStringConvertible, Codable, Sendable {
         case nonTabular = "NON_TABULAR"
         case tabular = "TABULAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatasetStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pending = "PENDING"
         case running = "RUNNING"
@@ -87,7 +87,7 @@ extension FinspaceData {
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCategory: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case cancelled = "CANCELLED"
         case internalServiceException = "INTERNAL_SERVICE_EXCEPTION"
@@ -99,13 +99,13 @@ extension FinspaceData {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportFileFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportFileFormat: String, CustomStringConvertible, Codable, Sendable {
         case delimitedText = "DELIMITED_TEXT"
         case parquet = "PARQUET"
         public var description: String { return self.rawValue }
     }
 
-    public enum IngestionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IngestionStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pending = "PENDING"
         case running = "RUNNING"
@@ -114,27 +114,27 @@ extension FinspaceData {
         public var description: String { return self.rawValue }
     }
 
-    public enum LocationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocationType: String, CustomStringConvertible, Codable, Sendable {
         case ingestion = "INGESTION"
         case sagemaker = "SAGEMAKER"
         public var description: String { return self.rawValue }
     }
 
-    public enum PermissionGroupMembershipStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PermissionGroupMembershipStatus: String, CustomStringConvertible, Codable, Sendable {
         case additionInProgress = "ADDITION_IN_PROGRESS"
         case additionSuccess = "ADDITION_SUCCESS"
         case removalInProgress = "REMOVAL_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum UserStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UserStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "CREATING"
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum UserType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UserType: String, CustomStringConvertible, Codable, Sendable {
         case appUser = "APP_USER"
         case superUser = "SUPER_USER"
         public var description: String { return self.rawValue }

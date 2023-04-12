@@ -21,7 +21,7 @@ import SotoCore
 extension KinesisVideoMedia {
     // MARK: Enums
 
-    public enum StartSelectorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StartSelectorType: String, CustomStringConvertible, Codable, Sendable {
         case continuationToken = "CONTINUATION_TOKEN"
         case earliest = "EARLIEST"
         case fragmentNumber = "FRAGMENT_NUMBER"

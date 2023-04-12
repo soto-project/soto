@@ -21,13 +21,13 @@ import SotoCore
 extension Rekognition {
     // MARK: Enums
 
-    public enum Attribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Attribute: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum BodyPart: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BodyPart: String, CustomStringConvertible, Codable, Sendable {
         case face = "FACE"
         case head = "HEAD"
         case leftHand = "LEFT_HAND"
@@ -35,25 +35,25 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
-    public enum CelebrityRecognitionSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CelebrityRecognitionSortBy: String, CustomStringConvertible, Codable, Sendable {
         case id = "ID"
         case timestamp = "TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentClassifier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentClassifier: String, CustomStringConvertible, Codable, Sendable {
         case freeOfAdultContent = "FreeOfAdultContent"
         case freeOfPersonallyIdentifiableInformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentModerationSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentModerationSortBy: String, CustomStringConvertible, Codable, Sendable {
         case name = "NAME"
         case timestamp = "TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatasetStatus: String, CustomStringConvertible, Codable, Sendable {
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -64,26 +64,26 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetStatusMessageCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatasetStatusMessageCode: String, CustomStringConvertible, Codable, Sendable {
         case clientError = "CLIENT_ERROR"
         case serviceError = "SERVICE_ERROR"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatasetType: String, CustomStringConvertible, Codable, Sendable {
         case test = "TEST"
         case train = "TRAIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum DetectLabelsFeatureName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DetectLabelsFeatureName: String, CustomStringConvertible, Codable, Sendable {
         case generalLabels = "GENERAL_LABELS"
         case imageProperties = "IMAGE_PROPERTIES"
         public var description: String { return self.rawValue }
     }
 
-    public enum EmotionName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EmotionName: String, CustomStringConvertible, Codable, Sendable {
         case angry = "ANGRY"
         case calm = "CALM"
         case confused = "CONFUSED"
@@ -96,25 +96,25 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
-    public enum FaceAttributes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FaceAttributes: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum FaceSearchSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FaceSearchSortBy: String, CustomStringConvertible, Codable, Sendable {
         case index = "INDEX"
         case timestamp = "TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
-    public enum GenderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GenderType: String, CustomStringConvertible, Codable, Sendable {
         case female = "Female"
         case male = "Male"
         public var description: String { return self.rawValue }
     }
 
-    public enum KnownGenderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KnownGenderType: String, CustomStringConvertible, Codable, Sendable {
         case female = "Female"
         case male = "Male"
         case nonbinary = "Nonbinary"
@@ -122,24 +122,24 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
-    public enum LabelDetectionAggregateBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LabelDetectionAggregateBy: String, CustomStringConvertible, Codable, Sendable {
         case segments = "SEGMENTS"
         case timestamps = "TIMESTAMPS"
         public var description: String { return self.rawValue }
     }
 
-    public enum LabelDetectionFeatureName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LabelDetectionFeatureName: String, CustomStringConvertible, Codable, Sendable {
         case generalLabels = "GENERAL_LABELS"
         public var description: String { return self.rawValue }
     }
 
-    public enum LabelDetectionSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LabelDetectionSortBy: String, CustomStringConvertible, Codable, Sendable {
         case name = "NAME"
         case timestamp = "TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
-    public enum LandmarkType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LandmarkType: String, CustomStringConvertible, Codable, Sendable {
         case chinBottom = "chinBottom"
         case eyeLeft = "eyeLeft"
         case eyeRight = "eyeRight"
@@ -173,7 +173,7 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrientationCorrection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrientationCorrection: String, CustomStringConvertible, Codable, Sendable {
         case rotate0 = "ROTATE_0"
         case rotate180 = "ROTATE_180"
         case rotate270 = "ROTATE_270"
@@ -181,20 +181,20 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
-    public enum PersonTrackingSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PersonTrackingSortBy: String, CustomStringConvertible, Codable, Sendable {
         case index = "INDEX"
         case timestamp = "TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProjectStatus: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectVersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProjectVersionStatus: String, CustomStringConvertible, Codable, Sendable {
         case copyingCompleted = "COPYING_COMPLETED"
         case copyingFailed = "COPYING_FAILED"
         case copyingInProgress = "COPYING_IN_PROGRESS"
@@ -210,14 +210,14 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtectiveEquipmentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProtectiveEquipmentType: String, CustomStringConvertible, Codable, Sendable {
         case faceCover = "FACE_COVER"
         case handCover = "HAND_COVER"
         case headCover = "HEAD_COVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum QualityFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QualityFilter: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case high = "HIGH"
         case low = "LOW"
@@ -226,7 +226,7 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
-    public enum Reason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Reason: String, CustomStringConvertible, Codable, Sendable {
         case exceedsMaxFaces = "EXCEEDS_MAX_FACES"
         case extremePose = "EXTREME_POSE"
         case lowBrightness = "LOW_BRIGHTNESS"
@@ -237,19 +237,19 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
-    public enum SegmentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SegmentType: String, CustomStringConvertible, Codable, Sendable {
         case shot = "SHOT"
         case technicalCue = "TECHNICAL_CUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamProcessorParameterToDelete: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StreamProcessorParameterToDelete: String, CustomStringConvertible, Codable, Sendable {
         case connectedHomeMinConfidence = "ConnectedHomeMinConfidence"
         case regionsOfInterest = "RegionsOfInterest"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamProcessorStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StreamProcessorStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case running = "RUNNING"
         case starting = "STARTING"
@@ -259,7 +259,7 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
-    public enum TechnicalCueType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TechnicalCueType: String, CustomStringConvertible, Codable, Sendable {
         case blackFrames = "BlackFrames"
         case colorBars = "ColorBars"
         case content = "Content"
@@ -270,19 +270,19 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
-    public enum TextTypes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TextTypes: String, CustomStringConvertible, Codable, Sendable {
         case line = "LINE"
         case word = "WORD"
         public var description: String { return self.rawValue }
     }
 
-    public enum VideoColorRange: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VideoColorRange: String, CustomStringConvertible, Codable, Sendable {
         case full = "FULL"
         case limited = "LIMITED"
         public var description: String { return self.rawValue }
     }
 
-    public enum VideoJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VideoJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"

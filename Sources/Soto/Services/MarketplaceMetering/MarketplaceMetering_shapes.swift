@@ -21,7 +21,7 @@ import SotoCore
 extension MarketplaceMetering {
     // MARK: Enums
 
-    public enum UsageRecordResultStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageRecordResultStatus: String, CustomStringConvertible, Codable, Sendable {
         case customerNotSubscribed = "CustomerNotSubscribed"
         case duplicateRecord = "DuplicateRecord"
         case success = "Success"

@@ -21,7 +21,7 @@ import SotoCore
 extension NetworkManager {
     // MARK: Enums
 
-    public enum AttachmentState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AttachmentState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -34,7 +34,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum AttachmentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AttachmentType: String, CustomStringConvertible, Codable, Sendable {
         case connect = "CONNECT"
         case siteToSiteVpn = "SITE_TO_SITE_VPN"
         case transitGatewayRouteTable = "TRANSIT_GATEWAY_ROUTE_TABLE"
@@ -42,14 +42,14 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeAction: String, CustomStringConvertible, Codable, Sendable {
         case add = "ADD"
         case modify = "MODIFY"
         case remove = "REMOVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeSetState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeSetState: String, CustomStringConvertible, Codable, Sendable {
         case executing = "EXECUTING"
         case executionSucceeded = "EXECUTION_SUCCEEDED"
         case failedGeneration = "FAILED_GENERATION"
@@ -59,7 +59,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -67,7 +67,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable {
         case attachmentMapping = "ATTACHMENT_MAPPING"
         case attachmentPoliciesConfiguration = "ATTACHMENT_POLICIES_CONFIGURATION"
         case attachmentRoutePropagation = "ATTACHMENT_ROUTE_PROPAGATION"
@@ -80,7 +80,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectPeerAssociationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectPeerAssociationState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -88,7 +88,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectPeerState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectPeerState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -96,7 +96,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case pending = "PENDING"
@@ -104,25 +104,25 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case down = "DOWN"
         case up = "UP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable {
         case bgp = "BGP"
         case ipsec = "IPSEC"
         public var description: String { return self.rawValue }
     }
 
-    public enum CoreNetworkPolicyAlias: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CoreNetworkPolicyAlias: String, CustomStringConvertible, Codable, Sendable {
         case latest = "LATEST"
         case live = "LIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CoreNetworkState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CoreNetworkState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -130,7 +130,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomerGatewayAssociationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomerGatewayAssociationState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -138,7 +138,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case pending = "PENDING"
@@ -146,7 +146,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum GlobalNetworkState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GlobalNetworkState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case pending = "PENDING"
@@ -154,7 +154,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum LinkAssociationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LinkAssociationState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -162,7 +162,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum LinkState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LinkState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case pending = "PENDING"
@@ -170,7 +170,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum PeeringState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PeeringState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -178,12 +178,12 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum PeeringType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PeeringType: String, CustomStringConvertible, Codable, Sendable {
         case transitGateway = "TRANSIT_GATEWAY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteAnalysisCompletionReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RouteAnalysisCompletionReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case blackholeRouteForDestinationFound = "BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND"
         case cyclicPathDetected = "CYCLIC_PATH_DETECTED"
         case inactiveRouteForDestinationFound = "INACTIVE_ROUTE_FOR_DESTINATION_FOUND"
@@ -198,38 +198,38 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteAnalysisCompletionResultCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RouteAnalysisCompletionResultCode: String, CustomStringConvertible, Codable, Sendable {
         case connected = "CONNECTED"
         case notConnected = "NOT_CONNECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteAnalysisStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RouteAnalysisStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RouteState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case blackhole = "BLACKHOLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteTableType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RouteTableType: String, CustomStringConvertible, Codable, Sendable {
         case coreNetworkSegment = "CORE_NETWORK_SEGMENT"
         case transitGatewayRouteTable = "TRANSIT_GATEWAY_ROUTE_TABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RouteType: String, CustomStringConvertible, Codable, Sendable {
         case `static` = "STATIC"
         case propagated = "PROPAGATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SiteState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SiteState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case pending = "PENDING"
@@ -237,7 +237,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayConnectPeerAssociationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayConnectPeerAssociationState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -245,7 +245,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayRegistrationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayRegistrationState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -254,7 +254,7 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum TunnelProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TunnelProtocol: String, CustomStringConvertible, Codable, Sendable {
         case gre = "GRE"
         public var description: String { return self.rawValue }
     }

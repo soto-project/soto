@@ -21,7 +21,7 @@ import SotoCore
 extension NetworkFirewall {
     // MARK: Enums
 
-    public enum AttachmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AttachmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "CREATING"
         case deleting = "DELETING"
         case ready = "READY"
@@ -29,94 +29,94 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationSyncState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationSyncState: String, CustomStringConvertible, Codable, Sendable {
         case capacityConstrained = "CAPACITY_CONSTRAINED"
         case inSync = "IN_SYNC"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
         case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
         case customerKms = "CUSTOMER_KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum FirewallStatusValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FirewallStatusValue: String, CustomStringConvertible, Codable, Sendable {
         case deleting = "DELETING"
         case provisioning = "PROVISIONING"
         case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
-    public enum GeneratedRulesType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GeneratedRulesType: String, CustomStringConvertible, Codable, Sendable {
         case allowlist = "ALLOWLIST"
         case denylist = "DENYLIST"
         public var description: String { return self.rawValue }
     }
 
-    public enum IPAddressType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IPAddressType: String, CustomStringConvertible, Codable, Sendable {
         case dualstack = "DUALSTACK"
         case ipv4 = "IPV4"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogDestinationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogDestinationType: String, CustomStringConvertible, Codable, Sendable {
         case cloudwatchLogs = "CloudWatchLogs"
         case kinesisDataFirehose = "KinesisDataFirehose"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable {
         case alert = "ALERT"
         case flow = "FLOW"
         public var description: String { return self.rawValue }
     }
 
-    public enum OverrideAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OverrideAction: String, CustomStringConvertible, Codable, Sendable {
         case dropToAlert = "DROP_TO_ALERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum PerObjectSyncStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PerObjectSyncStatus: String, CustomStringConvertible, Codable, Sendable {
         case capacityConstrained = "CAPACITY_CONSTRAINED"
         case inSync = "IN_SYNC"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceManagedStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceManagedStatus: String, CustomStringConvertible, Codable, Sendable {
         case account = "ACCOUNT"
         case managed = "MANAGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceManagedType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceManagedType: String, CustomStringConvertible, Codable, Sendable {
         case awsManagedDomainLists = "AWS_MANAGED_DOMAIN_LISTS"
         case awsManagedThreatSignatures = "AWS_MANAGED_THREAT_SIGNATURES"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleGroupType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuleGroupType: String, CustomStringConvertible, Codable, Sendable {
         case stateful = "STATEFUL"
         case stateless = "STATELESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuleOrder: String, CustomStringConvertible, Codable, Sendable {
         case defaultActionOrder = "DEFAULT_ACTION_ORDER"
         case strictOrder = "STRICT_ORDER"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatefulAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatefulAction: String, CustomStringConvertible, Codable, Sendable {
         case alert = "ALERT"
         case drop = "DROP"
         case pass = "PASS"
@@ -124,13 +124,13 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatefulRuleDirection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatefulRuleDirection: String, CustomStringConvertible, Codable, Sendable {
         case any = "ANY"
         case forward = "FORWARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatefulRuleProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatefulRuleProtocol: String, CustomStringConvertible, Codable, Sendable {
         case any = "IP"
         case dcerpc = "DCERPC"
         case dhcp = "DHCP"
@@ -153,13 +153,13 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamExceptionPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StreamExceptionPolicy: String, CustomStringConvertible, Codable, Sendable {
         case `continue` = "CONTINUE"
         case drop = "DROP"
         public var description: String { return self.rawValue }
     }
 
-    public enum TCPFlag: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TCPFlag: String, CustomStringConvertible, Codable, Sendable {
         case ack = "ACK"
         case cwr = "CWR"
         case ece = "ECE"
@@ -171,7 +171,7 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetType: String, CustomStringConvertible, Codable, Sendable {
         case httpHost = "HTTP_HOST"
         case tlsSni = "TLS_SNI"
         public var description: String { return self.rawValue }

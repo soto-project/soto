@@ -21,37 +21,37 @@ import SotoCore
 extension DataSync {
     // MARK: Enums
 
-    public enum AgentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AgentStatus: String, CustomStringConvertible, Codable, Sendable {
         case offline = "OFFLINE"
         case online = "ONLINE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Atime: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Atime: String, CustomStringConvertible, Codable, Sendable {
         case bestEffort = "BEST_EFFORT"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EfsInTransitEncryption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EfsInTransitEncryption: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case tls12 = "TLS1_2"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointType: String, CustomStringConvertible, Codable, Sendable {
         case `public` = "PUBLIC"
         case fips = "FIPS"
         case privateLink = "PRIVATE_LINK"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterType: String, CustomStringConvertible, Codable, Sendable {
         case simplePattern = "SIMPLE_PATTERN"
         public var description: String { return self.rawValue }
     }
 
-    public enum Gid: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Gid: String, CustomStringConvertible, Codable, Sendable {
         case both = "BOTH"
         case intValue = "INT_VALUE"
         case name = "NAME"
@@ -59,13 +59,13 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum HdfsAuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HdfsAuthenticationType: String, CustomStringConvertible, Codable, Sendable {
         case kerberos = "KERBEROS"
         case simple = "SIMPLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HdfsDataTransferProtection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HdfsDataTransferProtection: String, CustomStringConvertible, Codable, Sendable {
         case authentication = "AUTHENTICATION"
         case disabled = "DISABLED"
         case integrity = "INTEGRITY"
@@ -73,7 +73,7 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum HdfsRpcProtection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HdfsRpcProtection: String, CustomStringConvertible, Codable, Sendable {
         case authentication = "AUTHENTICATION"
         case disabled = "DISABLED"
         case integrity = "INTEGRITY"
@@ -81,27 +81,27 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum LocationFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocationFilterName: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case locationType = "LocationType"
         case locationUri = "LocationUri"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogLevel: String, CustomStringConvertible, Codable, Sendable {
         case basic = "BASIC"
         case off = "OFF"
         case transfer = "TRANSFER"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mtime: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mtime: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case preserve = "PRESERVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum NfsVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NfsVersion: String, CustomStringConvertible, Codable, Sendable {
         case automatic = "AUTOMATIC"
         case nfs3 = "NFS3"
         case nfs40 = "NFS4_0"
@@ -109,19 +109,19 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectStorageServerProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectStorageServerProtocol: String, CustomStringConvertible, Codable, Sendable {
         case http = "HTTP"
         case https = "HTTPS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectTags: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectTags: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case preserve = "PRESERVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Operator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Operator: String, CustomStringConvertible, Codable, Sendable {
         case `in` = "In"
         case beginsWith = "BeginsWith"
         case contains = "Contains"
@@ -135,38 +135,38 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum OverwriteMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OverwriteMode: String, CustomStringConvertible, Codable, Sendable {
         case always = "ALWAYS"
         case never = "NEVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum PhaseStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PhaseStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case pending = "PENDING"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PosixPermissions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PosixPermissions: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case preserve = "PRESERVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PreserveDeletedFiles: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PreserveDeletedFiles: String, CustomStringConvertible, Codable, Sendable {
         case preserve = "PRESERVE"
         case remove = "REMOVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PreserveDevices: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PreserveDevices: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case preserve = "PRESERVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3StorageClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3StorageClass: String, CustomStringConvertible, Codable, Sendable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
         case glacierInstantRetrieval = "GLACIER_INSTANT_RETRIEVAL"
@@ -178,21 +178,21 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum SmbSecurityDescriptorCopyFlags: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SmbSecurityDescriptorCopyFlags: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case ownerDacl = "OWNER_DACL"
         case ownerDaclSacl = "OWNER_DACL_SACL"
         public var description: String { return self.rawValue }
     }
 
-    public enum SmbVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SmbVersion: String, CustomStringConvertible, Codable, Sendable {
         case automatic = "AUTOMATIC"
         case smb2 = "SMB2"
         case smb3 = "SMB3"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case launching = "LAUNCHING"
         case preparing = "PREPARING"
@@ -203,19 +203,19 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskFilterName: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case locationId = "LocationId"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskQueueing: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskQueueing: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case queued = "QUEUED"
@@ -224,13 +224,13 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransferMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransferMode: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case changed = "CHANGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Uid: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Uid: String, CustomStringConvertible, Codable, Sendable {
         case both = "BOTH"
         case intValue = "INT_VALUE"
         case name = "NAME"
@@ -238,7 +238,7 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum VerifyMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VerifyMode: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case onlyFilesTransferred = "ONLY_FILES_TRANSFERRED"
         case pointInTimeConsistent = "POINT_IN_TIME_CONSISTENT"

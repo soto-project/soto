@@ -21,7 +21,7 @@ import SotoCore
 extension SWF {
     // MARK: Enums
 
-    public enum ActivityTaskTimeoutType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActivityTaskTimeoutType: String, CustomStringConvertible, Codable, Sendable {
         case heartbeat = "HEARTBEAT"
         case scheduleToClose = "SCHEDULE_TO_CLOSE"
         case scheduleToStart = "SCHEDULE_TO_START"
@@ -29,26 +29,26 @@ extension SWF {
         public var description: String { return self.rawValue }
     }
 
-    public enum CancelTimerFailedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CancelTimerFailedCause: String, CustomStringConvertible, Codable, Sendable {
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
         case timerIdUnknown = "TIMER_ID_UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum CancelWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CancelWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, Sendable {
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
         case unhandledDecision = "UNHANDLED_DECISION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChildPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChildPolicy: String, CustomStringConvertible, Codable, Sendable {
         case abandon = "ABANDON"
         case requestCancel = "REQUEST_CANCEL"
         case terminate = "TERMINATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CloseStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CloseStatus: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case completed = "COMPLETED"
         case continuedAsNew = "CONTINUED_AS_NEW"
@@ -58,13 +58,13 @@ extension SWF {
         public var description: String { return self.rawValue }
     }
 
-    public enum CompleteWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CompleteWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, Sendable {
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
         case unhandledDecision = "UNHANDLED_DECISION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContinueAsNewWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContinueAsNewWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, Sendable {
         case continueAsNewWorkflowExecutionRateExceeded = "CONTINUE_AS_NEW_WORKFLOW_EXECUTION_RATE_EXCEEDED"
         case defaultChildPolicyUndefined = "DEFAULT_CHILD_POLICY_UNDEFINED"
         case defaultExecutionStartToCloseTimeoutUndefined = "DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED"
@@ -77,12 +77,12 @@ extension SWF {
         public var description: String { return self.rawValue }
     }
 
-    public enum DecisionTaskTimeoutType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DecisionTaskTimeoutType: String, CustomStringConvertible, Codable, Sendable {
         case startToClose = "START_TO_CLOSE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DecisionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DecisionType: String, CustomStringConvertible, Codable, Sendable {
         case cancelTimer = "CancelTimer"
         case cancelWorkflowExecution = "CancelWorkflowExecution"
         case completeWorkflowExecution = "CompleteWorkflowExecution"
@@ -99,7 +99,7 @@ extension SWF {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
         case activityTaskCancelRequested = "ActivityTaskCancelRequested"
         case activityTaskCanceled = "ActivityTaskCanceled"
         case activityTaskCompleted = "ActivityTaskCompleted"
@@ -157,48 +157,48 @@ extension SWF {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case closed = "CLOSED"
         case open = "OPEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, Sendable {
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
         case unhandledDecision = "UNHANDLED_DECISION"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionTimeoutType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LambdaFunctionTimeoutType: String, CustomStringConvertible, Codable, Sendable {
         case startToClose = "START_TO_CLOSE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordMarkerFailedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecordMarkerFailedCause: String, CustomStringConvertible, Codable, Sendable {
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RegistrationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RegistrationStatus: String, CustomStringConvertible, Codable, Sendable {
         case deprecated = "DEPRECATED"
         case registered = "REGISTERED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequestCancelActivityTaskFailedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RequestCancelActivityTaskFailedCause: String, CustomStringConvertible, Codable, Sendable {
         case activityIdUnknown = "ACTIVITY_ID_UNKNOWN"
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequestCancelExternalWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RequestCancelExternalWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, Sendable {
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
         case requestCancelExternalWorkflowExecutionRateExceeded = "REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED"
         case unknownExternalWorkflowExecution = "UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduleActivityTaskFailedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScheduleActivityTaskFailedCause: String, CustomStringConvertible, Codable, Sendable {
         case activityCreationRateExceeded = "ACTIVITY_CREATION_RATE_EXCEEDED"
         case activityIdAlreadyInUse = "ACTIVITY_ID_ALREADY_IN_USE"
         case activityTypeDeprecated = "ACTIVITY_TYPE_DEPRECATED"
@@ -213,7 +213,7 @@ extension SWF {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduleLambdaFunctionFailedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScheduleLambdaFunctionFailedCause: String, CustomStringConvertible, Codable, Sendable {
         case idAlreadyInUse = "ID_ALREADY_IN_USE"
         case lambdaFunctionCreationRateExceeded = "LAMBDA_FUNCTION_CREATION_RATE_EXCEEDED"
         case lambdaServiceNotAvailableInRegion = "LAMBDA_SERVICE_NOT_AVAILABLE_IN_REGION"
@@ -221,14 +221,14 @@ extension SWF {
         public var description: String { return self.rawValue }
     }
 
-    public enum SignalExternalWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SignalExternalWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, Sendable {
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
         case signalExternalWorkflowExecutionRateExceeded = "SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED"
         case unknownExternalWorkflowExecution = "UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum StartChildWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StartChildWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, Sendable {
         case childCreationRateExceeded = "CHILD_CREATION_RATE_EXCEEDED"
         case defaultChildPolicyUndefined = "DEFAULT_CHILD_POLICY_UNDEFINED"
         case defaultExecutionStartToCloseTimeoutUndefined = "DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED"
@@ -243,12 +243,12 @@ extension SWF {
         public var description: String { return self.rawValue }
     }
 
-    public enum StartLambdaFunctionFailedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StartLambdaFunctionFailedCause: String, CustomStringConvertible, Codable, Sendable {
         case assumeRoleFailed = "ASSUME_ROLE_FAILED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StartTimerFailedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StartTimerFailedCause: String, CustomStringConvertible, Codable, Sendable {
         case openTimersLimitExceeded = "OPEN_TIMERS_LIMIT_EXCEEDED"
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
         case timerCreationRateExceeded = "TIMER_CREATION_RATE_EXCEEDED"
@@ -256,19 +256,19 @@ extension SWF {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowExecutionCancelRequestedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkflowExecutionCancelRequestedCause: String, CustomStringConvertible, Codable, Sendable {
         case childPolicyApplied = "CHILD_POLICY_APPLIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowExecutionTerminatedCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkflowExecutionTerminatedCause: String, CustomStringConvertible, Codable, Sendable {
         case childPolicyApplied = "CHILD_POLICY_APPLIED"
         case eventLimitExceeded = "EVENT_LIMIT_EXCEEDED"
         case operatorInitiated = "OPERATOR_INITIATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowExecutionTimeoutType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkflowExecutionTimeoutType: String, CustomStringConvertible, Codable, Sendable {
         case startToClose = "START_TO_CLOSE"
         public var description: String { return self.rawValue }
     }

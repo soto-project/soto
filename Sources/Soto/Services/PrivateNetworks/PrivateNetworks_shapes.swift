@@ -21,63 +21,63 @@ import SotoCore
 extension PrivateNetworks {
     // MARK: Enums
 
-    public enum AcknowledgmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AcknowledgmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case acknowledged = "ACKNOWLEDGED"
         case acknowledging = "ACKNOWLEDGING"
         case unacknowledged = "UNACKNOWLEDGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceIdentifierFilterKeys: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceIdentifierFilterKeys: String, CustomStringConvertible, Codable, Sendable {
         case order = "ORDER"
         case status = "STATUS"
         case trafficGroup = "TRAFFIC_GROUP"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceIdentifierStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceIdentifierStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ElevationReference: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ElevationReference: String, CustomStringConvertible, Codable, Sendable {
         case agl = "AGL"
         case amsl = "AMSL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ElevationUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ElevationUnit: String, CustomStringConvertible, Codable, Sendable {
         /// Feet.
         case feet = "FEET"
         public var description: String { return self.rawValue }
     }
 
-    public enum HealthStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HealthStatus: String, CustomStringConvertible, Codable, Sendable {
         case healthy = "HEALTHY"
         case initial = "INITIAL"
         case unhealthy = "UNHEALTHY"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkFilterKeys: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkFilterKeys: String, CustomStringConvertible, Codable, Sendable {
         case status = "STATUS"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkResourceDefinitionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkResourceDefinitionType: String, CustomStringConvertible, Codable, Sendable {
         case deviceIdentifier = "DEVICE_IDENTIFIER"
         case radioUnit = "RADIO_UNIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkResourceFilterKeys: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkResourceFilterKeys: String, CustomStringConvertible, Codable, Sendable {
         case order = "ORDER"
         case status = "STATUS"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkResourceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkResourceStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -89,17 +89,17 @@ extension PrivateNetworks {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkResourceType: String, CustomStringConvertible, Codable, Sendable {
         case radioUnit = "RADIO_UNIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkSiteFilterKeys: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkSiteFilterKeys: String, CustomStringConvertible, Codable, Sendable {
         case status = "STATUS"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkSiteStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkSiteStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case created = "CREATED"
         case deleted = "DELETED"
@@ -108,7 +108,7 @@ extension PrivateNetworks {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case created = "CREATED"
         case deleted = "DELETED"
@@ -117,7 +117,7 @@ extension PrivateNetworks {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderFilterKeys: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrderFilterKeys: String, CustomStringConvertible, Codable, Sendable {
         case networkSite = "NETWORK_SITE"
         case status = "STATUS"
         public var description: String { return self.rawValue }

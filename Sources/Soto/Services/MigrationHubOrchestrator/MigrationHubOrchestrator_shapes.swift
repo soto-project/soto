@@ -21,7 +21,7 @@ import SotoCore
 extension MigrationHubOrchestrator {
     // MARK: Enums
 
-    public enum DataType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataType: String, CustomStringConvertible, Codable, Sendable {
         case integer = "INTEGER"
         case string = "STRING"
         case stringlist = "STRINGLIST"
@@ -29,7 +29,7 @@ extension MigrationHubOrchestrator {
         public var description: String { return self.rawValue }
     }
 
-    public enum MigrationWorkflowStatusEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MigrationWorkflowStatusEnum: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case creating = "CREATING"
         case creationFailed = "CREATION_FAILED"
@@ -47,31 +47,31 @@ extension MigrationHubOrchestrator {
         public var description: String { return self.rawValue }
     }
 
-    public enum Owner: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Owner: String, CustomStringConvertible, Codable, Sendable {
         case awsManaged = "AWS_MANAGED"
         case custom = "CUSTOM"
         public var description: String { return self.rawValue }
     }
 
-    public enum PluginHealth: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PluginHealth: String, CustomStringConvertible, Codable, Sendable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RunEnvironment: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RunEnvironment: String, CustomStringConvertible, Codable, Sendable {
         case aws = "AWS"
         case onpremise = "ONPREMISE"
         public var description: String { return self.rawValue }
     }
 
-    public enum StepActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StepActionType: String, CustomStringConvertible, Codable, Sendable {
         case automated = "AUTOMATED"
         case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum StepGroupStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StepGroupStatus: String, CustomStringConvertible, Codable, Sendable {
         case awaitingDependencies = "AWAITING_DEPENDENCIES"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -83,7 +83,7 @@ extension MigrationHubOrchestrator {
         public var description: String { return self.rawValue }
     }
 
-    public enum StepStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StepStatus: String, CustomStringConvertible, Codable, Sendable {
         case awaitingDependencies = "AWAITING_DEPENDENCIES"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -94,19 +94,19 @@ extension MigrationHubOrchestrator {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetType: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case none = "NONE"
         case single = "SINGLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TemplateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TemplateStatus: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StepInput: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum StepInput: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The value of the integer.
         case integerValue(Int)
         /// List of string values.
@@ -183,7 +183,7 @@ extension MigrationHubOrchestrator {
         }
     }
 
-    public enum WorkflowStepOutputUnion: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum WorkflowStepOutputUnion: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The integer value.
         case integerValue(Int)
         /// The list of string value.

@@ -21,14 +21,14 @@ import SotoCore
 extension MediaConnect {
     // MARK: Enums
 
-    public enum Algorithm: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Algorithm: String, CustomStringConvertible, Codable, Sendable {
         case aes128 = "aes128"
         case aes192 = "aes192"
         case aes256 = "aes256"
         public var description: String { return self.rawValue }
     }
 
-    public enum Colorimetry: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Colorimetry: String, CustomStringConvertible, Codable, Sendable {
         case bt2020 = "BT2020"
         case bt2100 = "BT2100"
         case bt601 = "BT601"
@@ -39,18 +39,18 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum DurationUnits: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DurationUnits: String, CustomStringConvertible, Codable, Sendable {
         case months = "MONTHS"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncoderProfile: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncoderProfile: String, CustomStringConvertible, Codable, Sendable {
         case high = "high"
         case main = "main"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncodingName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncodingName: String, CustomStringConvertible, Codable, Sendable {
         case jxsv = "jxsv"
         case pcm = "pcm"
         case raw = "raw"
@@ -58,26 +58,26 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum EntitlementStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EntitlementStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailoverMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailoverMode: String, CustomStringConvertible, Codable, Sendable {
         case failover = "FAILOVER"
         case merge = "MERGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KeyType: String, CustomStringConvertible, Codable, Sendable {
         case speke = "speke"
         case srtPassword = "srt-password"
         case staticKey = "static-key"
         public var description: String { return self.rawValue }
     }
 
-    public enum MaintenanceDay: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MaintenanceDay: String, CustomStringConvertible, Codable, Sendable {
         case friday = "Friday"
         case monday = "Monday"
         case saturday = "Saturday"
@@ -88,32 +88,32 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum MediaStreamType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MediaStreamType: String, CustomStringConvertible, Codable, Sendable {
         case ancillaryData = "ancillary-data"
         case audio = "audio"
         case video = "video"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkInterfaceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkInterfaceType: String, CustomStringConvertible, Codable, Sendable {
         case efa = "efa"
         case ena = "ena"
         public var description: String { return self.rawValue }
     }
 
-    public enum PriceUnits: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PriceUnits: String, CustomStringConvertible, Codable, Sendable {
         case hourly = "HOURLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum Range: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Range: String, CustomStringConvertible, Codable, Sendable {
         case full = "FULL"
         case fullprotect = "FULLPROTECT"
         case narrow = "NARROW"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservationState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case canceled = "CANCELED"
         case expired = "EXPIRED"
@@ -121,31 +121,31 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case mbpsOutboundBandwidth = "Mbps_Outbound_Bandwidth"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScanMode: String, CustomStringConvertible, Codable, Sendable {
         case interlace = "interlace"
         case progressive = "progressive"
         case progressiveSegmentedFrame = "progressive-segmented-frame"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
         case entitled = "ENTITLED"
         case owned = "OWNED"
         public var description: String { return self.rawValue }
     }
 
-    public enum State: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum State: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         case error = "ERROR"
@@ -156,7 +156,7 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum Tcs: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Tcs: String, CustomStringConvertible, Codable, Sendable {
         case bt2100linhlg = "BT2100LINHLG"
         case bt2100linpq = "BT2100LINPQ"
         case density = "DENSITY"
@@ -169,7 +169,7 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable {
         case cdi = "cdi"
         case fujitsuQos = "fujitsu-qos"
         case rist = "rist"

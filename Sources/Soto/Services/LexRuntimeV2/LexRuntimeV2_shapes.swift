@@ -21,20 +21,20 @@ import SotoCore
 extension LexRuntimeV2 {
     // MARK: Enums
 
-    public enum ConfirmationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfirmationState: String, CustomStringConvertible, Codable, Sendable {
         case confirmed = "Confirmed"
         case denied = "Denied"
         case none = "None"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConversationMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConversationMode: String, CustomStringConvertible, Codable, Sendable {
         case audio = "AUDIO"
         case text = "TEXT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DialogActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DialogActionType: String, CustomStringConvertible, Codable, Sendable {
         case close = "Close"
         case confirmIntent = "ConfirmIntent"
         case delegate = "Delegate"
@@ -44,14 +44,14 @@ extension LexRuntimeV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum InputMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputMode: String, CustomStringConvertible, Codable, Sendable {
         case dtmf = "DTMF"
         case speech = "Speech"
         case text = "Text"
         public var description: String { return self.rawValue }
     }
 
-    public enum IntentState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IntentState: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case fulfilled = "Fulfilled"
         case fulfillmentInProgress = "FulfillmentInProgress"
@@ -61,7 +61,7 @@ extension LexRuntimeV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MessageContentType: String, CustomStringConvertible, Codable, Sendable {
         case customPayload = "CustomPayload"
         case imageResponseCard = "ImageResponseCard"
         case plainText = "PlainText"
@@ -69,14 +69,14 @@ extension LexRuntimeV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum PlaybackInterruptionReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlaybackInterruptionReason: String, CustomStringConvertible, Codable, Sendable {
         case dtmfStartDetected = "DTMF_START_DETECTED"
         case textDetected = "TEXT_DETECTED"
         case voiceStartDetected = "VOICE_START_DETECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SentimentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SentimentType: String, CustomStringConvertible, Codable, Sendable {
         case mixed = "MIXED"
         case negative = "NEGATIVE"
         case neutral = "NEUTRAL"
@@ -84,21 +84,21 @@ extension LexRuntimeV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum Shape: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Shape: String, CustomStringConvertible, Codable, Sendable {
         case composite = "Composite"
         case list = "List"
         case scalar = "Scalar"
         public var description: String { return self.rawValue }
     }
 
-    public enum StyleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StyleType: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "Default"
         case spellByLetter = "SpellByLetter"
         case spellByWord = "SpellByWord"
         public var description: String { return self.rawValue }
     }
 
-    public enum StartConversationRequestEventStream: AWSEncodableShape, _SotoSendable {
+    public enum StartConversationRequestEventStream: AWSEncodableShape, Sendable {
         /// Speech audio sent from your client application to Amazon Lex V2. Audio starts accumulating when Amazon Lex V2 identifies a voice and continues until a natural pause in the speech is found before processing.
         case audioInputEvent(AudioInputEvent)
         /// Configuration information sent from your client application to Amazon Lex V2
@@ -157,7 +157,7 @@ extension LexRuntimeV2 {
         }
     }
 
-    public enum StartConversationResponseEventStream: AWSDecodableShape, _SotoSendable {
+    public enum StartConversationResponseEventStream: AWSDecodableShape, Sendable {
         /// Exception thrown when the credentials passed with the request are invalid or expired. Also thrown when the credentials in the request do not have permission to access the StartConversation operation.
         case accessDeniedException(AccessDeniedException)
         case audioResponseEvent(AudioResponseEvent)

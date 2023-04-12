@@ -21,18 +21,18 @@ import SotoCore
 extension Appflow {
     // MARK: Enums
 
-    public enum AggregationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregationType: String, CustomStringConvertible, Codable, Sendable {
         case none = "None"
         case singleFile = "SingleFile"
         public var description: String { return self.rawValue }
     }
 
-    public enum AmplitudeConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AmplitudeConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case between = "BETWEEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable {
         case apikey = "APIKEY"
         case basic = "BASIC"
         case custom = "CUSTOM"
@@ -40,23 +40,23 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum CatalogType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CatalogType: String, CustomStringConvertible, Codable, Sendable {
         case glue = "GLUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionMode: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "Private"
         case `public` = "Public"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectorProvisioningType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectorProvisioningType: String, CustomStringConvertible, Codable, Sendable {
         case lambda = "LAMBDA"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectorType: String, CustomStringConvertible, Codable, Sendable {
         case amplitude = "Amplitude"
         case customconnector = "CustomConnector"
         case customerprofiles = "CustomerProfiles"
@@ -84,13 +84,13 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataPullMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataPullMode: String, CustomStringConvertible, Codable, Sendable {
         case complete = "Complete"
         case incremental = "Incremental"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatadogConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatadogConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case division = "DIVISION"
@@ -109,7 +109,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum DynatraceConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DynatraceConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case division = "DIVISION"
@@ -128,21 +128,21 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "Error"
         case inprogress = "InProgress"
         case successful = "Successful"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileType: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case json = "JSON"
         case parquet = "PARQUET"
         public var description: String { return self.rawValue }
     }
 
-    public enum FlowStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FlowStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case deleted = "Deleted"
         case deprecated = "Deprecated"
@@ -152,13 +152,13 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum GoogleAnalyticsConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GoogleAnalyticsConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case between = "BETWEEN"
         case projection = "PROJECTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum InforNexusConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InforNexusConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case division = "DIVISION"
@@ -177,7 +177,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum MarketoConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MarketoConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case division = "DIVISION"
@@ -197,19 +197,19 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum OAuth2CustomPropType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OAuth2CustomPropType: String, CustomStringConvertible, Codable, Sendable {
         case authUrl = "AUTH_URL"
         case tokenUrl = "TOKEN_URL"
         public var description: String { return self.rawValue }
     }
 
-    public enum OAuth2GrantType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OAuth2GrantType: String, CustomStringConvertible, Codable, Sendable {
         case authorizationCode = "AUTHORIZATION_CODE"
         case clientCredentials = "CLIENT_CREDENTIALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Operator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Operator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case contains = "CONTAINS"
@@ -234,7 +234,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum OperatorPropertiesKeys: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperatorPropertiesKeys: String, CustomStringConvertible, Codable, Sendable {
         case concatFormat = "CONCAT_FORMAT"
         case dataType = "DATA_TYPE"
         case destinationDataType = "DESTINATION_DATA_TYPE"
@@ -255,7 +255,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum Operators: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Operators: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case contains = "CONTAINS"
@@ -280,7 +280,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum PardotConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PardotConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case division = "DIVISION"
         case equalTo = "EQUAL_TO"
@@ -298,13 +298,13 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum PathPrefix: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PathPrefix: String, CustomStringConvertible, Codable, Sendable {
         case executionId = "EXECUTION_ID"
         case schemaVersion = "SCHEMA_VERSION"
         public var description: String { return self.rawValue }
     }
 
-    public enum PrefixFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PrefixFormat: String, CustomStringConvertible, Codable, Sendable {
         case day = "DAY"
         case hour = "HOUR"
         case minute = "MINUTE"
@@ -313,14 +313,14 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum PrefixType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PrefixType: String, CustomStringConvertible, Codable, Sendable {
         case filename = "FILENAME"
         case path = "PATH"
         case pathAndFilename = "PATH_AND_FILENAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum PrivateConnectionProvisioningFailureCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PrivateConnectionProvisioningFailureCause: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case connectorAuthentication = "CONNECTOR_AUTHENTICATION"
         case connectorServer = "CONNECTOR_SERVER"
@@ -329,14 +329,14 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum PrivateConnectionProvisioningStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PrivateConnectionProvisioningStatus: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case failed = "FAILED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3ConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case division = "DIVISION"
@@ -360,13 +360,13 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3InputFileType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3InputFileType: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum SAPODataConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SAPODataConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case contains = "CONTAINS"
@@ -391,7 +391,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum SalesforceConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SalesforceConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case contains = "CONTAINS"
@@ -416,14 +416,14 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum SalesforceDataTransferApi: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SalesforceDataTransferApi: String, CustomStringConvertible, Codable, Sendable {
         case automatic = "AUTOMATIC"
         case bulkv2 = "BULKV2"
         case restSync = "REST_SYNC"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduleFrequencyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScheduleFrequencyType: String, CustomStringConvertible, Codable, Sendable {
         case byminute = "BYMINUTE"
         case daily = "DAILY"
         case hourly = "HOURLY"
@@ -433,7 +433,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceNowConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceNowConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case contains = "CONTAINS"
@@ -458,7 +458,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum SingularConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SingularConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case division = "DIVISION"
         case equalTo = "EQUAL_TO"
@@ -476,7 +476,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum SlackConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlackConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case division = "DIVISION"
@@ -499,7 +499,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskType: String, CustomStringConvertible, Codable, Sendable {
         case arithmetic = "Arithmetic"
         case filter = "Filter"
         case map = "Map"
@@ -513,7 +513,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum TrendmicroConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrendmicroConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case division = "DIVISION"
         case equalTo = "EQUAL_TO"
@@ -531,14 +531,14 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum TriggerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TriggerType: String, CustomStringConvertible, Codable, Sendable {
         case event = "Event"
         case ondemand = "OnDemand"
         case scheduled = "Scheduled"
         public var description: String { return self.rawValue }
     }
 
-    public enum VeevaConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VeevaConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case contains = "CONTAINS"
@@ -563,7 +563,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum WriteOperationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WriteOperationType: String, CustomStringConvertible, Codable, Sendable {
         case delete = "DELETE"
         case insert = "INSERT"
         case update = "UPDATE"
@@ -571,7 +571,7 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
-    public enum ZendeskConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ZendeskConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case division = "DIVISION"
         case greaterThan = "GREATER_THAN"

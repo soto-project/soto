@@ -21,20 +21,20 @@ import SotoCore
 extension WAFRegional {
     // MARK: Enums
 
-    public enum ChangeAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeAction: String, CustomStringConvertible, Codable, Sendable {
         case delete = "DELETE"
         case insert = "INSERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeTokenStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeTokenStatus: String, CustomStringConvertible, Codable, Sendable {
         case insync = "INSYNC"
         case pending = "PENDING"
         case provisioned = "PROVISIONED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
         case eq = "EQ"
         case ge = "GE"
         case gt = "GT"
@@ -44,12 +44,12 @@ extension WAFRegional {
         public var description: String { return self.rawValue }
     }
 
-    public enum GeoMatchConstraintType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GeoMatchConstraintType: String, CustomStringConvertible, Codable, Sendable {
         case country = "Country"
         public var description: String { return self.rawValue }
     }
 
-    public enum GeoMatchConstraintValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GeoMatchConstraintValue: String, CustomStringConvertible, Codable, Sendable {
         case ad = "AD"
         case ae = "AE"
         case af = "AF"
@@ -302,13 +302,13 @@ extension WAFRegional {
         public var description: String { return self.rawValue }
     }
 
-    public enum IPSetDescriptorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IPSetDescriptorType: String, CustomStringConvertible, Codable, Sendable {
         case ipv4 = "IPV4"
         case ipv6 = "IPV6"
         public var description: String { return self.rawValue }
     }
 
-    public enum MatchFieldType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MatchFieldType: String, CustomStringConvertible, Codable, Sendable {
         case allQueryArgs = "ALL_QUERY_ARGS"
         case body = "BODY"
         case header = "HEADER"
@@ -319,7 +319,7 @@ extension WAFRegional {
         public var description: String { return self.rawValue }
     }
 
-    public enum PositionalConstraint: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PositionalConstraint: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CONTAINS"
         case containsWord = "CONTAINS_WORD"
         case endsWith = "ENDS_WITH"
@@ -328,7 +328,7 @@ extension WAFRegional {
         public var description: String { return self.rawValue }
     }
 
-    public enum PredicateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PredicateType: String, CustomStringConvertible, Codable, Sendable {
         case byteMatch = "ByteMatch"
         case geoMatch = "GeoMatch"
         case ipMatch = "IPMatch"
@@ -339,18 +339,18 @@ extension WAFRegional {
         public var description: String { return self.rawValue }
     }
 
-    public enum RateKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RateKey: String, CustomStringConvertible, Codable, Sendable {
         case ip = "IP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case apiGateway = "API_GATEWAY"
         case applicationLoadBalancer = "APPLICATION_LOAD_BALANCER"
         public var description: String { return self.rawValue }
     }
 
-    public enum TextTransformation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TextTransformation: String, CustomStringConvertible, Codable, Sendable {
         case cmdLine = "CMD_LINE"
         case compressWhiteSpace = "COMPRESS_WHITE_SPACE"
         case htmlEntityDecode = "HTML_ENTITY_DECODE"
@@ -360,20 +360,20 @@ extension WAFRegional {
         public var description: String { return self.rawValue }
     }
 
-    public enum WafActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WafActionType: String, CustomStringConvertible, Codable, Sendable {
         case allow = "ALLOW"
         case block = "BLOCK"
         case count = "COUNT"
         public var description: String { return self.rawValue }
     }
 
-    public enum WafOverrideActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WafOverrideActionType: String, CustomStringConvertible, Codable, Sendable {
         case count = "COUNT"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum WafRuleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WafRuleType: String, CustomStringConvertible, Codable, Sendable {
         case group = "GROUP"
         case rateBased = "RATE_BASED"
         case regular = "REGULAR"

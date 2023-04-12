@@ -21,31 +21,31 @@ import SotoCore
 extension MediaPackageVod {
     // MARK: Enums
 
-    public enum AdMarkers: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AdMarkers: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         case scte35Enhanced = "SCTE35_ENHANCED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionMethod: String, CustomStringConvertible, Codable, Sendable {
         case aes128 = "AES_128"
         case sampleAes = "SAMPLE_AES"
         public var description: String { return self.rawValue }
     }
 
-    public enum ManifestLayout: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ManifestLayout: String, CustomStringConvertible, Codable, Sendable {
         case compact = "COMPACT"
         case full = "FULL"
         public var description: String { return self.rawValue }
     }
 
-    public enum PeriodTriggersElement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PeriodTriggersElement: String, CustomStringConvertible, Codable, Sendable {
         case ads = "ADS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, Sendable {
         case presetAudio1 = "PRESET-AUDIO-1"
         case presetAudio2 = "PRESET-AUDIO-2"
         case presetAudio3 = "PRESET-AUDIO-3"
@@ -54,7 +54,7 @@ extension MediaPackageVod {
         public var description: String { return self.rawValue }
     }
 
-    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, Sendable {
         case presetVideo1 = "PRESET-VIDEO-1"
         case presetVideo2 = "PRESET-VIDEO-2"
         case presetVideo3 = "PRESET-VIDEO-3"
@@ -68,26 +68,26 @@ extension MediaPackageVod {
         public var description: String { return self.rawValue }
     }
 
-    public enum Profile: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Profile: String, CustomStringConvertible, Codable, Sendable {
         case hbbtv15 = "HBBTV_1_5"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScteMarkersSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScteMarkersSource: String, CustomStringConvertible, Codable, Sendable {
         case manifest = "MANIFEST"
         case segments = "SEGMENTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable, Sendable {
         case numberWithDuration = "NUMBER_WITH_DURATION"
         case numberWithTimeline = "NUMBER_WITH_TIMELINE"
         case timeWithTimeline = "TIME_WITH_TIMELINE"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StreamOrder: String, CustomStringConvertible, Codable, Sendable {
         case original = "ORIGINAL"
         case videoBitrateAscending = "VIDEO_BITRATE_ASCENDING"
         case videoBitrateDescending = "VIDEO_BITRATE_DESCENDING"

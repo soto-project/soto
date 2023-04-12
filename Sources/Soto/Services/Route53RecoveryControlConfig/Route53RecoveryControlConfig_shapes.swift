@@ -21,14 +21,14 @@ import SotoCore
 extension Route53RecoveryControlConfig {
     // MARK: Enums
 
-    public enum RuleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuleType: String, CustomStringConvertible, Codable, Sendable {
         case and = "AND"
         case atleast = "ATLEAST"
         case or = "OR"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case deployed = "DEPLOYED"
         case pending = "PENDING"
         case pendingDeletion = "PENDING_DELETION"

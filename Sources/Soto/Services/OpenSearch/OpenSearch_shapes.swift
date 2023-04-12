@@ -21,13 +21,13 @@ import SotoCore
 extension OpenSearch {
     // MARK: Enums
 
-    public enum AutoTuneDesiredState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoTuneDesiredState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoTuneState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoTuneState: String, CustomStringConvertible, Codable, Sendable {
         case disableInProgress = "DISABLE_IN_PROGRESS"
         case disabled = "DISABLED"
         case disabledAndRollbackComplete = "DISABLED_AND_ROLLBACK_COMPLETE"
@@ -40,12 +40,12 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoTuneType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoTuneType: String, CustomStringConvertible, Codable, Sendable {
         case scheduledAction = "SCHEDULED_ACTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case eligible = "ELIGIBLE"
         case inProgress = "IN_PROGRESS"
@@ -54,14 +54,14 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum DescribePackagesFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DescribePackagesFilterName: String, CustomStringConvertible, Codable, Sendable {
         case packageID = "PackageID"
         case packageName = "PackageName"
         case packageStatus = "PackageStatus"
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainPackageStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DomainPackageStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case associating = "ASSOCIATING"
         case associationFailed = "ASSOCIATION_FAILED"
@@ -70,19 +70,19 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum DryRunMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DryRunMode: String, CustomStringConvertible, Codable, Sendable {
         case basic = "Basic"
         case verbose = "Verbose"
         public var description: String { return self.rawValue }
     }
 
-    public enum EngineType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EngineType: String, CustomStringConvertible, Codable, Sendable {
         case elasticsearch = "Elasticsearch"
         case openSearch = "OpenSearch"
         public var description: String { return self.rawValue }
     }
 
-    public enum InboundConnectionStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InboundConnectionStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case approved = "APPROVED"
         case deleted = "DELETED"
@@ -94,7 +94,7 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable {
         case auditLogs = "AUDIT_LOGS"
         case esApplicationLogs = "ES_APPLICATION_LOGS"
         case indexSlowLogs = "INDEX_SLOW_LOGS"
@@ -102,7 +102,7 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum OpenSearchPartitionInstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OpenSearchPartitionInstanceType: String, CustomStringConvertible, Codable, Sendable {
         case c42XlargeSearch = "c4.2xlarge.search"
         case c44XlargeSearch = "c4.4xlarge.search"
         case c48XlargeSearch = "c4.8xlarge.search"
@@ -201,21 +201,21 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum OpenSearchWarmPartitionInstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OpenSearchWarmPartitionInstanceType: String, CustomStringConvertible, Codable, Sendable {
         case ultrawarm1LargeSearch = "ultrawarm1.large.search"
         case ultrawarm1MediumSearch = "ultrawarm1.medium.search"
         case ultrawarm1XlargeSearch = "ultrawarm1.xlarge.search"
         public var description: String { return self.rawValue }
     }
 
-    public enum OptionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OptionState: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case processing = "Processing"
         case requiresIndexDocuments = "RequiresIndexDocuments"
         public var description: String { return self.rawValue }
     }
 
-    public enum OutboundConnectionStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OutboundConnectionStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case approved = "APPROVED"
         case deleted = "DELETED"
@@ -229,7 +229,7 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum OverallChangeStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OverallChangeStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case pending = "PENDING"
@@ -237,7 +237,7 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PackageStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case copyFailed = "COPY_FAILED"
         case copying = "COPYING"
@@ -249,55 +249,55 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PackageType: String, CustomStringConvertible, Codable, Sendable {
         case txtDictionary = "TXT-DICTIONARY"
         public var description: String { return self.rawValue }
     }
 
-    public enum PrincipalType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable {
         case awsAccount = "AWS_ACCOUNT"
         case awsService = "AWS_SERVICE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservedInstancePaymentOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservedInstancePaymentOption: String, CustomStringConvertible, Codable, Sendable {
         case allUpfront = "ALL_UPFRONT"
         case noUpfront = "NO_UPFRONT"
         case partialUpfront = "PARTIAL_UPFRONT"
         public var description: String { return self.rawValue }
     }
 
-    public enum RollbackOnDisable: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RollbackOnDisable: String, CustomStringConvertible, Codable, Sendable {
         case defaultRollback = "DEFAULT_ROLLBACK"
         case noRollback = "NO_ROLLBACK"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduledAutoTuneActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScheduledAutoTuneActionType: String, CustomStringConvertible, Codable, Sendable {
         case jvmHeapSizeTuning = "JVM_HEAP_SIZE_TUNING"
         case jvmYoungGenTuning = "JVM_YOUNG_GEN_TUNING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduledAutoTuneSeverityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScheduledAutoTuneSeverityType: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable, Sendable {
         case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
         case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimeUnit: String, CustomStringConvertible, Codable, Sendable {
         case hours = "HOURS"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpgradeStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpgradeStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
@@ -305,14 +305,14 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpgradeStep: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpgradeStep: String, CustomStringConvertible, Codable, Sendable {
         case preUpgradeCheck = "PRE_UPGRADE_CHECK"
         case snapshot = "SNAPSHOT"
         case upgrade = "UPGRADE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VolumeType: String, CustomStringConvertible, Codable, Sendable {
         case gp2 = "gp2"
         case gp3 = "gp3"
         case io1 = "io1"
@@ -320,13 +320,13 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcEndpointErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpcEndpointErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case endpointNotFound = "ENDPOINT_NOT_FOUND"
         case serverError = "SERVER_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcEndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpcEndpointStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"

@@ -21,7 +21,7 @@ import SotoCore
 extension LookoutVision {
     // MARK: Enums
 
-    public enum DatasetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatasetStatus: String, CustomStringConvertible, Codable, Sendable {
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -35,7 +35,7 @@ extension LookoutVision {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelHostingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelHostingStatus: String, CustomStringConvertible, Codable, Sendable {
         case hosted = "HOSTED"
         case hostingFailed = "HOSTING_FAILED"
         case startingHosting = "STARTING_HOSTING"
@@ -44,7 +44,7 @@ extension LookoutVision {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelPackagingJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelPackagingJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case failed = "FAILED"
         case running = "RUNNING"
@@ -52,7 +52,7 @@ extension LookoutVision {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleting = "DELETING"
         case hosted = "HOSTED"
         case hostingFailed = "HOSTING_FAILED"
@@ -65,23 +65,23 @@ extension LookoutVision {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetDevice: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetDevice: String, CustomStringConvertible, Codable, Sendable {
         case jetsonXavier = "jetson_xavier"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetPlatformAccelerator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetPlatformAccelerator: String, CustomStringConvertible, Codable, Sendable {
         case nvidia = "NVIDIA"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetPlatformArch: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetPlatformArch: String, CustomStringConvertible, Codable, Sendable {
         case arm64 = "ARM64"
         case x8664 = "X86_64"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetPlatformOs: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetPlatformOs: String, CustomStringConvertible, Codable, Sendable {
         case linux = "LINUX"
         public var description: String { return self.rawValue }
     }

@@ -21,14 +21,14 @@ import SotoCore
 extension ControlTower {
     // MARK: Enums
 
-    public enum ControlOperationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ControlOperationStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ControlOperationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ControlOperationType: String, CustomStringConvertible, Codable, Sendable {
         case disableControl = "DISABLE_CONTROL"
         case enableControl = "ENABLE_CONTROL"
         public var description: String { return self.rawValue }

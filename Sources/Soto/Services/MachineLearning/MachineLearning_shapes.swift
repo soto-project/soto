@@ -21,12 +21,12 @@ import SotoCore
 extension MachineLearning {
     // MARK: Enums
 
-    public enum Algorithm: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Algorithm: String, CustomStringConvertible, Codable, Sendable {
         case sgd = "sgd"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchPredictionFilterVariable: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchPredictionFilterVariable: String, CustomStringConvertible, Codable, Sendable {
         case createdAt = "CreatedAt"
         case dataSourceId = "DataSourceId"
         case dataURI = "DataURI"
@@ -38,7 +38,7 @@ extension MachineLearning {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceFilterVariable: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSourceFilterVariable: String, CustomStringConvertible, Codable, Sendable {
         case createdAt = "CreatedAt"
         case dataLocationS3 = "DataLocationS3"
         case iamUser = "IAMUser"
@@ -48,13 +48,13 @@ extension MachineLearning {
         public var description: String { return self.rawValue }
     }
 
-    public enum DetailsAttributes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DetailsAttributes: String, CustomStringConvertible, Codable, Sendable {
         case algorithm = "Algorithm"
         case predictiveModelType = "PredictiveModelType"
         public var description: String { return self.rawValue }
     }
 
-    public enum EntityStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EntityStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case deleted = "DELETED"
         case failed = "FAILED"
@@ -63,7 +63,7 @@ extension MachineLearning {
         public var description: String { return self.rawValue }
     }
 
-    public enum EvaluationFilterVariable: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EvaluationFilterVariable: String, CustomStringConvertible, Codable, Sendable {
         case createdAt = "CreatedAt"
         case dataSourceId = "DataSourceId"
         case dataURI = "DataURI"
@@ -75,7 +75,7 @@ extension MachineLearning {
         public var description: String { return self.rawValue }
     }
 
-    public enum MLModelFilterVariable: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MLModelFilterVariable: String, CustomStringConvertible, Codable, Sendable {
         case algorithm = "Algorithm"
         case createdAt = "CreatedAt"
         case iamUser = "IAMUser"
@@ -89,14 +89,14 @@ extension MachineLearning {
         public var description: String { return self.rawValue }
     }
 
-    public enum MLModelType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MLModelType: String, CustomStringConvertible, Codable, Sendable {
         case binary = "BINARY"
         case multiclass = "MULTICLASS"
         case regression = "REGRESSION"
         public var description: String { return self.rawValue }
     }
 
-    public enum RealtimeEndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RealtimeEndpointStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case none = "NONE"
         case ready = "READY"
@@ -104,13 +104,13 @@ extension MachineLearning {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case asc = "asc"
         case dsc = "dsc"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaggableResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaggableResourceType: String, CustomStringConvertible, Codable, Sendable {
         case batchPrediction = "BatchPrediction"
         case dataSource = "DataSource"
         case evaluation = "Evaluation"

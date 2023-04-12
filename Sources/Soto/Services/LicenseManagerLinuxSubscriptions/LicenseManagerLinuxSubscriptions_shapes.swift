@@ -21,7 +21,7 @@ import SotoCore
 extension LicenseManagerLinuxSubscriptions {
     // MARK: Enums
 
-    public enum LinuxSubscriptionsDiscovery: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LinuxSubscriptionsDiscovery: String, CustomStringConvertible, Codable, Sendable {
         /// Disabled LinuxSubscriptionsDiscovery
         case disabled = "Disabled"
         /// Enabled LinuxSubscriptionsDiscovery
@@ -29,7 +29,7 @@ extension LicenseManagerLinuxSubscriptions {
         public var description: String { return self.rawValue }
     }
 
-    public enum Operator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Operator: String, CustomStringConvertible, Codable, Sendable {
         /// Contains operator
         case contains = "Contains"
         /// Equal operator
@@ -39,7 +39,7 @@ extension LicenseManagerLinuxSubscriptions {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationIntegration: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrganizationIntegration: String, CustomStringConvertible, Codable, Sendable {
         /// Disabled OrganizationIntegration
         case disabled = "Disabled"
         /// Enabled OrganizationIntegration
@@ -47,7 +47,7 @@ extension LicenseManagerLinuxSubscriptions {
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         /// Completed status
         case completed = "Completed"
         /// Failed status

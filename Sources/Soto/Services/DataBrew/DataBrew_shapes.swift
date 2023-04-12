@@ -21,13 +21,13 @@ import SotoCore
 extension DataBrew {
     // MARK: Enums
 
-    public enum AnalyticsMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnalyticsMode: String, CustomStringConvertible, Codable, Sendable {
         case disable = "DISABLE"
         case enable = "ENABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CompressionFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CompressionFormat: String, CustomStringConvertible, Codable, Sendable {
         case brotli = "BROTLI"
         case bzip2 = "BZIP2"
         case deflate = "DEFLATE"
@@ -40,18 +40,18 @@ extension DataBrew {
         public var description: String { return self.rawValue }
     }
 
-    public enum DatabaseOutputMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatabaseOutputMode: String, CustomStringConvertible, Codable, Sendable {
         case newTable = "NEW_TABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionMode: String, CustomStringConvertible, Codable, Sendable {
         case ssekms = "SSE-KMS"
         case sses3 = "SSE-S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case excel = "EXCEL"
         case json = "JSON"
@@ -60,7 +60,7 @@ extension DataBrew {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobRunState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobRunState: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case running = "RUNNING"
         case starting = "STARTING"
@@ -71,30 +71,30 @@ extension DataBrew {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobType: String, CustomStringConvertible, Codable, Sendable {
         case profile = "PROFILE"
         case recipe = "RECIPE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogSubscription: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogSubscription: String, CustomStringConvertible, Codable, Sendable {
         case disable = "DISABLE"
         case enable = "ENABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Order: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Order: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderedBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrderedBy: String, CustomStringConvertible, Codable, Sendable {
         case lastModifiedDate = "LAST_MODIFIED_DATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable {
         case avro = "AVRO"
         case csv = "CSV"
         case glueparquet = "GLUEPARQUET"
@@ -106,27 +106,27 @@ extension DataBrew {
         public var description: String { return self.rawValue }
     }
 
-    public enum ParameterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParameterType: String, CustomStringConvertible, Codable, Sendable {
         case datetime = "Datetime"
         case number = "Number"
         case string = "String"
         public var description: String { return self.rawValue }
     }
 
-    public enum SampleMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SampleMode: String, CustomStringConvertible, Codable, Sendable {
         case customRows = "CUSTOM_ROWS"
         case fullDataset = "FULL_DATASET"
         public var description: String { return self.rawValue }
     }
 
-    public enum SampleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SampleType: String, CustomStringConvertible, Codable, Sendable {
         case firstN = "FIRST_N"
         case lastN = "LAST_N"
         case random = "RANDOM"
         public var description: String { return self.rawValue }
     }
 
-    public enum SessionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SessionStatus: String, CustomStringConvertible, Codable, Sendable {
         case assigned = "ASSIGNED"
         case failed = "FAILED"
         case initializing = "INITIALIZING"
@@ -140,14 +140,14 @@ extension DataBrew {
         public var description: String { return self.rawValue }
     }
 
-    public enum Source: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Source: String, CustomStringConvertible, Codable, Sendable {
         case database = "DATABASE"
         case datacatalog = "DATA-CATALOG"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ThresholdType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThresholdType: String, CustomStringConvertible, Codable, Sendable {
         case greaterThan = "GREATER_THAN"
         case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
         case lessThan = "LESS_THAN"
@@ -155,13 +155,13 @@ extension DataBrew {
         public var description: String { return self.rawValue }
     }
 
-    public enum ThresholdUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThresholdUnit: String, CustomStringConvertible, Codable, Sendable {
         case count = "COUNT"
         case percentage = "PERCENTAGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ValidationMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ValidationMode: String, CustomStringConvertible, Codable, Sendable {
         case checkAll = "CHECK_ALL"
         public var description: String { return self.rawValue }
     }

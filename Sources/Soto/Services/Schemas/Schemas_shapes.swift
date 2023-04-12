@@ -21,20 +21,20 @@ import SotoCore
 extension Schemas {
     // MARK: Enums
 
-    public enum CodeGenerationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CodeGenerationStatus: String, CustomStringConvertible, Codable, Sendable {
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DiscovererState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DiscovererState: String, CustomStringConvertible, Codable, Sendable {
         case started = "STARTED"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
         case jsonSchemaDraft4 = "JSONSchemaDraft4"
         case openApi3 = "OpenApi3"
         public var description: String { return self.rawValue }

@@ -21,13 +21,13 @@ import SotoCore
 extension CloudSearchDomain {
     // MARK: Enums
 
-    public enum ContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentType: String, CustomStringConvertible, Codable, Sendable {
         case applicationJson = "application/json"
         case applicationXml = "application/xml"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryParser: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QueryParser: String, CustomStringConvertible, Codable, Sendable {
         case dismax = "dismax"
         case lucene = "lucene"
         case simple = "simple"

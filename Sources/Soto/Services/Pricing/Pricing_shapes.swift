@@ -21,7 +21,7 @@ import SotoCore
 extension Pricing {
     // MARK: Enums
 
-    public enum FilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterType: String, CustomStringConvertible, Codable, Sendable {
         case termMatch = "TERM_MATCH"
         public var description: String { return self.rawValue }
     }

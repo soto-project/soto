@@ -21,7 +21,7 @@ import SotoCore
 extension ConnectContactLens {
     // MARK: Enums
 
-    public enum SentimentValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SentimentValue: String, CustomStringConvertible, Codable, Sendable {
         case negative = "NEGATIVE"
         case neutral = "NEUTRAL"
         case positive = "POSITIVE"

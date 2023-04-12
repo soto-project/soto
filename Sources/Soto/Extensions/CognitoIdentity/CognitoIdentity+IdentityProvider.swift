@@ -31,7 +31,7 @@ extension IdentityProvider {
 /// A helper struct to defer the creation of an `IdentityProvider` until after the `IdentityCredentialProvider` has been created.
 public struct IdentityProviderFactory {
     /// The initialization context for a `IdentityProvider`
-    public struct Context: _SotoSendable {
+    public struct Context: Sendable {
         public let cognitoIdentity: CognitoIdentity
         public let identityPoolId: String
         public let logger: Logger
@@ -49,7 +49,7 @@ public struct IdentityProviderFactory {
 }
 
 extension CognitoIdentity {
-    public struct IdentityParams: _SotoSendable {
+    public struct IdentityParams: Sendable {
         let id: String
         let logins: [String: String]?
 
@@ -100,7 +100,7 @@ extension CognitoIdentity {
     public struct ExternalIdentityProvider: IdentityProvider {
         typealias LoginProvider = @Sendable (Context) -> EventLoopFuture<[String: String]>
         /// The context passed to the logins provider closure
-        public struct Context: _SotoSendable {
+        public struct Context: Sendable {
             public let client: AWSClient
             public let region: Region
             public let identityPoolId: String

@@ -21,31 +21,31 @@ import SotoCore
 extension Rbin {
     // MARK: Enums
 
-    public enum LockState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LockState: String, CustomStringConvertible, Codable, Sendable {
         case locked = "locked"
         case pendingUnlock = "pending_unlock"
         case unlocked = "unlocked"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case ebsSnapshot = "EBS_SNAPSHOT"
         case ec2Image = "EC2_IMAGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RetentionPeriodUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RetentionPeriodUnit: String, CustomStringConvertible, Codable, Sendable {
         case days = "DAYS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuleStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum UnlockDelayUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UnlockDelayUnit: String, CustomStringConvertible, Codable, Sendable {
         case days = "DAYS"
         public var description: String { return self.rawValue }
     }

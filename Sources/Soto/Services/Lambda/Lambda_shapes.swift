@@ -21,61 +21,61 @@ import SotoCore
 extension Lambda {
     // MARK: Enums
 
-    public enum Architecture: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Architecture: String, CustomStringConvertible, Codable, Sendable {
         case arm64 = "arm64"
         case x8664 = "x86_64"
         public var description: String { return self.rawValue }
     }
 
-    public enum CodeSigningPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CodeSigningPolicy: String, CustomStringConvertible, Codable, Sendable {
         case enforce = "Enforce"
         case warn = "Warn"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndPointType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndPointType: String, CustomStringConvertible, Codable, Sendable {
         case kafkaBootstrapServers = "KAFKA_BOOTSTRAP_SERVERS"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventSourcePosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventSourcePosition: String, CustomStringConvertible, Codable, Sendable {
         case atTimestamp = "AT_TIMESTAMP"
         case latest = "LATEST"
         case trimHorizon = "TRIM_HORIZON"
         public var description: String { return self.rawValue }
     }
 
-    public enum FunctionResponseType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FunctionResponseType: String, CustomStringConvertible, Codable, Sendable {
         case reportBatchItemFailures = "ReportBatchItemFailures"
         public var description: String { return self.rawValue }
     }
 
-    public enum FunctionUrlAuthType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FunctionUrlAuthType: String, CustomStringConvertible, Codable, Sendable {
         case awsIam = "AWS_IAM"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FunctionVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FunctionVersion: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum InvocationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InvocationType: String, CustomStringConvertible, Codable, Sendable {
         case dryRun = "DryRun"
         case event = "Event"
         case requestResponse = "RequestResponse"
         public var description: String { return self.rawValue }
     }
 
-    public enum LastUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LastUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case successful = "Successful"
         public var description: String { return self.rawValue }
     }
 
-    public enum LastUpdateStatusReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LastUpdateStatusReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case disabledKMSKey = "DisabledKMSKey"
         case efsMountConnectivityError = "EFSMountConnectivityError"
         case efsMountFailure = "EFSMountFailure"
@@ -100,26 +100,26 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable {
         case none = "None"
         case tail = "Tail"
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PackageType: String, CustomStringConvertible, Codable, Sendable {
         case image = "Image"
         case zip = "Zip"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProvisionedConcurrencyStatusEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProvisionedConcurrencyStatusEnum: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
-    public enum Runtime: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Runtime: String, CustomStringConvertible, Codable, Sendable {
         case dotnet6 = "dotnet6"
         case dotnetcore10 = "dotnetcore1.0"
         case dotnetcore20 = "dotnetcore2.0"
@@ -151,19 +151,19 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
-    public enum SnapStartApplyOn: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SnapStartApplyOn: String, CustomStringConvertible, Codable, Sendable {
         case none = "None"
         case publishedVersions = "PublishedVersions"
         public var description: String { return self.rawValue }
     }
 
-    public enum SnapStartOptimizationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SnapStartOptimizationStatus: String, CustomStringConvertible, Codable, Sendable {
         case off = "Off"
         case on = "On"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceAccessType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceAccessType: String, CustomStringConvertible, Codable, Sendable {
         case basicAuth = "BASIC_AUTH"
         case clientCertificateTlsAuth = "CLIENT_CERTIFICATE_TLS_AUTH"
         case saslScram256Auth = "SASL_SCRAM_256_AUTH"
@@ -175,7 +175,7 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
-    public enum State: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum State: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case failed = "Failed"
         case inactive = "Inactive"
@@ -183,7 +183,7 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
-    public enum StateReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StateReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case creating = "Creating"
         case disabledKMSKey = "DisabledKMSKey"
         case efsMountConnectivityError = "EFSMountConnectivityError"
@@ -211,13 +211,13 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
-    public enum TracingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TracingMode: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case passThrough = "PassThrough"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateRuntimeOn: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateRuntimeOn: String, CustomStringConvertible, Codable, Sendable {
         case auto = "Auto"
         case functionUpdate = "FunctionUpdate"
         case manual = "Manual"

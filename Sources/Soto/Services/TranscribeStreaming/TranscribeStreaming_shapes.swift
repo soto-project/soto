@@ -21,7 +21,7 @@ import SotoCore
 extension TranscribeStreaming {
     // MARK: Enums
 
-    public enum CallAnalyticsLanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CallAnalyticsLanguageCode: String, CustomStringConvertible, Codable, Sendable {
         case deDe = "de-DE"
         case enAu = "en-AU"
         case enGb = "en-GB"
@@ -34,29 +34,29 @@ extension TranscribeStreaming {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentIdentificationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentIdentificationType: String, CustomStringConvertible, Codable, Sendable {
         case pii = "PII"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentRedactionOutput: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentRedactionOutput: String, CustomStringConvertible, Codable, Sendable {
         case redacted = "redacted"
         case redactedAndUnredacted = "redacted_and_unredacted"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentRedactionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentRedactionType: String, CustomStringConvertible, Codable, Sendable {
         case pii = "PII"
         public var description: String { return self.rawValue }
     }
 
-    public enum ItemType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ItemType: String, CustomStringConvertible, Codable, Sendable {
         case pronunciation = "pronunciation"
         case punctuation = "punctuation"
         public var description: String { return self.rawValue }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable {
         case deDe = "de-DE"
         case enAu = "en-AU"
         case enGb = "en-GB"
@@ -74,32 +74,32 @@ extension TranscribeStreaming {
         public var description: String { return self.rawValue }
     }
 
-    public enum MediaEncoding: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MediaEncoding: String, CustomStringConvertible, Codable, Sendable {
         case flac = "flac"
         case oggOpus = "ogg-opus"
         case pcm = "pcm"
         public var description: String { return self.rawValue }
     }
 
-    public enum MedicalContentIdentificationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MedicalContentIdentificationType: String, CustomStringConvertible, Codable, Sendable {
         case phi = "PHI"
         public var description: String { return self.rawValue }
     }
 
-    public enum PartialResultsStability: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PartialResultsStability: String, CustomStringConvertible, Codable, Sendable {
         case high = "high"
         case low = "low"
         case medium = "medium"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParticipantRole: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParticipantRole: String, CustomStringConvertible, Codable, Sendable {
         case agent = "AGENT"
         case customer = "CUSTOMER"
         public var description: String { return self.rawValue }
     }
 
-    public enum Sentiment: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Sentiment: String, CustomStringConvertible, Codable, Sendable {
         case mixed = "MIXED"
         case negative = "NEGATIVE"
         case neutral = "NEUTRAL"
@@ -107,7 +107,7 @@ extension TranscribeStreaming {
         public var description: String { return self.rawValue }
     }
 
-    public enum Specialty: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Specialty: String, CustomStringConvertible, Codable, Sendable {
         case cardiology = "CARDIOLOGY"
         case neurology = "NEUROLOGY"
         case oncology = "ONCOLOGY"
@@ -117,20 +117,20 @@ extension TranscribeStreaming {
         public var description: String { return self.rawValue }
     }
 
-    public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable, Sendable {
         case mask = "mask"
         case remove = "remove"
         case tag = "tag"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
         case conversation = "CONVERSATION"
         case dictation = "DICTATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioStream: AWSEncodableShape, _SotoSendable {
+    public enum AudioStream: AWSEncodableShape, Sendable {
         /// A blob of audio from your application. Your audio stream consists of one or more audio events. For more information, see Event stream encoding.
         case audioEvent(AudioEvent)
         /// Contains audio channel definitions and post-call analytics settings.
@@ -161,7 +161,7 @@ extension TranscribeStreaming {
         }
     }
 
-    public enum CallAnalyticsTranscriptResultStream: AWSDecodableShape, _SotoSendable {
+    public enum CallAnalyticsTranscriptResultStream: AWSDecodableShape, Sendable {
         case badRequestException(BadRequestException)
         /// Provides information on matched categories that were used to generate real-time supervisor  alerts.
         case categoryEvent(CategoryEvent)
@@ -217,7 +217,7 @@ extension TranscribeStreaming {
         }
     }
 
-    public enum MedicalTranscriptResultStream: AWSDecodableShape, _SotoSendable {
+    public enum MedicalTranscriptResultStream: AWSDecodableShape, Sendable {
         case badRequestException(BadRequestException)
         case conflictException(ConflictException)
         case internalFailureException(InternalFailureException)
@@ -267,7 +267,7 @@ extension TranscribeStreaming {
         }
     }
 
-    public enum TranscriptResultStream: AWSDecodableShape, _SotoSendable {
+    public enum TranscriptResultStream: AWSDecodableShape, Sendable {
         /// A client error occurred when the stream was created. Check the parameters of the request and try your request again.
         case badRequestException(BadRequestException)
         /// A new stream started with the same session ID. The current stream has been terminated.

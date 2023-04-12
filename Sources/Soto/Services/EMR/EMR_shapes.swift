@@ -21,7 +21,7 @@ import SotoCore
 extension EMR {
     // MARK: Enums
 
-    public enum ActionOnFailure: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionOnFailure: String, CustomStringConvertible, Codable, Sendable {
         case `continue` = "CONTINUE"
         case cancelAndWait = "CANCEL_AND_WAIT"
         case terminateCluster = "TERMINATE_CLUSTER"
@@ -29,20 +29,20 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum AdjustmentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AdjustmentType: String, CustomStringConvertible, Codable, Sendable {
         case changeInCapacity = "CHANGE_IN_CAPACITY"
         case exactCapacity = "EXACT_CAPACITY"
         case percentChangeInCapacity = "PERCENT_CHANGE_IN_CAPACITY"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthMode: String, CustomStringConvertible, Codable, Sendable {
         case iam = "IAM"
         case sso = "SSO"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoScalingPolicyState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoScalingPolicyState: String, CustomStringConvertible, Codable, Sendable {
         case attached = "ATTACHED"
         case attaching = "ATTACHING"
         case detached = "DETACHED"
@@ -52,20 +52,20 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoScalingPolicyStateChangeReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoScalingPolicyStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case cleanupFailure = "CLEANUP_FAILURE"
         case provisionFailure = "PROVISION_FAILURE"
         case userRequest = "USER_REQUEST"
         public var description: String { return self.rawValue }
     }
 
-    public enum CancelStepsRequestStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CancelStepsRequestStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case submitted = "SUBMITTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClusterState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClusterState: String, CustomStringConvertible, Codable, Sendable {
         case bootstrapping = "BOOTSTRAPPING"
         case running = "RUNNING"
         case starting = "STARTING"
@@ -76,7 +76,7 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum ClusterStateChangeReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClusterStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case allStepsCompleted = "ALL_STEPS_COMPLETED"
         case bootstrapFailure = "BOOTSTRAP_FAILURE"
         case instanceFailure = "INSTANCE_FAILURE"
@@ -88,7 +88,7 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
         case greaterThan = "GREATER_THAN"
         case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
         case lessThan = "LESS_THAN"
@@ -96,31 +96,31 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComputeLimitsUnitType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComputeLimitsUnitType: String, CustomStringConvertible, Codable, Sendable {
         case instanceFleetUnits = "InstanceFleetUnits"
         case instances = "Instances"
         case vcpu = "VCPU"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionEngineType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecutionEngineType: String, CustomStringConvertible, Codable, Sendable {
         case emr = "EMR"
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IdentityType: String, CustomStringConvertible, Codable, Sendable {
         case group = "GROUP"
         case user = "USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceCollectionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceCollectionType: String, CustomStringConvertible, Codable, Sendable {
         case instanceFleet = "INSTANCE_FLEET"
         case instanceGroup = "INSTANCE_GROUP"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceFleetState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceFleetState: String, CustomStringConvertible, Codable, Sendable {
         case bootstrapping = "BOOTSTRAPPING"
         case provisioning = "PROVISIONING"
         case resizing = "RESIZING"
@@ -131,7 +131,7 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceFleetStateChangeReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceFleetStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case clusterTerminated = "CLUSTER_TERMINATED"
         case instanceFailure = "INSTANCE_FAILURE"
         case internalError = "INTERNAL_ERROR"
@@ -139,14 +139,14 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceFleetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceFleetType: String, CustomStringConvertible, Codable, Sendable {
         case core = "CORE"
         case master = "MASTER"
         case task = "TASK"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceGroupState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceGroupState: String, CustomStringConvertible, Codable, Sendable {
         case arrested = "ARRESTED"
         case bootstrapping = "BOOTSTRAPPING"
         case ended = "ENDED"
@@ -161,7 +161,7 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceGroupStateChangeReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceGroupStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case clusterTerminated = "CLUSTER_TERMINATED"
         case instanceFailure = "INSTANCE_FAILURE"
         case internalError = "INTERNAL_ERROR"
@@ -169,21 +169,21 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceGroupType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceGroupType: String, CustomStringConvertible, Codable, Sendable {
         case core = "CORE"
         case master = "MASTER"
         case task = "TASK"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceRoleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceRoleType: String, CustomStringConvertible, Codable, Sendable {
         case core = "CORE"
         case master = "MASTER"
         case task = "TASK"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceState: String, CustomStringConvertible, Codable, Sendable {
         case awaitingFulfillment = "AWAITING_FULFILLMENT"
         case bootstrapping = "BOOTSTRAPPING"
         case provisioning = "PROVISIONING"
@@ -192,7 +192,7 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceStateChangeReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case bootstrapFailure = "BOOTSTRAP_FAILURE"
         case clusterTerminated = "CLUSTER_TERMINATED"
         case instanceFailure = "INSTANCE_FAILURE"
@@ -201,7 +201,7 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobFlowExecutionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobFlowExecutionState: String, CustomStringConvertible, Codable, Sendable {
         case bootstrapping = "BOOTSTRAPPING"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -213,13 +213,13 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum MarketType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MarketType: String, CustomStringConvertible, Codable, Sendable {
         case onDemand = "ON_DEMAND"
         case spot = "SPOT"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotebookExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotebookExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case failing = "FAILING"
         case finished = "FINISHED"
@@ -233,23 +233,23 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum OnDemandCapacityReservationPreference: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OnDemandCapacityReservationPreference: String, CustomStringConvertible, Codable, Sendable {
         case none = "none"
         case open = "open"
         public var description: String { return self.rawValue }
     }
 
-    public enum OnDemandCapacityReservationUsageStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OnDemandCapacityReservationUsageStrategy: String, CustomStringConvertible, Codable, Sendable {
         case useCapacityReservationsFirst = "use-capacity-reservations-first"
         public var description: String { return self.rawValue }
     }
 
-    public enum OnDemandProvisioningAllocationStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OnDemandProvisioningAllocationStrategy: String, CustomStringConvertible, Codable, Sendable {
         case lowestPrice = "lowest-price"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementGroupStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlacementGroupStrategy: String, CustomStringConvertible, Codable, Sendable {
         case cluster = "CLUSTER"
         case none = "NONE"
         case partition = "PARTITION"
@@ -257,36 +257,36 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReconfigurationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReconfigurationType: String, CustomStringConvertible, Codable, Sendable {
         case merge = "MERGE"
         case overwrite = "OVERWRITE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RepoUpgradeOnBoot: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RepoUpgradeOnBoot: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case security = "SECURITY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScaleDownBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScaleDownBehavior: String, CustomStringConvertible, Codable, Sendable {
         case terminateAtInstanceHour = "TERMINATE_AT_INSTANCE_HOUR"
         case terminateAtTaskCompletion = "TERMINATE_AT_TASK_COMPLETION"
         public var description: String { return self.rawValue }
     }
 
-    public enum SpotProvisioningAllocationStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SpotProvisioningAllocationStrategy: String, CustomStringConvertible, Codable, Sendable {
         case capacityOptimized = "capacity-optimized"
         public var description: String { return self.rawValue }
     }
 
-    public enum SpotProvisioningTimeoutAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SpotProvisioningTimeoutAction: String, CustomStringConvertible, Codable, Sendable {
         case switchToOnDemand = "SWITCH_TO_ON_DEMAND"
         case terminateCluster = "TERMINATE_CLUSTER"
         public var description: String { return self.rawValue }
     }
 
-    public enum Statistic: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Statistic: String, CustomStringConvertible, Codable, Sendable {
         case average = "AVERAGE"
         case maximum = "MAXIMUM"
         case minimum = "MINIMUM"
@@ -295,13 +295,13 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum StepCancellationOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StepCancellationOption: String, CustomStringConvertible, Codable, Sendable {
         case sendInterrupt = "SEND_INTERRUPT"
         case terminateProcess = "TERMINATE_PROCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum StepExecutionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StepExecutionState: String, CustomStringConvertible, Codable, Sendable {
         case `continue` = "CONTINUE"
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
@@ -312,7 +312,7 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum StepState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StepState: String, CustomStringConvertible, Codable, Sendable {
         case cancelPending = "CANCEL_PENDING"
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
@@ -323,12 +323,12 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
-    public enum StepStateChangeReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StepStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Unit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Unit: String, CustomStringConvertible, Codable, Sendable {
         case bits = "BITS"
         case bitsPerSecond = "BITS_PER_SECOND"
         case bytes = "BYTES"

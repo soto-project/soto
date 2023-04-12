@@ -21,12 +21,12 @@ import SotoCore
 extension EMRContainers {
     // MARK: Enums
 
-    public enum ContainerProviderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContainerProviderType: String, CustomStringConvertible, Codable, Sendable {
         case eks = "EKS"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case terminated = "TERMINATED"
@@ -35,7 +35,7 @@ extension EMRContainers {
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailureReason: String, CustomStringConvertible, Codable, Sendable {
         case clusterUnavailable = "CLUSTER_UNAVAILABLE"
         case internalError = "INTERNAL_ERROR"
         case userError = "USER_ERROR"
@@ -43,7 +43,7 @@ extension EMRContainers {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobRunState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobRunState: String, CustomStringConvertible, Codable, Sendable {
         case cancelPending = "CANCEL_PENDING"
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
@@ -54,19 +54,19 @@ extension EMRContainers {
         public var description: String { return self.rawValue }
     }
 
-    public enum PersistentAppUI: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PersistentAppUI: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TemplateParameterDataType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TemplateParameterDataType: String, CustomStringConvertible, Codable, Sendable {
         case number = "NUMBER"
         case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualClusterState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VirtualClusterState: String, CustomStringConvertible, Codable, Sendable {
         case arrested = "ARRESTED"
         case running = "RUNNING"
         case terminated = "TERMINATED"

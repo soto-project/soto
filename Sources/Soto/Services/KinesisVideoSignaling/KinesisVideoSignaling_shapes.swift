@@ -21,7 +21,7 @@ import SotoCore
 extension KinesisVideoSignaling {
     // MARK: Enums
 
-    public enum Service: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Service: String, CustomStringConvertible, Codable, Sendable {
         case turn = "TURN"
         public var description: String { return self.rawValue }
     }

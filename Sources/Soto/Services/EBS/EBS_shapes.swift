@@ -21,17 +21,17 @@ import SotoCore
 extension EBS {
     // MARK: Enums
 
-    public enum ChecksumAggregationMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChecksumAggregationMethod: String, CustomStringConvertible, Codable, Sendable {
         case linear = "LINEAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChecksumAlgorithm: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable {
         case sha256 = "SHA256"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case completed = "completed"
         case error = "error"
         case pending = "pending"

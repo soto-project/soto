@@ -21,25 +21,25 @@ import SotoCore
 extension AmplifyUIBuilder {
     // MARK: Enums
 
-    public enum FixedPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FixedPosition: String, CustomStringConvertible, Codable, Sendable {
         case first = "first"
         public var description: String { return self.rawValue }
     }
 
-    public enum FormActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FormActionType: String, CustomStringConvertible, Codable, Sendable {
         case create = "create"
         case update = "update"
         public var description: String { return self.rawValue }
     }
 
-    public enum FormButtonsPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FormButtonsPosition: String, CustomStringConvertible, Codable, Sendable {
         case bottom = "bottom"
         case top = "top"
         case topAndBottom = "top_and_bottom"
         public var description: String { return self.rawValue }
     }
 
-    public enum FormDataSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FormDataSourceType: String, CustomStringConvertible, Codable, Sendable {
         /// Will use passed in hooks to use when creating a form from scratch
         case custom = "Custom"
         /// Will use a provided Amplify DataStore enabled API
@@ -47,19 +47,19 @@ extension AmplifyUIBuilder {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortDirection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortDirection: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum TokenProviders: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TokenProviders: String, CustomStringConvertible, Codable, Sendable {
         /// The figma token provider.
         case figma = "figma"
         public var description: String { return self.rawValue }
     }
 
-    public enum FieldPosition: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum FieldPosition: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The field position is below the field specified by the string.
         case below(String)
         /// The field position is fixed and doesn't change in relation to other fields.
@@ -108,7 +108,7 @@ extension AmplifyUIBuilder {
         }
     }
 
-    public enum FormStyleConfig: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum FormStyleConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A reference to a design token to use to bind the form's style properties to an existing theme.
         case tokenReference(String)
         /// The value of the style setting.

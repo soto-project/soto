@@ -21,20 +21,20 @@ import SotoCore
 extension Kinesis {
     // MARK: Enums
 
-    public enum ConsumerStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConsumerStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
         case kms = "KMS"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricsName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricsName: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case incomingBytes = "IncomingBytes"
         case incomingRecords = "IncomingRecords"
@@ -46,12 +46,12 @@ extension Kinesis {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScalingType: String, CustomStringConvertible, Codable, Sendable {
         case uniformScaling = "UNIFORM_SCALING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ShardFilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ShardFilterType: String, CustomStringConvertible, Codable, Sendable {
         case afterShardId = "AFTER_SHARD_ID"
         case atLatest = "AT_LATEST"
         case atTimestamp = "AT_TIMESTAMP"
@@ -61,7 +61,7 @@ extension Kinesis {
         public var description: String { return self.rawValue }
     }
 
-    public enum ShardIteratorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ShardIteratorType: String, CustomStringConvertible, Codable, Sendable {
         case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
         case atSequenceNumber = "AT_SEQUENCE_NUMBER"
         case atTimestamp = "AT_TIMESTAMP"
@@ -70,13 +70,13 @@ extension Kinesis {
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StreamMode: String, CustomStringConvertible, Codable, Sendable {
         case onDemand = "ON_DEMAND"
         case provisioned = "PROVISIONED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StreamStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -84,7 +84,7 @@ extension Kinesis {
         public var description: String { return self.rawValue }
     }
 
-    public enum SubscribeToShardEventStream: AWSDecodableShape, _SotoSendable {
+    public enum SubscribeToShardEventStream: AWSDecodableShape, Sendable {
         /// The processing of the request failed because of an unknown error, exception, or failure.
         case internalFailureException(InternalFailureException)
         case kmsAccessDeniedException(KMSAccessDeniedException)

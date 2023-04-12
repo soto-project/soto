@@ -21,54 +21,54 @@ import SotoCore
 extension DLM {
     // MARK: Enums
 
-    public enum EventSourceValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventSourceValues: String, CustomStringConvertible, Codable, Sendable {
         case managedCwe = "MANAGED_CWE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventTypeValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventTypeValues: String, CustomStringConvertible, Codable, Sendable {
         case shareSnapshot = "shareSnapshot"
         public var description: String { return self.rawValue }
     }
 
-    public enum GettablePolicyStateValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GettablePolicyStateValues: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case error = "ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum IntervalUnitValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IntervalUnitValues: String, CustomStringConvertible, Codable, Sendable {
         case hours = "HOURS"
         public var description: String { return self.rawValue }
     }
 
-    public enum LocationValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocationValues: String, CustomStringConvertible, Codable, Sendable {
         case cloud = "CLOUD"
         case outpostLocal = "OUTPOST_LOCAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyTypeValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PolicyTypeValues: String, CustomStringConvertible, Codable, Sendable {
         case ebsSnapshotManagement = "EBS_SNAPSHOT_MANAGEMENT"
         case eventBasedPolicy = "EVENT_BASED_POLICY"
         case imageManagement = "IMAGE_MANAGEMENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceLocationValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceLocationValues: String, CustomStringConvertible, Codable, Sendable {
         case cloud = "CLOUD"
         case outpost = "OUTPOST"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceTypeValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceTypeValues: String, CustomStringConvertible, Codable, Sendable {
         case instance = "INSTANCE"
         case volume = "VOLUME"
         public var description: String { return self.rawValue }
     }
 
-    public enum RetentionIntervalUnitValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RetentionIntervalUnitValues: String, CustomStringConvertible, Codable, Sendable {
         case days = "DAYS"
         case months = "MONTHS"
         case weeks = "WEEKS"
@@ -76,7 +76,7 @@ extension DLM {
         public var description: String { return self.rawValue }
     }
 
-    public enum SettablePolicyStateValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SettablePolicyStateValues: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }

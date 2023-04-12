@@ -21,32 +21,32 @@ import SotoCore
 extension ConfigService {
     // MARK: Enums
 
-    public enum AggregateConformancePackComplianceSummaryGroupKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregateConformancePackComplianceSummaryGroupKey: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "ACCOUNT_ID"
         case awsRegion = "AWS_REGION"
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregatedSourceStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregatedSourceStatusType: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case outdated = "OUTDATED"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregatedSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregatedSourceType: String, CustomStringConvertible, Codable, Sendable {
         case account = "ACCOUNT"
         case organization = "ORGANIZATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChronologicalOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChronologicalOrder: String, CustomStringConvertible, Codable, Sendable {
         case forward = "Forward"
         case reverse = "Reverse"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComplianceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComplianceType: String, CustomStringConvertible, Codable, Sendable {
         case compliant = "COMPLIANT"
         case insufficientData = "INSUFFICIENT_DATA"
         case nonCompliant = "NON_COMPLIANT"
@@ -54,13 +54,13 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigRuleComplianceSummaryGroupKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigRuleComplianceSummaryGroupKey: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "ACCOUNT_ID"
         case awsRegion = "AWS_REGION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigRuleState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigRuleState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         case deletingResults = "DELETING_RESULTS"
@@ -68,7 +68,7 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationItemStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationItemStatus: String, CustomStringConvertible, Codable, Sendable {
         case ok = "OK"
         case resourceDeleted = "ResourceDeleted"
         case resourceDeletedNotRecorded = "ResourceDeletedNotRecorded"
@@ -77,14 +77,14 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConformancePackComplianceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConformancePackComplianceType: String, CustomStringConvertible, Codable, Sendable {
         case compliant = "COMPLIANT"
         case insufficientData = "INSUFFICIENT_DATA"
         case nonCompliant = "NON_COMPLIANT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConformancePackState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConformancePackState: String, CustomStringConvertible, Codable, Sendable {
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -93,25 +93,25 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliveryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeliveryStatus: String, CustomStringConvertible, Codable, Sendable {
         case failure = "Failure"
         case notApplicable = "Not_Applicable"
         case success = "Success"
         public var description: String { return self.rawValue }
     }
 
-    public enum EvaluationMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EvaluationMode: String, CustomStringConvertible, Codable, Sendable {
         case detective = "DETECTIVE"
         case proactive = "PROACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventSource: String, CustomStringConvertible, Codable, Sendable {
         case awsConfig = "aws.config"
         public var description: String { return self.rawValue }
     }
 
-    public enum MaximumExecutionFrequency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MaximumExecutionFrequency: String, CustomStringConvertible, Codable, Sendable {
         case oneHour = "One_Hour"
         case sixHours = "Six_Hours"
         case threeHours = "Three_Hours"
@@ -120,7 +120,7 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberAccountRuleStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MemberAccountRuleStatus: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createSuccessful = "CREATE_SUCCESSFUL"
@@ -133,7 +133,7 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MessageType: String, CustomStringConvertible, Codable, Sendable {
         case configurationItemChangeNotification = "ConfigurationItemChangeNotification"
         case configurationSnapshotDeliveryCompleted = "ConfigurationSnapshotDeliveryCompleted"
         case oversizedConfigurationItemChangeNotification = "OversizedConfigurationItemChangeNotification"
@@ -141,20 +141,20 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationConfigRuleTriggerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrganizationConfigRuleTriggerType: String, CustomStringConvertible, Codable, Sendable {
         case configurationItemChangeNotification = "ConfigurationItemChangeNotification"
         case oversizedConfigurationItemChangeNotifcation = "OversizedConfigurationItemChangeNotification"
         case scheduledNotification = "ScheduledNotification"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationConfigRuleTriggerTypeNoSN: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrganizationConfigRuleTriggerTypeNoSN: String, CustomStringConvertible, Codable, Sendable {
         case configurationItemChangeNotification = "ConfigurationItemChangeNotification"
         case oversizedConfigurationItemChangeNotifcation = "OversizedConfigurationItemChangeNotification"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationResourceDetailedStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrganizationResourceDetailedStatus: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createSuccessful = "CREATE_SUCCESSFUL"
@@ -167,7 +167,7 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationResourceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrganizationResourceStatus: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createSuccessful = "CREATE_SUCCESSFUL"
@@ -180,7 +180,7 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationRuleStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrganizationRuleStatus: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createSuccessful = "CREATE_SUCCESSFUL"
@@ -193,21 +193,21 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum Owner: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Owner: String, CustomStringConvertible, Codable, Sendable {
         case aws = "AWS"
         case customLambda = "CUSTOM_LAMBDA"
         case customPolicy = "CUSTOM_POLICY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecorderStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecorderStatus: String, CustomStringConvertible, Codable, Sendable {
         case failure = "Failure"
         case pending = "Pending"
         case success = "Success"
         public var description: String { return self.rawValue }
     }
 
-    public enum RemediationExecutionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RemediationExecutionState: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case queued = "QUEUED"
@@ -215,38 +215,38 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum RemediationExecutionStepState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RemediationExecutionStepState: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pending = "PENDING"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RemediationTargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RemediationTargetType: String, CustomStringConvertible, Codable, Sendable {
         case ssmDocument = "SSM_DOCUMENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceConfigurationSchemaType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceConfigurationSchemaType: String, CustomStringConvertible, Codable, Sendable {
         case cfnResourceSchema = "CFN_RESOURCE_SCHEMA"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceCountGroupKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceCountGroupKey: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "ACCOUNT_ID"
         case awsRegion = "AWS_REGION"
         case resourceType = "RESOURCE_TYPE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceEvaluationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceEvaluationStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case accessAnalyzerAnalyzer = "AWS::AccessAnalyzer::Analyzer"
         case accountPublicAccessBlock = "AWS::S3::AccountPublicAccessBlock"
         case alarm = "AWS::CloudWatch::Alarm"
@@ -414,17 +414,17 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceValueType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceValueType: String, CustomStringConvertible, Codable, Sendable {
         case resourceId = "RESOURCE_ID"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortBy: String, CustomStringConvertible, Codable, Sendable {
         case score = "SCORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }

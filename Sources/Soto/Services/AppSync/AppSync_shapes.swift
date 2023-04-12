@@ -21,7 +21,7 @@ import SotoCore
 extension AppSync {
     // MARK: Enums
 
-    public enum ApiCacheStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApiCacheStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -30,7 +30,7 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum ApiCacheType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApiCacheType: String, CustomStringConvertible, Codable, Sendable {
         case large = "LARGE"
         case large12X = "LARGE_12X"
         case large2X = "LARGE_2X"
@@ -49,20 +49,20 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum ApiCachingBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApiCachingBehavior: String, CustomStringConvertible, Codable, Sendable {
         case fullRequestCaching = "FULL_REQUEST_CACHING"
         case perResolverCaching = "PER_RESOLVER_CACHING"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssociationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssociationStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case processing = "PROCESSING"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable {
         case amazonCognitoUserPools = "AMAZON_COGNITO_USER_POOLS"
         case apiKey = "API_KEY"
         case awsIam = "AWS_IAM"
@@ -71,18 +71,18 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthorizationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthorizationType: String, CustomStringConvertible, Codable, Sendable {
         case awsIam = "AWS_IAM"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConflictDetectionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConflictDetectionType: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case version = "VERSION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConflictHandlerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConflictHandlerType: String, CustomStringConvertible, Codable, Sendable {
         case automerge = "AUTOMERGE"
         case lambda = "LAMBDA"
         case none = "NONE"
@@ -90,7 +90,7 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable {
         case amazonDynamodb = "AMAZON_DYNAMODB"
         case amazonElasticsearch = "AMAZON_ELASTICSEARCH"
         case amazonOpensearchService = "AMAZON_OPENSEARCH_SERVICE"
@@ -101,42 +101,42 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum DefaultAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DefaultAction: String, CustomStringConvertible, Codable, Sendable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum FieldLogLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FieldLogLevel: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case error = "ERROR"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OutputType: String, CustomStringConvertible, Codable, Sendable {
         case json = "JSON"
         case sdl = "SDL"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelationalDatabaseSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RelationalDatabaseSourceType: String, CustomStringConvertible, Codable, Sendable {
         case rdsHttpEndpoint = "RDS_HTTP_ENDPOINT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResolverKind: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResolverKind: String, CustomStringConvertible, Codable, Sendable {
         case pipeline = "PIPELINE"
         case unit = "UNIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuntimeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuntimeName: String, CustomStringConvertible, Codable, Sendable {
         case appsyncJs = "APPSYNC_JS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SchemaStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SchemaStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -146,7 +146,7 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
-    public enum TypeDefinitionFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TypeDefinitionFormat: String, CustomStringConvertible, Codable, Sendable {
         case json = "JSON"
         case sdl = "SDL"
         public var description: String { return self.rawValue }

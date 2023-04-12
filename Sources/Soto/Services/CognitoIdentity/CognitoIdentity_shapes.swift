@@ -21,19 +21,19 @@ import SotoCore
 extension CognitoIdentity {
     // MARK: Enums
 
-    public enum AmbiguousRoleResolutionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AmbiguousRoleResolutionType: String, CustomStringConvertible, Codable, Sendable {
         case authenticatedRole = "AuthenticatedRole"
         case deny = "Deny"
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "AccessDenied"
         case internalServerError = "InternalServerError"
         public var description: String { return self.rawValue }
     }
 
-    public enum MappingRuleMatchType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MappingRuleMatchType: String, CustomStringConvertible, Codable, Sendable {
         case contains = "Contains"
         case equals = "Equals"
         case notEqual = "NotEqual"
@@ -41,7 +41,7 @@ extension CognitoIdentity {
         public var description: String { return self.rawValue }
     }
 
-    public enum RoleMappingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RoleMappingType: String, CustomStringConvertible, Codable, Sendable {
         case rules = "Rules"
         case token = "Token"
         public var description: String { return self.rawValue }

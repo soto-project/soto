@@ -21,14 +21,14 @@ import SotoCore
 extension PI {
     // MARK: Enums
 
-    public enum DetailStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DetailStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case processing = "PROCESSING"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FeatureStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case disabledPendingReboot = "DISABLED_PENDING_REBOOT"
         case enabled = "ENABLED"
@@ -38,7 +38,7 @@ extension PI {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceType: String, CustomStringConvertible, Codable, Sendable {
         case docdb = "DOCDB"
         case rds = "RDS"
         public var description: String { return self.rawValue }

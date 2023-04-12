@@ -21,7 +21,7 @@ import SotoCore
 extension Drs {
     // MARK: Enums
 
-    public enum DataReplicationErrorString: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataReplicationErrorString: String, CustomStringConvertible, Codable, Sendable {
         case agentNotSeen = "AGENT_NOT_SEEN"
         case failedToAttachStagingDisks = "FAILED_TO_ATTACH_STAGING_DISKS"
         case failedToAuthenticateWithService = "FAILED_TO_AUTHENTICATE_WITH_SERVICE"
@@ -39,7 +39,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataReplicationInitiationStepName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataReplicationInitiationStepName: String, CustomStringConvertible, Codable, Sendable {
         case attachStagingDisks = "ATTACH_STAGING_DISKS"
         case authenticateWithService = "AUTHENTICATE_WITH_SERVICE"
         case bootReplicationServer = "BOOT_REPLICATION_SERVER"
@@ -54,7 +54,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataReplicationInitiationStepStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataReplicationInitiationStepStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case notStarted = "NOT_STARTED"
@@ -63,7 +63,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataReplicationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataReplicationState: String, CustomStringConvertible, Codable, Sendable {
         case backlog = "BACKLOG"
         case continuous = "CONTINUOUS"
         case creatingSnapshot = "CREATING_SNAPSHOT"
@@ -77,7 +77,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum EC2InstanceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EC2InstanceState: String, CustomStringConvertible, Codable, Sendable {
         case notFound = "NOT_FOUND"
         case pending = "PENDING"
         case running = "RUNNING"
@@ -88,20 +88,20 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExtensionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExtensionStatus: String, CustomStringConvertible, Codable, Sendable {
         case extended = "EXTENDED"
         case extensionError = "EXTENSION_ERROR"
         case notExtended = "NOT_EXTENDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailbackLaunchType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailbackLaunchType: String, CustomStringConvertible, Codable, Sendable {
         case drill = "DRILL"
         case recovery = "RECOVERY"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailbackReplicationError: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailbackReplicationError: String, CustomStringConvertible, Codable, Sendable {
         case agentNotSeen = "AGENT_NOT_SEEN"
         case failbackClientNotSeen = "FAILBACK_CLIENT_NOT_SEEN"
         case failedGettingReplicationState = "FAILED_GETTING_REPLICATION_STATE"
@@ -126,7 +126,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum FailbackState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailbackState: String, CustomStringConvertible, Codable, Sendable {
         case failbackCompleted = "FAILBACK_COMPLETED"
         case failbackError = "FAILBACK_ERROR"
         case failbackInProgress = "FAILBACK_IN_PROGRESS"
@@ -137,7 +137,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum InitiatedBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InitiatedBy: String, CustomStringConvertible, Codable, Sendable {
         case diagnostic = "DIAGNOSTIC"
         case failback = "FAILBACK"
         case startDrill = "START_DRILL"
@@ -147,7 +147,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobLogEvent: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobLogEvent: String, CustomStringConvertible, Codable, Sendable {
         case cleanupEnd = "CLEANUP_END"
         case cleanupFail = "CLEANUP_FAIL"
         case cleanupStart = "CLEANUP_START"
@@ -168,21 +168,21 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case pending = "PENDING"
         case started = "STARTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobType: String, CustomStringConvertible, Codable, Sendable {
         case createConvertedSnapshot = "CREATE_CONVERTED_SNAPSHOT"
         case launch = "LAUNCH"
         case terminate = "TERMINATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LastLaunchResult: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LastLaunchResult: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case notStarted = "NOT_STARTED"
         case pending = "PENDING"
@@ -190,19 +190,19 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum LastLaunchType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LastLaunchType: String, CustomStringConvertible, Codable, Sendable {
         case drill = "DRILL"
         case recovery = "RECOVERY"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchDisposition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchDisposition: String, CustomStringConvertible, Codable, Sendable {
         case started = "STARTED"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case launched = "LAUNCHED"
@@ -211,20 +211,20 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginEnvironment: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OriginEnvironment: String, CustomStringConvertible, Codable, Sendable {
         case aws = "AWS"
         case onPremises = "ON_PREMISES"
         public var description: String { return self.rawValue }
     }
 
-    public enum PITPolicyRuleUnits: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PITPolicyRuleUnits: String, CustomStringConvertible, Codable, Sendable {
         case day = "DAY"
         case hour = "HOUR"
         case minute = "MINUTE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecoveryInstanceDataReplicationInitiationStepName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecoveryInstanceDataReplicationInitiationStepName: String, CustomStringConvertible, Codable, Sendable {
         case attachStagingDisks = "ATTACH_STAGING_DISKS"
         case authenticateWithService = "AUTHENTICATE_WITH_SERVICE"
         case bootReplicationServer = "BOOT_REPLICATION_SERVER"
@@ -246,7 +246,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecoveryInstanceDataReplicationInitiationStepStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecoveryInstanceDataReplicationInitiationStepStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case notStarted = "NOT_STARTED"
@@ -255,7 +255,7 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecoveryInstanceDataReplicationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecoveryInstanceDataReplicationState: String, CustomStringConvertible, Codable, Sendable {
         case backlog = "BACKLOG"
         case continuous = "CONTINUOUS"
         case creatingSnapshot = "CREATING_SNAPSHOT"
@@ -271,19 +271,19 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecoverySnapshotsOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecoverySnapshotsOrder: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationConfigurationDataPlaneRouting: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationConfigurationDataPlaneRouting: String, CustomStringConvertible, Codable, Sendable {
         case privateIp = "PRIVATE_IP"
         case publicIp = "PUBLIC_IP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationConfigurationDefaultLargeStagingDiskType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationConfigurationDefaultLargeStagingDiskType: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case gp2 = "GP2"
         case gp3 = "GP3"
@@ -291,13 +291,13 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationConfigurationEbsEncryption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationConfigurationEbsEncryption: String, CustomStringConvertible, Codable, Sendable {
         case custom = "CUSTOM"
         case `default` = "DEFAULT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationConfigurationReplicatedDiskStagingDiskType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationConfigurationReplicatedDiskStagingDiskType: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case gp2 = "GP2"
         case gp3 = "GP3"
@@ -308,13 +308,13 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationDirection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationDirection: String, CustomStringConvertible, Codable, Sendable {
         case failback = "FAILBACK"
         case failover = "FAILOVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetInstanceTypeRightSizingMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetInstanceTypeRightSizingMethod: String, CustomStringConvertible, Codable, Sendable {
         case basic = "BASIC"
         case none = "NONE"
         public var description: String { return self.rawValue }

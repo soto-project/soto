@@ -21,58 +21,58 @@ import SotoCore
 extension IoTAnalytics {
     // MARK: Enums
 
-    public enum ChannelStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChannelStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComputeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComputeType: String, CustomStringConvertible, Codable, Sendable {
         case acu1 = "ACU_1"
         case acu2 = "ACU_2"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatasetActionType: String, CustomStringConvertible, Codable, Sendable {
         case container = "CONTAINER"
         case query = "QUERY"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetContentState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatasetContentState: String, CustomStringConvertible, Codable, Sendable {
         case creating = "CREATING"
         case failed = "FAILED"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatasetStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatastoreStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatastoreStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileFormatType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileFormatType: String, CustomStringConvertible, Codable, Sendable {
         case json = "JSON"
         case parquet = "PARQUET"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggingLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LoggingLevel: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReprocessingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReprocessingStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
         case running = "RUNNING"
@@ -80,7 +80,7 @@ extension IoTAnalytics {
         public var description: String { return self.rawValue }
     }
 
-    public enum DatastoreStorage: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum DatastoreStorage: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// S3-customer-managed; When you choose customer-managed storage, the retentionPeriod parameter is ignored. You can't change the choice of Amazon S3 storage after your data store is created.
         case customerManagedS3(CustomerManagedDatastoreS3Storage)
         ///  Used to store data used by IoT SiteWise in an Amazon S3 bucket that you manage. You can't change the choice of Amazon S3 storage after your data store is created.

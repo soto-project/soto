@@ -21,14 +21,14 @@ import SotoCore
 extension MigrationHub {
     // MARK: Enums
 
-    public enum ApplicationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case inProgress = "IN_PROGRESS"
         case notStarted = "NOT_STARTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceAttributeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceAttributeType: String, CustomStringConvertible, Codable, Sendable {
         case biosId = "BIOS_ID"
         case fqdn = "FQDN"
         case ipv4Address = "IPV4_ADDRESS"
@@ -42,7 +42,7 @@ extension MigrationHub {
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"

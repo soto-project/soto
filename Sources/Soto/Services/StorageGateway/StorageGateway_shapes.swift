@@ -21,7 +21,7 @@ import SotoCore
 extension StorageGateway {
     // MARK: Enums
 
-    public enum ActiveDirectoryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActiveDirectoryStatus: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case detached = "DETACHED"
         case joined = "JOINED"
@@ -32,33 +32,33 @@ extension StorageGateway {
         public var description: String { return self.rawValue }
     }
 
-    public enum AvailabilityMonitorTestStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AvailabilityMonitorTestStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case failed = "FAILED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum CaseSensitivity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CaseSensitivity: String, CustomStringConvertible, Codable, Sendable {
         case caseSensitive = "CaseSensitive"
         case clientSpecified = "ClientSpecified"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileShareType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileShareType: String, CustomStringConvertible, Codable, Sendable {
         case nfs = "NFS"
         case smb = "SMB"
         public var description: String { return self.rawValue }
     }
 
-    public enum GatewayCapacity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GatewayCapacity: String, CustomStringConvertible, Codable, Sendable {
         case large = "Large"
         case medium = "Medium"
         case small = "Small"
         public var description: String { return self.rawValue }
     }
 
-    public enum HostEnvironment: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HostEnvironment: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "EC2"
         case hyperV = "HYPER-V"
         case kvm = "KVM"
@@ -68,7 +68,7 @@ extension StorageGateway {
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectACL: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectACL: String, CustomStringConvertible, Codable, Sendable {
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
         case bucketOwnerFullControl = "bucket-owner-full-control"
@@ -79,27 +79,27 @@ extension StorageGateway {
         public var description: String { return self.rawValue }
     }
 
-    public enum PoolStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PoolStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RetentionLockType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RetentionLockType: String, CustomStringConvertible, Codable, Sendable {
         case compliance = "COMPLIANCE"
         case governance = "GOVERNANCE"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SMBSecurityStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SMBSecurityStrategy: String, CustomStringConvertible, Codable, Sendable {
         case clientSpecified = "ClientSpecified"
         case mandatoryEncryption = "MandatoryEncryption"
         case mandatorySigning = "MandatorySigning"
         public var description: String { return self.rawValue }
     }
 
-    public enum TapeStorageClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TapeStorageClass: String, CustomStringConvertible, Codable, Sendable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
         public var description: String { return self.rawValue }

@@ -21,7 +21,7 @@ import SotoCore
 extension SsmSap {
     // MARK: Enums
 
-    public enum ApplicationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationStatus: String, CustomStringConvertible, Codable, Sendable {
         case activated = "ACTIVATED"
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -33,27 +33,27 @@ extension SsmSap {
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationType: String, CustomStringConvertible, Codable, Sendable {
         case hana = "HANA"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComponentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComponentStatus: String, CustomStringConvertible, Codable, Sendable {
         case activated = "ACTIVATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComponentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComponentType: String, CustomStringConvertible, Codable, Sendable {
         case hana = "HANA"
         public var description: String { return self.rawValue }
     }
 
-    public enum CredentialType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CredentialType: String, CustomStringConvertible, Codable, Sendable {
         case admin = "ADMIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatabaseStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatabaseStatus: String, CustomStringConvertible, Codable, Sendable {
         case running = "RUNNING"
         case starting = "STARTING"
         case stopped = "STOPPED"
@@ -62,20 +62,20 @@ extension SsmSap {
         public var description: String { return self.rawValue }
     }
 
-    public enum DatabaseType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatabaseType: String, CustomStringConvertible, Codable, Sendable {
         case system = "SYSTEM"
         case tenant = "TENANT"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case equals = "Equals"
         case greaterThanOrEquals = "GreaterThanOrEquals"
         case lessThanOrEquals = "LessThanOrEquals"
         public var description: String { return self.rawValue }
     }
 
-    public enum HostRole: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HostRole: String, CustomStringConvertible, Codable, Sendable {
         case leader = "LEADER"
         case standby = "STANDBY"
         case unknown = "UNKNOWN"
@@ -83,14 +83,14 @@ extension SsmSap {
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperationStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case inprogress = "INPROGRESS"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PermissionActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PermissionActionType: String, CustomStringConvertible, Codable, Sendable {
         case restore = "RESTORE"
         public var description: String { return self.rawValue }
     }

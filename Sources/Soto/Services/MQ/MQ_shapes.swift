@@ -21,13 +21,13 @@ import SotoCore
 extension MQ {
     // MARK: Enums
 
-    public enum AuthenticationStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthenticationStrategy: String, CustomStringConvertible, Codable, Sendable {
         case ldap = "LDAP"
         case simple = "SIMPLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum BrokerState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BrokerState: String, CustomStringConvertible, Codable, Sendable {
         case creationFailed = "CREATION_FAILED"
         case creationInProgress = "CREATION_IN_PROGRESS"
         case criticalActionRequired = "CRITICAL_ACTION_REQUIRED"
@@ -37,20 +37,20 @@ extension MQ {
         public var description: String { return self.rawValue }
     }
 
-    public enum BrokerStorageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BrokerStorageType: String, CustomStringConvertible, Codable, Sendable {
         case ebs = "EBS"
         case efs = "EFS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable {
         case create = "CREATE"
         case delete = "DELETE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable {
         case friday = "FRIDAY"
         case monday = "MONDAY"
         case saturday = "SATURDAY"
@@ -61,20 +61,20 @@ extension MQ {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentMode: String, CustomStringConvertible, Codable, Sendable {
         case activeStandbyMultiAz = "ACTIVE_STANDBY_MULTI_AZ"
         case clusterMultiAz = "CLUSTER_MULTI_AZ"
         case singleInstance = "SINGLE_INSTANCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EngineType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EngineType: String, CustomStringConvertible, Codable, Sendable {
         case activemq = "ACTIVEMQ"
         case rabbitmq = "RABBITMQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum SanitizationWarningReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SanitizationWarningReason: String, CustomStringConvertible, Codable, Sendable {
         case disallowedAttributeRemoved = "DISALLOWED_ATTRIBUTE_REMOVED"
         case disallowedElementRemoved = "DISALLOWED_ELEMENT_REMOVED"
         case invalidAttributeValueRemoved = "INVALID_ATTRIBUTE_VALUE_REMOVED"

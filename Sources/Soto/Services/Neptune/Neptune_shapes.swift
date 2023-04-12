@@ -21,13 +21,13 @@ import SotoCore
 extension Neptune {
     // MARK: Enums
 
-    public enum ApplyMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplyMethod: String, CustomStringConvertible, Codable, Sendable {
         case immediate = "immediate"
         case pendingReboot = "pending-reboot"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
         case dbCluster = "db-cluster"
         case dbClusterSnapshot = "db-cluster-snapshot"
         case dbInstance = "db-instance"

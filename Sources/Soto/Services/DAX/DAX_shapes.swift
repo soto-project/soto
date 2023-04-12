@@ -21,32 +21,32 @@ import SotoCore
 extension DAX {
     // MARK: Enums
 
-    public enum ChangeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable {
         case immediate = "IMMEDIATE"
         case requiresReboot = "REQUIRES_REBOOT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClusterEndpointEncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClusterEndpointEncryptionType: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case tls = "TLS"
         public var description: String { return self.rawValue }
     }
 
-    public enum IsModifiable: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IsModifiable: String, CustomStringConvertible, Codable, Sendable {
         case conditional = "CONDITIONAL"
         case `false` = "FALSE"
         case `true` = "TRUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParameterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParameterType: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case nodeTypeSpecific = "NODE_TYPE_SPECIFIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum SSEStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SSEStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case disabling = "DISABLING"
         case enabled = "ENABLED"
@@ -54,7 +54,7 @@ extension DAX {
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
         case cluster = "CLUSTER"
         case parameterGroup = "PARAMETER_GROUP"
         case subnetGroup = "SUBNET_GROUP"

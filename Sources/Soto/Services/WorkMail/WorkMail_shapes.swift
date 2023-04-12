@@ -21,39 +21,39 @@ import SotoCore
 extension WorkMail {
     // MARK: Enums
 
-    public enum AccessControlRuleEffect: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessControlRuleEffect: String, CustomStringConvertible, Codable, Sendable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccessEffect: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessEffect: String, CustomStringConvertible, Codable, Sendable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum AvailabilityProviderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AvailabilityProviderType: String, CustomStringConvertible, Codable, Sendable {
         case ews = "EWS"
         case lambda = "LAMBDA"
         public var description: String { return self.rawValue }
     }
 
-    public enum DnsRecordVerificationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DnsRecordVerificationStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pending = "PENDING"
         case verified = "VERIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EntityState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EntityState: String, CustomStringConvertible, Codable, Sendable {
         case deleted = "DELETED"
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FolderName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FolderName: String, CustomStringConvertible, Codable, Sendable {
         case deletedItems = "DELETED_ITEMS"
         case drafts = "DRAFTS"
         case inbox = "INBOX"
@@ -62,13 +62,13 @@ extension WorkMail {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImpersonationRoleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImpersonationRoleType: String, CustomStringConvertible, Codable, Sendable {
         case fullAccess = "FULL_ACCESS"
         case readOnly = "READ_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum MailboxExportJobState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MailboxExportJobState: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -76,39 +76,39 @@ extension WorkMail {
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MemberType: String, CustomStringConvertible, Codable, Sendable {
         case group = "GROUP"
         case user = "USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum MobileDeviceAccessRuleEffect: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MobileDeviceAccessRuleEffect: String, CustomStringConvertible, Codable, Sendable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum PermissionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PermissionType: String, CustomStringConvertible, Codable, Sendable {
         case fullAccess = "FULL_ACCESS"
         case sendAs = "SEND_AS"
         case sendOnBehalf = "SEND_ON_BEHALF"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case equipment = "EQUIPMENT"
         case room = "ROOM"
         public var description: String { return self.rawValue }
     }
 
-    public enum RetentionAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RetentionAction: String, CustomStringConvertible, Codable, Sendable {
         case delete = "DELETE"
         case none = "NONE"
         case permanentlyDelete = "PERMANENTLY_DELETE"
         public var description: String { return self.rawValue }
     }
 
-    public enum UserRole: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UserRole: String, CustomStringConvertible, Codable, Sendable {
         case resource = "RESOURCE"
         case systemUser = "SYSTEM_USER"
         case user = "USER"

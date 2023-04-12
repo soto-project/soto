@@ -21,25 +21,25 @@ import SotoCore
 extension Keyspaces {
     // MARK: Enums
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
         case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
         case customerManagedKmsKey = "CUSTOMER_MANAGED_KMS_KEY"
         public var description: String { return self.rawValue }
     }
 
-    public enum PointInTimeRecoveryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PointInTimeRecoveryStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum TableStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TableStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleted = "DELETED"
@@ -50,13 +50,13 @@ extension Keyspaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum ThroughputMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThroughputMode: String, CustomStringConvertible, Codable, Sendable {
         case payPerRequest = "PAY_PER_REQUEST"
         case provisioned = "PROVISIONED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeToLiveStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimeToLiveStatus: String, CustomStringConvertible, Codable, Sendable {
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }

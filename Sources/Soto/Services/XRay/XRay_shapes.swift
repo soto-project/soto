@@ -21,42 +21,42 @@ import SotoCore
 extension XRay {
     // MARK: Enums
 
-    public enum EncryptionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
         case kms = "KMS"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum InsightCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InsightCategory: String, CustomStringConvertible, Codable, Sendable {
         case fault = "FAULT"
         public var description: String { return self.rawValue }
     }
 
-    public enum InsightState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InsightState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case closed = "CLOSED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SamplingStrategyName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SamplingStrategyName: String, CustomStringConvertible, Codable, Sendable {
         case fixedRate = "FixedRate"
         case partialScan = "PartialScan"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeRangeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimeRangeType: String, CustomStringConvertible, Codable, Sendable {
         case event = "Event"
         case traceId = "TraceId"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnnotationValue: AWSDecodableShape, _SotoSendable {
+    public enum AnnotationValue: AWSDecodableShape, Sendable {
         /// Value for a Boolean annotation.
         case booleanValue(Bool)
         /// Value for a Number annotation.

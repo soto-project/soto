@@ -21,26 +21,26 @@ import SotoCore
 extension CodeGuruReviewer {
     // MARK: Enums
 
-    public enum AnalysisType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnalysisType: String, CustomStringConvertible, Codable, Sendable {
         case codeQuality = "CodeQuality"
         case security = "Security"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigFileState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigFileState: String, CustomStringConvertible, Codable, Sendable {
         case absent = "Absent"
         case present = "Present"
         case presentWithErrors = "PresentWithErrors"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionOption: String, CustomStringConvertible, Codable, Sendable {
         case aoCmk = "AWS_OWNED_CMK"
         case cmCmk = "CUSTOMER_MANAGED_CMK"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobState: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case deleting = "Deleting"
         case failed = "Failed"
@@ -48,7 +48,7 @@ extension CodeGuruReviewer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProviderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProviderType: String, CustomStringConvertible, Codable, Sendable {
         case bitbucket = "Bitbucket"
         case codeCommit = "CodeCommit"
         case gitHub = "GitHub"
@@ -57,13 +57,13 @@ extension CodeGuruReviewer {
         public var description: String { return self.rawValue }
     }
 
-    public enum Reaction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Reaction: String, CustomStringConvertible, Codable, Sendable {
         case thumbsDown = "ThumbsDown"
         case thumbsUp = "ThumbsUp"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationCategory: String, CustomStringConvertible, Codable, Sendable {
         case awsBestPractices = "AWSBestPractices"
         case awsCloudformationIssues = "AWSCloudFormationIssues"
         case codeInconsistencies = "CodeInconsistencies"
@@ -78,7 +78,7 @@ extension CodeGuruReviewer {
         public var description: String { return self.rawValue }
     }
 
-    public enum RepositoryAssociationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RepositoryAssociationState: String, CustomStringConvertible, Codable, Sendable {
         case associated = "Associated"
         case associating = "Associating"
         case disassociated = "Disassociated"
@@ -87,7 +87,7 @@ extension CodeGuruReviewer {
         public var description: String { return self.rawValue }
     }
 
-    public enum Severity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Severity: String, CustomStringConvertible, Codable, Sendable {
         case critical = "Critical"
         case high = "High"
         case info = "Info"
@@ -96,14 +96,14 @@ extension CodeGuruReviewer {
         public var description: String { return self.rawValue }
     }
 
-    public enum VendorName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VendorName: String, CustomStringConvertible, Codable, Sendable {
         case github = "GitHub"
         case gitlab = "GitLab"
         case nativeS3 = "NativeS3"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
         case pullRequest = "PullRequest"
         case repositoryAnalysis = "RepositoryAnalysis"
         public var description: String { return self.rawValue }

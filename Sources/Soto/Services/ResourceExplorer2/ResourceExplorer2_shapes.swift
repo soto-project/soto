@@ -21,7 +21,7 @@ import SotoCore
 extension ResourceExplorer2 {
     // MARK: Enums
 
-    public enum IndexState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IndexState: String, CustomStringConvertible, Codable, Sendable {
         /// Index is active.
         case active = "ACTIVE"
         /// Resource Explorer is creating the index.
@@ -35,7 +35,7 @@ extension ResourceExplorer2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum IndexType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IndexType: String, CustomStringConvertible, Codable, Sendable {
         /// aggregator index
         case aggregator = "AGGREGATOR"
         /// local index

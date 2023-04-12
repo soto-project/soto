@@ -21,7 +21,7 @@ import SotoCore
 extension IdentityStore {
     // MARK: Enums
 
-    public enum AlternateIdentifier: AWSEncodableShape, _SotoSendable {
+    public enum AlternateIdentifier: AWSEncodableShape, Sendable {
         /// The identifier issued to this resource by an external identity provider.
         case externalId(ExternalId)
         /// An entity attribute that's unique to a specific entity.

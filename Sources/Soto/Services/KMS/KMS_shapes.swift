@@ -21,14 +21,14 @@ import SotoCore
 extension KMS {
     // MARK: Enums
 
-    public enum AlgorithmSpec: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AlgorithmSpec: String, CustomStringConvertible, Codable, Sendable {
         case rsaesOaepSha1 = "RSAES_OAEP_SHA_1"
         case rsaesOaepSha256 = "RSAES_OAEP_SHA_256"
         case rsaesPkcs1V15 = "RSAES_PKCS1_V1_5"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionErrorCodeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionErrorCodeType: String, CustomStringConvertible, Codable, Sendable {
         case clusterNotFound = "CLUSTER_NOT_FOUND"
         case insufficientCloudhsmHsms = "INSUFFICIENT_CLOUDHSM_HSMS"
         case insufficientFreeAddressesInSubnet = "INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET"
@@ -50,7 +50,7 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionStateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionStateType: String, CustomStringConvertible, Codable, Sendable {
         case connected = "CONNECTED"
         case connecting = "CONNECTING"
         case disconnected = "DISCONNECTED"
@@ -59,13 +59,13 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomKeyStoreType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomKeyStoreType: String, CustomStringConvertible, Codable, Sendable {
         case awsCloudhsm = "AWS_CLOUDHSM"
         case externalKeyStore = "EXTERNAL_KEY_STORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomerMasterKeySpec: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomerMasterKeySpec: String, CustomStringConvertible, Codable, Sendable {
         case eccNistP256 = "ECC_NIST_P256"
         case eccNistP384 = "ECC_NIST_P384"
         case eccNistP521 = "ECC_NIST_P521"
@@ -82,7 +82,7 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataKeyPairSpec: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataKeyPairSpec: String, CustomStringConvertible, Codable, Sendable {
         case eccNistP256 = "ECC_NIST_P256"
         case eccNistP384 = "ECC_NIST_P384"
         case eccNistP521 = "ECC_NIST_P521"
@@ -94,13 +94,13 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataKeySpec: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataKeySpec: String, CustomStringConvertible, Codable, Sendable {
         case aes128 = "AES_128"
         case aes256 = "AES_256"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionAlgorithmSpec: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable {
         case rsaesOaepSha1 = "RSAES_OAEP_SHA_1"
         case rsaesOaepSha256 = "RSAES_OAEP_SHA_256"
         case sm2pke = "SM2PKE"
@@ -108,13 +108,13 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExpirationModelType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExpirationModelType: String, CustomStringConvertible, Codable, Sendable {
         case keyMaterialDoesNotExpire = "KEY_MATERIAL_DOES_NOT_EXPIRE"
         case keyMaterialExpires = "KEY_MATERIAL_EXPIRES"
         public var description: String { return self.rawValue }
     }
 
-    public enum GrantOperation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GrantOperation: String, CustomStringConvertible, Codable, Sendable {
         case createGrant = "CreateGrant"
         case decrypt = "Decrypt"
         case describeKey = "DescribeKey"
@@ -134,13 +134,13 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyManagerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KeyManagerType: String, CustomStringConvertible, Codable, Sendable {
         case aws = "AWS"
         case customer = "CUSTOMER"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeySpec: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KeySpec: String, CustomStringConvertible, Codable, Sendable {
         case eccNistP256 = "ECC_NIST_P256"
         case eccNistP384 = "ECC_NIST_P384"
         case eccNistP521 = "ECC_NIST_P521"
@@ -157,7 +157,7 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KeyState: String, CustomStringConvertible, Codable, Sendable {
         case creating = "Creating"
         case disabled = "Disabled"
         case enabled = "Enabled"
@@ -169,14 +169,14 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyUsageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KeyUsageType: String, CustomStringConvertible, Codable, Sendable {
         case encryptDecrypt = "ENCRYPT_DECRYPT"
         case generateVerifyMac = "GENERATE_VERIFY_MAC"
         case signVerify = "SIGN_VERIFY"
         public var description: String { return self.rawValue }
     }
 
-    public enum MacAlgorithmSpec: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MacAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable {
         case hmacSha224 = "HMAC_SHA_224"
         case hmacSha256 = "HMAC_SHA_256"
         case hmacSha384 = "HMAC_SHA_384"
@@ -184,19 +184,19 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MessageType: String, CustomStringConvertible, Codable, Sendable {
         case digest = "DIGEST"
         case raw = "RAW"
         public var description: String { return self.rawValue }
     }
 
-    public enum MultiRegionKeyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MultiRegionKeyType: String, CustomStringConvertible, Codable, Sendable {
         case primary = "PRIMARY"
         case replica = "REPLICA"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OriginType: String, CustomStringConvertible, Codable, Sendable {
         case awsCloudhsm = "AWS_CLOUDHSM"
         case awsKms = "AWS_KMS"
         case external = "EXTERNAL"
@@ -204,7 +204,7 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum SigningAlgorithmSpec: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SigningAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable {
         case ecdsaSha256 = "ECDSA_SHA_256"
         case ecdsaSha384 = "ECDSA_SHA_384"
         case ecdsaSha512 = "ECDSA_SHA_512"
@@ -218,12 +218,12 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum WrappingKeySpec: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WrappingKeySpec: String, CustomStringConvertible, Codable, Sendable {
         case rsa2048 = "RSA_2048"
         public var description: String { return self.rawValue }
     }
 
-    public enum XksProxyConnectivityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum XksProxyConnectivityType: String, CustomStringConvertible, Codable, Sendable {
         case publicEndpoint = "PUBLIC_ENDPOINT"
         case vpcEndpointService = "VPC_ENDPOINT_SERVICE"
         public var description: String { return self.rawValue }

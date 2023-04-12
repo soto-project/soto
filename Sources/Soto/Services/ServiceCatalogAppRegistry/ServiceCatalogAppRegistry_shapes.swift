@@ -21,7 +21,7 @@ import SotoCore
 extension ServiceCatalogAppRegistry {
     // MARK: Enums
 
-    public enum ResourceGroupState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceGroupState: String, CustomStringConvertible, Codable, Sendable {
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -31,13 +31,13 @@ extension ServiceCatalogAppRegistry {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case cfnStack = "CFN_STACK"
         case resourceTagValue = "RESOURCE_TAG_VALUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SyncAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SyncAction: String, CustomStringConvertible, Codable, Sendable {
         case noAction = "NO_ACTION"
         case startSync = "START_SYNC"
         public var description: String { return self.rawValue }

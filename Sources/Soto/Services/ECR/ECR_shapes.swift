@@ -21,13 +21,13 @@ import SotoCore
 extension ECR {
     // MARK: Enums
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
         case aes256 = "AES256"
         case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingSeverity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingSeverity: String, CustomStringConvertible, Codable, Sendable {
         case critical = "CRITICAL"
         case high = "HIGH"
         case informational = "INFORMATIONAL"
@@ -37,12 +37,12 @@ extension ECR {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageActionType: String, CustomStringConvertible, Codable, Sendable {
         case expire = "EXPIRE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageFailureCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageFailureCode: String, CustomStringConvertible, Codable, Sendable {
         case imageNotFound = "ImageNotFound"
         case imageReferencedByManifestList = "ImageReferencedByManifestList"
         case imageTagDoesNotMatchDigest = "ImageTagDoesNotMatchDigest"
@@ -53,25 +53,25 @@ extension ECR {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageTagMutability: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageTagMutability: String, CustomStringConvertible, Codable, Sendable {
         case immutable = "IMMUTABLE"
         case mutable = "MUTABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LayerAvailability: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LayerAvailability: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LayerFailureCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LayerFailureCode: String, CustomStringConvertible, Codable, Sendable {
         case invalidLayerDigest = "InvalidLayerDigest"
         case missingLayerDigest = "MissingLayerDigest"
         public var description: String { return self.rawValue }
     }
 
-    public enum LifecyclePolicyPreviewStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LifecyclePolicyPreviewStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case expired = "EXPIRED"
         case failed = "FAILED"
@@ -79,26 +79,26 @@ extension ECR {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RepositoryFilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RepositoryFilterType: String, CustomStringConvertible, Codable, Sendable {
         case prefixMatch = "PREFIX_MATCH"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanFrequency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScanFrequency: String, CustomStringConvertible, Codable, Sendable {
         case continuousScan = "CONTINUOUS_SCAN"
         case manual = "MANUAL"
         case scanOnPush = "SCAN_ON_PUSH"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScanStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case complete = "COMPLETE"
         case failed = "FAILED"
@@ -110,23 +110,23 @@ extension ECR {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScanType: String, CustomStringConvertible, Codable, Sendable {
         case basic = "BASIC"
         case enhanced = "ENHANCED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanningConfigurationFailureCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScanningConfigurationFailureCode: String, CustomStringConvertible, Codable, Sendable {
         case repositoryNotFound = "REPOSITORY_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanningRepositoryFilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScanningRepositoryFilterType: String, CustomStringConvertible, Codable, Sendable {
         case wildcard = "WILDCARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum TagStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TagStatus: String, CustomStringConvertible, Codable, Sendable {
         case any = "ANY"
         case tagged = "TAGGED"
         case untagged = "UNTAGGED"

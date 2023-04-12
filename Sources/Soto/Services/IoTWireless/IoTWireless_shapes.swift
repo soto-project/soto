@@ -21,25 +21,25 @@ import SotoCore
 extension IoTWireless {
     // MARK: Enums
 
-    public enum ApplicationConfigType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationConfigType: String, CustomStringConvertible, Codable, Sendable {
         case semtechGeoLocation = "SemtechGeolocation"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatteryLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatteryLevel: String, CustomStringConvertible, Codable, Sendable {
         case critical = "critical"
         case low = "low"
         case normal = "normal"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case connected = "Connected"
         case disconnected = "Disconnected"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceState: String, CustomStringConvertible, Codable, Sendable {
         case provisioned = "Provisioned"
         case registerednotseen = "RegisteredNotSeen"
         case registeredreachable = "RegisteredReachable"
@@ -47,20 +47,20 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum DlClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DlClass: String, CustomStringConvertible, Codable, Sendable {
         case classB = "ClassB"
         case classC = "ClassC"
         public var description: String { return self.rawValue }
     }
 
-    public enum DownlinkMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DownlinkMode: String, CustomStringConvertible, Codable, Sendable {
         case concurrent = "CONCURRENT"
         case sequential = "SEQUENTIAL"
         case usingUplinkGateway = "USING_UPLINK_GATEWAY"
         public var description: String { return self.rawValue }
     }
 
-    public enum Event: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Event: String, CustomStringConvertible, Codable, Sendable {
         case ack = "ack"
         case discovered = "discovered"
         case lost = "lost"
@@ -69,31 +69,31 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventNotificationPartnerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventNotificationPartnerType: String, CustomStringConvertible, Codable, Sendable {
         case sidewalk = "Sidewalk"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventNotificationResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventNotificationResourceType: String, CustomStringConvertible, Codable, Sendable {
         case sidewalkAccount = "SidewalkAccount"
         case wirelessDevice = "WirelessDevice"
         case wirelessGateway = "WirelessGateway"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventNotificationTopicStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventNotificationTopicStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExpressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExpressionType: String, CustomStringConvertible, Codable, Sendable {
         case mqttTopic = "MqttTopic"
         case ruleName = "RuleName"
         public var description: String { return self.rawValue }
     }
 
-    public enum FuotaDeviceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FuotaDeviceStatus: String, CustomStringConvertible, Codable, Sendable {
         case fragAlgoUnsupported = "FragAlgo_unsupported"
         case fragIndexUnsupported = "FragIndex_unsupported"
         case initial = "Initial"
@@ -108,7 +108,7 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum FuotaTaskStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FuotaTaskStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleteWaiting = "Delete_Waiting"
         case fuotaDone = "FuotaDone"
         case fuotaSessionWaiting = "FuotaSession_Waiting"
@@ -117,7 +117,7 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentifierType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IdentifierType: String, CustomStringConvertible, Codable, Sendable {
         case devEui = "DevEui"
         case gatewayEui = "GatewayEui"
         case partnerAccountId = "PartnerAccountId"
@@ -126,14 +126,14 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogLevel: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case error = "ERROR"
         case info = "INFO"
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MessageType: String, CustomStringConvertible, Codable, Sendable {
         case customCommandIdGet = "CUSTOM_COMMAND_ID_GET"
         case customCommandIdNotify = "CUSTOM_COMMAND_ID_NOTIFY"
         case customCommandIdResp = "CUSTOM_COMMAND_ID_RESP"
@@ -141,52 +141,52 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum PartnerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PartnerType: String, CustomStringConvertible, Codable, Sendable {
         case sidewalk = "Sidewalk"
         public var description: String { return self.rawValue }
     }
 
-    public enum PositionConfigurationFec: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PositionConfigurationFec: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case rose = "ROSE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PositionConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PositionConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum PositionResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PositionResourceType: String, CustomStringConvertible, Codable, Sendable {
         case wirelessDevice = "WirelessDevice"
         case wirelessGateway = "WirelessGateway"
         public var description: String { return self.rawValue }
     }
 
-    public enum PositionSolverProvider: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PositionSolverProvider: String, CustomStringConvertible, Codable, Sendable {
         case semtech = "Semtech"
         public var description: String { return self.rawValue }
     }
 
-    public enum PositionSolverType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PositionSolverType: String, CustomStringConvertible, Codable, Sendable {
         case gnss = "GNSS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PositioningConfigStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PositioningConfigStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum SigningAlg: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SigningAlg: String, CustomStringConvertible, Codable, Sendable {
         case ed25519 = "Ed25519"
         case p256r1 = "P256r1"
         public var description: String { return self.rawValue }
     }
 
-    public enum SupportedRfRegion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SupportedRfRegion: String, CustomStringConvertible, Codable, Sendable {
         case as9231 = "AS923-1"
         case au915 = "AU915"
         case eu868 = "EU868"
@@ -194,7 +194,7 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessDeviceEvent: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WirelessDeviceEvent: String, CustomStringConvertible, Codable, Sendable {
         case downlinkData = "Downlink_Data"
         case join = "Join"
         case registration = "Registration"
@@ -203,13 +203,13 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessDeviceFrameInfo: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WirelessDeviceFrameInfo: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessDeviceIdType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WirelessDeviceIdType: String, CustomStringConvertible, Codable, Sendable {
         case devEui = "DevEui"
         case sidewalkManufacturingSn = "SidewalkManufacturingSn"
         case thingName = "ThingName"
@@ -217,37 +217,37 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessDeviceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WirelessDeviceType: String, CustomStringConvertible, Codable, Sendable {
         case loRaWAN = "LoRaWAN"
         case sidewalk = "Sidewalk"
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessGatewayEvent: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WirelessGatewayEvent: String, CustomStringConvertible, Codable, Sendable {
         case certificate = "Certificate"
         case cupsRequest = "CUPS_Request"
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessGatewayIdType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WirelessGatewayIdType: String, CustomStringConvertible, Codable, Sendable {
         case gatewayEui = "GatewayEui"
         case thingName = "ThingName"
         case wirelessGatewayId = "WirelessGatewayId"
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessGatewayServiceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WirelessGatewayServiceType: String, CustomStringConvertible, Codable, Sendable {
         case cups = "CUPS"
         case lns = "LNS"
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessGatewayTaskDefinitionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WirelessGatewayTaskDefinitionType: String, CustomStringConvertible, Codable, Sendable {
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessGatewayTaskStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WirelessGatewayTaskStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case firstRetry = "FIRST_RETRY"
@@ -257,7 +257,7 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
-    public enum WirelessGatewayType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WirelessGatewayType: String, CustomStringConvertible, Codable, Sendable {
         case loRaWAN = "LoRaWAN"
         public var description: String { return self.rawValue }
     }

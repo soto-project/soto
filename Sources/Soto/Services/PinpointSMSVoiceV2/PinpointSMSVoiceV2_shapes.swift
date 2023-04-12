@@ -21,12 +21,12 @@ import SotoCore
 extension PinpointSMSVoiceV2 {
     // MARK: Enums
 
-    public enum AccountAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccountAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case accountTier = "ACCOUNT_TIER"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccountLimitName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccountLimitName: String, CustomStringConvertible, Codable, Sendable {
         case configurationSets = "CONFIGURATION_SETS"
         case optOutLists = "OPT_OUT_LISTS"
         case phoneNumbers = "PHONE_NUMBERS"
@@ -34,7 +34,7 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationSetFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationSetFilterName: String, CustomStringConvertible, Codable, Sendable {
         case defaultMessageType = "default-message-type"
         case defaultSenderId = "default-sender-id"
         case eventDestinationName = "event-destination-name"
@@ -42,13 +42,13 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum DestinationCountryParameterKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DestinationCountryParameterKey: String, CustomStringConvertible, Codable, Sendable {
         case inEntityId = "IN_ENTITY_ID"
         case inTemplateId = "IN_TEMPLATE_ID"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case textAll = "TEXT_ALL"
         case textBlocked = "TEXT_BLOCKED"
@@ -77,31 +77,31 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeywordAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KeywordAction: String, CustomStringConvertible, Codable, Sendable {
         case automaticResponse = "AUTOMATIC_RESPONSE"
         case optIn = "OPT_IN"
         case optOut = "OPT_OUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeywordFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KeywordFilterName: String, CustomStringConvertible, Codable, Sendable {
         case keywordAction = "keyword-action"
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MessageType: String, CustomStringConvertible, Codable, Sendable {
         case promotional = "PROMOTIONAL"
         case transactional = "TRANSACTIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum NumberCapability: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NumberCapability: String, CustomStringConvertible, Codable, Sendable {
         case sms = "SMS"
         case voice = "VOICE"
         public var description: String { return self.rawValue }
     }
 
-    public enum NumberStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NumberStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case associating = "ASSOCIATING"
         case deleted = "DELETED"
@@ -110,7 +110,7 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum NumberType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NumberType: String, CustomStringConvertible, Codable, Sendable {
         case longCode = "LONG_CODE"
         case shortCode = "SHORT_CODE"
         case tenDlc = "TEN_DLC"
@@ -118,12 +118,12 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum OptedOutFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OptedOutFilterName: String, CustomStringConvertible, Codable, Sendable {
         case endUserOptedOut = "end-user-opted-out"
         public var description: String { return self.rawValue }
     }
 
-    public enum PhoneNumberFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PhoneNumberFilterName: String, CustomStringConvertible, Codable, Sendable {
         case deletionProtectionEnabled = "deletion-protection-enabled"
         case isoCountryCode = "iso-country-code"
         case messageType = "message-type"
@@ -136,7 +136,7 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum PoolFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PoolFilterName: String, CustomStringConvertible, Codable, Sendable {
         case deletionProtectionEnabled = "deletion-protection-enabled"
         case messageType = "message-type"
         case optOutListName = "opt-out-list-name"
@@ -147,40 +147,40 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum PoolOriginationIdentitiesFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PoolOriginationIdentitiesFilterName: String, CustomStringConvertible, Codable, Sendable {
         case isoCountryCode = "iso-country-code"
         case numberCapability = "number-capability"
         public var description: String { return self.rawValue }
     }
 
-    public enum PoolStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PoolStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequestableNumberType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RequestableNumberType: String, CustomStringConvertible, Codable, Sendable {
         case longCode = "LONG_CODE"
         case tenDlc = "TEN_DLC"
         case tollFree = "TOLL_FREE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SenderIdFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SenderIdFilterName: String, CustomStringConvertible, Codable, Sendable {
         case isoCountryCode = "iso-country-code"
         case messageType = "message-type"
         case senderId = "sender-id"
         public var description: String { return self.rawValue }
     }
 
-    public enum SpendLimitName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SpendLimitName: String, CustomStringConvertible, Codable, Sendable {
         case textMessageMonthlySpendLimit = "TEXT_MESSAGE_MONTHLY_SPEND_LIMIT"
         case voiceMessageMonthlySpendLimit = "VOICE_MESSAGE_MONTHLY_SPEND_LIMIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum VoiceId: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VoiceId: String, CustomStringConvertible, Codable, Sendable {
         case amy = "AMY"
         case astrid = "ASTRID"
         case bianca = "BIANCA"
@@ -243,7 +243,7 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum VoiceMessageBodyTextType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VoiceMessageBodyTextType: String, CustomStringConvertible, Codable, Sendable {
         case ssml = "SSML"
         case text = "TEXT"
         public var description: String { return self.rawValue }

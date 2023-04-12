@@ -21,93 +21,93 @@ import SotoCore
 extension KinesisVideoArchivedMedia {
     // MARK: Enums
 
-    public enum ClipFragmentSelectorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClipFragmentSelectorType: String, CustomStringConvertible, Codable, Sendable {
         case producerTimestamp = "PRODUCER_TIMESTAMP"
         case serverTimestamp = "SERVER_TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContainerFormat: String, CustomStringConvertible, Codable, Sendable {
         case fragmentedMp4 = "FRAGMENTED_MP4"
         case mpegTs = "MPEG_TS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DASHDisplayFragmentNumber: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DASHDisplayFragmentNumber: String, CustomStringConvertible, Codable, Sendable {
         case always = "ALWAYS"
         case never = "NEVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum DASHDisplayFragmentTimestamp: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DASHDisplayFragmentTimestamp: String, CustomStringConvertible, Codable, Sendable {
         case always = "ALWAYS"
         case never = "NEVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum DASHFragmentSelectorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DASHFragmentSelectorType: String, CustomStringConvertible, Codable, Sendable {
         case producerTimestamp = "PRODUCER_TIMESTAMP"
         case serverTimestamp = "SERVER_TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
-    public enum DASHPlaybackMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DASHPlaybackMode: String, CustomStringConvertible, Codable, Sendable {
         case live = "LIVE"
         case liveReplay = "LIVE_REPLAY"
         case onDemand = "ON_DEMAND"
         public var description: String { return self.rawValue }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Format: String, CustomStringConvertible, Codable, Sendable {
         case jpeg = "JPEG"
         case png = "PNG"
         public var description: String { return self.rawValue }
     }
 
-    public enum FormatConfigKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FormatConfigKey: String, CustomStringConvertible, Codable, Sendable {
         case jpegQuality = "JPEGQuality"
         public var description: String { return self.rawValue }
     }
 
-    public enum FragmentSelectorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FragmentSelectorType: String, CustomStringConvertible, Codable, Sendable {
         case producerTimestamp = "PRODUCER_TIMESTAMP"
         case serverTimestamp = "SERVER_TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
-    public enum HLSDiscontinuityMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HLSDiscontinuityMode: String, CustomStringConvertible, Codable, Sendable {
         case always = "ALWAYS"
         case never = "NEVER"
         case onDiscontinuity = "ON_DISCONTINUITY"
         public var description: String { return self.rawValue }
     }
 
-    public enum HLSDisplayFragmentTimestamp: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HLSDisplayFragmentTimestamp: String, CustomStringConvertible, Codable, Sendable {
         case always = "ALWAYS"
         case never = "NEVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum HLSFragmentSelectorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HLSFragmentSelectorType: String, CustomStringConvertible, Codable, Sendable {
         case producerTimestamp = "PRODUCER_TIMESTAMP"
         case serverTimestamp = "SERVER_TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
-    public enum HLSPlaybackMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HLSPlaybackMode: String, CustomStringConvertible, Codable, Sendable {
         case live = "LIVE"
         case liveReplay = "LIVE_REPLAY"
         case onDemand = "ON_DEMAND"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageError: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageError: String, CustomStringConvertible, Codable, Sendable {
         case mediaError = "MEDIA_ERROR"
         case noMedia = "NO_MEDIA"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageSelectorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageSelectorType: String, CustomStringConvertible, Codable, Sendable {
         case producerTimestamp = "PRODUCER_TIMESTAMP"
         case serverTimestamp = "SERVER_TIMESTAMP"
         public var description: String { return self.rawValue }

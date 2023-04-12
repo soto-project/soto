@@ -21,13 +21,13 @@ import SotoCore
 extension Transcribe {
     // MARK: Enums
 
-    public enum BaseModelName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BaseModelName: String, CustomStringConvertible, Codable, Sendable {
         case narrowBand = "NarrowBand"
         case wideBand = "WideBand"
         public var description: String { return self.rawValue }
     }
 
-    public enum CLMLanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CLMLanguageCode: String, CustomStringConvertible, Codable, Sendable {
         case deDe = "de-DE"
         case enAu = "en-AU"
         case enGb = "en-GB"
@@ -38,7 +38,7 @@ extension Transcribe {
         public var description: String { return self.rawValue }
     }
 
-    public enum CallAnalyticsJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CallAnalyticsJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -46,13 +46,13 @@ extension Transcribe {
         public var description: String { return self.rawValue }
     }
 
-    public enum InputType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputType: String, CustomStringConvertible, Codable, Sendable {
         case postCall = "POST_CALL"
         case realTime = "REAL_TIME"
         public var description: String { return self.rawValue }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable {
         case afZa = "af-ZA"
         case arAe = "ar-AE"
         case arSa = "ar-SA"
@@ -95,7 +95,7 @@ extension Transcribe {
         public var description: String { return self.rawValue }
     }
 
-    public enum MediaFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MediaFormat: String, CustomStringConvertible, Codable, Sendable {
         case amr = "amr"
         case flac = "flac"
         case mp3 = "mp3"
@@ -106,31 +106,31 @@ extension Transcribe {
         public var description: String { return self.rawValue }
     }
 
-    public enum MedicalContentIdentificationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MedicalContentIdentificationType: String, CustomStringConvertible, Codable, Sendable {
         case phi = "PHI"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputLocationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OutputLocationType: String, CustomStringConvertible, Codable, Sendable {
         case customerBucket = "CUSTOMER_BUCKET"
         case serviceBucket = "SERVICE_BUCKET"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParticipantRole: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParticipantRole: String, CustomStringConvertible, Codable, Sendable {
         case agent = "AGENT"
         case customer = "CUSTOMER"
         public var description: String { return self.rawValue }
     }
 
-    public enum PiiEntityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PiiEntityType: String, CustomStringConvertible, Codable, Sendable {
         case address = "ADDRESS"
         case all = "ALL"
         case bankAccountNumber = "BANK_ACCOUNT_NUMBER"
@@ -146,18 +146,18 @@ extension Transcribe {
         public var description: String { return self.rawValue }
     }
 
-    public enum RedactionOutput: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RedactionOutput: String, CustomStringConvertible, Codable, Sendable {
         case redacted = "redacted"
         case redactedAndUnredacted = "redacted_and_unredacted"
         public var description: String { return self.rawValue }
     }
 
-    public enum RedactionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RedactionType: String, CustomStringConvertible, Codable, Sendable {
         case pii = "PII"
         public var description: String { return self.rawValue }
     }
 
-    public enum SentimentValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SentimentValue: String, CustomStringConvertible, Codable, Sendable {
         case mixed = "MIXED"
         case negative = "NEGATIVE"
         case neutral = "NEUTRAL"
@@ -165,23 +165,23 @@ extension Transcribe {
         public var description: String { return self.rawValue }
     }
 
-    public enum Specialty: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Specialty: String, CustomStringConvertible, Codable, Sendable {
         case primarycare = "PRIMARYCARE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SubtitleFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SubtitleFormat: String, CustomStringConvertible, Codable, Sendable {
         case srt = "srt"
         case vtt = "vtt"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscriptFilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TranscriptFilterType: String, CustomStringConvertible, Codable, Sendable {
         case exact = "EXACT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscriptionJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TranscriptionJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -189,27 +189,27 @@ extension Transcribe {
         public var description: String { return self.rawValue }
     }
 
-    public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable, Sendable {
         case mask = "mask"
         case remove = "remove"
         case tag = "tag"
         public var description: String { return self.rawValue }
     }
 
-    public enum VocabularyState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VocabularyState: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pending = "PENDING"
         case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
         case conversation = "CONVERSATION"
         case dictation = "DICTATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum Rule: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum Rule: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Flag the presence or absence of interruptions in your Call Analytics transcription output. Refer to  for more detail.
         case interruptionFilter(InterruptionFilter)
         /// Flag the presence or absence of periods of silence in your Call Analytics transcription output. Refer to  for more detail.

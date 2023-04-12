@@ -21,13 +21,13 @@ import SotoCore
 extension GlobalAccelerator {
     // MARK: Enums
 
-    public enum AcceleratorStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AcceleratorStatus: String, CustomStringConvertible, Codable, Sendable {
         case deployed = "DEPLOYED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ByoipCidrState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ByoipCidrState: String, CustomStringConvertible, Codable, Sendable {
         case advertising = "ADVERTISING"
         case deprovisioned = "DEPROVISIONED"
         case failedAdvertising = "FAILED_ADVERTISING"
@@ -42,57 +42,57 @@ extension GlobalAccelerator {
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientAffinity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClientAffinity: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case sourceIp = "SOURCE_IP"
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomRoutingAcceleratorStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomRoutingAcceleratorStatus: String, CustomStringConvertible, Codable, Sendable {
         case deployed = "DEPLOYED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomRoutingDestinationTrafficState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomRoutingDestinationTrafficState: String, CustomStringConvertible, Codable, Sendable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomRoutingProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomRoutingProtocol: String, CustomStringConvertible, Codable, Sendable {
         case tcp = "TCP"
         case udp = "UDP"
         public var description: String { return self.rawValue }
     }
 
-    public enum HealthCheckProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HealthCheckProtocol: String, CustomStringConvertible, Codable, Sendable {
         case http = "HTTP"
         case https = "HTTPS"
         case tcp = "TCP"
         public var description: String { return self.rawValue }
     }
 
-    public enum HealthState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HealthState: String, CustomStringConvertible, Codable, Sendable {
         case healthy = "HEALTHY"
         case initial = "INITIAL"
         case unhealthy = "UNHEALTHY"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpAddressFamily: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpAddressFamily: String, CustomStringConvertible, Codable, Sendable {
         case iPv4 = "IPv4"
         case iPv6 = "IPv6"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpAddressType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable {
         case dualStack = "DUAL_STACK"
         case ipv4 = "IPV4"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable {
         case tcp = "TCP"
         case udp = "UDP"
         public var description: String { return self.rawValue }

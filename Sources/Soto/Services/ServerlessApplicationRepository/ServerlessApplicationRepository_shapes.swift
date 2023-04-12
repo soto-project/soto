@@ -21,7 +21,7 @@ import SotoCore
 extension ServerlessApplicationRepository {
     // MARK: Enums
 
-    public enum Capability: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Capability: String, CustomStringConvertible, Codable, Sendable {
         case capabilityAutoExpand = "CAPABILITY_AUTO_EXPAND"
         case capabilityIam = "CAPABILITY_IAM"
         case capabilityNamedIam = "CAPABILITY_NAMED_IAM"
@@ -29,7 +29,7 @@ extension ServerlessApplicationRepository {
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case expired = "EXPIRED"
         case preparing = "PREPARING"

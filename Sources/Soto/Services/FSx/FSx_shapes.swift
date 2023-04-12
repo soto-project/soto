@@ -21,7 +21,7 @@ import SotoCore
 extension FSx {
     // MARK: Enums
 
-    public enum AdministrativeActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AdministrativeActionType: String, CustomStringConvertible, Codable, Sendable {
         case fileSystemAliasAssociation = "FILE_SYSTEM_ALIAS_ASSOCIATION"
         case fileSystemAliasDisassociation = "FILE_SYSTEM_ALIAS_DISASSOCIATION"
         case fileSystemUpdate = "FILE_SYSTEM_UPDATE"
@@ -33,7 +33,7 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum AliasLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AliasLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -42,7 +42,7 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoImportPolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoImportPolicyType: String, CustomStringConvertible, Codable, Sendable {
         case new = "NEW"
         case newChanged = "NEW_CHANGED"
         case newChangedDeleted = "NEW_CHANGED_DELETED"
@@ -50,7 +50,7 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum BackupLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BackupLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case copying = "COPYING"
         case creating = "CREATING"
@@ -61,20 +61,20 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum BackupType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BackupType: String, CustomStringConvertible, Codable, Sendable {
         case automatic = "AUTOMATIC"
         case awsBackup = "AWS_BACKUP"
         case userInitiated = "USER_INITIATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataCompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataCompressionType: String, CustomStringConvertible, Codable, Sendable {
         case lz4 = "LZ4"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataRepositoryLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataRepositoryLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -84,7 +84,7 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataRepositoryTaskFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataRepositoryTaskFilterName: String, CustomStringConvertible, Codable, Sendable {
         case dataRepoAssociationId = "data-repository-association-id"
         case fileCacheId = "file-cache-id"
         case fileSystemId = "file-system-id"
@@ -92,7 +92,7 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataRepositoryTaskLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataRepositoryTaskLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case canceling = "CANCELING"
         case executing = "EXECUTING"
@@ -102,7 +102,7 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataRepositoryTaskType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataRepositoryTaskType: String, CustomStringConvertible, Codable, Sendable {
         case `import` = "IMPORT_METADATA_FROM_REPOSITORY"
         case autoTriggeredEviction = "AUTO_RELEASE_DATA"
         case eviction = "RELEASE_DATA_FROM_FILESYSTEM"
@@ -110,36 +110,36 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeleteFileSystemOpenZFSOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeleteFileSystemOpenZFSOption: String, CustomStringConvertible, Codable, Sendable {
         case deleteChildVolumesAndSnapshots = "DELETE_CHILD_VOLUMES_AND_SNAPSHOTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeleteOpenZFSVolumeOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeleteOpenZFSVolumeOption: String, CustomStringConvertible, Codable, Sendable {
         case deleteChildVolumesAndSnapshots = "DELETE_CHILD_VOLUMES_AND_SNAPSHOTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DiskIopsConfigurationMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DiskIopsConfigurationMode: String, CustomStringConvertible, Codable, Sendable {
         case automatic = "AUTOMATIC"
         case userProvisioned = "USER_PROVISIONED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DriveCacheType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DriveCacheType: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case read = "READ"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
         case changed = "CHANGED"
         case deleted = "DELETED"
         case new = "NEW"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileCacheLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileCacheLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -148,17 +148,17 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum FileCacheLustreDeploymentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileCacheLustreDeploymentType: String, CustomStringConvertible, Codable, Sendable {
         case cache1 = "CACHE_1"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileCacheType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileCacheType: String, CustomStringConvertible, Codable, Sendable {
         case lustre = "LUSTRE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileSystemLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileSystemLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -169,13 +169,13 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum FileSystemMaintenanceOperation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileSystemMaintenanceOperation: String, CustomStringConvertible, Codable, Sendable {
         case backingUp = "BACKING_UP"
         case patching = "PATCHING"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileSystemType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileSystemType: String, CustomStringConvertible, Codable, Sendable {
         case lustre = "LUSTRE"
         case ontap = "ONTAP"
         case openzfs = "OPENZFS"
@@ -183,7 +183,7 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterName: String, CustomStringConvertible, Codable, Sendable {
         case backupType = "backup-type"
         case dataRepositoryType = "data-repository-type"
         case fileCacheId = "file-cache-id"
@@ -194,20 +194,20 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum FlexCacheEndpointType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FlexCacheEndpointType: String, CustomStringConvertible, Codable, Sendable {
         case cache = "CACHE"
         case none = "NONE"
         case origin = "ORIGIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputOntapVolumeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputOntapVolumeType: String, CustomStringConvertible, Codable, Sendable {
         case dp = "DP"
         case rw = "RW"
         public var description: String { return self.rawValue }
     }
 
-    public enum LustreAccessAuditLogLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LustreAccessAuditLogLevel: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case errorOnly = "ERROR_ONLY"
         case warnError = "WARN_ERROR"
@@ -215,7 +215,7 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum LustreDeploymentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LustreDeploymentType: String, CustomStringConvertible, Codable, Sendable {
         case persistent1 = "PERSISTENT_1"
         case persistent2 = "PERSISTENT_2"
         case scratch1 = "SCRATCH_1"
@@ -223,85 +223,85 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum NfsVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NfsVersion: String, CustomStringConvertible, Codable, Sendable {
         case nfs3 = "NFS3"
         public var description: String { return self.rawValue }
     }
 
-    public enum OntapDeploymentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OntapDeploymentType: String, CustomStringConvertible, Codable, Sendable {
         case multiAz1 = "MULTI_AZ_1"
         case singleAz1 = "SINGLE_AZ_1"
         public var description: String { return self.rawValue }
     }
 
-    public enum OntapVolumeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OntapVolumeType: String, CustomStringConvertible, Codable, Sendable {
         case dp = "DP"
         case ls = "LS"
         case rw = "RW"
         public var description: String { return self.rawValue }
     }
 
-    public enum OpenZFSCopyStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OpenZFSCopyStrategy: String, CustomStringConvertible, Codable, Sendable {
         case clone = "CLONE"
         case fullCopy = "FULL_COPY"
         public var description: String { return self.rawValue }
     }
 
-    public enum OpenZFSDataCompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OpenZFSDataCompressionType: String, CustomStringConvertible, Codable, Sendable {
         case lz4 = "LZ4"
         case none = "NONE"
         case zstd = "ZSTD"
         public var description: String { return self.rawValue }
     }
 
-    public enum OpenZFSDeploymentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OpenZFSDeploymentType: String, CustomStringConvertible, Codable, Sendable {
         case singleAz1 = "SINGLE_AZ_1"
         case singleAz2 = "SINGLE_AZ_2"
         public var description: String { return self.rawValue }
     }
 
-    public enum OpenZFSQuotaType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OpenZFSQuotaType: String, CustomStringConvertible, Codable, Sendable {
         case group = "GROUP"
         case user = "USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportFormat: String, CustomStringConvertible, Codable, Sendable {
         case reportCsv20191124 = "REPORT_CSV_20191124"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportScope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportScope: String, CustomStringConvertible, Codable, Sendable {
         case failedFilesOnly = "FAILED_FILES_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case fileSystem = "FILE_SYSTEM"
         case volume = "VOLUME"
         public var description: String { return self.rawValue }
     }
 
-    public enum RestoreOpenZFSVolumeOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RestoreOpenZFSVolumeOption: String, CustomStringConvertible, Codable, Sendable {
         case deleteClonedVolumes = "DELETE_CLONED_VOLUMES"
         case deleteIntermediateSnapshots = "DELETE_INTERMEDIATE_SNAPSHOTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SecurityStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SecurityStyle: String, CustomStringConvertible, Codable, Sendable {
         case mixed = "MIXED"
         case ntfs = "NTFS"
         case unix = "UNIX"
         public var description: String { return self.rawValue }
     }
 
-    public enum SnapshotFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SnapshotFilterName: String, CustomStringConvertible, Codable, Sendable {
         case fileSystemId = "file-system-id"
         case volumeId = "volume-id"
         public var description: String { return self.rawValue }
     }
 
-    public enum SnapshotLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SnapshotLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -309,7 +309,7 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -318,18 +318,18 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageType: String, CustomStringConvertible, Codable, Sendable {
         case hdd = "HDD"
         case ssd = "SSD"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageVirtualMachineFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageVirtualMachineFilterName: String, CustomStringConvertible, Codable, Sendable {
         case fileSystemId = "file-system-id"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageVirtualMachineLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageVirtualMachineLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -339,14 +339,14 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageVirtualMachineRootVolumeSecurityStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageVirtualMachineRootVolumeSecurityStyle: String, CustomStringConvertible, Codable, Sendable {
         case mixed = "MIXED"
         case ntfs = "NTFS"
         case unix = "UNIX"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageVirtualMachineSubtype: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageVirtualMachineSubtype: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case dpDestination = "DP_DESTINATION"
         case syncDestination = "SYNC_DESTINATION"
@@ -354,7 +354,7 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum TieringPolicyName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TieringPolicyName: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case auto = "AUTO"
         case none = "NONE"
@@ -362,13 +362,13 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VolumeFilterName: String, CustomStringConvertible, Codable, Sendable {
         case fileSystemId = "file-system-id"
         case storageVirtualMachineId = "storage-virtual-machine-id"
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VolumeLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case created = "CREATED"
         case creating = "CREATING"
@@ -379,13 +379,13 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VolumeType: String, CustomStringConvertible, Codable, Sendable {
         case ontap = "ONTAP"
         case openzfs = "OPENZFS"
         public var description: String { return self.rawValue }
     }
 
-    public enum WindowsAccessAuditLogLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WindowsAccessAuditLogLevel: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case failureOnly = "FAILURE_ONLY"
         case successAndFailure = "SUCCESS_AND_FAILURE"
@@ -393,7 +393,7 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
-    public enum WindowsDeploymentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WindowsDeploymentType: String, CustomStringConvertible, Codable, Sendable {
         case multiAz1 = "MULTI_AZ_1"
         case singleAz1 = "SINGLE_AZ_1"
         case singleAz2 = "SINGLE_AZ_2"

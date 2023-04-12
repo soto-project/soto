@@ -21,14 +21,14 @@ import SotoCore
 extension Inspector {
     // MARK: Enums
 
-    public enum AgentHealth: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AgentHealth: String, CustomStringConvertible, Codable, Sendable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum AgentHealthCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AgentHealthCode: String, CustomStringConvertible, Codable, Sendable {
         case idle = "IDLE"
         case running = "RUNNING"
         case shutdown = "SHUTDOWN"
@@ -38,7 +38,7 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum AssessmentRunNotificationSnsStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssessmentRunNotificationSnsStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case internalError = "INTERNAL_ERROR"
         case success = "SUCCESS"
@@ -46,7 +46,7 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum AssessmentRunState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssessmentRunState: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case collectingData = "COLLECTING_DATA"
         case completed = "COMPLETED"
@@ -63,12 +63,12 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum AssetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssetType: String, CustomStringConvertible, Codable, Sendable {
         case ec2Instance = "ec2-instance"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailedItemErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailedItemErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case duplicateArn = "DUPLICATE_ARN"
         case internalError = "INTERNAL_ERROR"
@@ -78,7 +78,7 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum InspectorEvent: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InspectorEvent: String, CustomStringConvertible, Codable, Sendable {
         case assessmentRunCompleted = "ASSESSMENT_RUN_COMPLETED"
         case assessmentRunStarted = "ASSESSMENT_RUN_STARTED"
         case assessmentRunStateChanged = "ASSESSMENT_RUN_STATE_CHANGED"
@@ -87,43 +87,43 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum Locale: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Locale: String, CustomStringConvertible, Codable, Sendable {
         case enUs = "EN_US"
         public var description: String { return self.rawValue }
     }
 
-    public enum PreviewStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PreviewStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case workInProgress = "WORK_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportFileFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportFileFormat: String, CustomStringConvertible, Codable, Sendable {
         case html = "HTML"
         case pdf = "PDF"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case workInProgress = "WORK_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportType: String, CustomStringConvertible, Codable, Sendable {
         case finding = "FINDING"
         case full = "FULL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScopeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScopeType: String, CustomStringConvertible, Codable, Sendable {
         case instanceId = "INSTANCE_ID"
         case rulesPackageArn = "RULES_PACKAGE_ARN"
         public var description: String { return self.rawValue }
     }
 
-    public enum Severity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Severity: String, CustomStringConvertible, Codable, Sendable {
         case high = "High"
         case informational = "Informational"
         case low = "Low"
@@ -132,7 +132,7 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum StopAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StopAction: String, CustomStringConvertible, Codable, Sendable {
         case skipEvaluation = "SKIP_EVALUATION"
         case startEvaluation = "START_EVALUATION"
         public var description: String { return self.rawValue }

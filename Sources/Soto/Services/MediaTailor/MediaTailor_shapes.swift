@@ -21,71 +21,71 @@ import SotoCore
 extension MediaTailor {
     // MARK: Enums
 
-    public enum AccessType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessType: String, CustomStringConvertible, Codable, Sendable {
         case s3Sigv4 = "S3_SIGV4"
         case secretsManagerAccessToken = "SECRETS_MANAGER_ACCESS_TOKEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChannelState: String, CustomStringConvertible, Codable, Sendable {
         case running = "RUNNING"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable {
         case asRun = "AS_RUN"
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MessageType: String, CustomStringConvertible, Codable, Sendable {
         case spliceInsert = "SPLICE_INSERT"
         case timeSignal = "TIME_SIGNAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mode: String, CustomStringConvertible, Codable, Sendable {
         case behindLiveEdge = "BEHIND_LIVE_EDGE"
         case off = "OFF"
         public var description: String { return self.rawValue }
     }
 
-    public enum Operator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Operator: String, CustomStringConvertible, Codable, Sendable {
         case equals = "EQUALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginManifestType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OriginManifestType: String, CustomStringConvertible, Codable, Sendable {
         case multiPeriod = "MULTI_PERIOD"
         case singlePeriod = "SINGLE_PERIOD"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlaybackMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlaybackMode: String, CustomStringConvertible, Codable, Sendable {
         case linear = "LINEAR"
         case loop = "LOOP"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelativePosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RelativePosition: String, CustomStringConvertible, Codable, Sendable {
         case afterProgram = "AFTER_PROGRAM"
         case beforeProgram = "BEFORE_PROGRAM"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduleEntryType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScheduleEntryType: String, CustomStringConvertible, Codable, Sendable {
         case fillerSlate = "FILLER_SLATE"
         case program = "PROGRAM"
         public var description: String { return self.rawValue }
     }
 
-    public enum Tier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Tier: String, CustomStringConvertible, Codable, Sendable {
         case basic = "BASIC"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
         case dash = "DASH"
         case hls = "HLS"
         public var description: String { return self.rawValue }

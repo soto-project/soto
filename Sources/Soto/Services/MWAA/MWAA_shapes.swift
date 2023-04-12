@@ -21,7 +21,7 @@ import SotoCore
 extension MWAA {
     // MARK: Enums
 
-    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -33,7 +33,7 @@ extension MWAA {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggingLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LoggingLevel: String, CustomStringConvertible, Codable, Sendable {
         case critical = "CRITICAL"
         case debug = "DEBUG"
         case error = "ERROR"
@@ -42,7 +42,7 @@ extension MWAA {
         public var description: String { return self.rawValue }
     }
 
-    public enum Unit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Unit: String, CustomStringConvertible, Codable, Sendable {
         case bits = "Bits"
         case bitsSecond = "Bits/Second"
         case bytes = "Bytes"
@@ -73,14 +73,14 @@ extension MWAA {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pending = "PENDING"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum WebserverAccessMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WebserverAccessMode: String, CustomStringConvertible, Codable, Sendable {
         case privateOnly = "PRIVATE_ONLY"
         case publicOnly = "PUBLIC_ONLY"
         public var description: String { return self.rawValue }

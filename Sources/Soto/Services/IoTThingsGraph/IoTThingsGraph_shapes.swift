@@ -21,18 +21,18 @@ import SotoCore
 extension IoTThingsGraph {
     // MARK: Enums
 
-    public enum DefinitionLanguage: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DefinitionLanguage: String, CustomStringConvertible, Codable, Sendable {
         case graphql = "GRAPHQL"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentTarget: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentTarget: String, CustomStringConvertible, Codable, Sendable {
         case cloud = "CLOUD"
         case greengrass = "GREENGRASS"
         public var description: String { return self.rawValue }
     }
 
-    public enum EntityFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EntityFilterName: String, CustomStringConvertible, Codable, Sendable {
         case name = "NAME"
         case namespace = "NAMESPACE"
         case referencedEntityId = "REFERENCED_ENTITY_ID"
@@ -40,7 +40,7 @@ extension IoTThingsGraph {
         public var description: String { return self.rawValue }
     }
 
-    public enum EntityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EntityType: String, CustomStringConvertible, Codable, Sendable {
         case action = "ACTION"
         case capability = "CAPABILITY"
         case device = "DEVICE"
@@ -54,7 +54,7 @@ extension IoTThingsGraph {
         public var description: String { return self.rawValue }
     }
 
-    public enum FlowExecutionEventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FlowExecutionEventType: String, CustomStringConvertible, Codable, Sendable {
         case acknowledgeTaskMessage = "ACKNOWLEDGE_TASK_MESSAGE"
         case activityFailed = "ACTIVITY_FAILED"
         case activityScheduled = "ACTIVITY_SCHEDULED"
@@ -75,7 +75,7 @@ extension IoTThingsGraph {
         public var description: String { return self.rawValue }
     }
 
-    public enum FlowExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FlowExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case aborted = "ABORTED"
         case failed = "FAILED"
         case running = "RUNNING"
@@ -83,24 +83,24 @@ extension IoTThingsGraph {
         public var description: String { return self.rawValue }
     }
 
-    public enum FlowTemplateFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FlowTemplateFilterName: String, CustomStringConvertible, Codable, Sendable {
         case deviceModelId = "DEVICE_MODEL_ID"
         public var description: String { return self.rawValue }
     }
 
-    public enum NamespaceDeletionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NamespaceDeletionStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum NamespaceDeletionStatusErrorCodes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NamespaceDeletionStatusErrorCodes: String, CustomStringConvertible, Codable, Sendable {
         case validationFailed = "VALIDATION_FAILED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SystemInstanceDeploymentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SystemInstanceDeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
         case bootstrap = "BOOTSTRAP"
         case deletedInTarget = "DELETED_IN_TARGET"
         case deployedInTarget = "DEPLOYED_IN_TARGET"
@@ -112,19 +112,19 @@ extension IoTThingsGraph {
         public var description: String { return self.rawValue }
     }
 
-    public enum SystemInstanceFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SystemInstanceFilterName: String, CustomStringConvertible, Codable, Sendable {
         case greengrassGroupName = "GREENGRASS_GROUP_NAME"
         case status = "STATUS"
         case systemTemplateId = "SYSTEM_TEMPLATE_ID"
         public var description: String { return self.rawValue }
     }
 
-    public enum SystemTemplateFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SystemTemplateFilterName: String, CustomStringConvertible, Codable, Sendable {
         case flowTemplateId = "FLOW_TEMPLATE_ID"
         public var description: String { return self.rawValue }
     }
 
-    public enum UploadStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UploadStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"

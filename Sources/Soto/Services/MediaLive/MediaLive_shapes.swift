@@ -21,7 +21,7 @@ import SotoCore
 extension MediaLive {
     // MARK: Enums
 
-    public enum AacCodingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AacCodingMode: String, CustomStringConvertible, Codable, Sendable {
         case adReceiverMix = "AD_RECEIVER_MIX"
         case codingMode10 = "CODING_MODE_1_0"
         case codingMode11 = "CODING_MODE_1_1"
@@ -30,38 +30,38 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum AacInputType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AacInputType: String, CustomStringConvertible, Codable, Sendable {
         case broadcasterMixedAd = "BROADCASTER_MIXED_AD"
         case normal = "NORMAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum AacProfile: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AacProfile: String, CustomStringConvertible, Codable, Sendable {
         case hev1 = "HEV1"
         case hev2 = "HEV2"
         case lc = "LC"
         public var description: String { return self.rawValue }
     }
 
-    public enum AacRateControlMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AacRateControlMode: String, CustomStringConvertible, Codable, Sendable {
         case cbr = "CBR"
         case vbr = "VBR"
         public var description: String { return self.rawValue }
     }
 
-    public enum AacRawFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AacRawFormat: String, CustomStringConvertible, Codable, Sendable {
         case latmLoas = "LATM_LOAS"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AacSpec: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AacSpec: String, CustomStringConvertible, Codable, Sendable {
         case mpeg2 = "MPEG2"
         case mpeg4 = "MPEG4"
         public var description: String { return self.rawValue }
     }
 
-    public enum AacVbrQuality: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AacVbrQuality: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         case mediumHigh = "MEDIUM_HIGH"
@@ -69,7 +69,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Ac3BitstreamMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Ac3BitstreamMode: String, CustomStringConvertible, Codable, Sendable {
         case commentary = "COMMENTARY"
         case completeMain = "COMPLETE_MAIN"
         case dialogue = "DIALOGUE"
@@ -81,7 +81,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Ac3CodingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Ac3CodingMode: String, CustomStringConvertible, Codable, Sendable {
         case codingMode10 = "CODING_MODE_1_0"
         case codingMode11 = "CODING_MODE_1_1"
         case codingMode20 = "CODING_MODE_2_0"
@@ -89,78 +89,78 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Ac3DrcProfile: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Ac3DrcProfile: String, CustomStringConvertible, Codable, Sendable {
         case filmStandard = "FILM_STANDARD"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Ac3LfeFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Ac3LfeFilter: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Ac3MetadataControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Ac3MetadataControl: String, CustomStringConvertible, Codable, Sendable {
         case followInput = "FOLLOW_INPUT"
         case useConfigured = "USE_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AcceptHeader: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AcceptHeader: String, CustomStringConvertible, Codable, Sendable {
         case imageJpeg = "image/jpeg"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccessibilityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessibilityType: String, CustomStringConvertible, Codable, Sendable {
         case doesNotImplementAccessibilityFeatures = "DOES_NOT_IMPLEMENT_ACCESSIBILITY_FEATURES"
         case implementsAccessibilityFeatures = "IMPLEMENTS_ACCESSIBILITY_FEATURES"
         public var description: String { return self.rawValue }
     }
 
-    public enum AfdSignaling: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AfdSignaling: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case fixed = "FIXED"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioDescriptionAudioTypeControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AudioDescriptionAudioTypeControl: String, CustomStringConvertible, Codable, Sendable {
         case followInput = "FOLLOW_INPUT"
         case useConfigured = "USE_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioDescriptionLanguageCodeControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AudioDescriptionLanguageCodeControl: String, CustomStringConvertible, Codable, Sendable {
         case followInput = "FOLLOW_INPUT"
         case useConfigured = "USE_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioLanguageSelectionPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AudioLanguageSelectionPolicy: String, CustomStringConvertible, Codable, Sendable {
         case loose = "LOOSE"
         case strict = "STRICT"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioNormalizationAlgorithm: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AudioNormalizationAlgorithm: String, CustomStringConvertible, Codable, Sendable {
         case itu17701 = "ITU_1770_1"
         case itu17702 = "ITU_1770_2"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioNormalizationAlgorithmControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AudioNormalizationAlgorithmControl: String, CustomStringConvertible, Codable, Sendable {
         case correctAudio = "CORRECT_AUDIO"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioOnlyHlsSegmentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AudioOnlyHlsSegmentType: String, CustomStringConvertible, Codable, Sendable {
         case aac = "AAC"
         case fmp4 = "FMP4"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioOnlyHlsTrackType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AudioOnlyHlsTrackType: String, CustomStringConvertible, Codable, Sendable {
         case alternateAudioAutoSelect = "ALTERNATE_AUDIO_AUTO_SELECT"
         case alternateAudioAutoSelectDefault = "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT"
         case alternateAudioNotAutoSelect = "ALTERNATE_AUDIO_NOT_AUTO_SELECT"
@@ -168,7 +168,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AudioType: String, CustomStringConvertible, Codable, Sendable {
         case cleanEffects = "CLEAN_EFFECTS"
         case hearingImpaired = "HEARING_IMPAIRED"
         case undefined = "UNDEFINED"
@@ -176,45 +176,45 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticationScheme: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthenticationScheme: String, CustomStringConvertible, Codable, Sendable {
         case akamai = "AKAMAI"
         case common = "COMMON"
         public var description: String { return self.rawValue }
     }
 
-    public enum AvailBlankingState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AvailBlankingState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum BlackoutSlateNetworkEndBlackout: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BlackoutSlateNetworkEndBlackout: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum BlackoutSlateState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BlackoutSlateState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum BurnInAlignment: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BurnInAlignment: String, CustomStringConvertible, Codable, Sendable {
         case centered = "CENTERED"
         case left = "LEFT"
         case smart = "SMART"
         public var description: String { return self.rawValue }
     }
 
-    public enum BurnInBackgroundColor: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BurnInBackgroundColor: String, CustomStringConvertible, Codable, Sendable {
         case black = "BLACK"
         case none = "NONE"
         case white = "WHITE"
         public var description: String { return self.rawValue }
     }
 
-    public enum BurnInFontColor: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BurnInFontColor: String, CustomStringConvertible, Codable, Sendable {
         case black = "BLACK"
         case blue = "BLUE"
         case green = "GREEN"
@@ -224,7 +224,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum BurnInOutlineColor: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BurnInOutlineColor: String, CustomStringConvertible, Codable, Sendable {
         case black = "BLACK"
         case blue = "BLUE"
         case green = "GREEN"
@@ -234,20 +234,20 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum BurnInShadowColor: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BurnInShadowColor: String, CustomStringConvertible, Codable, Sendable {
         case black = "BLACK"
         case none = "NONE"
         case white = "WHITE"
         public var description: String { return self.rawValue }
     }
 
-    public enum BurnInTeletextGridControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BurnInTeletextGridControl: String, CustomStringConvertible, Codable, Sendable {
         case fixed = "FIXED"
         case scaled = "SCALED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CdiInputResolution: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CdiInputResolution: String, CustomStringConvertible, Codable, Sendable {
         case fhd = "FHD"
         case hd = "HD"
         case sd = "SD"
@@ -255,13 +255,13 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChannelClass: String, CustomStringConvertible, Codable, Sendable {
         case singlePipeline = "SINGLE_PIPELINE"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChannelState: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
         case deleted = "DELETED"
@@ -276,25 +276,25 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentType: String, CustomStringConvertible, Codable, Sendable {
         case imageJpeg = "image/jpeg"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceSettingsSyncState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceSettingsSyncState: String, CustomStringConvertible, Codable, Sendable {
         case synced = "SYNCED"
         case syncing = "SYNCING"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
         case notUpToDate = "NOT_UP_TO_DATE"
         case upToDate = "UP_TO_DATE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum DolbyEProgramSelection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DolbyEProgramSelection: String, CustomStringConvertible, Codable, Sendable {
         case allChannels = "ALL_CHANNELS"
         case program1 = "PROGRAM_1"
         case program2 = "PROGRAM_2"
@@ -307,7 +307,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSdtOutputSdt: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DvbSdtOutputSdt: String, CustomStringConvertible, Codable, Sendable {
         case sdtFollow = "SDT_FOLLOW"
         case sdtFollowIfPresent = "SDT_FOLLOW_IF_PRESENT"
         case sdtManual = "SDT_MANUAL"
@@ -315,21 +315,21 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubDestinationAlignment: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DvbSubDestinationAlignment: String, CustomStringConvertible, Codable, Sendable {
         case centered = "CENTERED"
         case left = "LEFT"
         case smart = "SMART"
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubDestinationBackgroundColor: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DvbSubDestinationBackgroundColor: String, CustomStringConvertible, Codable, Sendable {
         case black = "BLACK"
         case none = "NONE"
         case white = "WHITE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubDestinationFontColor: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DvbSubDestinationFontColor: String, CustomStringConvertible, Codable, Sendable {
         case black = "BLACK"
         case blue = "BLUE"
         case green = "GREEN"
@@ -339,7 +339,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubDestinationOutlineColor: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DvbSubDestinationOutlineColor: String, CustomStringConvertible, Codable, Sendable {
         case black = "BLACK"
         case blue = "BLUE"
         case green = "GREEN"
@@ -349,20 +349,20 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubDestinationShadowColor: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DvbSubDestinationShadowColor: String, CustomStringConvertible, Codable, Sendable {
         case black = "BLACK"
         case none = "NONE"
         case white = "WHITE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubDestinationTeletextGridControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DvbSubDestinationTeletextGridControl: String, CustomStringConvertible, Codable, Sendable {
         case fixed = "FIXED"
         case scaled = "SCALED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DvbSubOcrLanguage: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DvbSubOcrLanguage: String, CustomStringConvertible, Codable, Sendable {
         case deu = "DEU"
         case eng = "ENG"
         case fra = "FRA"
@@ -372,14 +372,14 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AtmosCodingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3AtmosCodingMode: String, CustomStringConvertible, Codable, Sendable {
         case codingMode514 = "CODING_MODE_5_1_4"
         case codingMode714 = "CODING_MODE_7_1_4"
         case codingMode916 = "CODING_MODE_9_1_6"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AtmosDrcLine: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3AtmosDrcLine: String, CustomStringConvertible, Codable, Sendable {
         case filmLight = "FILM_LIGHT"
         case filmStandard = "FILM_STANDARD"
         case musicLight = "MUSIC_LIGHT"
@@ -389,7 +389,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AtmosDrcRf: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3AtmosDrcRf: String, CustomStringConvertible, Codable, Sendable {
         case filmLight = "FILM_LIGHT"
         case filmStandard = "FILM_STANDARD"
         case musicLight = "MUSIC_LIGHT"
@@ -399,13 +399,13 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3AttenuationControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3AttenuationControl: String, CustomStringConvertible, Codable, Sendable {
         case attenuate3Db = "ATTENUATE_3_DB"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3BitstreamMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3BitstreamMode: String, CustomStringConvertible, Codable, Sendable {
         case commentary = "COMMENTARY"
         case completeMain = "COMPLETE_MAIN"
         case emergency = "EMERGENCY"
@@ -414,20 +414,20 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3CodingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3CodingMode: String, CustomStringConvertible, Codable, Sendable {
         case codingMode10 = "CODING_MODE_1_0"
         case codingMode20 = "CODING_MODE_2_0"
         case codingMode32 = "CODING_MODE_3_2"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3DcFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3DcFilter: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3DrcLine: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3DrcLine: String, CustomStringConvertible, Codable, Sendable {
         case filmLight = "FILM_LIGHT"
         case filmStandard = "FILM_STANDARD"
         case musicLight = "MUSIC_LIGHT"
@@ -437,7 +437,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3DrcRf: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3DrcRf: String, CustomStringConvertible, Codable, Sendable {
         case filmLight = "FILM_LIGHT"
         case filmStandard = "FILM_STANDARD"
         case musicLight = "MUSIC_LIGHT"
@@ -447,37 +447,37 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3LfeControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3LfeControl: String, CustomStringConvertible, Codable, Sendable {
         case lfe = "LFE"
         case noLfe = "NO_LFE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3LfeFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3LfeFilter: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3MetadataControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3MetadataControl: String, CustomStringConvertible, Codable, Sendable {
         case followInput = "FOLLOW_INPUT"
         case useConfigured = "USE_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3PassthroughControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3PassthroughControl: String, CustomStringConvertible, Codable, Sendable {
         case noPassthrough = "NO_PASSTHROUGH"
         case whenPossible = "WHEN_POSSIBLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3PhaseControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3PhaseControl: String, CustomStringConvertible, Codable, Sendable {
         case noShift = "NO_SHIFT"
         case shift90Degrees = "SHIFT_90_DEGREES"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3StereoDownmix: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3StereoDownmix: String, CustomStringConvertible, Codable, Sendable {
         case dpl2 = "DPL2"
         case loRo = "LO_RO"
         case ltRt = "LT_RT"
@@ -485,57 +485,57 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3SurroundExMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3SurroundExMode: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case notIndicated = "NOT_INDICATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Eac3SurroundMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Eac3SurroundMode: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case notIndicated = "NOT_INDICATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EbuTtDDestinationStyleControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EbuTtDDestinationStyleControl: String, CustomStringConvertible, Codable, Sendable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EbuTtDFillLineGapControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EbuTtDFillLineGapControl: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EmbeddedConvert608To708: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EmbeddedConvert608To708: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case upconvert = "UPCONVERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum EmbeddedScte20Detection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EmbeddedScte20Detection: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case off = "OFF"
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureActivationsInputPrepareScheduleActions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FeatureActivationsInputPrepareScheduleActions: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FecOutputIncludeFec: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FecOutputIncludeFec: String, CustomStringConvertible, Codable, Sendable {
         case column = "COLUMN"
         case columnAndRow = "COLUMN_AND_ROW"
         public var description: String { return self.rawValue }
     }
 
-    public enum FixedAfd: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FixedAfd: String, CustomStringConvertible, Codable, Sendable {
         case afd0000 = "AFD_0000"
         case afd0010 = "AFD_0010"
         case afd0011 = "AFD_0011"
@@ -550,55 +550,55 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Fmp4NielsenId3Behavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Fmp4NielsenId3Behavior: String, CustomStringConvertible, Codable, Sendable {
         case noPassthrough = "NO_PASSTHROUGH"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum Fmp4TimedMetadataBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Fmp4TimedMetadataBehavior: String, CustomStringConvertible, Codable, Sendable {
         case noPassthrough = "NO_PASSTHROUGH"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum FollowPoint: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FollowPoint: String, CustomStringConvertible, Codable, Sendable {
         case end = "END"
         case start = "START"
         public var description: String { return self.rawValue }
     }
 
-    public enum FrameCaptureIntervalUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FrameCaptureIntervalUnit: String, CustomStringConvertible, Codable, Sendable {
         case milliseconds = "MILLISECONDS"
         case seconds = "SECONDS"
         public var description: String { return self.rawValue }
     }
 
-    public enum GlobalConfigurationInputEndAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GlobalConfigurationInputEndAction: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case switchAndLoopInputs = "SWITCH_AND_LOOP_INPUTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum GlobalConfigurationLowFramerateInputs: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GlobalConfigurationLowFramerateInputs: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum GlobalConfigurationOutputLockingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GlobalConfigurationOutputLockingMode: String, CustomStringConvertible, Codable, Sendable {
         case epochLocking = "EPOCH_LOCKING"
         case pipelineLocking = "PIPELINE_LOCKING"
         public var description: String { return self.rawValue }
     }
 
-    public enum GlobalConfigurationOutputTimingSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GlobalConfigurationOutputTimingSource: String, CustomStringConvertible, Codable, Sendable {
         case inputClock = "INPUT_CLOCK"
         case systemClock = "SYSTEM_CLOCK"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264AdaptiveQuantization: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case high = "HIGH"
         case higher = "HIGHER"
@@ -609,49 +609,49 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum H264ColorMetadata: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264ColorMetadata: String, CustomStringConvertible, Codable, Sendable {
         case ignore = "IGNORE"
         case insert = "INSERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264EntropyEncoding: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264EntropyEncoding: String, CustomStringConvertible, Codable, Sendable {
         case cabac = "CABAC"
         case cavlc = "CAVLC"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264FlickerAq: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264FlickerAq: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264ForceFieldPictures: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264ForceFieldPictures: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264FramerateControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264FramerateControl: String, CustomStringConvertible, Codable, Sendable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264GopBReference: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264GopBReference: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264GopSizeUnits: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264GopSizeUnits: String, CustomStringConvertible, Codable, Sendable {
         case frames = "FRAMES"
         case seconds = "SECONDS"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264Level: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264Level: String, CustomStringConvertible, Codable, Sendable {
         case h264Level1 = "H264_LEVEL_1"
         case h264Level11 = "H264_LEVEL_1_1"
         case h264Level12 = "H264_LEVEL_1_2"
@@ -672,20 +672,20 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum H264LookAheadRateControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264LookAheadRateControl: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264ParControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264ParControl: String, CustomStringConvertible, Codable, Sendable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264Profile: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264Profile: String, CustomStringConvertible, Codable, Sendable {
         case baseline = "BASELINE"
         case high = "HIGH"
         case high10Bit = "HIGH_10BIT"
@@ -695,13 +695,13 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum H264QualityLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264QualityLevel: String, CustomStringConvertible, Codable, Sendable {
         case enhancedQuality = "ENHANCED_QUALITY"
         case standardQuality = "STANDARD_QUALITY"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264RateControlMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264RateControlMode: String, CustomStringConvertible, Codable, Sendable {
         case cbr = "CBR"
         case multiplex = "MULTIPLEX"
         case qvbr = "QVBR"
@@ -709,49 +709,49 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum H264ScanType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264ScanType: String, CustomStringConvertible, Codable, Sendable {
         case interlaced = "INTERLACED"
         case progressive = "PROGRESSIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264SceneChangeDetect: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264SceneChangeDetect: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264SpatialAq: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264SpatialAq: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264SubGopLength: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264SubGopLength: String, CustomStringConvertible, Codable, Sendable {
         case dynamic = "DYNAMIC"
         case fixed = "FIXED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264Syntax: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264Syntax: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case rp2027 = "RP2027"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264TemporalAq: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264TemporalAq: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H264TimecodeInsertionBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H264TimecodeInsertionBehavior: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case picTimingSei = "PIC_TIMING_SEI"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265AdaptiveQuantization: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H265AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case high = "HIGH"
         case higher = "HIGHER"
@@ -762,31 +762,31 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum H265AlternativeTransferFunction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H265AlternativeTransferFunction: String, CustomStringConvertible, Codable, Sendable {
         case insert = "INSERT"
         case omit = "OMIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265ColorMetadata: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H265ColorMetadata: String, CustomStringConvertible, Codable, Sendable {
         case ignore = "IGNORE"
         case insert = "INSERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265FlickerAq: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H265FlickerAq: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265GopSizeUnits: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H265GopSizeUnits: String, CustomStringConvertible, Codable, Sendable {
         case frames = "FRAMES"
         case seconds = "SECONDS"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265Level: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H265Level: String, CustomStringConvertible, Codable, Sendable {
         case h265Level1 = "H265_LEVEL_1"
         case h265Level2 = "H265_LEVEL_2"
         case h265Level21 = "H265_LEVEL_2_1"
@@ -804,354 +804,354 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum H265LookAheadRateControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H265LookAheadRateControl: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265Profile: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H265Profile: String, CustomStringConvertible, Codable, Sendable {
         case main = "MAIN"
         case main10Bit = "MAIN_10BIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265RateControlMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H265RateControlMode: String, CustomStringConvertible, Codable, Sendable {
         case cbr = "CBR"
         case multiplex = "MULTIPLEX"
         case qvbr = "QVBR"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265ScanType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H265ScanType: String, CustomStringConvertible, Codable, Sendable {
         case interlaced = "INTERLACED"
         case progressive = "PROGRESSIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265SceneChangeDetect: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H265SceneChangeDetect: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265Tier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H265Tier: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case main = "MAIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum H265TimecodeInsertionBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum H265TimecodeInsertionBehavior: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case picTimingSei = "PIC_TIMING_SEI"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsAdMarkers: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsAdMarkers: String, CustomStringConvertible, Codable, Sendable {
         case adobe = "ADOBE"
         case elemental = "ELEMENTAL"
         case elementalScte35 = "ELEMENTAL_SCTE35"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsAkamaiHttpTransferMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsAkamaiHttpTransferMode: String, CustomStringConvertible, Codable, Sendable {
         case chunked = "CHUNKED"
         case nonChunked = "NON_CHUNKED"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsCaptionLanguageSetting: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsCaptionLanguageSetting: String, CustomStringConvertible, Codable, Sendable {
         case insert = "INSERT"
         case none = "NONE"
         case omit = "OMIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsClientCache: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsClientCache: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsCodecSpecification: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsCodecSpecification: String, CustomStringConvertible, Codable, Sendable {
         case rfc4281 = "RFC_4281"
         case rfc6381 = "RFC_6381"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsDirectoryStructure: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsDirectoryStructure: String, CustomStringConvertible, Codable, Sendable {
         case singleDirectory = "SINGLE_DIRECTORY"
         case subdirectoryPerStream = "SUBDIRECTORY_PER_STREAM"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsDiscontinuityTags: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsDiscontinuityTags: String, CustomStringConvertible, Codable, Sendable {
         case insert = "INSERT"
         case neverInsert = "NEVER_INSERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsEncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsEncryptionType: String, CustomStringConvertible, Codable, Sendable {
         case aes128 = "AES128"
         case sampleAes = "SAMPLE_AES"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsH265PackagingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsH265PackagingType: String, CustomStringConvertible, Codable, Sendable {
         case hev1 = "HEV1"
         case hvc1 = "HVC1"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsId3SegmentTaggingState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsId3SegmentTaggingState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsIncompleteSegmentBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsIncompleteSegmentBehavior: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case suppress = "SUPPRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsIvInManifest: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsIvInManifest: String, CustomStringConvertible, Codable, Sendable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsIvSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsIvSource: String, CustomStringConvertible, Codable, Sendable {
         case explicit = "EXPLICIT"
         case followsSegmentNumber = "FOLLOWS_SEGMENT_NUMBER"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsManifestCompression: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsManifestCompression: String, CustomStringConvertible, Codable, Sendable {
         case gzip = "GZIP"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsManifestDurationFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsManifestDurationFormat: String, CustomStringConvertible, Codable, Sendable {
         case floatingPoint = "FLOATING_POINT"
         case integer = "INTEGER"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsMediaStoreStorageClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsMediaStoreStorageClass: String, CustomStringConvertible, Codable, Sendable {
         case temporal = "TEMPORAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsMode: String, CustomStringConvertible, Codable, Sendable {
         case live = "LIVE"
         case vod = "VOD"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsOutputSelection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsOutputSelection: String, CustomStringConvertible, Codable, Sendable {
         case manifestsAndSegments = "MANIFESTS_AND_SEGMENTS"
         case segmentsOnly = "SEGMENTS_ONLY"
         case variantManifestsAndSegments = "VARIANT_MANIFESTS_AND_SEGMENTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsProgramDateTime: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsProgramDateTime: String, CustomStringConvertible, Codable, Sendable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsProgramDateTimeClock: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsProgramDateTimeClock: String, CustomStringConvertible, Codable, Sendable {
         case initializeFromOutputTimecode = "INITIALIZE_FROM_OUTPUT_TIMECODE"
         case systemClock = "SYSTEM_CLOCK"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsRedundantManifest: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsRedundantManifest: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsScte35SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsScte35SourceType: String, CustomStringConvertible, Codable, Sendable {
         case manifest = "MANIFEST"
         case segments = "SEGMENTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsSegmentationMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsSegmentationMode: String, CustomStringConvertible, Codable, Sendable {
         case useInputSegmentation = "USE_INPUT_SEGMENTATION"
         case useSegmentDuration = "USE_SEGMENT_DURATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsStreamInfResolution: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsStreamInfResolution: String, CustomStringConvertible, Codable, Sendable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsTimedMetadataId3Frame: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsTimedMetadataId3Frame: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case priv = "PRIV"
         case tdrl = "TDRL"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsTsFileMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsTsFileMode: String, CustomStringConvertible, Codable, Sendable {
         case segmentedFiles = "SEGMENTED_FILES"
         case singleFile = "SINGLE_FILE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HlsWebdavHttpTransferMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HlsWebdavHttpTransferMode: String, CustomStringConvertible, Codable, Sendable {
         case chunked = "CHUNKED"
         case nonChunked = "NON_CHUNKED"
         public var description: String { return self.rawValue }
     }
 
-    public enum IFrameOnlyPlaylistType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IFrameOnlyPlaylistType: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputClass: String, CustomStringConvertible, Codable, Sendable {
         case singlePipeline = "SINGLE_PIPELINE"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputCodec: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputCodec: String, CustomStringConvertible, Codable, Sendable {
         case avc = "AVC"
         case hevc = "HEVC"
         case mpeg2 = "MPEG2"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputDeblockFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputDeblockFilter: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputDenoiseFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputDenoiseFilter: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputDeviceActiveInput: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputDeviceActiveInput: String, CustomStringConvertible, Codable, Sendable {
         case hdmi = "HDMI"
         case sdi = "SDI"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputDeviceConfiguredInput: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputDeviceConfiguredInput: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case hdmi = "HDMI"
         case sdi = "SDI"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputDeviceConnectionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputDeviceConnectionState: String, CustomStringConvertible, Codable, Sendable {
         case connected = "CONNECTED"
         case disconnected = "DISCONNECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputDeviceIpScheme: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputDeviceIpScheme: String, CustomStringConvertible, Codable, Sendable {
         case `static` = "STATIC"
         case dhcp = "DHCP"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputDeviceScanType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputDeviceScanType: String, CustomStringConvertible, Codable, Sendable {
         case interlaced = "INTERLACED"
         case progressive = "PROGRESSIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputDeviceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputDeviceState: String, CustomStringConvertible, Codable, Sendable {
         case idle = "IDLE"
         case streaming = "STREAMING"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputDeviceTransferType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputDeviceTransferType: String, CustomStringConvertible, Codable, Sendable {
         case incoming = "INCOMING"
         case outgoing = "OUTGOING"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputDeviceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputDeviceType: String, CustomStringConvertible, Codable, Sendable {
         case hd = "HD"
         case uhd = "UHD"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputFilter: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case disabled = "DISABLED"
         case forced = "FORCED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputLossActionForHlsOut: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputLossActionForHlsOut: String, CustomStringConvertible, Codable, Sendable {
         case emitOutput = "EMIT_OUTPUT"
         case pauseOutput = "PAUSE_OUTPUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputLossActionForMsSmoothOut: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputLossActionForMsSmoothOut: String, CustomStringConvertible, Codable, Sendable {
         case emitOutput = "EMIT_OUTPUT"
         case pauseOutput = "PAUSE_OUTPUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputLossActionForRtmpOut: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputLossActionForRtmpOut: String, CustomStringConvertible, Codable, Sendable {
         case emitOutput = "EMIT_OUTPUT"
         case pauseOutput = "PAUSE_OUTPUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputLossActionForUdpOut: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputLossActionForUdpOut: String, CustomStringConvertible, Codable, Sendable {
         case dropProgram = "DROP_PROGRAM"
         case dropTs = "DROP_TS"
         case emitProgram = "EMIT_PROGRAM"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputLossImageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputLossImageType: String, CustomStringConvertible, Codable, Sendable {
         case color = "COLOR"
         case slate = "SLATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputMaximumBitrate: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputMaximumBitrate: String, CustomStringConvertible, Codable, Sendable {
         case max10Mbps = "MAX_10_MBPS"
         case max20Mbps = "MAX_20_MBPS"
         case max50Mbps = "MAX_50_MBPS"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputPreference: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputPreference: String, CustomStringConvertible, Codable, Sendable {
         case equalInputPreference = "EQUAL_INPUT_PREFERENCE"
         case primaryInputPreferred = "PRIMARY_INPUT_PREFERRED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputResolution: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputResolution: String, CustomStringConvertible, Codable, Sendable {
         case hd = "HD"
         case sd = "SD"
         case uhd = "UHD"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputSecurityGroupState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputSecurityGroupState: String, CustomStringConvertible, Codable, Sendable {
         case deleted = "DELETED"
         case idle = "IDLE"
         case inUse = "IN_USE"
@@ -1159,19 +1159,19 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum InputSourceEndBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputSourceEndBehavior: String, CustomStringConvertible, Codable, Sendable {
         case `continue` = "CONTINUE"
         case loop = "LOOP"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputSourceType: String, CustomStringConvertible, Codable, Sendable {
         case `static` = "STATIC"
         case dynamic = "DYNAMIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputState: String, CustomStringConvertible, Codable, Sendable {
         case attached = "ATTACHED"
         case creating = "CREATING"
         case deleted = "DELETED"
@@ -1180,13 +1180,13 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum InputTimecodeSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputTimecodeSource: String, CustomStringConvertible, Codable, Sendable {
         case embedded = "EMBEDDED"
         case zerobased = "ZEROBASED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputType: String, CustomStringConvertible, Codable, Sendable {
         case awsCdi = "AWS_CDI"
         case inputDevice = "INPUT_DEVICE"
         case mediaconnect = "MEDIACONNECT"
@@ -1200,13 +1200,13 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum LastFrameClippingBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LastFrameClippingBehavior: String, CustomStringConvertible, Codable, Sendable {
         case excludeLastFrame = "EXCLUDE_LAST_FRAME"
         case includeLastFrame = "INCLUDE_LAST_FRAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogLevel: String, CustomStringConvertible, Codable, Sendable {
         case debug = "DEBUG"
         case disabled = "DISABLED"
         case error = "ERROR"
@@ -1215,103 +1215,103 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsAbsentInputAudioBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsAbsentInputAudioBehavior: String, CustomStringConvertible, Codable, Sendable {
         case drop = "DROP"
         case encodeSilence = "ENCODE_SILENCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsArib: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsArib: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsAribCaptionsPidControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsAribCaptionsPidControl: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case useConfigured = "USE_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsAudioBufferModel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsAudioBufferModel: String, CustomStringConvertible, Codable, Sendable {
         case atsc = "ATSC"
         case dvb = "DVB"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsAudioInterval: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsAudioInterval: String, CustomStringConvertible, Codable, Sendable {
         case videoAndFixedIntervals = "VIDEO_AND_FIXED_INTERVALS"
         case videoInterval = "VIDEO_INTERVAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsAudioStreamType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsAudioStreamType: String, CustomStringConvertible, Codable, Sendable {
         case atsc = "ATSC"
         case dvb = "DVB"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsBufferModel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsBufferModel: String, CustomStringConvertible, Codable, Sendable {
         case multiplex = "MULTIPLEX"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsCcDescriptor: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsCcDescriptor: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsEbifControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsEbifControl: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsEbpPlacement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsEbpPlacement: String, CustomStringConvertible, Codable, Sendable {
         case videoAndAudioPids = "VIDEO_AND_AUDIO_PIDS"
         case videoPid = "VIDEO_PID"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsEsRateInPes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsEsRateInPes: String, CustomStringConvertible, Codable, Sendable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsKlv: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsKlv: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsNielsenId3Behavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsNielsenId3Behavior: String, CustomStringConvertible, Codable, Sendable {
         case noPassthrough = "NO_PASSTHROUGH"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsPcrControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsPcrControl: String, CustomStringConvertible, Codable, Sendable {
         case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
         case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsRateMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsRateMode: String, CustomStringConvertible, Codable, Sendable {
         case cbr = "CBR"
         case vbr = "VBR"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsScte35Control: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsScte35Control: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsSegmentationMarkers: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsSegmentationMarkers: String, CustomStringConvertible, Codable, Sendable {
         case ebp = "EBP"
         case ebpLegacy = "EBP_LEGACY"
         case none = "NONE"
@@ -1321,43 +1321,43 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsSegmentationStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsSegmentationStyle: String, CustomStringConvertible, Codable, Sendable {
         case maintainCadence = "MAINTAIN_CADENCE"
         case resetCadence = "RESET_CADENCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum M2tsTimedMetadataBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M2tsTimedMetadataBehavior: String, CustomStringConvertible, Codable, Sendable {
         case noPassthrough = "NO_PASSTHROUGH"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum M3u8NielsenId3Behavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M3u8NielsenId3Behavior: String, CustomStringConvertible, Codable, Sendable {
         case noPassthrough = "NO_PASSTHROUGH"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum M3u8PcrControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M3u8PcrControl: String, CustomStringConvertible, Codable, Sendable {
         case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
         case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
         public var description: String { return self.rawValue }
     }
 
-    public enum M3u8Scte35Behavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M3u8Scte35Behavior: String, CustomStringConvertible, Codable, Sendable {
         case noPassthrough = "NO_PASSTHROUGH"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum M3u8TimedMetadataBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum M3u8TimedMetadataBehavior: String, CustomStringConvertible, Codable, Sendable {
         case noPassthrough = "NO_PASSTHROUGH"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum MaintenanceDay: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MaintenanceDay: String, CustomStringConvertible, Codable, Sendable {
         case friday = "FRIDAY"
         case monday = "MONDAY"
         case saturday = "SATURDAY"
@@ -1368,19 +1368,19 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum MotionGraphicsInsertion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MotionGraphicsInsertion: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mp2CodingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mp2CodingMode: String, CustomStringConvertible, Codable, Sendable {
         case codingMode10 = "CODING_MODE_1_0"
         case codingMode20 = "CODING_MODE_2_0"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2AdaptiveQuantization: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mpeg2AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case high = "HIGH"
         case low = "LOW"
@@ -1389,55 +1389,55 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2ColorMetadata: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mpeg2ColorMetadata: String, CustomStringConvertible, Codable, Sendable {
         case ignore = "IGNORE"
         case insert = "INSERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2ColorSpace: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mpeg2ColorSpace: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2DisplayRatio: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mpeg2DisplayRatio: String, CustomStringConvertible, Codable, Sendable {
         case displayratio16x9 = "DISPLAYRATIO16X9"
         case displayratio4x3 = "DISPLAYRATIO4X3"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2GopSizeUnits: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mpeg2GopSizeUnits: String, CustomStringConvertible, Codable, Sendable {
         case frames = "FRAMES"
         case seconds = "SECONDS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2ScanType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mpeg2ScanType: String, CustomStringConvertible, Codable, Sendable {
         case interlaced = "INTERLACED"
         case progressive = "PROGRESSIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2SubGopLength: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mpeg2SubGopLength: String, CustomStringConvertible, Codable, Sendable {
         case dynamic = "DYNAMIC"
         case fixed = "FIXED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mpeg2TimecodeInsertionBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mpeg2TimecodeInsertionBehavior: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case gopTimecode = "GOP_TIMECODE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MsSmoothH265PackagingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MsSmoothH265PackagingType: String, CustomStringConvertible, Codable, Sendable {
         case hev1 = "HEV1"
         case hvc1 = "HVC1"
         public var description: String { return self.rawValue }
     }
 
-    public enum MultiplexState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MultiplexState: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
         case deleted = "DELETED"
@@ -1450,67 +1450,67 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkInputServerValidation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkInputServerValidation: String, CustomStringConvertible, Codable, Sendable {
         case checkCryptographyAndValidateName = "CHECK_CRYPTOGRAPHY_AND_VALIDATE_NAME"
         case checkCryptographyOnly = "CHECK_CRYPTOGRAPHY_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum NielsenPcmToId3TaggingState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NielsenPcmToId3TaggingState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum NielsenWatermarksCbetStepaside: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NielsenWatermarksCbetStepaside: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum NielsenWatermarksDistributionTypes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NielsenWatermarksDistributionTypes: String, CustomStringConvertible, Codable, Sendable {
         case finalDistributor = "FINAL_DISTRIBUTOR"
         case programContent = "PROGRAM_CONTENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum OfferingDurationUnits: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OfferingDurationUnits: String, CustomStringConvertible, Codable, Sendable {
         case months = "MONTHS"
         public var description: String { return self.rawValue }
     }
 
-    public enum OfferingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OfferingType: String, CustomStringConvertible, Codable, Sendable {
         case noUpfront = "NO_UPFRONT"
         public var description: String { return self.rawValue }
     }
 
-    public enum PipelineId: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PipelineId: String, CustomStringConvertible, Codable, Sendable {
         case pipeline0 = "PIPELINE_0"
         case pipeline1 = "PIPELINE_1"
         public var description: String { return self.rawValue }
     }
 
-    public enum PreferredChannelPipeline: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PreferredChannelPipeline: String, CustomStringConvertible, Codable, Sendable {
         case currentlyActive = "CURRENTLY_ACTIVE"
         case pipeline0 = "PIPELINE_0"
         case pipeline1 = "PIPELINE_1"
         public var description: String { return self.rawValue }
     }
 
-    public enum RebootInputDeviceForce: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RebootInputDeviceForce: String, CustomStringConvertible, Codable, Sendable {
         case no = "NO"
         case yes = "YES"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservationAutomaticRenewal: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservationAutomaticRenewal: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservationCodec: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservationCodec: String, CustomStringConvertible, Codable, Sendable {
         case audio = "AUDIO"
         case avc = "AVC"
         case hevc = "HEVC"
@@ -1519,20 +1519,20 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservationMaximumBitrate: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservationMaximumBitrate: String, CustomStringConvertible, Codable, Sendable {
         case max10Mbps = "MAX_10_MBPS"
         case max20Mbps = "MAX_20_MBPS"
         case max50Mbps = "MAX_50_MBPS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservationMaximumFramerate: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservationMaximumFramerate: String, CustomStringConvertible, Codable, Sendable {
         case max30Fps = "MAX_30_FPS"
         case max60Fps = "MAX_60_FPS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservationResolution: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservationResolution: String, CustomStringConvertible, Codable, Sendable {
         case fhd = "FHD"
         case hd = "HD"
         case sd = "SD"
@@ -1540,7 +1540,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservationResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservationResourceType: String, CustomStringConvertible, Codable, Sendable {
         case channel = "CHANNEL"
         case input = "INPUT"
         case multiplex = "MULTIPLEX"
@@ -1548,7 +1548,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservationSpecialFeature: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservationSpecialFeature: String, CustomStringConvertible, Codable, Sendable {
         case advancedAudio = "ADVANCED_AUDIO"
         case audioNormalization = "AUDIO_NORMALIZATION"
         case mghd = "MGHD"
@@ -1556,7 +1556,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservationState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case canceled = "CANCELED"
         case deleted = "DELETED"
@@ -1564,38 +1564,38 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservationVideoQuality: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservationVideoQuality: String, CustomStringConvertible, Codable, Sendable {
         case enhanced = "ENHANCED"
         case premium = "PREMIUM"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum RtmpAdMarkers: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RtmpAdMarkers: String, CustomStringConvertible, Codable, Sendable {
         case onCuePointScte35 = "ON_CUE_POINT_SCTE35"
         public var description: String { return self.rawValue }
     }
 
-    public enum RtmpCacheFullBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RtmpCacheFullBehavior: String, CustomStringConvertible, Codable, Sendable {
         case disconnectImmediately = "DISCONNECT_IMMEDIATELY"
         case waitForServer = "WAIT_FOR_SERVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum RtmpCaptionData: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RtmpCaptionData: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case field1608 = "FIELD1_608"
         case field1AndField2608 = "FIELD1_AND_FIELD2_608"
         public var description: String { return self.rawValue }
     }
 
-    public enum RtmpOutputCertificateMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RtmpOutputCertificateMode: String, CustomStringConvertible, Codable, Sendable {
         case selfSigned = "SELF_SIGNED"
         case verifyAuthenticity = "VERIFY_AUTHENTICITY"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3CannedAcl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3CannedAcl: String, CustomStringConvertible, Codable, Sendable {
         case authenticatedRead = "AUTHENTICATED_READ"
         case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
         case bucketOwnerRead = "BUCKET_OWNER_READ"
@@ -1603,13 +1603,13 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Scte20Convert608To708: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scte20Convert608To708: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case upconvert = "UPCONVERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum Scte27OcrLanguage: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scte27OcrLanguage: String, CustomStringConvertible, Codable, Sendable {
         case deu = "DEU"
         case eng = "ENG"
         case fra = "FRA"
@@ -1619,25 +1619,25 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Scte35AposNoRegionalBlackoutBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scte35AposNoRegionalBlackoutBehavior: String, CustomStringConvertible, Codable, Sendable {
         case follow = "FOLLOW"
         case ignore = "IGNORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Scte35AposWebDeliveryAllowedBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scte35AposWebDeliveryAllowedBehavior: String, CustomStringConvertible, Codable, Sendable {
         case follow = "FOLLOW"
         case ignore = "IGNORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Scte35ArchiveAllowedFlag: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scte35ArchiveAllowedFlag: String, CustomStringConvertible, Codable, Sendable {
         case archiveAllowed = "ARCHIVE_ALLOWED"
         case archiveNotAllowed = "ARCHIVE_NOT_ALLOWED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Scte35DeviceRestrictions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scte35DeviceRestrictions: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case restrictGroup0 = "RESTRICT_GROUP0"
         case restrictGroup1 = "RESTRICT_GROUP1"
@@ -1645,106 +1645,106 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum Scte35InputMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scte35InputMode: String, CustomStringConvertible, Codable, Sendable {
         case fixed = "FIXED"
         case followActive = "FOLLOW_ACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Scte35NoRegionalBlackoutFlag: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scte35NoRegionalBlackoutFlag: String, CustomStringConvertible, Codable, Sendable {
         case noRegionalBlackout = "NO_REGIONAL_BLACKOUT"
         case regionalBlackout = "REGIONAL_BLACKOUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum Scte35SegmentationCancelIndicator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scte35SegmentationCancelIndicator: String, CustomStringConvertible, Codable, Sendable {
         case segmentationEventCanceled = "SEGMENTATION_EVENT_CANCELED"
         case segmentationEventNotCanceled = "SEGMENTATION_EVENT_NOT_CANCELED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Scte35SpliceInsertNoRegionalBlackoutBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scte35SpliceInsertNoRegionalBlackoutBehavior: String, CustomStringConvertible, Codable, Sendable {
         case follow = "FOLLOW"
         case ignore = "IGNORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Scte35SpliceInsertWebDeliveryAllowedBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scte35SpliceInsertWebDeliveryAllowedBehavior: String, CustomStringConvertible, Codable, Sendable {
         case follow = "FOLLOW"
         case ignore = "IGNORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Scte35WebDeliveryAllowedFlag: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scte35WebDeliveryAllowedFlag: String, CustomStringConvertible, Codable, Sendable {
         case webDeliveryAllowed = "WEB_DELIVERY_ALLOWED"
         case webDeliveryNotAllowed = "WEB_DELIVERY_NOT_ALLOWED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SmoothGroupAudioOnlyTimecodeControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SmoothGroupAudioOnlyTimecodeControl: String, CustomStringConvertible, Codable, Sendable {
         case passthrough = "PASSTHROUGH"
         case useConfiguredClock = "USE_CONFIGURED_CLOCK"
         public var description: String { return self.rawValue }
     }
 
-    public enum SmoothGroupCertificateMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SmoothGroupCertificateMode: String, CustomStringConvertible, Codable, Sendable {
         case selfSigned = "SELF_SIGNED"
         case verifyAuthenticity = "VERIFY_AUTHENTICITY"
         public var description: String { return self.rawValue }
     }
 
-    public enum SmoothGroupEventIdMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SmoothGroupEventIdMode: String, CustomStringConvertible, Codable, Sendable {
         case noEventId = "NO_EVENT_ID"
         case useConfigured = "USE_CONFIGURED"
         case useTimestamp = "USE_TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
-    public enum SmoothGroupEventStopBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SmoothGroupEventStopBehavior: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case sendEos = "SEND_EOS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SmoothGroupSegmentationMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SmoothGroupSegmentationMode: String, CustomStringConvertible, Codable, Sendable {
         case useInputSegmentation = "USE_INPUT_SEGMENTATION"
         case useSegmentDuration = "USE_SEGMENT_DURATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum SmoothGroupSparseTrackType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SmoothGroupSparseTrackType: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case scte35 = "SCTE_35"
         case scte35WithoutSegmentation = "SCTE_35_WITHOUT_SEGMENTATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum SmoothGroupStreamManifestBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SmoothGroupStreamManifestBehavior: String, CustomStringConvertible, Codable, Sendable {
         case doNotSend = "DO_NOT_SEND"
         case send = "SEND"
         public var description: String { return self.rawValue }
     }
 
-    public enum SmoothGroupTimestampOffsetMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SmoothGroupTimestampOffsetMode: String, CustomStringConvertible, Codable, Sendable {
         case useConfiguredOffset = "USE_CONFIGURED_OFFSET"
         case useEventStartDate = "USE_EVENT_START_DATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Smpte2038DataPreference: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Smpte2038DataPreference: String, CustomStringConvertible, Codable, Sendable {
         case ignore = "IGNORE"
         case prefer = "PREFER"
         public var description: String { return self.rawValue }
     }
 
-    public enum TemporalFilterPostFilterSharpening: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TemporalFilterPostFilterSharpening: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TemporalFilterStrength: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TemporalFilterStrength: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case strength1 = "STRENGTH_1"
         case strength10 = "STRENGTH_10"
@@ -1765,7 +1765,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum TimecodeBurninFontSize: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimecodeBurninFontSize: String, CustomStringConvertible, Codable, Sendable {
         case extraSmall10 = "EXTRA_SMALL_10"
         case large48 = "LARGE_48"
         case medium32 = "MEDIUM_32"
@@ -1773,7 +1773,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum TimecodeBurninPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimecodeBurninPosition: String, CustomStringConvertible, Codable, Sendable {
         case bottomCenter = "BOTTOM_CENTER"
         case bottomLeft = "BOTTOM_LEFT"
         case bottomRight = "BOTTOM_RIGHT"
@@ -1786,40 +1786,40 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum TimecodeConfigSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimecodeConfigSource: String, CustomStringConvertible, Codable, Sendable {
         case embedded = "EMBEDDED"
         case systemclock = "SYSTEMCLOCK"
         case zerobased = "ZEROBASED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TtmlDestinationStyleControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TtmlDestinationStyleControl: String, CustomStringConvertible, Codable, Sendable {
         case passthrough = "PASSTHROUGH"
         case useConfigured = "USE_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
-    public enum UdpTimedMetadataId3Frame: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UdpTimedMetadataId3Frame: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case priv = "PRIV"
         case tdrl = "TDRL"
         public var description: String { return self.rawValue }
     }
 
-    public enum VideoDescriptionRespondToAfd: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VideoDescriptionRespondToAfd: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         case respond = "RESPOND"
         public var description: String { return self.rawValue }
     }
 
-    public enum VideoDescriptionScalingBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VideoDescriptionScalingBehavior: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case stretchToOutput = "STRETCH_TO_OUTPUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum VideoSelectorColorSpace: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VideoSelectorColorSpace: String, CustomStringConvertible, Codable, Sendable {
         case follow = "FOLLOW"
         case hdr10 = "HDR10"
         case hlg2020 = "HLG_2020"
@@ -1828,13 +1828,13 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum VideoSelectorColorSpaceUsage: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VideoSelectorColorSpaceUsage: String, CustomStringConvertible, Codable, Sendable {
         case fallback = "FALLBACK"
         case force = "FORCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum WavCodingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WavCodingMode: String, CustomStringConvertible, Codable, Sendable {
         case codingMode10 = "CODING_MODE_1_0"
         case codingMode20 = "CODING_MODE_2_0"
         case codingMode40 = "CODING_MODE_4_0"
@@ -1842,7 +1842,7 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
-    public enum WebvttDestinationStyleControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WebvttDestinationStyleControl: String, CustomStringConvertible, Codable, Sendable {
         case noStyleData = "NO_STYLE_DATA"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }

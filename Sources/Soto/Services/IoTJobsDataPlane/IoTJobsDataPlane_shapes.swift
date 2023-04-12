@@ -21,7 +21,7 @@ import SotoCore
 extension IoTJobsDataPlane {
     // MARK: Enums
 
-    public enum JobExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"

@@ -21,12 +21,12 @@ import SotoCore
 extension AppStream {
     // MARK: Enums
 
-    public enum AccessEndpointType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessEndpointType: String, CustomStringConvertible, Codable, Sendable {
         case streaming = "STREAMING"
         public var description: String { return self.rawValue }
     }
 
-    public enum Action: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Action: String, CustomStringConvertible, Codable, Sendable {
         case clipboardCopyFromLocalDevice = "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"
         case clipboardCopyToLocalDevice = "CLIPBOARD_COPY_TO_LOCAL_DEVICE"
         case domainPasswordSignin = "DOMAIN_PASSWORD_SIGNIN"
@@ -37,19 +37,19 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum AppVisibility: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppVisibility: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case associated = "ASSOCIATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationAttribute: String, CustomStringConvertible, Codable, Sendable {
         case launchParameters = "LAUNCH_PARAMETERS"
         case workingDirectory = "WORKING_DIRECTORY"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable {
         case api = "API"
         case awsAd = "AWS_AD"
         case saml = "SAML"
@@ -57,14 +57,14 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateBasedAuthStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CertificateBasedAuthStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case enabledNoDirectoryLoginFallback = "ENABLED_NO_DIRECTORY_LOGIN_FALLBACK"
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetAttribute: String, CustomStringConvertible, Codable, Sendable {
         case domainJoinInfo = "DOMAIN_JOIN_INFO"
         case iamRoleArn = "IAM_ROLE_ARN"
         case sessionScriptS3Location = "SESSION_SCRIPT_S3_LOCATION"
@@ -74,7 +74,7 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case domainJoinErrorAccessDenied = "DOMAIN_JOIN_ERROR_ACCESS_DENIED"
         case domainJoinErrorDsMachineAccountQuotaExceeded = "DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED"
         case domainJoinErrorFileNotFound = "DOMAIN_JOIN_ERROR_FILE_NOT_FOUND"
@@ -108,7 +108,7 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetState: String, CustomStringConvertible, Codable, Sendable {
         case running = "RUNNING"
         case starting = "STARTING"
         case stopped = "STOPPED"
@@ -116,14 +116,14 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetType: String, CustomStringConvertible, Codable, Sendable {
         case alwaysOn = "ALWAYS_ON"
         case elastic = "ELASTIC"
         case onDemand = "ON_DEMAND"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageBuilderState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageBuilderState: String, CustomStringConvertible, Codable, Sendable {
         case deleting = "DELETING"
         case failed = "FAILED"
         case pending = "PENDING"
@@ -138,13 +138,13 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageBuilderStateChangeReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageBuilderStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case imageUnavailable = "IMAGE_UNAVAILABLE"
         case internalError = "INTERNAL_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case copying = "COPYING"
         case creating = "CREATING"
@@ -155,26 +155,26 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageStateChangeReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case imageBuilderNotAvailable = "IMAGE_BUILDER_NOT_AVAILABLE"
         case imageCopyFailure = "IMAGE_COPY_FAILURE"
         case internalError = "INTERNAL_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MessageAction: String, CustomStringConvertible, Codable, Sendable {
         case resend = "RESEND"
         case suppress = "SUPPRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Permission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Permission: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlatformType: String, CustomStringConvertible, Codable, Sendable {
         case amazonLinux2 = "AMAZON_LINUX2"
         case windows = "WINDOWS"
         case windowsServer2016 = "WINDOWS_SERVER_2016"
@@ -182,26 +182,26 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum PreferredProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PreferredProtocol: String, CustomStringConvertible, Codable, Sendable {
         case tcp = "TCP"
         case udp = "UDP"
         public var description: String { return self.rawValue }
     }
 
-    public enum SessionConnectionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SessionConnectionState: String, CustomStringConvertible, Codable, Sendable {
         case connected = "CONNECTED"
         case notConnected = "NOT_CONNECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SessionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SessionState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case expired = "EXPIRED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum StackAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackAttribute: String, CustomStringConvertible, Codable, Sendable {
         case accessEndpoints = "ACCESS_ENDPOINTS"
         case embedHostDomains = "EMBED_HOST_DOMAINS"
         case feedbackUrl = "FEEDBACK_URL"
@@ -217,38 +217,38 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum StackErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
         case storageConnectorError = "STORAGE_CONNECTOR_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageConnectorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageConnectorType: String, CustomStringConvertible, Codable, Sendable {
         case googleDrive = "GOOGLE_DRIVE"
         case homefolders = "HOMEFOLDERS"
         case oneDrive = "ONE_DRIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamView: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StreamView: String, CustomStringConvertible, Codable, Sendable {
         case app = "APP"
         case desktop = "DESKTOP"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageReportExecutionErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageReportExecutionErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
         case resourceNotFound = "RESOURCE_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageReportSchedule: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageReportSchedule: String, CustomStringConvertible, Codable, Sendable {
         case daily = "DAILY"
         public var description: String { return self.rawValue }
     }
 
-    public enum UserStackAssociationErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UserStackAssociationErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case directoryNotFound = "DIRECTORY_NOT_FOUND"
         case internalError = "INTERNAL_ERROR"
         case stackNotFound = "STACK_NOT_FOUND"
@@ -256,7 +256,7 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
-    public enum VisibilityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VisibilityType: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "PRIVATE"
         case `public` = "PUBLIC"
         case shared = "SHARED"

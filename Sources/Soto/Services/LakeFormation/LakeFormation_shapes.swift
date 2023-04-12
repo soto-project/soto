@@ -21,7 +21,7 @@ import SotoCore
 extension LakeFormation {
     // MARK: Enums
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
         case `in` = "IN"
         case beginsWith = "BEGINS_WITH"
         case between = "BETWEEN"
@@ -36,7 +36,7 @@ extension LakeFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataLakeResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataLakeResourceType: String, CustomStringConvertible, Codable, Sendable {
         case catalog = "CATALOG"
         case dataLocation = "DATA_LOCATION"
         case database = "DATABASE"
@@ -48,21 +48,21 @@ extension LakeFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum FieldNameString: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FieldNameString: String, CustomStringConvertible, Codable, Sendable {
         case lastModified = "LAST_MODIFIED"
         case resourceArn = "RESOURCE_ARN"
         case roleArn = "ROLE_ARN"
         public var description: String { return self.rawValue }
     }
 
-    public enum OptimizerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OptimizerType: String, CustomStringConvertible, Codable, Sendable {
         case compaction = "COMPACTION"
         case garbageCollection = "GARBAGE_COLLECTION"
         case generic = "ALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum Permission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Permission: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case alter = "ALTER"
         case associate = "ASSOCIATE"
@@ -78,13 +78,13 @@ extension LakeFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum PermissionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PermissionType: String, CustomStringConvertible, Codable, Sendable {
         case cellFilterPermission = "CELL_FILTER_PERMISSION"
         case columnPermission = "COLUMN_PERMISSION"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryStateString: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QueryStateString: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case expired = "EXPIRED"
         case finished = "FINISHED"
@@ -93,19 +93,19 @@ extension LakeFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceShareType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceShareType: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case foreign = "FOREIGN"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case database = "DATABASE"
         case table = "TABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TransactionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransactionStatus: String, CustomStringConvertible, Codable, Sendable {
         case aborted = "ABORTED"
         case active = "ACTIVE"
         case commitInProgress = "COMMIT_IN_PROGRESS"
@@ -113,7 +113,7 @@ extension LakeFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransactionStatusFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransactionStatusFilter: String, CustomStringConvertible, Codable, Sendable {
         case aborted = "ABORTED"
         case active = "ACTIVE"
         case all = "ALL"
@@ -122,7 +122,7 @@ extension LakeFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransactionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransactionType: String, CustomStringConvertible, Codable, Sendable {
         case readAndWrite = "READ_AND_WRITE"
         case readOnly = "READ_ONLY"
         public var description: String { return self.rawValue }

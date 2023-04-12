@@ -21,12 +21,12 @@ import SotoCore
 extension TimestreamWrite {
     // MARK: Enums
 
-    public enum DimensionValueType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DimensionValueType: String, CustomStringConvertible, Codable, Sendable {
         case varchar = "VARCHAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum MeasureValueType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MeasureValueType: String, CustomStringConvertible, Codable, Sendable {
         case bigint = "BIGINT"
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
@@ -36,19 +36,19 @@ extension TimestreamWrite {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3EncryptionOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3EncryptionOption: String, CustomStringConvertible, Codable, Sendable {
         case sseKms = "SSE_KMS"
         case sseS3 = "SSE_S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum TableStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TableStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimeUnit: String, CustomStringConvertible, Codable, Sendable {
         case microseconds = "MICROSECONDS"
         case milliseconds = "MILLISECONDS"
         case nanoseconds = "NANOSECONDS"

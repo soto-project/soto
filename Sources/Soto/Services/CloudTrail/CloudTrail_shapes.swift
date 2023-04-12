@@ -21,7 +21,7 @@ import SotoCore
 extension CloudTrail {
     // MARK: Enums
 
-    public enum DeliveryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeliveryStatus: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case accessDeniedSigningFile = "ACCESS_DENIED_SIGNING_FILE"
         case cancelled = "CANCELLED"
@@ -34,32 +34,32 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
-    public enum DestinationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DestinationType: String, CustomStringConvertible, Codable, Sendable {
         case awsService = "AWS_SERVICE"
         case eventDataStore = "EVENT_DATA_STORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventCategory: String, CustomStringConvertible, Codable, Sendable {
         case insight = "insight"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventDataStoreStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventDataStoreStatus: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case enabled = "ENABLED"
         case pendingDeletion = "PENDING_DELETION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportFailureStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportFailureStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case retry = "RETRY"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -68,13 +68,13 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
-    public enum InsightType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InsightType: String, CustomStringConvertible, Codable, Sendable {
         case apiCallRateInsight = "ApiCallRateInsight"
         case apiErrorRateInsight = "ApiErrorRateInsight"
         public var description: String { return self.rawValue }
     }
 
-    public enum LookupAttributeKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LookupAttributeKey: String, CustomStringConvertible, Codable, Sendable {
         case accessKeyId = "AccessKeyId"
         case eventId = "EventId"
         case eventName = "EventName"
@@ -86,7 +86,7 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QueryStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
         case finished = "FINISHED"
@@ -96,7 +96,7 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReadWriteType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReadWriteType: String, CustomStringConvertible, Codable, Sendable {
         case all = "All"
         case readOnly = "ReadOnly"
         case writeOnly = "WriteOnly"

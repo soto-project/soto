@@ -21,12 +21,12 @@ import SotoCore
 extension BackupGateway {
     // MARK: Enums
 
-    public enum GatewayType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GatewayType: String, CustomStringConvertible, Codable, Sendable {
         case backupVm = "BACKUP_VM"
         public var description: String { return self.rawValue }
     }
 
-    public enum HypervisorState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HypervisorState: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case offline = "OFFLINE"
         case online = "ONLINE"
@@ -34,7 +34,7 @@ extension BackupGateway {
         public var description: String { return self.rawValue }
     }
 
-    public enum SyncMetadataStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SyncMetadataStatus: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case failed = "FAILED"
         case partiallyFailed = "PARTIALLY_FAILED"

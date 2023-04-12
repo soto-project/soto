@@ -21,7 +21,7 @@ import SotoCore
 extension Textract {
     // MARK: Enums
 
-    public enum BlockType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BlockType: String, CustomStringConvertible, Codable, Sendable {
         case cell = "CELL"
         case keyValueSet = "KEY_VALUE_SET"
         case line = "LINE"
@@ -37,20 +37,20 @@ extension Textract {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentClassifier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentClassifier: String, CustomStringConvertible, Codable, Sendable {
         case freeOfAdultContent = "FreeOfAdultContent"
         case freeOfPersonallyIdentifiableInformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 
-    public enum EntityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EntityType: String, CustomStringConvertible, Codable, Sendable {
         case columnHeader = "COLUMN_HEADER"
         case key = "KEY"
         case value = "VALUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FeatureType: String, CustomStringConvertible, Codable, Sendable {
         case forms = "FORMS"
         case queries = "QUERIES"
         case signatures = "SIGNATURES"
@@ -58,7 +58,7 @@ extension Textract {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case partialSuccess = "PARTIAL_SUCCESS"
@@ -66,7 +66,7 @@ extension Textract {
         public var description: String { return self.rawValue }
     }
 
-    public enum RelationshipType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RelationshipType: String, CustomStringConvertible, Codable, Sendable {
         case answer = "ANSWER"
         case child = "CHILD"
         case complexFeatures = "COMPLEX_FEATURES"
@@ -76,19 +76,19 @@ extension Textract {
         public var description: String { return self.rawValue }
     }
 
-    public enum SelectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SelectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case notSelected = "NOT_SELECTED"
         case selected = "SELECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TextType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TextType: String, CustomStringConvertible, Codable, Sendable {
         case handwriting = "HANDWRITING"
         case printed = "PRINTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ValueType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ValueType: String, CustomStringConvertible, Codable, Sendable {
         case date = "Date"
         public var description: String { return self.rawValue }
     }

@@ -21,7 +21,7 @@ import SotoCore
 extension MarketplaceCommerceAnalytics {
     // MARK: Enums
 
-    public enum DataSetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSetType: String, CustomStringConvertible, Codable, Sendable {
         case customerProfileByGeography = "customer_profile_by_geography"
         case customerProfileByIndustry = "customer_profile_by_industry"
         case customerProfileByRevenue = "customer_profile_by_revenue"
@@ -50,7 +50,7 @@ extension MarketplaceCommerceAnalytics {
         public var description: String { return self.rawValue }
     }
 
-    public enum SupportDataSetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SupportDataSetType: String, CustomStringConvertible, Codable, Sendable {
         case customerSupportContactsData = "customer_support_contacts_data"
         case testCustomerSupportContactsData = "test_customer_support_contacts_data"
         public var description: String { return self.rawValue }

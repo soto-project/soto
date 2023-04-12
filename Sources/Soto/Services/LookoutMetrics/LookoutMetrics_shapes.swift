@@ -21,25 +21,25 @@ import SotoCore
 extension LookoutMetrics {
     // MARK: Enums
 
-    public enum AggregationFunction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregationFunction: String, CustomStringConvertible, Codable, Sendable {
         case avg = "AVG"
         case sum = "SUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum AlertStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AlertStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AlertType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AlertType: String, CustomStringConvertible, Codable, Sendable {
         case lambda = "LAMBDA"
         case sns = "SNS"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnomalyDetectionTaskStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnomalyDetectionTaskStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case failedToSchedule = "FAILED_TO_SCHEDULE"
@@ -48,7 +48,7 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
-    public enum AnomalyDetectorFailureType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnomalyDetectorFailureType: String, CustomStringConvertible, Codable, Sendable {
         case activationFailure = "ACTIVATION_FAILURE"
         case backTestActivationFailure = "BACK_TEST_ACTIVATION_FAILURE"
         case deactivationFailure = "DEACTIVATION_FAILURE"
@@ -56,7 +56,7 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
-    public enum AnomalyDetectorStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnomalyDetectorStatus: String, CustomStringConvertible, Codable, Sendable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case backTestActivating = "BACK_TEST_ACTIVATING"
@@ -71,20 +71,20 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
-    public enum CSVFileCompression: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CSVFileCompression: String, CustomStringConvertible, Codable, Sendable {
         case gzip = "GZIP"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Confidence: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Confidence: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataQualityMetricType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataQualityMetricType: String, CustomStringConvertible, Codable, Sendable {
         case backtestInferenceDataEndTimeStamp = "BACKTEST_INFERENCE_DATA_END_TIME_STAMP"
         case backtestInferenceDataStartTimeStamp = "BACKTEST_INFERENCE_DATA_START_TIME_STAMP"
         case backtestTrainingDataEndTimeStamp = "BACKTEST_TRAINING_DATA_END_TIME_STAMP"
@@ -98,12 +98,12 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterOperation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterOperation: String, CustomStringConvertible, Codable, Sendable {
         case equals = "EQUALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Frequency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Frequency: String, CustomStringConvertible, Codable, Sendable {
         case p1d = "P1D"
         case pt10m = "PT10M"
         case pt1h = "PT1H"
@@ -111,19 +111,19 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
-    public enum JsonFileCompression: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JsonFileCompression: String, CustomStringConvertible, Codable, Sendable {
         case gzip = "GZIP"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelationshipType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RelationshipType: String, CustomStringConvertible, Codable, Sendable {
         case causeOfInputAnomalyGroup = "CAUSE_OF_INPUT_ANOMALY_GROUP"
         case effectOfInputAnomalyGroup = "EFFECT_OF_INPUT_ANOMALY_GROUP"
         public var description: String { return self.rawValue }
     }
 
-    public enum SnsFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SnsFormat: String, CustomStringConvertible, Codable, Sendable {
         case json = "JSON"
         case longText = "LONG_TEXT"
         case shortText = "SHORT_TEXT"

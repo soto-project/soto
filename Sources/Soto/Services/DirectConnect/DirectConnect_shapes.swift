@@ -21,13 +21,13 @@ import SotoCore
 extension DirectConnect {
     // MARK: Enums
 
-    public enum AddressFamily: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AddressFamily: String, CustomStringConvertible, Codable, Sendable {
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
-    public enum BGPPeerState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BGPPeerState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -36,14 +36,14 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum BGPStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BGPStatus: String, CustomStringConvertible, Codable, Sendable {
         case down = "down"
         case unknown = "unknown"
         case up = "up"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -56,14 +56,14 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectConnectGatewayAssociationProposalState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DirectConnectGatewayAssociationProposalState: String, CustomStringConvertible, Codable, Sendable {
         case accepted = "accepted"
         case deleted = "deleted"
         case requested = "requested"
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectConnectGatewayAssociationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DirectConnectGatewayAssociationState: String, CustomStringConvertible, Codable, Sendable {
         case associated = "associated"
         case associating = "associating"
         case disassociated = "disassociated"
@@ -72,7 +72,7 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectConnectGatewayAttachmentState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DirectConnectGatewayAttachmentState: String, CustomStringConvertible, Codable, Sendable {
         case attached = "attached"
         case attaching = "attaching"
         case detached = "detached"
@@ -80,13 +80,13 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectConnectGatewayAttachmentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DirectConnectGatewayAttachmentType: String, CustomStringConvertible, Codable, Sendable {
         case privateVirtualInterface = "PrivateVirtualInterface"
         case transitVirtualInterface = "TransitVirtualInterface"
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectConnectGatewayState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DirectConnectGatewayState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -94,20 +94,20 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum GatewayType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GatewayType: String, CustomStringConvertible, Codable, Sendable {
         case transitGateway = "transitGateway"
         case virtualPrivateGateway = "virtualPrivateGateway"
         public var description: String { return self.rawValue }
     }
 
-    public enum HasLogicalRedundancy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HasLogicalRedundancy: String, CustomStringConvertible, Codable, Sendable {
         case no = "no"
         case unknown = "unknown"
         case yes = "yes"
         public var description: String { return self.rawValue }
     }
 
-    public enum InterconnectState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InterconnectState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -118,7 +118,7 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum LagState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LagState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -129,19 +129,19 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoaContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LoaContentType: String, CustomStringConvertible, Codable, Sendable {
         case applicationPdf = "application/pdf"
         public var description: String { return self.rawValue }
     }
 
-    public enum NniPartnerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NniPartnerType: String, CustomStringConvertible, Codable, Sendable {
         case nonPartner = "nonPartner"
         case v1 = "v1"
         case v2 = "v2"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualInterfaceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VirtualInterfaceState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case confirming = "confirming"
         case deleted = "deleted"

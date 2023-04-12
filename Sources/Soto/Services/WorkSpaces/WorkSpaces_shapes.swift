@@ -21,19 +21,19 @@ import SotoCore
 extension WorkSpaces {
     // MARK: Enums
 
-    public enum AccessPropertyValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessPropertyValue: String, CustomStringConvertible, Codable, Sendable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum Application: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Application: String, CustomStringConvertible, Codable, Sendable {
         case microsoftOffice2016 = "Microsoft_Office_2016"
         case microsoftOffice2019 = "Microsoft_Office_2019"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssociationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssociationStatus: String, CustomStringConvertible, Codable, Sendable {
         case associatedWithOwnerAccount = "ASSOCIATED_WITH_OWNER_ACCOUNT"
         case associatedWithSharedAccount = "ASSOCIATED_WITH_SHARED_ACCOUNT"
         case notAssociated = "NOT_ASSOCIATED"
@@ -42,19 +42,19 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum BundleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BundleType: String, CustomStringConvertible, Codable, Sendable {
         case regular = "REGULAR"
         case standby = "STANDBY"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateBasedAuthStatusEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CertificateBasedAuthStatusEnum: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientDeviceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClientDeviceType: String, CustomStringConvertible, Codable, Sendable {
         case deviceTypeAndroid = "DeviceTypeAndroid"
         case deviceTypeIos = "DeviceTypeIos"
         case deviceTypeLinux = "DeviceTypeLinux"
@@ -64,7 +64,7 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum Compute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Compute: String, CustomStringConvertible, Codable, Sendable {
         case graphics = "GRAPHICS"
         case graphicsG4Dn = "GRAPHICS_G4DN"
         case graphicspro = "GRAPHICSPRO"
@@ -77,126 +77,126 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionAliasState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionAliasState: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable {
         case connected = "CONNECTED"
         case disconnected = "DISCONNECTED"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum DedicatedTenancyModificationStateEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DedicatedTenancyModificationStateEnum: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum DedicatedTenancySupportEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DedicatedTenancySupportEnum: String, CustomStringConvertible, Codable, Sendable {
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DedicatedTenancySupportResultEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DedicatedTenancySupportResultEnum: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeletableCertificateBasedAuthProperty: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeletableCertificateBasedAuthProperty: String, CustomStringConvertible, Codable, Sendable {
         case certificateBasedAuthPropertiesCertificateAuthorityArn = "CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeletableSamlProperty: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeletableSamlProperty: String, CustomStringConvertible, Codable, Sendable {
         case samlPropertiesRelayStateParameterName = "SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME"
         case samlPropertiesUserAccessUrl = "SAML_PROPERTIES_USER_ACCESS_URL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageType: String, CustomStringConvertible, Codable, Sendable {
         case owned = "OWNED"
         case shared = "SHARED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogUploadEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogUploadEnum: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModificationResourceEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModificationResourceEnum: String, CustomStringConvertible, Codable, Sendable {
         case computeType = "COMPUTE_TYPE"
         case rootVolume = "ROOT_VOLUME"
         case userVolume = "USER_VOLUME"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModificationStateEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModificationStateEnum: String, CustomStringConvertible, Codable, Sendable {
         case updateInProgress = "UPDATE_IN_PROGRESS"
         case updateInitiated = "UPDATE_INITIATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum OperatingSystemType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperatingSystemType: String, CustomStringConvertible, Codable, Sendable {
         case linux = "LINUX"
         case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReconnectEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReconnectEnum: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RunningMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RunningMode: String, CustomStringConvertible, Codable, Sendable {
         case alwaysOn = "ALWAYS_ON"
         case autoStop = "AUTO_STOP"
         case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum SamlStatusEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SamlStatusEnum: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case enabledWithDirectoryLoginFallback = "ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK"
         public var description: String { return self.rawValue }
     }
 
-    public enum StandbyWorkspaceRelationshipType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StandbyWorkspaceRelationshipType: String, CustomStringConvertible, Codable, Sendable {
         case primary = "PRIMARY"
         case standby = "STANDBY"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetWorkspaceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetWorkspaceState: String, CustomStringConvertible, Codable, Sendable {
         case adminMaintenance = "ADMIN_MAINTENANCE"
         case available = "AVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Tenancy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Tenancy: String, CustomStringConvertible, Codable, Sendable {
         case dedicated = "DEDICATED"
         case shared = "SHARED"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceBundleState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkspaceBundleState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case error = "ERROR"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceDirectoryState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkspaceDirectoryState: String, CustomStringConvertible, Codable, Sendable {
         case deregistered = "DEREGISTERED"
         case deregistering = "DEREGISTERING"
         case error = "ERROR"
@@ -205,13 +205,13 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceDirectoryType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkspaceDirectoryType: String, CustomStringConvertible, Codable, Sendable {
         case adConnector = "AD_CONNECTOR"
         case simpleAd = "SIMPLE_AD"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceImageIngestionProcess: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkspaceImageIngestionProcess: String, CustomStringConvertible, Codable, Sendable {
         case byolGraphics = "BYOL_GRAPHICS"
         case byolGraphicsG4Dn = "BYOL_GRAPHICS_G4DN"
         case byolGraphicsG4DnByop = "BYOL_GRAPHICS_G4DN_BYOP"
@@ -222,20 +222,20 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceImageRequiredTenancy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkspaceImageRequiredTenancy: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case dedicated = "DEDICATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceImageState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkspaceImageState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case error = "ERROR"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkspaceState: String, CustomStringConvertible, Codable, Sendable {
         case adminMaintenance = "ADMIN_MAINTENANCE"
         case available = "AVAILABLE"
         case error = "ERROR"
@@ -256,7 +256,7 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable {
         case pcoip = "PCOIP"
         case wsp = "WSP"
         public var description: String { return self.rawValue }

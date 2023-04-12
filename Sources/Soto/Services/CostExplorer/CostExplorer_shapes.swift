@@ -21,86 +21,86 @@ import SotoCore
 extension CostExplorer {
     // MARK: Enums
 
-    public enum AccountScope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccountScope: String, CustomStringConvertible, Codable, Sendable {
         case linked = "LINKED"
         case payer = "PAYER"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnomalyFeedbackType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnomalyFeedbackType: String, CustomStringConvertible, Codable, Sendable {
         case no = "NO"
         case plannedActivity = "PLANNED_ACTIVITY"
         case yes = "YES"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnomalySubscriptionFrequency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnomalySubscriptionFrequency: String, CustomStringConvertible, Codable, Sendable {
         case daily = "DAILY"
         case immediate = "IMMEDIATE"
         case weekly = "WEEKLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum Context: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Context: String, CustomStringConvertible, Codable, Sendable {
         case costAndUsage = "COST_AND_USAGE"
         case reservations = "RESERVATIONS"
         case savingsPlans = "SAVINGS_PLANS"
         public var description: String { return self.rawValue }
     }
 
-    public enum CostAllocationTagStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CostAllocationTagStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
     }
 
-    public enum CostAllocationTagType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CostAllocationTagType: String, CustomStringConvertible, Codable, Sendable {
         case awsGenerated = "AWSGenerated"
         case userDefined = "UserDefined"
         public var description: String { return self.rawValue }
     }
 
-    public enum CostCategoryInheritedValueDimensionName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CostCategoryInheritedValueDimensionName: String, CustomStringConvertible, Codable, Sendable {
         case linkedAccountName = "LINKED_ACCOUNT_NAME"
         case tag = "TAG"
         public var description: String { return self.rawValue }
     }
 
-    public enum CostCategoryRuleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CostCategoryRuleType: String, CustomStringConvertible, Codable, Sendable {
         case inheritedValue = "INHERITED_VALUE"
         case regular = "REGULAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum CostCategoryRuleVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CostCategoryRuleVersion: String, CustomStringConvertible, Codable, Sendable {
         case costCategoryExpressionV1 = "CostCategoryExpression.v1"
         public var description: String { return self.rawValue }
     }
 
-    public enum CostCategorySplitChargeMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CostCategorySplitChargeMethod: String, CustomStringConvertible, Codable, Sendable {
         case even = "EVEN"
         case fixed = "FIXED"
         case proportional = "PROPORTIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum CostCategorySplitChargeRuleParameterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CostCategorySplitChargeRuleParameterType: String, CustomStringConvertible, Codable, Sendable {
         case allocationPercentages = "ALLOCATION_PERCENTAGES"
         public var description: String { return self.rawValue }
     }
 
-    public enum CostCategoryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CostCategoryStatus: String, CustomStringConvertible, Codable, Sendable {
         case applied = "APPLIED"
         case processing = "PROCESSING"
         public var description: String { return self.rawValue }
     }
 
-    public enum CostCategoryStatusComponent: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CostCategoryStatusComponent: String, CustomStringConvertible, Codable, Sendable {
         case costExplorer = "COST_EXPLORER"
         public var description: String { return self.rawValue }
     }
 
-    public enum Dimension: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Dimension: String, CustomStringConvertible, Codable, Sendable {
         case agreementEndDateTimeAfter = "AGREEMENT_END_DATE_TIME_AFTER"
         case agreementEndDateTimeBefore = "AGREEMENT_END_DATE_TIME_BEFORE"
         case anomalyTotalImpactAbsolute = "ANOMALY_TOTAL_IMPACT_ABSOLUTE"
@@ -138,7 +138,7 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case cpuOverProvisioned = "CPU_OVER_PROVISIONED"
         case cpuUnderProvisioned = "CPU_UNDER_PROVISIONED"
         case diskIopsOverProvisioned = "DISK_IOPS_OVER_PROVISIONED"
@@ -158,35 +158,35 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
-    public enum GenerationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GenerationStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case processing = "PROCESSING"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Granularity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Granularity: String, CustomStringConvertible, Codable, Sendable {
         case daily = "DAILY"
         case hourly = "HOURLY"
         case monthly = "MONTHLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupDefinitionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GroupDefinitionType: String, CustomStringConvertible, Codable, Sendable {
         case costCategory = "COST_CATEGORY"
         case dimension = "DIMENSION"
         case tag = "TAG"
         public var description: String { return self.rawValue }
     }
 
-    public enum LookbackPeriodInDays: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LookbackPeriodInDays: String, CustomStringConvertible, Codable, Sendable {
         case sevenDays = "SEVEN_DAYS"
         case sixtyDays = "SIXTY_DAYS"
         case thirtyDays = "THIRTY_DAYS"
         public var description: String { return self.rawValue }
     }
 
-    public enum MatchOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MatchOption: String, CustomStringConvertible, Codable, Sendable {
         case absent = "ABSENT"
         case caseInsensitive = "CASE_INSENSITIVE"
         case caseSensitive = "CASE_SENSITIVE"
@@ -198,7 +198,7 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
-    public enum Metric: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Metric: String, CustomStringConvertible, Codable, Sendable {
         case amortizedCost = "AMORTIZED_COST"
         case blendedCost = "BLENDED_COST"
         case netAmortizedCost = "NET_AMORTIZED_COST"
@@ -209,18 +209,18 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
-    public enum MonitorDimension: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MonitorDimension: String, CustomStringConvertible, Codable, Sendable {
         case service = "SERVICE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MonitorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MonitorType: String, CustomStringConvertible, Codable, Sendable {
         case custom = "CUSTOM"
         case dimensional = "DIMENSIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum NumericOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NumericOperator: String, CustomStringConvertible, Codable, Sendable {
         case between = "BETWEEN"
         case equal = "EQUAL"
         case greaterThan = "GREATER_THAN"
@@ -230,13 +230,13 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
-    public enum OfferingClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OfferingClass: String, CustomStringConvertible, Codable, Sendable {
         case convertible = "CONVERTIBLE"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum PaymentOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PaymentOption: String, CustomStringConvertible, Codable, Sendable {
         case allUpfront = "ALL_UPFRONT"
         case heavyUtilization = "HEAVY_UTILIZATION"
         case lightUtilization = "LIGHT_UTILIZATION"
@@ -246,7 +246,7 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformDifference: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlatformDifference: String, CustomStringConvertible, Codable, Sendable {
         case hypervisor = "HYPERVISOR"
         case instanceStoreAvailability = "INSTANCE_STORE_AVAILABILITY"
         case networkInterface = "NETWORK_INTERFACE"
@@ -255,19 +255,19 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationTarget: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationTarget: String, CustomStringConvertible, Codable, Sendable {
         case crossInstanceFamily = "CROSS_INSTANCE_FAMILY"
         case sameInstanceFamily = "SAME_INSTANCE_FAMILY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RightsizingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RightsizingType: String, CustomStringConvertible, Codable, Sendable {
         case modify = "MODIFY"
         case terminate = "TERMINATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlansDataType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SavingsPlansDataType: String, CustomStringConvertible, Codable, Sendable {
         case amortizedCommitment = "AMORTIZED_COMMITMENT"
         case attributes = "ATTRIBUTES"
         case savings = "SAVINGS"
@@ -275,32 +275,32 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SubscriberStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SubscriberStatus: String, CustomStringConvertible, Codable, Sendable {
         case confirmed = "CONFIRMED"
         case declined = "DECLINED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SubscriberType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SubscriberType: String, CustomStringConvertible, Codable, Sendable {
         case email = "EMAIL"
         case sns = "SNS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SupportedSavingsPlansType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SupportedSavingsPlansType: String, CustomStringConvertible, Codable, Sendable {
         case computeSp = "COMPUTE_SP"
         case ec2InstanceSp = "EC2_INSTANCE_SP"
         case sagemakerSp = "SAGEMAKER_SP"
         public var description: String { return self.rawValue }
     }
 
-    public enum TermInYears: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TermInYears: String, CustomStringConvertible, Codable, Sendable {
         case oneYear = "ONE_YEAR"
         case threeYears = "THREE_YEARS"
         public var description: String { return self.rawValue }

@@ -21,7 +21,7 @@ import SotoCore
 extension RedshiftData {
     // MARK: Enums
 
-    public enum StatementStatusString: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatementStatusString: String, CustomStringConvertible, Codable, Sendable {
         case aborted = "ABORTED"
         case failed = "FAILED"
         case finished = "FINISHED"
@@ -31,7 +31,7 @@ extension RedshiftData {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusString: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatusString: String, CustomStringConvertible, Codable, Sendable {
         case aborted = "ABORTED"
         case all = "ALL"
         case failed = "FAILED"
@@ -42,7 +42,7 @@ extension RedshiftData {
         public var description: String { return self.rawValue }
     }
 
-    public enum Field: AWSDecodableShape, _SotoSendable {
+    public enum Field: AWSDecodableShape, Sendable {
         /// A value of the BLOB data type.
         case blobValue(AWSBase64Data)
         /// A value of the Boolean data type.

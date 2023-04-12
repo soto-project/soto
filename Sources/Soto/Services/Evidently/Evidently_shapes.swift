@@ -21,29 +21,29 @@ import SotoCore
 extension Evidently {
     // MARK: Enums
 
-    public enum ChangeDirectionEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeDirectionEnum: String, CustomStringConvertible, Codable, Sendable {
         case decrease = "DECREASE"
         case increase = "INCREASE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
         case awsEvidentlyCustom = "aws.evidently.custom"
         case awsEvidentlyEvaluation = "aws.evidently.evaluation"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentBaseStat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExperimentBaseStat: String, CustomStringConvertible, Codable, Sendable {
         case mean = "Mean"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentReportName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExperimentReportName: String, CustomStringConvertible, Codable, Sendable {
         case bayesianInference = "BayesianInference"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentResultRequestType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExperimentResultRequestType: String, CustomStringConvertible, Codable, Sendable {
         case baseStat = "BaseStat"
         case confidenceInterval = "ConfidenceInterval"
         case pValue = "PValue"
@@ -51,7 +51,7 @@ extension Evidently {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentResultResponseType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExperimentResultResponseType: String, CustomStringConvertible, Codable, Sendable {
         case confidenceIntervalLowerBound = "ConfidenceIntervalLowerBound"
         case confidenceIntervalUpperBound = "ConfidenceIntervalUpperBound"
         case mean = "Mean"
@@ -60,7 +60,7 @@ extension Evidently {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExperimentStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case created = "CREATED"
@@ -69,30 +69,30 @@ extension Evidently {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentStopDesiredState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExperimentStopDesiredState: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExperimentType: String, CustomStringConvertible, Codable, Sendable {
         case awsEvidentlyOnlineab = "aws.evidently.onlineab"
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureEvaluationStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FeatureEvaluationStrategy: String, CustomStringConvertible, Codable, Sendable {
         case allRules = "ALL_RULES"
         case defaultVariation = "DEFAULT_VARIATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FeatureStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case created = "CREATED"
@@ -101,30 +101,30 @@ extension Evidently {
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchStopDesiredState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchStopDesiredState: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchType: String, CustomStringConvertible, Codable, Sendable {
         case awsEvidentlySplits = "aws.evidently.splits"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProjectStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SegmentReferenceResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SegmentReferenceResourceType: String, CustomStringConvertible, Codable, Sendable {
         case experiment = "EXPERIMENT"
         case launch = "LAUNCH"
         public var description: String { return self.rawValue }
     }
 
-    public enum VariationValueType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VariationValueType: String, CustomStringConvertible, Codable, Sendable {
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
         case long = "LONG"
@@ -132,7 +132,7 @@ extension Evidently {
         public var description: String { return self.rawValue }
     }
 
-    public enum VariableValue: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum VariableValue: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// If this feature uses the Boolean variation type, this field contains the Boolean value of this variation.
         case boolValue(Bool)
         /// If this feature uses the double integer variation type, this field contains the double integer value of this variation.

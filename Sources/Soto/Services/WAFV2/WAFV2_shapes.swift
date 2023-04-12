@@ -21,7 +21,7 @@ import SotoCore
 extension WAFV2 {
     // MARK: Enums
 
-    public enum ActionValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionValue: String, CustomStringConvertible, Codable, Sendable {
         case allow = "ALLOW"
         case block = "BLOCK"
         case captcha = "CAPTCHA"
@@ -31,14 +31,14 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BodyParsingFallbackBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BodyParsingFallbackBehavior: String, CustomStringConvertible, Codable, Sendable {
         case evaluateAsString = "EVALUATE_AS_STRING"
         case match = "MATCH"
         case noMatch = "NO_MATCH"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
         case eq = "EQ"
         case ge = "GE"
         case gt = "GT"
@@ -48,7 +48,7 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum CountryCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CountryCode: String, CustomStringConvertible, Codable, Sendable {
         case `as` = "AS"
         case `do` = "DO"
         case `in` = "IN"
@@ -302,7 +302,7 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailureReason: String, CustomStringConvertible, Codable, Sendable {
         case tokenDomainMismatch = "TOKEN_DOMAIN_MISMATCH"
         case tokenExpired = "TOKEN_EXPIRED"
         case tokenInvalid = "TOKEN_INVALID"
@@ -310,83 +310,83 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum FallbackBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FallbackBehavior: String, CustomStringConvertible, Codable, Sendable {
         case match = "MATCH"
         case noMatch = "NO_MATCH"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterBehavior: String, CustomStringConvertible, Codable, Sendable {
         case drop = "DROP"
         case keep = "KEEP"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterRequirement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterRequirement: String, CustomStringConvertible, Codable, Sendable {
         case meetsAll = "MEETS_ALL"
         case meetsAny = "MEETS_ANY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ForwardedIPPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ForwardedIPPosition: String, CustomStringConvertible, Codable, Sendable {
         case any = "ANY"
         case first = "FIRST"
         case last = "LAST"
         public var description: String { return self.rawValue }
     }
 
-    public enum IPAddressVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IPAddressVersion: String, CustomStringConvertible, Codable, Sendable {
         case ipv4 = "IPV4"
         case ipv6 = "IPV6"
         public var description: String { return self.rawValue }
     }
 
-    public enum InspectionLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InspectionLevel: String, CustomStringConvertible, Codable, Sendable {
         case common = "COMMON"
         case targeted = "TARGETED"
         public var description: String { return self.rawValue }
     }
 
-    public enum JsonMatchScope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JsonMatchScope: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case key = "KEY"
         case value = "VALUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LabelMatchScope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LabelMatchScope: String, CustomStringConvertible, Codable, Sendable {
         case label = "LABEL"
         case namespace = "NAMESPACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MapMatchScope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MapMatchScope: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case key = "KEY"
         case value = "VALUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum OversizeHandling: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OversizeHandling: String, CustomStringConvertible, Codable, Sendable {
         case `continue` = "CONTINUE"
         case match = "MATCH"
         case noMatch = "NO_MATCH"
         public var description: String { return self.rawValue }
     }
 
-    public enum PayloadType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PayloadType: String, CustomStringConvertible, Codable, Sendable {
         case formEncoded = "FORM_ENCODED"
         case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum Platform: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Platform: String, CustomStringConvertible, Codable, Sendable {
         case android = "ANDROID"
         case ios = "IOS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PositionalConstraint: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PositionalConstraint: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CONTAINS"
         case containsWord = "CONTAINS_WORD"
         case endsWith = "ENDS_WITH"
@@ -395,13 +395,13 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum RateBasedStatementAggregateKeyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RateBasedStatementAggregateKeyType: String, CustomStringConvertible, Codable, Sendable {
         case forwardedIp = "FORWARDED_IP"
         case ip = "IP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case apiGateway = "API_GATEWAY"
         case applicationLoadBalancer = "APPLICATION_LOAD_BALANCER"
         case appsync = "APPSYNC"
@@ -409,26 +409,26 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResponseContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResponseContentType: String, CustomStringConvertible, Codable, Sendable {
         case applicationJson = "APPLICATION_JSON"
         case textHtml = "TEXT_HTML"
         case textPlain = "TEXT_PLAIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum Scope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scope: String, CustomStringConvertible, Codable, Sendable {
         case cloudfront = "CLOUDFRONT"
         case regional = "REGIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum SensitivityLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SensitivityLevel: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         public var description: String { return self.rawValue }
     }
 
-    public enum TextTransformationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TextTransformationType: String, CustomStringConvertible, Codable, Sendable {
         case base64Decode = "BASE64_DECODE"
         case base64DecodeExt = "BASE64_DECODE_EXT"
         case cmdLine = "CMD_LINE"

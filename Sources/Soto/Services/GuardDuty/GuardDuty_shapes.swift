@@ -21,13 +21,13 @@ import SotoCore
 extension GuardDuty {
     // MARK: Enums
 
-    public enum AdminStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AdminStatus: String, CustomStringConvertible, Codable, Sendable {
         case disableInProgress = "DISABLE_IN_PROGRESS"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CriterionKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CriterionKey: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "ACCOUNT_ID"
         case ec2InstanceArn = "EC2_INSTANCE_ARN"
         case guarddutyFindingId = "GUARDDUTY_FINDING_ID"
@@ -37,7 +37,7 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSource: String, CustomStringConvertible, Codable, Sendable {
         case cloudTrail = "CLOUD_TRAIL"
         case dnsLogs = "DNS_LOGS"
         case ec2MalwareScan = "EC2_MALWARE_SCAN"
@@ -47,54 +47,54 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSourceStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DestinationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DestinationType: String, CustomStringConvertible, Codable, Sendable {
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum DetectorStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DetectorStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EbsSnapshotPreservation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EbsSnapshotPreservation: String, CustomStringConvertible, Codable, Sendable {
         case noRetention = "NO_RETENTION"
         case retentionWithFinding = "RETENTION_WITH_FINDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum Feedback: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Feedback: String, CustomStringConvertible, Codable, Sendable {
         case notUseful = "NOT_USEFUL"
         case useful = "USEFUL"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterAction: String, CustomStringConvertible, Codable, Sendable {
         case archive = "ARCHIVE"
         case noop = "NOOP"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingPublishingFrequency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingPublishingFrequency: String, CustomStringConvertible, Codable, Sendable {
         case fifteenMinutes = "FIFTEEN_MINUTES"
         case oneHour = "ONE_HOUR"
         case sixHours = "SIX_HOURS"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingStatisticType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingStatisticType: String, CustomStringConvertible, Codable, Sendable {
         case countBySeverity = "COUNT_BY_SEVERITY"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpSetFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpSetFormat: String, CustomStringConvertible, Codable, Sendable {
         case alienVault = "ALIEN_VAULT"
         case fireEye = "FIRE_EYE"
         case otxCsv = "OTX_CSV"
@@ -104,7 +104,7 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpSetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpSetStatus: String, CustomStringConvertible, Codable, Sendable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case deactivating = "DEACTIVATING"
@@ -115,13 +115,13 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrderBy: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum PublishingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PublishingStatus: String, CustomStringConvertible, Codable, Sendable {
         case pendingVerification = "PENDING_VERIFICATION"
         case publishing = "PUBLISHING"
         case stopped = "STOPPED"
@@ -129,25 +129,25 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanCriterionKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScanCriterionKey: String, CustomStringConvertible, Codable, Sendable {
         case ec2InstanceTag = "EC2_INSTANCE_TAG"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanResult: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScanResult: String, CustomStringConvertible, Codable, Sendable {
         case clean = "CLEAN"
         case infected = "INFECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScanStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ThreatIntelSetFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThreatIntelSetFormat: String, CustomStringConvertible, Codable, Sendable {
         case alienVault = "ALIEN_VAULT"
         case fireEye = "FIRE_EYE"
         case otxCsv = "OTX_CSV"
@@ -157,7 +157,7 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
-    public enum ThreatIntelSetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThreatIntelSetStatus: String, CustomStringConvertible, Codable, Sendable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case deactivating = "DEACTIVATING"
@@ -168,7 +168,7 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageStatisticType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageStatisticType: String, CustomStringConvertible, Codable, Sendable {
         case sumByAccount = "SUM_BY_ACCOUNT"
         case sumByDataSource = "SUM_BY_DATA_SOURCE"
         case sumByResource = "SUM_BY_RESOURCE"

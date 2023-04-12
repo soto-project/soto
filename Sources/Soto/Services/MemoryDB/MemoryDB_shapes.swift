@@ -21,30 +21,30 @@ import SotoCore
 extension MemoryDB {
     // MARK: Enums
 
-    public enum AZStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AZStatus: String, CustomStringConvertible, Codable, Sendable {
         case multiAZ = "multiaz"
         case singleAZ = "singleaz"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable {
         case noPassword = "no-password"
         case password = "password"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataTieringStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataTieringStatus: String, CustomStringConvertible, Codable, Sendable {
         case `false` = "false"
         case `true` = "true"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputAuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputAuthenticationType: String, CustomStringConvertible, Codable, Sendable {
         case password = "password"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "complete"
         case inProgress = "in-progress"
         case notApplied = "available"
@@ -52,12 +52,12 @@ extension MemoryDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceUpdateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceUpdateType: String, CustomStringConvertible, Codable, Sendable {
         case securityUpdate = "security-update"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
         case acl = "acl"
         case cluster = "cluster"
         case node = "node"

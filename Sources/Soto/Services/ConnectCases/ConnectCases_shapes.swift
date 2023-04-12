@@ -21,25 +21,25 @@ import SotoCore
 extension ConnectCases {
     // MARK: Enums
 
-    public enum CommentBodyTextType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CommentBodyTextType: String, CustomStringConvertible, Codable, Sendable {
         case textPlain = "Text/Plain"
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DomainStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case creationFailed = "CreationFailed"
         case creationInProgress = "CreationInProgress"
         public var description: String { return self.rawValue }
     }
 
-    public enum FieldNamespace: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FieldNamespace: String, CustomStringConvertible, Codable, Sendable {
         case custom = "Custom"
         case system = "System"
         public var description: String { return self.rawValue }
     }
 
-    public enum FieldType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FieldType: String, CustomStringConvertible, Codable, Sendable {
         case boolean = "Boolean"
         case dateTime = "DateTime"
         case number = "Number"
@@ -48,25 +48,25 @@ extension ConnectCases {
         public var description: String { return self.rawValue }
     }
 
-    public enum Order: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Order: String, CustomStringConvertible, Codable, Sendable {
         case asc = "Asc"
         case desc = "Desc"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelatedItemType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RelatedItemType: String, CustomStringConvertible, Codable, Sendable {
         case comment = "Comment"
         case contact = "Contact"
         public var description: String { return self.rawValue }
     }
 
-    public enum TemplateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TemplateStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
     }
 
-    public indirect enum CaseFilter: AWSEncodableShape, _SotoSendable {
+    public indirect enum CaseFilter: AWSEncodableShape, Sendable {
         /// Provides "and all" filtering.
         case andAll([CaseFilter])
         /// A list of fields to filter on.
@@ -105,7 +105,7 @@ extension ConnectCases {
         }
     }
 
-    public enum FieldFilter: AWSEncodableShape, _SotoSendable {
+    public enum FieldFilter: AWSEncodableShape, Sendable {
         /// Object containing field identifier and value information.
         case contains(FieldValue)
         /// Object containing field identifier and value information.
@@ -164,7 +164,7 @@ extension ConnectCases {
         }
     }
 
-    public enum FieldValueUnion: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum FieldValueUnion: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Can be either null, or have a Boolean value type. Only one value can be provided.
         case booleanValue(Bool)
         /// Can be either null, or have a Double number value type. Only one value can be provided.
@@ -213,7 +213,7 @@ extension ConnectCases {
         }
     }
 
-    public enum RelatedItemContent: AWSDecodableShape, _SotoSendable {
+    public enum RelatedItemContent: AWSDecodableShape, Sendable {
         /// Represents the content of a comment to be returned to agents.
         case comment(CommentContent)
         /// Represents the content of a contact to be returned to agents.
@@ -244,7 +244,7 @@ extension ConnectCases {
         }
     }
 
-    public enum RelatedItemInputContent: AWSEncodableShape, _SotoSendable {
+    public enum RelatedItemInputContent: AWSEncodableShape, Sendable {
         /// Represents the content of a comment to be returned to agents.
         case comment(CommentContent)
         /// Object representing a contact in Amazon Connect as an API request field.
@@ -275,7 +275,7 @@ extension ConnectCases {
         }
     }
 
-    public enum RelatedItemTypeFilter: AWSEncodableShape, _SotoSendable {
+    public enum RelatedItemTypeFilter: AWSEncodableShape, Sendable {
         /// A filter for related items of type Comment.
         case comment(CommentFilter)
         /// A filter for related items of type Contact.

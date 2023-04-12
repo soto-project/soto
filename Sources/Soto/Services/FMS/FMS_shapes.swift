@@ -21,7 +21,7 @@ import SotoCore
 extension FMS {
     // MARK: Enums
 
-    public enum AccountRoleStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccountRoleStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "CREATING"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -30,13 +30,13 @@ extension FMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomerPolicyScopeIdType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomerPolicyScopeIdType: String, CustomStringConvertible, Codable, Sendable {
         case account = "ACCOUNT"
         case orgUnit = "ORG_UNIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DependentServiceName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DependentServiceName: String, CustomStringConvertible, Codable, Sendable {
         case awsConfig = "AWSCONFIG"
         case awsShieldAdvanced = "AWSSHIELD_ADVANCED"
         case awsVirtualPrivateCloud = "AWSVPC"
@@ -44,14 +44,14 @@ extension FMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum DestinationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DestinationType: String, CustomStringConvertible, Codable, Sendable {
         case ipv4 = "IPV4"
         case ipv6 = "IPV6"
         case prefixList = "PREFIX_LIST"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailedItemReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailedItemReason: String, CustomStringConvertible, Codable, Sendable {
         case notValidAccountId = "NOT_VALID_ACCOUNT_ID"
         case notValidArn = "NOT_VALID_ARN"
         case notValidPartition = "NOT_VALID_PARTITION"
@@ -61,43 +61,43 @@ extension FMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum FirewallDeploymentModel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FirewallDeploymentModel: String, CustomStringConvertible, Codable, Sendable {
         case centralized = "CENTRALIZED"
         case distributed = "DISTRIBUTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum MarketplaceSubscriptionOnboardingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MarketplaceSubscriptionOnboardingStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case noSubscription = "NO_SUBSCRIPTION"
         case notComplete = "NOT_COMPLETE"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkFirewallOverrideAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkFirewallOverrideAction: String, CustomStringConvertible, Codable, Sendable {
         case dropToAlert = "DROP_TO_ALERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyComplianceStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PolicyComplianceStatusType: String, CustomStringConvertible, Codable, Sendable {
         case compliant = "COMPLIANT"
         case nonCompliant = "NON_COMPLIANT"
         public var description: String { return self.rawValue }
     }
 
-    public enum RemediationActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RemediationActionType: String, CustomStringConvertible, Codable, Sendable {
         case modify = "MODIFY"
         case remove = "REMOVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuleOrder: String, CustomStringConvertible, Codable, Sendable {
         case defaultActionOrder = "DEFAULT_ACTION_ORDER"
         case strictOrder = "STRICT_ORDER"
         public var description: String { return self.rawValue }
     }
 
-    public enum SecurityServiceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SecurityServiceType: String, CustomStringConvertible, Codable, Sendable {
         case dnsFirewall = "DNS_FIREWALL"
         case importNetworkFirewall = "IMPORT_NETWORK_FIREWALL"
         case networkFirewall = "NETWORK_FIREWALL"
@@ -111,7 +111,7 @@ extension FMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetType: String, CustomStringConvertible, Codable, Sendable {
         case carrierGateway = "CARRIER_GATEWAY"
         case egressOnlyInternetGateway = "EGRESS_ONLY_INTERNET_GATEWAY"
         case gateway = "GATEWAY"
@@ -125,13 +125,13 @@ extension FMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ThirdPartyFirewall: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThirdPartyFirewall: String, CustomStringConvertible, Codable, Sendable {
         case fortigateCloudNativeFirewall = "FORTIGATE_CLOUD_NATIVE_FIREWALL"
         case paloAltoNetworksCloudNgfw = "PALO_ALTO_NETWORKS_CLOUD_NGFW"
         public var description: String { return self.rawValue }
     }
 
-    public enum ThirdPartyFirewallAssociationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThirdPartyFirewallAssociationStatus: String, CustomStringConvertible, Codable, Sendable {
         case notExist = "NOT_EXIST"
         case offboardComplete = "OFFBOARD_COMPLETE"
         case offboarding = "OFFBOARDING"
@@ -140,7 +140,7 @@ extension FMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ViolationReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ViolationReason: String, CustomStringConvertible, Codable, Sendable {
         case blackHoleRouteDetected = "BLACK_HOLE_ROUTE_DETECTED"
         case blackHoleRouteDetectedInFirewallSubnet = "BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET"
         case firewallSubnetIsOutOfScope = "FIREWALL_SUBNET_IS_OUT_OF_SCOPE"

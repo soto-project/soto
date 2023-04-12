@@ -21,33 +21,33 @@ import SotoCore
 extension Health {
     // MARK: Enums
 
-    public enum EntityStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EntityStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case impaired = "IMPAIRED"
         case unimpaired = "UNIMPAIRED"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventAggregateField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventAggregateField: String, CustomStringConvertible, Codable, Sendable {
         case eventTypeCategory = "eventTypeCategory"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventScopeCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventScopeCode: String, CustomStringConvertible, Codable, Sendable {
         case accountSpecific = "ACCOUNT_SPECIFIC"
         case none = "NONE"
         case `public` = "PUBLIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case closed = "closed"
         case open = "open"
         case upcoming = "upcoming"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventTypeCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventTypeCategory: String, CustomStringConvertible, Codable, Sendable {
         case accountNotification = "accountNotification"
         case investigation = "investigation"
         case issue = "issue"

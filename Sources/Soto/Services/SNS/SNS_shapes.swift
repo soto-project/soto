@@ -21,7 +21,7 @@ import SotoCore
 extension SNS {
     // MARK: Enums
 
-    public enum LanguageCodeString: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LanguageCodeString: String, CustomStringConvertible, Codable, Sendable {
         case deDE = "de-DE"
         case enGB = "en-GB"
         case enUS = "en-US"
@@ -38,21 +38,21 @@ extension SNS {
         public var description: String { return self.rawValue }
     }
 
-    public enum NumberCapability: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NumberCapability: String, CustomStringConvertible, Codable, Sendable {
         case mms = "MMS"
         case sms = "SMS"
         case voice = "VOICE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RouteType: String, CustomStringConvertible, Codable, Sendable {
         case premium = "Premium"
         case promotional = "Promotional"
         case transactional = "Transactional"
         public var description: String { return self.rawValue }
     }
 
-    public enum SMSSandboxPhoneNumberVerificationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SMSSandboxPhoneNumberVerificationStatus: String, CustomStringConvertible, Codable, Sendable {
         case pending = "Pending"
         case verified = "Verified"
         public var description: String { return self.rawValue }

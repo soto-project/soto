@@ -21,27 +21,27 @@ import SotoCore
 extension QLDB {
     // MARK: Enums
 
-    public enum EncryptionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionStatus: String, CustomStringConvertible, Codable, Sendable {
         case enabled = "ENABLED"
         case kmsKeyInaccessible = "KMS_KEY_INACCESSIBLE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCause: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCause: String, CustomStringConvertible, Codable, Sendable {
         case iamPermissionRevoked = "IAM_PERMISSION_REVOKED"
         case kinesisStreamNotFound = "KINESIS_STREAM_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum LedgerState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LedgerState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleted = "DELETED"
@@ -49,27 +49,27 @@ extension QLDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable {
         case ionBinary = "ION_BINARY"
         case ionText = "ION_TEXT"
         case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum PermissionsMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PermissionsMode: String, CustomStringConvertible, Codable, Sendable {
         case allowAll = "ALLOW_ALL"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ObjectEncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3ObjectEncryptionType: String, CustomStringConvertible, Codable, Sendable {
         case noEncryption = "NO_ENCRYPTION"
         case sseKms = "SSE_KMS"
         case sseS3 = "SSE_S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StreamStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case canceled = "CANCELED"
         case completed = "COMPLETED"

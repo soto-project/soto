@@ -21,20 +21,20 @@ import SotoCore
 extension AccessAnalyzer {
     // MARK: Enums
 
-    public enum AccessPreviewStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessPreviewStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case creating = "CREATING"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccessPreviewStatusReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessPreviewStatusReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case internalError = "INTERNAL_ERROR"
         case invalidConfiguration = "INVALID_CONFIGURATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum AclPermission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AclPermission: String, CustomStringConvertible, Codable, Sendable {
         case fullControl = "FULL_CONTROL"
         case read = "READ"
         case readAcp = "READ_ACP"
@@ -43,7 +43,7 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum AnalyzerStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnalyzerStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case disabled = "DISABLED"
@@ -51,14 +51,14 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingChangeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingChangeType: String, CustomStringConvertible, Codable, Sendable {
         case changed = "CHANGED"
         case new = "NEW"
         case unchanged = "UNCHANGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingSourceType: String, CustomStringConvertible, Codable, Sendable {
         case bucketAcl = "BUCKET_ACL"
         case policy = "POLICY"
         case s3AccessPoint = "S3_ACCESS_POINT"
@@ -66,20 +66,20 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
         case resolved = "RESOLVED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingStatusUpdate: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingStatusUpdate: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case authorizationError = "AUTHORIZATION_ERROR"
         case resourceNotFoundError = "RESOURCE_NOT_FOUND_ERROR"
         case serviceError = "SERVICE_ERROR"
@@ -87,7 +87,7 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -95,7 +95,7 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum KmsGrantOperation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KmsGrantOperation: String, CustomStringConvertible, Codable, Sendable {
         case createGrant = "CreateGrant"
         case decrypt = "Decrypt"
         case describeKey = "DescribeKey"
@@ -113,7 +113,7 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum Locale: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Locale: String, CustomStringConvertible, Codable, Sendable {
         case de = "DE"
         case en = "EN"
         case es = "ES"
@@ -127,20 +127,20 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrderBy: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable {
         case identityPolicy = "IDENTITY_POLICY"
         case resourcePolicy = "RESOURCE_POLICY"
         case serviceControlPolicy = "SERVICE_CONTROL_POLICY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case awsServiceAccessDisabled = "AWS_SERVICE_ACCESS_DISABLED"
         case delegatedAdministratorDeregistered = "DELEGATED_ADMINISTRATOR_DEREGISTERED"
         case organizationDeleted = "ORGANIZATION_DELETED"
@@ -148,7 +148,7 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case awsEC2Snapshot = "AWS::EC2::Snapshot"
         case awsECRRepository = "AWS::ECR::Repository"
         case awsEFSFilesystem = "AWS::EFS::FileSystem"
@@ -165,7 +165,7 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ValidatePolicyFindingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ValidatePolicyFindingType: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case securityWarning = "SECURITY_WARNING"
         case suggestion = "SUGGESTION"
@@ -173,7 +173,7 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ValidatePolicyResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ValidatePolicyResourceType: String, CustomStringConvertible, Codable, Sendable {
         case awsIAMAssumerolepolicydocument = "AWS::IAM::AssumeRolePolicyDocument"
         case awsS3Accesspoint = "AWS::S3::AccessPoint"
         case awsS3Bucket = "AWS::S3::Bucket"
@@ -182,13 +182,13 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
         case account = "ACCOUNT"
         case organization = "ORGANIZATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum AclGrantee: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum AclGrantee: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The value specified is the canonical user ID of an Amazon Web Services account.
         case id(String)
         /// Used for granting permissions to a predefined group.
@@ -229,7 +229,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public enum Configuration: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum Configuration: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The access control configuration is for an Amazon EBS volume snapshot.
         case ebsSnapshot(EbsSnapshotConfiguration)
         /// The access control configuration is for an Amazon ECR repository.
@@ -353,7 +353,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public enum NetworkOriginConfiguration: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum NetworkOriginConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The configuration for the Amazon S3 access point or multi-region access point with an Internet origin.
         case internetConfiguration(InternetConfiguration)
         case vpcConfiguration(VpcConfiguration)
@@ -402,7 +402,7 @@ extension AccessAnalyzer {
         }
     }
 
-    public enum PathElement: AWSDecodableShape, _SotoSendable {
+    public enum PathElement: AWSDecodableShape, Sendable {
         /// Refers to an index in a JSON array.
         case index(Int)
         /// Refers to a key in a JSON object.

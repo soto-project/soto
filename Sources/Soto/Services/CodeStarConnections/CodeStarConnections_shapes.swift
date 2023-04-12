@@ -21,14 +21,14 @@ import SotoCore
 extension CodeStarConnections {
     // MARK: Enums
 
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case error = "ERROR"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProviderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProviderType: String, CustomStringConvertible, Codable, Sendable {
         case bitbucket = "Bitbucket"
         case gitHub = "GitHub"
         case gitHubEnterpriseServer = "GitHubEnterpriseServer"

@@ -21,14 +21,14 @@ import SotoCore
 extension RolesAnywhere {
     // MARK: Enums
 
-    public enum TrustAnchorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrustAnchorType: String, CustomStringConvertible, Codable, Sendable {
         case awsAcmPca = "AWS_ACM_PCA"
         case certificateBundle = "CERTIFICATE_BUNDLE"
         case selfSignedRepository = "SELF_SIGNED_REPOSITORY"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceData: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum SourceData: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The root certificate of the Certificate Manager Private Certificate Authority specified by this ARN is used in trust validation for CreateSession operations. Included for trust anchors of type AWS_ACM_PCA.
         case acmPcaArn(String)
         /// The PEM-encoded data for the certificate anchor. Included for trust anchors of type CERTIFICATE_BUNDLE.

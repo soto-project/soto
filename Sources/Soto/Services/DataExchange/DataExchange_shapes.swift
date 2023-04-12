@@ -21,7 +21,7 @@ import SotoCore
 extension DataExchange {
     // MARK: Enums
 
-    public enum AssetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssetType: String, CustomStringConvertible, Codable, Sendable {
         case apiGatewayApi = "API_GATEWAY_API"
         case lakeFormationDataPermission = "LAKE_FORMATION_DATA_PERMISSION"
         case redshiftDataShare = "REDSHIFT_DATA_SHARE"
@@ -30,7 +30,7 @@ extension DataExchange {
         public var description: String { return self.rawValue }
     }
 
-    public enum Code: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Code: String, CustomStringConvertible, Codable, Sendable {
         case accessDeniedException = "ACCESS_DENIED_EXCEPTION"
         case internalServerException = "INTERNAL_SERVER_EXCEPTION"
         case malwareDetected = "MALWARE_DETECTED"
@@ -41,12 +41,12 @@ extension DataExchange {
         public var description: String { return self.rawValue }
     }
 
-    public enum DatabaseLFTagPolicyPermission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatabaseLFTagPolicyPermission: String, CustomStringConvertible, Codable, Sendable {
         case describe = "DESCRIBE"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobErrorLimitName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobErrorLimitName: String, CustomStringConvertible, Codable, Sendable {
         case awsLakeFormationDataPermissionAssetsPerRevision = "AWS Lake Formation data permission assets per revision"
         case amazonRedshiftDatashareAssetsPerRevision = "Amazon Redshift datashare assets per revision"
         case amazonS3DataAccessAssetsPerRevision = "Amazon S3 data access assets per revision"
@@ -55,48 +55,48 @@ extension DataExchange {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobErrorResourceTypes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobErrorResourceTypes: String, CustomStringConvertible, Codable, Sendable {
         case asset = "ASSET"
         case dataSet = "DATA_SET"
         case revision = "REVISION"
         public var description: String { return self.rawValue }
     }
 
-    public enum LFPermission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LFPermission: String, CustomStringConvertible, Codable, Sendable {
         case describe = "DESCRIBE"
         case select = "SELECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum LFResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LFResourceType: String, CustomStringConvertible, Codable, Sendable {
         case database = "DATABASE"
         case table = "TABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LakeFormationDataPermissionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LakeFormationDataPermissionType: String, CustomStringConvertible, Codable, Sendable {
         case lfTagPolicy = "LFTagPolicy"
         public var description: String { return self.rawValue }
     }
 
-    public enum Origin: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Origin: String, CustomStringConvertible, Codable, Sendable {
         case entitled = "ENTITLED"
         case owned = "OWNED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtocolType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProtocolType: String, CustomStringConvertible, Codable, Sendable {
         case rest = "REST"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServerSideEncryptionTypes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServerSideEncryptionTypes: String, CustomStringConvertible, Codable, Sendable {
         case aes256 = "AES256"
         case awsKms = "aws:kms"
         public var description: String { return self.rawValue }
     }
 
-    public enum State: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum State: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case error = "ERROR"
@@ -106,13 +106,13 @@ extension DataExchange {
         public var description: String { return self.rawValue }
     }
 
-    public enum TableTagPolicyLFPermission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TableTagPolicyLFPermission: String, CustomStringConvertible, Codable, Sendable {
         case describe = "DESCRIBE"
         case select = "SELECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
         case createS3DataAccessFromS3Bucket = "CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET"
         case exportAssetsToS3 = "EXPORT_ASSETS_TO_S3"
         case exportAssetToSignedUrl = "EXPORT_ASSET_TO_SIGNED_URL"

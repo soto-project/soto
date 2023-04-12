@@ -21,7 +21,7 @@ import SotoCore
 extension Billingconductor {
     // MARK: Enums
 
-    public enum AssociateResourceErrorReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssociateResourceErrorReason: String, CustomStringConvertible, Codable, Sendable {
         case illegalCustomlineitem = "ILLEGAL_CUSTOMLINEITEM"
         case internalServerException = "INTERNAL_SERVER_EXCEPTION"
         case invalidArn = "INVALID_ARN"
@@ -30,38 +30,38 @@ extension Billingconductor {
         public var description: String { return self.rawValue }
     }
 
-    public enum BillingGroupStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BillingGroupStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case primaryAccountMissing = "PRIMARY_ACCOUNT_MISSING"
         public var description: String { return self.rawValue }
     }
 
-    public enum CurrencyCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable {
         case cny = "CNY"
         case usd = "USD"
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomLineItemRelationship: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomLineItemRelationship: String, CustomStringConvertible, Codable, Sendable {
         case child = "CHILD"
         case parent = "PARENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomLineItemType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomLineItemType: String, CustomStringConvertible, Codable, Sendable {
         case credit = "CREDIT"
         case fee = "FEE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PricingRuleScope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PricingRuleScope: String, CustomStringConvertible, Codable, Sendable {
         case billingEntity = "BILLING_ENTITY"
         case global = "GLOBAL"
         case service = "SERVICE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PricingRuleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PricingRuleType: String, CustomStringConvertible, Codable, Sendable {
         case discount = "DISCOUNT"
         case markup = "MARKUP"
         case tiering = "TIERING"

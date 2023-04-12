@@ -21,34 +21,34 @@ import SotoCore
 extension Mgn {
     // MARK: Enums
 
-    public enum ApplicationHealthStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationHealthStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case healthy = "HEALTHY"
         case lagging = "LAGGING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationProgressStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationProgressStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case inProgress = "IN_PROGRESS"
         case notStarted = "NOT_STARTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum BootMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BootMode: String, CustomStringConvertible, Codable, Sendable {
         case legacyBios = "LEGACY_BIOS"
         case uefi = "UEFI"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeServerLifeCycleStateSourceServerLifecycleState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeServerLifeCycleStateSourceServerLifecycleState: String, CustomStringConvertible, Codable, Sendable {
         case cutover = "CUTOVER"
         case readyForCutover = "READY_FOR_CUTOVER"
         case readyForTest = "READY_FOR_TEST"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataReplicationErrorString: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataReplicationErrorString: String, CustomStringConvertible, Codable, Sendable {
         case agentNotSeen = "AGENT_NOT_SEEN"
         case failedToAttachStagingDisks = "FAILED_TO_ATTACH_STAGING_DISKS"
         case failedToAuthenticateWithService = "FAILED_TO_AUTHENTICATE_WITH_SERVICE"
@@ -68,7 +68,7 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataReplicationInitiationStepName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataReplicationInitiationStepName: String, CustomStringConvertible, Codable, Sendable {
         case attachStagingDisks = "ATTACH_STAGING_DISKS"
         case authenticateWithService = "AUTHENTICATE_WITH_SERVICE"
         case bootReplicationServer = "BOOT_REPLICATION_SERVER"
@@ -83,7 +83,7 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataReplicationInitiationStepStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataReplicationInitiationStepStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case notStarted = "NOT_STARTED"
@@ -92,7 +92,7 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataReplicationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataReplicationState: String, CustomStringConvertible, Codable, Sendable {
         case backlog = "BACKLOG"
         case continuous = "CONTINUOUS"
         case creatingSnapshot = "CREATING_SNAPSHOT"
@@ -108,7 +108,7 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
-    public enum FirstBoot: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FirstBoot: String, CustomStringConvertible, Codable, Sendable {
         case stopped = "STOPPED"
         case succeeded = "SUCCEEDED"
         case unknown = "UNKNOWN"
@@ -116,7 +116,7 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
-    public enum InitiatedBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InitiatedBy: String, CustomStringConvertible, Codable, Sendable {
         case diagnostic = "DIAGNOSTIC"
         case startCutover = "START_CUTOVER"
         case startTest = "START_TEST"
@@ -124,7 +124,7 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobLogEvent: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobLogEvent: String, CustomStringConvertible, Codable, Sendable {
         case cleanupEnd = "CLEANUP_END"
         case cleanupFail = "CLEANUP_FAIL"
         case cleanupStart = "CLEANUP_START"
@@ -144,26 +144,26 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case pending = "PENDING"
         case started = "STARTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobType: String, CustomStringConvertible, Codable, Sendable {
         case launch = "LAUNCH"
         case terminate = "TERMINATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchDisposition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchDisposition: String, CustomStringConvertible, Codable, Sendable {
         case started = "STARTED"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case launched = "LAUNCHED"
@@ -172,7 +172,7 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
-    public enum LifeCycleState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LifeCycleState: String, CustomStringConvertible, Codable, Sendable {
         case cutover = "CUTOVER"
         case cuttingOver = "CUTTING_OVER"
         case disconnected = "DISCONNECTED"
@@ -185,40 +185,40 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
-    public enum PostLaunchActionExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PostLaunchActionExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PostLaunchActionsDeploymentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PostLaunchActionsDeploymentType: String, CustomStringConvertible, Codable, Sendable {
         case cutoverOnly = "CUTOVER_ONLY"
         case testAndCutover = "TEST_AND_CUTOVER"
         case testOnly = "TEST_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationConfigurationDataPlaneRouting: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationConfigurationDataPlaneRouting: String, CustomStringConvertible, Codable, Sendable {
         case privateIp = "PRIVATE_IP"
         case publicIp = "PUBLIC_IP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationConfigurationDefaultLargeStagingDiskType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationConfigurationDefaultLargeStagingDiskType: String, CustomStringConvertible, Codable, Sendable {
         case gp2 = "GP2"
         case gp3 = "GP3"
         case st1 = "ST1"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationConfigurationEbsEncryption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationConfigurationEbsEncryption: String, CustomStringConvertible, Codable, Sendable {
         case custom = "CUSTOM"
         case `default` = "DEFAULT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationConfigurationReplicatedDiskStagingDiskType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationConfigurationReplicatedDiskStagingDiskType: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case gp2 = "GP2"
         case gp3 = "GP3"
@@ -230,30 +230,30 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationType: String, CustomStringConvertible, Codable, Sendable {
         case agentBased = "AGENT_BASED"
         case snapshotShipping = "SNAPSHOT_SHIPPING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SsmDocumentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SsmDocumentType: String, CustomStringConvertible, Codable, Sendable {
         case automation = "AUTOMATION"
         case command = "COMMAND"
         public var description: String { return self.rawValue }
     }
 
-    public enum SsmParameterStoreParameterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SsmParameterStoreParameterType: String, CustomStringConvertible, Codable, Sendable {
         case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetInstanceTypeRightSizingMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetInstanceTypeRightSizingMethod: String, CustomStringConvertible, Codable, Sendable {
         case basic = "BASIC"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VolumeType: String, CustomStringConvertible, Codable, Sendable {
         case gp2 = "gp2"
         case gp3 = "gp3"
         case io1 = "io1"
@@ -264,14 +264,14 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
-    public enum WaveHealthStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WaveHealthStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case healthy = "HEALTHY"
         case lagging = "LAGGING"
         public var description: String { return self.rawValue }
     }
 
-    public enum WaveProgressStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WaveProgressStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case inProgress = "IN_PROGRESS"
         case notStarted = "NOT_STARTED"

@@ -21,20 +21,20 @@ import SotoCore
 extension IoTSecureTunneling {
     // MARK: Enums
 
-    public enum ClientMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClientMode: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case destination = "DESTINATION"
         case source = "SOURCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case connected = "CONNECTED"
         case disconnected = "DISCONNECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TunnelStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TunnelStatus: String, CustomStringConvertible, Codable, Sendable {
         case closed = "CLOSED"
         case open = "OPEN"
         public var description: String { return self.rawValue }

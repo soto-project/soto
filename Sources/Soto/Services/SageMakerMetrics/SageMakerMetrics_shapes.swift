@@ -21,7 +21,7 @@ import SotoCore
 extension SageMakerMetrics {
     // MARK: Enums
 
-    public enum PutMetricsErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PutMetricsErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case conflictError = "CONFLICT_ERROR"
         case internalError = "INTERNAL_ERROR"
         case metricLimitExceeded = "METRIC_LIMIT_EXCEEDED"

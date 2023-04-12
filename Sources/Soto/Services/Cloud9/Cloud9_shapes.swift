@@ -21,13 +21,13 @@ import SotoCore
 extension Cloud9 {
     // MARK: Enums
 
-    public enum ConnectionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable {
         case connectSsh = "CONNECT_SSH"
         case connectSsm = "CONNECT_SSM"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentLifecycleStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentLifecycleStatus: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CREATE_FAILED"
         case created = "CREATED"
         case creating = "CREATING"
@@ -36,7 +36,7 @@ extension Cloud9 {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case connecting = "connecting"
         case creating = "creating"
         case deleting = "deleting"
@@ -47,19 +47,19 @@ extension Cloud9 {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentType: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "ec2"
         case ssh = "ssh"
         public var description: String { return self.rawValue }
     }
 
-    public enum ManagedCredentialsAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ManagedCredentialsAction: String, CustomStringConvertible, Codable, Sendable {
         case disable = "DISABLE"
         case enable = "ENABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ManagedCredentialsStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ManagedCredentialsStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabledByCollaborator = "DISABLED_BY_COLLABORATOR"
         case disabledByDefault = "DISABLED_BY_DEFAULT"
         case disabledByOwner = "DISABLED_BY_OWNER"
@@ -74,13 +74,13 @@ extension Cloud9 {
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberPermissions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MemberPermissions: String, CustomStringConvertible, Codable, Sendable {
         case readOnly = "read-only"
         case readWrite = "read-write"
         public var description: String { return self.rawValue }
     }
 
-    public enum Permissions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Permissions: String, CustomStringConvertible, Codable, Sendable {
         case owner = "owner"
         case readOnly = "read-only"
         case readWrite = "read-write"

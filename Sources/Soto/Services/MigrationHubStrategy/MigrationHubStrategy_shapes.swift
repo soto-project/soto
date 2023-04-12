@@ -21,14 +21,14 @@ import SotoCore
 extension MigrationHubStrategy {
     // MARK: Enums
 
-    public enum AntipatternReportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AntipatternReportStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum AppType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppType: String, CustomStringConvertible, Codable, Sendable {
         case cassandra = "Cassandra"
         case db2 = "DB2"
         case dotNetFramework = "DotNetFramework"
@@ -54,7 +54,7 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum AppUnitErrorCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppUnitErrorCategory: String, CustomStringConvertible, Codable, Sendable {
         case connectivityError = "CONNECTIVITY_ERROR"
         case credentialError = "CREDENTIAL_ERROR"
         case otherError = "OTHER_ERROR"
@@ -63,7 +63,7 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationComponentCriteria: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationComponentCriteria: String, CustomStringConvertible, Codable, Sendable {
         case analysisStatus = "ANALYSIS_STATUS"
         case appName = "APP_NAME"
         case appType = "APP_TYPE"
@@ -75,14 +75,14 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationMode: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case known = "KNOWN"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssessmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssessmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -90,27 +90,27 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthType: String, CustomStringConvertible, Codable, Sendable {
         case cert = "CERT"
         case ntlm = "NTLM"
         case ssh = "SSH"
         public var description: String { return self.rawValue }
     }
 
-    public enum AwsManagedTargetDestination: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AwsManagedTargetDestination: String, CustomStringConvertible, Codable, Sendable {
         case awsElasticBeanstalk = "AWS Elastic BeanStalk"
         case awsFargate = "AWS Fargate"
         case noneSpecified = "None specified"
         public var description: String { return self.rawValue }
     }
 
-    public enum CollectorHealth: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CollectorHealth: String, CustomStringConvertible, Codable, Sendable {
         case collectorHealthy = "COLLECTOR_HEALTHY"
         case collectorUnhealthy = "COLLECTOR_UNHEALTHY"
         public var description: String { return self.rawValue }
     }
 
-    public enum Condition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Condition: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CONTAINS"
         case equals = "EQUALS"
         case notContains = "NOT_CONTAINS"
@@ -118,25 +118,25 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable {
         case applicationDiscoveryService = "ApplicationDiscoveryService"
         case mpa = "MPA"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatabaseManagementPreference: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatabaseManagementPreference: String, CustomStringConvertible, Codable, Sendable {
         case awsManaged = "AWS-managed"
         case noPreference = "No preference"
         case selfManage = "Self-manage"
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GroupName: String, CustomStringConvertible, Codable, Sendable {
         case externalId = "ExternalId"
         public var description: String { return self.rawValue }
     }
 
-    public enum HeterogeneousTargetDatabaseEngine: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HeterogeneousTargetDatabaseEngine: String, CustomStringConvertible, Codable, Sendable {
         case awsPostgresql = "AWS PostgreSQL"
         case amazonAurora = "Amazon Aurora"
         case db2LUW = "Db2 LUW"
@@ -150,12 +150,12 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum HomogeneousTargetDatabaseEngine: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HomogeneousTargetDatabaseEngine: String, CustomStringConvertible, Codable, Sendable {
         case noneSpecified = "None specified"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportFileTaskStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportFileTaskStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleteFailed = "DeleteFailed"
         case deleteInProgress = "DeleteInProgress"
         case deletePartialSuccess = "DeletePartialSuccess"
@@ -167,13 +167,13 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum InclusionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InclusionStatus: String, CustomStringConvertible, Codable, Sendable {
         case excludeFromAssessment = "excludeFromAssessment"
         case includeInAssessment = "includeInAssessment"
         public var description: String { return self.rawValue }
     }
 
-    public enum NoPreferenceTargetDestination: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NoPreferenceTargetDestination: String, CustomStringConvertible, Codable, Sendable {
         case awsElasticBeanstalk = "AWS Elastic BeanStalk"
         case awsFargate = "AWS Fargate"
         case amazonElasticCloudComputeEC2 = "Amazon Elastic Cloud Compute (EC2)"
@@ -183,38 +183,38 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum OSType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OSType: String, CustomStringConvertible, Codable, Sendable {
         case linux = "LINUX"
         case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable {
         case excel = "Excel"
         case json = "Json"
         public var description: String { return self.rawValue }
     }
 
-    public enum PipelineType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PipelineType: String, CustomStringConvertible, Codable, Sendable {
         case azureDevops = "AZURE_DEVOPS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationReportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationReportStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceSubType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceSubType: String, CustomStringConvertible, Codable, Sendable {
         case database = "Database"
         case databaseProcess = "DatabaseProcess"
         case process = "Process"
         public var description: String { return self.rawValue }
     }
 
-    public enum RunTimeAssessmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RunTimeAssessmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case dataCollectionTaskFailed = "dataCollectionTaskFailed"
         case dataCollectionTaskPartialSuccess = "dataCollectionTaskPartialSuccess"
         case dataCollectionTaskScheduled = "dataCollectionTaskScheduled"
@@ -225,7 +225,7 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum RuntimeAnalysisStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuntimeAnalysisStatus: String, CustomStringConvertible, Codable, Sendable {
         case analysisFailed = "ANALYSIS_FAILED"
         case analysisStarted = "ANALYSIS_STARTED"
         case analysisSuccess = "ANALYSIS_SUCCESS"
@@ -233,7 +233,7 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum SelfManageTargetDestination: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SelfManageTargetDestination: String, CustomStringConvertible, Codable, Sendable {
         case amazonElasticCloudComputeEC2 = "Amazon Elastic Cloud Compute (EC2)"
         case amazonElasticContainerServiceECS = "Amazon Elastic Container Service (ECS)"
         case amazonElasticKubernetesServiceEKS = "Amazon Elastic Kubernetes Service (EKS)"
@@ -241,7 +241,7 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServerCriteria: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServerCriteria: String, CustomStringConvertible, Codable, Sendable {
         case analysisStatus = "ANALYSIS_STATUS"
         case destination = "DESTINATION"
         case errorCategory = "ERROR_CATEGORY"
@@ -252,7 +252,7 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServerErrorCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServerErrorCategory: String, CustomStringConvertible, Codable, Sendable {
         case architectureError = "ARCHITECTURE_ERROR"
         case connectivityError = "CONNECTIVITY_ERROR"
         case credentialError = "CREDENTIAL_ERROR"
@@ -261,7 +261,7 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServerOsType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServerOsType: String, CustomStringConvertible, Codable, Sendable {
         case amazonLinux = "AmazonLinux"
         case endOfSupportWindowsServer = "EndOfSupportWindowsServer"
         case other = "Other"
@@ -270,20 +270,20 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum Severity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Severity: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum SrcCodeOrDbAnalysisStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SrcCodeOrDbAnalysisStatus: String, CustomStringConvertible, Codable, Sendable {
         case analysisFailed = "ANALYSIS_FAILED"
         case analysisPartialSuccess = "ANALYSIS_PARTIAL_SUCCESS"
         case analysisStarted = "ANALYSIS_STARTED"
@@ -294,7 +294,7 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum Strategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Strategy: String, CustomStringConvertible, Codable, Sendable {
         case refactor = "Refactor"
         case rehost = "Rehost"
         case relocate = "Relocate"
@@ -305,7 +305,7 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum StrategyRecommendation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StrategyRecommendation: String, CustomStringConvertible, Codable, Sendable {
         case notRecommended = "notRecommended"
         case potential = "potential"
         case recommended = "recommended"
@@ -313,7 +313,7 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetDatabaseEngine: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetDatabaseEngine: String, CustomStringConvertible, Codable, Sendable {
         case awsPostgresql = "AWS PostgreSQL"
         case amazonAurora = "Amazon Aurora"
         case db2LUW = "Db2 LUW"
@@ -327,7 +327,7 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetDestination: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetDestination: String, CustomStringConvertible, Codable, Sendable {
         case awsElasticBeanstalk = "AWS Elastic BeanStalk"
         case awsFargate = "AWS Fargate"
         case amazonDocumentdb = "Amazon DocumentDB"
@@ -345,7 +345,7 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransformationToolName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransformationToolName: String, CustomStringConvertible, Codable, Sendable {
         case app2Container = "App2Container"
         case applicationMigrationService = "Application Migration Service"
         case databaseMigrationService = "Database Migration Service"
@@ -359,21 +359,21 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
-    public enum VersionControl: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VersionControl: String, CustomStringConvertible, Codable, Sendable {
         case azureDevopsGit = "AZURE_DEVOPS_GIT"
         case github = "GITHUB"
         case githubEnterprise = "GITHUB_ENTERPRISE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VersionControlType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VersionControlType: String, CustomStringConvertible, Codable, Sendable {
         case azureDevopsGit = "AZURE_DEVOPS_GIT"
         case github = "GITHUB"
         case githubEnterprise = "GITHUB_ENTERPRISE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatabaseMigrationPreference: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum DatabaseMigrationPreference: AWSEncodableShape & AWSDecodableShape, Sendable {
         ///  Indicates whether you are interested in moving from one type of database to another. For example, from SQL Server to Amazon Aurora MySQL-Compatible Edition.
         case heterogeneous(Heterogeneous)
         ///  Indicates whether you are interested in moving to the same type of database into AWS. For example, from SQL Server in your environment to SQL Server on AWS.
@@ -433,7 +433,7 @@ extension MigrationHubStrategy {
         }
     }
 
-    public enum ManagementPreference: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum ManagementPreference: AWSEncodableShape & AWSDecodableShape, Sendable {
         ///  Indicates interest in solutions that are managed by AWS.
         case awsManagedResources(AwsManagedResources)
         ///  No specific preference.

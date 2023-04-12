@@ -21,26 +21,26 @@ import SotoCore
 extension RAM {
     // MARK: Enums
 
-    public enum ResourceOwner: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceOwner: String, CustomStringConvertible, Codable, Sendable {
         case _self = "SELF"
         case otherAccounts = "OTHER-ACCOUNTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceRegionScope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceRegionScope: String, CustomStringConvertible, Codable, Sendable {
         case global = "GLOBAL"
         case regional = "REGIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceRegionScopeFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceRegionScopeFilter: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case global = "GLOBAL"
         case regional = "REGIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceShareAssociationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceShareAssociationStatus: String, CustomStringConvertible, Codable, Sendable {
         case associated = "ASSOCIATED"
         case associating = "ASSOCIATING"
         case disassociated = "DISASSOCIATED"
@@ -49,20 +49,20 @@ extension RAM {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceShareAssociationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceShareAssociationType: String, CustomStringConvertible, Codable, Sendable {
         case principal = "PRINCIPAL"
         case resource = "RESOURCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceShareFeatureSet: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceShareFeatureSet: String, CustomStringConvertible, Codable, Sendable {
         case createdFromPolicy = "CREATED_FROM_POLICY"
         case promotingToStandard = "PROMOTING_TO_STANDARD"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceShareInvitationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceShareInvitationStatus: String, CustomStringConvertible, Codable, Sendable {
         case accepted = "ACCEPTED"
         case expired = "EXPIRED"
         case pending = "PENDING"
@@ -70,7 +70,7 @@ extension RAM {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceShareStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceShareStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -79,7 +79,7 @@ extension RAM {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case limitExceeded = "LIMIT_EXCEEDED"
         case pending = "PENDING"

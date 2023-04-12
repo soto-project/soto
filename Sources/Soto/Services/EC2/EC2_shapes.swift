@@ -21,7 +21,7 @@ import SotoCore
 extension EC2 {
     // MARK: Enums
 
-    public enum AcceleratorManufacturer: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AcceleratorManufacturer: String, CustomStringConvertible, Codable, Sendable {
         case amazonWebServices = "amazon-web-services"
         case amd = "amd"
         case nvidia = "nvidia"
@@ -29,7 +29,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum AcceleratorName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AcceleratorName: String, CustomStringConvertible, Codable, Sendable {
         case a100 = "a100"
         case inferentia = "inferentia"
         case k520 = "k520"
@@ -42,20 +42,20 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum AcceleratorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AcceleratorType: String, CustomStringConvertible, Codable, Sendable {
         case fpga = "fpga"
         case gpu = "gpu"
         case inference = "inference"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccountAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccountAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case defaultVpc = "default-vpc"
         case supportedPlatforms = "supported-platforms"
         public var description: String { return self.rawValue }
     }
 
-    public enum ActivityStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActivityStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "error"
         case fulfilled = "fulfilled"
         case pendingFulfillment = "pending_fulfillment"
@@ -63,31 +63,31 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum AddressAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AddressAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case domainName = "domain-name"
         public var description: String { return self.rawValue }
     }
 
-    public enum AddressFamily: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AddressFamily: String, CustomStringConvertible, Codable, Sendable {
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
-    public enum AddressTransferStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AddressTransferStatus: String, CustomStringConvertible, Codable, Sendable {
         case accepted = "accepted"
         case disabled = "disabled"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum Affinity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Affinity: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "default"
         case host = "host"
         public var description: String { return self.rawValue }
     }
 
-    public enum AllocationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AllocationState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case pending = "pending"
         case permanentFailure = "permanent-failure"
@@ -97,7 +97,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum AllocationStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AllocationStrategy: String, CustomStringConvertible, Codable, Sendable {
         case capacityOptimized = "capacityOptimized"
         case capacityOptimizedPrioritized = "capacityOptimizedPrioritized"
         case diversified = "diversified"
@@ -106,31 +106,31 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum AllocationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AllocationType: String, CustomStringConvertible, Codable, Sendable {
         case used = "used"
         public var description: String { return self.rawValue }
     }
 
-    public enum AllowsMultipleInstanceTypes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AllowsMultipleInstanceTypes: String, CustomStringConvertible, Codable, Sendable {
         case off = "off"
         case on = "on"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnalysisStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnalysisStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "failed"
         case running = "running"
         case succeeded = "succeeded"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplianceModeSupportValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplianceModeSupportValue: String, CustomStringConvertible, Codable, Sendable {
         case disable = "disable"
         case enable = "enable"
         public var description: String { return self.rawValue }
     }
 
-    public struct ArchitectureType: RawRepresentable, Equatable, Codable, _SotoSendable {
+    public struct ArchitectureType: RawRepresentable, Equatable, Codable, Sendable {
         public var rawValue: String
 
         public init(rawValue: String) {
@@ -144,7 +144,7 @@ extension EC2 {
         public static var x8664Mac: Self { .init(rawValue: "x86_64_mac") }
     }
 
-    public enum ArchitectureValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ArchitectureValues: String, CustomStringConvertible, Codable, Sendable {
         case arm64 = "arm64"
         case arm64Mac = "arm64_mac"
         case i386 = "i386"
@@ -153,12 +153,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum AssociatedNetworkType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssociatedNetworkType: String, CustomStringConvertible, Codable, Sendable {
         case vpc = "vpc"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssociationStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssociationStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case associated = "associated"
         case associating = "associating"
         case associationFailed = "association-failed"
@@ -167,7 +167,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum AttachmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AttachmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case attached = "attached"
         case attaching = "attaching"
         case detached = "detached"
@@ -175,32 +175,32 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoAcceptSharedAssociationsValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoAcceptSharedAssociationsValue: String, CustomStringConvertible, Codable, Sendable {
         case disable = "disable"
         case enable = "enable"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoAcceptSharedAttachmentsValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoAcceptSharedAttachmentsValue: String, CustomStringConvertible, Codable, Sendable {
         case disable = "disable"
         case enable = "enable"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoPlacement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoPlacement: String, CustomStringConvertible, Codable, Sendable {
         case off = "off"
         case on = "on"
         public var description: String { return self.rawValue }
     }
 
-    public enum AvailabilityZoneOptInStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AvailabilityZoneOptInStatus: String, CustomStringConvertible, Codable, Sendable {
         case notOptedIn = "not-opted-in"
         case optInNotRequired = "opt-in-not-required"
         case optedIn = "opted-in"
         public var description: String { return self.rawValue }
     }
 
-    public enum AvailabilityZoneState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AvailabilityZoneState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case impaired = "impaired"
         case information = "information"
@@ -208,14 +208,14 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BareMetal: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BareMetal: String, CustomStringConvertible, Codable, Sendable {
         case excluded = "excluded"
         case included = "included"
         case required = "required"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchState: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case cancelled = "cancelled"
         case cancelledRunning = "cancelled_running"
@@ -226,25 +226,25 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BgpStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BgpStatus: String, CustomStringConvertible, Codable, Sendable {
         case down = "down"
         case up = "up"
         public var description: String { return self.rawValue }
     }
 
-    public enum BootModeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BootModeType: String, CustomStringConvertible, Codable, Sendable {
         case legacyBios = "legacy-bios"
         case uefi = "uefi"
         public var description: String { return self.rawValue }
     }
 
-    public enum BootModeValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BootModeValues: String, CustomStringConvertible, Codable, Sendable {
         case legacyBios = "legacy-bios"
         case uefi = "uefi"
         public var description: String { return self.rawValue }
     }
 
-    public enum BundleTaskState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BundleTaskState: String, CustomStringConvertible, Codable, Sendable {
         case bundling = "bundling"
         case cancelling = "cancelling"
         case complete = "complete"
@@ -255,14 +255,14 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BurstablePerformance: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BurstablePerformance: String, CustomStringConvertible, Codable, Sendable {
         case excluded = "excluded"
         case included = "included"
         case required = "required"
         public var description: String { return self.rawValue }
     }
 
-    public enum ByoipCidrState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ByoipCidrState: String, CustomStringConvertible, Codable, Sendable {
         case advertised = "advertised"
         case deprovisioned = "deprovisioned"
         case failedDeprovision = "failed-deprovision"
@@ -274,7 +274,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum CancelBatchErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CancelBatchErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case fleetRequestIdDoesNotExist = "fleetRequestIdDoesNotExist"
         case fleetRequestIdMalformed = "fleetRequestIdMalformed"
         case fleetRequestNotInCancellableState = "fleetRequestNotInCancellableState"
@@ -282,7 +282,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum CancelSpotInstanceRequestState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CancelSpotInstanceRequestState: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case cancelled = "cancelled"
         case closed = "closed"
@@ -291,7 +291,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum CapacityReservationFleetState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CapacityReservationFleetState: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case cancelled = "cancelled"
         case cancelling = "cancelling"
@@ -304,7 +304,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum CapacityReservationInstancePlatform: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CapacityReservationInstancePlatform: String, CustomStringConvertible, Codable, Sendable {
         case linuxUnix = "Linux/UNIX"
         case linuxWithSqlServerEnterprise = "Linux with SQL Server Enterprise"
         case linuxWithSqlServerStandard = "Linux with SQL Server Standard"
@@ -325,13 +325,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum CapacityReservationPreference: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CapacityReservationPreference: String, CustomStringConvertible, Codable, Sendable {
         case none = "none"
         case open = "open"
         public var description: String { return self.rawValue }
     }
 
-    public enum CapacityReservationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CapacityReservationState: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case cancelled = "cancelled"
         case expired = "expired"
@@ -340,13 +340,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum CapacityReservationTenancy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CapacityReservationTenancy: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "default"
         case dedicated = "dedicated"
         public var description: String { return self.rawValue }
     }
 
-    public enum CarrierGatewayState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CarrierGatewayState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -354,20 +354,20 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientCertificateRevocationListStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClientCertificateRevocationListStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientVpnAuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClientVpnAuthenticationType: String, CustomStringConvertible, Codable, Sendable {
         case certificateAuthentication = "certificate-authentication"
         case directoryServiceAuthentication = "directory-service-authentication"
         case federatedAuthentication = "federated-authentication"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientVpnAuthorizationRuleStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClientVpnAuthorizationRuleStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case authorizing = "authorizing"
         case failed = "failed"
@@ -375,7 +375,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientVpnConnectionStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClientVpnConnectionStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case failedToTerminate = "failed-to-terminate"
         case terminated = "terminated"
@@ -383,13 +383,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientVpnEndpointAttributeStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClientVpnEndpointAttributeStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case applied = "applied"
         case applying = "applying"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientVpnEndpointStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClientVpnEndpointStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -397,7 +397,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientVpnRouteStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClientVpnRouteStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case creating = "creating"
         case deleting = "deleting"
@@ -405,29 +405,29 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionNotificationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionNotificationState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionNotificationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionNotificationType: String, CustomStringConvertible, Codable, Sendable {
         case topic = "Topic"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectivityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectivityType: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "private"
         case `public` = "public"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContainerFormat: String, CustomStringConvertible, Codable, Sendable {
         case ova = "ova"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConversionTaskState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConversionTaskState: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case cancelled = "cancelled"
         case cancelling = "cancelling"
@@ -435,48 +435,48 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum CopyTagsFromSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CopyTagsFromSource: String, CustomStringConvertible, Codable, Sendable {
         case volume = "volume"
         public var description: String { return self.rawValue }
     }
 
-    public enum CpuManufacturer: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CpuManufacturer: String, CustomStringConvertible, Codable, Sendable {
         case amazonWebServices = "amazon-web-services"
         case amd = "amd"
         case intel = "intel"
         public var description: String { return self.rawValue }
     }
 
-    public enum CurrencyCodeValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CurrencyCodeValues: String, CustomStringConvertible, Codable, Sendable {
         case usd = "USD"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatafeedSubscriptionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatafeedSubscriptionState: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
     }
 
-    public enum DefaultRouteTableAssociationValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DefaultRouteTableAssociationValue: String, CustomStringConvertible, Codable, Sendable {
         case disable = "disable"
         case enable = "enable"
         public var description: String { return self.rawValue }
     }
 
-    public enum DefaultRouteTablePropagationValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DefaultRouteTablePropagationValue: String, CustomStringConvertible, Codable, Sendable {
         case disable = "disable"
         case enable = "enable"
         public var description: String { return self.rawValue }
     }
 
-    public enum DefaultTargetCapacityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DefaultTargetCapacityType: String, CustomStringConvertible, Codable, Sendable {
         case onDemand = "on-demand"
         case spot = "spot"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeleteFleetErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeleteFleetErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case fleetIdDoesNotExist = "fleetIdDoesNotExist"
         case fleetIdMalformed = "fleetIdMalformed"
         case fleetNotInDeletableState = "fleetNotInDeletableState"
@@ -484,52 +484,52 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeleteQueuedReservedInstancesErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeleteQueuedReservedInstancesErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case reservedInstancesIdInvalid = "reserved-instances-id-invalid"
         case reservedInstancesNotInQueuedState = "reserved-instances-not-in-queued-state"
         case unexpectedError = "unexpected-error"
         public var description: String { return self.rawValue }
     }
 
-    public enum DestinationFileFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DestinationFileFormat: String, CustomStringConvertible, Codable, Sendable {
         case parquet = "parquet"
         case plainText = "plain-text"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceTrustProviderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceTrustProviderType: String, CustomStringConvertible, Codable, Sendable {
         case crowdstrike = "crowdstrike"
         case jamf = "jamf"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceType: String, CustomStringConvertible, Codable, Sendable {
         case ebs = "ebs"
         case instanceStore = "instance-store"
         public var description: String { return self.rawValue }
     }
 
-    public enum DiskImageFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DiskImageFormat: String, CustomStringConvertible, Codable, Sendable {
         case raw = "RAW"
         case vhd = "VHD"
         case vmdk = "VMDK"
         public var description: String { return self.rawValue }
     }
 
-    public enum DiskType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DiskType: String, CustomStringConvertible, Codable, Sendable {
         case hdd = "hdd"
         case ssd = "ssd"
         public var description: String { return self.rawValue }
     }
 
-    public enum DnsNameState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DnsNameState: String, CustomStringConvertible, Codable, Sendable {
         case failed = "failed"
         case pendingVerification = "pendingVerification"
         case verified = "verified"
         public var description: String { return self.rawValue }
     }
 
-    public enum DnsRecordIpType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DnsRecordIpType: String, CustomStringConvertible, Codable, Sendable {
         case dualstack = "dualstack"
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
@@ -537,76 +537,76 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum DnsSupportValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DnsSupportValue: String, CustomStringConvertible, Codable, Sendable {
         case disable = "disable"
         case enable = "enable"
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DomainType: String, CustomStringConvertible, Codable, Sendable {
         case standard = "standard"
         case vpc = "vpc"
         public var description: String { return self.rawValue }
     }
 
-    public enum DynamicRoutingValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DynamicRoutingValue: String, CustomStringConvertible, Codable, Sendable {
         case disable = "disable"
         case enable = "enable"
         public var description: String { return self.rawValue }
     }
 
-    public enum EbsEncryptionSupport: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EbsEncryptionSupport: String, CustomStringConvertible, Codable, Sendable {
         case supported = "supported"
         case unsupported = "unsupported"
         public var description: String { return self.rawValue }
     }
 
-    public enum EbsNvmeSupport: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EbsNvmeSupport: String, CustomStringConvertible, Codable, Sendable {
         case required = "required"
         case supported = "supported"
         case unsupported = "unsupported"
         public var description: String { return self.rawValue }
     }
 
-    public enum EbsOptimizedSupport: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EbsOptimizedSupport: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "default"
         case supported = "supported"
         case unsupported = "unsupported"
         public var description: String { return self.rawValue }
     }
 
-    public enum ElasticGpuState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ElasticGpuState: String, CustomStringConvertible, Codable, Sendable {
         case attached = "ATTACHED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ElasticGpuStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ElasticGpuStatus: String, CustomStringConvertible, Codable, Sendable {
         case impaired = "IMPAIRED"
         case ok = "OK"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnaSupport: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnaSupport: String, CustomStringConvertible, Codable, Sendable {
         case required = "required"
         case supported = "supported"
         case unsupported = "unsupported"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndDateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndDateType: String, CustomStringConvertible, Codable, Sendable {
         case limited = "limited"
         case unlimited = "unlimited"
         public var description: String { return self.rawValue }
     }
 
-    public enum EphemeralNvmeSupport: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EphemeralNvmeSupport: String, CustomStringConvertible, Codable, Sendable {
         case required = "required"
         case supported = "supported"
         case unsupported = "unsupported"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventCode: String, CustomStringConvertible, Codable, Sendable {
         case instanceReboot = "instance-reboot"
         case instanceRetirement = "instance-retirement"
         case instanceStop = "instance-stop"
@@ -615,7 +615,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
         case batchChange = "fleetRequestChange"
         case error = "error"
         case information = "information"
@@ -623,20 +623,20 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExcessCapacityTerminationPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExcessCapacityTerminationPolicy: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "default"
         case noTermination = "noTermination"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportEnvironment: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportEnvironment: String, CustomStringConvertible, Codable, Sendable {
         case citrix = "citrix"
         case microsoft = "microsoft"
         case vmware = "vmware"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportTaskState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportTaskState: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case cancelled = "cancelled"
         case cancelling = "cancelling"
@@ -644,12 +644,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum FastLaunchResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FastLaunchResourceType: String, CustomStringConvertible, Codable, Sendable {
         case snapshot = "snapshot"
         public var description: String { return self.rawValue }
     }
 
-    public enum FastLaunchStateCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FastLaunchStateCode: String, CustomStringConvertible, Codable, Sendable {
         case disabling = "disabling"
         case disablingFailed = "disabling-failed"
         case enabled = "enabled"
@@ -659,7 +659,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum FastSnapshotRestoreStateCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FastSnapshotRestoreStateCode: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case disabling = "disabling"
         case enabled = "enabled"
@@ -668,14 +668,14 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingsFound: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingsFound: String, CustomStringConvertible, Codable, Sendable {
         case `false` = "false"
         case `true` = "true"
         case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetActivityStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetActivityStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "error"
         case fulfilled = "fulfilled"
         case pendingFulfillment = "pending_fulfillment"
@@ -683,47 +683,47 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetCapacityReservationTenancy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetCapacityReservationTenancy: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "default"
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetCapacityReservationUsageStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetCapacityReservationUsageStrategy: String, CustomStringConvertible, Codable, Sendable {
         case useCapacityReservationsFirst = "use-capacity-reservations-first"
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetEventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetEventType: String, CustomStringConvertible, Codable, Sendable {
         case fleetChange = "fleet-change"
         case instanceChange = "instance-change"
         case serviceError = "service-error"
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetExcessCapacityTerminationPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetExcessCapacityTerminationPolicy: String, CustomStringConvertible, Codable, Sendable {
         case noTermination = "no-termination"
         case termination = "termination"
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetInstanceMatchCriteria: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetInstanceMatchCriteria: String, CustomStringConvertible, Codable, Sendable {
         case open = "open"
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetOnDemandAllocationStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetOnDemandAllocationStrategy: String, CustomStringConvertible, Codable, Sendable {
         case lowestPrice = "lowest-price"
         case prioritized = "prioritized"
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetReplacementStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetReplacementStrategy: String, CustomStringConvertible, Codable, Sendable {
         case launch = "launch"
         case launchBeforeTerminate = "launch-before-terminate"
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetStateCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetStateCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case deleted = "deleted"
         case deletedRunning = "deleted_running"
@@ -734,14 +734,14 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetType: String, CustomStringConvertible, Codable, Sendable {
         case instant = "instant"
         case maintain = "maintain"
         case request = "request"
         public var description: String { return self.rawValue }
     }
 
-    public enum FlowLogsResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FlowLogsResourceType: String, CustomStringConvertible, Codable, Sendable {
         case networkInterface = "NetworkInterface"
         case subnet = "Subnet"
         case transitGateway = "TransitGateway"
@@ -750,7 +750,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum FpgaImageAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FpgaImageAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case description = "description"
         case loadPermission = "loadPermission"
         case name = "name"
@@ -758,7 +758,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum FpgaImageStateCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FpgaImageStateCode: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case failed = "failed"
         case pending = "pending"
@@ -766,7 +766,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum GatewayAssociationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GatewayAssociationState: String, CustomStringConvertible, Codable, Sendable {
         case associated = "associated"
         case associating = "associating"
         case disassociating = "disassociating"
@@ -774,42 +774,42 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum GatewayType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GatewayType: String, CustomStringConvertible, Codable, Sendable {
         case ipsec1 = "ipsec.1"
         public var description: String { return self.rawValue }
     }
 
-    public enum HostRecovery: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HostRecovery: String, CustomStringConvertible, Codable, Sendable {
         case off = "off"
         case on = "on"
         public var description: String { return self.rawValue }
     }
 
-    public enum HostTenancy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HostTenancy: String, CustomStringConvertible, Codable, Sendable {
         case dedicated = "dedicated"
         case host = "host"
         public var description: String { return self.rawValue }
     }
 
-    public enum HostnameType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HostnameType: String, CustomStringConvertible, Codable, Sendable {
         case ipName = "ip-name"
         case resourceName = "resource-name"
         public var description: String { return self.rawValue }
     }
 
-    public enum HttpTokensState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HttpTokensState: String, CustomStringConvertible, Codable, Sendable {
         case optional = "optional"
         case required = "required"
         public var description: String { return self.rawValue }
     }
 
-    public enum HypervisorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HypervisorType: String, CustomStringConvertible, Codable, Sendable {
         case ovm = "ovm"
         case xen = "xen"
         public var description: String { return self.rawValue }
     }
 
-    public enum IamInstanceProfileAssociationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IamInstanceProfileAssociationState: String, CustomStringConvertible, Codable, Sendable {
         case associated = "associated"
         case associating = "associating"
         case disassociated = "disassociated"
@@ -817,13 +817,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum Igmpv2SupportValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Igmpv2SupportValue: String, CustomStringConvertible, Codable, Sendable {
         case disable = "disable"
         case enable = "enable"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case blockDeviceMapping = "blockDeviceMapping"
         case bootMode = "bootMode"
         case description = "description"
@@ -839,7 +839,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deregistered = "deregistered"
         case error = "error"
@@ -850,19 +850,19 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageTypeValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageTypeValues: String, CustomStringConvertible, Codable, Sendable {
         case kernel = "kernel"
         case machine = "machine"
         case ramdisk = "ramdisk"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImdsSupportValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImdsSupportValues: String, CustomStringConvertible, Codable, Sendable {
         case v20 = "v2.0"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case blockDeviceMapping = "blockDeviceMapping"
         case disableApiStop = "disableApiStop"
         case disableApiTermination = "disableApiTermination"
@@ -882,13 +882,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceAutoRecoveryState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceAutoRecoveryState: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "default"
         case disabled = "disabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceEventWindowState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceEventWindowState: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case creating = "creating"
         case deleted = "deleted"
@@ -896,68 +896,68 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceGeneration: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceGeneration: String, CustomStringConvertible, Codable, Sendable {
         case current = "current"
         case previous = "previous"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceHealthStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceHealthStatus: String, CustomStringConvertible, Codable, Sendable {
         case healthyStatus = "healthy"
         case unhealthyStatus = "unhealthy"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceInterruptionBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceInterruptionBehavior: String, CustomStringConvertible, Codable, Sendable {
         case hibernate = "hibernate"
         case stop = "stop"
         case terminate = "terminate"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case onDemand = "on-demand"
         case spot = "spot"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceLifecycleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceLifecycleType: String, CustomStringConvertible, Codable, Sendable {
         case scheduled = "scheduled"
         case spot = "spot"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceMatchCriteria: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceMatchCriteria: String, CustomStringConvertible, Codable, Sendable {
         case open = "open"
         case targeted = "targeted"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceMetadataEndpointState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceMetadataEndpointState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceMetadataOptionsState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceMetadataOptionsState: String, CustomStringConvertible, Codable, Sendable {
         case applied = "applied"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceMetadataProtocolState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceMetadataProtocolState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceMetadataTagsState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceMetadataTagsState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceStateName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceStateName: String, CustomStringConvertible, Codable, Sendable {
         case pending = "pending"
         case running = "running"
         case shuttingDown = "shutting-down"
@@ -967,13 +967,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceStorageEncryptionSupport: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceStorageEncryptionSupport: String, CustomStringConvertible, Codable, Sendable {
         case required = "required"
         case unsupported = "unsupported"
         public var description: String { return self.rawValue }
     }
 
-    public struct InstanceType: RawRepresentable, Equatable, Codable, _SotoSendable {
+    public struct InstanceType: RawRepresentable, Equatable, Codable, Sendable {
         public var rawValue: String
 
         public init(rawValue: String) {
@@ -1601,32 +1601,32 @@ extension EC2 {
         public static var z1dXlarge: Self { .init(rawValue: "z1d.xlarge") }
     }
 
-    public enum InstanceTypeHypervisor: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceTypeHypervisor: String, CustomStringConvertible, Codable, Sendable {
         case nitro = "nitro"
         case xen = "xen"
         public var description: String { return self.rawValue }
     }
 
-    public enum InterfacePermissionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InterfacePermissionType: String, CustomStringConvertible, Codable, Sendable {
         case eipAssociate = "EIP-ASSOCIATE"
         case instanceAttach = "INSTANCE-ATTACH"
         public var description: String { return self.rawValue }
     }
 
-    public enum InterfaceProtocolType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InterfaceProtocolType: String, CustomStringConvertible, Codable, Sendable {
         case gre = "GRE"
         case vlan = "VLAN"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpAddressType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable {
         case dualstack = "dualstack"
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamAddressHistoryResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamAddressHistoryResourceType: String, CustomStringConvertible, Codable, Sendable {
         case eip = "eip"
         case instance = "instance"
         case networkInterface = "network-interface"
@@ -1635,13 +1635,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamAssociatedResourceDiscoveryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamAssociatedResourceDiscoveryStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case notFound = "not-found"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamComplianceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamComplianceStatus: String, CustomStringConvertible, Codable, Sendable {
         case compliant = "compliant"
         case ignored = "ignored"
         case noncompliant = "noncompliant"
@@ -1649,28 +1649,28 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamDiscoveryFailureCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamDiscoveryFailureCode: String, CustomStringConvertible, Codable, Sendable {
         case assumeRoleFailure = "assume-role-failure"
         case throttlingFailure = "throttling-failure"
         case unauthorizedFailure = "unauthorized-failure"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamManagementState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamManagementState: String, CustomStringConvertible, Codable, Sendable {
         case ignored = "ignored"
         case managed = "managed"
         case unmanaged = "unmanaged"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamOverlapStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamOverlapStatus: String, CustomStringConvertible, Codable, Sendable {
         case ignored = "ignored"
         case nonoverlapping = "nonoverlapping"
         case overlapping = "overlapping"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamPoolAllocationResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamPoolAllocationResourceType: String, CustomStringConvertible, Codable, Sendable {
         case custom = "custom"
         case ec2PublicIpv4Pool = "ec2-public-ipv4-pool"
         case ipamPool = "ipam-pool"
@@ -1678,18 +1678,18 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamPoolAwsService: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamPoolAwsService: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "ec2"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamPoolCidrFailureCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamPoolCidrFailureCode: String, CustomStringConvertible, Codable, Sendable {
         case cidrNotAvailable = "cidr-not-available"
         case limitExceeded = "limit-exceeded"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamPoolCidrState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamPoolCidrState: String, CustomStringConvertible, Codable, Sendable {
         case deprovisioned = "deprovisioned"
         case failedDeprovision = "failed-deprovision"
         case failedImport = "failed-import"
@@ -1701,13 +1701,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamPoolPublicIpSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamPoolPublicIpSource: String, CustomStringConvertible, Codable, Sendable {
         case amazon = "amazon"
         case byoip = "byoip"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamPoolState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamPoolState: String, CustomStringConvertible, Codable, Sendable {
         case createComplete = "create-complete"
         case createFailed = "create-failed"
         case createInProgress = "create-in-progress"
@@ -1723,7 +1723,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamResourceDiscoveryAssociationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamResourceDiscoveryAssociationState: String, CustomStringConvertible, Codable, Sendable {
         case associateComplete = "associate-complete"
         case associateFailed = "associate-failed"
         case associateInProgress = "associate-in-progress"
@@ -1736,7 +1736,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamResourceDiscoveryState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamResourceDiscoveryState: String, CustomStringConvertible, Codable, Sendable {
         case createComplete = "create-complete"
         case createFailed = "create-failed"
         case createInProgress = "create-in-progress"
@@ -1752,7 +1752,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamResourceType: String, CustomStringConvertible, Codable, Sendable {
         case eip = "eip"
         case ipv6Pool = "ipv6-pool"
         case publicIpv4Pool = "public-ipv4-pool"
@@ -1761,7 +1761,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamScopeState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamScopeState: String, CustomStringConvertible, Codable, Sendable {
         case createComplete = "create-complete"
         case createFailed = "create-failed"
         case createInProgress = "create-in-progress"
@@ -1777,13 +1777,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamScopeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamScopeType: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "private"
         case `public` = "public"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpamState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpamState: String, CustomStringConvertible, Codable, Sendable {
         case createComplete = "create-complete"
         case createFailed = "create-failed"
         case createInProgress = "create-in-progress"
@@ -1799,31 +1799,31 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum Ipv6SupportValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Ipv6SupportValue: String, CustomStringConvertible, Codable, Sendable {
         case disable = "disable"
         case enable = "enable"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KeyFormat: String, CustomStringConvertible, Codable, Sendable {
         case pem = "pem"
         case ppk = "ppk"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KeyType: String, CustomStringConvertible, Codable, Sendable {
         case ed25519 = "ed25519"
         case rsa = "rsa"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchTemplateAutoRecoveryState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchTemplateAutoRecoveryState: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "default"
         case disabled = "disabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchTemplateErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchTemplateErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case launchTemplateIdDoesNotExist = "launchTemplateIdDoesNotExist"
         case launchTemplateIdMalformed = "launchTemplateIdMalformed"
         case launchTemplateNameDoesNotExist = "launchTemplateNameDoesNotExist"
@@ -1833,37 +1833,37 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchTemplateHttpTokensState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchTemplateHttpTokensState: String, CustomStringConvertible, Codable, Sendable {
         case optional = "optional"
         case required = "required"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchTemplateInstanceMetadataEndpointState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchTemplateInstanceMetadataEndpointState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchTemplateInstanceMetadataOptionsState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchTemplateInstanceMetadataOptionsState: String, CustomStringConvertible, Codable, Sendable {
         case applied = "applied"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchTemplateInstanceMetadataProtocolIpv6: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchTemplateInstanceMetadataProtocolIpv6: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchTemplateInstanceMetadataTagsState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchTemplateInstanceMetadataTagsState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListingState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListingState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case cancelled = "cancelled"
         case pending = "pending"
@@ -1871,7 +1871,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListingStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case cancelled = "cancelled"
         case closed = "closed"
@@ -1879,7 +1879,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum LocalGatewayRouteState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocalGatewayRouteState: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case blackhole = "blackhole"
         case deleted = "deleted"
@@ -1888,68 +1888,68 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum LocalGatewayRouteTableMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocalGatewayRouteTableMode: String, CustomStringConvertible, Codable, Sendable {
         case coip = "coip"
         case directVpcRouting = "direct-vpc-routing"
         public var description: String { return self.rawValue }
     }
 
-    public enum LocalGatewayRouteType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocalGatewayRouteType: String, CustomStringConvertible, Codable, Sendable {
         case `static` = "static"
         case propagated = "propagated"
         public var description: String { return self.rawValue }
     }
 
-    public enum LocalStorage: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocalStorage: String, CustomStringConvertible, Codable, Sendable {
         case excluded = "excluded"
         case included = "included"
         case required = "required"
         public var description: String { return self.rawValue }
     }
 
-    public enum LocalStorageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocalStorageType: String, CustomStringConvertible, Codable, Sendable {
         case hdd = "hdd"
         case ssd = "ssd"
         public var description: String { return self.rawValue }
     }
 
-    public enum LocationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocationType: String, CustomStringConvertible, Codable, Sendable {
         case availabilityZone = "availability-zone"
         case availabilityZoneId = "availability-zone-id"
         case region = "region"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogDestinationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogDestinationType: String, CustomStringConvertible, Codable, Sendable {
         case cloudWatchLogs = "cloud-watch-logs"
         case kinesisDataFirehose = "kinesis-data-firehose"
         case s3 = "s3"
         public var description: String { return self.rawValue }
     }
 
-    public enum MarketType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MarketType: String, CustomStringConvertible, Codable, Sendable {
         case spot = "spot"
         public var description: String { return self.rawValue }
     }
 
-    public enum MembershipType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MembershipType: String, CustomStringConvertible, Codable, Sendable {
         case `static` = "static"
         case igmp = "igmp"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricType: String, CustomStringConvertible, Codable, Sendable {
         case aggregateLatency = "aggregate-latency"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModifyAvailabilityZoneOptInStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModifyAvailabilityZoneOptInStatus: String, CustomStringConvertible, Codable, Sendable {
         case notOptedIn = "not-opted-in"
         case optedIn = "opted-in"
         public var description: String { return self.rawValue }
     }
 
-    public enum MonitoringState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MonitoringState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case disabling = "disabling"
         case enabled = "enabled"
@@ -1957,19 +1957,19 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum MoveStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MoveStatus: String, CustomStringConvertible, Codable, Sendable {
         case movingToVpc = "movingToVpc"
         case restoringToClassic = "restoringToClassic"
         public var description: String { return self.rawValue }
     }
 
-    public enum MulticastSupportValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MulticastSupportValue: String, CustomStringConvertible, Codable, Sendable {
         case disable = "disable"
         case enable = "enable"
         public var description: String { return self.rawValue }
     }
 
-    public enum NatGatewayState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NatGatewayState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -1978,7 +1978,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkInterfaceAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkInterfaceAttribute: String, CustomStringConvertible, Codable, Sendable {
         case attachment = "attachment"
         case description = "description"
         case groupSet = "groupSet"
@@ -1986,14 +1986,14 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkInterfaceCreationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkInterfaceCreationType: String, CustomStringConvertible, Codable, Sendable {
         case branch = "branch"
         case efa = "efa"
         case trunk = "trunk"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkInterfacePermissionStateCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkInterfacePermissionStateCode: String, CustomStringConvertible, Codable, Sendable {
         case granted = "granted"
         case pending = "pending"
         case revoked = "revoked"
@@ -2001,7 +2001,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkInterfaceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkInterfaceStatus: String, CustomStringConvertible, Codable, Sendable {
         case associated = "associated"
         case attaching = "attaching"
         case available = "available"
@@ -2010,7 +2010,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkInterfaceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkInterfaceType: String, CustomStringConvertible, Codable, Sendable {
         case apiGatewayManaged = "api_gateway_managed"
         case awsCodestarConnectionsManaged = "aws_codestar_connections_managed"
         case branch = "branch"
@@ -2031,13 +2031,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum OfferingClassType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OfferingClassType: String, CustomStringConvertible, Codable, Sendable {
         case convertible = "convertible"
         case standard = "standard"
         public var description: String { return self.rawValue }
     }
 
-    public enum OfferingTypeValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OfferingTypeValues: String, CustomStringConvertible, Codable, Sendable {
         case allUpfront = "All Upfront"
         case heavyUtilization = "Heavy Utilization"
         case lightUtilization = "Light Utilization"
@@ -2047,19 +2047,19 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum OnDemandAllocationStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OnDemandAllocationStrategy: String, CustomStringConvertible, Codable, Sendable {
         case lowestPrice = "lowestPrice"
         case prioritized = "prioritized"
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperationType: String, CustomStringConvertible, Codable, Sendable {
         case add = "add"
         case remove = "remove"
         public var description: String { return self.rawValue }
     }
 
-    public enum PartitionLoadFrequency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PartitionLoadFrequency: String, CustomStringConvertible, Codable, Sendable {
         case daily = "daily"
         case monthly = "monthly"
         case none = "none"
@@ -2067,19 +2067,19 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum PayerResponsibility: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PayerResponsibility: String, CustomStringConvertible, Codable, Sendable {
         case serviceOwner = "ServiceOwner"
         public var description: String { return self.rawValue }
     }
 
-    public enum PaymentOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PaymentOption: String, CustomStringConvertible, Codable, Sendable {
         case allUpfront = "AllUpfront"
         case noUpfront = "NoUpfront"
         case partialUpfront = "PartialUpfront"
         public var description: String { return self.rawValue }
     }
 
-    public enum PeriodType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PeriodType: String, CustomStringConvertible, Codable, Sendable {
         case fifteenMinutes = "fifteen-minutes"
         case fiveMinutes = "five-minutes"
         case oneDay = "one-day"
@@ -2089,12 +2089,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum PermissionGroup: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PermissionGroup: String, CustomStringConvertible, Codable, Sendable {
         case all = "all"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementGroupState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlacementGroupState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -2102,26 +2102,26 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementGroupStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlacementGroupStrategy: String, CustomStringConvertible, Codable, Sendable {
         case cluster = "cluster"
         case partition = "partition"
         case spread = "spread"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlacementStrategy: String, CustomStringConvertible, Codable, Sendable {
         case cluster = "cluster"
         case partition = "partition"
         case spread = "spread"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlatformValues: String, CustomStringConvertible, Codable, Sendable {
         case windows = "windows"
         public var description: String { return self.rawValue }
     }
 
-    public enum PrefixListState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PrefixListState: String, CustomStringConvertible, Codable, Sendable {
         case createComplete = "create-complete"
         case createFailed = "create-failed"
         case createInProgress = "create-in-progress"
@@ -2137,7 +2137,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum PrincipalType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable {
         case account = "Account"
         case all = "All"
         case organizationUnit = "OrganizationUnit"
@@ -2147,18 +2147,18 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProductCodeValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProductCodeValues: String, CustomStringConvertible, Codable, Sendable {
         case devpay = "devpay"
         case marketplace = "marketplace"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtocolValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProtocolValue: String, CustomStringConvertible, Codable, Sendable {
         case gre = "gre"
         public var description: String { return self.rawValue }
     }
 
-    public enum RIProductDescription: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RIProductDescription: String, CustomStringConvertible, Codable, Sendable {
         case linuxUNIX = "Linux/UNIX"
         case linuxUNIXAmazonVPC = "Linux/UNIX (Amazon VPC)"
         case windows = "Windows"
@@ -2166,12 +2166,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecurringChargeFrequency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecurringChargeFrequency: String, CustomStringConvertible, Codable, Sendable {
         case hourly = "Hourly"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplaceRootVolumeTaskState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplaceRootVolumeTaskState: String, CustomStringConvertible, Codable, Sendable {
         case failed = "failed"
         case failedDetached = "failed-detached"
         case failing = "failing"
@@ -2181,13 +2181,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplacementStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplacementStrategy: String, CustomStringConvertible, Codable, Sendable {
         case launch = "launch"
         case launchBeforeTerminate = "launch-before-terminate"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportInstanceReasonCodes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportInstanceReasonCodes: String, CustomStringConvertible, Codable, Sendable {
         case instanceStuckInState = "instance-stuck-in-state"
         case notAcceptingCredentials = "not-accepting-credentials"
         case other = "other"
@@ -2200,13 +2200,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportStatusType: String, CustomStringConvertible, Codable, Sendable {
         case impaired = "impaired"
         case ok = "ok"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservationState: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case paymentFailed = "payment-failed"
         case paymentPending = "payment-pending"
@@ -2214,7 +2214,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservedInstanceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservedInstanceState: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case paymentFailed = "payment-failed"
         case paymentPending = "payment-pending"
@@ -2224,17 +2224,17 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResetFpgaImageAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResetFpgaImageAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case loadPermission = "loadPermission"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResetImageAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResetImageAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case launchPermission = "launchPermission"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case capacityReservation = "capacity-reservation"
         case capacityReservationFleet = "capacity-reservation-fleet"
         case carrierGateway = "carrier-gateway"
@@ -2323,26 +2323,26 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum RootDeviceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RootDeviceType: String, CustomStringConvertible, Codable, Sendable {
         case ebs = "ebs"
         case instanceStore = "instance-store"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteOrigin: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RouteOrigin: String, CustomStringConvertible, Codable, Sendable {
         case createRoute = "CreateRoute"
         case createRouteTable = "CreateRouteTable"
         case enableVgwRoutePropagation = "EnableVgwRoutePropagation"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RouteState: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case blackhole = "blackhole"
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteTableAssociationStateCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RouteTableAssociationStateCode: String, CustomStringConvertible, Codable, Sendable {
         case associated = "associated"
         case associating = "associating"
         case disassociated = "disassociated"
@@ -2351,31 +2351,31 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuleAction: String, CustomStringConvertible, Codable, Sendable {
         case allow = "allow"
         case deny = "deny"
         public var description: String { return self.rawValue }
     }
 
-    public enum Scope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scope: String, CustomStringConvertible, Codable, Sendable {
         case availabilityZone = "Availability Zone"
         case regional = "Region"
         public var description: String { return self.rawValue }
     }
 
-    public enum SelfServicePortal: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SelfServicePortal: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceConnectivityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceConnectivityType: String, CustomStringConvertible, Codable, Sendable {
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceState: String, CustomStringConvertible, Codable, Sendable {
         case available = "Available"
         case deleted = "Deleted"
         case deleting = "Deleting"
@@ -2384,26 +2384,26 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceType: String, CustomStringConvertible, Codable, Sendable {
         case gateway = "Gateway"
         case gatewayLoadBalancer = "GatewayLoadBalancer"
         case interface = "Interface"
         public var description: String { return self.rawValue }
     }
 
-    public enum ShutdownBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ShutdownBehavior: String, CustomStringConvertible, Codable, Sendable {
         case stop = "stop"
         case terminate = "terminate"
         public var description: String { return self.rawValue }
     }
 
-    public enum SnapshotAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SnapshotAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case createVolumePermission = "createVolumePermission"
         case productCodes = "productCodes"
         public var description: String { return self.rawValue }
     }
 
-    public enum SnapshotState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SnapshotState: String, CustomStringConvertible, Codable, Sendable {
         case completed = "completed"
         case error = "error"
         case pending = "pending"
@@ -2412,7 +2412,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SpotAllocationStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SpotAllocationStrategy: String, CustomStringConvertible, Codable, Sendable {
         case capacityOptimized = "capacity-optimized"
         case capacityOptimizedPrioritized = "capacity-optimized-prioritized"
         case diversified = "diversified"
@@ -2421,14 +2421,14 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SpotInstanceInterruptionBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SpotInstanceInterruptionBehavior: String, CustomStringConvertible, Codable, Sendable {
         case hibernate = "hibernate"
         case stop = "stop"
         case terminate = "terminate"
         public var description: String { return self.rawValue }
     }
 
-    public enum SpotInstanceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SpotInstanceState: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case cancelled = "cancelled"
         case closed = "closed"
@@ -2437,19 +2437,19 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SpotInstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SpotInstanceType: String, CustomStringConvertible, Codable, Sendable {
         case oneTime = "one-time"
         case persistent = "persistent"
         public var description: String { return self.rawValue }
     }
 
-    public enum SpreadLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SpreadLevel: String, CustomStringConvertible, Codable, Sendable {
         case host = "host"
         case rack = "rack"
         public var description: String { return self.rawValue }
     }
 
-    public enum State: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum State: String, CustomStringConvertible, Codable, Sendable {
         case available = "Available"
         case deleted = "Deleted"
         case deleting = "Deleting"
@@ -2461,30 +2461,30 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum StaticSourcesSupportValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StaticSourcesSupportValue: String, CustomStringConvertible, Codable, Sendable {
         case disable = "disable"
         case enable = "enable"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatisticType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatisticType: String, CustomStringConvertible, Codable, Sendable {
         case p50 = "p50"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case inClassic = "InClassic"
         case inVpc = "InVpc"
         case moveInProgress = "MoveInProgress"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatusName: String, CustomStringConvertible, Codable, Sendable {
         case reachability = "reachability"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatusType: String, CustomStringConvertible, Codable, Sendable {
         case failed = "failed"
         case initializing = "initializing"
         case insufficientData = "insufficient-data"
@@ -2492,13 +2492,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageTier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageTier: String, CustomStringConvertible, Codable, Sendable {
         case archive = "archive"
         case standard = "standard"
         public var description: String { return self.rawValue }
     }
 
-    public enum SubnetCidrBlockStateCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SubnetCidrBlockStateCode: String, CustomStringConvertible, Codable, Sendable {
         case associated = "associated"
         case associating = "associating"
         case disassociated = "disassociated"
@@ -2508,19 +2508,19 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SubnetCidrReservationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SubnetCidrReservationType: String, CustomStringConvertible, Codable, Sendable {
         case explicit = "explicit"
         case prefix = "prefix"
         public var description: String { return self.rawValue }
     }
 
-    public enum SubnetState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SubnetState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum SummaryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SummaryStatus: String, CustomStringConvertible, Codable, Sendable {
         case impaired = "impaired"
         case initializing = "initializing"
         case insufficientData = "insufficient-data"
@@ -2529,32 +2529,32 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetCapacityUnitType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetCapacityUnitType: String, CustomStringConvertible, Codable, Sendable {
         case memoryMib = "memory-mib"
         case units = "units"
         case vcpu = "vcpu"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetStorageTier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetStorageTier: String, CustomStringConvertible, Codable, Sendable {
         case archive = "archive"
         public var description: String { return self.rawValue }
     }
 
-    public enum TelemetryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TelemetryStatus: String, CustomStringConvertible, Codable, Sendable {
         case down = "DOWN"
         case up = "UP"
         public var description: String { return self.rawValue }
     }
 
-    public enum Tenancy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Tenancy: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "default"
         case dedicated = "dedicated"
         case host = "host"
         public var description: String { return self.rawValue }
     }
 
-    public enum TieringOperationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TieringOperationStatus: String, CustomStringConvertible, Codable, Sendable {
         case archivalCompleted = "archival-completed"
         case archivalFailed = "archival-failed"
         case archivalInProgress = "archival-in-progress"
@@ -2567,18 +2567,18 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TpmSupportValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TpmSupportValues: String, CustomStringConvertible, Codable, Sendable {
         case v20 = "v2.0"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrafficDirection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrafficDirection: String, CustomStringConvertible, Codable, Sendable {
         case egress = "egress"
         case ingress = "ingress"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrafficMirrorFilterRuleField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrafficMirrorFilterRuleField: String, CustomStringConvertible, Codable, Sendable {
         case `protocol` = "protocol"
         case description = "description"
         case destinationPortRange = "destination-port-range"
@@ -2586,39 +2586,39 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TrafficMirrorNetworkService: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrafficMirrorNetworkService: String, CustomStringConvertible, Codable, Sendable {
         case amazonDns = "amazon-dns"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrafficMirrorRuleAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrafficMirrorRuleAction: String, CustomStringConvertible, Codable, Sendable {
         case accept = "accept"
         case reject = "reject"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrafficMirrorSessionField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrafficMirrorSessionField: String, CustomStringConvertible, Codable, Sendable {
         case description = "description"
         case packetLength = "packet-length"
         case virtualNetworkId = "virtual-network-id"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrafficMirrorTargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrafficMirrorTargetType: String, CustomStringConvertible, Codable, Sendable {
         case gatewayLoadBalancerEndpoint = "gateway-load-balancer-endpoint"
         case networkInterface = "network-interface"
         case networkLoadBalancer = "network-load-balancer"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrafficType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrafficType: String, CustomStringConvertible, Codable, Sendable {
         case accept = "ACCEPT"
         case all = "ALL"
         case reject = "REJECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayAssociationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayAssociationState: String, CustomStringConvertible, Codable, Sendable {
         case associated = "associated"
         case associating = "associating"
         case disassociated = "disassociated"
@@ -2626,7 +2626,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayAttachmentResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayAttachmentResourceType: String, CustomStringConvertible, Codable, Sendable {
         case connect = "connect"
         case directConnectGateway = "direct-connect-gateway"
         case peering = "peering"
@@ -2636,7 +2636,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayAttachmentState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayAttachmentState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -2653,7 +2653,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayConnectPeerState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayConnectPeerState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -2661,7 +2661,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayMulitcastDomainAssociationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayMulitcastDomainAssociationState: String, CustomStringConvertible, Codable, Sendable {
         case associated = "associated"
         case associating = "associating"
         case disassociated = "disassociated"
@@ -2672,7 +2672,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayMulticastDomainState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayMulticastDomainState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -2680,7 +2680,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayPolicyTableState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayPolicyTableState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -2688,7 +2688,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayPrefixListReferenceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayPrefixListReferenceState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleting = "deleting"
         case modifying = "modifying"
@@ -2696,7 +2696,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayPropagationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayPropagationState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case disabling = "disabling"
         case enabled = "enabled"
@@ -2704,7 +2704,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayRouteState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayRouteState: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case blackhole = "blackhole"
         case deleted = "deleted"
@@ -2713,13 +2713,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayRouteTableAnnouncementDirection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayRouteTableAnnouncementDirection: String, CustomStringConvertible, Codable, Sendable {
         case incoming = "incoming"
         case outgoing = "outgoing"
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayRouteTableAnnouncementState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayRouteTableAnnouncementState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -2729,7 +2729,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayRouteTableState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayRouteTableState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -2737,13 +2737,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayRouteType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayRouteType: String, CustomStringConvertible, Codable, Sendable {
         case `static` = "static"
         case propagated = "propagated"
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitGatewayState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitGatewayState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -2752,25 +2752,25 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransportProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransportProtocol: String, CustomStringConvertible, Codable, Sendable {
         case tcp = "tcp"
         case udp = "udp"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrustProviderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrustProviderType: String, CustomStringConvertible, Codable, Sendable {
         case device = "device"
         case user = "user"
         public var description: String { return self.rawValue }
     }
 
-    public enum TunnelInsideIpVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TunnelInsideIpVersion: String, CustomStringConvertible, Codable, Sendable {
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
-    public enum UnlimitedSupportedInstanceFamily: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UnlimitedSupportedInstanceFamily: String, CustomStringConvertible, Codable, Sendable {
         case t2 = "t2"
         case t3 = "t3"
         case t3a = "t3a"
@@ -2778,7 +2778,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum UnsuccessfulInstanceCreditSpecificationErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UnsuccessfulInstanceCreditSpecificationErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case incorrectInstanceState = "IncorrectInstanceState"
         case instanceCreditSpecificationNotSupported = "InstanceCreditSpecification.NotSupported"
         case instanceNotFound = "InvalidInstanceID.NotFound"
@@ -2786,30 +2786,30 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageClassType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageClassType: String, CustomStringConvertible, Codable, Sendable {
         case onDemand = "on-demand"
         case spot = "spot"
         public var description: String { return self.rawValue }
     }
 
-    public enum UserTrustProviderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UserTrustProviderType: String, CustomStringConvertible, Codable, Sendable {
         case iamIdentityCenter = "iam-identity-center"
         case oidc = "oidc"
         public var description: String { return self.rawValue }
     }
 
-    public enum VerifiedAccessEndpointAttachmentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VerifiedAccessEndpointAttachmentType: String, CustomStringConvertible, Codable, Sendable {
         case vpc = "vpc"
         public var description: String { return self.rawValue }
     }
 
-    public enum VerifiedAccessEndpointProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VerifiedAccessEndpointProtocol: String, CustomStringConvertible, Codable, Sendable {
         case http = "http"
         case https = "https"
         public var description: String { return self.rawValue }
     }
 
-    public enum VerifiedAccessEndpointStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VerifiedAccessEndpointStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -2818,25 +2818,25 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum VerifiedAccessEndpointType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VerifiedAccessEndpointType: String, CustomStringConvertible, Codable, Sendable {
         case loadBalancer = "load-balancer"
         case networkInterface = "network-interface"
         public var description: String { return self.rawValue }
     }
 
-    public enum VerifiedAccessLogDeliveryStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VerifiedAccessLogDeliveryStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case failed = "failed"
         case success = "success"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualizationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VirtualizationType: String, CustomStringConvertible, Codable, Sendable {
         case hvm = "hvm"
         case paravirtual = "paravirtual"
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeAttachmentState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VolumeAttachmentState: String, CustomStringConvertible, Codable, Sendable {
         case attached = "attached"
         case attaching = "attaching"
         case busy = "busy"
@@ -2845,13 +2845,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VolumeAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case autoEnableIO = "autoEnableIO"
         case productCodes = "productCodes"
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeModificationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VolumeModificationState: String, CustomStringConvertible, Codable, Sendable {
         case completed = "completed"
         case failed = "failed"
         case modifying = "modifying"
@@ -2859,7 +2859,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VolumeState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case creating = "creating"
         case deleted = "deleted"
@@ -2869,20 +2869,20 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeStatusInfoStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VolumeStatusInfoStatus: String, CustomStringConvertible, Codable, Sendable {
         case impaired = "impaired"
         case insufficientData = "insufficient-data"
         case ok = "ok"
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeStatusName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VolumeStatusName: String, CustomStringConvertible, Codable, Sendable {
         case ioEnabled = "io-enabled"
         case ioPerformance = "io-performance"
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VolumeType: String, CustomStringConvertible, Codable, Sendable {
         case gp2 = "gp2"
         case gp3 = "gp3"
         case io1 = "io1"
@@ -2893,14 +2893,14 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpcAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case enableDnsHostnames = "enableDnsHostnames"
         case enableDnsSupport = "enableDnsSupport"
         case enableNetworkAddressUsageMetrics = "enableNetworkAddressUsageMetrics"
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcCidrBlockStateCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpcCidrBlockStateCode: String, CustomStringConvertible, Codable, Sendable {
         case associated = "associated"
         case associating = "associating"
         case disassociated = "disassociated"
@@ -2910,14 +2910,14 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcEndpointType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpcEndpointType: String, CustomStringConvertible, Codable, Sendable {
         case gateway = "Gateway"
         case gatewayLoadBalancer = "GatewayLoadBalancer"
         case interface = "Interface"
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcPeeringConnectionStateReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpcPeeringConnectionStateReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -2930,29 +2930,29 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpcState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcTenancy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpcTenancy: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "default"
         public var description: String { return self.rawValue }
     }
 
-    public enum VpnEcmpSupportValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpnEcmpSupportValue: String, CustomStringConvertible, Codable, Sendable {
         case disable = "disable"
         case enable = "enable"
         public var description: String { return self.rawValue }
     }
 
-    public enum VpnProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpnProtocol: String, CustomStringConvertible, Codable, Sendable {
         case openvpn = "openvpn"
         public var description: String { return self.rawValue }
     }
 
-    public enum VpnState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpnState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
@@ -2960,12 +2960,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum VpnStaticRouteSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpnStaticRouteSource: String, CustomStringConvertible, Codable, Sendable {
         case `static` = "Static"
         public var description: String { return self.rawValue }
     }
 
-    public enum WeekDay: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WeekDay: String, CustomStringConvertible, Codable, Sendable {
         case friday = "friday"
         case monday = "monday"
         case saturday = "saturday"
@@ -2976,7 +2976,7 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable {
         case tcp = "tcp"
         case udp = "udp"
         public var description: String { return self.rawValue }

@@ -21,7 +21,7 @@ import SotoCore
 extension Finspace {
     // MARK: Enums
 
-    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case createRequested = "CREATE_REQUESTED"
         case creating = "CREATING"
@@ -35,7 +35,7 @@ extension Finspace {
         public var description: String { return self.rawValue }
     }
 
-    public enum FederationMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FederationMode: String, CustomStringConvertible, Codable, Sendable {
         case federated = "FEDERATED"
         case local = "LOCAL"
         public var description: String { return self.rawValue }

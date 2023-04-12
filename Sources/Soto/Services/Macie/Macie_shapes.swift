@@ -21,12 +21,12 @@ import SotoCore
 extension Macie {
     // MARK: Enums
 
-    public enum S3ContinuousClassificationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3ContinuousClassificationType: String, CustomStringConvertible, Codable, Sendable {
         case full = "FULL"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3OneTimeClassificationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3OneTimeClassificationType: String, CustomStringConvertible, Codable, Sendable {
         case full = "FULL"
         case none = "NONE"
         public var description: String { return self.rawValue }

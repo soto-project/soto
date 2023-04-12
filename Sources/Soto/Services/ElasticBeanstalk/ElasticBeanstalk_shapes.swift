@@ -21,14 +21,14 @@ import SotoCore
 extension ElasticBeanstalk {
     // MARK: Enums
 
-    public enum ActionHistoryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionHistoryStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case unknown = "Unknown"
         public var description: String { return self.rawValue }
     }
 
-    public enum ActionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionStatus: String, CustomStringConvertible, Codable, Sendable {
         case pending = "Pending"
         case running = "Running"
         case scheduled = "Scheduled"
@@ -36,14 +36,14 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum ActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionType: String, CustomStringConvertible, Codable, Sendable {
         case instanceRefresh = "InstanceRefresh"
         case platformUpdate = "PlatformUpdate"
         case unknown = "Unknown"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationVersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationVersionStatus: String, CustomStringConvertible, Codable, Sendable {
         case building = "Building"
         case failed = "Failed"
         case processed = "Processed"
@@ -52,27 +52,27 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComputeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComputeType: String, CustomStringConvertible, Codable, Sendable {
         case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
         case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
         case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationDeploymentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationDeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
         case deployed = "deployed"
         case failed = "failed"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationOptionValueType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationOptionValueType: String, CustomStringConvertible, Codable, Sendable {
         case list = "List"
         case scalar = "Scalar"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentHealth: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentHealth: String, CustomStringConvertible, Codable, Sendable {
         case green = "Green"
         case grey = "Grey"
         case red = "Red"
@@ -80,7 +80,7 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentHealthAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentHealthAttribute: String, CustomStringConvertible, Codable, Sendable {
         case all = "All"
         case applicationMetrics = "ApplicationMetrics"
         case causes = "Causes"
@@ -92,7 +92,7 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentHealthStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentHealthStatus: String, CustomStringConvertible, Codable, Sendable {
         case degraded = "Degraded"
         case info = "Info"
         case noData = "NoData"
@@ -105,13 +105,13 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentInfoType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentInfoType: String, CustomStringConvertible, Codable, Sendable {
         case bundle = "bundle"
         case tail = "tail"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case aborting = "Aborting"
         case launching = "Launching"
         case linkingFrom = "LinkingFrom"
@@ -123,7 +123,7 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventSeverity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventSeverity: String, CustomStringConvertible, Codable, Sendable {
         case debug = "DEBUG"
         case error = "ERROR"
         case fatal = "FATAL"
@@ -133,7 +133,7 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailureType: String, CustomStringConvertible, Codable, Sendable {
         case cancellationFailed = "CancellationFailed"
         case internalFailure = "InternalFailure"
         case invalidEnvironmentState = "InvalidEnvironmentState"
@@ -144,7 +144,7 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstancesHealthAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstancesHealthAttribute: String, CustomStringConvertible, Codable, Sendable {
         case all = "All"
         case applicationMetrics = "ApplicationMetrics"
         case availabilityZone = "AvailabilityZone"
@@ -159,7 +159,7 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlatformStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "Creating"
         case deleted = "Deleted"
         case deleting = "Deleting"
@@ -168,19 +168,19 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceRepository: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceRepository: String, CustomStringConvertible, Codable, Sendable {
         case codeCommit = "CodeCommit"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
         case git = "Git"
         case zip = "Zip"
         public var description: String { return self.rawValue }
     }
 
-    public enum ValidationSeverity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ValidationSeverity: String, CustomStringConvertible, Codable, Sendable {
         case error = "error"
         case warning = "warning"
         public var description: String { return self.rawValue }

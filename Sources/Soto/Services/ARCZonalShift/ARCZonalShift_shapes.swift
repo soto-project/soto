@@ -21,13 +21,13 @@ import SotoCore
 extension ARCZonalShift {
     // MARK: Enums
 
-    public enum AppliedStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppliedStatus: String, CustomStringConvertible, Codable, Sendable {
         case applied = "APPLIED"
         case notApplied = "NOT_APPLIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ZonalShiftStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ZonalShiftStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case canceled = "CANCELED"
         case expired = "EXPIRED"

@@ -21,13 +21,13 @@ import SotoCore
 extension OpenSearchServerless {
     // MARK: Enums
 
-    public enum AccessPolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessPolicyType: String, CustomStringConvertible, Codable, Sendable {
         /// data policy type
         case data = "data"
         public var description: String { return self.rawValue }
     }
 
-    public enum CollectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CollectionStatus: String, CustomStringConvertible, Codable, Sendable {
         /// Collection resource is ready to use
         case active = "ACTIVE"
         /// Creating collection resource
@@ -39,7 +39,7 @@ extension OpenSearchServerless {
         public var description: String { return self.rawValue }
     }
 
-    public enum CollectionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CollectionType: String, CustomStringConvertible, Codable, Sendable {
         /// Search collection type
         case search = "SEARCH"
         /// Timeseries collection type
@@ -47,13 +47,13 @@ extension OpenSearchServerless {
         public var description: String { return self.rawValue }
     }
 
-    public enum SecurityConfigType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SecurityConfigType: String, CustomStringConvertible, Codable, Sendable {
         /// saml provider
         case saml = "saml"
         public var description: String { return self.rawValue }
     }
 
-    public enum SecurityPolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SecurityPolicyType: String, CustomStringConvertible, Codable, Sendable {
         /// encryption policy type
         case encryption = "encryption"
         /// network policy type
@@ -61,7 +61,7 @@ extension OpenSearchServerless {
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcEndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpcEndpointStatus: String, CustomStringConvertible, Codable, Sendable {
         /// VPCEndpoint resource is ready to use
         case active = "ACTIVE"
         /// Deleting VPCEndpoint resource

@@ -21,7 +21,7 @@ import SotoCore
 extension AppConfig {
     // MARK: Enums
 
-    public enum ActionPoint: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionPoint: String, CustomStringConvertible, Codable, Sendable {
         case onDeploymentBaking = "ON_DEPLOYMENT_BAKING"
         case onDeploymentComplete = "ON_DEPLOYMENT_COMPLETE"
         case onDeploymentRolledBack = "ON_DEPLOYMENT_ROLLED_BACK"
@@ -32,7 +32,7 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentEventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentEventType: String, CustomStringConvertible, Codable, Sendable {
         case bakeTimeStarted = "BAKE_TIME_STARTED"
         case deploymentCompleted = "DEPLOYMENT_COMPLETED"
         case deploymentStarted = "DEPLOYMENT_STARTED"
@@ -42,7 +42,7 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentState: String, CustomStringConvertible, Codable, Sendable {
         case baking = "BAKING"
         case complete = "COMPLETE"
         case deploying = "DEPLOYING"
@@ -52,7 +52,7 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentState: String, CustomStringConvertible, Codable, Sendable {
         case deploying = "DEPLOYING"
         case readyForDeployment = "READY_FOR_DEPLOYMENT"
         case rolledBack = "ROLLED_BACK"
@@ -60,19 +60,19 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
-    public enum GrowthType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GrowthType: String, CustomStringConvertible, Codable, Sendable {
         case exponential = "EXPONENTIAL"
         case linear = "LINEAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicateTo: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicateTo: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case ssmDocument = "SSM_DOCUMENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TriggeredBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TriggeredBy: String, CustomStringConvertible, Codable, Sendable {
         case appconfig = "APPCONFIG"
         case cloudwatchAlarm = "CLOUDWATCH_ALARM"
         case internalError = "INTERNAL_ERROR"
@@ -80,7 +80,7 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
-    public enum ValidatorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ValidatorType: String, CustomStringConvertible, Codable, Sendable {
         case jsonSchema = "JSON_SCHEMA"
         case lambda = "LAMBDA"
         public var description: String { return self.rawValue }

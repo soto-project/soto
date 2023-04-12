@@ -21,46 +21,46 @@ import SotoCore
 extension CodeBuild {
     // MARK: Enums
 
-    public enum ArtifactNamespace: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ArtifactNamespace: String, CustomStringConvertible, Codable, Sendable {
         case buildId = "BUILD_ID"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactPackaging: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ArtifactPackaging: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case zip = "ZIP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactsType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ArtifactsType: String, CustomStringConvertible, Codable, Sendable {
         case codepipeline = "CODEPIPELINE"
         case noArtifacts = "NO_ARTIFACTS"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthType: String, CustomStringConvertible, Codable, Sendable {
         case basicAuth = "BASIC_AUTH"
         case oauth = "OAUTH"
         case personalAccessToken = "PERSONAL_ACCESS_TOKEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchReportModeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchReportModeType: String, CustomStringConvertible, Codable, Sendable {
         case reportAggregatedBatch = "REPORT_AGGREGATED_BATCH"
         case reportIndividualBuilds = "REPORT_INDIVIDUAL_BUILDS"
         public var description: String { return self.rawValue }
     }
 
-    public enum BucketOwnerAccess: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BucketOwnerAccess: String, CustomStringConvertible, Codable, Sendable {
         case full = "FULL"
         case none = "NONE"
         case readOnly = "READ_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum BuildBatchPhaseType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BuildBatchPhaseType: String, CustomStringConvertible, Codable, Sendable {
         case combineArtifacts = "COMBINE_ARTIFACTS"
         case downloadBatchspec = "DOWNLOAD_BATCHSPEC"
         case failed = "FAILED"
@@ -71,7 +71,7 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum BuildPhaseType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BuildPhaseType: String, CustomStringConvertible, Codable, Sendable {
         case build = "BUILD"
         case completed = "COMPLETED"
         case downloadSource = "DOWNLOAD_SOURCE"
@@ -86,21 +86,21 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum CacheMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CacheMode: String, CustomStringConvertible, Codable, Sendable {
         case localCustomCache = "LOCAL_CUSTOM_CACHE"
         case localDockerLayerCache = "LOCAL_DOCKER_LAYER_CACHE"
         case localSourceCache = "LOCAL_SOURCE_CACHE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CacheType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CacheType: String, CustomStringConvertible, Codable, Sendable {
         case local = "LOCAL"
         case noCache = "NO_CACHE"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComputeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComputeType: String, CustomStringConvertible, Codable, Sendable {
         case buildGeneral12Xlarge = "BUILD_GENERAL1_2XLARGE"
         case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
         case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
@@ -108,12 +108,12 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum CredentialProviderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CredentialProviderType: String, CustomStringConvertible, Codable, Sendable {
         case secretsManager = "SECRETS_MANAGER"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentType: String, CustomStringConvertible, Codable, Sendable {
         case armContainer = "ARM_CONTAINER"
         case linuxContainer = "LINUX_CONTAINER"
         case linuxGpuContainer = "LINUX_GPU_CONTAINER"
@@ -122,25 +122,25 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentVariableType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentVariableType: String, CustomStringConvertible, Codable, Sendable {
         case parameterStore = "PARAMETER_STORE"
         case plaintext = "PLAINTEXT"
         case secretsManager = "SECRETS_MANAGER"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileSystemType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileSystemType: String, CustomStringConvertible, Codable, Sendable {
         case efs = "EFS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImagePullCredentialsType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImagePullCredentialsType: String, CustomStringConvertible, Codable, Sendable {
         case codebuild = "CODEBUILD"
         case serviceRole = "SERVICE_ROLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LanguageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LanguageType: String, CustomStringConvertible, Codable, Sendable {
         case android = "ANDROID"
         case base = "BASE"
         case docker = "DOCKER"
@@ -154,13 +154,13 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogsConfigStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogsConfigStatusType: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlatformType: String, CustomStringConvertible, Codable, Sendable {
         case amazonLinux = "AMAZON_LINUX"
         case debian = "DEBIAN"
         case ubuntu = "UBUNTU"
@@ -168,45 +168,45 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectSortByType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProjectSortByType: String, CustomStringConvertible, Codable, Sendable {
         case createdTime = "CREATED_TIME"
         case lastModifiedTime = "LAST_MODIFIED_TIME"
         case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectVisibilityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProjectVisibilityType: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "PRIVATE"
         case publicRead = "PUBLIC_READ"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportCodeCoverageSortByType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportCodeCoverageSortByType: String, CustomStringConvertible, Codable, Sendable {
         case filePath = "FILE_PATH"
         case lineCoveragePercentage = "LINE_COVERAGE_PERCENTAGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportExportConfigType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportExportConfigType: String, CustomStringConvertible, Codable, Sendable {
         case noExport = "NO_EXPORT"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportGroupSortByType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportGroupSortByType: String, CustomStringConvertible, Codable, Sendable {
         case createdTime = "CREATED_TIME"
         case lastModifiedTime = "LAST_MODIFIED_TIME"
         case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportGroupStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportGroupStatusType: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportGroupTrendFieldType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportGroupTrendFieldType: String, CustomStringConvertible, Codable, Sendable {
         case branchesCovered = "BRANCHES_COVERED"
         case branchesMissed = "BRANCHES_MISSED"
         case branchCoverage = "BRANCH_COVERAGE"
@@ -219,13 +219,13 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportPackagingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportPackagingType: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case zip = "ZIP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportStatusType: String, CustomStringConvertible, Codable, Sendable {
         case deleting = "DELETING"
         case failed = "FAILED"
         case generating = "GENERATING"
@@ -234,43 +234,43 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportType: String, CustomStringConvertible, Codable, Sendable {
         case codeCoverage = "CODE_COVERAGE"
         case test = "TEST"
         public var description: String { return self.rawValue }
     }
 
-    public enum RetryBuildBatchType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RetryBuildBatchType: String, CustomStringConvertible, Codable, Sendable {
         case retryAllBuilds = "RETRY_ALL_BUILDS"
         case retryFailedBuilds = "RETRY_FAILED_BUILDS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServerType: String, CustomStringConvertible, Codable, Sendable {
         case bitbucket = "BITBUCKET"
         case github = "GITHUB"
         case githubEnterprise = "GITHUB_ENTERPRISE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SharedResourceSortByType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SharedResourceSortByType: String, CustomStringConvertible, Codable, Sendable {
         case arn = "ARN"
         case modifiedTime = "MODIFIED_TIME"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrderType: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceAuthType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceAuthType: String, CustomStringConvertible, Codable, Sendable {
         case oauth = "OAUTH"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
         case bitbucket = "BITBUCKET"
         case codecommit = "CODECOMMIT"
         case codepipeline = "CODEPIPELINE"
@@ -281,7 +281,7 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatusType: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case fault = "FAULT"
         case inProgress = "IN_PROGRESS"
@@ -291,13 +291,13 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
-    public enum WebhookBuildType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WebhookBuildType: String, CustomStringConvertible, Codable, Sendable {
         case build = "BUILD"
         case buildBatch = "BUILD_BATCH"
         public var description: String { return self.rawValue }
     }
 
-    public enum WebhookFilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WebhookFilterType: String, CustomStringConvertible, Codable, Sendable {
         case actorAccountId = "ACTOR_ACCOUNT_ID"
         case baseRef = "BASE_REF"
         case commitMessage = "COMMIT_MESSAGE"

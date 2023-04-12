@@ -21,45 +21,45 @@ import SotoCore
 extension Signer {
     // MARK: Enums
 
-    public enum Category: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Category: String, CustomStringConvertible, Codable, Sendable {
         case awsIoT = "AWSIoT"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionAlgorithm: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionAlgorithm: String, CustomStringConvertible, Codable, Sendable {
         case ecdsa = "ECDSA"
         case rsa = "RSA"
         public var description: String { return self.rawValue }
     }
 
-    public enum HashAlgorithm: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HashAlgorithm: String, CustomStringConvertible, Codable, Sendable {
         case sha1 = "SHA1"
         case sha256 = "SHA256"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageFormat: String, CustomStringConvertible, Codable, Sendable {
         case json = "JSON"
         case jsonDetached = "JSONDetached"
         case jsonEmbedded = "JSONEmbedded"
         public var description: String { return self.rawValue }
     }
 
-    public enum SigningProfileStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SigningProfileStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case canceled = "Canceled"
         case revoked = "Revoked"
         public var description: String { return self.rawValue }
     }
 
-    public enum SigningStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SigningStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
-    public enum ValidityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ValidityType: String, CustomStringConvertible, Codable, Sendable {
         case days = "DAYS"
         case months = "MONTHS"
         case years = "YEARS"

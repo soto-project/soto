@@ -21,7 +21,7 @@ import SotoCore
 extension IoTSiteWise {
     // MARK: Enums
 
-    public enum AggregateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregateType: String, CustomStringConvertible, Codable, Sendable {
         case average = "AVERAGE"
         case count = "COUNT"
         case maximum = "MAXIMUM"
@@ -31,12 +31,12 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum AssetErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssetErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case internalFailure = "INTERNAL_FAILURE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssetModelState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssetModelState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -46,12 +46,12 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum AssetRelationshipType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssetRelationshipType: String, CustomStringConvertible, Codable, Sendable {
         case hierarchy = "HIERARCHY"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssetState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssetState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -60,40 +60,40 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthMode: String, CustomStringConvertible, Codable, Sendable {
         case iam = "IAM"
         case sso = "SSO"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchEntryCompletionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchEntryCompletionStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchGetAssetPropertyAggregatesErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchGetAssetPropertyAggregatesErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDeniedException = "AccessDeniedException"
         case invalidRequestException = "InvalidRequestException"
         case resourceNotFoundException = "ResourceNotFoundException"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchGetAssetPropertyValueErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchGetAssetPropertyValueErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDeniedException = "AccessDeniedException"
         case invalidRequestException = "InvalidRequestException"
         case resourceNotFoundException = "ResourceNotFoundException"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchGetAssetPropertyValueHistoryErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchGetAssetPropertyValueHistoryErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDeniedException = "AccessDeniedException"
         case invalidRequestException = "InvalidRequestException"
         case resourceNotFoundException = "ResourceNotFoundException"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchPutAssetPropertyValueErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchPutAssetPropertyValueErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDeniedException = "AccessDeniedException"
         case conflictingOperationException = "ConflictingOperationException"
         case internalFailureException = "InternalFailureException"
@@ -106,7 +106,7 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum CapabilitySyncStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CapabilitySyncStatus: String, CustomStringConvertible, Codable, Sendable {
         case inSync = "IN_SYNC"
         case outOfSync = "OUT_OF_SYNC"
         case syncFailed = "SYNC_FAILED"
@@ -114,7 +114,7 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum ColumnName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ColumnName: String, CustomStringConvertible, Codable, Sendable {
         case alias = "ALIAS"
         case assetId = "ASSET_ID"
         case dataType = "DATA_TYPE"
@@ -126,62 +126,62 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComputeLocation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComputeLocation: String, CustomStringConvertible, Codable, Sendable {
         case cloud = "CLOUD"
         case edge = "EDGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case updateFailed = "UPDATE_FAILED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DetailedErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DetailedErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case incompatibleComputeLocation = "INCOMPATIBLE_COMPUTE_LOCATION"
         case incompatibleForwardingConfiguration = "INCOMPATIBLE_FORWARDING_CONFIGURATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum DisassociatedDataStorageState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DisassociatedDataStorageState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
         case kmsBasedEncryption = "KMS_BASED_ENCRYPTION"
         case sitewiseDefaultEncryption = "SITEWISE_DEFAULT_ENCRYPTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case internalFailure = "INTERNAL_FAILURE"
         case validationError = "VALIDATION_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum ForwardingConfigState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ForwardingConfigState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IdentityType: String, CustomStringConvertible, Codable, Sendable {
         case group = "GROUP"
         case iam = "IAM"
         case user = "USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageFileType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageFileType: String, CustomStringConvertible, Codable, Sendable {
         case png = "PNG"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case completedWithFailures = "COMPLETED_WITH_FAILURES"
@@ -191,25 +191,25 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListAssetModelPropertiesFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListAssetModelPropertiesFilter: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case base = "BASE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListAssetPropertiesFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListAssetPropertiesFilter: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case base = "BASE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListAssetsFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListAssetsFilter: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case topLevel = "TOP_LEVEL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListBulkImportJobsFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListBulkImportJobsFilter: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
@@ -220,33 +220,33 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListTimeSeriesType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListTimeSeriesType: String, CustomStringConvertible, Codable, Sendable {
         case associated = "ASSOCIATED"
         case disassociated = "DISASSOCIATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggingLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LoggingLevel: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case info = "INFO"
         case off = "OFF"
         public var description: String { return self.rawValue }
     }
 
-    public enum MonitorErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MonitorErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case internalFailure = "INTERNAL_FAILURE"
         case limitExceeded = "LIMIT_EXCEEDED"
         case validationError = "VALIDATION_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum Permission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Permission: String, CustomStringConvertible, Codable, Sendable {
         case administrator = "ADMINISTRATOR"
         case viewer = "VIEWER"
         public var description: String { return self.rawValue }
     }
 
-    public enum PortalState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PortalState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -255,7 +255,7 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum PropertyDataType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PropertyDataType: String, CustomStringConvertible, Codable, Sendable {
         case `struct` = "STRUCT"
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
@@ -264,44 +264,44 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum PropertyNotificationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PropertyNotificationState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Quality: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Quality: String, CustomStringConvertible, Codable, Sendable {
         case bad = "BAD"
         case good = "GOOD"
         case uncertain = "UNCERTAIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case portal = "PORTAL"
         case project = "PROJECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageType: String, CustomStringConvertible, Codable, Sendable {
         case multiLayerStorage = "MULTI_LAYER_STORAGE"
         case sitewiseDefaultStorage = "SITEWISE_DEFAULT_STORAGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeOrdering: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimeOrdering: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum TraversalDirection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TraversalDirection: String, CustomStringConvertible, Codable, Sendable {
         case child = "CHILD"
         case parent = "PARENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TraversalType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TraversalType: String, CustomStringConvertible, Codable, Sendable {
         case pathToRoot = "PATH_TO_ROOT"
         public var description: String { return self.rawValue }
     }

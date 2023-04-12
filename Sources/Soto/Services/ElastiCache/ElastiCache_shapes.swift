@@ -21,33 +21,33 @@ import SotoCore
 extension ElastiCache {
     // MARK: Enums
 
-    public enum AZMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AZMode: String, CustomStringConvertible, Codable, Sendable {
         case crossAz = "cross-az"
         case singleAz = "single-az"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthTokenUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthTokenUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
         case rotating = "ROTATING"
         case setting = "SETTING"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthTokenUpdateStrategyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthTokenUpdateStrategyType: String, CustomStringConvertible, Codable, Sendable {
         case delete = "DELETE"
         case rotate = "ROTATE"
         case set = "SET"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable {
         case iam = "iam"
         case noPassword = "no-password"
         case password = "password"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutomaticFailoverStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutomaticFailoverStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case disabling = "disabling"
         case enabled = "enabled"
@@ -55,38 +55,38 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable {
         case immediate = "immediate"
         case requiresReboot = "requires-reboot"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataTieringStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataTieringStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum DestinationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DestinationType: String, CustomStringConvertible, Codable, Sendable {
         case cloudWatchLogs = "cloudwatch-logs"
         case kinesisFirehose = "kinesis-firehose"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputAuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputAuthenticationType: String, CustomStringConvertible, Codable, Sendable {
         case iam = "iam"
         case noPassword = "no-password-required"
         case password = "password"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpDiscovery: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpDiscovery: String, CustomStringConvertible, Codable, Sendable {
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogDeliveryConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogDeliveryConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case disabling = "disabling"
         case enabling = "enabling"
@@ -95,38 +95,38 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogFormat: String, CustomStringConvertible, Codable, Sendable {
         case json = "json"
         case text = "text"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable {
         case engineLog = "engine-log"
         case slowLog = "slow-log"
         public var description: String { return self.rawValue }
     }
 
-    public enum MultiAZStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MultiAZStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable {
         case dualStack = "dual_stack"
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeUpdateInitiatedBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NodeUpdateInitiatedBy: String, CustomStringConvertible, Codable, Sendable {
         case customer = "customer"
         case system = "system"
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NodeUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "complete"
         case inProgress = "in-progress"
         case notApplied = "not-applied"
@@ -136,19 +136,19 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
-    public enum OutpostMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OutpostMode: String, CustomStringConvertible, Codable, Sendable {
         case crossOutpost = "cross-outpost"
         case singleOutpost = "single-outpost"
         public var description: String { return self.rawValue }
     }
 
-    public enum PendingAutomaticFailoverStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PendingAutomaticFailoverStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceUpdateSeverity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceUpdateSeverity: String, CustomStringConvertible, Codable, Sendable {
         case critical = "critical"
         case important = "important"
         case low = "low"
@@ -156,26 +156,26 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case cancelled = "cancelled"
         case expired = "expired"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceUpdateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceUpdateType: String, CustomStringConvertible, Codable, Sendable {
         case securityUpdate = "security-update"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlaMet: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlaMet: String, CustomStringConvertible, Codable, Sendable {
         case na = "n/a"
         case no = "no"
         case yes = "yes"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
         case cacheCluster = "cache-cluster"
         case cacheParameterGroup = "cache-parameter-group"
         case cacheSecurityGroup = "cache-security-group"
@@ -186,13 +186,13 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitEncryptionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitEncryptionMode: String, CustomStringConvertible, Codable, Sendable {
         case preferred = "preferred"
         case required = "required"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateActionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateActionStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "complete"
         case inProgress = "in-progress"
         case notApplicable = "not-applicable"

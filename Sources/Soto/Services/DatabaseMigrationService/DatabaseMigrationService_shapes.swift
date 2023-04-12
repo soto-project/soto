@@ -21,20 +21,20 @@ import SotoCore
 extension DatabaseMigrationService {
     // MARK: Enums
 
-    public enum AuthMechanismValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthMechanismValue: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "default"
         case mongodbCr = "mongodb_cr"
         case scramSha1 = "scram_sha_1"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthTypeValue: String, CustomStringConvertible, Codable, Sendable {
         case no = "no"
         case password = "password"
         public var description: String { return self.rawValue }
     }
 
-    public enum CannedAclForObjectsValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CannedAclForObjectsValue: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
@@ -46,32 +46,32 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
-    public enum CharLengthSemantics: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CharLengthSemantics: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "default"
         case byte = "byte"
         case char = "char"
         public var description: String { return self.rawValue }
     }
 
-    public enum CollectorStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CollectorStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case unregistered = "UNREGISTERED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CompressionTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CompressionTypeValue: String, CustomStringConvertible, Codable, Sendable {
         case gzip = "gzip"
         case none = "none"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataFormatValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataFormatValue: String, CustomStringConvertible, Codable, Sendable {
         case csv = "csv"
         case parquet = "parquet"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatePartitionDelimiterValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatePartitionDelimiterValue: String, CustomStringConvertible, Codable, Sendable {
         case dash = "DASH"
         case none = "NONE"
         case slash = "SLASH"
@@ -79,7 +79,7 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
-    public enum DatePartitionSequenceValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatePartitionSequenceValue: String, CustomStringConvertible, Codable, Sendable {
         case ddmmyyyy = "DDMMYYYY"
         case mmyyyydd = "MMYYYYDD"
         case yyyymm = "YYYYMM"
@@ -88,7 +88,7 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
-    public enum DmsSslModeValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DmsSslModeValue: String, CustomStringConvertible, Codable, Sendable {
         case none = "none"
         case require = "require"
         case verifyCa = "verify-ca"
@@ -96,20 +96,20 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
-    public enum EncodingTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncodingTypeValue: String, CustomStringConvertible, Codable, Sendable {
         case plain = "plain"
         case plainDictionary = "plain-dictionary"
         case rleDictionary = "rle-dictionary"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionModeValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionModeValue: String, CustomStringConvertible, Codable, Sendable {
         case sseKms = "sse-kms"
         case sseS3 = "sse-s3"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointSettingTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointSettingTypeValue: String, CustomStringConvertible, Codable, Sendable {
         case `enum` = "enum"
         case boolean = "boolean"
         case integer = "integer"
@@ -117,7 +117,7 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
-    public enum KafkaSecurityProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KafkaSecurityProtocol: String, CustomStringConvertible, Codable, Sendable {
         case plaintext = "plaintext"
         case saslSsl = "sasl-ssl"
         case sslAuthentication = "ssl-authentication"
@@ -125,101 +125,101 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageFormatValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MessageFormatValue: String, CustomStringConvertible, Codable, Sendable {
         case json = "json"
         case jsonUnformatted = "json-unformatted"
         public var description: String { return self.rawValue }
     }
 
-    public enum MigrationTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MigrationTypeValue: String, CustomStringConvertible, Codable, Sendable {
         case cdc = "cdc"
         case fullLoad = "full-load"
         case fullLoadAndCdc = "full-load-and-cdc"
         public var description: String { return self.rawValue }
     }
 
-    public enum NestingLevelValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NestingLevelValue: String, CustomStringConvertible, Codable, Sendable {
         case none = "none"
         case one = "one"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParquetVersionValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParquetVersionValue: String, CustomStringConvertible, Codable, Sendable {
         case parquet10 = "parquet-1-0"
         case parquet20 = "parquet-2-0"
         public var description: String { return self.rawValue }
     }
 
-    public enum PluginNameValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PluginNameValue: String, CustomStringConvertible, Codable, Sendable {
         case noPreference = "no-preference"
         case pglogical = "pglogical"
         case testDecoding = "test-decoding"
         public var description: String { return self.rawValue }
     }
 
-    public enum RedisAuthTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RedisAuthTypeValue: String, CustomStringConvertible, Codable, Sendable {
         case authRole = "auth-role"
         case authToken = "auth-token"
         case none = "none"
         public var description: String { return self.rawValue }
     }
 
-    public enum RefreshSchemasStatusTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RefreshSchemasStatusTypeValue: String, CustomStringConvertible, Codable, Sendable {
         case failed = "failed"
         case refreshing = "refreshing"
         case successful = "successful"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReleaseStatusValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReleaseStatusValues: String, CustomStringConvertible, Codable, Sendable {
         case beta = "beta"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReloadOptionValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReloadOptionValue: String, CustomStringConvertible, Codable, Sendable {
         case dataReload = "data-reload"
         case validateOnly = "validate-only"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationEndpointTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationEndpointTypeValue: String, CustomStringConvertible, Codable, Sendable {
         case source = "source"
         case target = "target"
         public var description: String { return self.rawValue }
     }
 
-    public enum SafeguardPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SafeguardPolicy: String, CustomStringConvertible, Codable, Sendable {
         case exclusiveAutomaticTruncation = "exclusive-automatic-truncation"
         case relyOnSqlServerReplicationAgent = "rely-on-sql-server-replication-agent"
         case sharedAutomaticTruncation = "shared-automatic-truncation"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
         case replicationInstance = "replication-instance"
         public var description: String { return self.rawValue }
     }
 
-    public enum SslSecurityProtocolValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SslSecurityProtocolValue: String, CustomStringConvertible, Codable, Sendable {
         case plaintext = "plaintext"
         case sslEncryption = "ssl-encryption"
         public var description: String { return self.rawValue }
     }
 
-    public enum StartReplicationTaskTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StartReplicationTaskTypeValue: String, CustomStringConvertible, Codable, Sendable {
         case reloadTarget = "reload-target"
         case resumeProcessing = "resume-processing"
         case startReplication = "start-replication"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetDbType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetDbType: String, CustomStringConvertible, Codable, Sendable {
         case multipleDatabases = "multiple-databases"
         case specificDatabase = "specific-database"
         public var description: String { return self.rawValue }
     }
 
-    public enum VersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VersionStatus: String, CustomStringConvertible, Codable, Sendable {
         case outdated = "OUTDATED"
         case unsupported = "UNSUPPORTED"
         case upToDate = "UP_TO_DATE"

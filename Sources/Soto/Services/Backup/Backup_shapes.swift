@@ -21,7 +21,7 @@ import SotoCore
 extension Backup {
     // MARK: Enums
 
-    public enum BackupJobState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BackupJobState: String, CustomStringConvertible, Codable, Sendable {
         case aborted = "ABORTED"
         case aborting = "ABORTING"
         case completed = "COMPLETED"
@@ -34,7 +34,7 @@ extension Backup {
         public var description: String { return self.rawValue }
     }
 
-    public enum BackupVaultEvent: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BackupVaultEvent: String, CustomStringConvertible, Codable, Sendable {
         case backupJobCompleted = "BACKUP_JOB_COMPLETED"
         case backupJobExpired = "BACKUP_JOB_EXPIRED"
         case backupJobFailed = "BACKUP_JOB_FAILED"
@@ -55,12 +55,12 @@ extension Backup {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConditionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConditionType: String, CustomStringConvertible, Codable, Sendable {
         case stringequals = "STRINGEQUALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum CopyJobState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CopyJobState: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case created = "CREATED"
         case failed = "FAILED"
@@ -69,7 +69,7 @@ extension Backup {
         public var description: String { return self.rawValue }
     }
 
-    public enum LegalHoldStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LegalHoldStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case canceled = "CANCELED"
         case canceling = "CANCELING"
@@ -77,7 +77,7 @@ extension Backup {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecoveryPointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecoveryPointStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case deleting = "DELETING"
         case expired = "EXPIRED"
@@ -85,7 +85,7 @@ extension Backup {
         public var description: String { return self.rawValue }
     }
 
-    public enum RestoreJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RestoreJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case aborted = "ABORTED"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -94,7 +94,7 @@ extension Backup {
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable {
         case cold = "COLD"
         case deleted = "DELETED"
         case warm = "WARM"

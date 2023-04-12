@@ -21,25 +21,25 @@ import SotoCore
 extension RDSData {
     // MARK: Enums
 
-    public enum DecimalReturnType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DecimalReturnType: String, CustomStringConvertible, Codable, Sendable {
         case doubleOrLong = "DOUBLE_OR_LONG"
         case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
-    public enum LongReturnType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LongReturnType: String, CustomStringConvertible, Codable, Sendable {
         case long = "LONG"
         case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordsFormatType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecordsFormatType: String, CustomStringConvertible, Codable, Sendable {
         case json = "JSON"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TypeHint: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TypeHint: String, CustomStringConvertible, Codable, Sendable {
         case date = "DATE"
         case decimal = "DECIMAL"
         case json = "JSON"
@@ -49,7 +49,7 @@ extension RDSData {
         public var description: String { return self.rawValue }
     }
 
-    public enum ArrayValue: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum ArrayValue: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An array of arrays.
         case arrayValues([ArrayValue])
         /// An array of Boolean values.
@@ -114,7 +114,7 @@ extension RDSData {
         }
     }
 
-    public enum Field: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum Field: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An array of values.
         case arrayValue(ArrayValue)
         /// A value of BLOB data type.
@@ -195,7 +195,7 @@ extension RDSData {
         }
     }
 
-    public enum Value: AWSDecodableShape, _SotoSendable {
+    public enum Value: AWSDecodableShape, Sendable {
         /// An array of column values.
         case arrayValues([Value])
         /// A value for a column of big integer data type.

@@ -21,39 +21,39 @@ import SotoCore
 extension IVS {
     // MARK: Enums
 
-    public enum ChannelLatencyMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChannelLatencyMode: String, CustomStringConvertible, Codable, Sendable {
         case low = "LOW"
         case normal = "NORMAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable {
         case basic = "BASIC"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordingConfigurationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecordingConfigurationState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecordingMode: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case interval = "INTERVAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamHealth: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StreamHealth: String, CustomStringConvertible, Codable, Sendable {
         case healthy = "HEALTHY"
         case starving = "STARVING"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StreamState: String, CustomStringConvertible, Codable, Sendable {
         case live = "LIVE"
         case offline = "OFFLINE"
         public var description: String { return self.rawValue }

@@ -21,13 +21,13 @@ import SotoCore
 extension SSMIncidents {
     // MARK: Enums
 
-    public enum IncidentRecordStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IncidentRecordStatus: String, CustomStringConvertible, Codable, Sendable {
         case open = "OPEN"
         case resolved = "RESOLVED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ItemType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ItemType: String, CustomStringConvertible, Codable, Sendable {
         case analysis = "ANALYSIS"
         case attachment = "ATTACHMENT"
         case automation = "AUTOMATION"
@@ -40,7 +40,7 @@ extension SSMIncidents {
         public var description: String { return self.rawValue }
     }
 
-    public enum RegionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RegionStatus: String, CustomStringConvertible, Codable, Sendable {
         /// All operations have completed successfully and the region is ready to use
         case active = "ACTIVE"
         /// The region is in the process of being created.
@@ -52,7 +52,7 @@ extension SSMIncidents {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationSetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationSetStatus: String, CustomStringConvertible, Codable, Sendable {
         /// All operations have completed successfully and the replication set is ready to use
         case active = "ACTIVE"
         /// Replication set is in the process of being created.
@@ -66,30 +66,30 @@ extension SSMIncidents {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SsmTargetAccount: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SsmTargetAccount: String, CustomStringConvertible, Codable, Sendable {
         case impactedAccount = "IMPACTED_ACCOUNT"
         case responsePlanOwnerAccount = "RESPONSE_PLAN_OWNER_ACCOUNT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimelineEventSort: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimelineEventSort: String, CustomStringConvertible, Codable, Sendable {
         case eventTime = "EVENT_TIME"
         public var description: String { return self.rawValue }
     }
 
-    public enum VariableType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VariableType: String, CustomStringConvertible, Codable, Sendable {
         case incidentRecordArn = "INCIDENT_RECORD_ARN"
         case involvedResources = "INVOLVED_RESOURCES"
         public var description: String { return self.rawValue }
     }
 
-    public enum AttributeValueList: AWSEncodableShape, _SotoSendable {
+    public enum AttributeValueList: AWSEncodableShape, Sendable {
         /// The list of integer values that the filter matches.
         case integerValues([Int])
         /// The list of string values that the filter matches.
@@ -120,7 +120,7 @@ extension SSMIncidents {
         }
     }
 
-    public enum ChatChannel: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum ChatChannel: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The Amazon SNS targets that Chatbot uses to notify the chat channel of updates to an incident. You can also make updates to the incident through the chat channel by using the Amazon SNS topics.
         case chatbotSns([String])
         /// Used to remove the chat channel from an incident record or response plan.
@@ -174,7 +174,7 @@ extension SSMIncidents {
         }
     }
 
-    public enum Condition: AWSEncodableShape, _SotoSendable {
+    public enum Condition: AWSEncodableShape, Sendable {
         /// After the specified timestamp.
         case after(Date)
         /// Before the specified timestamp
@@ -210,7 +210,7 @@ extension SSMIncidents {
         }
     }
 
-    public enum EventReference: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum EventReference: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The ID of a RelatedItem referenced in a TimelineEvent.
         case relatedItemId(String)
         /// The Amazon Resource Name (ARN) of an Amazon Web Services resource referenced in a TimelineEvent.
@@ -262,7 +262,7 @@ extension SSMIncidents {
         }
     }
 
-    public enum ItemValue: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum ItemValue: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The Amazon Resource Name (ARN) of the related item, if the related item is an Amazon resource.
         case arn(String)
         /// The metric definition, if the related item is a metric in Amazon CloudWatch.
@@ -333,7 +333,7 @@ extension SSMIncidents {
         }
     }
 
-    public enum RelatedItemsUpdate: AWSEncodableShape, _SotoSendable {
+    public enum RelatedItemsUpdate: AWSEncodableShape, Sendable {
         /// Details about the related item you're adding.
         case itemToAdd(RelatedItem)
         /// Details about the related item you're deleting.
@@ -364,7 +364,7 @@ extension SSMIncidents {
         }
     }
 
-    public enum UpdateReplicationSetAction: AWSEncodableShape, _SotoSendable {
+    public enum UpdateReplicationSetAction: AWSEncodableShape, Sendable {
         /// Details about the Amazon Web Services Region that you're adding to the replication set.
         case addRegionAction(AddRegionAction)
         /// Details about the Amazon Web Services Region that you're deleting to the replication set.

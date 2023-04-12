@@ -21,13 +21,13 @@ import SotoCore
 extension M2 {
     // MARK: Enums
 
-    public enum ApplicationDeploymentLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationDeploymentLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case deployed = "Deployed"
         case deploying = "Deploying"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case available = "Available"
         case created = "Created"
         case creating = "Creating"
@@ -42,14 +42,14 @@ extension M2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationVersionLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationVersionLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case available = "Available"
         case creating = "Creating"
         case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchJobExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchJobExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "Cancelled"
         case cancelling = "Cancelling"
         case dispatching = "Dispatching"
@@ -62,34 +62,34 @@ extension M2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchJobType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchJobType: String, CustomStringConvertible, Codable, Sendable {
         case jes2 = "JES2"
         case jes3 = "JES3"
         case vse = "VSE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSetTaskLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSetTaskLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case creating = "Creating"
         case running = "Running"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case deploying = "Deploying"
         case failed = "Failed"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
-    public enum EngineType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EngineType: String, CustomStringConvertible, Codable, Sendable {
         case bluage = "bluage"
         case microfocus = "microfocus"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentLifecycle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentLifecycle: String, CustomStringConvertible, Codable, Sendable {
         case available = "Available"
         case creating = "Creating"
         case deleting = "Deleting"
@@ -98,7 +98,7 @@ extension M2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchJobDefinition: AWSDecodableShape, _SotoSendable {
+    public enum BatchJobDefinition: AWSDecodableShape, Sendable {
         /// Specifies a file containing a batch job definition.
         case fileBatchJobDefinition(FileBatchJobDefinition)
         /// A script containing a batch job definition.
@@ -129,7 +129,7 @@ extension M2 {
         }
     }
 
-    public enum BatchJobIdentifier: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum BatchJobIdentifier: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Specifies a file associated with a specific batch job.
         case fileBatchJobIdentifier(FileBatchJobIdentifier)
         /// A batch job identifier in which the batch job to run is identified by the script name.
@@ -170,7 +170,7 @@ extension M2 {
         }
     }
 
-    public enum DataSetImportConfig: AWSEncodableShape, _SotoSendable {
+    public enum DataSetImportConfig: AWSEncodableShape, Sendable {
         /// The data sets.
         case dataSets([DataSetImportItem])
         /// The Amazon S3 location of the data sets.
@@ -205,7 +205,7 @@ extension M2 {
         }
     }
 
-    public enum DatasetDetailOrgAttributes: AWSDecodableShape, _SotoSendable {
+    public enum DatasetDetailOrgAttributes: AWSDecodableShape, Sendable {
         /// The generation data group of the data set.
         case gdg(GdgDetailAttributes)
         /// The details of a VSAM data set.
@@ -236,7 +236,7 @@ extension M2 {
         }
     }
 
-    public enum DatasetOrgAttributes: AWSEncodableShape, _SotoSendable {
+    public enum DatasetOrgAttributes: AWSEncodableShape, Sendable {
         /// The generation data group of the data set.
         case gdg(GdgAttributes)
         /// The details of a VSAM data set.
@@ -258,7 +258,7 @@ extension M2 {
         }
     }
 
-    public enum Definition: AWSEncodableShape, _SotoSendable {
+    public enum Definition: AWSEncodableShape, Sendable {
         /// The content of the application definition. This is a JSON object that contains the resource configuration/definitions that identify an application.
         case content(String)
         /// The S3 bucket that contains the application definition.
@@ -290,7 +290,7 @@ extension M2 {
         }
     }
 
-    public enum StorageConfiguration: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum StorageConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Defines the storage configuration for an Amazon EFS file system.
         case efs(EfsStorageConfiguration)
         /// Defines the storage configuration for an Amazon FSx file system.

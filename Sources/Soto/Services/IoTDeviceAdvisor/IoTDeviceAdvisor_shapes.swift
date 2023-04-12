@@ -21,7 +21,7 @@ import SotoCore
 extension IoTDeviceAdvisor {
     // MARK: Enums
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case error = "ERROR"
         case fail = "FAIL"
@@ -34,7 +34,7 @@ extension IoTDeviceAdvisor {
         public var description: String { return self.rawValue }
     }
 
-    public enum SuiteRunStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SuiteRunStatus: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case error = "ERROR"
         case fail = "FAIL"
@@ -47,7 +47,7 @@ extension IoTDeviceAdvisor {
         public var description: String { return self.rawValue }
     }
 
-    public enum TestCaseScenarioStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TestCaseScenarioStatus: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case error = "ERROR"
         case fail = "FAIL"
@@ -60,13 +60,13 @@ extension IoTDeviceAdvisor {
         public var description: String { return self.rawValue }
     }
 
-    public enum TestCaseScenarioType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TestCaseScenarioType: String, CustomStringConvertible, Codable, Sendable {
         case advanced = "Advanced"
         case basic = "Basic"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable {
         case mqttV311 = "MqttV3_1_1"
         case mqttV5 = "MqttV5"
         public var description: String { return self.rawValue }

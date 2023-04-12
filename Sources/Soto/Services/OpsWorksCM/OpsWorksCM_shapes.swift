@@ -21,7 +21,7 @@ import SotoCore
 extension OpsWorksCM {
     // MARK: Enums
 
-    public enum BackupStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BackupStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleting = "DELETING"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -29,26 +29,26 @@ extension OpsWorksCM {
         public var description: String { return self.rawValue }
     }
 
-    public enum BackupType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BackupType: String, CustomStringConvertible, Codable, Sendable {
         case automated = "AUTOMATED"
         case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum MaintenanceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MaintenanceStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeAssociationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NodeAssociationStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServerStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServerStatus: String, CustomStringConvertible, Codable, Sendable {
         case backingUp = "BACKING_UP"
         case connectionLost = "CONNECTION_LOST"
         case creating = "CREATING"

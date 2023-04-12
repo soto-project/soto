@@ -21,20 +21,20 @@ import SotoCore
 extension Synthetics {
     // MARK: Enums
 
-    public enum CanaryRunState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CanaryRunState: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case passed = "PASSED"
         case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
-    public enum CanaryRunStateReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CanaryRunStateReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case canaryFailure = "CANARY_FAILURE"
         case executionFailure = "EXECUTION_FAILURE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CanaryState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CanaryState: String, CustomStringConvertible, Codable, Sendable {
         case creating = "CREATING"
         case deleting = "DELETING"
         case error = "ERROR"
@@ -47,7 +47,7 @@ extension Synthetics {
         public var description: String { return self.rawValue }
     }
 
-    public enum CanaryStateReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CanaryStateReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createPending = "CREATE_PENDING"
@@ -63,7 +63,7 @@ extension Synthetics {
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionMode: String, CustomStringConvertible, Codable, Sendable {
         case sseKms = "SSE_KMS"
         case sseS3 = "SSE_S3"
         public var description: String { return self.rawValue }

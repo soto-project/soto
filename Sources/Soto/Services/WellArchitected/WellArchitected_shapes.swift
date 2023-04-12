@@ -21,13 +21,13 @@ import SotoCore
 extension WellArchitected {
     // MARK: Enums
 
-    public enum AdditionalResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AdditionalResourceType: String, CustomStringConvertible, Codable, Sendable {
         case helpfulResource = "HELPFUL_RESOURCE"
         case improvementPlan = "IMPROVEMENT_PLAN"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnswerReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnswerReason: String, CustomStringConvertible, Codable, Sendable {
         case architectureConstraints = "ARCHITECTURE_CONSTRAINTS"
         case businessPriorities = "BUSINESS_PRIORITIES"
         case none = "NONE"
@@ -36,7 +36,7 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
-    public enum CheckFailureReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CheckFailureReason: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case assumeRoleError = "ASSUME_ROLE_ERROR"
         case premiumSupportRequired = "PREMIUM_SUPPORT_REQUIRED"
@@ -44,12 +44,12 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
-    public enum CheckProvider: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CheckProvider: String, CustomStringConvertible, Codable, Sendable {
         case trustedAdvisor = "TRUSTED_ADVISOR"
         public var description: String { return self.rawValue }
     }
 
-    public enum CheckStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CheckStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case fetchFailed = "FETCH_FAILED"
         case notAvailable = "NOT_AVAILABLE"
@@ -58,7 +58,7 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChoiceReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChoiceReason: String, CustomStringConvertible, Codable, Sendable {
         case architectureConstraints = "ARCHITECTURE_CONSTRAINTS"
         case businessPriorities = "BUSINESS_PRIORITIES"
         case none = "NONE"
@@ -67,28 +67,28 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChoiceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChoiceStatus: String, CustomStringConvertible, Codable, Sendable {
         case notApplicable = "NOT_APPLICABLE"
         case selected = "SELECTED"
         case unselected = "UNSELECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DifferenceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DifferenceStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleted = "DELETED"
         case new = "NEW"
         case updated = "UPDATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportLensStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportLensStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case error = "ERROR"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum LensStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LensStatus: String, CustomStringConvertible, Codable, Sendable {
         case current = "CURRENT"
         case deleted = "DELETED"
         case deprecated = "DEPRECATED"
@@ -97,39 +97,39 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
-    public enum LensStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LensStatusType: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case draft = "DRAFT"
         case published = "PUBLISHED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LensType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LensType: String, CustomStringConvertible, Codable, Sendable {
         case awsOfficial = "AWS_OFFICIAL"
         case customSelf = "CUSTOM_SELF"
         case customShared = "CUSTOM_SHARED"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotificationType: String, CustomStringConvertible, Codable, Sendable {
         case lensVersionDeprecated = "LENS_VERSION_DEPRECATED"
         case lensVersionUpgraded = "LENS_VERSION_UPGRADED"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationSharingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrganizationSharingStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PermissionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PermissionType: String, CustomStringConvertible, Codable, Sendable {
         case contributor = "CONTRIBUTOR"
         case readonly = "READONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum Risk: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Risk: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case medium = "MEDIUM"
         case none = "NONE"
@@ -138,19 +138,19 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
-    public enum ShareInvitationAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ShareInvitationAction: String, CustomStringConvertible, Codable, Sendable {
         case accept = "ACCEPT"
         case reject = "REJECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ShareResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ShareResourceType: String, CustomStringConvertible, Codable, Sendable {
         case lens = "LENS"
         case workload = "WORKLOAD"
         public var description: String { return self.rawValue }
     }
 
-    public enum ShareStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ShareStatus: String, CustomStringConvertible, Codable, Sendable {
         case accepted = "ACCEPTED"
         case associated = "ASSOCIATED"
         case associating = "ASSOCIATING"
@@ -162,19 +162,19 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
-    public enum TrustedAdvisorIntegrationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrustedAdvisorIntegrationStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkloadEnvironment: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkloadEnvironment: String, CustomStringConvertible, Codable, Sendable {
         case preproduction = "PREPRODUCTION"
         case production = "PRODUCTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkloadImprovementStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkloadImprovementStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case inProgress = "IN_PROGRESS"
         case notApplicable = "NOT_APPLICABLE"

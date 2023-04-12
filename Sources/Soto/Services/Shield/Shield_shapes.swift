@@ -21,19 +21,19 @@ import SotoCore
 extension Shield {
     // MARK: Enums
 
-    public enum ApplicationLayerAutomaticResponseStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationLayerAutomaticResponseStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AttackLayer: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AttackLayer: String, CustomStringConvertible, Codable, Sendable {
         case application = "APPLICATION"
         case network = "NETWORK"
         public var description: String { return self.rawValue }
     }
 
-    public enum AttackPropertyIdentifier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AttackPropertyIdentifier: String, CustomStringConvertible, Codable, Sendable {
         case destinationUrl = "DESTINATION_URL"
         case referrer = "REFERRER"
         case sourceAsn = "SOURCE_ASN"
@@ -45,20 +45,20 @@ extension Shield {
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoRenew: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoRenew: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProactiveEngagementStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProactiveEngagementStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtectedResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProtectedResourceType: String, CustomStringConvertible, Codable, Sendable {
         case applicationLoadBalancer = "APPLICATION_LOAD_BALANCER"
         case classicLoadBalancer = "CLASSIC_LOAD_BALANCER"
         case cloudfrontDistribution = "CLOUDFRONT_DISTRIBUTION"
@@ -68,33 +68,33 @@ extension Shield {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtectionGroupAggregation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProtectionGroupAggregation: String, CustomStringConvertible, Codable, Sendable {
         case max = "MAX"
         case mean = "MEAN"
         case sum = "SUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtectionGroupPattern: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProtectionGroupPattern: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case arbitrary = "ARBITRARY"
         case byResourceType = "BY_RESOURCE_TYPE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SubResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SubResourceType: String, CustomStringConvertible, Codable, Sendable {
         case ip = "IP"
         case url = "URL"
         public var description: String { return self.rawValue }
     }
 
-    public enum SubscriptionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SubscriptionState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Unit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Unit: String, CustomStringConvertible, Codable, Sendable {
         case bits = "BITS"
         case bytes = "BYTES"
         case packets = "PACKETS"

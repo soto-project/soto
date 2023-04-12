@@ -21,7 +21,7 @@ import SotoCore
 extension ApplicationInsights {
     // MARK: Enums
 
-    public enum CloudWatchEventSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CloudWatchEventSource: String, CustomStringConvertible, Codable, Sendable {
         case codeDeploy = "CODE_DEPLOY"
         case ec2 = "EC2"
         case health = "HEALTH"
@@ -29,7 +29,7 @@ extension ApplicationInsights {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationEventResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationEventResourceType: String, CustomStringConvertible, Codable, Sendable {
         case cloudformation = "CLOUDFORMATION"
         case cloudwatchAlarm = "CLOUDWATCH_ALARM"
         case cloudwatchLog = "CLOUDWATCH_LOG"
@@ -37,50 +37,50 @@ extension ApplicationInsights {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationEventStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationEventStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case info = "INFO"
         case warn = "WARN"
         public var description: String { return self.rawValue }
     }
 
-    public enum DiscoveryType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DiscoveryType: String, CustomStringConvertible, Codable, Sendable {
         case accountBased = "ACCOUNT_BASED"
         case resourceGroupBased = "RESOURCE_GROUP_BASED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FeedbackKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FeedbackKey: String, CustomStringConvertible, Codable, Sendable {
         case insightsFeedback = "INSIGHTS_FEEDBACK"
         public var description: String { return self.rawValue }
     }
 
-    public enum FeedbackValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FeedbackValue: String, CustomStringConvertible, Codable, Sendable {
         case notSpecified = "NOT_SPECIFIED"
         case notUseful = "NOT_USEFUL"
         case useful = "USEFUL"
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GroupingType: String, CustomStringConvertible, Codable, Sendable {
         case accountBased = "ACCOUNT_BASED"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogFilter: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case info = "INFO"
         case warn = "WARN"
         public var description: String { return self.rawValue }
     }
 
-    public enum OsType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OsType: String, CustomStringConvertible, Codable, Sendable {
         case linux = "LINUX"
         case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SeverityLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SeverityLevel: String, CustomStringConvertible, Codable, Sendable {
         case high = "High"
         case informative = "Informative"
         case low = "Low"
@@ -88,7 +88,7 @@ extension ApplicationInsights {
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case ignore = "IGNORE"
         case pending = "PENDING"
         case recurring = "RECURRING"
@@ -96,7 +96,7 @@ extension ApplicationInsights {
         public var description: String { return self.rawValue }
     }
 
-    public enum Tier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Tier: String, CustomStringConvertible, Codable, Sendable {
         case activeDirectory = "ACTIVE_DIRECTORY"
         case custom = "CUSTOM"
         case `default` = "DEFAULT"

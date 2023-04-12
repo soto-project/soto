@@ -21,21 +21,21 @@ import SotoCore
 extension Pinpoint {
     // MARK: Enums
 
-    public enum Action: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Action: String, CustomStringConvertible, Codable, Sendable {
         case deepLink = "DEEP_LINK"
         case openApp = "OPEN_APP"
         case url = "URL"
         public var description: String { return self.rawValue }
     }
 
-    public enum Alignment: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Alignment: String, CustomStringConvertible, Codable, Sendable {
         case center = "CENTER"
         case left = "LEFT"
         case right = "RIGHT"
         public var description: String { return self.rawValue }
     }
 
-    public enum AttributeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AttributeType: String, CustomStringConvertible, Codable, Sendable {
         case after = "AFTER"
         case before = "BEFORE"
         case between = "BETWEEN"
@@ -46,14 +46,14 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum ButtonAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ButtonAction: String, CustomStringConvertible, Codable, Sendable {
         case close = "CLOSE"
         case deepLink = "DEEP_LINK"
         case link = "LINK"
         public var description: String { return self.rawValue }
     }
 
-    public enum CampaignStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CampaignStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case deleted = "DELETED"
         case executing = "EXECUTING"
@@ -64,7 +64,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable {
         case adm = "ADM"
         case apns = "APNS"
         case apnsSandbox = "APNS_SANDBOX"
@@ -81,7 +81,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable {
         case friday = "FRIDAY"
         case monday = "MONDAY"
         case saturday = "SATURDAY"
@@ -92,7 +92,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliveryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeliveryStatus: String, CustomStringConvertible, Codable, Sendable {
         case duplicate = "DUPLICATE"
         case optOut = "OPT_OUT"
         case permanentFailure = "PERMANENT_FAILURE"
@@ -103,13 +103,13 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum DimensionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DimensionType: String, CustomStringConvertible, Codable, Sendable {
         case exclusive = "EXCLUSIVE"
         case inclusive = "INCLUSIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Duration: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Duration: String, CustomStringConvertible, Codable, Sendable {
         case day14 = "DAY_14"
         case day30 = "DAY_30"
         case day7 = "DAY_7"
@@ -117,7 +117,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointTypesElement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointTypesElement: String, CustomStringConvertible, Codable, Sendable {
         case adm = "ADM"
         case apns = "APNS"
         case apnsSandbox = "APNS_SANDBOX"
@@ -134,19 +134,19 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterType: String, CustomStringConvertible, Codable, Sendable {
         case endpoint = "ENDPOINT"
         case system = "SYSTEM"
         public var description: String { return self.rawValue }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Format: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum Frequency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Frequency: String, CustomStringConvertible, Codable, Sendable {
         case daily = "DAILY"
         case event = "EVENT"
         case hourly = "HOURLY"
@@ -157,14 +157,14 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum Include: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Include: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case any = "ANY"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case completing = "COMPLETING"
         case created = "CREATED"
@@ -177,7 +177,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum Layout: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Layout: String, CustomStringConvertible, Codable, Sendable {
         case bottomBanner = "BOTTOM_BANNER"
         case carousel = "CAROUSEL"
         case middleBanner = "MIDDLE_BANNER"
@@ -187,44 +187,44 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MessageType: String, CustomStringConvertible, Codable, Sendable {
         case promotional = "PROMOTIONAL"
         case transactional = "TRANSACTIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mode: String, CustomStringConvertible, Codable, Sendable {
         case delivery = "DELIVERY"
         case filter = "FILTER"
         public var description: String { return self.rawValue }
     }
 
-    public enum Operator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Operator: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case any = "ANY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecencyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecencyType: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SegmentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SegmentType: String, CustomStringConvertible, Codable, Sendable {
         case dimensional = "DIMENSIONAL"
         case `import` = "IMPORT"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case any = "ANY"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum State: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum State: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case cancelled = "CANCELLED"
         case closed = "CLOSED"
@@ -234,7 +234,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum TemplateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TemplateType: String, CustomStringConvertible, Codable, Sendable {
         case email = "EMAIL"
         case inapp = "INAPP"
         case push = "PUSH"
@@ -243,7 +243,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case any = "ANY"
         case none = "NONE"

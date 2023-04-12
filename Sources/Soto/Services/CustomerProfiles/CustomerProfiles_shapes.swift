@@ -21,19 +21,19 @@ import SotoCore
 extension CustomerProfiles {
     // MARK: Enums
 
-    public enum ConflictResolvingModel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConflictResolvingModel: String, CustomStringConvertible, Codable, Sendable {
         case recency = "RECENCY"
         case source = "SOURCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataPullMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataPullMode: String, CustomStringConvertible, Codable, Sendable {
         case complete = "Complete"
         case incremental = "Incremental"
         public var description: String { return self.rawValue }
     }
 
-    public enum FieldContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FieldContentType: String, CustomStringConvertible, Codable, Sendable {
         case emailAddress = "EMAIL_ADDRESS"
         case name = "NAME"
         case number = "NUMBER"
@@ -42,14 +42,14 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
-    public enum Gender: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Gender: String, CustomStringConvertible, Codable, Sendable {
         case female = "FEMALE"
         case male = "MALE"
         case unspecified = "UNSPECIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityResolutionJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IdentityResolutionJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case findMatching = "FIND_MATCHING"
@@ -60,7 +60,7 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobScheduleDayOfTheWeek: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobScheduleDayOfTheWeek: String, CustomStringConvertible, Codable, Sendable {
         case friday = "FRIDAY"
         case monday = "MONDAY"
         case saturday = "SATURDAY"
@@ -71,13 +71,13 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogicalOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogicalOperator: String, CustomStringConvertible, Codable, Sendable {
         case and = "AND"
         case or = "OR"
         public var description: String { return self.rawValue }
     }
 
-    public enum MarketoConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MarketoConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case division = "DIVISION"
@@ -97,7 +97,7 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
-    public enum OperatorPropertiesKeys: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperatorPropertiesKeys: String, CustomStringConvertible, Codable, Sendable {
         case concatFormat = "CONCAT_FORMAT"
         case dataType = "DATA_TYPE"
         case destinationDataType = "DESTINATION_DATA_TYPE"
@@ -115,14 +115,14 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
-    public enum PartyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PartyType: String, CustomStringConvertible, Codable, Sendable {
         case business = "BUSINESS"
         case individual = "INDIVIDUAL"
         case other = "OTHER"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3ConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case division = "DIVISION"
@@ -146,32 +146,7 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
-    public enum SalesforceConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case contains = "CONTAINS"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case notEqualTo = "NOT_EQUAL_TO"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ServiceNowConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SalesforceConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case between = "BETWEEN"
         case contains = "CONTAINS"
@@ -196,7 +171,32 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceConnectorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceNowConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
+        case addition = "ADDITION"
+        case between = "BETWEEN"
+        case contains = "CONTAINS"
+        case division = "DIVISION"
+        case equalTo = "EQUAL_TO"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
+        case maskAll = "MASK_ALL"
+        case maskFirstN = "MASK_FIRST_N"
+        case maskLastN = "MASK_LAST_N"
+        case multiplication = "MULTIPLICATION"
+        case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
+        case projection = "PROJECTION"
+        case subtraction = "SUBTRACTION"
+        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
+        case validateNonNull = "VALIDATE_NON_NULL"
+        case validateNonZero = "VALIDATE_NON_ZERO"
+        case validateNumeric = "VALIDATE_NUMERIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceConnectorType: String, CustomStringConvertible, Codable, Sendable {
         case marketo = "Marketo"
         case s3 = "S3"
         case salesforce = "Salesforce"
@@ -205,7 +205,7 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
-    public enum StandardIdentifier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StandardIdentifier: String, CustomStringConvertible, Codable, Sendable {
         case `case` = "CASE"
         case asset = "ASSET"
         case lookupOnly = "LOOKUP_ONLY"
@@ -217,7 +217,7 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case complete = "COMPLETE"
         case failed = "FAILED"
@@ -228,7 +228,7 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskType: String, CustomStringConvertible, Codable, Sendable {
         case arithmetic = "Arithmetic"
         case filter = "Filter"
         case map = "Map"
@@ -239,19 +239,19 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
-    public enum TriggerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TriggerType: String, CustomStringConvertible, Codable, Sendable {
         case event = "Event"
         case ondemand = "OnDemand"
         case scheduled = "Scheduled"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkflowType: String, CustomStringConvertible, Codable, Sendable {
         case appflowIntegration = "APPFLOW_INTEGRATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ZendeskConnectorOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ZendeskConnectorOperator: String, CustomStringConvertible, Codable, Sendable {
         case addition = "ADDITION"
         case division = "DIVISION"
         case greaterThan = "GREATER_THAN"

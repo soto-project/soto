@@ -21,7 +21,7 @@ import SotoCore
 extension ApplicationDiscoveryService {
     // MARK: Enums
 
-    public enum AgentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AgentStatus: String, CustomStringConvertible, Codable, Sendable {
         case blacklisted = "BLACKLISTED"
         case healthy = "HEALTHY"
         case running = "RUNNING"
@@ -31,14 +31,14 @@ extension ApplicationDiscoveryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchDeleteImportDataErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchDeleteImportDataErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case internalServerError = "INTERNAL_SERVER_ERROR"
         case notFound = "NOT_FOUND"
         case overLimit = "OVER_LIMIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationItemType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationItemType: String, CustomStringConvertible, Codable, Sendable {
         case application = "APPLICATION"
         case connection = "CONNECTION"
         case process = "PROCESS"
@@ -46,7 +46,7 @@ extension ApplicationDiscoveryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContinuousExportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContinuousExportStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case error = "ERROR"
         case inactive = "INACTIVE"
@@ -57,25 +57,25 @@ extension ApplicationDiscoveryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSource: String, CustomStringConvertible, Codable, Sendable {
         case agent = "AGENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportDataFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportDataFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case graphml = "GRAPHML"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleteComplete = "DELETE_COMPLETE"
         case deleteFailed = "DELETE_FAILED"
         case deleteFailedLimitExceeded = "DELETE_FAILED_LIMIT_EXCEEDED"
@@ -90,14 +90,14 @@ extension ApplicationDiscoveryService {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportTaskFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportTaskFilterName: String, CustomStringConvertible, Codable, Sendable {
         case importTaskId = "IMPORT_TASK_ID"
         case name = "NAME"
         case status = "STATUS"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderString: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrderString: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }

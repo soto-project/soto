@@ -21,17 +21,17 @@ import SotoCore
 extension CloudHSMV2 {
     // MARK: Enums
 
-    public enum BackupPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BackupPolicy: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         public var description: String { return self.rawValue }
     }
 
-    public enum BackupRetentionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BackupRetentionType: String, CustomStringConvertible, Codable, Sendable {
         case days = "DAYS"
         public var description: String { return self.rawValue }
     }
 
-    public enum BackupState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BackupState: String, CustomStringConvertible, Codable, Sendable {
         case createInProgress = "CREATE_IN_PROGRESS"
         case deleted = "DELETED"
         case pendingDeletion = "PENDING_DELETION"
@@ -39,7 +39,7 @@ extension CloudHSMV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ClusterState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClusterState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case createInProgress = "CREATE_IN_PROGRESS"
         case degraded = "DEGRADED"
@@ -52,7 +52,7 @@ extension CloudHSMV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum HsmState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HsmState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case createInProgress = "CREATE_IN_PROGRESS"
         case degraded = "DEGRADED"

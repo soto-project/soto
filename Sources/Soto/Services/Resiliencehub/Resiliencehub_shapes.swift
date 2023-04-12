@@ -21,7 +21,7 @@ import SotoCore
 extension Resiliencehub {
     // MARK: Enums
 
-    public enum AlarmType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AlarmType: String, CustomStringConvertible, Codable, Sendable {
         case canary = "Canary"
         case composite = "Composite"
         case event = "Event"
@@ -30,13 +30,13 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
-    public enum AppAssessmentScheduleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppAssessmentScheduleType: String, CustomStringConvertible, Codable, Sendable {
         case daily = "Daily"
         case disabled = "Disabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum AppComplianceStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppComplianceStatusType: String, CustomStringConvertible, Codable, Sendable {
         case changesDetected = "ChangesDetected"
         case notAssessed = "NotAssessed"
         case policyBreached = "PolicyBreached"
@@ -44,19 +44,19 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
-    public enum AppStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppStatusType: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case deleting = "Deleting"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssessmentInvoker: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssessmentInvoker: String, CustomStringConvertible, Codable, Sendable {
         case system = "System"
         case user = "User"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssessmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssessmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case pending = "Pending"
@@ -64,13 +64,13 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComplianceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComplianceStatus: String, CustomStringConvertible, Codable, Sendable {
         case policyBreached = "PolicyBreached"
         case policyMet = "PolicyMet"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigRecommendationOptimizationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigRecommendationOptimizationType: String, CustomStringConvertible, Codable, Sendable {
         case bestAZRecovery = "BestAZRecovery"
         case bestAttainable = "BestAttainable"
         case bestRegionRecovery = "BestRegionRecovery"
@@ -80,7 +80,7 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
-    public enum CostFrequency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CostFrequency: String, CustomStringConvertible, Codable, Sendable {
         case daily = "Daily"
         case hourly = "Hourly"
         case monthly = "Monthly"
@@ -88,14 +88,14 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataLocationConstraint: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataLocationConstraint: String, CustomStringConvertible, Codable, Sendable {
         case anyLocation = "AnyLocation"
         case sameContinent = "SameContinent"
         case sameCountry = "SameCountry"
         public var description: String { return self.rawValue }
     }
 
-    public enum DisruptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DisruptionType: String, CustomStringConvertible, Codable, Sendable {
         case az = "AZ"
         case hardware = "Hardware"
         case region = "Region"
@@ -103,7 +103,7 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
-    public enum EstimatedCostTier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EstimatedCostTier: String, CustomStringConvertible, Codable, Sendable {
         case l1 = "L1"
         case l2 = "L2"
         case l3 = "L3"
@@ -111,7 +111,7 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
-    public enum HaArchitecture: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HaArchitecture: String, CustomStringConvertible, Codable, Sendable {
         case backupAndRestore = "BackupAndRestore"
         case multiSite = "MultiSite"
         case noRecoveryPlan = "NoRecoveryPlan"
@@ -120,20 +120,20 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
-    public enum PhysicalIdentifierType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PhysicalIdentifierType: String, CustomStringConvertible, Codable, Sendable {
         case arn = "Arn"
         case native = "Native"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationComplianceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationComplianceStatus: String, CustomStringConvertible, Codable, Sendable {
         case breachedCanMeet = "BreachedCanMeet"
         case breachedUnattainable = "BreachedUnattainable"
         case metCanImprove = "MetCanImprove"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationTemplateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationTemplateStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case pending = "Pending"
@@ -141,14 +141,14 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
-    public enum RenderRecommendationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RenderRecommendationType: String, CustomStringConvertible, Codable, Sendable {
         case alarm = "Alarm"
         case sop = "Sop"
         case test = "Test"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResiliencyPolicyTier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResiliencyPolicyTier: String, CustomStringConvertible, Codable, Sendable {
         case coreServices = "CoreServices"
         case critical = "Critical"
         case important = "Important"
@@ -157,7 +157,7 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceImportStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceImportStatusType: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case pending = "Pending"
@@ -165,7 +165,7 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceMappingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceMappingType: String, CustomStringConvertible, Codable, Sendable {
         case appRegistryApp = "AppRegistryApp"
         case cfnStack = "CfnStack"
         case resource = "Resource"
@@ -174,7 +174,7 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceResolutionStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceResolutionStatusType: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case pending = "Pending"
@@ -182,25 +182,25 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
-    public enum SopServiceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SopServiceType: String, CustomStringConvertible, Codable, Sendable {
         case ssm = "SSM"
         public var description: String { return self.rawValue }
     }
 
-    public enum TemplateFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TemplateFormat: String, CustomStringConvertible, Codable, Sendable {
         case cfnJson = "CfnJson"
         case cfnYaml = "CfnYaml"
         public var description: String { return self.rawValue }
     }
 
-    public enum TestRisk: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TestRisk: String, CustomStringConvertible, Codable, Sendable {
         case high = "High"
         case medium = "Medium"
         case small = "Small"
         public var description: String { return self.rawValue }
     }
 
-    public enum TestType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TestType: String, CustomStringConvertible, Codable, Sendable {
         case az = "AZ"
         case hardware = "Hardware"
         case region = "Region"

@@ -21,7 +21,7 @@ import SotoCore
 extension EMRServerless {
     // MARK: Enums
 
-    public enum ApplicationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationState: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case creating = "CREATING"
         case started = "STARTED"
@@ -32,13 +32,13 @@ extension EMRServerless {
         public var description: String { return self.rawValue }
     }
 
-    public enum Architecture: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Architecture: String, CustomStringConvertible, Codable, Sendable {
         case arm64 = "ARM64"
         case x8664 = "X86_64"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobRunState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobRunState: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case failed = "FAILED"
@@ -50,7 +50,7 @@ extension EMRServerless {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobDriver: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum JobDriver: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The job driver parameters specified for Hive.
         case hive(Hive)
         /// The job driver parameters specified for Spark.

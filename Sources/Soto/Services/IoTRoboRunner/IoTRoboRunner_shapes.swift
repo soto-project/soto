@@ -21,7 +21,7 @@ import SotoCore
 extension IoTRoboRunner {
     // MARK: Enums
 
-    public enum DestinationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DestinationState: String, CustomStringConvertible, Codable, Sendable {
         case decommissioned = "DECOMMISSIONED"
         case disabled = "DISABLED"
         case enabled = "ENABLED"

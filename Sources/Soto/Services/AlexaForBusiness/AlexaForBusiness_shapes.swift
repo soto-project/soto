@@ -21,41 +21,41 @@ import SotoCore
 extension AlexaForBusiness {
     // MARK: Enums
 
-    public enum BusinessReportFailureCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BusinessReportFailureCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case internalFailure = "INTERNAL_FAILURE"
         case noSuchBucket = "NO_SUCH_BUCKET"
         public var description: String { return self.rawValue }
     }
 
-    public enum BusinessReportFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BusinessReportFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case csvZip = "CSV_ZIP"
         public var description: String { return self.rawValue }
     }
 
-    public enum BusinessReportInterval: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BusinessReportInterval: String, CustomStringConvertible, Codable, Sendable {
         case oneDay = "ONE_DAY"
         case oneWeek = "ONE_WEEK"
         case thirtyDays = "THIRTY_DAYS"
         public var description: String { return self.rawValue }
     }
 
-    public enum BusinessReportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BusinessReportStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case running = "RUNNING"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CommsProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CommsProtocol: String, CustomStringConvertible, Codable, Sendable {
         case h323 = "H323"
         case sip = "SIP"
         case sips = "SIPS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConferenceProviderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConferenceProviderType: String, CustomStringConvertible, Codable, Sendable {
         case bluejeans = "BLUEJEANS"
         case chime = "CHIME"
         case custom = "CUSTOM"
@@ -69,19 +69,19 @@ extension AlexaForBusiness {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case offline = "OFFLINE"
         case online = "ONLINE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceEventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceEventType: String, CustomStringConvertible, Codable, Sendable {
         case connectionStatus = "CONNECTION_STATUS"
         case deviceStatus = "DEVICE_STATUS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceStatus: String, CustomStringConvertible, Codable, Sendable {
         case deregistered = "DEREGISTERED"
         case failed = "FAILED"
         case pending = "PENDING"
@@ -90,7 +90,7 @@ extension AlexaForBusiness {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceStatusDetailCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceStatusDetailCode: String, CustomStringConvertible, Codable, Sendable {
         case associationRejection = "ASSOCIATION_REJECTION"
         case authenticationFailure = "AUTHENTICATION_FAILURE"
         case certificateAuthorityAccessDenied = "CERTIFICATE_AUTHORITY_ACCESS_DENIED"
@@ -111,30 +111,30 @@ extension AlexaForBusiness {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceUsageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceUsageType: String, CustomStringConvertible, Codable, Sendable {
         case voice = "VOICE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DistanceUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DistanceUnit: String, CustomStringConvertible, Codable, Sendable {
         case imperial = "IMPERIAL"
         case metric = "METRIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnablementType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnablementType: String, CustomStringConvertible, Codable, Sendable {
         case enabled = "ENABLED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnablementTypeFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnablementTypeFilter: String, CustomStringConvertible, Codable, Sendable {
         case enabled = "ENABLED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndOfMeetingReminderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndOfMeetingReminderType: String, CustomStringConvertible, Codable, Sendable {
         case announcementTimeCheck = "ANNOUNCEMENT_TIME_CHECK"
         case announcementVariableTimeLeft = "ANNOUNCEMENT_VARIABLE_TIME_LEFT"
         case chime = "CHIME"
@@ -142,7 +142,7 @@ extension AlexaForBusiness {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnrollmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnrollmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case deregistering = "DEREGISTERING"
         case disassociating = "DISASSOCIATING"
         case initialized = "INITIALIZED"
@@ -151,7 +151,7 @@ extension AlexaForBusiness {
         public var description: String { return self.rawValue }
     }
 
-    public enum Feature: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Feature: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case bluetooth = "BLUETOOTH"
         case lists = "LISTS"
@@ -163,17 +163,17 @@ extension AlexaForBusiness {
         public var description: String { return self.rawValue }
     }
 
-    public enum Locale: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Locale: String, CustomStringConvertible, Codable, Sendable {
         case enUS = "en-US"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkEapMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkEapMethod: String, CustomStringConvertible, Codable, Sendable {
         case eapTls = "EAP_TLS"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkSecurityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkSecurityType: String, CustomStringConvertible, Codable, Sendable {
         case open = "OPEN"
         case wep = "WEP"
         case wpa2Enterprise = "WPA2_ENTERPRISE"
@@ -182,51 +182,51 @@ extension AlexaForBusiness {
         public var description: String { return self.rawValue }
     }
 
-    public enum PhoneNumberType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PhoneNumberType: String, CustomStringConvertible, Codable, Sendable {
         case home = "HOME"
         case mobile = "MOBILE"
         case work = "WORK"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequirePin: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RequirePin: String, CustomStringConvertible, Codable, Sendable {
         case no = "NO"
         case optional = "OPTIONAL"
         case yes = "YES"
         public var description: String { return self.rawValue }
     }
 
-    public enum SipType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SipType: String, CustomStringConvertible, Codable, Sendable {
         case work = "WORK"
         public var description: String { return self.rawValue }
     }
 
-    public enum SkillType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SkillType: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "PRIVATE"
         case `public` = "PUBLIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum SkillTypeFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SkillTypeFilter: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case `private` = "PRIVATE"
         case `public` = "PUBLIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortValue: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum TemperatureUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TemperatureUnit: String, CustomStringConvertible, Codable, Sendable {
         case celsius = "CELSIUS"
         case fahrenheit = "FAHRENHEIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum WakeWord: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WakeWord: String, CustomStringConvertible, Codable, Sendable {
         case alexa = "ALEXA"
         case amazon = "AMAZON"
         case computer = "COMPUTER"

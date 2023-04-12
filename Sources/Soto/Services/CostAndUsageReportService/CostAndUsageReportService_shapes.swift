@@ -21,7 +21,7 @@ import SotoCore
 extension CostAndUsageReportService {
     // MARK: Enums
 
-    public enum AWSRegion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AWSRegion: String, CustomStringConvertible, Codable, Sendable {
         case bahrain = "me-south-1"
         case beijing = "cn-north-1"
         case canadaCentral = "ca-central-1"
@@ -51,38 +51,38 @@ extension CostAndUsageReportService {
         public var description: String { return self.rawValue }
     }
 
-    public enum AdditionalArtifact: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AdditionalArtifact: String, CustomStringConvertible, Codable, Sendable {
         case athena = "ATHENA"
         case quicksight = "QUICKSIGHT"
         case redshift = "REDSHIFT"
         public var description: String { return self.rawValue }
     }
 
-    public enum CompressionFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CompressionFormat: String, CustomStringConvertible, Codable, Sendable {
         case gzip = "GZIP"
         case parquet = "Parquet"
         case zip = "ZIP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "textORcsv"
         case parquet = "Parquet"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportVersioning: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportVersioning: String, CustomStringConvertible, Codable, Sendable {
         case createNewReport = "CREATE_NEW_REPORT"
         case overwriteReport = "OVERWRITE_REPORT"
         public var description: String { return self.rawValue }
     }
 
-    public enum SchemaElement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SchemaElement: String, CustomStringConvertible, Codable, Sendable {
         case resources = "RESOURCES"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimeUnit: String, CustomStringConvertible, Codable, Sendable {
         case daily = "DAILY"
         case hourly = "HOURLY"
         case monthly = "MONTHLY"

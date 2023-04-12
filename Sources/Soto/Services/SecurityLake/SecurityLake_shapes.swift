@@ -21,13 +21,13 @@ import SotoCore
 extension SecurityLake {
     // MARK: Enums
 
-    public enum AccessType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessType: String, CustomStringConvertible, Codable, Sendable {
         case lakeformation = "LAKEFORMATION"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum AwsLogSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AwsLogSourceType: String, CustomStringConvertible, Codable, Sendable {
         case cloudTrail = "CLOUD_TRAIL"
         case route53 = "ROUTE53"
         case shFindings = "SH_FINDINGS"
@@ -35,26 +35,26 @@ extension SecurityLake {
         public var description: String { return self.rawValue }
     }
 
-    public enum Dimension: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Dimension: String, CustomStringConvertible, Codable, Sendable {
         case member = "MEMBER"
         case region = "REGION"
         case sourceType = "SOURCE_TYPE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointProtocol: String, CustomStringConvertible, Codable, Sendable {
         case https = "HTTPS"
         case sqs = "SQS"
         public var description: String { return self.rawValue }
     }
 
-    public enum HttpsMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HttpsMethod: String, CustomStringConvertible, Codable, Sendable {
         case post = "POST"
         case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum OcsfEventClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OcsfEventClass: String, CustomStringConvertible, Codable, Sendable {
         case accessActivity = "ACCESS_ACTIVITY"
         case accountChange = "ACCOUNT_CHANGE"
         case authentication = "AUTHENTICATION"
@@ -91,7 +91,7 @@ extension SecurityLake {
         public var description: String { return self.rawValue }
     }
 
-    public enum Region: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Region: String, CustomStringConvertible, Codable, Sendable {
         case apNortheast1 = "ap-northeast-1"
         case apSoutheast2 = "ap-southeast-2"
         case euCentral1 = "eu-central-1"
@@ -102,7 +102,7 @@ extension SecurityLake {
         public var description: String { return self.rawValue }
     }
 
-    public enum SettingsStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SettingsStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case initialized = "INITIALIZED"
@@ -110,14 +110,14 @@ extension SecurityLake {
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deactivated = "DEACTIVATED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable {
         case deepArchive = "DEEP_ARCHIVE"
         case expire = "EXPIRE"
         case glacier = "GLACIER"
@@ -128,7 +128,7 @@ extension SecurityLake {
         public var description: String { return self.rawValue }
     }
 
-    public enum SubscriptionProtocolType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SubscriptionProtocolType: String, CustomStringConvertible, Codable, Sendable {
         case app = "APP"
         case email = "EMAIL"
         case emailJson = "EMAIL_JSON"
@@ -141,7 +141,7 @@ extension SecurityLake {
         public var description: String { return self.rawValue }
     }
 
-    public enum SubscriptionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SubscriptionStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deactivated = "DEACTIVATED"
         case pending = "PENDING"
@@ -149,7 +149,7 @@ extension SecurityLake {
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum SourceType: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Amazon Security Lake supports log and event collection for natively supported Amazon Web Services.
         case awsSourceType(AwsLogSourceType)
         /// Amazon Security Lake supports custom source types. For a detailed list, see the Amazon Security Lake User Guide.

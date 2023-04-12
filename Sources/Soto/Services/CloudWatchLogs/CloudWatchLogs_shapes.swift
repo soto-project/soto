@@ -21,7 +21,7 @@ import SotoCore
 extension CloudWatchLogs {
     // MARK: Enums
 
-    public enum DataProtectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataProtectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case activated = "ACTIVATED"
         case archived = "ARCHIVED"
         case deleted = "DELETED"
@@ -29,13 +29,13 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
-    public enum Distribution: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Distribution: String, CustomStringConvertible, Codable, Sendable {
         case byLogStream = "ByLogStream"
         case random = "Random"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportTaskStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportTaskStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -45,13 +45,13 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrderBy: String, CustomStringConvertible, Codable, Sendable {
         case lastEventTime = "LastEventTime"
         case logStreamName = "LogStreamName"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QueryStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "Cancelled"
         case complete = "Complete"
         case failed = "Failed"
@@ -62,7 +62,7 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
-    public enum StandardUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StandardUnit: String, CustomStringConvertible, Codable, Sendable {
         case bits = "Bits"
         case bitsSecond = "Bits/Second"
         case bytes = "Bytes"

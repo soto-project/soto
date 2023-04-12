@@ -21,32 +21,32 @@ import SotoCore
 extension SavingsPlans {
     // MARK: Enums
 
-    public enum CurrencyCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable {
         case cny = "CNY"
         case usd = "USD"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanOfferingFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SavingsPlanOfferingFilterAttribute: String, CustomStringConvertible, Codable, Sendable {
         case instanceFamily = "instanceFamily"
         case region = "region"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanOfferingPropertyKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SavingsPlanOfferingPropertyKey: String, CustomStringConvertible, Codable, Sendable {
         case instanceFamily = "instanceFamily"
         case region = "region"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanPaymentOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SavingsPlanPaymentOption: String, CustomStringConvertible, Codable, Sendable {
         case allUpfront = "All Upfront"
         case noUpfront = "No Upfront"
         case partialUpfront = "Partial Upfront"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanProductType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SavingsPlanProductType: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "EC2"
         case fargate = "Fargate"
         case lambda = "Lambda"
@@ -54,7 +54,7 @@ extension SavingsPlans {
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanRateFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SavingsPlanRateFilterAttribute: String, CustomStringConvertible, Codable, Sendable {
         case instanceFamily = "instanceFamily"
         case instanceType = "instanceType"
         case productDescription = "productDescription"
@@ -64,7 +64,7 @@ extension SavingsPlans {
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanRateFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SavingsPlanRateFilterName: String, CustomStringConvertible, Codable, Sendable {
         case instanceType = "instanceType"
         case operation = "operation"
         case productDescription = "productDescription"
@@ -76,7 +76,7 @@ extension SavingsPlans {
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanRatePropertyKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SavingsPlanRatePropertyKey: String, CustomStringConvertible, Codable, Sendable {
         case instanceFamily = "instanceFamily"
         case instanceType = "instanceType"
         case productDescription = "productDescription"
@@ -85,7 +85,7 @@ extension SavingsPlans {
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanRateServiceCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SavingsPlanRateServiceCode: String, CustomStringConvertible, Codable, Sendable {
         case awsLambda = "AWSLambda"
         case amazonEC2 = "AmazonEC2"
         case amazonECS = "AmazonECS"
@@ -94,14 +94,14 @@ extension SavingsPlans {
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanRateUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SavingsPlanRateUnit: String, CustomStringConvertible, Codable, Sendable {
         case hrs = "Hrs"
         case lambdaGBSecond = "Lambda-GB-Second"
         case request = "Request"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SavingsPlanState: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case paymentFailed = "payment-failed"
         case paymentPending = "payment-pending"
@@ -111,14 +111,14 @@ extension SavingsPlans {
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlanType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SavingsPlanType: String, CustomStringConvertible, Codable, Sendable {
         case compute = "Compute"
         case ec2Instance = "EC2Instance"
         case sageMaker = "SageMaker"
         public var description: String { return self.rawValue }
     }
 
-    public enum SavingsPlansFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SavingsPlansFilterName: String, CustomStringConvertible, Codable, Sendable {
         case commitment = "commitment"
         case ec2InstanceFamily = "ec2-instance-family"
         case end = "end"

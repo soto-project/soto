@@ -21,34 +21,34 @@ import SotoCore
 extension Redshift {
     // MARK: Enums
 
-    public enum ActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionType: String, CustomStringConvertible, Codable, Sendable {
         case recommendNodeConfig = "recommend-node-config"
         case resizeCluster = "resize-cluster"
         case restoreCluster = "restore-cluster"
         public var description: String { return self.rawValue }
     }
 
-    public enum AquaConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AquaConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
         case auto = "auto"
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum AquaStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AquaStatus: String, CustomStringConvertible, Codable, Sendable {
         case applying = "applying"
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthorizationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthorizationStatus: String, CustomStringConvertible, Codable, Sendable {
         case authorized = "Authorized"
         case revoking = "Revoking"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataShareStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataShareStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case authorized = "AUTHORIZED"
         case available = "AVAILABLE"
@@ -58,13 +58,13 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataShareStatusForConsumer: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataShareStatusForConsumer: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case available = "AVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataShareStatusForProducer: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataShareStatusForProducer: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case authorized = "AUTHORIZED"
         case deauthorized = "DEAUTHORIZED"
@@ -73,19 +73,19 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogDestinationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogDestinationType: String, CustomStringConvertible, Codable, Sendable {
         case cloudwatch = "cloudwatch"
         case s3 = "s3"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mode: String, CustomStringConvertible, Codable, Sendable {
         case highPerformance = "high-performance"
         case standard = "standard"
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeConfigurationOptionsFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NodeConfigurationOptionsFilterName: String, CustomStringConvertible, Codable, Sendable {
         case estimatedDiskUtilizationPercent = "EstimatedDiskUtilizationPercent"
         case mode = "Mode"
         case nodeType = "NodeType"
@@ -93,7 +93,7 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
-    public enum OperatorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperatorType: String, CustomStringConvertible, Codable, Sendable {
         case `in` = "in"
         case between = "between"
         case eq = "eq"
@@ -104,13 +104,13 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
-    public enum ParameterApplyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParameterApplyType: String, CustomStringConvertible, Codable, Sendable {
         case `static` = "static"
         case dynamic = "dynamic"
         public var description: String { return self.rawValue }
     }
 
-    public enum PartnerIntegrationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PartnerIntegrationStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case connectionFailure = "ConnectionFailure"
         case inactive = "Inactive"
@@ -118,13 +118,13 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservedNodeExchangeActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservedNodeExchangeActionType: String, CustomStringConvertible, Codable, Sendable {
         case resizeCluster = "resize-cluster"
         case restoreCluster = "restore-cluster"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservedNodeExchangeStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservedNodeExchangeStatusType: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case pending = "PENDING"
@@ -134,52 +134,52 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReservedNodeOfferingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReservedNodeOfferingType: String, CustomStringConvertible, Codable, Sendable {
         case regular = "Regular"
         case upgradable = "Upgradable"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduleState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScheduleState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case failed = "FAILED"
         case modifying = "MODIFYING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduledActionFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScheduledActionFilterName: String, CustomStringConvertible, Codable, Sendable {
         case clusterIdentifier = "cluster-identifier"
         case iamRole = "iam-role"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduledActionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScheduledActionState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case disabled = "DISABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduledActionTypeValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScheduledActionTypeValues: String, CustomStringConvertible, Codable, Sendable {
         case pauseCluster = "PauseCluster"
         case resizeCluster = "ResizeCluster"
         case resumeCluster = "ResumeCluster"
         public var description: String { return self.rawValue }
     }
 
-    public enum SnapshotAttributeToSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SnapshotAttributeToSortBy: String, CustomStringConvertible, Codable, Sendable {
         case createTime = "CREATE_TIME"
         case sourceType = "SOURCE_TYPE"
         case totalSize = "TOTAL_SIZE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortByOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortByOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASC"
         case descending = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
         case cluster = "cluster"
         case clusterParameterGroup = "cluster-parameter-group"
         case clusterSecurityGroup = "cluster-security-group"
@@ -188,7 +188,7 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
-    public enum TableRestoreStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TableRestoreStatusType: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -197,27 +197,27 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageLimitBreachAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageLimitBreachAction: String, CustomStringConvertible, Codable, Sendable {
         case disable = "disable"
         case emitMetric = "emit-metric"
         case log = "log"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageLimitFeatureType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageLimitFeatureType: String, CustomStringConvertible, Codable, Sendable {
         case concurrencyScaling = "concurrency-scaling"
         case crossRegionDatasharing = "cross-region-datasharing"
         case spectrum = "spectrum"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageLimitLimitType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageLimitLimitType: String, CustomStringConvertible, Codable, Sendable {
         case dataScanned = "data-scanned"
         case time = "time"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageLimitPeriod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageLimitPeriod: String, CustomStringConvertible, Codable, Sendable {
         case daily = "daily"
         case monthly = "monthly"
         case weekly = "weekly"
