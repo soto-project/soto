@@ -21,7 +21,7 @@ import SotoCore
 extension DataPipeline {
     // MARK: Enums
 
-    public enum OperatorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperatorType: String, CustomStringConvertible, Codable, Sendable {
         case between = "BETWEEN"
         case eq = "EQ"
         case ge = "GE"
@@ -30,7 +30,7 @@ extension DataPipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case `false` = "FALSE"
         case finished = "FINISHED"

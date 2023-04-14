@@ -21,7 +21,7 @@ import SotoCore
 extension AutoScaling {
     // MARK: Enums
 
-    public enum AcceleratorManufacturer: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AcceleratorManufacturer: String, CustomStringConvertible, Codable, Sendable {
         case amazonWebServices = "amazon-web-services"
         case amd = "amd"
         case nvidia = "nvidia"
@@ -29,7 +29,7 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum AcceleratorName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AcceleratorName: String, CustomStringConvertible, Codable, Sendable {
         case a100 = "a100"
         case k80 = "k80"
         case m60 = "m60"
@@ -40,53 +40,53 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum AcceleratorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AcceleratorType: String, CustomStringConvertible, Codable, Sendable {
         case fpga = "fpga"
         case gpu = "gpu"
         case inference = "inference"
         public var description: String { return self.rawValue }
     }
 
-    public enum BareMetal: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BareMetal: String, CustomStringConvertible, Codable, Sendable {
         case excluded = "excluded"
         case included = "included"
         case required = "required"
         public var description: String { return self.rawValue }
     }
 
-    public enum BurstablePerformance: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BurstablePerformance: String, CustomStringConvertible, Codable, Sendable {
         case excluded = "excluded"
         case included = "included"
         case required = "required"
         public var description: String { return self.rawValue }
     }
 
-    public enum CpuManufacturer: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CpuManufacturer: String, CustomStringConvertible, Codable, Sendable {
         case amazonWebServices = "amazon-web-services"
         case amd = "amd"
         case intel = "intel"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceGeneration: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceGeneration: String, CustomStringConvertible, Codable, Sendable {
         case current = "current"
         case previous = "previous"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceMetadataEndpointState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceMetadataEndpointState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceMetadataHttpTokensState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceMetadataHttpTokensState: String, CustomStringConvertible, Codable, Sendable {
         case optional = "optional"
         case required = "required"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceRefreshStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceRefreshStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "Cancelled"
         case cancelling = "Cancelling"
         case failed = "Failed"
@@ -96,7 +96,7 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum LifecycleState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LifecycleState: String, CustomStringConvertible, Codable, Sendable {
         case detached = "Detached"
         case detaching = "Detaching"
         case enteringStandby = "EnteringStandby"
@@ -123,20 +123,20 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum LocalStorage: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocalStorage: String, CustomStringConvertible, Codable, Sendable {
         case excluded = "excluded"
         case included = "included"
         case required = "required"
         public var description: String { return self.rawValue }
     }
 
-    public enum LocalStorageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocalStorageType: String, CustomStringConvertible, Codable, Sendable {
         case hdd = "hdd"
         case ssd = "ssd"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricStatistic: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricStatistic: String, CustomStringConvertible, Codable, Sendable {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
@@ -145,7 +145,7 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricType: String, CustomStringConvertible, Codable, Sendable {
         case albRequestCountPerTarget = "ALBRequestCountPerTarget"
         case asgAverageCPUUtilization = "ASGAverageCPUUtilization"
         case asgAverageNetworkIn = "ASGAverageNetworkIn"
@@ -153,7 +153,7 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum PredefinedLoadMetricType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PredefinedLoadMetricType: String, CustomStringConvertible, Codable, Sendable {
         case albTargetGroupRequestCount = "ALBTargetGroupRequestCount"
         case asgTotalCPUUtilization = "ASGTotalCPUUtilization"
         case asgTotalNetworkIn = "ASGTotalNetworkIn"
@@ -161,7 +161,7 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum PredefinedMetricPairType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PredefinedMetricPairType: String, CustomStringConvertible, Codable, Sendable {
         case albRequestCount = "ALBRequestCount"
         case asgNetworkIn = "ASGNetworkIn"
         case asgNetworkOut = "ASGNetworkOut"
@@ -169,7 +169,7 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum PredefinedScalingMetricType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PredefinedScalingMetricType: String, CustomStringConvertible, Codable, Sendable {
         case albRequestCountPerTarget = "ALBRequestCountPerTarget"
         case asgAverageCPUUtilization = "ASGAverageCPUUtilization"
         case asgAverageNetworkIn = "ASGAverageNetworkIn"
@@ -177,24 +177,24 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum PredictiveScalingMaxCapacityBreachBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PredictiveScalingMaxCapacityBreachBehavior: String, CustomStringConvertible, Codable, Sendable {
         case honorMaxCapacity = "HonorMaxCapacity"
         case increaseMaxCapacity = "IncreaseMaxCapacity"
         public var description: String { return self.rawValue }
     }
 
-    public enum PredictiveScalingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PredictiveScalingMode: String, CustomStringConvertible, Codable, Sendable {
         case forecastAndScale = "ForecastAndScale"
         case forecastOnly = "ForecastOnly"
         public var description: String { return self.rawValue }
     }
 
-    public enum RefreshStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RefreshStrategy: String, CustomStringConvertible, Codable, Sendable {
         case rolling = "Rolling"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "Cancelled"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -210,14 +210,14 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum WarmPoolState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WarmPoolState: String, CustomStringConvertible, Codable, Sendable {
         case hibernated = "Hibernated"
         case running = "Running"
         case stopped = "Stopped"
         public var description: String { return self.rawValue }
     }
 
-    public enum WarmPoolStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WarmPoolStatus: String, CustomStringConvertible, Codable, Sendable {
         case pendingDelete = "PendingDelete"
         public var description: String { return self.rawValue }
     }

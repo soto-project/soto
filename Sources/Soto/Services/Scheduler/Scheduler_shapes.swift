@@ -21,50 +21,50 @@ import SotoCore
 extension Scheduler {
     // MARK: Enums
 
-    public enum AssignPublicIp: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssignPublicIp: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FlexibleTimeWindowMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FlexibleTimeWindowMode: String, CustomStringConvertible, Codable, Sendable {
         case flexible = "FLEXIBLE"
         case off = "OFF"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchType: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "EC2"
         case external = "EXTERNAL"
         case fargate = "FARGATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementConstraintType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlacementConstraintType: String, CustomStringConvertible, Codable, Sendable {
         case distinctInstance = "distinctInstance"
         case memberOf = "memberOf"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementStrategyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlacementStrategyType: String, CustomStringConvertible, Codable, Sendable {
         case binpack = "binpack"
         case random = "random"
         case spread = "spread"
         public var description: String { return self.rawValue }
     }
 
-    public enum PropagateTags: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PropagateTags: String, CustomStringConvertible, Codable, Sendable {
         case taskDefinition = "TASK_DEFINITION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduleGroupState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScheduleGroupState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduleState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScheduleState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }

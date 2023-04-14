@@ -21,7 +21,7 @@ import SotoCore
 extension LookoutEquipment {
     // MARK: Enums
 
-    public enum DataUploadFrequency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataUploadFrequency: String, CustomStringConvertible, Codable, Sendable {
         case pt10m = "PT10M"
         case pt15m = "PT15M"
         case pt1h = "PT1H"
@@ -30,21 +30,21 @@ extension LookoutEquipment {
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatasetStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case created = "CREATED"
         case ingestionInProgress = "INGESTION_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum InferenceExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InferenceExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum InferenceSchedulerStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InferenceSchedulerStatus: String, CustomStringConvertible, Codable, Sendable {
         case pending = "PENDING"
         case running = "RUNNING"
         case stopped = "STOPPED"
@@ -52,47 +52,47 @@ extension LookoutEquipment {
         public var description: String { return self.rawValue }
     }
 
-    public enum IngestionJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IngestionJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum LabelRating: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LabelRating: String, CustomStringConvertible, Codable, Sendable {
         case anomaly = "ANOMALY"
         case neutral = "NEUTRAL"
         case noAnomaly = "NO_ANOMALY"
         public var description: String { return self.rawValue }
     }
 
-    public enum LatestInferenceResult: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LatestInferenceResult: String, CustomStringConvertible, Codable, Sendable {
         case anomalous = "ANOMALOUS"
         case normal = "NORMAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Monotonicity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Monotonicity: String, CustomStringConvertible, Codable, Sendable {
         case `static` = "STATIC"
         case decreasing = "DECREASING"
         case increasing = "INCREASING"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatisticalIssueStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatisticalIssueStatus: String, CustomStringConvertible, Codable, Sendable {
         case noIssueDetected = "NO_ISSUE_DETECTED"
         case potentialIssueDetected = "POTENTIAL_ISSUE_DETECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetSamplingRate: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetSamplingRate: String, CustomStringConvertible, Codable, Sendable {
         case pt10m = "PT10M"
         case pt10s = "PT10S"
         case pt15m = "PT15M"

@@ -21,33 +21,33 @@ import SotoCore
 extension DevOpsGuru {
     // MARK: Enums
 
-    public enum AnomalySeverity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnomalySeverity: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnomalyStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnomalyStatus: String, CustomStringConvertible, Codable, Sendable {
         case closed = "CLOSED"
         case ongoing = "ONGOING"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnomalyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnomalyType: String, CustomStringConvertible, Codable, Sendable {
         case causal = "CAUSAL"
         case contextual = "CONTEXTUAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum CloudWatchMetricDataStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CloudWatchMetricDataStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case complete = "Complete"
         case internalError = "InternalError"
         case partialData = "PartialData"
         public var description: String { return self.rawValue }
     }
 
-    public enum CloudWatchMetricsStat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CloudWatchMetricsStat: String, CustomStringConvertible, Codable, Sendable {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
@@ -59,19 +59,19 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
-    public enum CostEstimationServiceResourceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CostEstimationServiceResourceState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CostEstimationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CostEstimationStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case ongoing = "ONGOING"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventClass: String, CustomStringConvertible, Codable, Sendable {
         case configChange = "CONFIG_CHANGE"
         case deployment = "DEPLOYMENT"
         case infrastructure = "INFRASTRUCTURE"
@@ -80,19 +80,19 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventDataSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventDataSource: String, CustomStringConvertible, Codable, Sendable {
         case awsCloudTrail = "AWS_CLOUD_TRAIL"
         case awsCodeDeploy = "AWS_CODE_DEPLOY"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventSourceOptInStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventSourceOptInStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InsightFeedbackOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InsightFeedbackOption: String, CustomStringConvertible, Codable, Sendable {
         case alertTooSensitive = "ALERT_TOO_SENSITIVE"
         case dataIncorrect = "DATA_INCORRECT"
         case dataNoisyAnomaly = "DATA_NOISY_ANOMALY"
@@ -101,26 +101,26 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
-    public enum InsightSeverity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InsightSeverity: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum InsightStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InsightStatus: String, CustomStringConvertible, Codable, Sendable {
         case closed = "CLOSED"
         case ongoing = "ONGOING"
         public var description: String { return self.rawValue }
     }
 
-    public enum InsightType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InsightType: String, CustomStringConvertible, Codable, Sendable {
         case proactive = "PROACTIVE"
         case reactive = "REACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Locale: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Locale: String, CustomStringConvertible, Codable, Sendable {
         case deDe = "DE_DE"
         case enGb = "EN_GB"
         case enUs = "EN_US"
@@ -135,7 +135,7 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogAnomalyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogAnomalyType: String, CustomStringConvertible, Codable, Sendable {
         case blockFormat = "BLOCK_FORMAT"
         case format = "FORMAT"
         case httpCode = "HTTP_CODE"
@@ -147,7 +147,7 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationMessageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotificationMessageType: String, CustomStringConvertible, Codable, Sendable {
         case closedInsight = "CLOSED_INSIGHT"
         case newAssociation = "NEW_ASSOCIATION"
         case newInsight = "NEW_INSIGHT"
@@ -156,13 +156,13 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
-    public enum OptInStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OptInStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationResourceCollectionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrganizationResourceCollectionType: String, CustomStringConvertible, Codable, Sendable {
         case awsAccount = "AWS_ACCOUNT"
         case awsCloudFormation = "AWS_CLOUD_FORMATION"
         case awsService = "AWS_SERVICE"
@@ -170,20 +170,20 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceCollectionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceCollectionType: String, CustomStringConvertible, Codable, Sendable {
         case awsCloudFormation = "AWS_CLOUD_FORMATION"
         case awsService = "AWS_SERVICE"
         case awsTags = "AWS_TAGS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourcePermission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourcePermission: String, CustomStringConvertible, Codable, Sendable {
         case fullPermission = "FULL_PERMISSION"
         case missingPermission = "MISSING_PERMISSION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceTypeFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceTypeFilter: String, CustomStringConvertible, Codable, Sendable {
         case cloudfrontDistribution = "CLOUDFRONT_DISTRIBUTION"
         case dynamodbTable = "DYNAMODB_TABLE"
         case ec2NatGateway = "EC2_NAT_GATEWAY"
@@ -214,7 +214,7 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceName: String, CustomStringConvertible, Codable, Sendable {
         case apiGateway = "API_GATEWAY"
         case applicationElb = "APPLICATION_ELB"
         case autoScalingGroup = "AUTO_SCALING_GROUP"
@@ -243,7 +243,7 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateResourceCollectionAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateResourceCollectionAction: String, CustomStringConvertible, Codable, Sendable {
         case add = "ADD"
         case remove = "REMOVE"
         public var description: String { return self.rawValue }

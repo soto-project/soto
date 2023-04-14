@@ -21,19 +21,19 @@ import SotoCore
 extension CodeStarNotifications {
     // MARK: Enums
 
-    public enum DetailType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DetailType: String, CustomStringConvertible, Codable, Sendable {
         case basic = "BASIC"
         case full = "FULL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListEventTypesFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListEventTypesFilterName: String, CustomStringConvertible, Codable, Sendable {
         case resourceType = "RESOURCE_TYPE"
         case serviceName = "SERVICE_NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListNotificationRulesFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListNotificationRulesFilterName: String, CustomStringConvertible, Codable, Sendable {
         case createdBy = "CREATED_BY"
         case eventTypeId = "EVENT_TYPE_ID"
         case resource = "RESOURCE"
@@ -41,20 +41,20 @@ extension CodeStarNotifications {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListTargetsFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListTargetsFilterName: String, CustomStringConvertible, Codable, Sendable {
         case targetAddress = "TARGET_ADDRESS"
         case targetStatus = "TARGET_STATUS"
         case targetType = "TARGET_TYPE"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationRuleStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotificationRuleStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deactivated = "DEACTIVATED"
         case inactive = "INACTIVE"

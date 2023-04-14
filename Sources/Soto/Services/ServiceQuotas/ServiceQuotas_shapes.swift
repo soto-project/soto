@@ -21,7 +21,7 @@ import SotoCore
 extension ServiceQuotas {
     // MARK: Enums
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case dependencyAccessDeniedError = "DEPENDENCY_ACCESS_DENIED_ERROR"
         case dependencyServiceError = "DEPENDENCY_SERVICE_ERROR"
         case dependencyThrottlingError = "DEPENDENCY_THROTTLING_ERROR"
@@ -29,7 +29,7 @@ extension ServiceQuotas {
         public var description: String { return self.rawValue }
     }
 
-    public enum PeriodUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PeriodUnit: String, CustomStringConvertible, Codable, Sendable {
         case day = "DAY"
         case hour = "HOUR"
         case microsecond = "MICROSECOND"
@@ -40,7 +40,7 @@ extension ServiceQuotas {
         public var description: String { return self.rawValue }
     }
 
-    public enum RequestStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RequestStatus: String, CustomStringConvertible, Codable, Sendable {
         case approved = "APPROVED"
         case caseClosed = "CASE_CLOSED"
         case caseOpened = "CASE_OPENED"
@@ -49,7 +49,7 @@ extension ServiceQuotas {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceQuotaTemplateAssociationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceQuotaTemplateAssociationStatus: String, CustomStringConvertible, Codable, Sendable {
         case associated = "ASSOCIATED"
         case disassociated = "DISASSOCIATED"
         public var description: String { return self.rawValue }

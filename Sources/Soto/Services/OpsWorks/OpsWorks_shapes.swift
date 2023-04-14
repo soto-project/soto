@@ -21,7 +21,7 @@ import SotoCore
 extension OpsWorks {
     // MARK: Enums
 
-    public enum AppAttributesKeys: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppAttributesKeys: String, CustomStringConvertible, Codable, Sendable {
         case autoBundleOnDeploy = "AutoBundleOnDeploy"
         case awsFlowRubySettings = "AwsFlowRubySettings"
         case documentRoot = "DocumentRoot"
@@ -29,7 +29,7 @@ extension OpsWorks {
         public var description: String { return self.rawValue }
     }
 
-    public enum AppType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppType: String, CustomStringConvertible, Codable, Sendable {
         case awsFlowRuby = "aws-flow-ruby"
         case java = "java"
         case nodejs = "nodejs"
@@ -40,19 +40,19 @@ extension OpsWorks {
         public var description: String { return self.rawValue }
     }
 
-    public enum Architecture: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Architecture: String, CustomStringConvertible, Codable, Sendable {
         case i386 = "i386"
         case x8664 = "x86_64"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoScalingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoScalingType: String, CustomStringConvertible, Codable, Sendable {
         case load = "load"
         case timer = "timer"
         public var description: String { return self.rawValue }
     }
 
-    public enum CloudWatchLogsEncoding: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CloudWatchLogsEncoding: String, CustomStringConvertible, Codable, Sendable {
         case ascii = "ascii"
         case big5 = "big5"
         case big5hkscs = "big5hkscs"
@@ -148,19 +148,19 @@ extension OpsWorks {
         public var description: String { return self.rawValue }
     }
 
-    public enum CloudWatchLogsInitialPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CloudWatchLogsInitialPosition: String, CustomStringConvertible, Codable, Sendable {
         case endOfFile = "end_of_file"
         case startOfFile = "start_of_file"
         public var description: String { return self.rawValue }
     }
 
-    public enum CloudWatchLogsTimeZone: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CloudWatchLogsTimeZone: String, CustomStringConvertible, Codable, Sendable {
         case local = "LOCAL"
         case utc = "UTC"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentCommandName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentCommandName: String, CustomStringConvertible, Codable, Sendable {
         case configure = "configure"
         case deploy = "deploy"
         case executeRecipes = "execute_recipes"
@@ -176,7 +176,7 @@ extension OpsWorks {
         public var description: String { return self.rawValue }
     }
 
-    public enum LayerAttributesKeys: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LayerAttributesKeys: String, CustomStringConvertible, Codable, Sendable {
         case bundlerVersion = "BundlerVersion"
         case ecsClusterArn = "EcsClusterArn"
         case enableHaproxyStats = "EnableHaproxyStats"
@@ -205,7 +205,7 @@ extension OpsWorks {
         public var description: String { return self.rawValue }
     }
 
-    public enum LayerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LayerType: String, CustomStringConvertible, Codable, Sendable {
         case awsFlowRuby = "aws-flow-ruby"
         case custom = "custom"
         case dbMaster = "db-master"
@@ -221,13 +221,13 @@ extension OpsWorks {
         public var description: String { return self.rawValue }
     }
 
-    public enum RootDeviceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RootDeviceType: String, CustomStringConvertible, Codable, Sendable {
         case ebs = "ebs"
         case instanceStore = "instance-store"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
         case archive = "archive"
         case git = "git"
         case s3 = "s3"
@@ -235,18 +235,18 @@ extension OpsWorks {
         public var description: String { return self.rawValue }
     }
 
-    public enum StackAttributesKeys: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackAttributesKeys: String, CustomStringConvertible, Codable, Sendable {
         case color = "Color"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualizationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VirtualizationType: String, CustomStringConvertible, Codable, Sendable {
         case hvm = "hvm"
         case paravirtual = "paravirtual"
         public var description: String { return self.rawValue }
     }
 
-    public enum VolumeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VolumeType: String, CustomStringConvertible, Codable, Sendable {
         case gp2 = "gp2"
         case io1 = "io1"
         case standard = "standard"

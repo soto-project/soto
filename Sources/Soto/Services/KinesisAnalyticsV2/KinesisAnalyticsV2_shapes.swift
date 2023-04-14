@@ -21,20 +21,20 @@ import SotoCore
 extension KinesisAnalyticsV2 {
     // MARK: Enums
 
-    public enum ApplicationMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationMode: String, CustomStringConvertible, Codable, Sendable {
         case interactive = "INTERACTIVE"
         case streaming = "STREAMING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationRestoreType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationRestoreType: String, CustomStringConvertible, Codable, Sendable {
         case restoreFromCustomSnapshot = "RESTORE_FROM_CUSTOM_SNAPSHOT"
         case restoreFromLatestSnapshot = "RESTORE_FROM_LATEST_SNAPSHOT"
         case skipRestoreFromSnapshot = "SKIP_RESTORE_FROM_SNAPSHOT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationStatus: String, CustomStringConvertible, Codable, Sendable {
         case autoscaling = "AUTOSCALING"
         case deleting = "DELETING"
         case forceStopping = "FORCE_STOPPING"
@@ -49,32 +49,32 @@ extension KinesisAnalyticsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ArtifactType: String, CustomStringConvertible, Codable, Sendable {
         case dependencyJar = "DEPENDENCY_JAR"
         case udf = "UDF"
         public var description: String { return self.rawValue }
     }
 
-    public enum CodeContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CodeContentType: String, CustomStringConvertible, Codable, Sendable {
         case plaintext = "PLAINTEXT"
         case zipfile = "ZIPFILE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationType: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case custom = "CUSTOM"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputStartingPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputStartingPosition: String, CustomStringConvertible, Codable, Sendable {
         case lastStoppedPoint = "LAST_STOPPED_POINT"
         case now = "NOW"
         case trimHorizon = "TRIM_HORIZON"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogLevel: String, CustomStringConvertible, Codable, Sendable {
         case debug = "DEBUG"
         case error = "ERROR"
         case info = "INFO"
@@ -82,7 +82,7 @@ extension KinesisAnalyticsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricsLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricsLevel: String, CustomStringConvertible, Codable, Sendable {
         case `operator` = "OPERATOR"
         case application = "APPLICATION"
         case parallelism = "PARALLELISM"
@@ -90,13 +90,13 @@ extension KinesisAnalyticsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordFormatType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecordFormatType: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuntimeEnvironment: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuntimeEnvironment: String, CustomStringConvertible, Codable, Sendable {
         case flink111 = "FLINK-1_11"
         case flink113 = "FLINK-1_13"
         case flink115 = "FLINK-1_15"
@@ -108,7 +108,7 @@ extension KinesisAnalyticsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SnapshotStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SnapshotStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -116,7 +116,7 @@ extension KinesisAnalyticsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum UrlType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UrlType: String, CustomStringConvertible, Codable, Sendable {
         case flinkDashboardUrl = "FLINK_DASHBOARD_URL"
         case zeppelinUiUrl = "ZEPPELIN_UI_URL"
         public var description: String { return self.rawValue }

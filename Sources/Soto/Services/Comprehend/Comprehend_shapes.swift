@@ -21,49 +21,49 @@ import SotoCore
 extension Comprehend {
     // MARK: Enums
 
-    public enum AugmentedManifestsDocumentTypeFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AugmentedManifestsDocumentTypeFormat: String, CustomStringConvertible, Codable, Sendable {
         case plainTextDocument = "PLAIN_TEXT_DOCUMENT"
         case semiStructuredDocument = "SEMI_STRUCTURED_DOCUMENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum BlockType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BlockType: String, CustomStringConvertible, Codable, Sendable {
         case line = "LINE"
         case word = "WORD"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentClassifierDataFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DocumentClassifierDataFormat: String, CustomStringConvertible, Codable, Sendable {
         case augmentedManifest = "AUGMENTED_MANIFEST"
         case comprehendCsv = "COMPREHEND_CSV"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentClassifierMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DocumentClassifierMode: String, CustomStringConvertible, Codable, Sendable {
         case multiClass = "MULTI_CLASS"
         case multiLabel = "MULTI_LABEL"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentReadAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DocumentReadAction: String, CustomStringConvertible, Codable, Sendable {
         case textractAnalyzeDocument = "TEXTRACT_ANALYZE_DOCUMENT"
         case textractDetectDocumentText = "TEXTRACT_DETECT_DOCUMENT_TEXT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentReadFeatureTypes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DocumentReadFeatureTypes: String, CustomStringConvertible, Codable, Sendable {
         case forms = "FORMS"
         case tables = "TABLES"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentReadMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DocumentReadMode: String, CustomStringConvertible, Codable, Sendable {
         case forceDocumentReadAction = "FORCE_DOCUMENT_READ_ACTION"
         case serviceDefault = "SERVICE_DEFAULT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DocumentType: String, CustomStringConvertible, Codable, Sendable {
         case image = "IMAGE"
         case msWord = "MS_WORD"
         case nativePdf = "NATIVE_PDF"
@@ -74,7 +74,7 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -83,13 +83,13 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum EntityRecognizerDataFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EntityRecognizerDataFormat: String, CustomStringConvertible, Codable, Sendable {
         case augmentedManifest = "AUGMENTED_MANIFEST"
         case comprehendCsv = "COMPREHEND_CSV"
         public var description: String { return self.rawValue }
     }
 
-    public enum EntityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EntityType: String, CustomStringConvertible, Codable, Sendable {
         case commercialItem = "COMMERCIAL_ITEM"
         case date = "DATE"
         case event = "EVENT"
@@ -102,13 +102,13 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum InputFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputFormat: String, CustomStringConvertible, Codable, Sendable {
         case oneDocPerFile = "ONE_DOC_PER_FILE"
         case oneDocPerLine = "ONE_DOC_PER_LINE"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -118,7 +118,7 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable {
         case ar = "ar"
         case de = "de"
         case en = "en"
@@ -134,7 +134,7 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleting = "DELETING"
         case inError = "IN_ERROR"
         case stopRequested = "STOP_REQUESTED"
@@ -145,7 +145,7 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum PageBasedErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PageBasedErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case internalServerError = "INTERNAL_SERVER_ERROR"
         case pageCharactersExceeded = "PAGE_CHARACTERS_EXCEEDED"
         case pageSizeExceeded = "PAGE_SIZE_EXCEEDED"
@@ -154,7 +154,7 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum PartOfSpeechTagType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PartOfSpeechTagType: String, CustomStringConvertible, Codable, Sendable {
         case adj = "ADJ"
         case adp = "ADP"
         case adv = "ADV"
@@ -176,19 +176,19 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum PiiEntitiesDetectionMaskMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PiiEntitiesDetectionMaskMode: String, CustomStringConvertible, Codable, Sendable {
         case mask = "MASK"
         case replaceWithPiiEntityType = "REPLACE_WITH_PII_ENTITY_TYPE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PiiEntitiesDetectionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PiiEntitiesDetectionMode: String, CustomStringConvertible, Codable, Sendable {
         case onlyOffsets = "ONLY_OFFSETS"
         case onlyRedaction = "ONLY_REDACTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum PiiEntityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PiiEntityType: String, CustomStringConvertible, Codable, Sendable {
         case address = "ADDRESS"
         case age = "AGE"
         case all = "ALL"
@@ -229,12 +229,12 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum RelationshipType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RelationshipType: String, CustomStringConvertible, Codable, Sendable {
         case child = "CHILD"
         public var description: String { return self.rawValue }
     }
 
-    public enum SentimentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SentimentType: String, CustomStringConvertible, Codable, Sendable {
         case mixed = "MIXED"
         case negative = "NEGATIVE"
         case neutral = "NEUTRAL"
@@ -242,13 +242,13 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum Split: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Split: String, CustomStringConvertible, Codable, Sendable {
         case test = "TEST"
         case train = "TRAIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum SyntaxLanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SyntaxLanguageCode: String, CustomStringConvertible, Codable, Sendable {
         case de = "de"
         case en = "en"
         case es = "es"
@@ -258,7 +258,7 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetedSentimentEntityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetedSentimentEntityType: String, CustomStringConvertible, Codable, Sendable {
         case attribute = "ATTRIBUTE"
         case book = "BOOK"
         case brand = "BRAND"

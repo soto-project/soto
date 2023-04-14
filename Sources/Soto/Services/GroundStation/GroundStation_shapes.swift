@@ -21,20 +21,20 @@ import SotoCore
 extension GroundStation {
     // MARK: Enums
 
-    public enum AngleUnits: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AngleUnits: String, CustomStringConvertible, Codable, Sendable {
         case degreeAngle = "DEGREE_ANGLE"
         case radian = "RADIAN"
         public var description: String { return self.rawValue }
     }
 
-    public enum BandwidthUnits: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BandwidthUnits: String, CustomStringConvertible, Codable, Sendable {
         case gHz = "GHz"
         case mHz = "MHz"
         case kHz = "kHz"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigCapabilityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigCapabilityType: String, CustomStringConvertible, Codable, Sendable {
         case antennaDownlink = "antenna-downlink"
         case antennaDownlinkDemodDecode = "antenna-downlink-demod-decode"
         case antennaUplink = "antenna-uplink"
@@ -45,7 +45,7 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContactStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case awsCancelled = "AWS_CANCELLED"
         case awsFailed = "AWS_FAILED"
@@ -62,19 +62,19 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
-    public enum Criticality: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Criticality: String, CustomStringConvertible, Codable, Sendable {
         case preferred = "PREFERRED"
         case removed = "REMOVED"
         case required = "REQUIRED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EirpUnits: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EirpUnits: String, CustomStringConvertible, Codable, Sendable {
         case dBW = "dBW"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable {
         case created = "created"
         case creating = "creating"
         case deleted = "deleted"
@@ -83,7 +83,7 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
-    public enum EphemerisInvalidReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EphemerisInvalidReason: String, CustomStringConvertible, Codable, Sendable {
         /// Provided KMS key is invalid
         case kmsKeyInvalid = "KMS_KEY_INVALID"
         /// Provided spacecraft identifiers such as spacecraft NORAD Id are invalid
@@ -97,13 +97,13 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
-    public enum EphemerisSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EphemerisSource: String, CustomStringConvertible, Codable, Sendable {
         case customerProvided = "CUSTOMER_PROVIDED"
         case spaceTrack = "SPACE_TRACK"
         public var description: String { return self.rawValue }
     }
 
-    public enum EphemerisStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EphemerisStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case error = "ERROR"
@@ -113,21 +113,21 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
-    public enum FrequencyUnits: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FrequencyUnits: String, CustomStringConvertible, Codable, Sendable {
         case gHz = "GHz"
         case mHz = "MHz"
         case kHz = "kHz"
         public var description: String { return self.rawValue }
     }
 
-    public enum Polarization: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Polarization: String, CustomStringConvertible, Codable, Sendable {
         case leftHand = "LEFT_HAND"
         case none = "NONE"
         case rightHand = "RIGHT_HAND"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigDetails: AWSDecodableShape, _SotoSendable {
+    public enum ConfigDetails: AWSDecodableShape, Sendable {
         /// Details for antenna demod decode Config in a contact.
         case antennaDemodDecodeDetails(AntennaDemodDecodeDetails)
         case endpointDetails(EndpointDetails)
@@ -163,7 +163,7 @@ extension GroundStation {
         }
     }
 
-    public enum ConfigTypeData: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum ConfigTypeData: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Information about how AWS Ground Station should configure an antenna for downlink during a contact.
         case antennaDownlinkConfig(AntennaDownlinkConfig)
         /// Information about how AWS Ground Station should conﬁgure an antenna for downlink demod decode during a contact.
@@ -255,7 +255,7 @@ extension GroundStation {
         }
     }
 
-    public enum EphemerisData: AWSEncodableShape, _SotoSendable {
+    public enum EphemerisData: AWSEncodableShape, Sendable {
         case oem(OEMEphemeris)
         case tle(TLEEphemeris)
 
@@ -284,7 +284,7 @@ extension GroundStation {
         }
     }
 
-    public enum EphemerisTypeDescription: AWSDecodableShape, _SotoSendable {
+    public enum EphemerisTypeDescription: AWSDecodableShape, Sendable {
         case oem(EphemerisDescription)
         case tle(EphemerisDescription)
 

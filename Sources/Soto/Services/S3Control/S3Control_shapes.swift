@@ -21,14 +21,14 @@ import SotoCore
 extension S3Control {
     // MARK: Enums
 
-    public enum AsyncOperationName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AsyncOperationName: String, CustomStringConvertible, Codable, Sendable {
         case createMultiRegionAccessPoint = "CreateMultiRegionAccessPoint"
         case deleteMultiRegionAccessPoint = "DeleteMultiRegionAccessPoint"
         case putMultiRegionAccessPointPolicy = "PutMultiRegionAccessPointPolicy"
         public var description: String { return self.rawValue }
     }
 
-    public enum BucketCannedACL: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BucketCannedACL: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case publicRead = "public-read"
@@ -36,7 +36,7 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public struct BucketLocationConstraint: RawRepresentable, Equatable, Codable, _SotoSendable {
+    public struct BucketLocationConstraint: RawRepresentable, Equatable, Codable, Sendable {
         public var rawValue: String
 
         public init(rawValue: String) {
@@ -57,30 +57,30 @@ extension S3Control {
         public static var usWest2: Self { .init(rawValue: "us-west-2") }
     }
 
-    public enum BucketVersioningStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BucketVersioningStatus: String, CustomStringConvertible, Codable, Sendable {
         case enabled = "Enabled"
         case suspended = "Suspended"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExpirationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExpirationStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Format: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case parquet = "Parquet"
         public var description: String { return self.rawValue }
     }
 
-    public enum GeneratedManifestFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GeneratedManifestFormat: String, CustomStringConvertible, Codable, Sendable {
         case s3InventoryReportCSV20211130 = "S3InventoryReport_CSV_20211130"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobManifestFieldName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobManifestFieldName: String, CustomStringConvertible, Codable, Sendable {
         case bucket = "Bucket"
         case ignore = "Ignore"
         case key = "Key"
@@ -88,24 +88,24 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobManifestFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobManifestFormat: String, CustomStringConvertible, Codable, Sendable {
         case s3BatchOperationsCSV20180820 = "S3BatchOperations_CSV_20180820"
         case s3InventoryReportCSV20161130 = "S3InventoryReport_CSV_20161130"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobReportFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobReportFormat: String, CustomStringConvertible, Codable, Sendable {
         case reportCSV20180820 = "Report_CSV_20180820"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobReportScope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobReportScope: String, CustomStringConvertible, Codable, Sendable {
         case allTasks = "AllTasks"
         case failedTasksOnly = "FailedTasksOnly"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case cancelled = "Cancelled"
         case cancelling = "Cancelling"
@@ -122,19 +122,19 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum MFADelete: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MFADelete: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum MFADeleteStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MFADeleteStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum MultiRegionAccessPointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MultiRegionAccessPointStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "CREATING"
         case deleting = "DELETING"
         case inconsistentAcrossRegions = "INCONSISTENT_ACROSS_REGIONS"
@@ -144,13 +144,13 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkOrigin: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkOrigin: String, CustomStringConvertible, Codable, Sendable {
         case internet = "Internet"
         case vpc = "VPC"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectLambdaAllowedFeature: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectLambdaAllowedFeature: String, CustomStringConvertible, Codable, Sendable {
         case getObjectPartNumber = "GetObject-PartNumber"
         case getObjectRange = "GetObject-Range"
         case headObjectPartNumber = "HeadObject-PartNumber"
@@ -158,7 +158,7 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectLambdaTransformationConfigurationAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectLambdaTransformationConfigurationAction: String, CustomStringConvertible, Codable, Sendable {
         case getObject = "GetObject"
         case headObject = "HeadObject"
         case listObjects = "ListObjects"
@@ -166,7 +166,7 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperationName: String, CustomStringConvertible, Codable, Sendable {
         case lambdaInvoke = "LambdaInvoke"
         case s3DeleteObjectTagging = "S3DeleteObjectTagging"
         case s3InitiateRestoreObject = "S3InitiateRestoreObject"
@@ -179,12 +179,12 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputSchemaVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OutputSchemaVersion: String, CustomStringConvertible, Codable, Sendable {
         case v1 = "V_1"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case none = "NONE"
@@ -192,13 +192,13 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum RequestedJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RequestedJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "Cancelled"
         case ready = "Ready"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3CannedAccessControlList: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3CannedAccessControlList: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
@@ -209,7 +209,7 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ChecksumAlgorithm: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3ChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable {
         case crc32 = "CRC32"
         case crc32c = "CRC32C"
         case sha1 = "SHA1"
@@ -217,44 +217,44 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3GlacierJobTier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3GlacierJobTier: String, CustomStringConvertible, Codable, Sendable {
         case bulk = "BULK"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3GranteeTypeIdentifier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3GranteeTypeIdentifier: String, CustomStringConvertible, Codable, Sendable {
         case canonical = "id"
         case emailAddress = "emailAddress"
         case group = "uri"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3MetadataDirective: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3MetadataDirective: String, CustomStringConvertible, Codable, Sendable {
         case copy = "COPY"
         case replace = "REPLACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable, Sendable {
         case off = "OFF"
         case on = "ON"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ObjectLockMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3ObjectLockMode: String, CustomStringConvertible, Codable, Sendable {
         case compliance = "COMPLIANCE"
         case governance = "GOVERNANCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3ObjectLockRetentionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3ObjectLockRetentionMode: String, CustomStringConvertible, Codable, Sendable {
         case compliance = "COMPLIANCE"
         case governance = "GOVERNANCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3Permission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3Permission: String, CustomStringConvertible, Codable, Sendable {
         case fullControl = "FULL_CONTROL"
         case read = "READ"
         case readAcp = "READ_ACP"
@@ -263,13 +263,13 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3SSEAlgorithm: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3SSEAlgorithm: String, CustomStringConvertible, Codable, Sendable {
         case aes256 = "AES256"
         case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3StorageClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3StorageClass: String, CustomStringConvertible, Codable, Sendable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
         case glacierIr = "GLACIER_IR"
@@ -280,7 +280,7 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitionStorageClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitionStorageClass: String, CustomStringConvertible, Codable, Sendable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
         case intelligentTiering = "INTELLIGENT_TIERING"

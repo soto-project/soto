@@ -21,21 +21,21 @@ import SotoCore
 extension IoTTwinMaker {
     // MARK: Enums
 
-    public enum ColumnType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ColumnType: String, CustomStringConvertible, Codable, Sendable {
         case edge = "EDGE"
         case node = "NODE"
         case value = "VALUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComponentUpdateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComponentUpdateType: String, CustomStringConvertible, Codable, Sendable {
         case create = "CREATE"
         case delete = "DELETE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case internalFailure = "INTERNAL_FAILURE"
         case syncCreatingError = "SYNC_CREATING_ERROR"
         case syncInitializingError = "SYNC_INITIALIZING_ERROR"
@@ -44,42 +44,42 @@ extension IoTTwinMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GroupType: String, CustomStringConvertible, Codable, Sendable {
         case tabular = "TABULAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum InterpolationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InterpolationType: String, CustomStringConvertible, Codable, Sendable {
         case linear = "LINEAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum Order: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Order: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderByTime: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrderByTime: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParentEntityUpdateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParentEntityUpdateType: String, CustomStringConvertible, Codable, Sendable {
         case delete = "DELETE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PricingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PricingMode: String, CustomStringConvertible, Codable, Sendable {
         case basic = "BASIC"
         case standard = "STANDARD"
         case tieredBundle = "TIERED_BUNDLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PricingTier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PricingTier: String, CustomStringConvertible, Codable, Sendable {
         case tier1 = "TIER_1"
         case tier2 = "TIER_2"
         case tier3 = "TIER_3"
@@ -87,27 +87,27 @@ extension IoTTwinMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum PropertyGroupUpdateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PropertyGroupUpdateType: String, CustomStringConvertible, Codable, Sendable {
         case create = "CREATE"
         case delete = "DELETE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PropertyUpdateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PropertyUpdateType: String, CustomStringConvertible, Codable, Sendable {
         case create = "CREATE"
         case delete = "DELETE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Scope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scope: String, CustomStringConvertible, Codable, Sendable {
         case entity = "ENTITY"
         case workspace = "WORKSPACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum State: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum State: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -116,7 +116,7 @@ extension IoTTwinMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum SyncJobState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SyncJobState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -125,7 +125,7 @@ extension IoTTwinMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum SyncResourceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SyncResourceState: String, CustomStringConvertible, Codable, Sendable {
         case deleted = "DELETED"
         case error = "ERROR"
         case initializing = "INITIALIZING"
@@ -134,13 +134,13 @@ extension IoTTwinMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum SyncResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SyncResourceType: String, CustomStringConvertible, Codable, Sendable {
         case componentType = "COMPONENT_TYPE"
         case entity = "ENTITY"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateReason: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case entityCountUpdate = "ENTITY_COUNT_UPDATE"
         case overwritten = "OVERWRITTEN"
@@ -149,7 +149,7 @@ extension IoTTwinMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
         case integer = "INTEGER"
@@ -161,7 +161,7 @@ extension IoTTwinMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListComponentTypesFilter: AWSEncodableShape, _SotoSendable {
+    public enum ListComponentTypesFilter: AWSEncodableShape, Sendable {
         /// The component type that the component types in the list extend.
         case extendsFrom(String)
         /// A Boolean value that specifies whether the component types in the list are abstract.
@@ -203,7 +203,7 @@ extension IoTTwinMaker {
         }
     }
 
-    public enum ListEntitiesFilter: AWSEncodableShape, _SotoSendable {
+    public enum ListEntitiesFilter: AWSEncodableShape, Sendable {
         /// The ID of the component type in the entities in the list.
         case componentTypeId(String)
         /// The external-Id property of a component. The external-Id property is the primary key of an external storage system.
@@ -247,7 +247,7 @@ extension IoTTwinMaker {
         }
     }
 
-    public enum SyncResourceFilter: AWSEncodableShape, _SotoSendable {
+    public enum SyncResourceFilter: AWSEncodableShape, Sendable {
         /// The external Id.
         case externalId(String)
         /// The sync resource filter resource Id.

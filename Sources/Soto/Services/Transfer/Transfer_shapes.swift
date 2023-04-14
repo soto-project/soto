@@ -21,55 +21,55 @@ import SotoCore
 extension Transfer {
     // MARK: Enums
 
-    public enum AgreementStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AgreementStatusType: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum As2Transport: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum As2Transport: String, CustomStringConvertible, Codable, Sendable {
         case http = "HTTP"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CertificateStatusType: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         case pendingRotation = "PENDING_ROTATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CertificateType: String, CustomStringConvertible, Codable, Sendable {
         case certificate = "CERTIFICATE"
         case certificateWithPrivateKey = "CERTIFICATE_WITH_PRIVATE_KEY"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateUsageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CertificateUsageType: String, CustomStringConvertible, Codable, Sendable {
         case encryption = "ENCRYPTION"
         case signing = "SIGNING"
         public var description: String { return self.rawValue }
     }
 
-    public enum CompressionEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CompressionEnum: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case zlib = "ZLIB"
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomStepStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomStepStatus: String, CustomStringConvertible, Codable, Sendable {
         case failure = "FAILURE"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Domain: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Domain: String, CustomStringConvertible, Codable, Sendable {
         case efs = "EFS"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionAlg: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionAlg: String, CustomStringConvertible, Codable, Sendable {
         case aes128Cbc = "AES128_CBC"
         case aes192Cbc = "AES192_CBC"
         case aes256Cbc = "AES256_CBC"
@@ -77,19 +77,19 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
         case pgp = "PGP"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointType: String, CustomStringConvertible, Codable, Sendable {
         case `public` = "PUBLIC"
         case vpc = "VPC"
         case vpcEndpoint = "VPC_ENDPOINT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionErrorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecutionErrorType: String, CustomStringConvertible, Codable, Sendable {
         case alreadyExists = "ALREADY_EXISTS"
         case badRequest = "BAD_REQUEST"
         case customStepFailed = "CUSTOM_STEP_FAILED"
@@ -101,7 +101,7 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case exception = "EXCEPTION"
         case handlingException = "HANDLING_EXCEPTION"
@@ -109,13 +109,13 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
-    public enum HomeDirectoryType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HomeDirectoryType: String, CustomStringConvertible, Codable, Sendable {
         case logical = "LOGICAL"
         case path = "PATH"
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityProviderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IdentityProviderType: String, CustomStringConvertible, Codable, Sendable {
         case apiGateway = "API_GATEWAY"
         case awsDirectoryService = "AWS_DIRECTORY_SERVICE"
         case awsLambda = "AWS_LAMBDA"
@@ -123,13 +123,13 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
-    public enum MdnResponse: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MdnResponse: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case sync = "SYNC"
         public var description: String { return self.rawValue }
     }
 
-    public enum MdnSigningAlg: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MdnSigningAlg: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case none = "NONE"
         case sha1 = "SHA1"
@@ -139,25 +139,25 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
-    public enum OverwriteExisting: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OverwriteExisting: String, CustomStringConvertible, Codable, Sendable {
         case `false` = "FALSE"
         case `true` = "TRUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProfileType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProfileType: String, CustomStringConvertible, Codable, Sendable {
         case local = "LOCAL"
         case partner = "PARTNER"
         public var description: String { return self.rawValue }
     }
 
-    public enum SetStatOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SetStatOption: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case enableNoOp = "ENABLE_NO_OP"
         public var description: String { return self.rawValue }
     }
 
-    public enum SigningAlg: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SigningAlg: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case sha1 = "SHA1"
         case sha256 = "SHA256"
@@ -166,7 +166,7 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
-    public enum State: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum State: String, CustomStringConvertible, Codable, Sendable {
         case offline = "OFFLINE"
         case online = "ONLINE"
         case startFailed = "START_FAILED"
@@ -176,14 +176,14 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
-    public enum TlsSessionResumptionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TlsSessionResumptionMode: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case enforced = "ENFORCED"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowStepType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkflowStepType: String, CustomStringConvertible, Codable, Sendable {
         case copy = "COPY"
         case custom = "CUSTOM"
         case decrypt = "DECRYPT"
@@ -192,7 +192,7 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable {
         case as2 = "AS2"
         case ftp = "FTP"
         case ftps = "FTPS"

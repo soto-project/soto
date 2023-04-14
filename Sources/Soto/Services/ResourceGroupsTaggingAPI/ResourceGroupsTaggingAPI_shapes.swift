@@ -21,20 +21,20 @@ import SotoCore
 extension ResourceGroupsTaggingAPI {
     // MARK: Enums
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case internalServiceException = "InternalServiceException"
         case invalidParameterException = "InvalidParameterException"
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupByAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GroupByAttribute: String, CustomStringConvertible, Codable, Sendable {
         case region = "REGION"
         case resourceType = "RESOURCE_TYPE"
         case targetId = "TARGET_ID"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetIdType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetIdType: String, CustomStringConvertible, Codable, Sendable {
         case account = "ACCOUNT"
         case ou = "OU"
         case root = "ROOT"

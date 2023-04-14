@@ -21,7 +21,7 @@ import SotoCore
 extension Amplify {
     // MARK: Enums
 
-    public enum DomainStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DomainStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case failed = "FAILED"
@@ -33,7 +33,7 @@ extension Amplify {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case failed = "FAILED"
@@ -44,7 +44,7 @@ extension Amplify {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobType: String, CustomStringConvertible, Codable, Sendable {
         case manual = "MANUAL"
         case release = "RELEASE"
         case retry = "RETRY"
@@ -52,21 +52,21 @@ extension Amplify {
         public var description: String { return self.rawValue }
     }
 
-    public enum Platform: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Platform: String, CustomStringConvertible, Codable, Sendable {
         case web = "WEB"
         case webCompute = "WEB_COMPUTE"
         case webDynamic = "WEB_DYNAMIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum RepositoryCloneMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RepositoryCloneMethod: String, CustomStringConvertible, Codable, Sendable {
         case sigv4 = "SIGV4"
         case ssh = "SSH"
         case token = "TOKEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum Stage: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Stage: String, CustomStringConvertible, Codable, Sendable {
         case beta = "BETA"
         case development = "DEVELOPMENT"
         case experimental = "EXPERIMENTAL"

@@ -21,13 +21,13 @@ import SotoCore
 extension SMS {
     // MARK: Enums
 
-    public enum AppLaunchConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppLaunchConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
         case configured = "CONFIGURED"
         case notConfigured = "NOT_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AppLaunchStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppLaunchStatus: String, CustomStringConvertible, Codable, Sendable {
         case configurationInvalid = "CONFIGURATION_INVALID"
         case configurationInProgress = "CONFIGURATION_IN_PROGRESS"
         case deltaLaunchFailed = "DELTA_LAUNCH_FAILED"
@@ -46,13 +46,13 @@ extension SMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum AppReplicationConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppReplicationConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
         case configured = "CONFIGURED"
         case notConfigured = "NOT_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AppReplicationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppReplicationStatus: String, CustomStringConvertible, Codable, Sendable {
         case configurationInvalid = "CONFIGURATION_INVALID"
         case configurationInProgress = "CONFIGURATION_IN_PROGRESS"
         case deltaReplicated = "DELTA_REPLICATED"
@@ -72,7 +72,7 @@ extension SMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum AppStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleted = "DELETED"
@@ -82,12 +82,12 @@ extension SMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum AppValidationStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppValidationStrategy: String, CustomStringConvertible, Codable, Sendable {
         case ssm = "SSM"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectorCapability: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectorCapability: String, CustomStringConvertible, Codable, Sendable {
         case hypervManager = "HYPERV-MANAGER"
         case scvmm = "SCVMM"
         case smsOptimized = "SMS_OPTIMIZED"
@@ -96,25 +96,25 @@ extension SMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectorStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectorStatus: String, CustomStringConvertible, Codable, Sendable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
         public var description: String { return self.rawValue }
     }
 
-    public enum LicenseType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LicenseType: String, CustomStringConvertible, Codable, Sendable {
         case aws = "AWS"
         case byol = "BYOL"
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable {
         case json = "JSON"
         case yaml = "YAML"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationJobState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationJobState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case completed = "COMPLETED"
         case deleted = "DELETED"
@@ -126,7 +126,7 @@ extension SMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationRunState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationRunState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case completed = "COMPLETED"
         case deleted = "DELETED"
@@ -137,19 +137,19 @@ extension SMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationRunType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationRunType: String, CustomStringConvertible, Codable, Sendable {
         case automatic = "AUTOMATIC"
         case onDemand = "ON_DEMAND"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScriptType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScriptType: String, CustomStringConvertible, Codable, Sendable {
         case powershellScript = "POWERSHELL_SCRIPT"
         case shellScript = "SHELL_SCRIPT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServerCatalogStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServerCatalogStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case expired = "EXPIRED"
@@ -158,17 +158,17 @@ extension SMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServerType: String, CustomStringConvertible, Codable, Sendable {
         case virtualMachine = "VIRTUAL_MACHINE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServerValidationStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServerValidationStrategy: String, CustomStringConvertible, Codable, Sendable {
         case userdata = "USERDATA"
         public var description: String { return self.rawValue }
     }
 
-    public enum ValidationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ValidationStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case pending = "PENDING"
@@ -177,7 +177,7 @@ extension SMS {
         public var description: String { return self.rawValue }
     }
 
-    public enum VmManagerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VmManagerType: String, CustomStringConvertible, Codable, Sendable {
         case hypervManager = "HYPERV-MANAGER"
         case scvmm = "SCVMM"
         case vsphere = "VSPHERE"

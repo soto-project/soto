@@ -21,32 +21,32 @@ import SotoCore
 extension Braket {
     // MARK: Enums
 
-    public enum CancellationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CancellationStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         public var description: String { return self.rawValue }
     }
 
-    public enum CompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CompressionType: String, CustomStringConvertible, Codable, Sendable {
         case gzip = "GZIP"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceStatus: String, CustomStringConvertible, Codable, Sendable {
         case offline = "OFFLINE"
         case online = "ONLINE"
         case retired = "RETIRED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceType: String, CustomStringConvertible, Codable, Sendable {
         case qpu = "QPU"
         case simulator = "SIMULATOR"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceType: String, CustomStringConvertible, Codable, Sendable {
         case mlC42Xlarge = "ml.c4.2xlarge"
         case mlC44Xlarge = "ml.c4.4xlarge"
         case mlC48Xlarge = "ml.c4.8xlarge"
@@ -89,7 +89,7 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobEventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobEventType: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case deprioritizedDueToInactivity = "DEPRIORITIZED_DUE_TO_INACTIVITY"
@@ -104,7 +104,7 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobPrimaryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobPrimaryStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case completed = "COMPLETED"
@@ -114,7 +114,7 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
-    public enum QuantumTaskStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QuantumTaskStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case completed = "COMPLETED"
@@ -125,7 +125,7 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchJobsFilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SearchJobsFilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case between = "BETWEEN"
         case contains = "CONTAINS"
         case equal = "EQUAL"
@@ -136,7 +136,7 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchQuantumTasksFilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SearchQuantumTasksFilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case between = "BETWEEN"
         case equal = "EQUAL"
         case gt = "GT"

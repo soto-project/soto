@@ -21,68 +21,68 @@ import SotoCore
 extension Pipes {
     // MARK: Enums
 
-    public enum AssignPublicIp: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssignPublicIp: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchJobDependencyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchJobDependencyType: String, CustomStringConvertible, Codable, Sendable {
         case nToN = "N_TO_N"
         case sequential = "SEQUENTIAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchResourceRequirementType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchResourceRequirementType: String, CustomStringConvertible, Codable, Sendable {
         case gpu = "GPU"
         case memory = "MEMORY"
         case vcpu = "VCPU"
         public var description: String { return self.rawValue }
     }
 
-    public enum DynamoDBStreamStartPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DynamoDBStreamStartPosition: String, CustomStringConvertible, Codable, Sendable {
         case latest = "LATEST"
         case trimHorizon = "TRIM_HORIZON"
         public var description: String { return self.rawValue }
     }
 
-    public enum EcsEnvironmentFileType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EcsEnvironmentFileType: String, CustomStringConvertible, Codable, Sendable {
         case s3 = "s3"
         public var description: String { return self.rawValue }
     }
 
-    public enum EcsResourceRequirementType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EcsResourceRequirementType: String, CustomStringConvertible, Codable, Sendable {
         case gpu = "GPU"
         case inferenceAccelerator = "InferenceAccelerator"
         public var description: String { return self.rawValue }
     }
 
-    public enum KinesisStreamStartPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KinesisStreamStartPosition: String, CustomStringConvertible, Codable, Sendable {
         case atTimestamp = "AT_TIMESTAMP"
         case latest = "LATEST"
         case trimHorizon = "TRIM_HORIZON"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchType: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "EC2"
         case external = "EXTERNAL"
         case fargate = "FARGATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MSKStartPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MSKStartPosition: String, CustomStringConvertible, Codable, Sendable {
         case latest = "LATEST"
         case trimHorizon = "TRIM_HORIZON"
         public var description: String { return self.rawValue }
     }
 
-    public enum OnPartialBatchItemFailureStreams: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OnPartialBatchItemFailureStreams: String, CustomStringConvertible, Codable, Sendable {
         case automaticBisect = "AUTOMATIC_BISECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum PipeState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PipeState: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -97,50 +97,50 @@ extension Pipes {
         public var description: String { return self.rawValue }
     }
 
-    public enum PipeTargetInvocationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PipeTargetInvocationType: String, CustomStringConvertible, Codable, Sendable {
         case fireAndForget = "FIRE_AND_FORGET"
         case requestResponse = "REQUEST_RESPONSE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementConstraintType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlacementConstraintType: String, CustomStringConvertible, Codable, Sendable {
         case distinctInstance = "distinctInstance"
         case memberOf = "memberOf"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementStrategyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlacementStrategyType: String, CustomStringConvertible, Codable, Sendable {
         case binpack = "binpack"
         case random = "random"
         case spread = "spread"
         public var description: String { return self.rawValue }
     }
 
-    public enum PropagateTags: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PropagateTags: String, CustomStringConvertible, Codable, Sendable {
         case taskDefinition = "TASK_DEFINITION"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequestedPipeState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RequestedPipeState: String, CustomStringConvertible, Codable, Sendable {
         case running = "RUNNING"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequestedPipeStateDescribeResponse: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RequestedPipeStateDescribeResponse: String, CustomStringConvertible, Codable, Sendable {
         case deleted = "DELETED"
         case running = "RUNNING"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SelfManagedKafkaStartPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SelfManagedKafkaStartPosition: String, CustomStringConvertible, Codable, Sendable {
         case latest = "LATEST"
         case trimHorizon = "TRIM_HORIZON"
         public var description: String { return self.rawValue }
     }
 
-    public enum MSKAccessCredentials: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum MSKAccessCredentials: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The ARN of the Secrets Manager secret.
         case clientCertificateTlsAuth(String)
         /// The ARN of the Secrets Manager secret.
@@ -194,7 +194,7 @@ extension Pipes {
         }
     }
 
-    public enum SelfManagedKafkaAccessConfigurationCredentials: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum SelfManagedKafkaAccessConfigurationCredentials: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The ARN of the Secrets Manager secret.
         case basicAuth(String)
         /// The ARN of the Secrets Manager secret.

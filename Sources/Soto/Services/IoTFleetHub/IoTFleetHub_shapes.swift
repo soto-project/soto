@@ -21,7 +21,7 @@ import SotoCore
 extension IoTFleetHub {
     // MARK: Enums
 
-    public enum ApplicationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"

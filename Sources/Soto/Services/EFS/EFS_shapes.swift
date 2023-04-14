@@ -21,7 +21,7 @@ import SotoCore
 extension EFS {
     // MARK: Enums
 
-    public enum LifeCycleState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LifeCycleState: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case creating = "creating"
         case deleted = "deleted"
@@ -31,13 +31,13 @@ extension EFS {
         public var description: String { return self.rawValue }
     }
 
-    public enum PerformanceMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PerformanceMode: String, CustomStringConvertible, Codable, Sendable {
         case generalPurpose = "generalPurpose"
         case maxIo = "maxIO"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleting = "DELETING"
         case enabled = "ENABLED"
         case enabling = "ENABLING"
@@ -45,19 +45,19 @@ extension EFS {
         public var description: String { return self.rawValue }
     }
 
-    public enum Resource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Resource: String, CustomStringConvertible, Codable, Sendable {
         case fileSystem = "FILE_SYSTEM"
         case mountTarget = "MOUNT_TARGET"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceIdType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceIdType: String, CustomStringConvertible, Codable, Sendable {
         case longId = "LONG_ID"
         case shortId = "SHORT_ID"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case disabling = "DISABLING"
         case enabled = "ENABLED"
@@ -65,14 +65,14 @@ extension EFS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ThroughputMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThroughputMode: String, CustomStringConvertible, Codable, Sendable {
         case bursting = "bursting"
         case elastic = "elastic"
         case provisioned = "provisioned"
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitionToIARules: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitionToIARules: String, CustomStringConvertible, Codable, Sendable {
         case after14Days = "AFTER_14_DAYS"
         case after1Day = "AFTER_1_DAY"
         case after30Days = "AFTER_30_DAYS"
@@ -82,7 +82,7 @@ extension EFS {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitionToPrimaryStorageClassRules: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitionToPrimaryStorageClassRules: String, CustomStringConvertible, Codable, Sendable {
         case after1Access = "AFTER_1_ACCESS"
         public var description: String { return self.rawValue }
     }

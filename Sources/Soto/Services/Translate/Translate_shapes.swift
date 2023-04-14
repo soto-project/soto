@@ -21,13 +21,13 @@ import SotoCore
 extension Translate {
     // MARK: Enums
 
-    public enum Directionality: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Directionality: String, CustomStringConvertible, Codable, Sendable {
         case multi = "MULTI"
         case uni = "UNI"
         public var description: String { return self.rawValue }
     }
 
-    public enum DisplayLanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DisplayLanguageCode: String, CustomStringConvertible, Codable, Sendable {
         case de = "de"
         case en = "en"
         case es = "es"
@@ -41,18 +41,18 @@ extension Translate {
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionKeyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionKeyType: String, CustomStringConvertible, Codable, Sendable {
         case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Formality: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Formality: String, CustomStringConvertible, Codable, Sendable {
         case formal = "FORMAL"
         case informal = "INFORMAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case completedWithError = "COMPLETED_WITH_ERROR"
         case failed = "FAILED"
@@ -63,19 +63,19 @@ extension Translate {
         public var description: String { return self.rawValue }
     }
 
-    public enum MergeStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MergeStrategy: String, CustomStringConvertible, Codable, Sendable {
         case overwrite = "OVERWRITE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParallelDataFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParallelDataFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case tmx = "TMX"
         case tsv = "TSV"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParallelDataStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParallelDataStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -84,12 +84,12 @@ extension Translate {
         public var description: String { return self.rawValue }
     }
 
-    public enum Profanity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Profanity: String, CustomStringConvertible, Codable, Sendable {
         case mask = "MASK"
         public var description: String { return self.rawValue }
     }
 
-    public enum TerminologyDataFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TerminologyDataFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case tmx = "TMX"
         case tsv = "TSV"

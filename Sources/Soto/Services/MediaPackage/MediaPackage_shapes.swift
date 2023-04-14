@@ -21,7 +21,7 @@ import SotoCore
 extension MediaPackage {
     // MARK: Enums
 
-    public enum AdMarkers: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AdMarkers: String, CustomStringConvertible, Codable, Sendable {
         case daterange = "DATERANGE"
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
@@ -29,7 +29,7 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    public enum AdTriggersElement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AdTriggersElement: String, CustomStringConvertible, Codable, Sendable {
         case `break` = "BREAK"
         case distributorAdvertisement = "DISTRIBUTOR_ADVERTISEMENT"
         case distributorOverlayPlacementOpportunity = "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
@@ -41,7 +41,7 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    public enum AdsOnDeliveryRestrictions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AdsOnDeliveryRestrictions: String, CustomStringConvertible, Codable, Sendable {
         case both = "BOTH"
         case none = "NONE"
         case restricted = "RESTRICTED"
@@ -49,43 +49,43 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    public enum CmafEncryptionMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CmafEncryptionMethod: String, CustomStringConvertible, Codable, Sendable {
         case aesCtr = "AES_CTR"
         case sampleAes = "SAMPLE_AES"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionMethod: String, CustomStringConvertible, Codable, Sendable {
         case aes128 = "AES_128"
         case sampleAes = "SAMPLE_AES"
         public var description: String { return self.rawValue }
     }
 
-    public enum ManifestLayout: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ManifestLayout: String, CustomStringConvertible, Codable, Sendable {
         case compact = "COMPACT"
         case full = "FULL"
         public var description: String { return self.rawValue }
     }
 
-    public enum Origination: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Origination: String, CustomStringConvertible, Codable, Sendable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum PeriodTriggersElement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PeriodTriggersElement: String, CustomStringConvertible, Codable, Sendable {
         case ads = "ADS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlaylistType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlaylistType: String, CustomStringConvertible, Codable, Sendable {
         case event = "EVENT"
         case none = "NONE"
         case vod = "VOD"
         public var description: String { return self.rawValue }
     }
 
-    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, Sendable {
         case presetAudio1 = "PRESET-AUDIO-1"
         case presetAudio2 = "PRESET-AUDIO-2"
         case presetAudio3 = "PRESET-AUDIO-3"
@@ -94,7 +94,7 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, Sendable {
         case presetVideo1 = "PRESET-VIDEO-1"
         case presetVideo2 = "PRESET-VIDEO-2"
         case presetVideo3 = "PRESET-VIDEO-3"
@@ -108,7 +108,7 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    public enum Profile: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Profile: String, CustomStringConvertible, Codable, Sendable {
         case dvbDash2014 = "DVB_DASH_2014"
         case hbbtv15 = "HBBTV_1_5"
         case hybridcast = "HYBRIDCAST"
@@ -116,28 +116,28 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
-    public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable, Sendable {
         case numberWithDuration = "NUMBER_WITH_DURATION"
         case numberWithTimeline = "NUMBER_WITH_TIMELINE"
         case timeWithTimeline = "TIME_WITH_TIMELINE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StreamOrder: String, CustomStringConvertible, Codable, Sendable {
         case original = "ORIGINAL"
         case videoBitrateAscending = "VIDEO_BITRATE_ASCENDING"
         case videoBitrateDescending = "VIDEO_BITRATE_DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum UtcTiming: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UtcTiming: String, CustomStringConvertible, Codable, Sendable {
         case httpHead = "HTTP-HEAD"
         case httpIso = "HTTP-ISO"
         case httpXsdate = "HTTP-XSDATE"

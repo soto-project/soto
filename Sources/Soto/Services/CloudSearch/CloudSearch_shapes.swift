@@ -21,7 +21,7 @@ import SotoCore
 extension CloudSearch {
     // MARK: Enums
 
-    public enum AlgorithmicStemming: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AlgorithmicStemming: String, CustomStringConvertible, Codable, Sendable {
         case full = "full"
         case light = "light"
         case minimal = "minimal"
@@ -29,7 +29,7 @@ extension CloudSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum AnalysisSchemeLanguage: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnalysisSchemeLanguage: String, CustomStringConvertible, Codable, Sendable {
         case ar = "ar"
         case bg = "bg"
         case ca = "ca"
@@ -68,7 +68,7 @@ extension CloudSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum IndexFieldType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IndexFieldType: String, CustomStringConvertible, Codable, Sendable {
         case date = "date"
         case dateArray = "date-array"
         case double = "double"
@@ -83,7 +83,7 @@ extension CloudSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum OptionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OptionState: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case failedToValidate = "FailedToValidate"
         case processing = "Processing"
@@ -91,7 +91,7 @@ extension CloudSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum PartitionInstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PartitionInstanceType: String, CustomStringConvertible, Codable, Sendable {
         case search2Xlarge = "search.2xlarge"
         case searchLarge = "search.large"
         case searchM1Large = "search.m1.large"
@@ -112,14 +112,14 @@ extension CloudSearch {
         public var description: String { return self.rawValue }
     }
 
-    public enum SuggesterFuzzyMatching: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SuggesterFuzzyMatching: String, CustomStringConvertible, Codable, Sendable {
         case high = "high"
         case low = "low"
         case none = "none"
         public var description: String { return self.rawValue }
     }
 
-    public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable, Sendable {
         case policyMinTLS10201907 = "Policy-Min-TLS-1-0-2019-07"
         case policyMinTLS12201907 = "Policy-Min-TLS-1-2-2019-07"
         public var description: String { return self.rawValue }

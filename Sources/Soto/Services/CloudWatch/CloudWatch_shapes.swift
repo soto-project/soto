@@ -21,33 +21,33 @@ import SotoCore
 extension CloudWatch {
     // MARK: Enums
 
-    public enum ActionsSuppressedBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionsSuppressedBy: String, CustomStringConvertible, Codable, Sendable {
         case alarm = "Alarm"
         case extensionPeriod = "ExtensionPeriod"
         case waitPeriod = "WaitPeriod"
         public var description: String { return self.rawValue }
     }
 
-    public enum AlarmType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AlarmType: String, CustomStringConvertible, Codable, Sendable {
         case compositeAlarm = "CompositeAlarm"
         case metricAlarm = "MetricAlarm"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnomalyDetectorStateValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnomalyDetectorStateValue: String, CustomStringConvertible, Codable, Sendable {
         case pendingTraining = "PENDING_TRAINING"
         case trained = "TRAINED"
         case trainedInsufficientData = "TRAINED_INSUFFICIENT_DATA"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnomalyDetectorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnomalyDetectorType: String, CustomStringConvertible, Codable, Sendable {
         case metricMath = "METRIC_MATH"
         case singleMetric = "SINGLE_METRIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
         case greaterThanOrEqualToThreshold = "GreaterThanOrEqualToThreshold"
         case greaterThanThreshold = "GreaterThanThreshold"
         case greaterThanUpperThreshold = "GreaterThanUpperThreshold"
@@ -58,36 +58,36 @@ extension CloudWatch {
         public var description: String { return self.rawValue }
     }
 
-    public enum EvaluationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EvaluationState: String, CustomStringConvertible, Codable, Sendable {
         case partialData = "PARTIAL_DATA"
         public var description: String { return self.rawValue }
     }
 
-    public enum HistoryItemType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HistoryItemType: String, CustomStringConvertible, Codable, Sendable {
         case action = "Action"
         case configurationUpdate = "ConfigurationUpdate"
         case stateUpdate = "StateUpdate"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricStreamOutputFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricStreamOutputFormat: String, CustomStringConvertible, Codable, Sendable {
         case json = "json"
         case openTelemetry07 = "opentelemetry0.7"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecentlyActive: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecentlyActive: String, CustomStringConvertible, Codable, Sendable {
         case pt3h = "PT3H"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScanBy: String, CustomStringConvertible, Codable, Sendable {
         case timestampAscending = "TimestampAscending"
         case timestampDescending = "TimestampDescending"
         public var description: String { return self.rawValue }
     }
 
-    public enum StandardUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StandardUnit: String, CustomStringConvertible, Codable, Sendable {
         case bits = "Bits"
         case bitsSecond = "Bits/Second"
         case bytes = "Bytes"
@@ -118,14 +118,14 @@ extension CloudWatch {
         public var description: String { return self.rawValue }
     }
 
-    public enum StateValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StateValue: String, CustomStringConvertible, Codable, Sendable {
         case alarm = "ALARM"
         case insufficientData = "INSUFFICIENT_DATA"
         case ok = "OK"
         public var description: String { return self.rawValue }
     }
 
-    public enum Statistic: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Statistic: String, CustomStringConvertible, Codable, Sendable {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
@@ -134,7 +134,7 @@ extension CloudWatch {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatusCode: String, CustomStringConvertible, Codable, Sendable {
         case complete = "Complete"
         case forbidden = "Forbidden"
         case internalError = "InternalError"

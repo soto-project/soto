@@ -21,25 +21,25 @@ import SotoCore
 extension ComputeOptimizer {
     // MARK: Enums
 
-    public enum AutoScalingConfiguration: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoScalingConfiguration: String, CustomStringConvertible, Codable, Sendable {
         case targetTrackingScalingCpu = "TargetTrackingScalingCpu"
         case targetTrackingScalingMemory = "TargetTrackingScalingMemory"
         public var description: String { return self.rawValue }
     }
 
-    public enum CpuVendorArchitecture: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CpuVendorArchitecture: String, CustomStringConvertible, Codable, Sendable {
         case awsArm64 = "AWS_ARM64"
         case current = "CURRENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum Currency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Currency: String, CustomStringConvertible, Codable, Sendable {
         case cny = "CNY"
         case usd = "USD"
         public var description: String { return self.rawValue }
     }
 
-    public enum CurrentPerformanceRisk: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CurrentPerformanceRisk: String, CustomStringConvertible, Codable, Sendable {
         case high = "High"
         case low = "Low"
         case medium = "Medium"
@@ -47,18 +47,18 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum EBSFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EBSFilterName: String, CustomStringConvertible, Codable, Sendable {
         case finding = "Finding"
         public var description: String { return self.rawValue }
     }
 
-    public enum EBSFinding: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EBSFinding: String, CustomStringConvertible, Codable, Sendable {
         case notOptimized = "NotOptimized"
         case optimized = "Optimized"
         public var description: String { return self.rawValue }
     }
 
-    public enum EBSMetricName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EBSMetricName: String, CustomStringConvertible, Codable, Sendable {
         case volumeReadBytesPerSecond = "VolumeReadBytesPerSecond"
         case volumeReadOpsPerSecond = "VolumeReadOpsPerSecond"
         case volumeWriteBytesPerSecond = "VolumeWriteBytesPerSecond"
@@ -66,38 +66,38 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ECSServiceLaunchType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ECSServiceLaunchType: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "EC2"
         case fargate = "Fargate"
         public var description: String { return self.rawValue }
     }
 
-    public enum ECSServiceMetricName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ECSServiceMetricName: String, CustomStringConvertible, Codable, Sendable {
         case cpu = "Cpu"
         case memory = "Memory"
         public var description: String { return self.rawValue }
     }
 
-    public enum ECSServiceMetricStatistic: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ECSServiceMetricStatistic: String, CustomStringConvertible, Codable, Sendable {
         case average = "Average"
         case maximum = "Maximum"
         public var description: String { return self.rawValue }
     }
 
-    public enum ECSServiceRecommendationFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ECSServiceRecommendationFilterName: String, CustomStringConvertible, Codable, Sendable {
         case finding = "Finding"
         case findingReasonCode = "FindingReasonCode"
         public var description: String { return self.rawValue }
     }
 
-    public enum ECSServiceRecommendationFinding: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ECSServiceRecommendationFinding: String, CustomStringConvertible, Codable, Sendable {
         case optimized = "Optimized"
         case overProvisioned = "Overprovisioned"
         case underProvisioned = "Underprovisioned"
         public var description: String { return self.rawValue }
     }
 
-    public enum ECSServiceRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ECSServiceRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case cpuOverProvisioned = "CPUOverprovisioned"
         case cpuUnderProvisioned = "CPUUnderprovisioned"
         case memoryOverProvisioned = "MemoryOverprovisioned"
@@ -105,18 +105,18 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum EnhancedInfrastructureMetrics: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnhancedInfrastructureMetrics: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnrollmentFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnrollmentFilterName: String, CustomStringConvertible, Codable, Sendable {
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportableAutoScalingGroupField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportableAutoScalingGroupField: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "AccountId"
         case autoScalingGroupArn = "AutoScalingGroupArn"
         case autoScalingGroupName = "AutoScalingGroupName"
@@ -174,7 +174,7 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportableECSServiceField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportableECSServiceField: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "AccountId"
         case currentPerformanceRisk = "CurrentPerformanceRisk"
         case currentServiceConfigurationAutoScalingConfiguration = "CurrentServiceConfigurationAutoScalingConfiguration"
@@ -201,7 +201,7 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportableInstanceField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportableInstanceField: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "AccountId"
         case currentInstanceType = "CurrentInstanceType"
         case currentMemory = "CurrentMemory"
@@ -258,7 +258,7 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportableLambdaFunctionField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportableLambdaFunctionField: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "AccountId"
         case currentConfigurationMemorySize = "CurrentConfigurationMemorySize"
         case currentConfigurationTimeout = "CurrentConfigurationTimeout"
@@ -288,7 +288,7 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportableVolumeField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportableVolumeField: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "AccountId"
         case currentConfigurationVolumeBaselineIops = "CurrentConfigurationVolumeBaselineIOPS"
         case currentConfigurationVolumeBaselineThroughput = "CurrentConfigurationVolumeBaselineThroughput"
@@ -320,7 +320,7 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExternalMetricsSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExternalMetricsSource: String, CustomStringConvertible, Codable, Sendable {
         case datadog = "Datadog"
         case dynatrace = "Dynatrace"
         case instana = "Instana"
@@ -328,19 +328,19 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum FileFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "Csv"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterName: String, CustomStringConvertible, Codable, Sendable {
         case finding = "Finding"
         case findingReasonCodes = "FindingReasonCodes"
         case recommendationSourceType = "RecommendationSourceType"
         public var description: String { return self.rawValue }
     }
 
-    public enum Finding: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Finding: String, CustomStringConvertible, Codable, Sendable {
         case notOptimized = "NotOptimized"
         case optimized = "Optimized"
         case overProvisioned = "Overprovisioned"
@@ -348,13 +348,13 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case memoryOverProvisioned = "MemoryOverprovisioned"
         case memoryUnderProvisioned = "MemoryUnderprovisioned"
         public var description: String { return self.rawValue }
     }
 
-    public enum InferredWorkloadType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InferredWorkloadType: String, CustomStringConvertible, Codable, Sendable {
         case amazonEmr = "AmazonEmr"
         case apacheCassandra = "ApacheCassandra"
         case apacheHadoop = "ApacheHadoop"
@@ -365,13 +365,13 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum InferredWorkloadTypesPreference: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InferredWorkloadTypesPreference: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case cpuOverProvisioned = "CPUOverprovisioned"
         case cpuUnderProvisioned = "CPUUnderprovisioned"
         case diskIopsOverProvisioned = "DiskIOPSOverprovisioned"
@@ -391,13 +391,13 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobFilterName: String, CustomStringConvertible, Codable, Sendable {
         case jobStatus = "JobStatus"
         case resourceType = "ResourceType"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "Complete"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -405,44 +405,44 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionMemoryMetricName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LambdaFunctionMemoryMetricName: String, CustomStringConvertible, Codable, Sendable {
         case duration = "Duration"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionMemoryMetricStatistic: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LambdaFunctionMemoryMetricStatistic: String, CustomStringConvertible, Codable, Sendable {
         case expected = "Expected"
         case lowerBound = "LowerBound"
         case upperBound = "UpperBound"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionMetricName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LambdaFunctionMetricName: String, CustomStringConvertible, Codable, Sendable {
         case duration = "Duration"
         case memory = "Memory"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionMetricStatistic: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LambdaFunctionMetricStatistic: String, CustomStringConvertible, Codable, Sendable {
         case average = "Average"
         case maximum = "Maximum"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionRecommendationFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LambdaFunctionRecommendationFilterName: String, CustomStringConvertible, Codable, Sendable {
         case finding = "Finding"
         case findingReasonCode = "FindingReasonCode"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionRecommendationFinding: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LambdaFunctionRecommendationFinding: String, CustomStringConvertible, Codable, Sendable {
         case notOptimized = "NotOptimized"
         case optimized = "Optimized"
         case unavailable = "Unavailable"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LambdaFunctionRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case inconclusive = "Inconclusive"
         case insufficientData = "InsufficientData"
         case memoryOverProvisioned = "MemoryOverprovisioned"
@@ -450,7 +450,7 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricName: String, CustomStringConvertible, Codable, Sendable {
         case cpu = "Cpu"
         case diskReadBytesPerSecond = "DISK_READ_BYTES_PER_SECOND"
         case diskReadOpsPerSecond = "DISK_READ_OPS_PER_SECOND"
@@ -468,13 +468,13 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricStatistic: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricStatistic: String, CustomStringConvertible, Codable, Sendable {
         case average = "Average"
         case maximum = "Maximum"
         public var description: String { return self.rawValue }
     }
 
-    public enum MigrationEffort: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MigrationEffort: String, CustomStringConvertible, Codable, Sendable {
         case high = "High"
         case low = "Low"
         case medium = "Medium"
@@ -482,7 +482,7 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformDifference: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlatformDifference: String, CustomStringConvertible, Codable, Sendable {
         case architecture = "Architecture"
         case hypervisor = "Hypervisor"
         case instanceStoreAvailability = "InstanceStoreAvailability"
@@ -492,14 +492,14 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationPreferenceName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationPreferenceName: String, CustomStringConvertible, Codable, Sendable {
         case enhancedInfrastructureMetrics = "EnhancedInfrastructureMetrics"
         case externalMetricsPreference = "ExternalMetricsPreference"
         case inferredWorkloadTypes = "InferredWorkloadTypes"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationSourceType: String, CustomStringConvertible, Codable, Sendable {
         case autoScalingGroup = "AutoScalingGroup"
         case ebsVolume = "EbsVolume"
         case ec2Instance = "Ec2Instance"
@@ -508,7 +508,7 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case autoScalingGroup = "AutoScalingGroup"
         case ebsVolume = "EbsVolume"
         case ec2Instance = "Ec2Instance"
@@ -518,14 +518,14 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScopeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScopeName: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "AccountId"
         case organization = "Organization"
         case resourceArn = "ResourceArn"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case failed = "Failed"
         case inactive = "Inactive"

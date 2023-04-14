@@ -21,7 +21,7 @@ import SotoCore
 extension Greengrass {
     // MARK: Enums
 
-    public enum BulkDeploymentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BulkDeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case initializing = "Initializing"
@@ -31,13 +31,13 @@ extension Greengrass {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationSyncStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationSyncStatus: String, CustomStringConvertible, Codable, Sendable {
         case inSync = "InSync"
         case outOfSync = "OutOfSync"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentType: String, CustomStringConvertible, Codable, Sendable {
         case forceResetDeployment = "ForceResetDeployment"
         case newDeployment = "NewDeployment"
         case redeployment = "Redeployment"
@@ -45,25 +45,25 @@ extension Greengrass {
         public var description: String { return self.rawValue }
     }
 
-    public enum EncodingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncodingType: String, CustomStringConvertible, Codable, Sendable {
         case binary = "binary"
         case json = "json"
         public var description: String { return self.rawValue }
     }
 
-    public enum FunctionIsolationMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FunctionIsolationMode: String, CustomStringConvertible, Codable, Sendable {
         case greengrassContainer = "GreengrassContainer"
         case noContainer = "NoContainer"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggerComponent: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LoggerComponent: String, CustomStringConvertible, Codable, Sendable {
         case greengrassSystem = "GreengrassSystem"
         case lambda = "Lambda"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggerLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LoggerLevel: String, CustomStringConvertible, Codable, Sendable {
         case debug = "DEBUG"
         case error = "ERROR"
         case fatal = "FATAL"
@@ -72,31 +72,31 @@ extension Greengrass {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LoggerType: String, CustomStringConvertible, Codable, Sendable {
         case awsCloudWatch = "AWSCloudWatch"
         case fileSystem = "FileSystem"
         public var description: String { return self.rawValue }
     }
 
-    public enum Permission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Permission: String, CustomStringConvertible, Codable, Sendable {
         case ro = "ro"
         case rw = "rw"
         public var description: String { return self.rawValue }
     }
 
-    public enum SoftwareToUpdate: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SoftwareToUpdate: String, CustomStringConvertible, Codable, Sendable {
         case core = "core"
         case otaAgent = "ota_agent"
         public var description: String { return self.rawValue }
     }
 
-    public enum Telemetry: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Telemetry: String, CustomStringConvertible, Codable, Sendable {
         case off = "Off"
         case on = "On"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateAgentLogLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateAgentLogLevel: String, CustomStringConvertible, Codable, Sendable {
         case debug = "DEBUG"
         case error = "ERROR"
         case fatal = "FATAL"
@@ -108,7 +108,7 @@ extension Greengrass {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateTargetsArchitecture: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateTargetsArchitecture: String, CustomStringConvertible, Codable, Sendable {
         case aarch64 = "aarch64"
         case armv6l = "armv6l"
         case armv7l = "armv7l"
@@ -116,7 +116,7 @@ extension Greengrass {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateTargetsOperatingSystem: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateTargetsOperatingSystem: String, CustomStringConvertible, Codable, Sendable {
         case amazonLinux = "amazon_linux"
         case openwrt = "openwrt"
         case raspbian = "raspbian"

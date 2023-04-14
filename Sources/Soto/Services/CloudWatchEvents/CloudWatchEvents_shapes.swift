@@ -21,7 +21,7 @@ import SotoCore
 extension CloudWatchEvents {
     // MARK: Enums
 
-    public enum ApiDestinationHttpMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApiDestinationHttpMethod: String, CustomStringConvertible, Codable, Sendable {
         case delete = "DELETE"
         case get = "GET"
         case head = "HEAD"
@@ -32,13 +32,13 @@ extension CloudWatchEvents {
         public var description: String { return self.rawValue }
     }
 
-    public enum ApiDestinationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApiDestinationState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArchiveState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ArchiveState: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
         case disabled = "DISABLED"
@@ -48,27 +48,27 @@ extension CloudWatchEvents {
         public var description: String { return self.rawValue }
     }
 
-    public enum AssignPublicIp: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssignPublicIp: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionAuthorizationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionAuthorizationType: String, CustomStringConvertible, Codable, Sendable {
         case apiKey = "API_KEY"
         case basic = "BASIC"
         case oauthClientCredentials = "OAUTH_CLIENT_CREDENTIALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionOAuthHttpMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionOAuthHttpMethod: String, CustomStringConvertible, Codable, Sendable {
         case get = "GET"
         case post = "POST"
         case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable {
         case authorized = "AUTHORIZED"
         case authorizing = "AUTHORIZING"
         case creating = "CREATING"
@@ -79,39 +79,39 @@ extension CloudWatchEvents {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventSourceState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventSourceState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchType: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "EC2"
         case external = "EXTERNAL"
         case fargate = "FARGATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementConstraintType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlacementConstraintType: String, CustomStringConvertible, Codable, Sendable {
         case distinctInstance = "distinctInstance"
         case memberOf = "memberOf"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementStrategyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlacementStrategyType: String, CustomStringConvertible, Codable, Sendable {
         case binpack = "binpack"
         case random = "random"
         case spread = "spread"
         public var description: String { return self.rawValue }
     }
 
-    public enum PropagateTags: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PropagateTags: String, CustomStringConvertible, Codable, Sendable {
         case taskDefinition = "TASK_DEFINITION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplayState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplayState: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case completed = "COMPLETED"
@@ -121,7 +121,7 @@ extension CloudWatchEvents {
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuleState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }

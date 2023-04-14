@@ -21,7 +21,7 @@ import SotoCore
 extension EKS {
     // MARK: Enums
 
-    public enum AMITypes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AMITypes: String, CustomStringConvertible, Codable, Sendable {
         case al2Arm64 = "AL2_ARM_64"
         case al2X8664 = "AL2_x86_64"
         case al2X8664GPU = "AL2_x86_64_GPU"
@@ -37,7 +37,7 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum AddonIssueCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AddonIssueCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "AccessDenied"
         case admissionRequestDenied = "AdmissionRequestDenied"
         case clusterUnreachable = "ClusterUnreachable"
@@ -49,7 +49,7 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum AddonStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AddonStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -61,13 +61,13 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum CapacityTypes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CapacityTypes: String, CustomStringConvertible, Codable, Sendable {
         case onDemand = "ON_DEMAND"
         case spot = "SPOT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClusterIssueCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClusterIssueCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "AccessDenied"
         case clusterUnreachable = "ClusterUnreachable"
         case configurationConflict = "ConfigurationConflict"
@@ -77,7 +77,7 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ClusterStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClusterStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -87,14 +87,14 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectorConfigProvider: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectorConfigProvider: String, CustomStringConvertible, Codable, Sendable {
         case aks = "AKS"
         case anthos = "ANTHOS"
         case ec2 = "EC2"
@@ -107,7 +107,7 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "AccessDenied"
         case admissionRequestDenied = "AdmissionRequestDenied"
         case clusterUnreachable = "ClusterUnreachable"
@@ -128,7 +128,7 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum FargateProfileStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FargateProfileStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -137,13 +137,13 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpFamily: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpFamily: String, CustomStringConvertible, Codable, Sendable {
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable {
         case api = "api"
         case audit = "audit"
         case authenticator = "authenticator"
@@ -152,7 +152,7 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum NodegroupIssueCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NodegroupIssueCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "AccessDenied"
         case asgInstanceLaunchFailures = "AsgInstanceLaunchFailures"
         case autoScalingGroupInvalidConfiguration = "AutoScalingGroupInvalidConfiguration"
@@ -175,7 +175,7 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum NodegroupStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NodegroupStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -186,21 +186,21 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResolveConflicts: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResolveConflicts: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case overwrite = "OVERWRITE"
         case preserve = "PRESERVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaintEffect: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaintEffect: String, CustomStringConvertible, Codable, Sendable {
         case noExecute = "NO_EXECUTE"
         case noSchedule = "NO_SCHEDULE"
         case preferNoSchedule = "PREFER_NO_SCHEDULE"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateParamType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateParamType: String, CustomStringConvertible, Codable, Sendable {
         case addonVersion = "AddonVersion"
         case clusterLogging = "ClusterLogging"
         case desiredSize = "DesiredSize"
@@ -227,7 +227,7 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "Cancelled"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -235,7 +235,7 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateType: String, CustomStringConvertible, Codable, Sendable {
         case addonUpdate = "AddonUpdate"
         case associateEncryptionConfig = "AssociateEncryptionConfig"
         case associateIdentityProviderConfig = "AssociateIdentityProviderConfig"

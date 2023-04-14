@@ -21,7 +21,7 @@ import SotoCore
 extension MarketplaceCatalog {
     // MARK: Enums
 
-    public enum ChangeStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeStatus: String, CustomStringConvertible, Codable, Sendable {
         case applying = "APPLYING"
         case cancelled = "CANCELLED"
         case failed = "FAILED"
@@ -30,13 +30,13 @@ extension MarketplaceCatalog {
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailureCode: String, CustomStringConvertible, Codable, Sendable {
         case clientError = "CLIENT_ERROR"
         case serverFault = "SERVER_FAULT"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }

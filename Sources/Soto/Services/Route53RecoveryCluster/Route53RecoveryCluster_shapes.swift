@@ -21,7 +21,7 @@ import SotoCore
 extension Route53RecoveryCluster {
     // MARK: Enums
 
-    public enum RoutingControlState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RoutingControlState: String, CustomStringConvertible, Codable, Sendable {
         case off = "Off"
         case on = "On"
         public var description: String { return self.rawValue }

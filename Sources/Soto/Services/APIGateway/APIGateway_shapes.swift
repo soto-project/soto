@@ -21,25 +21,25 @@ import SotoCore
 extension APIGateway {
     // MARK: Enums
 
-    public enum ApiKeySourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApiKeySourceType: String, CustomStringConvertible, Codable, Sendable {
         case authorizer = "AUTHORIZER"
         case header = "HEADER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApiKeysFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApiKeysFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "csv"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthorizerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthorizerType: String, CustomStringConvertible, Codable, Sendable {
         case cognitoUserPools = "COGNITO_USER_POOLS"
         case request = "REQUEST"
         case token = "TOKEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum CacheClusterSize: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CacheClusterSize: String, CustomStringConvertible, Codable, Sendable {
         case size0Point5Gb = "0.5"
         case size118Gb = "118"
         case size13Point5Gb = "13.5"
@@ -51,7 +51,7 @@ extension APIGateway {
         public var description: String { return self.rawValue }
     }
 
-    public enum CacheClusterStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CacheClusterStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case createInProgress = "CREATE_IN_PROGRESS"
         case deleteInProgress = "DELETE_IN_PROGRESS"
@@ -60,19 +60,19 @@ extension APIGateway {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable {
         case internet = "INTERNET"
         case vpcLink = "VPC_LINK"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentHandlingStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentHandlingStrategy: String, CustomStringConvertible, Codable, Sendable {
         case convertToBinary = "CONVERT_TO_BINARY"
         case convertToText = "CONVERT_TO_TEXT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentationPartType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DocumentationPartType: String, CustomStringConvertible, Codable, Sendable {
         case api = "API"
         case authorizer = "AUTHORIZER"
         case method = "METHOD"
@@ -88,7 +88,7 @@ extension APIGateway {
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainNameStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DomainNameStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case pending = "PENDING"
         case pendingCertificateReimport = "PENDING_CERTIFICATE_REIMPORT"
@@ -97,14 +97,14 @@ extension APIGateway {
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointType: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "PRIVATE"
         case edge = "EDGE"
         case regional = "REGIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum GatewayResponseType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GatewayResponseType: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case apiConfigurationError = "API_CONFIGURATION_ERROR"
         case authorizerConfigurationError = "AUTHORIZER_CONFIGURATION_ERROR"
@@ -129,7 +129,7 @@ extension APIGateway {
         public var description: String { return self.rawValue }
     }
 
-    public enum IntegrationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IntegrationType: String, CustomStringConvertible, Codable, Sendable {
         case aws = "AWS"
         case awsProxy = "AWS_PROXY"
         case http = "HTTP"
@@ -138,13 +138,13 @@ extension APIGateway {
         public var description: String { return self.rawValue }
     }
 
-    public enum LocationStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocationStatusType: String, CustomStringConvertible, Codable, Sendable {
         case documented = "DOCUMENTED"
         case undocumented = "UNDOCUMENTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Op: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Op: String, CustomStringConvertible, Codable, Sendable {
         case add = "add"
         case copy = "copy"
         case move = "move"
@@ -154,33 +154,33 @@ extension APIGateway {
         public var description: String { return self.rawValue }
     }
 
-    public enum PutMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PutMode: String, CustomStringConvertible, Codable, Sendable {
         case merge = "merge"
         case overwrite = "overwrite"
         public var description: String { return self.rawValue }
     }
 
-    public enum QuotaPeriodType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QuotaPeriodType: String, CustomStringConvertible, Codable, Sendable {
         case day = "DAY"
         case month = "MONTH"
         case week = "WEEK"
         public var description: String { return self.rawValue }
     }
 
-    public enum SecurityPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SecurityPolicy: String, CustomStringConvertible, Codable, Sendable {
         case tls10 = "TLS_1_0"
         case tls12 = "TLS_1_2"
         public var description: String { return self.rawValue }
     }
 
-    public enum UnauthorizedCacheControlHeaderStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UnauthorizedCacheControlHeaderStrategy: String, CustomStringConvertible, Codable, Sendable {
         case failWith403 = "FAIL_WITH_403"
         case succeedWithResponseHeader = "SUCCEED_WITH_RESPONSE_HEADER"
         case succeedWithoutResponseHeader = "SUCCEED_WITHOUT_RESPONSE_HEADER"
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcLinkStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpcLinkStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case failed = "FAILED"

@@ -21,25 +21,25 @@ import SotoCore
 extension Ivschat {
     // MARK: Enums
 
-    public enum ChatTokenCapability: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChatTokenCapability: String, CustomStringConvertible, Codable, Sendable {
         case deleteMessage = "DELETE_MESSAGE"
         case disconnectUser = "DISCONNECT_USER"
         case sendMessage = "SEND_MESSAGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CreateLoggingConfigurationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CreateLoggingConfigurationState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FallbackResult: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FallbackResult: String, CustomStringConvertible, Codable, Sendable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggingConfigurationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LoggingConfigurationState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -50,12 +50,12 @@ extension Ivschat {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateLoggingConfigurationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateLoggingConfigurationState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DestinationConfiguration: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum DestinationConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An Amazon CloudWatch Logs destination configuration where chat activity will be logged.
         case cloudWatchLogs(CloudWatchLogsDestinationConfiguration)
         /// An Amazon Kinesis Data Firehose destination configuration where chat activity will be logged.

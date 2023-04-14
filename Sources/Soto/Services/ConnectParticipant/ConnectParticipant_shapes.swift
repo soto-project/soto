@@ -21,14 +21,14 @@ import SotoCore
 extension ConnectParticipant {
     // MARK: Enums
 
-    public enum ArtifactStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ArtifactStatus: String, CustomStringConvertible, Codable, Sendable {
         case approved = "APPROVED"
         case inProgress = "IN_PROGRESS"
         case rejected = "REJECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChatItemType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChatItemType: String, CustomStringConvertible, Codable, Sendable {
         case attachment = "ATTACHMENT"
         case chatEnded = "CHAT_ENDED"
         case connectionAck = "CONNECTION_ACK"
@@ -44,26 +44,26 @@ extension ConnectParticipant {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable {
         case connectionCredentials = "CONNECTION_CREDENTIALS"
         case websocket = "WEBSOCKET"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParticipantRole: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParticipantRole: String, CustomStringConvertible, Codable, Sendable {
         case agent = "AGENT"
         case customer = "CUSTOMER"
         case system = "SYSTEM"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanDirection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScanDirection: String, CustomStringConvertible, Codable, Sendable {
         case backward = "BACKWARD"
         case forward = "FORWARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortKey: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }

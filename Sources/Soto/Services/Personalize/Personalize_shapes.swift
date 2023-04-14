@@ -21,26 +21,26 @@ import SotoCore
 extension Personalize {
     // MARK: Enums
 
-    public enum Domain: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Domain: String, CustomStringConvertible, Codable, Sendable {
         case ecommerce = "ECOMMERCE"
         case videoOnDemand = "VIDEO_ON_DEMAND"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportMode: String, CustomStringConvertible, Codable, Sendable {
         case full = "FULL"
         case incremental = "INCREMENTAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum IngestionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IngestionMode: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case bulk = "BULK"
         case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectiveSensitivity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectiveSensitivity: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
@@ -48,12 +48,12 @@ extension Personalize {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecipeProvider: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecipeProvider: String, CustomStringConvertible, Codable, Sendable {
         case service = "SERVICE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrainingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrainingMode: String, CustomStringConvertible, Codable, Sendable {
         case full = "FULL"
         case update = "UPDATE"
         public var description: String { return self.rawValue }

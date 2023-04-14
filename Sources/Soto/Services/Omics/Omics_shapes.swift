@@ -21,7 +21,7 @@ import SotoCore
 extension Omics {
     // MARK: Enums
 
-    public enum AnnotationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnnotationType: String, CustomStringConvertible, Codable, Sendable {
         /// Contains contig and 1-base position
         case chrPos = "CHR_POS"
         /// Contains contig, 1-base position, ref and alt allele information
@@ -39,20 +39,20 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
         /// KMS
         case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileType: String, CustomStringConvertible, Codable, Sendable {
         case bam = "BAM"
         case cram = "CRAM"
         case fastq = "FASTQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum FormatToHeaderKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FormatToHeaderKey: String, CustomStringConvertible, Codable, Sendable {
         case alt = "ALT"
         case chr = "CHR"
         case end = "END"
@@ -62,7 +62,7 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         /// The Job was cancelled
         case cancelled = "CANCELLED"
         /// The Job has completed
@@ -76,7 +76,7 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReadSetActivationJobItemStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReadSetActivationJobItemStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case finished = "FINISHED"
         case inProgress = "IN_PROGRESS"
@@ -84,7 +84,7 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReadSetActivationJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReadSetActivationJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case completed = "COMPLETED"
@@ -95,7 +95,7 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReadSetExportJobItemStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReadSetExportJobItemStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case finished = "FINISHED"
         case inProgress = "IN_PROGRESS"
@@ -103,7 +103,7 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReadSetExportJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReadSetExportJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case completed = "COMPLETED"
@@ -114,14 +114,14 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReadSetFile: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReadSetFile: String, CustomStringConvertible, Codable, Sendable {
         case index = "INDEX"
         case source1 = "SOURCE1"
         case source2 = "SOURCE2"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReadSetImportJobItemStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReadSetImportJobItemStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case finished = "FINISHED"
         case inProgress = "IN_PROGRESS"
@@ -129,7 +129,7 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReadSetImportJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReadSetImportJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case completed = "COMPLETED"
@@ -140,7 +140,7 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReadSetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReadSetStatus: String, CustomStringConvertible, Codable, Sendable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case archived = "ARCHIVED"
@@ -149,13 +149,13 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReferenceFile: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReferenceFile: String, CustomStringConvertible, Codable, Sendable {
         case index = "INDEX"
         case source = "SOURCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReferenceImportJobItemStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReferenceImportJobItemStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case finished = "FINISHED"
         case inProgress = "IN_PROGRESS"
@@ -163,7 +163,7 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReferenceImportJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReferenceImportJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case completed = "COMPLETED"
@@ -174,19 +174,19 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReferenceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReferenceStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum RunExport: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RunExport: String, CustomStringConvertible, Codable, Sendable {
         case definition = "DEFINITION"
         public var description: String { return self.rawValue }
     }
 
-    public enum RunLogLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RunLogLevel: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case error = "ERROR"
         case fatal = "FATAL"
@@ -194,7 +194,7 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum RunStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RunStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case deleted = "DELETED"
@@ -206,7 +206,7 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum SchemaValueType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SchemaValueType: String, CustomStringConvertible, Codable, Sendable {
         /// BOOLEAN type
         case boolean = "BOOLEAN"
         /// DOUBLE type
@@ -222,7 +222,7 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum StoreFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StoreFormat: String, CustomStringConvertible, Codable, Sendable {
         /// GFF3 Format
         case gff = "GFF"
         /// TSV Format
@@ -232,7 +232,7 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum StoreStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StoreStatus: String, CustomStringConvertible, Codable, Sendable {
         /// The Store is active
         case active = "ACTIVE"
         /// The Store is being created
@@ -246,7 +246,7 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -257,18 +257,18 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowEngine: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkflowEngine: String, CustomStringConvertible, Codable, Sendable {
         case nextflow = "NEXTFLOW"
         case wdl = "WDL"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowExport: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkflowExport: String, CustomStringConvertible, Codable, Sendable {
         case definition = "DEFINITION"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkflowStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleted = "DELETED"
@@ -277,12 +277,12 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkflowType: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "PRIVATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FormatOptions: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum FormatOptions: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Options for a TSV file.
         case tsvOptions(TsvOptions)
         /// Options for a VCF file.

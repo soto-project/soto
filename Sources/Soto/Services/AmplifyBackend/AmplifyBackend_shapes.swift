@@ -21,7 +21,7 @@ import SotoCore
 extension AmplifyBackend {
     // MARK: Enums
 
-    public enum AdditionalConstraintsElement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AdditionalConstraintsElement: String, CustomStringConvertible, Codable, Sendable {
         case requireDigit = "REQUIRE_DIGIT"
         case requireLowercase = "REQUIRE_LOWERCASE"
         case requireSymbol = "REQUIRE_SYMBOL"
@@ -29,39 +29,39 @@ extension AmplifyBackend {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthResources: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthResources: String, CustomStringConvertible, Codable, Sendable {
         case identityPoolAndUserPool = "IDENTITY_POOL_AND_USER_POOL"
         case userPoolOnly = "USER_POOL_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticatedElement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthenticatedElement: String, CustomStringConvertible, Codable, Sendable {
         case createAndUpdate = "CREATE_AND_UPDATE"
         case delete = "DELETE"
         case read = "READ"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliveryMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeliveryMethod: String, CustomStringConvertible, Codable, Sendable {
         case email = "EMAIL"
         case sms = "SMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum MFAMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MFAMode: String, CustomStringConvertible, Codable, Sendable {
         case off = "OFF"
         case on = "ON"
         case optional = "OPTIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum MfaTypesElement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MfaTypesElement: String, CustomStringConvertible, Codable, Sendable {
         case sms = "SMS"
         case totp = "TOTP"
         public var description: String { return self.rawValue }
     }
 
-    public enum Mode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mode: String, CustomStringConvertible, Codable, Sendable {
         case amazonCognitoUserPools = "AMAZON_COGNITO_USER_POOLS"
         case apiKey = "API_KEY"
         case awsIam = "AWS_IAM"
@@ -69,13 +69,13 @@ extension AmplifyBackend {
         public var description: String { return self.rawValue }
     }
 
-    public enum OAuthGrantType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OAuthGrantType: String, CustomStringConvertible, Codable, Sendable {
         case code = "CODE"
         case implicit = "IMPLICIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum OAuthScopesElement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OAuthScopesElement: String, CustomStringConvertible, Codable, Sendable {
         case awsCognitoSigninUserAdmin = "AWS_COGNITO_SIGNIN_USER_ADMIN"
         case email = "EMAIL"
         case openid = "OPENID"
@@ -84,7 +84,7 @@ extension AmplifyBackend {
         public var description: String { return self.rawValue }
     }
 
-    public enum RequiredSignUpAttributesElement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RequiredSignUpAttributesElement: String, CustomStringConvertible, Codable, Sendable {
         case address = "ADDRESS"
         case birthdate = "BIRTHDATE"
         case email = "EMAIL"
@@ -105,7 +105,7 @@ extension AmplifyBackend {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResolutionStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResolutionStrategy: String, CustomStringConvertible, Codable, Sendable {
         case automerge = "AUTOMERGE"
         case lambda = "LAMBDA"
         case none = "NONE"
@@ -113,17 +113,17 @@ extension AmplifyBackend {
         public var description: String { return self.rawValue }
     }
 
-    public enum Service: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Service: String, CustomStringConvertible, Codable, Sendable {
         case cognito = "COGNITO"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceName: String, CustomStringConvertible, Codable, Sendable {
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum SignInMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SignInMethod: String, CustomStringConvertible, Codable, Sendable {
         case email = "EMAIL"
         case emailAndPhoneNumber = "EMAIL_AND_PHONE_NUMBER"
         case phoneNumber = "PHONE_NUMBER"
@@ -131,13 +131,13 @@ extension AmplifyBackend {
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case latest = "LATEST"
         case stale = "STALE"
         public var description: String { return self.rawValue }
     }
 
-    public enum UnAuthenticatedElement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UnAuthenticatedElement: String, CustomStringConvertible, Codable, Sendable {
         case createAndUpdate = "CREATE_AND_UPDATE"
         case delete = "DELETE"
         case read = "READ"

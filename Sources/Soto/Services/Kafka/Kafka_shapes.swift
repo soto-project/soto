@@ -21,19 +21,19 @@ import SotoCore
 extension Kafka {
     // MARK: Enums
 
-    public enum BrokerAZDistribution: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BrokerAZDistribution: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientBroker: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClientBroker: String, CustomStringConvertible, Codable, Sendable {
         case plaintext = "PLAINTEXT"
         case tls = "TLS"
         case tlsPlaintext = "TLS_PLAINTEXT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClusterState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClusterState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -45,20 +45,20 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
-    public enum ClusterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClusterType: String, CustomStringConvertible, Codable, Sendable {
         case provisioned = "PROVISIONED"
         case serverless = "SERVERLESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleteFailed = "DELETE_FAILED"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnhancedMonitoring: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnhancedMonitoring: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case perBroker = "PER_BROKER"
         case perTopicPerBroker = "PER_TOPIC_PER_BROKER"
@@ -66,18 +66,18 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
-    public enum KafkaVersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KafkaVersionStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deprecated = "DEPRECATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NodeType: String, CustomStringConvertible, Codable, Sendable {
         case broker = "BROKER"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageMode: String, CustomStringConvertible, Codable, Sendable {
         case local = "LOCAL"
         case tiered = "TIERED"
         public var description: String { return self.rawValue }

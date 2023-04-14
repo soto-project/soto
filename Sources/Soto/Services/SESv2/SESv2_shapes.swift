@@ -21,13 +21,13 @@ import SotoCore
 extension SESv2 {
     // MARK: Enums
 
-    public enum BehaviorOnMxFailure: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BehaviorOnMxFailure: String, CustomStringConvertible, Codable, Sendable {
         case rejectMessage = "REJECT_MESSAGE"
         case useDefaultValue = "USE_DEFAULT_VALUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum BulkEmailStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BulkEmailStatus: String, CustomStringConvertible, Codable, Sendable {
         case accountDailyQuotaExceeded = "ACCOUNT_DAILY_QUOTA_EXCEEDED"
         case accountSendingPaused = "ACCOUNT_SENDING_PAUSED"
         case accountSuspended = "ACCOUNT_SUSPENDED"
@@ -45,57 +45,57 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactLanguage: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContactLanguage: String, CustomStringConvertible, Codable, Sendable {
         case en = "EN"
         case ja = "JA"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactListImportAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContactListImportAction: String, CustomStringConvertible, Codable, Sendable {
         case delete = "DELETE"
         case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliverabilityDashboardAccountStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeliverabilityDashboardAccountStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case disabled = "DISABLED"
         case pendingExpiration = "PENDING_EXPIRATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeliverabilityTestStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeliverabilityTestStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DimensionValueSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DimensionValueSource: String, CustomStringConvertible, Codable, Sendable {
         case emailHeader = "EMAIL_HEADER"
         case linkTag = "LINK_TAG"
         case messageTag = "MESSAGE_TAG"
         public var description: String { return self.rawValue }
     }
 
-    public enum DkimSigningAttributesOrigin: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DkimSigningAttributesOrigin: String, CustomStringConvertible, Codable, Sendable {
         case awsSes = "AWS_SES"
         case external = "EXTERNAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum DkimSigningKeyLength: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DkimSigningKeyLength: String, CustomStringConvertible, Codable, Sendable {
         case rsa1024Bit = "RSA_1024_BIT"
         case rsa2048Bit = "RSA_2048_BIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DkimStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DkimStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case notStarted = "NOT_STARTED"
         case pending = "PENDING"
@@ -104,7 +104,7 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
         case bounce = "BOUNCE"
         case click = "CLICK"
         case complaint = "COMPLAINT"
@@ -118,26 +118,26 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FeatureStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IdentityType: String, CustomStringConvertible, Codable, Sendable {
         case domain = "DOMAIN"
         case emailAddress = "EMAIL_ADDRESS"
         case managedDomain = "MANAGED_DOMAIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportDestinationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportDestinationType: String, CustomStringConvertible, Codable, Sendable {
         case contactList = "CONTACT_LIST"
         case suppressionList = "SUPPRESSION_LIST"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case created = "CREATED"
         case failed = "FAILED"
@@ -145,7 +145,7 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListRecommendationsFilterKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListRecommendationsFilterKey: String, CustomStringConvertible, Codable, Sendable {
         case impact = "IMPACT"
         case resourceArn = "RESOURCE_ARN"
         case status = "STATUS"
@@ -153,7 +153,7 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum MailFromDomainStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MailFromDomainStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pending = "PENDING"
         case success = "SUCCESS"
@@ -161,13 +161,13 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum MailType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MailType: String, CustomStringConvertible, Codable, Sendable {
         case marketing = "MARKETING"
         case transactional = "TRANSACTIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum Metric: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Metric: String, CustomStringConvertible, Codable, Sendable {
         case click = "CLICK"
         case complaint = "COMPLAINT"
         case delivery = "DELIVERY"
@@ -181,44 +181,44 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricDimensionName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricDimensionName: String, CustomStringConvertible, Codable, Sendable {
         case configurationSet = "CONFIGURATION_SET"
         case emailIdentity = "EMAIL_IDENTITY"
         case isp = "ISP"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricNamespace: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricNamespace: String, CustomStringConvertible, Codable, Sendable {
         case vdm = "VDM"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QueryErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case internalFailure = "INTERNAL_FAILURE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationImpact: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationImpact: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationStatus: String, CustomStringConvertible, Codable, Sendable {
         case fixed = "FIXED"
         case open = "OPEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable {
         case dkim = "DKIM"
         case dmarc = "DMARC"
         case spf = "SPF"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReviewStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReviewStatus: String, CustomStringConvertible, Codable, Sendable {
         case denied = "DENIED"
         case failed = "FAILED"
         case granted = "GRANTED"
@@ -226,37 +226,37 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScalingMode: String, CustomStringConvertible, Codable, Sendable {
         case managed = "MANAGED"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum SubscriptionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SubscriptionStatus: String, CustomStringConvertible, Codable, Sendable {
         case optIn = "OPT_IN"
         case optOut = "OPT_OUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum SuppressionListImportAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SuppressionListImportAction: String, CustomStringConvertible, Codable, Sendable {
         case delete = "DELETE"
         case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum SuppressionListReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SuppressionListReason: String, CustomStringConvertible, Codable, Sendable {
         case bounce = "BOUNCE"
         case complaint = "COMPLAINT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TlsPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TlsPolicy: String, CustomStringConvertible, Codable, Sendable {
         case optional = "OPTIONAL"
         case require = "REQUIRE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VerificationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VerificationStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case notStarted = "NOT_STARTED"
         case pending = "PENDING"
@@ -265,7 +265,7 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum WarmupStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WarmupStatus: String, CustomStringConvertible, Codable, Sendable {
         case done = "DONE"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }

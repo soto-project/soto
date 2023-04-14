@@ -21,7 +21,7 @@ import SotoCore
 extension Account {
     // MARK: Enums
 
-    public enum AlternateContactType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AlternateContactType: String, CustomStringConvertible, Codable, Sendable {
         case billing = "BILLING"
         case operations = "OPERATIONS"
         case security = "SECURITY"

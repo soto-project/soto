@@ -21,7 +21,7 @@ import SotoCore
 extension IoTFleetWise {
     // MARK: Enums
 
-    public enum CampaignStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CampaignStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "CREATING"
         case running = "RUNNING"
         case suspended = "SUSPENDED"
@@ -29,37 +29,37 @@ extension IoTFleetWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum Compression: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Compression: String, CustomStringConvertible, Codable, Sendable {
         case off = "OFF"
         case snappy = "SNAPPY"
         public var description: String { return self.rawValue }
     }
 
-    public enum DiagnosticsMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DiagnosticsMode: String, CustomStringConvertible, Codable, Sendable {
         case off = "OFF"
         case sendActiveDtcs = "SEND_ACTIVE_DTCS"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case off = "OFF"
         public var description: String { return self.rawValue }
     }
 
-    public enum ManifestStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ManifestStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case draft = "DRAFT"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkInterfaceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkInterfaceType: String, CustomStringConvertible, Codable, Sendable {
         case canInterface = "CAN_INTERFACE"
         case obdInterface = "OBD_INTERFACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeDataType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NodeDataType: String, CustomStringConvertible, Codable, Sendable {
         case boolean = "BOOLEAN"
         case booleanArray = "BOOLEAN_ARRAY"
         case double = "DOUBLE"
@@ -90,32 +90,32 @@ extension IoTFleetWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum RegistrationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RegistrationStatus: String, CustomStringConvertible, Codable, Sendable {
         case registrationFailure = "REGISTRATION_FAILURE"
         case registrationPending = "REGISTRATION_PENDING"
         case registrationSuccess = "REGISTRATION_SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SignalDecoderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SignalDecoderType: String, CustomStringConvertible, Codable, Sendable {
         case canSignal = "CAN_SIGNAL"
         case obdSignal = "OBD_SIGNAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum SpoolingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SpoolingMode: String, CustomStringConvertible, Codable, Sendable {
         case off = "OFF"
         case toDisk = "TO_DISK"
         public var description: String { return self.rawValue }
     }
 
-    public enum TriggerMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TriggerMode: String, CustomStringConvertible, Codable, Sendable {
         case always = "ALWAYS"
         case risingEdge = "RISING_EDGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateCampaignAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateCampaignAction: String, CustomStringConvertible, Codable, Sendable {
         case approve = "APPROVE"
         case resume = "RESUME"
         case suspend = "SUSPEND"
@@ -123,19 +123,19 @@ extension IoTFleetWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateMode: String, CustomStringConvertible, Codable, Sendable {
         case merge = "Merge"
         case overwrite = "Overwrite"
         public var description: String { return self.rawValue }
     }
 
-    public enum VehicleAssociationBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VehicleAssociationBehavior: String, CustomStringConvertible, Codable, Sendable {
         case createIotThing = "CreateIotThing"
         case validateIotThingExists = "ValidateIotThingExists"
         public var description: String { return self.rawValue }
     }
 
-    public enum VehicleState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VehicleState: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case deleting = "DELETING"
         case healthy = "HEALTHY"
@@ -144,7 +144,7 @@ extension IoTFleetWise {
         public var description: String { return self.rawValue }
     }
 
-    public enum CollectionScheme: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum CollectionScheme: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Information about a collection scheme that uses a simple logical expression to recognize what data to collect.
         case conditionBasedCollectionScheme(ConditionBasedCollectionScheme)
         /// Information about a collection scheme that uses a time period to decide how often to collect data.
@@ -194,7 +194,7 @@ extension IoTFleetWise {
         }
     }
 
-    public enum Node: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum Node: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Information about a node specified as an actuator.  An actuator is a digital representation of a vehicle device.
         case actuator(Actuator)
         /// Information about a node specified as an attribute.  An attribute represents static information about a vehicle.

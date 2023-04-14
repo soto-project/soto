@@ -21,47 +21,47 @@ import SotoCore
 extension Imagebuilder {
     // MARK: Enums
 
-    public enum BuildType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BuildType: String, CustomStringConvertible, Codable, Sendable {
         case `import` = "IMPORT"
         case scheduled = "SCHEDULED"
         case userInitiated = "USER_INITIATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComponentFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComponentFormat: String, CustomStringConvertible, Codable, Sendable {
         case shell = "SHELL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComponentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComponentStatus: String, CustomStringConvertible, Codable, Sendable {
         case deprecated = "DEPRECATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComponentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComponentType: String, CustomStringConvertible, Codable, Sendable {
         case build = "BUILD"
         case test = "TEST"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerRepositoryService: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContainerRepositoryService: String, CustomStringConvertible, Codable, Sendable {
         case ecr = "ECR"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContainerType: String, CustomStringConvertible, Codable, Sendable {
         case docker = "DOCKER"
         public var description: String { return self.rawValue }
     }
 
-    public enum DiskImageFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DiskImageFormat: String, CustomStringConvertible, Codable, Sendable {
         case raw = "RAW"
         case vhd = "VHD"
         case vmdk = "VMDK"
         public var description: String { return self.rawValue }
     }
 
-    public enum EbsVolumeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EbsVolumeType: String, CustomStringConvertible, Codable, Sendable {
         case gp2 = "gp2"
         case gp3 = "gp3"
         case io1 = "io1"
@@ -72,7 +72,7 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageSource: String, CustomStringConvertible, Codable, Sendable {
         case amazonManaged = "AMAZON_MANAGED"
         case awsMarketplace = "AWS_MARKETPLACE"
         case custom = "CUSTOM"
@@ -80,7 +80,7 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case building = "BUILDING"
         case cancelled = "CANCELLED"
@@ -95,13 +95,13 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageType: String, CustomStringConvertible, Codable, Sendable {
         case ami = "AMI"
         case docker = "DOCKER"
         public var description: String { return self.rawValue }
     }
 
-    public enum Ownership: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Ownership: String, CustomStringConvertible, Codable, Sendable {
         case _self = "Self"
         case amazon = "Amazon"
         case shared = "Shared"
@@ -109,19 +109,19 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
-    public enum PipelineExecutionStartCondition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PipelineExecutionStartCondition: String, CustomStringConvertible, Codable, Sendable {
         case expressionMatchAndDependencyUpdatesAvailable = "EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE"
         case expressionMatchOnly = "EXPRESSION_MATCH_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum PipelineStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PipelineStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Platform: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Platform: String, CustomStringConvertible, Codable, Sendable {
         case linux = "Linux"
         case windows = "Windows"
         public var description: String { return self.rawValue }

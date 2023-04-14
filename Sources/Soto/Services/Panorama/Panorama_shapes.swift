@@ -21,14 +21,14 @@ import SotoCore
 extension Panorama {
     // MARK: Enums
 
-    public enum ApplicationInstanceHealthStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationInstanceHealthStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case notAvailable = "NOT_AVAILABLE"
         case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationInstanceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationInstanceStatus: String, CustomStringConvertible, Codable, Sendable {
         case deploymentError = "DEPLOYMENT_ERROR"
         case deploymentFailed = "DEPLOYMENT_FAILED"
         case deploymentInProgress = "DEPLOYMENT_IN_PROGRESS"
@@ -43,20 +43,20 @@ extension Panorama {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable {
         case dhcp = "DHCP"
         case staticIp = "STATIC_IP"
         public var description: String { return self.rawValue }
     }
 
-    public enum DesiredState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DesiredState: String, CustomStringConvertible, Codable, Sendable {
         case removed = "REMOVED"
         case running = "RUNNING"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceAggregatedStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceAggregatedStatus: String, CustomStringConvertible, Codable, Sendable {
         case awaitingProvisioning = "AWAITING_PROVISIONING"
         case deleting = "DELETING"
         case error = "ERROR"
@@ -70,13 +70,13 @@ extension Panorama {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceBrand: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceBrand: String, CustomStringConvertible, Codable, Sendable {
         case awsPanorama = "AWS_PANORAMA"
         case lenovo = "LENOVO"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceConnectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case awaitingCredentials = "AWAITING_CREDENTIALS"
         case error = "ERROR"
         case notAvailable = "NOT_AVAILABLE"
@@ -85,7 +85,7 @@ extension Panorama {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceReportedStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceReportedStatus: String, CustomStringConvertible, Codable, Sendable {
         case installError = "INSTALL_ERROR"
         case installInProgress = "INSTALL_IN_PROGRESS"
         case launched = "LAUNCHED"
@@ -100,7 +100,7 @@ extension Panorama {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceStatus: String, CustomStringConvertible, Codable, Sendable {
         case awaitingProvisioning = "AWAITING_PROVISIONING"
         case deleting = "DELETING"
         case error = "ERROR"
@@ -110,24 +110,24 @@ extension Panorama {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceType: String, CustomStringConvertible, Codable, Sendable {
         case panoramaAppliance = "PANORAMA_APPLIANCE"
         case panoramaApplianceDeveloperKit = "PANORAMA_APPLIANCE_DEVELOPER_KIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobResourceType: String, CustomStringConvertible, Codable, Sendable {
         case package = "PACKAGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobType: String, CustomStringConvertible, Codable, Sendable {
         case ota = "OTA"
         case reboot = "REBOOT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListDevicesSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListDevicesSortBy: String, CustomStringConvertible, Codable, Sendable {
         case createdTime = "CREATED_TIME"
         case deviceAggregatedStatus = "DEVICE_AGGREGATED_STATUS"
         case deviceId = "DEVICE_ID"
@@ -135,14 +135,14 @@ extension Panorama {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkConnectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case connected = "CONNECTED"
         case connecting = "CONNECTING"
         case notConnected = "NOT_CONNECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NodeCategory: String, CustomStringConvertible, Codable, Sendable {
         case businessLogic = "BUSINESS_LOGIC"
         case mediaSink = "MEDIA_SINK"
         case mediaSource = "MEDIA_SOURCE"
@@ -150,14 +150,14 @@ extension Panorama {
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeFromTemplateJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NodeFromTemplateJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pending = "PENDING"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeInstanceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NodeInstanceStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case notAvailable = "NOT_AVAILABLE"
         case paused = "PAUSED"
@@ -165,26 +165,26 @@ extension Panorama {
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeSignalValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NodeSignalValue: String, CustomStringConvertible, Codable, Sendable {
         case pause = "PAUSE"
         case resume = "RESUME"
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageImportJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PackageImportJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pending = "PENDING"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageImportJobType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PackageImportJobType: String, CustomStringConvertible, Codable, Sendable {
         case marketplaceNodePackageVersion = "MARKETPLACE_NODE_PACKAGE_VERSION"
         case nodePackageVersion = "NODE_PACKAGE_VERSION"
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageVersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PackageVersionStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleting = "DELETING"
         case failed = "FAILED"
         case registerCompleted = "REGISTER_COMPLETED"
@@ -192,7 +192,7 @@ extension Panorama {
         public var description: String { return self.rawValue }
     }
 
-    public enum PortType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PortType: String, CustomStringConvertible, Codable, Sendable {
         case boolean = "BOOLEAN"
         case float32 = "FLOAT32"
         case int32 = "INT32"
@@ -201,13 +201,13 @@ extension Panorama {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatusFilter: String, CustomStringConvertible, Codable, Sendable {
         case deploymentError = "DEPLOYMENT_ERROR"
         case deploymentFailed = "DEPLOYMENT_FAILED"
         case deploymentSucceeded = "DEPLOYMENT_SUCCEEDED"
@@ -218,12 +218,12 @@ extension Panorama {
         public var description: String { return self.rawValue }
     }
 
-    public enum TemplateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TemplateType: String, CustomStringConvertible, Codable, Sendable {
         case rtspCameraStream = "RTSP_CAMERA_STREAM"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateProgress: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateProgress: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case downloading = "DOWNLOADING"
         case failed = "FAILED"

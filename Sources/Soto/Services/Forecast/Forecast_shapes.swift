@@ -21,7 +21,7 @@ import SotoCore
 extension Forecast {
     // MARK: Enums
 
-    public enum AttributeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AttributeType: String, CustomStringConvertible, Codable, Sendable {
         case float = "float"
         case geolocation = "geolocation"
         case integer = "integer"
@@ -30,13 +30,13 @@ extension Forecast {
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoMLOverrideStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoMLOverrideStrategy: String, CustomStringConvertible, Codable, Sendable {
         case accuracyOptimized = "AccuracyOptimized"
         case latencyOptimized = "LatencyOptimized"
         public var description: String { return self.rawValue }
     }
 
-    public enum Condition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Condition: String, CustomStringConvertible, Codable, Sendable {
         case equals = "EQUALS"
         case greaterThan = "GREATER_THAN"
         case lessThan = "LESS_THAN"
@@ -44,14 +44,14 @@ extension Forecast {
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatasetType: String, CustomStringConvertible, Codable, Sendable {
         case itemMetadata = "ITEM_METADATA"
         case relatedTimeSeries = "RELATED_TIME_SERIES"
         case targetTimeSeries = "TARGET_TIME_SERIES"
         public var description: String { return self.rawValue }
     }
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable {
         case friday = "FRIDAY"
         case monday = "MONDAY"
         case saturday = "SATURDAY"
@@ -62,7 +62,7 @@ extension Forecast {
         public var description: String { return self.rawValue }
     }
 
-    public enum Domain: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Domain: String, CustomStringConvertible, Codable, Sendable {
         case custom = "CUSTOM"
         case ec2Capacity = "EC2_CAPACITY"
         case inventoryPlanning = "INVENTORY_PLANNING"
@@ -73,24 +73,24 @@ extension Forecast {
         public var description: String { return self.rawValue }
     }
 
-    public enum EvaluationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EvaluationType: String, CustomStringConvertible, Codable, Sendable {
         case computed = "COMPUTED"
         case summary = "SUMMARY"
         public var description: String { return self.rawValue }
     }
 
-    public enum FeaturizationMethodName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FeaturizationMethodName: String, CustomStringConvertible, Codable, Sendable {
         case filling = "filling"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterConditionString: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterConditionString: String, CustomStringConvertible, Codable, Sendable {
         case `is` = "IS"
         case isNot = "IS_NOT"
         public var description: String { return self.rawValue }
     }
 
-    public enum Month: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Month: String, CustomStringConvertible, Codable, Sendable {
         case april = "APRIL"
         case august = "AUGUST"
         case december = "DECEMBER"
@@ -106,7 +106,7 @@ extension Forecast {
         public var description: String { return self.rawValue }
     }
 
-    public enum Operation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Operation: String, CustomStringConvertible, Codable, Sendable {
         case add = "ADD"
         case divide = "DIVIDE"
         case multiply = "MULTIPLY"
@@ -114,7 +114,7 @@ extension Forecast {
         public var description: String { return self.rawValue }
     }
 
-    public enum OptimizationMetric: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OptimizationMetric: String, CustomStringConvertible, Codable, Sendable {
         case averageWeightedQuantileLoss = "AverageWeightedQuantileLoss"
         case mape = "MAPE"
         case mase = "MASE"
@@ -123,7 +123,7 @@ extension Forecast {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScalingType: String, CustomStringConvertible, Codable, Sendable {
         case auto = "Auto"
         case linear = "Linear"
         case logarithmic = "Logarithmic"
@@ -131,19 +131,19 @@ extension Forecast {
         public var description: String { return self.rawValue }
     }
 
-    public enum State: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum State: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case deleted = "Deleted"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimePointGranularity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimePointGranularity: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case specific = "SPECIFIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeSeriesGranularity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimeSeriesGranularity: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case specific = "SPECIFIC"
         public var description: String { return self.rawValue }

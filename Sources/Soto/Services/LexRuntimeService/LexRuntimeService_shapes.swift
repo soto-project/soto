@@ -21,19 +21,19 @@ import SotoCore
 extension LexRuntimeService {
     // MARK: Enums
 
-    public enum ConfirmationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfirmationStatus: String, CustomStringConvertible, Codable, Sendable {
         case confirmed = "Confirmed"
         case denied = "Denied"
         case none = "None"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentType: String, CustomStringConvertible, Codable, Sendable {
         case applicationVndAmazonawsCardGeneric = "application/vnd.amazonaws.card.generic"
         public var description: String { return self.rawValue }
     }
 
-    public enum DialogActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DialogActionType: String, CustomStringConvertible, Codable, Sendable {
         case close = "Close"
         case confirmIntent = "ConfirmIntent"
         case delegate = "Delegate"
@@ -42,7 +42,7 @@ extension LexRuntimeService {
         public var description: String { return self.rawValue }
     }
 
-    public enum DialogState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DialogState: String, CustomStringConvertible, Codable, Sendable {
         case confirmIntent = "ConfirmIntent"
         case elicitIntent = "ElicitIntent"
         case elicitSlot = "ElicitSlot"
@@ -52,14 +52,14 @@ extension LexRuntimeService {
         public var description: String { return self.rawValue }
     }
 
-    public enum FulfillmentState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FulfillmentState: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case fulfilled = "Fulfilled"
         case readyForFulfillment = "ReadyForFulfillment"
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageFormatType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MessageFormatType: String, CustomStringConvertible, Codable, Sendable {
         case composite = "Composite"
         case customPayload = "CustomPayload"
         case plainText = "PlainText"

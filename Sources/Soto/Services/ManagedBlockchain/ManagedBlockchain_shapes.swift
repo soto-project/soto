@@ -21,31 +21,31 @@ import SotoCore
 extension ManagedBlockchain {
     // MARK: Enums
 
-    public enum AccessorStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessorStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case pendingDeletion = "PENDING_DELETION"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccessorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessorType: String, CustomStringConvertible, Codable, Sendable {
         case billingToken = "BILLING_TOKEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum Edition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Edition: String, CustomStringConvertible, Codable, Sendable {
         case standard = "STANDARD"
         case starter = "STARTER"
         public var description: String { return self.rawValue }
     }
 
-    public enum Framework: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Framework: String, CustomStringConvertible, Codable, Sendable {
         case ethereum = "ETHEREUM"
         case hyperledgerFabric = "HYPERLEDGER_FABRIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum InvitationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InvitationStatus: String, CustomStringConvertible, Codable, Sendable {
         case accepted = "ACCEPTED"
         case accepting = "ACCEPTING"
         case expired = "EXPIRED"
@@ -54,7 +54,7 @@ extension ManagedBlockchain {
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MemberStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -65,7 +65,7 @@ extension ManagedBlockchain {
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -74,7 +74,7 @@ extension ManagedBlockchain {
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NodeStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -87,7 +87,7 @@ extension ManagedBlockchain {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProposalStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProposalStatus: String, CustomStringConvertible, Codable, Sendable {
         case actionFailed = "ACTION_FAILED"
         case approved = "APPROVED"
         case expired = "EXPIRED"
@@ -96,19 +96,19 @@ extension ManagedBlockchain {
         public var description: String { return self.rawValue }
     }
 
-    public enum StateDBType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StateDBType: String, CustomStringConvertible, Codable, Sendable {
         case couchDB = "CouchDB"
         case levelDB = "LevelDB"
         public var description: String { return self.rawValue }
     }
 
-    public enum ThresholdComparator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThresholdComparator: String, CustomStringConvertible, Codable, Sendable {
         case greaterThan = "GREATER_THAN"
         case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
         public var description: String { return self.rawValue }
     }
 
-    public enum VoteValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VoteValue: String, CustomStringConvertible, Codable, Sendable {
         case no = "NO"
         case yes = "YES"
         public var description: String { return self.rawValue }

@@ -21,7 +21,7 @@ import SotoCore
 extension Glue {
     // MARK: Enums
 
-    public enum AggFunction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggFunction: String, CustomStringConvertible, Codable, Sendable {
         case avg = "avg"
         case count = "count"
         case countDistinct = "countDistinct"
@@ -40,7 +40,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum BackfillErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BackfillErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case encryptedPartitionError = "ENCRYPTED_PARTITION_ERROR"
         case internalError = "INTERNAL_ERROR"
         case invalidPartitionTypeDataError = "INVALID_PARTITION_TYPE_DATA_ERROR"
@@ -49,7 +49,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum BlueprintRunState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BlueprintRunState: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case rollingBack = "ROLLING_BACK"
         case running = "RUNNING"
@@ -57,7 +57,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum BlueprintStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BlueprintStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case failed = "FAILED"
@@ -65,19 +65,19 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum CatalogEncryptionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CatalogEncryptionMode: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case ssekms = "SSE-KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum CloudWatchEncryptionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CloudWatchEncryptionMode: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case ssekms = "SSE-KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ColumnStatisticsType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ColumnStatisticsType: String, CustomStringConvertible, Codable, Sendable {
         case binary = "BINARY"
         case boolean = "BOOLEAN"
         case date = "DATE"
@@ -88,7 +88,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum Comparator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Comparator: String, CustomStringConvertible, Codable, Sendable {
         case equals = "EQUALS"
         case greaterThan = "GREATER_THAN"
         case greaterThanEquals = "GREATER_THAN_EQUALS"
@@ -97,7 +97,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum Compatibility: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Compatibility: String, CustomStringConvertible, Codable, Sendable {
         case backward = "BACKWARD"
         case backwardAll = "BACKWARD_ALL"
         case disabled = "DISABLED"
@@ -109,13 +109,13 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum CompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CompressionType: String, CustomStringConvertible, Codable, Sendable {
         case bzip2 = "bzip2"
         case gzip = "gzip"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionPropertyKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionPropertyKey: String, CustomStringConvertible, Codable, Sendable {
         case configFiles = "CONFIG_FILES"
         case connectionUrl = "CONNECTION_URL"
         case connectorClassName = "CONNECTOR_CLASS_NAME"
@@ -149,7 +149,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable {
         case custom = "CUSTOM"
         case jdbc = "JDBC"
         case kafka = "KAFKA"
@@ -160,7 +160,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum CrawlState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CrawlState: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case error = "ERROR"
@@ -170,7 +170,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum CrawlerHistoryState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CrawlerHistoryState: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case running = "RUNNING"
@@ -178,79 +178,79 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum CrawlerLineageSettings: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CrawlerLineageSettings: String, CustomStringConvertible, Codable, Sendable {
         case disable = "DISABLE"
         case enable = "ENABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CrawlerState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CrawlerState: String, CustomStringConvertible, Codable, Sendable {
         case ready = "READY"
         case running = "RUNNING"
         case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 
-    public enum CsvHeaderOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CsvHeaderOption: String, CustomStringConvertible, Codable, Sendable {
         case absent = "ABSENT"
         case present = "PRESENT"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum DQStopJobOnFailureTiming: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DQStopJobOnFailureTiming: String, CustomStringConvertible, Codable, Sendable {
         case afterDataLoad = "AfterDataLoad"
         case immediate = "Immediate"
         public var description: String { return self.rawValue }
     }
 
-    public enum DQTransformOutput: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DQTransformOutput: String, CustomStringConvertible, Codable, Sendable {
         case evaluationResults = "EvaluationResults"
         case primaryInput = "PrimaryInput"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataFormat: String, CustomStringConvertible, Codable, Sendable {
         case avro = "AVRO"
         case json = "JSON"
         case protobuf = "PROTOBUF"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataQualityRuleResultStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataQualityRuleResultStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case fail = "FAIL"
         case pass = "PASS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeleteBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeleteBehavior: String, CustomStringConvertible, Codable, Sendable {
         case deleteFromDatabase = "DELETE_FROM_DATABASE"
         case deprecateInDatabase = "DEPRECATE_IN_DATABASE"
         case log = "LOG"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnableHybridValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnableHybridValues: String, CustomStringConvertible, Codable, Sendable {
         case `false` = "FALSE"
         case `true` = "TRUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecutionClass: String, CustomStringConvertible, Codable, Sendable {
         case flex = "FLEX"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExistCondition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExistCondition: String, CustomStringConvertible, Codable, Sendable {
         case mustExist = "MUST_EXIST"
         case none = "NONE"
         case notExist = "NOT_EXIST"
         public var description: String { return self.rawValue }
     }
 
-    public enum FieldName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FieldName: String, CustomStringConvertible, Codable, Sendable {
         case crawlId = "CRAWL_ID"
         case dpuHour = "DPU_HOUR"
         case endTime = "END_TIME"
@@ -259,13 +259,13 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterLogicalOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterLogicalOperator: String, CustomStringConvertible, Codable, Sendable {
         case and = "AND"
         case or = "OR"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterOperation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterOperation: String, CustomStringConvertible, Codable, Sendable {
         case eq = "EQ"
         case gt = "GT"
         case gte = "GTE"
@@ -276,7 +276,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case eq = "EQ"
         case ge = "GE"
         case gt = "GT"
@@ -286,13 +286,13 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterValueType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterValueType: String, CustomStringConvertible, Codable, Sendable {
         case columnextracted = "COLUMNEXTRACTED"
         case constant = "CONSTANT"
         public var description: String { return self.rawValue }
     }
 
-    public enum GlueRecordType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GlueRecordType: String, CustomStringConvertible, Codable, Sendable {
         case bigdecimal = "BIGDECIMAL"
         case byte = "BYTE"
         case date = "DATE"
@@ -306,7 +306,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum HudiTargetCompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HudiTargetCompressionType: String, CustomStringConvertible, Codable, Sendable {
         case gzip = "gzip"
         case lzo = "lzo"
         case snappy = "snappy"
@@ -314,7 +314,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum JDBCDataType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JDBCDataType: String, CustomStringConvertible, Codable, Sendable {
         case `struct` = "STRUCT"
         case array = "ARRAY"
         case bigint = "BIGINT"
@@ -357,19 +357,19 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum JdbcMetadataEntry: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JdbcMetadataEntry: String, CustomStringConvertible, Codable, Sendable {
         case comments = "COMMENTS"
         case rawtypes = "RAWTYPES"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobBookmarksEncryptionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobBookmarksEncryptionMode: String, CustomStringConvertible, Codable, Sendable {
         case csekms = "CSE-KMS"
         case disabled = "DISABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobRunState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobRunState: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case failed = "FAILED"
         case running = "RUNNING"
@@ -382,7 +382,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum JoinType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JoinType: String, CustomStringConvertible, Codable, Sendable {
         case equijoin = "equijoin"
         case left = "left"
         case leftAnti = "leftanti"
@@ -392,44 +392,44 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum Language: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Language: String, CustomStringConvertible, Codable, Sendable {
         case python = "PYTHON"
         case scala = "SCALA"
         public var description: String { return self.rawValue }
     }
 
-    public enum LastCrawlStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LastCrawlStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Logical: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Logical: String, CustomStringConvertible, Codable, Sendable {
         case and = "AND"
         case any = "ANY"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogicalOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogicalOperator: String, CustomStringConvertible, Codable, Sendable {
         case equals = "EQUALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum MLUserDataEncryptionModeString: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MLUserDataEncryptionModeString: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case ssekms = "SSE-KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum NodeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NodeType: String, CustomStringConvertible, Codable, Sendable {
         case crawler = "CRAWLER"
         case job = "JOB"
         case trigger = "TRIGGER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParamType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParamType: String, CustomStringConvertible, Codable, Sendable {
         case bool = "bool"
         case complex = "complex"
         case float = "float"
@@ -440,7 +440,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum ParquetCompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParquetCompressionType: String, CustomStringConvertible, Codable, Sendable {
         case gzip = "gzip"
         case lzo = "lzo"
         case none = "none"
@@ -449,7 +449,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum PartitionIndexStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PartitionIndexStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -457,7 +457,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum Permission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Permission: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case alter = "ALTER"
         case createDatabase = "CREATE_DATABASE"
@@ -470,13 +470,13 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum PermissionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PermissionType: String, CustomStringConvertible, Codable, Sendable {
         case cellFilterPermission = "CELL_FILTER_PERMISSION"
         case columnPermission = "COLUMN_PERMISSION"
         public var description: String { return self.rawValue }
     }
 
-    public enum PiiType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PiiType: String, CustomStringConvertible, Codable, Sendable {
         case columnAudit = "ColumnAudit"
         case columnMasking = "ColumnMasking"
         case rowAudit = "RowAudit"
@@ -484,14 +484,14 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum PrincipalType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable {
         case group = "GROUP"
         case role = "ROLE"
         case user = "USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum QuoteChar: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QuoteChar: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case quillemet = "quillemet"
         case quote = "quote"
@@ -499,59 +499,59 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecrawlBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecrawlBehavior: String, CustomStringConvertible, Codable, Sendable {
         case crawlEventMode = "CRAWL_EVENT_MODE"
         case crawlEverything = "CRAWL_EVERYTHING"
         case crawlNewFoldersOnly = "CRAWL_NEW_FOLDERS_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RegistryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RegistryStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceShareType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceShareType: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case foreign = "FOREIGN"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case archive = "ARCHIVE"
         case file = "FILE"
         case jar = "JAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3EncryptionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3EncryptionMode: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case ssekms = "SSE-KMS"
         case sses3 = "SSE-S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduleState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScheduleState: String, CustomStringConvertible, Codable, Sendable {
         case notScheduled = "NOT_SCHEDULED"
         case scheduled = "SCHEDULED"
         case transitioning = "TRANSITIONING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SchemaDiffType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SchemaDiffType: String, CustomStringConvertible, Codable, Sendable {
         case syntaxDiff = "SYNTAX_DIFF"
         public var description: String { return self.rawValue }
     }
 
-    public enum SchemaStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SchemaStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SchemaVersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SchemaVersionStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case failure = "FAILURE"
@@ -559,7 +559,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum Separator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Separator: String, CustomStringConvertible, Codable, Sendable {
         case comma = "comma"
         case ctrla = "ctrla"
         case pipe = "pipe"
@@ -568,7 +568,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum SessionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SessionStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case provisioning = "PROVISIONING"
         case ready = "READY"
@@ -578,38 +578,38 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum Sort: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Sort: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASC"
         case descending = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortDirectionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortDirectionType: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceControlAuthStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceControlAuthStrategy: String, CustomStringConvertible, Codable, Sendable {
         case awsSecretsManager = "AWS_SECRETS_MANAGER"
         case personalAccessToken = "PERSONAL_ACCESS_TOKEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceControlProvider: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceControlProvider: String, CustomStringConvertible, Codable, Sendable {
         case awsCodeCommit = "AWS_CODE_COMMIT"
         case github = "GITHUB"
         public var description: String { return self.rawValue }
     }
 
-    public enum StartingPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StartingPosition: String, CustomStringConvertible, Codable, Sendable {
         case earliest = "earliest"
         case latest = "latest"
         case trimHorizon = "trim_horizon"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatementState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatementState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
@@ -619,7 +619,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetFormat: String, CustomStringConvertible, Codable, Sendable {
         case avro = "avro"
         case csv = "csv"
         case hudi = "hudi"
@@ -629,14 +629,14 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskRunSortColumnType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskRunSortColumnType: String, CustomStringConvertible, Codable, Sendable {
         case started = "STARTED"
         case status = "STATUS"
         case taskRunType = "TASK_RUN_TYPE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskStatusType: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case running = "RUNNING"
         case starting = "STARTING"
@@ -647,7 +647,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskType: String, CustomStringConvertible, Codable, Sendable {
         case evaluation = "EVALUATION"
         case exportLabels = "EXPORT_LABELS"
         case findMatches = "FIND_MATCHES"
@@ -656,7 +656,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransformSortColumnType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransformSortColumnType: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case lastModified = "LAST_MODIFIED"
         case name = "NAME"
@@ -665,19 +665,19 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransformStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransformStatusType: String, CustomStringConvertible, Codable, Sendable {
         case deleting = "DELETING"
         case notReady = "NOT_READY"
         case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
-    public enum TransformType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransformType: String, CustomStringConvertible, Codable, Sendable {
         case findMatches = "FIND_MATCHES"
         public var description: String { return self.rawValue }
     }
 
-    public enum TriggerState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TriggerState: String, CustomStringConvertible, Codable, Sendable {
         case activated = "ACTIVATED"
         case activating = "ACTIVATING"
         case created = "CREATED"
@@ -689,7 +689,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum TriggerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TriggerType: String, CustomStringConvertible, Codable, Sendable {
         case conditional = "CONDITIONAL"
         case event = "EVENT"
         case onDemand = "ON_DEMAND"
@@ -697,25 +697,25 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum UnionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UnionType: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case distinct = "DISTINCT"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateBehavior: String, CustomStringConvertible, Codable, Sendable {
         case log = "LOG"
         case updateInDatabase = "UPDATE_IN_DATABASE"
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateCatalogBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateCatalogBehavior: String, CustomStringConvertible, Codable, Sendable {
         case log = "LOG"
         case updateInDatabase = "UPDATE_IN_DATABASE"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkerType: String, CustomStringConvertible, Codable, Sendable {
         case g025X = "G.025X"
         case g1X = "G.1X"
         case g2X = "G.2X"
@@ -723,7 +723,7 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowRunStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkflowRunStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case error = "ERROR"
         case running = "RUNNING"

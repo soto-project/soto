@@ -21,7 +21,7 @@ import SotoCore
 extension SecretsManager {
     // MARK: Enums
 
-    public enum FilterNameStringType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterNameStringType: String, CustomStringConvertible, Codable, Sendable {
         case all = "all"
         case description = "description"
         case name = "name"
@@ -32,13 +32,13 @@ extension SecretsManager {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrderType: String, CustomStringConvertible, Codable, Sendable {
         case asc = "asc"
         case desc = "desc"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatusType: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case inSync = "InSync"

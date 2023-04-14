@@ -21,12 +21,12 @@ import SotoCore
 extension IoT {
     // MARK: Enums
 
-    public enum AbortAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AbortAction: String, CustomStringConvertible, Codable, Sendable {
         case cancel = "CANCEL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionType: String, CustomStringConvertible, Codable, Sendable {
         case connect = "CONNECT"
         case publish = "PUBLISH"
         case receive = "RECEIVE"
@@ -34,19 +34,19 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregationTypeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregationTypeName: String, CustomStringConvertible, Codable, Sendable {
         case cardinality = "Cardinality"
         case percentiles = "Percentiles"
         case statistics = "Statistics"
         public var description: String { return self.rawValue }
     }
 
-    public enum AlertTargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AlertTargetType: String, CustomStringConvertible, Codable, Sendable {
         case sns = "SNS"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuditCheckRunStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuditCheckRunStatus: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case completedCompliant = "COMPLETED_COMPLIANT"
         case completedNonCompliant = "COMPLETED_NON_COMPLIANT"
@@ -56,7 +56,7 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuditFindingSeverity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuditFindingSeverity: String, CustomStringConvertible, Codable, Sendable {
         case critical = "CRITICAL"
         case high = "HIGH"
         case low = "LOW"
@@ -64,7 +64,7 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuditFrequency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuditFrequency: String, CustomStringConvertible, Codable, Sendable {
         case biweekly = "BIWEEKLY"
         case daily = "DAILY"
         case monthly = "MONTHLY"
@@ -72,7 +72,7 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuditMitigationActionsExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuditMitigationActionsExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -82,7 +82,7 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuditMitigationActionsTaskStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuditMitigationActionsTaskStatus: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -90,12 +90,12 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuditNotificationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuditNotificationType: String, CustomStringConvertible, Codable, Sendable {
         case sns = "SNS"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuditTaskStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuditTaskStatus: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -103,37 +103,37 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuditTaskType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuditTaskType: String, CustomStringConvertible, Codable, Sendable {
         case onDemandAuditTask = "ON_DEMAND_AUDIT_TASK"
         case scheduledAuditTask = "SCHEDULED_AUDIT_TASK"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthDecision: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthDecision: String, CustomStringConvertible, Codable, Sendable {
         case allowed = "ALLOWED"
         case explicitDeny = "EXPLICIT_DENY"
         case implicitDeny = "IMPLICIT_DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthorizerStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthorizerStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoRegistrationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoRegistrationStatus: String, CustomStringConvertible, Codable, Sendable {
         case disable = "DISABLE"
         case enable = "ENABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AwsJobAbortCriteriaAbortAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AwsJobAbortCriteriaAbortAction: String, CustomStringConvertible, Codable, Sendable {
         case cancel = "CANCEL"
         public var description: String { return self.rawValue }
     }
 
-    public enum AwsJobAbortCriteriaFailureType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AwsJobAbortCriteriaFailureType: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case failed = "FAILED"
         case rejected = "REJECTED"
@@ -141,25 +141,25 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum BehaviorCriteriaType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BehaviorCriteriaType: String, CustomStringConvertible, Codable, Sendable {
         case `static` = "STATIC"
         case machineLearning = "MACHINE_LEARNING"
         case statistical = "STATISTICAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum CACertificateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CACertificateStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CACertificateUpdateAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CACertificateUpdateAction: String, CustomStringConvertible, Codable, Sendable {
         case deactivate = "DEACTIVATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CannedAccessControlList: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CannedAccessControlList: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
@@ -171,13 +171,13 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CertificateMode: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case sniOnly = "SNI_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CertificateStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         case pendingActivation = "PENDING_ACTIVATION"
@@ -187,7 +187,7 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
         case greaterThan = "greater-than"
         case greaterThanEquals = "greater-than-equals"
         case inCidrSet = "in-cidr-set"
@@ -201,14 +201,14 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfidenceLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfidenceLevel: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomMetricType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomMetricType: String, CustomStringConvertible, Codable, Sendable {
         case ipAddressList = "ip-address-list"
         case number = "number"
         case numberList = "number-list"
@@ -216,7 +216,7 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable {
         case fri = "FRI"
         case mon = "MON"
         case sat = "SAT"
@@ -227,7 +227,7 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum DetectMitigationActionExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DetectMitigationActionExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case skipped = "SKIPPED"
@@ -235,7 +235,7 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum DetectMitigationActionsTaskStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DetectMitigationActionsTaskStatus: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -243,55 +243,55 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceCertificateUpdateAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceCertificateUpdateAction: String, CustomStringConvertible, Codable, Sendable {
         case deactivate = "DEACTIVATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceDefenderIndexingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceDefenderIndexingMode: String, CustomStringConvertible, Codable, Sendable {
         case off = "OFF"
         case violations = "VIOLATIONS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DimensionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DimensionType: String, CustomStringConvertible, Codable, Sendable {
         case topicFilter = "TOPIC_FILTER"
         public var description: String { return self.rawValue }
     }
 
-    public enum DimensionValueOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DimensionValueOperator: String, CustomStringConvertible, Codable, Sendable {
         case `in` = "IN"
         case notIn = "NOT_IN"
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DomainConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DomainType: String, CustomStringConvertible, Codable, Sendable {
         case awsManaged = "AWS_MANAGED"
         case customerManaged = "CUSTOMER_MANAGED"
         case endpoint = "ENDPOINT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DynamicGroupStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DynamicGroupStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case building = "BUILDING"
         case rebuilding = "REBUILDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum DynamoKeyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DynamoKeyType: String, CustomStringConvertible, Codable, Sendable {
         case number = "NUMBER"
         case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
         case caCertificate = "CA_CERTIFICATE"
         case certificate = "CERTIFICATE"
         case job = "JOB"
@@ -306,14 +306,14 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum FieldType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FieldType: String, CustomStringConvertible, Codable, Sendable {
         case boolean = "Boolean"
         case number = "Number"
         case string = "String"
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetMetricUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetMetricUnit: String, CustomStringConvertible, Codable, Sendable {
         case bits = "Bits"
         case bitsSecond = "Bits/Second"
         case bytes = "Bytes"
@@ -344,21 +344,21 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum IndexStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IndexStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case building = "BUILDING"
         case rebuilding = "REBUILDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobEndBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobEndBehavior: String, CustomStringConvertible, Codable, Sendable {
         case cancel = "CANCEL"
         case forceCancel = "FORCE_CANCEL"
         case stopRollout = "STOP_ROLLOUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobExecutionFailureType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobExecutionFailureType: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case failed = "FAILED"
         case rejected = "REJECTED"
@@ -366,7 +366,7 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -378,7 +378,7 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case completed = "COMPLETED"
         case deletionInProgress = "DELETION_IN_PROGRESS"
@@ -387,7 +387,7 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogLevel: String, CustomStringConvertible, Codable, Sendable {
         case debug = "DEBUG"
         case disabled = "DISABLED"
         case error = "ERROR"
@@ -396,7 +396,7 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogTargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogTargetType: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case clientId = "CLIENT_ID"
         case principalId = "PRINCIPAL_ID"
@@ -405,13 +405,13 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MessageFormat: String, CustomStringConvertible, Codable, Sendable {
         case json = "JSON"
         case raw = "RAW"
         public var description: String { return self.rawValue }
     }
 
-    public enum MitigationActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MitigationActionType: String, CustomStringConvertible, Codable, Sendable {
         case addThingsToThingGroup = "ADD_THINGS_TO_THING_GROUP"
         case enableIotLogging = "ENABLE_IOT_LOGGING"
         case publishFindingToSns = "PUBLISH_FINDING_TO_SNS"
@@ -421,20 +421,20 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case expired = "EXPIRED"
         case pendingBuild = "PENDING_BUILD"
         public var description: String { return self.rawValue }
     }
 
-    public enum NamedShadowIndexingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NamedShadowIndexingMode: String, CustomStringConvertible, Codable, Sendable {
         case off = "OFF"
         case on = "ON"
         public var description: String { return self.rawValue }
     }
 
-    public enum OTAUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OTAUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -442,18 +442,18 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyTemplateName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PolicyTemplateName: String, CustomStringConvertible, Codable, Sendable {
         case blankPolicy = "BLANK_POLICY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportType: String, CustomStringConvertible, Codable, Sendable {
         case errors = "ERRORS"
         case results = "RESULTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case accountSettings = "ACCOUNT_SETTINGS"
         case caCertificate = "CA_CERTIFICATE"
         case clientId = "CLIENT_ID"
@@ -466,27 +466,27 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum RetryableFailureType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RetryableFailureType: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case failed = "FAILED"
         case timedOut = "TIMED_OUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServerCertificateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServerCertificateStatus: String, CustomStringConvertible, Codable, Sendable {
         case invalid = "INVALID"
         case valid = "VALID"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceType: String, CustomStringConvertible, Codable, Sendable {
         case credentialProvider = "CREDENTIAL_PROVIDER"
         case data = "DATA"
         case jobs = "JOBS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "Cancelled"
         case cancelling = "Cancelling"
         case completed = "Completed"
@@ -495,38 +495,38 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetSelection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetSelection: String, CustomStringConvertible, Codable, Sendable {
         case continuous = "CONTINUOUS"
         case snapshot = "SNAPSHOT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TemplateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TemplateType: String, CustomStringConvertible, Codable, Sendable {
         case fleetProvisioning = "FLEET_PROVISIONING"
         case jitp = "JITP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ThingConnectivityIndexingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThingConnectivityIndexingMode: String, CustomStringConvertible, Codable, Sendable {
         case off = "OFF"
         case status = "STATUS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ThingGroupIndexingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThingGroupIndexingMode: String, CustomStringConvertible, Codable, Sendable {
         case off = "OFF"
         case on = "ON"
         public var description: String { return self.rawValue }
     }
 
-    public enum ThingIndexingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThingIndexingMode: String, CustomStringConvertible, Codable, Sendable {
         case off = "OFF"
         case registry = "REGISTRY"
         case registryAndShadow = "REGISTRY_AND_SHADOW"
         public var description: String { return self.rawValue }
     }
 
-    public enum TopicRuleDestinationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TopicRuleDestinationStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleting = "DELETING"
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -535,7 +535,7 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum VerificationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VerificationState: String, CustomStringConvertible, Codable, Sendable {
         case benignPositive = "BENIGN_POSITIVE"
         case falsePositive = "FALSE_POSITIVE"
         case truePositive = "TRUE_POSITIVE"
@@ -543,20 +543,20 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
-    public enum ViolationEventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ViolationEventType: String, CustomStringConvertible, Codable, Sendable {
         case alarmCleared = "alarm-cleared"
         case alarmInvalidated = "alarm-invalidated"
         case inAlarm = "in-alarm"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable {
         case http = "HTTP"
         case mqtt = "MQTT"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssetPropertyVariant: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum AssetPropertyVariant: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Optional. A string that contains the boolean value (true or false) of the value entry. Accepts substitution templates.
         case booleanValue(String)
         /// Optional. A string that contains the double value of the value entry. Accepts substitution templates.

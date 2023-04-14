@@ -21,13 +21,13 @@ import SotoCore
 extension SES {
     // MARK: Enums
 
-    public enum BehaviorOnMXFailure: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BehaviorOnMXFailure: String, CustomStringConvertible, Codable, Sendable {
         case rejectMessage = "RejectMessage"
         case useDefaultValue = "UseDefaultValue"
         public var description: String { return self.rawValue }
     }
 
-    public enum BounceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BounceType: String, CustomStringConvertible, Codable, Sendable {
         case contentRejected = "ContentRejected"
         case doesNotExist = "DoesNotExist"
         case exceededQuota = "ExceededQuota"
@@ -37,7 +37,7 @@ extension SES {
         public var description: String { return self.rawValue }
     }
 
-    public enum BulkEmailStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BulkEmailStatus: String, CustomStringConvertible, Codable, Sendable {
         case accountDailyQuotaExceeded = "AccountDailyQuotaExceeded"
         case accountSendingPaused = "AccountSendingPaused"
         case accountSuspended = "AccountSuspended"
@@ -55,7 +55,7 @@ extension SES {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationSetAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationSetAttribute: String, CustomStringConvertible, Codable, Sendable {
         case deliveryOptions = "deliveryOptions"
         case eventDestinations = "eventDestinations"
         case reputationOptions = "reputationOptions"
@@ -63,7 +63,7 @@ extension SES {
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomMailFromStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomMailFromStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case pending = "Pending"
         case success = "Success"
@@ -71,14 +71,14 @@ extension SES {
         public var description: String { return self.rawValue }
     }
 
-    public enum DimensionValueSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DimensionValueSource: String, CustomStringConvertible, Codable, Sendable {
         case emailHeader = "emailHeader"
         case linkTag = "linkTag"
         case messageTag = "messageTag"
         public var description: String { return self.rawValue }
     }
 
-    public enum DsnAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DsnAction: String, CustomStringConvertible, Codable, Sendable {
         case delayed = "delayed"
         case delivered = "delivered"
         case expanded = "expanded"
@@ -87,7 +87,7 @@ extension SES {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
         case bounce = "bounce"
         case click = "click"
         case complaint = "complaint"
@@ -99,49 +99,49 @@ extension SES {
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IdentityType: String, CustomStringConvertible, Codable, Sendable {
         case domain = "Domain"
         case emailAddress = "EmailAddress"
         public var description: String { return self.rawValue }
     }
 
-    public enum InvocationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InvocationType: String, CustomStringConvertible, Codable, Sendable {
         case event = "Event"
         case requestResponse = "RequestResponse"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotificationType: String, CustomStringConvertible, Codable, Sendable {
         case bounce = "Bounce"
         case complaint = "Complaint"
         case delivery = "Delivery"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReceiptFilterPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReceiptFilterPolicy: String, CustomStringConvertible, Codable, Sendable {
         case allow = "Allow"
         case block = "Block"
         public var description: String { return self.rawValue }
     }
 
-    public enum SNSActionEncoding: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SNSActionEncoding: String, CustomStringConvertible, Codable, Sendable {
         case base64 = "Base64"
         case utf8 = "UTF-8"
         public var description: String { return self.rawValue }
     }
 
-    public enum StopScope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StopScope: String, CustomStringConvertible, Codable, Sendable {
         case ruleSet = "RuleSet"
         public var description: String { return self.rawValue }
     }
 
-    public enum TlsPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TlsPolicy: String, CustomStringConvertible, Codable, Sendable {
         case optional = "Optional"
         case require = "Require"
         public var description: String { return self.rawValue }
     }
 
-    public enum VerificationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VerificationStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case notStarted = "NotStarted"
         case pending = "Pending"

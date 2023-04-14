@@ -21,7 +21,7 @@ import SotoCore
 extension CloudFormation {
     // MARK: Enums
 
-    public enum AccountFilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccountFilterType: String, CustomStringConvertible, Codable, Sendable {
         case difference = "DIFFERENCE"
         case intersection = "INTERSECTION"
         case none = "NONE"
@@ -29,27 +29,27 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum AccountGateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccountGateStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case skipped = "SKIPPED"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CallAs: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CallAs: String, CustomStringConvertible, Codable, Sendable {
         case _self = "SELF"
         case delegatedAdmin = "DELEGATED_ADMIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum Capability: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Capability: String, CustomStringConvertible, Codable, Sendable {
         case capabilityAutoExpand = "CAPABILITY_AUTO_EXPAND"
         case capabilityIam = "CAPABILITY_IAM"
         case capabilityNamedIam = "CAPABILITY_NAMED_IAM"
         public var description: String { return self.rawValue }
     }
 
-    public enum Category: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Category: String, CustomStringConvertible, Codable, Sendable {
         case activated = "ACTIVATED"
         case awsTypes = "AWS_TYPES"
         case registered = "REGISTERED"
@@ -57,7 +57,7 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeAction: String, CustomStringConvertible, Codable, Sendable {
         case `import` = "Import"
         case add = "Add"
         case dynamic = "Dynamic"
@@ -66,14 +66,14 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeSetHooksStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeSetHooksStatus: String, CustomStringConvertible, Codable, Sendable {
         case planned = "PLANNED"
         case planning = "PLANNING"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeSetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeSetStatus: String, CustomStringConvertible, Codable, Sendable {
         case createComplete = "CREATE_COMPLETE"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createPending = "CREATE_PENDING"
@@ -85,14 +85,14 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeSetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeSetType: String, CustomStringConvertible, Codable, Sendable {
         case `import` = "IMPORT"
         case create = "CREATE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeSource: String, CustomStringConvertible, Codable, Sendable {
         case automatic = "Automatic"
         case directModification = "DirectModification"
         case parameterReference = "ParameterReference"
@@ -101,31 +101,31 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable {
         case resource = "Resource"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeprecatedStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeprecatedStatus: String, CustomStringConvertible, Codable, Sendable {
         case deprecated = "DEPRECATED"
         case live = "LIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DifferenceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DifferenceType: String, CustomStringConvertible, Codable, Sendable {
         case add = "ADD"
         case notEqual = "NOT_EQUAL"
         case remove = "REMOVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EvaluationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EvaluationType: String, CustomStringConvertible, Codable, Sendable {
         case `static` = "Static"
         case dynamic = "Dynamic"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case executeComplete = "EXECUTE_COMPLETE"
         case executeFailed = "EXECUTE_FAILED"
@@ -135,7 +135,7 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum HandlerErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HandlerErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "AccessDenied"
         case alreadyExists = "AlreadyExists"
         case generalServiceException = "GeneralServiceException"
@@ -158,18 +158,18 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum HookFailureMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HookFailureMode: String, CustomStringConvertible, Codable, Sendable {
         case fail = "FAIL"
         case warn = "WARN"
         public var description: String { return self.rawValue }
     }
 
-    public enum HookInvocationPoint: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HookInvocationPoint: String, CustomStringConvertible, Codable, Sendable {
         case preProvision = "PRE_PROVISION"
         public var description: String { return self.rawValue }
     }
 
-    public enum HookStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HookStatus: String, CustomStringConvertible, Codable, Sendable {
         case hookCompleteFailed = "HOOK_COMPLETE_FAILED"
         case hookCompleteSucceeded = "HOOK_COMPLETE_SUCCEEDED"
         case hookFailed = "HOOK_FAILED"
@@ -177,31 +177,31 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum HookTargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HookTargetType: String, CustomStringConvertible, Codable, Sendable {
         case resource = "RESOURCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityProvider: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IdentityProvider: String, CustomStringConvertible, Codable, Sendable {
         case awsMarketplace = "AWS_Marketplace"
         case bitbucket = "Bitbucket"
         case gitHub = "GitHub"
         public var description: String { return self.rawValue }
     }
 
-    public enum OnFailure: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OnFailure: String, CustomStringConvertible, Codable, Sendable {
         case delete = "DELETE"
         case doNothing = "DO_NOTHING"
         case rollback = "ROLLBACK"
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationResultFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperationResultFilterName: String, CustomStringConvertible, Codable, Sendable {
         case operationResultStatus = "OPERATION_RESULT_STATUS"
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperationStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case pending = "PENDING"
@@ -209,60 +209,60 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum PermissionModels: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PermissionModels: String, CustomStringConvertible, Codable, Sendable {
         case selfManaged = "SELF_MANAGED"
         case serviceManaged = "SERVICE_MANAGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProvisioningType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProvisioningType: String, CustomStringConvertible, Codable, Sendable {
         case fullyMutable = "FULLY_MUTABLE"
         case immutable = "IMMUTABLE"
         case nonProvisionable = "NON_PROVISIONABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PublisherStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PublisherStatus: String, CustomStringConvertible, Codable, Sendable {
         case unverified = "UNVERIFIED"
         case verified = "VERIFIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RegionConcurrencyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RegionConcurrencyType: String, CustomStringConvertible, Codable, Sendable {
         case parallel = "PARALLEL"
         case sequential = "SEQUENTIAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum RegistrationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RegistrationStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RegistryType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RegistryType: String, CustomStringConvertible, Codable, Sendable {
         case hook = "HOOK"
         case module = "MODULE"
         case resource = "RESOURCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Replacement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Replacement: String, CustomStringConvertible, Codable, Sendable {
         case `false` = "False"
         case `true` = "True"
         case conditional = "Conditional"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequiresRecreation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RequiresRecreation: String, CustomStringConvertible, Codable, Sendable {
         case always = "Always"
         case conditionally = "Conditionally"
         case never = "Never"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceAttribute: String, CustomStringConvertible, Codable, Sendable {
         case creationPolicy = "CreationPolicy"
         case deletionPolicy = "DeletionPolicy"
         case metadata = "Metadata"
@@ -272,13 +272,13 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceSignalStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceSignalStatus: String, CustomStringConvertible, Codable, Sendable {
         case failure = "FAILURE"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceStatus: String, CustomStringConvertible, Codable, Sendable {
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -304,14 +304,14 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum StackDriftDetectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackDriftDetectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case detectionComplete = "DETECTION_COMPLETE"
         case detectionFailed = "DETECTION_FAILED"
         case detectionInProgress = "DETECTION_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum StackDriftStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackDriftStatus: String, CustomStringConvertible, Codable, Sendable {
         case drifted = "DRIFTED"
         case inSync = "IN_SYNC"
         case notChecked = "NOT_CHECKED"
@@ -319,7 +319,7 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum StackInstanceDetailedStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackInstanceDetailedStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
         case inoperable = "INOPERABLE"
@@ -329,20 +329,20 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum StackInstanceFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackInstanceFilterName: String, CustomStringConvertible, Codable, Sendable {
         case detailedStatus = "DETAILED_STATUS"
         case lastOperationId = "LAST_OPERATION_ID"
         public var description: String { return self.rawValue }
     }
 
-    public enum StackInstanceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackInstanceStatus: String, CustomStringConvertible, Codable, Sendable {
         case current = "CURRENT"
         case inoperable = "INOPERABLE"
         case outdated = "OUTDATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StackResourceDriftStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackResourceDriftStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleted = "DELETED"
         case inSync = "IN_SYNC"
         case modified = "MODIFIED"
@@ -350,7 +350,7 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum StackSetDriftDetectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackSetDriftDetectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -359,14 +359,14 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum StackSetDriftStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackSetDriftStatus: String, CustomStringConvertible, Codable, Sendable {
         case drifted = "DRIFTED"
         case inSync = "IN_SYNC"
         case notChecked = "NOT_CHECKED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StackSetOperationAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackSetOperationAction: String, CustomStringConvertible, Codable, Sendable {
         case create = "CREATE"
         case delete = "DELETE"
         case detectDrift = "DETECT_DRIFT"
@@ -374,7 +374,7 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum StackSetOperationResultStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackSetOperationResultStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
         case pending = "PENDING"
@@ -383,7 +383,7 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum StackSetOperationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackSetOperationStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case queued = "QUEUED"
         case running = "RUNNING"
@@ -393,13 +393,13 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum StackSetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackSetStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StackStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackStatus: String, CustomStringConvertible, Codable, Sendable {
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -426,20 +426,20 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum TemplateStage: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TemplateStage: String, CustomStringConvertible, Codable, Sendable {
         case original = "Original"
         case processed = "Processed"
         public var description: String { return self.rawValue }
     }
 
-    public enum ThirdPartyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThirdPartyType: String, CustomStringConvertible, Codable, Sendable {
         case hook = "HOOK"
         case module = "MODULE"
         case resource = "RESOURCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TypeTestsStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TypeTestsStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case notTested = "NOT_TESTED"
@@ -447,13 +447,13 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
-    public enum VersionBump: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VersionBump: String, CustomStringConvertible, Codable, Sendable {
         case major = "MAJOR"
         case minor = "MINOR"
         public var description: String { return self.rawValue }
     }
 
-    public enum Visibility: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Visibility: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "PRIVATE"
         case `public` = "PUBLIC"
         public var description: String { return self.rawValue }

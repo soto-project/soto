@@ -21,13 +21,13 @@ import SotoCore
 extension GameSparks {
     // MARK: Enums
 
-    public enum DeploymentAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentAction: String, CustomStringConvertible, Codable, Sendable {
         case deploy = "DEPLOY"
         case undeploy = "UNDEPLOY"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentState: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -35,13 +35,13 @@ extension GameSparks {
         public var description: String { return self.rawValue }
     }
 
-    public enum GameState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GameState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum GeneratedCodeJobState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GeneratedCodeJobState: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -49,21 +49,21 @@ extension GameSparks {
         public var description: String { return self.rawValue }
     }
 
-    public enum Operation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Operation: String, CustomStringConvertible, Codable, Sendable {
         case add = "ADD"
         case remove = "REMOVE"
         case replace = "REPLACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResultCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResultCode: String, CustomStringConvertible, Codable, Sendable {
         case invalidRoleFailure = "INVALID_ROLE_FAILURE"
         case success = "SUCCESS"
         case unspecifiedFailure = "UNSPECIFIED_FAILURE"
         public var description: String { return self.rawValue }
     }
 
-    public enum StageState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StageState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }

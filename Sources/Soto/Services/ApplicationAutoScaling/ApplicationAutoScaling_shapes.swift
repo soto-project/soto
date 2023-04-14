@@ -21,21 +21,21 @@ import SotoCore
 extension ApplicationAutoScaling {
     // MARK: Enums
 
-    public enum AdjustmentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AdjustmentType: String, CustomStringConvertible, Codable, Sendable {
         case changeInCapacity = "ChangeInCapacity"
         case exactCapacity = "ExactCapacity"
         case percentChangeInCapacity = "PercentChangeInCapacity"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricAggregationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricAggregationType: String, CustomStringConvertible, Codable, Sendable {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricStatistic: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricStatistic: String, CustomStringConvertible, Codable, Sendable {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
@@ -44,7 +44,7 @@ extension ApplicationAutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricType: String, CustomStringConvertible, Codable, Sendable {
         case albRequestCountPerTarget = "ALBRequestCountPerTarget"
         case appStreamAverageCapacityUtilization = "AppStreamAverageCapacityUtilization"
         case cassandraReadCapacityUtilization = "CassandraReadCapacityUtilization"
@@ -69,13 +69,13 @@ extension ApplicationAutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable {
         case stepScaling = "StepScaling"
         case targetTrackingScaling = "TargetTrackingScaling"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalableDimension: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScalableDimension: String, CustomStringConvertible, Codable, Sendable {
         case appstreamFleetDesiredCapacity = "appstream:fleet:DesiredCapacity"
         case cassandraTableReadCapacityUnits = "cassandra:table:ReadCapacityUnits"
         case cassandraTableWriteCapacityUnits = "cassandra:table:WriteCapacityUnits"
@@ -99,7 +99,7 @@ extension ApplicationAutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case overridden = "Overridden"
@@ -109,7 +109,7 @@ extension ApplicationAutoScaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceNamespace: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceNamespace: String, CustomStringConvertible, Codable, Sendable {
         case appstream = "appstream"
         case cassandra = "cassandra"
         case comprehend = "comprehend"

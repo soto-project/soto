@@ -21,7 +21,7 @@ import SotoCore
 extension IoTDataPlane {
     // MARK: Enums
 
-    public enum PayloadFormatIndicator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PayloadFormatIndicator: String, CustomStringConvertible, Codable, Sendable {
         case unspecifiedBytes = "UNSPECIFIED_BYTES"
         case utf8Data = "UTF8_DATA"
         public var description: String { return self.rawValue }

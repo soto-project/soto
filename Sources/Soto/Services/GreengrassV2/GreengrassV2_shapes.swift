@@ -21,7 +21,7 @@ import SotoCore
 extension GreengrassV2 {
     // MARK: Enums
 
-    public enum CloudComponentState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CloudComponentState: String, CustomStringConvertible, Codable, Sendable {
         case deployable = "DEPLOYABLE"
         case deprecated = "DEPRECATED"
         case failed = "FAILED"
@@ -30,43 +30,43 @@ extension GreengrassV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComponentDependencyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComponentDependencyType: String, CustomStringConvertible, Codable, Sendable {
         case hard = "HARD"
         case soft = "SOFT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComponentVisibilityScope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComponentVisibilityScope: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "PRIVATE"
         case `public` = "PUBLIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum CoreDeviceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CoreDeviceStatus: String, CustomStringConvertible, Codable, Sendable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentComponentUpdatePolicyAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentComponentUpdatePolicyAction: String, CustomStringConvertible, Codable, Sendable {
         case notifyComponents = "NOTIFY_COMPONENTS"
         case skipNotifyComponents = "SKIP_NOTIFY_COMPONENTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentFailureHandlingPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentFailureHandlingPolicy: String, CustomStringConvertible, Codable, Sendable {
         case doNothing = "DO_NOTHING"
         case rollback = "ROLLBACK"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentHistoryFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentHistoryFilter: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case latestOnly = "LATEST_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case canceled = "CANCELED"
         case completed = "COMPLETED"
@@ -75,7 +75,7 @@ extension GreengrassV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum EffectiveDeploymentExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EffectiveDeploymentExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -86,7 +86,7 @@ extension GreengrassV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstalledComponentLifecycleState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstalledComponentLifecycleState: String, CustomStringConvertible, Codable, Sendable {
         case broken = "BROKEN"
         case errored = "ERRORED"
         case finished = "FINISHED"
@@ -98,18 +98,18 @@ extension GreengrassV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstalledComponentTopologyFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstalledComponentTopologyFilter: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case root = "ROOT"
         public var description: String { return self.rawValue }
     }
 
-    public enum IoTJobAbortAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IoTJobAbortAction: String, CustomStringConvertible, Codable, Sendable {
         case cancel = "CANCEL"
         public var description: String { return self.rawValue }
     }
 
-    public enum IoTJobExecutionFailureType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IoTJobExecutionFailureType: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case failed = "FAILED"
         case rejected = "REJECTED"
@@ -117,37 +117,37 @@ extension GreengrassV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaEventSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LambdaEventSourceType: String, CustomStringConvertible, Codable, Sendable {
         case iotCore = "IOT_CORE"
         case pubSub = "PUB_SUB"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFilesystemPermission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LambdaFilesystemPermission: String, CustomStringConvertible, Codable, Sendable {
         case ro = "ro"
         case rw = "rw"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaInputPayloadEncodingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LambdaInputPayloadEncodingType: String, CustomStringConvertible, Codable, Sendable {
         case binary = "binary"
         case json = "json"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaIsolationMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LambdaIsolationMode: String, CustomStringConvertible, Codable, Sendable {
         case greengrassContainer = "GreengrassContainer"
         case noContainer = "NoContainer"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecipeOutputFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecipeOutputFormat: String, CustomStringConvertible, Codable, Sendable {
         case json = "JSON"
         case yaml = "YAML"
         public var description: String { return self.rawValue }
     }
 
-    public enum VendorGuidance: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VendorGuidance: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case discontinued = "DISCONTINUED"

@@ -21,21 +21,21 @@ import SotoCore
 extension RedshiftServerless {
     // MARK: Enums
 
-    public enum LogExport: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogExport: String, CustomStringConvertible, Codable, Sendable {
         case connectionlog = "connectionlog"
         case useractivitylog = "useractivitylog"
         case userlog = "userlog"
         public var description: String { return self.rawValue }
     }
 
-    public enum NamespaceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NamespaceStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case modifying = "MODIFYING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SnapshotStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SnapshotStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case cancelled = "CANCELLED"
         case copying = "COPYING"
@@ -45,27 +45,27 @@ extension RedshiftServerless {
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageLimitBreachAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageLimitBreachAction: String, CustomStringConvertible, Codable, Sendable {
         case deactivate = "deactivate"
         case emitMetric = "emit-metric"
         case log = "log"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageLimitPeriod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageLimitPeriod: String, CustomStringConvertible, Codable, Sendable {
         case daily = "daily"
         case monthly = "monthly"
         case weekly = "weekly"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageLimitUsageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageLimitUsageType: String, CustomStringConvertible, Codable, Sendable {
         case crossRegionDatasharing = "cross-region-datasharing"
         case serverlessCompute = "serverless-compute"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkgroupStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkgroupStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"

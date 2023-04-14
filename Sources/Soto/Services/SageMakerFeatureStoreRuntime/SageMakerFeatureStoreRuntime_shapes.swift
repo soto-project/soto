@@ -21,7 +21,7 @@ import SotoCore
 extension SageMakerFeatureStoreRuntime {
     // MARK: Enums
 
-    public enum TargetStore: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetStore: String, CustomStringConvertible, Codable, Sendable {
         case offlineStore = "OfflineStore"
         case onlineStore = "OnlineStore"
         public var description: String { return self.rawValue }

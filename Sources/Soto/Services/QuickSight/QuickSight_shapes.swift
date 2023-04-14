@@ -21,7 +21,7 @@ import SotoCore
 extension QuickSight {
     // MARK: Enums
 
-    public enum AnalysisErrorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnalysisErrorType: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case columnGeographicRoleMismatch = "COLUMN_GEOGRAPHIC_ROLE_MISMATCH"
         case columnReplacementMissing = "COLUMN_REPLACEMENT_MISSING"
@@ -35,7 +35,7 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum AnalysisFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnalysisFilterAttribute: String, CustomStringConvertible, Codable, Sendable {
         case analysisName = "ANALYSIS_NAME"
         case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
         case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
@@ -46,12 +46,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum AnchorOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnchorOption: String, CustomStringConvertible, Codable, Sendable {
         case now = "NOW"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArcThickness: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ArcThickness: String, CustomStringConvertible, Codable, Sendable {
         case large = "LARGE"
         case medium = "MEDIUM"
         case small = "SMALL"
@@ -59,47 +59,47 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum ArcThicknessOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ArcThicknessOptions: String, CustomStringConvertible, Codable, Sendable {
         case large = "LARGE"
         case medium = "MEDIUM"
         case small = "SMALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssignmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssignmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case draft = "DRAFT"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticationMethodOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthenticationMethodOption: String, CustomStringConvertible, Codable, Sendable {
         case activeDirectory = "ACTIVE_DIRECTORY"
         case iamAndQuicksight = "IAM_AND_QUICKSIGHT"
         case iamOnly = "IAM_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum AxisBinding: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AxisBinding: String, CustomStringConvertible, Codable, Sendable {
         case primaryYaxis = "PRIMARY_YAXIS"
         case secondaryYaxis = "SECONDARY_YAXIS"
         public var description: String { return self.rawValue }
     }
 
-    public enum BarChartOrientation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BarChartOrientation: String, CustomStringConvertible, Codable, Sendable {
         case horizontal = "HORIZONTAL"
         case vertical = "VERTICAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum BarsArrangement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BarsArrangement: String, CustomStringConvertible, Codable, Sendable {
         case clustered = "CLUSTERED"
         case stacked = "STACKED"
         case stackedPercent = "STACKED_PERCENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum BaseMapStyleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BaseMapStyleType: String, CustomStringConvertible, Codable, Sendable {
         case darkGray = "DARK_GRAY"
         case imagery = "IMAGERY"
         case lightGray = "LIGHT_GRAY"
@@ -107,19 +107,19 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum BoxPlotFillStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BoxPlotFillStyle: String, CustomStringConvertible, Codable, Sendable {
         case solid = "SOLID"
         case transparent = "TRANSPARENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum CategoricalAggregationFunction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CategoricalAggregationFunction: String, CustomStringConvertible, Codable, Sendable {
         case count = "COUNT"
         case distinctCount = "DISTINCT_COUNT"
         public var description: String { return self.rawValue }
     }
 
-    public enum CategoryFilterMatchOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CategoryFilterMatchOperator: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CONTAINS"
         case doesNotContain = "DOES_NOT_CONTAIN"
         case doesNotEqual = "DOES_NOT_EQUAL"
@@ -129,18 +129,18 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum CategoryFilterSelectAllOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CategoryFilterSelectAllOptions: String, CustomStringConvertible, Codable, Sendable {
         case filterAllValues = "FILTER_ALL_VALUES"
         public var description: String { return self.rawValue }
     }
 
-    public enum ColorFillType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ColorFillType: String, CustomStringConvertible, Codable, Sendable {
         case discrete = "DISCRETE"
         case gradient = "GRADIENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ColumnDataType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ColumnDataType: String, CustomStringConvertible, Codable, Sendable {
         case datetime = "DATETIME"
         case decimal = "DECIMAL"
         case integer = "INTEGER"
@@ -148,31 +148,31 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum ColumnRole: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ColumnRole: String, CustomStringConvertible, Codable, Sendable {
         case dimension = "DIMENSION"
         case measure = "MEASURE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ColumnTagName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ColumnTagName: String, CustomStringConvertible, Codable, Sendable {
         case columnDescription = "COLUMN_DESCRIPTION"
         case columnGeographicRole = "COLUMN_GEOGRAPHIC_ROLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComparisonMethod: String, CustomStringConvertible, Codable, Sendable {
         case difference = "DIFFERENCE"
         case percent = "PERCENT"
         case percentDifference = "PERCENT_DIFFERENCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConditionalFormattingIconDisplayOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConditionalFormattingIconDisplayOption: String, CustomStringConvertible, Codable, Sendable {
         case iconOnly = "ICON_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConditionalFormattingIconSetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConditionalFormattingIconSetType: String, CustomStringConvertible, Codable, Sendable {
         case bars = "BARS"
         case caretUpMinusDown = "CARET_UP_MINUS_DOWN"
         case checkX = "CHECK_X"
@@ -187,13 +187,13 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum CrossDatasetTypes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CrossDatasetTypes: String, CustomStringConvertible, Codable, Sendable {
         case allDatasets = "ALL_DATASETS"
         case singleDataset = "SINGLE_DATASET"
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomContentImageScalingConfiguration: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomContentImageScalingConfiguration: String, CustomStringConvertible, Codable, Sendable {
         case doNotScale = "DO_NOT_SCALE"
         case fitToHeight = "FIT_TO_HEIGHT"
         case fitToWidth = "FIT_TO_WIDTH"
@@ -201,19 +201,19 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomContentType: String, CustomStringConvertible, Codable, Sendable {
         case image = "IMAGE"
         case otherEmbeddedContent = "OTHER_EMBEDDED_CONTENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DashboardBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DashboardBehavior: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DashboardErrorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DashboardErrorType: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case columnGeographicRoleMismatch = "COLUMN_GEOGRAPHIC_ROLE_MISMATCH"
         case columnReplacementMissing = "COLUMN_REPLACEMENT_MISSING"
@@ -227,7 +227,7 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum DashboardFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DashboardFilterAttribute: String, CustomStringConvertible, Codable, Sendable {
         case dashboardName = "DASHBOARD_NAME"
         case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
         case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
@@ -238,26 +238,26 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum DashboardUIState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DashboardUIState: String, CustomStringConvertible, Codable, Sendable {
         case collapsed = "COLLAPSED"
         case expanded = "EXPANDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataLabelContent: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataLabelContent: String, CustomStringConvertible, Codable, Sendable {
         case percent = "PERCENT"
         case value = "VALUE"
         case valueAndPercent = "VALUE_AND_PERCENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataLabelOverlap: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataLabelOverlap: String, CustomStringConvertible, Codable, Sendable {
         case disableOverlap = "DISABLE_OVERLAP"
         case enableOverlap = "ENABLE_OVERLAP"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataLabelPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataLabelPosition: String, CustomStringConvertible, Codable, Sendable {
         case bottom = "BOTTOM"
         case inside = "INSIDE"
         case left = "LEFT"
@@ -267,7 +267,7 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSetFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSetFilterAttribute: String, CustomStringConvertible, Codable, Sendable {
         case datasetName = "DATASET_NAME"
         case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
         case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
@@ -277,13 +277,13 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSetImportMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSetImportMode: String, CustomStringConvertible, Codable, Sendable {
         case directQuery = "DIRECT_QUERY"
         case spice = "SPICE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceErrorInfoType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSourceErrorInfoType: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case conflict = "CONFLICT"
         case copySourceNotFound = "COPY_SOURCE_NOT_FOUND"
@@ -295,7 +295,7 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSourceFilterAttribute: String, CustomStringConvertible, Codable, Sendable {
         case datasourceName = "DATASOURCE_NAME"
         case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
         case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
@@ -303,7 +303,7 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable {
         case adobeAnalytics = "ADOBE_ANALYTICS"
         case amazonElasticsearch = "AMAZON_ELASTICSEARCH"
         case amazonOpensearch = "AMAZON_OPENSEARCH"
@@ -333,7 +333,7 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum DateAggregationFunction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DateAggregationFunction: String, CustomStringConvertible, Codable, Sendable {
         case count = "COUNT"
         case distinctCount = "DISTINCT_COUNT"
         case max = "MAX"
@@ -341,21 +341,21 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum Edition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Edition: String, CustomStringConvertible, Codable, Sendable {
         case enterprise = "ENTERPRISE"
         case enterpriseAndQ = "ENTERPRISE_AND_Q"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum EmbeddingIdentityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EmbeddingIdentityType: String, CustomStringConvertible, Codable, Sendable {
         case anonymous = "ANONYMOUS"
         case iam = "IAM"
         case quicksight = "QUICKSIGHT"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileFormat: String, CustomStringConvertible, Codable, Sendable {
         case clf = "CLF"
         case csv = "CSV"
         case elf = "ELF"
@@ -365,26 +365,26 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterNullOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterNullOption: String, CustomStringConvertible, Codable, Sendable {
         case allValues = "ALL_VALUES"
         case nonNullsOnly = "NON_NULLS_ONLY"
         case nullsOnly = "NULLS_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case stringEquals = "StringEquals"
         case stringLike = "StringLike"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterVisualScope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterVisualScope: String, CustomStringConvertible, Codable, Sendable {
         case allVisuals = "ALL_VISUALS"
         case selectedVisuals = "SELECTED_VISUALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum FolderFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FolderFilterAttribute: String, CustomStringConvertible, Codable, Sendable {
         case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
         case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
         case directQuicksightViewerOrOwner = "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
@@ -395,36 +395,36 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum FolderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FolderType: String, CustomStringConvertible, Codable, Sendable {
         case shared = "SHARED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FontDecoration: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FontDecoration: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case underline = "UNDERLINE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FontStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FontStyle: String, CustomStringConvertible, Codable, Sendable {
         case italic = "ITALIC"
         case normal = "NORMAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum FontWeightName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FontWeightName: String, CustomStringConvertible, Codable, Sendable {
         case bold = "BOLD"
         case normal = "NORMAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ForecastComputationSeasonality: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ForecastComputationSeasonality: String, CustomStringConvertible, Codable, Sendable {
         case automatic = "AUTOMATIC"
         case custom = "CUSTOM"
         public var description: String { return self.rawValue }
     }
 
-    public enum FunnelChartMeasureDataLabelStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FunnelChartMeasureDataLabelStyle: String, CustomStringConvertible, Codable, Sendable {
         case percentageByFirstStage = "PERCENTAGE_BY_FIRST_STAGE"
         case percentageByPreviousStage = "PERCENTAGE_BY_PREVIOUS_STAGE"
         case valueAndPercentageByFirstStage = "VALUE_AND_PERCENTAGE_BY_FIRST_STAGE"
@@ -433,12 +433,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum GeoSpatialCountryCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GeoSpatialCountryCode: String, CustomStringConvertible, Codable, Sendable {
         case us = "US"
         public var description: String { return self.rawValue }
     }
 
-    public enum GeoSpatialDataRole: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GeoSpatialDataRole: String, CustomStringConvertible, Codable, Sendable {
         case city = "CITY"
         case country = "COUNTRY"
         case county = "COUNTY"
@@ -449,29 +449,29 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum GeospatialSelectedPointStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GeospatialSelectedPointStyle: String, CustomStringConvertible, Codable, Sendable {
         case cluster = "CLUSTER"
         case point = "POINT"
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GroupFilterAttribute: String, CustomStringConvertible, Codable, Sendable {
         case groupName = "GROUP_NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupFilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GroupFilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case startsWith = "StartsWith"
         public var description: String { return self.rawValue }
     }
 
-    public enum HistogramBinType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HistogramBinType: String, CustomStringConvertible, Codable, Sendable {
         case binCount = "BIN_COUNT"
         case binWidth = "BIN_WIDTH"
         public var description: String { return self.rawValue }
     }
 
-    public enum HorizontalTextAlignment: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HorizontalTextAlignment: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case center = "CENTER"
         case left = "LEFT"
@@ -479,7 +479,7 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum Icon: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Icon: String, CustomStringConvertible, Codable, Sendable {
         case arrowDown = "ARROW_DOWN"
         case arrowDownLeft = "ARROW_DOWN_LEFT"
         case arrowDownRight = "ARROW_DOWN_RIGHT"
@@ -509,18 +509,18 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityStore: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IdentityStore: String, CustomStringConvertible, Codable, Sendable {
         case quicksight = "QUICKSIGHT"
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IdentityType: String, CustomStringConvertible, Codable, Sendable {
         case iam = "IAM"
         case quicksight = "QUICKSIGHT"
         public var description: String { return self.rawValue }
     }
 
-    public enum IngestionErrorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IngestionErrorType: String, CustomStringConvertible, Codable, Sendable {
         case accountCapacityLimitExceeded = "ACCOUNT_CAPACITY_LIMIT_EXCEEDED"
         case connectionFailure = "CONNECTION_FAILURE"
         case cursorNotEnabled = "CURSOR_NOT_ENABLED"
@@ -568,13 +568,13 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum IngestionRequestSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IngestionRequestSource: String, CustomStringConvertible, Codable, Sendable {
         case manual = "MANUAL"
         case scheduled = "SCHEDULED"
         public var description: String { return self.rawValue }
     }
 
-    public enum IngestionRequestType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IngestionRequestType: String, CustomStringConvertible, Codable, Sendable {
         case edit = "EDIT"
         case fullRefresh = "FULL_REFRESH"
         case incrementalRefresh = "INCREMENTAL_REFRESH"
@@ -582,7 +582,7 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum IngestionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IngestionStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -592,13 +592,13 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum IngestionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IngestionType: String, CustomStringConvertible, Codable, Sendable {
         case fullRefresh = "FULL_REFRESH"
         case incrementalRefresh = "INCREMENTAL_REFRESH"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputColumnDataType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputColumnDataType: String, CustomStringConvertible, Codable, Sendable {
         case bit = "BIT"
         case boolean = "BOOLEAN"
         case datetime = "DATETIME"
@@ -609,7 +609,7 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum JoinType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JoinType: String, CustomStringConvertible, Codable, Sendable {
         case inner = "INNER"
         case left = "LEFT"
         case outer = "OUTER"
@@ -617,7 +617,7 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum LayoutElementType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LayoutElementType: String, CustomStringConvertible, Codable, Sendable {
         case filterControl = "FILTER_CONTROL"
         case parameterControl = "PARAMETER_CONTROL"
         case textBox = "TEXT_BOX"
@@ -625,7 +625,7 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum LegendPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LegendPosition: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case bottom = "BOTTOM"
         case right = "RIGHT"
@@ -633,14 +633,14 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum LineChartLineStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LineChartLineStyle: String, CustomStringConvertible, Codable, Sendable {
         case dashed = "DASHED"
         case dotted = "DOTTED"
         case solid = "SOLID"
         public var description: String { return self.rawValue }
     }
 
-    public enum LineChartMarkerShape: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LineChartMarkerShape: String, CustomStringConvertible, Codable, Sendable {
         case circle = "CIRCLE"
         case diamond = "DIAMOND"
         case roundedSquare = "ROUNDED_SQUARE"
@@ -649,53 +649,53 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum LineChartType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LineChartType: String, CustomStringConvertible, Codable, Sendable {
         case area = "AREA"
         case line = "LINE"
         case stackedArea = "STACKED_AREA"
         public var description: String { return self.rawValue }
     }
 
-    public enum LineInterpolation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LineInterpolation: String, CustomStringConvertible, Codable, Sendable {
         case linear = "LINEAR"
         case smooth = "SMOOTH"
         case stepped = "STEPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum MapZoomMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MapZoomMode: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum MaximumMinimumComputationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MaximumMinimumComputationType: String, CustomStringConvertible, Codable, Sendable {
         case maximum = "MAXIMUM"
         case minimum = "MINIMUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MemberType: String, CustomStringConvertible, Codable, Sendable {
         case analysis = "ANALYSIS"
         case dashboard = "DASHBOARD"
         case dataset = "DATASET"
         public var description: String { return self.rawValue }
     }
 
-    public enum MissingDataTreatmentOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MissingDataTreatmentOption: String, CustomStringConvertible, Codable, Sendable {
         case interpolate = "INTERPOLATE"
         case showAsBlank = "SHOW_AS_BLANK"
         case showAsZero = "SHOW_AS_ZERO"
         public var description: String { return self.rawValue }
     }
 
-    public enum NamespaceErrorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NamespaceErrorType: String, CustomStringConvertible, Codable, Sendable {
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
         case permissionDenied = "PERMISSION_DENIED"
         public var description: String { return self.rawValue }
     }
 
-    public enum NamespaceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NamespaceStatus: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -704,13 +704,13 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum NegativeValueDisplayMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NegativeValueDisplayMode: String, CustomStringConvertible, Codable, Sendable {
         case negative = "NEGATIVE"
         case positive = "POSITIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum NumberScale: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NumberScale: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case billions = "BILLIONS"
         case millions = "MILLIONS"
@@ -720,44 +720,44 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum NumericEqualityMatchOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NumericEqualityMatchOperator: String, CustomStringConvertible, Codable, Sendable {
         case doesNotEqual = "DOES_NOT_EQUAL"
         case equals = "EQUALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum NumericFilterSelectAllOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NumericFilterSelectAllOptions: String, CustomStringConvertible, Codable, Sendable {
         case filterAllValues = "FILTER_ALL_VALUES"
         public var description: String { return self.rawValue }
     }
 
-    public enum NumericSeparatorSymbol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NumericSeparatorSymbol: String, CustomStringConvertible, Codable, Sendable {
         case comma = "COMMA"
         case dot = "DOT"
         case space = "SPACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum OtherCategories: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OtherCategories: String, CustomStringConvertible, Codable, Sendable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PanelBorderStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PanelBorderStyle: String, CustomStringConvertible, Codable, Sendable {
         case dashed = "DASHED"
         case dotted = "DOTTED"
         case solid = "SOLID"
         public var description: String { return self.rawValue }
     }
 
-    public enum PaperOrientation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PaperOrientation: String, CustomStringConvertible, Codable, Sendable {
         case landscape = "LANDSCAPE"
         case portrait = "PORTRAIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum PaperSize: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PaperSize: String, CustomStringConvertible, Codable, Sendable {
         case a0 = "A0"
         case a1 = "A1"
         case a2 = "A2"
@@ -772,66 +772,66 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum ParameterValueType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParameterValueType: String, CustomStringConvertible, Codable, Sendable {
         case multiValued = "MULTI_VALUED"
         case singleValued = "SINGLE_VALUED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PivotTableConditionalFormattingScopeRole: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PivotTableConditionalFormattingScopeRole: String, CustomStringConvertible, Codable, Sendable {
         case field = "FIELD"
         case fieldTotal = "FIELD_TOTAL"
         case grandTotal = "GRAND_TOTAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum PivotTableMetricPlacement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PivotTableMetricPlacement: String, CustomStringConvertible, Codable, Sendable {
         case column = "COLUMN"
         case row = "ROW"
         public var description: String { return self.rawValue }
     }
 
-    public enum PivotTableSubtotalLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PivotTableSubtotalLevel: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case custom = "CUSTOM"
         case last = "LAST"
         public var description: String { return self.rawValue }
     }
 
-    public enum PrimaryValueDisplayType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PrimaryValueDisplayType: String, CustomStringConvertible, Codable, Sendable {
         case actual = "ACTUAL"
         case comparison = "COMPARISON"
         case hidden = "HIDDEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReferenceLineLabelHorizontalPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReferenceLineLabelHorizontalPosition: String, CustomStringConvertible, Codable, Sendable {
         case center = "CENTER"
         case left = "LEFT"
         case right = "RIGHT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReferenceLineLabelVerticalPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReferenceLineLabelVerticalPosition: String, CustomStringConvertible, Codable, Sendable {
         case above = "ABOVE"
         case below = "BELOW"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReferenceLinePatternType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReferenceLinePatternType: String, CustomStringConvertible, Codable, Sendable {
         case dashed = "DASHED"
         case dotted = "DOTTED"
         case solid = "SOLID"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReferenceLineValueLabelRelativePosition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReferenceLineValueLabelRelativePosition: String, CustomStringConvertible, Codable, Sendable {
         case afterCustomLabel = "AFTER_CUSTOM_LABEL"
         case beforeCustomLabel = "BEFORE_CUSTOM_LABEL"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelativeDateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RelativeDateType: String, CustomStringConvertible, Codable, Sendable {
         case last = "LAST"
         case next = "NEXT"
         case now = "NOW"
@@ -840,7 +840,7 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum RelativeFontSize: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RelativeFontSize: String, CustomStringConvertible, Codable, Sendable {
         case extraLarge = "EXTRA_LARGE"
         case extraSmall = "EXTRA_SMALL"
         case large = "LARGE"
@@ -849,13 +849,13 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResizeOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResizeOption: String, CustomStringConvertible, Codable, Sendable {
         case fixed = "FIXED"
         case responsive = "RESPONSIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceStatus: String, CustomStringConvertible, Codable, Sendable {
         case creationFailed = "CREATION_FAILED"
         case creationInProgress = "CREATION_IN_PROGRESS"
         case creationSuccessful = "CREATION_SUCCESSFUL"
@@ -866,65 +866,65 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum RowLevelPermissionFormatVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RowLevelPermissionFormatVersion: String, CustomStringConvertible, Codable, Sendable {
         case version1 = "VERSION_1"
         case version2 = "VERSION_2"
         public var description: String { return self.rawValue }
     }
 
-    public enum RowLevelPermissionPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RowLevelPermissionPolicy: String, CustomStringConvertible, Codable, Sendable {
         case denyAccess = "DENY_ACCESS"
         case grantAccess = "GRANT_ACCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SectionPageBreakStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SectionPageBreakStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SelectAllValueOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SelectAllValueOptions: String, CustomStringConvertible, Codable, Sendable {
         case allValues = "ALL_VALUES"
         public var description: String { return self.rawValue }
     }
 
-    public enum SelectedFieldOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SelectedFieldOptions: String, CustomStringConvertible, Codable, Sendable {
         case allFields = "ALL_FIELDS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SelectedTooltipType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SelectedTooltipType: String, CustomStringConvertible, Codable, Sendable {
         case basic = "BASIC"
         case detailed = "DETAILED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SheetContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SheetContentType: String, CustomStringConvertible, Codable, Sendable {
         case interactive = "INTERACTIVE"
         case paginated = "PAGINATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SheetControlDateTimePickerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SheetControlDateTimePickerType: String, CustomStringConvertible, Codable, Sendable {
         case dateRange = "DATE_RANGE"
         case singleValued = "SINGLE_VALUED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SheetControlListType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SheetControlListType: String, CustomStringConvertible, Codable, Sendable {
         case multiSelect = "MULTI_SELECT"
         case singleSelect = "SINGLE_SELECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum SheetControlSliderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SheetControlSliderType: String, CustomStringConvertible, Codable, Sendable {
         case range = "RANGE"
         case singlePoint = "SINGLE_POINT"
         public var description: String { return self.rawValue }
     }
 
-    public enum SimpleNumericalAggregationFunction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SimpleNumericalAggregationFunction: String, CustomStringConvertible, Codable, Sendable {
         case `var` = "VAR"
         case average = "AVERAGE"
         case count = "COUNT"
@@ -939,60 +939,60 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortDirection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortDirection: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TableBorderStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TableBorderStyle: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case solid = "SOLID"
         public var description: String { return self.rawValue }
     }
 
-    public enum TableCellImageScalingConfiguration: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TableCellImageScalingConfiguration: String, CustomStringConvertible, Codable, Sendable {
         case doNotScale = "DO_NOT_SCALE"
         case fitToCellHeight = "FIT_TO_CELL_HEIGHT"
         case fitToCellWidth = "FIT_TO_CELL_WIDTH"
         public var description: String { return self.rawValue }
     }
 
-    public enum TableFieldIconSetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TableFieldIconSetType: String, CustomStringConvertible, Codable, Sendable {
         case link = "LINK"
         public var description: String { return self.rawValue }
     }
 
-    public enum TableOrientation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TableOrientation: String, CustomStringConvertible, Codable, Sendable {
         case horizontal = "HORIZONTAL"
         case vertical = "VERTICAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum TableTotalsPlacement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TableTotalsPlacement: String, CustomStringConvertible, Codable, Sendable {
         case end = "END"
         case start = "START"
         public var description: String { return self.rawValue }
     }
 
-    public enum TableTotalsScrollStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TableTotalsScrollStatus: String, CustomStringConvertible, Codable, Sendable {
         case pinned = "PINNED"
         case scrolled = "SCROLLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetVisualOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetVisualOptions: String, CustomStringConvertible, Codable, Sendable {
         case allVisuals = "ALL_VISUALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum TemplateErrorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TemplateErrorType: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case dataSetNotFound = "DATA_SET_NOT_FOUND"
         case internalFailure = "INTERNAL_FAILURE"
@@ -1000,31 +1000,31 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum TextQualifier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TextQualifier: String, CustomStringConvertible, Codable, Sendable {
         case doubleQuote = "DOUBLE_QUOTE"
         case singleQuote = "SINGLE_QUOTE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TextWrap: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TextWrap: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case wrap = "WRAP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ThemeErrorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThemeErrorType: String, CustomStringConvertible, Codable, Sendable {
         case internalFailure = "INTERNAL_FAILURE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ThemeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThemeType: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case custom = "CUSTOM"
         case quicksight = "QUICKSIGHT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeGranularity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimeGranularity: String, CustomStringConvertible, Codable, Sendable {
         case day = "DAY"
         case hour = "HOUR"
         case millisecond = "MILLISECOND"
@@ -1037,32 +1037,32 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum TooltipTitleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TooltipTitleType: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case primaryValue = "PRIMARY_VALUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TopBottomComputationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TopBottomComputationType: String, CustomStringConvertible, Codable, Sendable {
         case bottom = "BOTTOM"
         case top = "TOP"
         public var description: String { return self.rawValue }
     }
 
-    public enum TopBottomSortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TopBottomSortOrder: String, CustomStringConvertible, Codable, Sendable {
         case absoluteDifference = "ABSOLUTE_DIFFERENCE"
         case percentDifference = "PERCENT_DIFFERENCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum URLTargetConfiguration: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum URLTargetConfiguration: String, CustomStringConvertible, Codable, Sendable {
         case newTab = "NEW_TAB"
         case newWindow = "NEW_WINDOW"
         case sameTab = "SAME_TAB"
         public var description: String { return self.rawValue }
     }
 
-    public enum UserRole: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UserRole: String, CustomStringConvertible, Codable, Sendable {
         case admin = "ADMIN"
         case author = "AUTHOR"
         case reader = "READER"
@@ -1071,56 +1071,56 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum ValueWhenUnsetOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ValueWhenUnsetOption: String, CustomStringConvertible, Codable, Sendable {
         case null = "NULL"
         case recommendedValue = "RECOMMENDED_VALUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VerticalTextAlignment: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VerticalTextAlignment: String, CustomStringConvertible, Codable, Sendable {
         case bottom = "BOTTOM"
         case middle = "MIDDLE"
         case top = "TOP"
         public var description: String { return self.rawValue }
     }
 
-    public enum Visibility: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Visibility: String, CustomStringConvertible, Codable, Sendable {
         case hidden = "HIDDEN"
         case visible = "VISIBLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VisualCustomActionTrigger: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VisualCustomActionTrigger: String, CustomStringConvertible, Codable, Sendable {
         case dataPointClick = "DATA_POINT_CLICK"
         case dataPointMenu = "DATA_POINT_MENU"
         public var description: String { return self.rawValue }
     }
 
-    public enum WidgetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WidgetStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum WordCloudCloudLayout: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WordCloudCloudLayout: String, CustomStringConvertible, Codable, Sendable {
         case fluid = "FLUID"
         case normal = "NORMAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum WordCloudWordCasing: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WordCloudWordCasing: String, CustomStringConvertible, Codable, Sendable {
         case existingCase = "EXISTING_CASE"
         case lowerCase = "LOWER_CASE"
         public var description: String { return self.rawValue }
     }
 
-    public enum WordCloudWordOrientation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WordCloudWordOrientation: String, CustomStringConvertible, Codable, Sendable {
         case horizontal = "HORIZONTAL"
         case horizontalAndVertical = "HORIZONTAL_AND_VERTICAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum WordCloudWordPadding: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WordCloudWordPadding: String, CustomStringConvertible, Codable, Sendable {
         case large = "LARGE"
         case medium = "MEDIUM"
         case none = "NONE"
@@ -1128,13 +1128,13 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
-    public enum WordCloudWordScaling: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WordCloudWordScaling: String, CustomStringConvertible, Codable, Sendable {
         case emphasize = "EMPHASIZE"
         case normal = "NORMAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceParameters: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum DataSourceParameters: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The parameters for OpenSearch.
         case amazonElasticsearchParameters(AmazonElasticsearchParameters)
         /// The parameters for OpenSearch.
@@ -1394,7 +1394,7 @@ extension QuickSight {
         }
     }
 
-    public enum PhysicalTable: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum PhysicalTable: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A physical table type built from the results of the custom SQL query.
         case customSql(CustomSql)
         /// A physical table type for relational data sources.
@@ -1454,7 +1454,7 @@ extension QuickSight {
         }
     }
 
-    public enum TransformOperation: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum TransformOperation: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A transform operation that casts a column to a different type.
         case castColumnTypeOperation(CastColumnTypeOperation)
         /// An operation that creates calculated columns. Columns created in one such operation form a lexical closure.

@@ -21,7 +21,7 @@ import SotoCore
 extension CleanRooms {
     // MARK: Enums
 
-    public enum AggregateFunctionName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregateFunctionName: String, CustomStringConvertible, Codable, Sendable {
         case avg = "AVG"
         case count = "COUNT"
         case countDistinct = "COUNT_DISTINCT"
@@ -30,52 +30,52 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregationType: String, CustomStringConvertible, Codable, Sendable {
         case countDistinct = "COUNT_DISTINCT"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnalysisMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnalysisMethod: String, CustomStringConvertible, Codable, Sendable {
         case directQuery = "DIRECT_QUERY"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnalysisRuleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnalysisRuleType: String, CustomStringConvertible, Codable, Sendable {
         case aggregation = "AGGREGATION"
         case list = "LIST"
         public var description: String { return self.rawValue }
     }
 
-    public enum CollaborationQueryLogStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CollaborationQueryLogStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfiguredTableAnalysisRuleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfiguredTableAnalysisRuleType: String, CustomStringConvertible, Codable, Sendable {
         case aggregation = "AGGREGATION"
         case list = "LIST"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterableMemberStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterableMemberStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case invited = "INVITED"
         public var description: String { return self.rawValue }
     }
 
-    public enum JoinRequiredOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JoinRequiredOption: String, CustomStringConvertible, Codable, Sendable {
         case queryRunner = "QUERY_RUNNER"
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberAbility: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MemberAbility: String, CustomStringConvertible, Codable, Sendable {
         case canQuery = "CAN_QUERY"
         case canReceiveResults = "CAN_RECEIVE_RESULTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MemberStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case invited = "INVITED"
         case left = "LEFT"
@@ -83,20 +83,20 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
-    public enum MembershipQueryLogStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MembershipQueryLogStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum MembershipStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MembershipStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case collaborationDeleted = "COLLABORATION_DELETED"
         case removed = "REMOVED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtectedQueryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProtectedQueryStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case failed = "FAILED"
@@ -107,18 +107,18 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtectedQueryType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProtectedQueryType: String, CustomStringConvertible, Codable, Sendable {
         case sql = "SQL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResultFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResultFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case parquet = "PARQUET"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalarFunctions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScalarFunctions: String, CustomStringConvertible, Codable, Sendable {
         case abs = "ABS"
         case cast = "CAST"
         case ceiling = "CEILING"
@@ -135,17 +135,17 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
-    public enum SchemaType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SchemaType: String, CustomStringConvertible, Codable, Sendable {
         case table = "TABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetProtectedQueryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetProtectedQueryStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnalysisRulePolicyV1: AWSDecodableShape, _SotoSendable {
+    public enum AnalysisRulePolicyV1: AWSDecodableShape, Sendable {
         /// Analysis rule type that enables only aggregation queries on a configured table.
         case aggregation(AnalysisRuleAggregation)
         /// Analysis rule type that enables only list queries on a configured table.
@@ -176,7 +176,7 @@ extension CleanRooms {
         }
     }
 
-    public enum ConfiguredTableAnalysisRulePolicyV1: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum ConfiguredTableAnalysisRulePolicyV1: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Analysis rule type that enables only aggregation queries on a configured table.
         case aggregation(AnalysisRuleAggregation)
         /// Analysis rule type that enables only list queries on a configured table.

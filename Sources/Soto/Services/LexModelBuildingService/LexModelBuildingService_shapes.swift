@@ -21,14 +21,14 @@ import SotoCore
 extension LexModelBuildingService {
     // MARK: Enums
 
-    public enum ChannelStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChannelStatus: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable {
         case facebook = "Facebook"
         case kik = "Kik"
         case slack = "Slack"
@@ -36,46 +36,46 @@ extension LexModelBuildingService {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentType: String, CustomStringConvertible, Codable, Sendable {
         case customPayload = "CustomPayload"
         case plainText = "PlainText"
         case ssml = "SSML"
         public var description: String { return self.rawValue }
     }
 
-    public enum Destination: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Destination: String, CustomStringConvertible, Codable, Sendable {
         case cloudwatchLogs = "CLOUDWATCH_LOGS"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportType: String, CustomStringConvertible, Codable, Sendable {
         case alexaSkillsKit = "ALEXA_SKILLS_KIT"
         case lex = "LEX"
         public var description: String { return self.rawValue }
     }
 
-    public enum FulfillmentActivityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FulfillmentActivityType: String, CustomStringConvertible, Codable, Sendable {
         case codeHook = "CodeHook"
         case returnIntent = "ReturnIntent"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Locale: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Locale: String, CustomStringConvertible, Codable, Sendable {
         case deDE = "de-DE"
         case enAU = "en-AU"
         case enGB = "en-GB"
@@ -92,81 +92,81 @@ extension LexModelBuildingService {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable {
         case audio = "AUDIO"
         case text = "TEXT"
         public var description: String { return self.rawValue }
     }
 
-    public enum MergeStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MergeStrategy: String, CustomStringConvertible, Codable, Sendable {
         case failOnConflict = "FAIL_ON_CONFLICT"
         case overwriteLatest = "OVERWRITE_LATEST"
         public var description: String { return self.rawValue }
     }
 
-    public enum MigrationAlertType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MigrationAlertType: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case warn = "WARN"
         public var description: String { return self.rawValue }
     }
 
-    public enum MigrationSortAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MigrationSortAttribute: String, CustomStringConvertible, Codable, Sendable {
         case migrationDateTime = "MIGRATION_DATE_TIME"
         case v1BotName = "V1_BOT_NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum MigrationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MigrationStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum MigrationStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MigrationStrategy: String, CustomStringConvertible, Codable, Sendable {
         case createNew = "CREATE_NEW"
         case updateExisting = "UPDATE_EXISTING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObfuscationSetting: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObfuscationSetting: String, CustomStringConvertible, Codable, Sendable {
         case defaultObfuscation = "DEFAULT_OBFUSCATION"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProcessBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProcessBehavior: String, CustomStringConvertible, Codable, Sendable {
         case build = "BUILD"
         case save = "SAVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case bot = "BOT"
         case intent = "INTENT"
         case slotType = "SLOT_TYPE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotConstraint: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlotConstraint: String, CustomStringConvertible, Codable, Sendable {
         case optional = "Optional"
         case required = "Required"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotValueSelectionStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlotValueSelectionStrategy: String, CustomStringConvertible, Codable, Sendable {
         case originalValue = "ORIGINAL_VALUE"
         case topResolution = "TOP_RESOLUTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case building = "BUILDING"
         case failed = "FAILED"
         case notBuilt = "NOT_BUILT"
@@ -175,7 +175,7 @@ extension LexModelBuildingService {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatusType: String, CustomStringConvertible, Codable, Sendable {
         case detected = "Detected"
         case missed = "Missed"
         public var description: String { return self.rawValue }

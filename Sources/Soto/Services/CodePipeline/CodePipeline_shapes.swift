@@ -21,7 +21,7 @@ import SotoCore
 extension CodePipeline {
     // MARK: Enums
 
-    public enum ActionCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionCategory: String, CustomStringConvertible, Codable, Sendable {
         case approval = "Approval"
         case build = "Build"
         case deploy = "Deploy"
@@ -31,14 +31,14 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum ActionConfigurationPropertyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionConfigurationPropertyType: String, CustomStringConvertible, Codable, Sendable {
         case boolean = "Boolean"
         case number = "Number"
         case string = "String"
         public var description: String { return self.rawValue }
     }
 
-    public enum ActionExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case abandoned = "Abandoned"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -46,46 +46,46 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum ActionOwner: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionOwner: String, CustomStringConvertible, Codable, Sendable {
         case aws = "AWS"
         case custom = "Custom"
         case thirdParty = "ThirdParty"
         public var description: String { return self.rawValue }
     }
 
-    public enum ApprovalStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApprovalStatus: String, CustomStringConvertible, Codable, Sendable {
         case approved = "Approved"
         case rejected = "Rejected"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactLocationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ArtifactLocationType: String, CustomStringConvertible, Codable, Sendable {
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactStoreType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ArtifactStoreType: String, CustomStringConvertible, Codable, Sendable {
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum BlockerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BlockerType: String, CustomStringConvertible, Codable, Sendable {
         case schedule = "Schedule"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionKeyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionKeyType: String, CustomStringConvertible, Codable, Sendable {
         case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecutorType: String, CustomStringConvertible, Codable, Sendable {
         case jobWorker = "JobWorker"
         case lambda = "Lambda"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailureType: String, CustomStringConvertible, Codable, Sendable {
         case configurationError = "ConfigurationError"
         case jobFailed = "JobFailed"
         case permissionError = "PermissionError"
@@ -95,7 +95,7 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case created = "Created"
         case dispatched = "Dispatched"
         case failed = "Failed"
@@ -106,7 +106,7 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "Cancelled"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -117,7 +117,7 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum StageExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StageExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "Cancelled"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -127,18 +127,18 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum StageRetryMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StageRetryMode: String, CustomStringConvertible, Codable, Sendable {
         case failedActions = "FAILED_ACTIONS"
         public var description: String { return self.rawValue }
     }
 
-    public enum StageTransitionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StageTransitionType: String, CustomStringConvertible, Codable, Sendable {
         case inbound = "Inbound"
         case outbound = "Outbound"
         public var description: String { return self.rawValue }
     }
 
-    public enum TriggerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TriggerType: String, CustomStringConvertible, Codable, Sendable {
         case cloudWatchEvent = "CloudWatchEvent"
         case createPipeline = "CreatePipeline"
         case pollForSourceChanges = "PollForSourceChanges"
@@ -148,7 +148,7 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum WebhookAuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WebhookAuthenticationType: String, CustomStringConvertible, Codable, Sendable {
         case githubHmac = "GITHUB_HMAC"
         case ip = "IP"
         case unauthenticated = "UNAUTHENTICATED"

@@ -21,49 +21,49 @@ import SotoCore
 extension Outposts {
     // MARK: Enums
 
-    public enum AddressType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AddressType: String, CustomStringConvertible, Codable, Sendable {
         case operatingAddress = "OPERATING_ADDRESS"
         case shippingAddress = "SHIPPING_ADDRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssetState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssetState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case retiring = "RETIRING"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssetType: String, CustomStringConvertible, Codable, Sendable {
         case compute = "COMPUTE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CatalogItemClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CatalogItemClass: String, CustomStringConvertible, Codable, Sendable {
         case rack = "RACK"
         case server = "SERVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum CatalogItemStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CatalogItemStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case discontinued = "DISCONTINUED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComputeAssetState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComputeAssetState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case isolated = "ISOLATED"
         case retiring = "RETIRING"
         public var description: String { return self.rawValue }
     }
 
-    public enum FiberOpticCableType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FiberOpticCableType: String, CustomStringConvertible, Codable, Sendable {
         case multiMode = "MULTI_MODE"
         case singleMode = "SINGLE_MODE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LineItemStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LineItemStatus: String, CustomStringConvertible, Codable, Sendable {
         case building = "BUILDING"
         case cancelled = "CANCELLED"
         case delivered = "DELIVERED"
@@ -75,7 +75,7 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum MaximumSupportedWeightLbs: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MaximumSupportedWeightLbs: String, CustomStringConvertible, Codable, Sendable {
         case max1400Lbs = "MAX_1400_LBS"
         case max1600Lbs = "MAX_1600_LBS"
         case max1800Lbs = "MAX_1800_LBS"
@@ -84,7 +84,7 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum OpticalStandard: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OpticalStandard: String, CustomStringConvertible, Codable, Sendable {
         case optic1000BaseLx = "OPTIC_1000BASE_LX"
         case optic1000BaseSx = "OPTIC_1000BASE_SX"
         case optic100GPsm4Msa = "OPTIC_100G_PSM4_MSA"
@@ -101,7 +101,7 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrderStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case error = "ERROR"
@@ -115,26 +115,26 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrderType: String, CustomStringConvertible, Codable, Sendable {
         case outpost = "OUTPOST"
         case replacement = "REPLACEMENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum PaymentOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PaymentOption: String, CustomStringConvertible, Codable, Sendable {
         case allUpfront = "ALL_UPFRONT"
         case noUpfront = "NO_UPFRONT"
         case partialUpfront = "PARTIAL_UPFRONT"
         public var description: String { return self.rawValue }
     }
 
-    public enum PaymentTerm: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PaymentTerm: String, CustomStringConvertible, Codable, Sendable {
         case oneYear = "ONE_YEAR"
         case threeYears = "THREE_YEARS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PowerConnector: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PowerConnector: String, CustomStringConvertible, Codable, Sendable {
         case ah530p7w = "AH530P7W"
         case ah532p6w = "AH532P6W"
         case iec309 = "IEC309"
@@ -142,7 +142,7 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum PowerDrawKva: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PowerDrawKva: String, CustomStringConvertible, Codable, Sendable {
         case power10Kva = "POWER_10_KVA"
         case power15Kva = "POWER_15_KVA"
         case power30Kva = "POWER_30_KVA"
@@ -150,19 +150,19 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum PowerFeedDrop: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PowerFeedDrop: String, CustomStringConvertible, Codable, Sendable {
         case aboveRack = "ABOVE_RACK"
         case belowRack = "BELOW_RACK"
         public var description: String { return self.rawValue }
     }
 
-    public enum PowerPhase: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PowerPhase: String, CustomStringConvertible, Codable, Sendable {
         case singlePhase = "SINGLE_PHASE"
         case threePhase = "THREE_PHASE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ShipmentCarrier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ShipmentCarrier: String, CustomStringConvertible, Codable, Sendable {
         case dbs = "DBS"
         case dhl = "DHL"
         case fedex = "FEDEX"
@@ -170,19 +170,19 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum SupportedHardwareType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SupportedHardwareType: String, CustomStringConvertible, Codable, Sendable {
         case rack = "RACK"
         case server = "SERVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum SupportedStorageEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SupportedStorageEnum: String, CustomStringConvertible, Codable, Sendable {
         case ebs = "EBS"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum UplinkCount: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UplinkCount: String, CustomStringConvertible, Codable, Sendable {
         case uplinkCount1 = "UPLINK_COUNT_1"
         case uplinkCount12 = "UPLINK_COUNT_12"
         case uplinkCount16 = "UPLINK_COUNT_16"
@@ -196,7 +196,7 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
-    public enum UplinkGbps: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UplinkGbps: String, CustomStringConvertible, Codable, Sendable {
         case uplink100G = "UPLINK_100G"
         case uplink10G = "UPLINK_10G"
         case uplink1G = "UPLINK_1G"

@@ -21,7 +21,7 @@ import SotoCore
 extension MarketplaceEntitlementService {
     // MARK: Enums
 
-    public enum GetEntitlementFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GetEntitlementFilterName: String, CustomStringConvertible, Codable, Sendable {
         case customerIdentifier = "CUSTOMER_IDENTIFIER"
         case dimension = "DIMENSION"
         public var description: String { return self.rawValue }

@@ -21,26 +21,26 @@ import SotoCore
 extension ChimeSDKIdentity {
     // MARK: Enums
 
-    public enum AllowMessages: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AllowMessages: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AppInstanceUserEndpointType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppInstanceUserEndpointType: String, CustomStringConvertible, Codable, Sendable {
         case apns = "APNS"
         case apnsSandbox = "APNS_SANDBOX"
         case gcm = "GCM"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointStatusReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointStatusReason: String, CustomStringConvertible, Codable, Sendable {
         case invalidDeviceToken = "INVALID_DEVICE_TOKEN"
         case invalidPinpointArn = "INVALID_PINPOINT_ARN"
         public var description: String { return self.rawValue }

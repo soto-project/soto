@@ -21,7 +21,7 @@ import SotoCore
 extension Honeycode {
     // MARK: Enums
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case fileEmptyError = "FILE_EMPTY_ERROR"
         case fileNotFoundError = "FILE_NOT_FOUND_ERROR"
@@ -39,7 +39,7 @@ extension Honeycode {
         public var description: String { return self.rawValue }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Format: String, CustomStringConvertible, Codable, Sendable {
         case accounting = "ACCOUNTING"
         case auto = "AUTO"
         case contact = "CONTACT"
@@ -55,7 +55,7 @@ extension Honeycode {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportDataCharacterEncoding: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportDataCharacterEncoding: String, CustomStringConvertible, Codable, Sendable {
         case iso88591 = "ISO-8859-1"
         case usAscii = "US-ASCII"
         case utf16 = "UTF-16"
@@ -65,12 +65,12 @@ extension Honeycode {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportSourceDataFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportSourceDataFormat: String, CustomStringConvertible, Codable, Sendable {
         case delimitedText = "DELIMITED_TEXT"
         public var description: String { return self.rawValue }
     }
 
-    public enum TableDataImportJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TableDataImportJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -78,7 +78,7 @@ extension Honeycode {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpsertAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpsertAction: String, CustomStringConvertible, Codable, Sendable {
         case appended = "APPENDED"
         case updated = "UPDATED"
         public var description: String { return self.rawValue }

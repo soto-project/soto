@@ -21,28 +21,28 @@ import SotoCore
 extension DynamoDB {
     // MARK: Enums
 
-    public enum AttributeAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AttributeAction: String, CustomStringConvertible, Codable, Sendable {
         case add = "ADD"
         case delete = "DELETE"
         case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum BackupStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BackupStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleted = "DELETED"
         public var description: String { return self.rawValue }
     }
 
-    public enum BackupType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BackupType: String, CustomStringConvertible, Codable, Sendable {
         case awsBackup = "AWS_BACKUP"
         case system = "SYSTEM"
         case user = "USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum BackupTypeFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BackupTypeFilter: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case awsBackup = "AWS_BACKUP"
         case system = "SYSTEM"
@@ -50,7 +50,7 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchStatementErrorCodeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchStatementErrorCodeEnum: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "AccessDenied"
         case conditionalCheckFailed = "ConditionalCheckFailed"
         case duplicateItem = "DuplicateItem"
@@ -65,13 +65,13 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum BillingMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BillingMode: String, CustomStringConvertible, Codable, Sendable {
         case payPerRequest = "PAY_PER_REQUEST"
         case provisioned = "PROVISIONED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
         case `in` = "IN"
         case beginsWith = "BEGINS_WITH"
         case between = "BETWEEN"
@@ -88,25 +88,25 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConditionalOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConditionalOperator: String, CustomStringConvertible, Codable, Sendable {
         case and = "AND"
         case or = "OR"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContinuousBackupsStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContinuousBackupsStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContributorInsightsAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContributorInsightsAction: String, CustomStringConvertible, Codable, Sendable {
         case disable = "DISABLE"
         case enable = "ENABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContributorInsightsStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContributorInsightsStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case disabling = "DISABLING"
         case enabled = "ENABLED"
@@ -115,7 +115,7 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum DestinationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DestinationStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case disabled = "DISABLED"
         case disabling = "DISABLING"
@@ -124,20 +124,20 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportFormat: String, CustomStringConvertible, Codable, Sendable {
         case dynamodbJson = "DYNAMODB_JSON"
         case ion = "ION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum GlobalTableStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GlobalTableStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -145,7 +145,7 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case completed = "COMPLETED"
@@ -154,7 +154,7 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum IndexStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IndexStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -162,40 +162,40 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum InputCompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputCompressionType: String, CustomStringConvertible, Codable, Sendable {
         case gzip = "GZIP"
         case none = "NONE"
         case zstd = "ZSTD"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case dynamodbJson = "DYNAMODB_JSON"
         case ion = "ION"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KeyType: String, CustomStringConvertible, Codable, Sendable {
         case hash = "HASH"
         case range = "RANGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PointInTimeRecoveryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PointInTimeRecoveryStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProjectionType: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case include = "INCLUDE"
         case keysOnly = "KEYS_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicaStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicaStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case creationFailed = "CREATION_FAILED"
@@ -206,20 +206,20 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReturnConsumedCapacity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReturnConsumedCapacity: String, CustomStringConvertible, Codable, Sendable {
         case indexes = "INDEXES"
         case none = "NONE"
         case total = "TOTAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReturnItemCollectionMetrics: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReturnItemCollectionMetrics: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case size = "SIZE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReturnValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReturnValue: String, CustomStringConvertible, Codable, Sendable {
         case allNew = "ALL_NEW"
         case allOld = "ALL_OLD"
         case none = "NONE"
@@ -228,19 +228,19 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReturnValuesOnConditionCheckFailure: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReturnValuesOnConditionCheckFailure: String, CustomStringConvertible, Codable, Sendable {
         case allOld = "ALL_OLD"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3SseAlgorithm: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3SseAlgorithm: String, CustomStringConvertible, Codable, Sendable {
         case aes256 = "AES256"
         case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SSEStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SSEStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case disabling = "DISABLING"
         case enabled = "ENABLED"
@@ -249,20 +249,20 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum SSEType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SSEType: String, CustomStringConvertible, Codable, Sendable {
         case aes256 = "AES256"
         case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalarAttributeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScalarAttributeType: String, CustomStringConvertible, Codable, Sendable {
         case b = "B"
         case n = "N"
         case s = "S"
         public var description: String { return self.rawValue }
     }
 
-    public enum Select: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Select: String, CustomStringConvertible, Codable, Sendable {
         case allAttributes = "ALL_ATTRIBUTES"
         case allProjectedAttributes = "ALL_PROJECTED_ATTRIBUTES"
         case count = "COUNT"
@@ -270,7 +270,7 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamViewType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StreamViewType: String, CustomStringConvertible, Codable, Sendable {
         case keysOnly = "KEYS_ONLY"
         case newAndOldImages = "NEW_AND_OLD_IMAGES"
         case newImage = "NEW_IMAGE"
@@ -278,13 +278,13 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum TableClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TableClass: String, CustomStringConvertible, Codable, Sendable {
         case standard = "STANDARD"
         case standardInfrequentAccess = "STANDARD_INFREQUENT_ACCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum TableStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TableStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
         case archiving = "ARCHIVING"
@@ -295,7 +295,7 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeToLiveStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimeToLiveStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case disabling = "DISABLING"
         case enabled = "ENABLED"
@@ -303,7 +303,7 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
-    public enum AttributeValue: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum AttributeValue: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An attribute of type Binary. For example:  "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
         case b(AWSBase64Data)
         /// An attribute of type Boolean. For example:  "BOOL": true
@@ -424,7 +424,7 @@ extension DynamoDB {
         }
     }
 
-    public enum TransactWriteItem: AWSEncodableShape, _SotoSendable {
+    public enum TransactWriteItem: AWSEncodableShape, Sendable {
         /// A request to perform a check item operation.
         case conditionCheck(ConditionCheck)
         /// A request to perform a DeleteItem operation.

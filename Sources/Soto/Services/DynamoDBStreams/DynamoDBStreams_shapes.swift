@@ -21,20 +21,20 @@ import SotoCore
 extension DynamoDBStreams {
     // MARK: Enums
 
-    public enum KeyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KeyType: String, CustomStringConvertible, Codable, Sendable {
         case hash = "HASH"
         case range = "RANGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperationType: String, CustomStringConvertible, Codable, Sendable {
         case insert = "INSERT"
         case modify = "MODIFY"
         case remove = "REMOVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ShardIteratorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ShardIteratorType: String, CustomStringConvertible, Codable, Sendable {
         case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
         case atSequenceNumber = "AT_SEQUENCE_NUMBER"
         case latest = "LATEST"
@@ -42,7 +42,7 @@ extension DynamoDBStreams {
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StreamStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case disabling = "DISABLING"
         case enabled = "ENABLED"
@@ -50,7 +50,7 @@ extension DynamoDBStreams {
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamViewType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StreamViewType: String, CustomStringConvertible, Codable, Sendable {
         case keysOnly = "KEYS_ONLY"
         case newAndOldImages = "NEW_AND_OLD_IMAGES"
         case newImage = "NEW_IMAGE"
@@ -58,7 +58,7 @@ extension DynamoDBStreams {
         public var description: String { return self.rawValue }
     }
 
-    public enum AttributeValue: AWSDecodableShape, _SotoSendable {
+    public enum AttributeValue: AWSDecodableShape, Sendable {
         /// An attribute of type Binary.  For example:  "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
         case b(AWSBase64Data)
         /// An attribute of type Boolean.  For example:  "BOOL": true

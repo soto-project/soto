@@ -21,13 +21,13 @@ import SotoCore
 extension HealthLake {
     // MARK: Enums
 
-    public enum CmkType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CmkType: String, CustomStringConvertible, Codable, Sendable {
         case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
         case customerManagedKmsKey = "CUSTOMER_MANAGED_KMS_KEY"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatastoreStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatastoreStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleted = "DELETED"
@@ -35,12 +35,12 @@ extension HealthLake {
         public var description: String { return self.rawValue }
     }
 
-    public enum FHIRVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FHIRVersion: String, CustomStringConvertible, Codable, Sendable {
         case r4 = "R4"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case completedWithErrors = "COMPLETED_WITH_ERRORS"
         case failed = "FAILED"
@@ -49,7 +49,7 @@ extension HealthLake {
         public var description: String { return self.rawValue }
     }
 
-    public enum PreloadDataType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PreloadDataType: String, CustomStringConvertible, Codable, Sendable {
         case synthea = "SYNTHEA"
         public var description: String { return self.rawValue }
     }

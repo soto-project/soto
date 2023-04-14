@@ -21,20 +21,20 @@ import SotoCore
 extension IAM {
     // MARK: Enums
 
-    public enum AccessAdvisorUsageGranularityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessAdvisorUsageGranularityType: String, CustomStringConvertible, Codable, Sendable {
         case actionLevel = "ACTION_LEVEL"
         case serviceLevel = "SERVICE_LEVEL"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssignmentStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssignmentStatusType: String, CustomStringConvertible, Codable, Sendable {
         case any = "Any"
         case assigned = "Assigned"
         case unassigned = "Unassigned"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContextKeyTypeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContextKeyTypeEnum: String, CustomStringConvertible, Codable, Sendable {
         case binary = "binary"
         case binaryList = "binaryList"
         case boolean = "boolean"
@@ -50,7 +50,7 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeletionTaskStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeletionTaskStatusType: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case notStarted = "NOT_STARTED"
@@ -58,13 +58,13 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
-    public enum EncodingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncodingType: String, CustomStringConvertible, Codable, Sendable {
         case pem = "PEM"
         case ssh = "SSH"
         public var description: String { return self.rawValue }
     }
 
-    public enum EntityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EntityType: String, CustomStringConvertible, Codable, Sendable {
         case awsManagedPolicy = "AWSManagedPolicy"
         case group = "Group"
         case localManagedPolicy = "LocalManagedPolicy"
@@ -73,46 +73,46 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
-    public enum GlobalEndpointTokenVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GlobalEndpointTokenVersion: String, CustomStringConvertible, Codable, Sendable {
         case v1Token = "v1Token"
         case v2Token = "v2Token"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatusType: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PermissionsBoundaryAttachmentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PermissionsBoundaryAttachmentType: String, CustomStringConvertible, Codable, Sendable {
         case policy = "PermissionsBoundaryPolicy"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyEvaluationDecisionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PolicyEvaluationDecisionType: String, CustomStringConvertible, Codable, Sendable {
         case allowed = "allowed"
         case explicitDeny = "explicitDeny"
         case implicitDeny = "implicitDeny"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyOwnerEntityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PolicyOwnerEntityType: String, CustomStringConvertible, Codable, Sendable {
         case group = "GROUP"
         case role = "ROLE"
         case user = "USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyScopeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PolicyScopeType: String, CustomStringConvertible, Codable, Sendable {
         case all = "All"
         case aws = "AWS"
         case local = "Local"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicySourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PolicySourceType: String, CustomStringConvertible, Codable, Sendable {
         case awsManaged = "aws-managed"
         case group = "group"
         case iamPolicy = "IAM Policy"
@@ -124,31 +124,31 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable {
         case inline = "INLINE"
         case managed = "MANAGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyUsageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PolicyUsageType: String, CustomStringConvertible, Codable, Sendable {
         case permissionsBoundary = "PermissionsBoundary"
         case permissionsPolicy = "PermissionsPolicy"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportFormatType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportFormatType: String, CustomStringConvertible, Codable, Sendable {
         case textCsv = "text/csv"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportStateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportStateType: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case inprogress = "INPROGRESS"
         case started = "STARTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortKeyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortKeyType: String, CustomStringConvertible, Codable, Sendable {
         case lastAuthenticatedTimeAscending = "LAST_AUTHENTICATED_TIME_ASCENDING"
         case lastAuthenticatedTimeDescending = "LAST_AUTHENTICATED_TIME_DESCENDING"
         case serviceNamespaceAscending = "SERVICE_NAMESPACE_ASCENDING"
@@ -156,13 +156,13 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatusType: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
     }
 
-    public enum SummaryKeyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SummaryKeyType: String, CustomStringConvertible, Codable, Sendable {
         case accessKeysPerUserQuota = "AccessKeysPerUserQuota"
         case accountAccessKeysPresent = "AccountAccessKeysPresent"
         case accountMFAEnabled = "AccountMFAEnabled"

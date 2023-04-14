@@ -21,7 +21,7 @@ import SotoCore
 extension CloudDirectory {
     // MARK: Enums
 
-    public enum BatchReadExceptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchReadExceptionType: String, CustomStringConvertible, Codable, Sendable {
         case accessDeniedException = "AccessDeniedException"
         case cannotListParentOfRootException = "CannotListParentOfRootException"
         case directoryNotEnabledException = "DirectoryNotEnabledException"
@@ -38,20 +38,20 @@ extension CloudDirectory {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConsistencyLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConsistencyLevel: String, CustomStringConvertible, Codable, Sendable {
         case eventual = "EVENTUAL"
         case serializable = "SERIALIZABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectoryState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DirectoryState: String, CustomStringConvertible, Codable, Sendable {
         case deleted = "DELETED"
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FacetAttributeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FacetAttributeType: String, CustomStringConvertible, Codable, Sendable {
         case binary = "BINARY"
         case boolean = "BOOLEAN"
         case datetime = "DATETIME"
@@ -61,13 +61,13 @@ extension CloudDirectory {
         public var description: String { return self.rawValue }
     }
 
-    public enum FacetStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FacetStyle: String, CustomStringConvertible, Codable, Sendable {
         case dynamic = "DYNAMIC"
         case `static` = "STATIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectType: String, CustomStringConvertible, Codable, Sendable {
         case index = "INDEX"
         case leafNode = "LEAF_NODE"
         case node = "NODE"
@@ -75,7 +75,7 @@ extension CloudDirectory {
         public var description: String { return self.rawValue }
     }
 
-    public enum RangeMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RangeMode: String, CustomStringConvertible, Codable, Sendable {
         case exclusive = "EXCLUSIVE"
         case first = "FIRST"
         case inclusive = "INCLUSIVE"
@@ -84,13 +84,13 @@ extension CloudDirectory {
         public var description: String { return self.rawValue }
     }
 
-    public enum RequiredAttributeBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RequiredAttributeBehavior: String, CustomStringConvertible, Codable, Sendable {
         case notRequired = "NOT_REQUIRED"
         case requiredAlways = "REQUIRED_ALWAYS"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuleType: String, CustomStringConvertible, Codable, Sendable {
         case binaryLength = "BINARY_LENGTH"
         case numberComparison = "NUMBER_COMPARISON"
         case stringFromSet = "STRING_FROM_SET"
@@ -98,13 +98,13 @@ extension CloudDirectory {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateActionType: String, CustomStringConvertible, Codable, Sendable {
         case createOrUpdate = "CREATE_OR_UPDATE"
         case delete = "DELETE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TypedAttributeValue: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum TypedAttributeValue: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A binary data value.
         case binaryValue(AWSBase64Data)
         /// A Boolean data value.

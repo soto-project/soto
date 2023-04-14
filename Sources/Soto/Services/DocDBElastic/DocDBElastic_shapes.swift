@@ -21,13 +21,13 @@ import SotoCore
 extension DocDBElastic {
     // MARK: Enums
 
-    public enum Auth: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Auth: String, CustomStringConvertible, Codable, Sendable {
         case plainText = "PLAIN_TEXT"
         case secretArn = "SECRET_ARN"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"

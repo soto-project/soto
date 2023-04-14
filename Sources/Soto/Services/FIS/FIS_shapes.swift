@@ -21,7 +21,7 @@ import SotoCore
 extension FIS {
     // MARK: Enums
 
-    public enum ExperimentActionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExperimentActionStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "cancelled"
         case completed = "completed"
         case failed = "failed"
@@ -33,7 +33,7 @@ extension FIS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperimentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExperimentStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "completed"
         case failed = "failed"
         case initiating = "initiating"

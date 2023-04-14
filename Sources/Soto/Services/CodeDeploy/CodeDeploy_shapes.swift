@@ -21,21 +21,21 @@ import SotoCore
 extension CodeDeploy {
     // MARK: Enums
 
-    public enum ApplicationRevisionSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationRevisionSortBy: String, CustomStringConvertible, Codable, Sendable {
         case firstUsedTime = "firstUsedTime"
         case lastUsedTime = "lastUsedTime"
         case registerTime = "registerTime"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoRollbackEvent: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoRollbackEvent: String, CustomStringConvertible, Codable, Sendable {
         case deploymentFailure = "DEPLOYMENT_FAILURE"
         case deploymentStopOnAlarm = "DEPLOYMENT_STOP_ON_ALARM"
         case deploymentStopOnRequest = "DEPLOYMENT_STOP_ON_REQUEST"
         public var description: String { return self.rawValue }
     }
 
-    public enum BundleType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BundleType: String, CustomStringConvertible, Codable, Sendable {
         case json = "JSON"
         case tar = "tar"
         case tarGZip = "tgz"
@@ -44,14 +44,14 @@ extension CodeDeploy {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComputePlatform: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComputePlatform: String, CustomStringConvertible, Codable, Sendable {
         case ecs = "ECS"
         case lambda = "Lambda"
         case server = "Server"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentCreator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentCreator: String, CustomStringConvertible, Codable, Sendable {
         case autoscaling = "autoscaling"
         case cloudFormation = "CloudFormation"
         case cloudFormationRollback = "CloudFormationRollback"
@@ -62,19 +62,19 @@ extension CodeDeploy {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentOption: String, CustomStringConvertible, Codable, Sendable {
         case withTrafficControl = "WITH_TRAFFIC_CONTROL"
         case withoutTrafficControl = "WITHOUT_TRAFFIC_CONTROL"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentReadyAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentReadyAction: String, CustomStringConvertible, Codable, Sendable {
         case continueDeployment = "CONTINUE_DEPLOYMENT"
         case stopDeployment = "STOP_DEPLOYMENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
         case baking = "Baking"
         case created = "Created"
         case failed = "Failed"
@@ -86,7 +86,7 @@ extension CodeDeploy {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentTargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentTargetType: String, CustomStringConvertible, Codable, Sendable {
         case cloudformationTarget = "CloudFormationTarget"
         case ecsTarget = "ECSTarget"
         case instanceTarget = "InstanceTarget"
@@ -94,26 +94,26 @@ extension CodeDeploy {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentType: String, CustomStringConvertible, Codable, Sendable {
         case blueGreen = "BLUE_GREEN"
         case inPlace = "IN_PLACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentWaitType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentWaitType: String, CustomStringConvertible, Codable, Sendable {
         case readyWait = "READY_WAIT"
         case terminationWait = "TERMINATION_WAIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum EC2TagFilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EC2TagFilterType: String, CustomStringConvertible, Codable, Sendable {
         case keyAndValue = "KEY_AND_VALUE"
         case keyOnly = "KEY_ONLY"
         case valueOnly = "VALUE_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case agentIssue = "AGENT_ISSUE"
         case alarmActive = "ALARM_ACTIVE"
         case applicationMissing = "APPLICATION_MISSING"
@@ -151,26 +151,26 @@ extension CodeDeploy {
         public var description: String { return self.rawValue }
     }
 
-    public enum FileExistsBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileExistsBehavior: String, CustomStringConvertible, Codable, Sendable {
         case disallow = "DISALLOW"
         case overwrite = "OVERWRITE"
         case retain = "RETAIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum GreenFleetProvisioningAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GreenFleetProvisioningAction: String, CustomStringConvertible, Codable, Sendable {
         case copyAutoScalingGroup = "COPY_AUTO_SCALING_GROUP"
         case discoverExisting = "DISCOVER_EXISTING"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceAction: String, CustomStringConvertible, Codable, Sendable {
         case keepAlive = "KEEP_ALIVE"
         case terminate = "TERMINATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case pending = "Pending"
@@ -181,13 +181,13 @@ extension CodeDeploy {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceType: String, CustomStringConvertible, Codable, Sendable {
         case blue = "Blue"
         case green = "Green"
         public var description: String { return self.rawValue }
     }
 
-    public enum LifecycleErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LifecycleErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case scriptFailed = "ScriptFailed"
         case scriptMissing = "ScriptMissing"
         case scriptNotExecutable = "ScriptNotExecutable"
@@ -197,7 +197,7 @@ extension CodeDeploy {
         public var description: String { return self.rawValue }
     }
 
-    public enum LifecycleEventStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LifecycleEventStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case pending = "Pending"
@@ -207,32 +207,32 @@ extension CodeDeploy {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListStateFilterAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListStateFilterAction: String, CustomStringConvertible, Codable, Sendable {
         case exclude = "exclude"
         case ignore = "ignore"
         case include = "include"
         public var description: String { return self.rawValue }
     }
 
-    public enum MinimumHealthyHostsType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MinimumHealthyHostsType: String, CustomStringConvertible, Codable, Sendable {
         case fleetPercent = "FLEET_PERCENT"
         case hostCount = "HOST_COUNT"
         public var description: String { return self.rawValue }
     }
 
-    public enum OutdatedInstancesStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OutdatedInstancesStrategy: String, CustomStringConvertible, Codable, Sendable {
         case ignore = "IGNORE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RegistrationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RegistrationStatus: String, CustomStringConvertible, Codable, Sendable {
         case deregistered = "Deregistered"
         case registered = "Registered"
         public var description: String { return self.rawValue }
     }
 
-    public enum RevisionLocationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RevisionLocationType: String, CustomStringConvertible, Codable, Sendable {
         case appSpecContent = "AppSpecContent"
         case gitHub = "GitHub"
         case s3 = "S3"
@@ -240,38 +240,38 @@ extension CodeDeploy {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ascending"
         case descending = "descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum StopStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StopStatus: String, CustomStringConvertible, Codable, Sendable {
         case pending = "Pending"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
-    public enum TagFilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TagFilterType: String, CustomStringConvertible, Codable, Sendable {
         case keyAndValue = "KEY_AND_VALUE"
         case keyOnly = "KEY_ONLY"
         case valueOnly = "VALUE_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetFilterName: String, CustomStringConvertible, Codable, Sendable {
         case serverInstanceLabel = "ServerInstanceLabel"
         case targetStatus = "TargetStatus"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetLabel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetLabel: String, CustomStringConvertible, Codable, Sendable {
         case blue = "Blue"
         case green = "Green"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case pending = "Pending"
@@ -282,14 +282,14 @@ extension CodeDeploy {
         public var description: String { return self.rawValue }
     }
 
-    public enum TrafficRoutingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrafficRoutingType: String, CustomStringConvertible, Codable, Sendable {
         case allAtOnce = "AllAtOnce"
         case timeBasedCanary = "TimeBasedCanary"
         case timeBasedLinear = "TimeBasedLinear"
         public var description: String { return self.rawValue }
     }
 
-    public enum TriggerEventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TriggerEventType: String, CustomStringConvertible, Codable, Sendable {
         case deploymentFailure = "DeploymentFailure"
         case deploymentReady = "DeploymentReady"
         case deploymentRollback = "DeploymentRollback"

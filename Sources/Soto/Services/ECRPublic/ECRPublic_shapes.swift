@@ -21,7 +21,7 @@ import SotoCore
 extension ECRPublic {
     // MARK: Enums
 
-    public enum ImageFailureCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageFailureCode: String, CustomStringConvertible, Codable, Sendable {
         case imageNotFound = "ImageNotFound"
         case imageReferencedByManifestList = "ImageReferencedByManifestList"
         case imageTagDoesNotMatchDigest = "ImageTagDoesNotMatchDigest"
@@ -32,19 +32,19 @@ extension ECRPublic {
         public var description: String { return self.rawValue }
     }
 
-    public enum LayerAvailability: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LayerAvailability: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LayerFailureCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LayerFailureCode: String, CustomStringConvertible, Codable, Sendable {
         case invalidLayerDigest = "InvalidLayerDigest"
         case missingLayerDigest = "MissingLayerDigest"
         public var description: String { return self.rawValue }
     }
 
-    public enum RegistryAliasStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RegistryAliasStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case pending = "PENDING"
         case rejected = "REJECTED"

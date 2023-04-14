@@ -21,7 +21,7 @@ import SotoCore
 extension Wisdom {
     // MARK: Enums
 
-    public enum AssistantStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssistantStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -31,17 +31,17 @@ extension Wisdom {
         public var description: String { return self.rawValue }
     }
 
-    public enum AssistantType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssistantType: String, CustomStringConvertible, Codable, Sendable {
         case agent = "AGENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssociationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssociationType: String, CustomStringConvertible, Codable, Sendable {
         case knowledgeBase = "KNOWLEDGE_BASE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -52,17 +52,17 @@ extension Wisdom {
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterField: String, CustomStringConvertible, Codable, Sendable {
         case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case equals = "EQUALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum KnowledgeBaseStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KnowledgeBaseStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -72,30 +72,30 @@ extension Wisdom {
         public var description: String { return self.rawValue }
     }
 
-    public enum KnowledgeBaseType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KnowledgeBaseType: String, CustomStringConvertible, Codable, Sendable {
         case custom = "CUSTOM"
         case external = "EXTERNAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationSourceType: String, CustomStringConvertible, Codable, Sendable {
         case issueDetection = "ISSUE_DETECTION"
         case other = "OTHER"
         case ruleEvaluation = "RULE_EVALUATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationTriggerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationTriggerType: String, CustomStringConvertible, Codable, Sendable {
         case query = "QUERY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable {
         case knowledgeContent = "KNOWLEDGE_CONTENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelevanceLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RelevanceLevel: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"

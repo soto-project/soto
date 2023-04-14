@@ -21,7 +21,7 @@ import SotoCore
 extension Connect {
     // MARK: Enums
 
-    public enum ActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionType: String, CustomStringConvertible, Codable, Sendable {
         case assignContactCategory = "ASSIGN_CONTACT_CATEGORY"
         case createTask = "CREATE_TASK"
         case generateEventbridgeEvent = "GENERATE_EVENTBRIDGE_EVENT"
@@ -29,50 +29,50 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum AgentStatusState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AgentStatusState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AgentStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AgentStatusType: String, CustomStringConvertible, Codable, Sendable {
         case custom = "CUSTOM"
         case offline = "OFFLINE"
         case routable = "ROUTABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Channel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Channel: String, CustomStringConvertible, Codable, Sendable {
         case chat = "CHAT"
         case task = "TASK"
         case voice = "VOICE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Comparison: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Comparison: String, CustomStringConvertible, Codable, Sendable {
         case lt = "LT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactFlowModuleState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContactFlowModuleState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactFlowModuleStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContactFlowModuleStatus: String, CustomStringConvertible, Codable, Sendable {
         case published = "PUBLISHED"
         case saved = "SAVED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactFlowState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContactFlowState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactFlowType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContactFlowType: String, CustomStringConvertible, Codable, Sendable {
         case agentHold = "AGENT_HOLD"
         case agentTransfer = "AGENT_TRANSFER"
         case agentWhisper = "AGENT_WHISPER"
@@ -85,7 +85,7 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactInitiationMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContactInitiationMethod: String, CustomStringConvertible, Codable, Sendable {
         case api = "API"
         case callback = "CALLBACK"
         case disconnect = "DISCONNECT"
@@ -97,7 +97,7 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContactState: String, CustomStringConvertible, Codable, Sendable {
         case connected = "CONNECTED"
         case connectedOnhold = "CONNECTED_ONHOLD"
         case connecting = "CONNECTING"
@@ -110,7 +110,7 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum CurrentMetricName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CurrentMetricName: String, CustomStringConvertible, Codable, Sendable {
         case agentsAfterContactWork = "AGENTS_AFTER_CONTACT_WORK"
         case agentsAvailable = "AGENTS_AVAILABLE"
         case agentsError = "AGENTS_ERROR"
@@ -127,19 +127,19 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectoryType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DirectoryType: String, CustomStringConvertible, Codable, Sendable {
         case connectManaged = "CONNECT_MANAGED"
         case existingDirectory = "EXISTING_DIRECTORY"
         case saml = "SAML"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
         case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventSourceName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventSourceName: String, CustomStringConvertible, Codable, Sendable {
         case onPostCallAnalysisAvailable = "OnPostCallAnalysisAvailable"
         case onPostChatAnalysisAvailable = "OnPostChatAnalysisAvailable"
         case onRealTimeCallAnalysisAvailable = "OnRealTimeCallAnalysisAvailable"
@@ -149,20 +149,20 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum Grouping: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Grouping: String, CustomStringConvertible, Codable, Sendable {
         case channel = "CHANNEL"
         case queue = "QUEUE"
         case routingProfile = "ROUTING_PROFILE"
         public var description: String { return self.rawValue }
     }
 
-    public enum HierarchyGroupMatchType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HierarchyGroupMatchType: String, CustomStringConvertible, Codable, Sendable {
         case exact = "EXACT"
         case withChildGroups = "WITH_CHILD_GROUPS"
         public var description: String { return self.rawValue }
     }
 
-    public enum HistoricalMetricName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HistoricalMetricName: String, CustomStringConvertible, Codable, Sendable {
         case abandonTime = "ABANDON_TIME"
         case afterContactWorkTime = "AFTER_CONTACT_WORK_TIME"
         case apiContactsHandled = "API_CONTACTS_HANDLED"
@@ -191,7 +191,7 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum HoursOfOperationDays: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HoursOfOperationDays: String, CustomStringConvertible, Codable, Sendable {
         case friday = "FRIDAY"
         case monday = "MONDAY"
         case saturday = "SATURDAY"
@@ -202,7 +202,7 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceAttributeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceAttributeType: String, CustomStringConvertible, Codable, Sendable {
         case autoResolveBestVoices = "AUTO_RESOLVE_BEST_VOICES"
         case contactLens = "CONTACT_LENS"
         case contactflowLogs = "CONTACTFLOW_LOGS"
@@ -216,14 +216,14 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creationFailed = "CREATION_FAILED"
         case creationInProgress = "CREATION_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceStorageResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceStorageResourceType: String, CustomStringConvertible, Codable, Sendable {
         case agentEvents = "AGENT_EVENTS"
         case callRecordings = "CALL_RECORDINGS"
         case chatTranscripts = "CHAT_TRANSCRIPTS"
@@ -234,7 +234,7 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum IntegrationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IntegrationType: String, CustomStringConvertible, Codable, Sendable {
         case casesDomain = "CASES_DOMAIN"
         case event = "EVENT"
         case pinpointApp = "PINPOINT_APP"
@@ -244,40 +244,40 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum LexVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LexVersion: String, CustomStringConvertible, Codable, Sendable {
         case v1 = "V1"
         case v2 = "V2"
         public var description: String { return self.rawValue }
     }
 
-    public enum MonitorCapability: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MonitorCapability: String, CustomStringConvertible, Codable, Sendable {
         case barge = "BARGE"
         case silentMonitor = "SILENT_MONITOR"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotificationContentType: String, CustomStringConvertible, Codable, Sendable {
         case plainText = "PLAIN_TEXT"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationDeliveryType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotificationDeliveryType: String, CustomStringConvertible, Codable, Sendable {
         case email = "EMAIL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParticipantTimerAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParticipantTimerAction: String, CustomStringConvertible, Codable, Sendable {
         case unset = "Unset"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParticipantTimerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParticipantTimerType: String, CustomStringConvertible, Codable, Sendable {
         case disconnectNoncustomer = "DISCONNECT_NONCUSTOMER"
         case idle = "IDLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PhoneNumberCountryCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PhoneNumberCountryCode: String, CustomStringConvertible, Codable, Sendable {
         case `as` = "AS"
         case `do` = "DO"
         case `in` = "IN"
@@ -518,51 +518,51 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum PhoneNumberType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PhoneNumberType: String, CustomStringConvertible, Codable, Sendable {
         case did = "DID"
         case tollFree = "TOLL_FREE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PhoneNumberWorkflowStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PhoneNumberWorkflowStatus: String, CustomStringConvertible, Codable, Sendable {
         case claimed = "CLAIMED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PhoneType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PhoneType: String, CustomStringConvertible, Codable, Sendable {
         case deskPhone = "DESK_PHONE"
         case softPhone = "SOFT_PHONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueueStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QueueStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueueType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QueueType: String, CustomStringConvertible, Codable, Sendable {
         case agent = "AGENT"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum QuickConnectType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QuickConnectType: String, CustomStringConvertible, Codable, Sendable {
         case phoneNumber = "PHONE_NUMBER"
         case queue = "QUEUE"
         case user = "USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReferenceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReferenceStatus: String, CustomStringConvertible, Codable, Sendable {
         case approved = "APPROVED"
         case rejected = "REJECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReferenceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReferenceType: String, CustomStringConvertible, Codable, Sendable {
         case attachment = "ATTACHMENT"
         case date = "DATE"
         case email = "EMAIL"
@@ -572,43 +572,43 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum RehydrationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RehydrationType: String, CustomStringConvertible, Codable, Sendable {
         case entirePastSession = "ENTIRE_PAST_SESSION"
         case fromSegment = "FROM_SEGMENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum RulePublishStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RulePublishStatus: String, CustomStringConvertible, Codable, Sendable {
         case draft = "DRAFT"
         case published = "PUBLISHED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchableQueueType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SearchableQueueType: String, CustomStringConvertible, Codable, Sendable {
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
         case salesforce = "SALESFORCE"
         case zendesk = "ZENDESK"
         public var description: String { return self.rawValue }
     }
 
-    public enum Statistic: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Statistic: String, CustomStringConvertible, Codable, Sendable {
         case avg = "AVG"
         case max = "MAX"
         case sum = "SUM"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageType: String, CustomStringConvertible, Codable, Sendable {
         case kinesisFirehose = "KINESIS_FIREHOSE"
         case kinesisStream = "KINESIS_STREAM"
         case kinesisVideoStream = "KINESIS_VIDEO_STREAM"
@@ -616,14 +616,14 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum StringComparisonType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StringComparisonType: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CONTAINS"
         case exact = "EXACT"
         case startsWith = "STARTS_WITH"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskTemplateFieldType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskTemplateFieldType: String, CustomStringConvertible, Codable, Sendable {
         case boolean = "BOOLEAN"
         case dateTime = "DATE_TIME"
         case description = "DESCRIPTION"
@@ -639,19 +639,19 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskTemplateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskTemplateStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimerEligibleParticipantRoles: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimerEligibleParticipantRoles: String, CustomStringConvertible, Codable, Sendable {
         case agent = "AGENT"
         case customer = "CUSTOMER"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrafficDistributionGroupStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrafficDistributionGroupStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creationFailed = "CREATION_FAILED"
         case creationInProgress = "CREATION_IN_PROGRESS"
@@ -661,26 +661,26 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum TrafficType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrafficType: String, CustomStringConvertible, Codable, Sendable {
         case campaign = "CAMPAIGN"
         case general = "GENERAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum Unit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Unit: String, CustomStringConvertible, Codable, Sendable {
         case count = "COUNT"
         case percent = "PERCENT"
         case seconds = "SECONDS"
         public var description: String { return self.rawValue }
     }
 
-    public enum UseCaseType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UseCaseType: String, CustomStringConvertible, Codable, Sendable {
         case connectCampaigns = "CONNECT_CAMPAIGNS"
         case rulesEvaluation = "RULES_EVALUATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum VocabularyLanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VocabularyLanguageCode: String, CustomStringConvertible, Codable, Sendable {
         case arAe = "ar-AE"
         case deCh = "de-CH"
         case deDe = "de-DE"
@@ -707,7 +707,7 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum VocabularyState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VocabularyState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creationFailed = "CREATION_FAILED"
         case creationInProgress = "CREATION_IN_PROGRESS"
@@ -715,14 +715,14 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
-    public enum VoiceRecordingTrack: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VoiceRecordingTrack: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case fromAgent = "FROM_AGENT"
         case toAgent = "TO_AGENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParticipantTimerValue: AWSEncodableShape, _SotoSendable {
+    public enum ParticipantTimerValue: AWSEncodableShape, Sendable {
         /// The timer action. Currently only one value is allowed: Unset. It deletes a timer.
         case participantTimerAction(ParticipantTimerAction)
         /// The duration of a timer, in minutes.
@@ -754,7 +754,7 @@ extension Connect {
         }
     }
 
-    public enum ReferenceSummary: AWSDecodableShape, _SotoSendable {
+    public enum ReferenceSummary: AWSDecodableShape, Sendable {
         /// Information about the reference when the referenceType is ATTACHMENT. Otherwise, null.
         case attachment(AttachmentReference)
         /// Information about a reference when the referenceType is DATE. Otherwise, null.

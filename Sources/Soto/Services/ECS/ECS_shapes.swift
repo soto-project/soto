@@ -21,7 +21,7 @@ import SotoCore
 extension ECS {
     // MARK: Enums
 
-    public enum AgentUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AgentUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pending = "PENDING"
         case staged = "STAGED"
@@ -31,37 +31,37 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplicationProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplicationProtocol: String, CustomStringConvertible, Codable, Sendable {
         case grpc = "grpc"
         case http = "http"
         case http2 = "http2"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssignPublicIp: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssignPublicIp: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CPUArchitecture: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CPUArchitecture: String, CustomStringConvertible, Codable, Sendable {
         case arm64 = "ARM64"
         case x8664 = "X86_64"
         public var description: String { return self.rawValue }
     }
 
-    public enum CapacityProviderField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CapacityProviderField: String, CustomStringConvertible, Codable, Sendable {
         case tags = "TAGS"
         public var description: String { return self.rawValue }
     }
 
-    public enum CapacityProviderStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CapacityProviderStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CapacityProviderUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CapacityProviderUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleteComplete = "DELETE_COMPLETE"
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
@@ -71,7 +71,7 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ClusterField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClusterField: String, CustomStringConvertible, Codable, Sendable {
         case attachments = "ATTACHMENTS"
         case configurations = "CONFIGURATIONS"
         case settings = "SETTINGS"
@@ -80,25 +80,25 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ClusterSettingName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClusterSettingName: String, CustomStringConvertible, Codable, Sendable {
         case containerInsights = "containerInsights"
         public var description: String { return self.rawValue }
     }
 
-    public enum Compatibility: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Compatibility: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "EC2"
         case external = "EXTERNAL"
         case fargate = "FARGATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Connectivity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Connectivity: String, CustomStringConvertible, Codable, Sendable {
         case connected = "CONNECTED"
         case disconnected = "DISCONNECTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerCondition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContainerCondition: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case healthy = "HEALTHY"
         case start = "START"
@@ -106,13 +106,13 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerInstanceField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContainerInstanceField: String, CustomStringConvertible, Codable, Sendable {
         case containerInstanceHealth = "CONTAINER_INSTANCE_HEALTH"
         case tags = "TAGS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerInstanceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContainerInstanceStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deregistering = "DEREGISTERING"
         case draining = "DRAINING"
@@ -121,72 +121,72 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentControllerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentControllerType: String, CustomStringConvertible, Codable, Sendable {
         case codeDeploy = "CODE_DEPLOY"
         case ecs = "ECS"
         case external = "EXTERNAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentRolloutState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentRolloutState: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DesiredStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DesiredStatus: String, CustomStringConvertible, Codable, Sendable {
         case pending = "PENDING"
         case running = "RUNNING"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable, Sendable {
         case mknod = "mknod"
         case read = "read"
         case write = "write"
         public var description: String { return self.rawValue }
     }
 
-    public enum EFSAuthorizationConfigIAM: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EFSAuthorizationConfigIAM: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EFSTransitEncryption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EFSTransitEncryption: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentFileType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnvironmentFileType: String, CustomStringConvertible, Codable, Sendable {
         case s3 = "s3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecuteCommandLogging: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecuteCommandLogging: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case none = "NONE"
         case override = "OVERRIDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FirelensConfigurationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FirelensConfigurationType: String, CustomStringConvertible, Codable, Sendable {
         case fluentbit = "fluentbit"
         case fluentd = "fluentd"
         public var description: String { return self.rawValue }
     }
 
-    public enum HealthStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HealthStatus: String, CustomStringConvertible, Codable, Sendable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceHealthCheckState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceHealthCheckState: String, CustomStringConvertible, Codable, Sendable {
         case impaired = "IMPAIRED"
         case initializing = "INITIALIZING"
         case insufficientData = "INSUFFICIENT_DATA"
@@ -194,26 +194,26 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceHealthCheckType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceHealthCheckType: String, CustomStringConvertible, Codable, Sendable {
         case containerRuntime = "CONTAINER_RUNTIME"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpcMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpcMode: String, CustomStringConvertible, Codable, Sendable {
         case host = "host"
         case none = "none"
         case task = "task"
         public var description: String { return self.rawValue }
     }
 
-    public enum LaunchType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LaunchType: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "EC2"
         case external = "EXTERNAL"
         case fargate = "FARGATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogDriver: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogDriver: String, CustomStringConvertible, Codable, Sendable {
         case awsfirelens = "awsfirelens"
         case awslogs = "awslogs"
         case fluentd = "fluentd"
@@ -225,24 +225,24 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ManagedAgentName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ManagedAgentName: String, CustomStringConvertible, Codable, Sendable {
         case executeCommandAgent = "ExecuteCommandAgent"
         public var description: String { return self.rawValue }
     }
 
-    public enum ManagedScalingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ManagedScalingStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ManagedTerminationProtection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ManagedTerminationProtection: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkMode: String, CustomStringConvertible, Codable, Sendable {
         case awsvpc = "awsvpc"
         case bridge = "bridge"
         case host = "host"
@@ -250,7 +250,7 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
-    public enum OSFamily: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OSFamily: String, CustomStringConvertible, Codable, Sendable {
         case linux = "LINUX"
         case windowsServer2004Core = "WINDOWS_SERVER_2004_CORE"
         case windowsServer2016Full = "WINDOWS_SERVER_2016_FULL"
@@ -262,71 +262,71 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
-    public enum PidMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PidMode: String, CustomStringConvertible, Codable, Sendable {
         case host = "host"
         case task = "task"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementConstraintType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlacementConstraintType: String, CustomStringConvertible, Codable, Sendable {
         case distinctInstance = "distinctInstance"
         case memberOf = "memberOf"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlacementStrategyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlacementStrategyType: String, CustomStringConvertible, Codable, Sendable {
         case binpack = "binpack"
         case random = "random"
         case spread = "spread"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformDeviceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlatformDeviceType: String, CustomStringConvertible, Codable, Sendable {
         case gpu = "GPU"
         public var description: String { return self.rawValue }
     }
 
-    public enum PropagateTags: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PropagateTags: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case service = "SERVICE"
         case taskDefinition = "TASK_DEFINITION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProxyConfigurationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProxyConfigurationType: String, CustomStringConvertible, Codable, Sendable {
         case appmesh = "APPMESH"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case gpu = "GPU"
         case inferenceAccelerator = "InferenceAccelerator"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScaleUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScaleUnit: String, CustomStringConvertible, Codable, Sendable {
         case percent = "PERCENT"
         public var description: String { return self.rawValue }
     }
 
-    public enum SchedulingStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SchedulingStrategy: String, CustomStringConvertible, Codable, Sendable {
         case daemon = "DAEMON"
         case replica = "REPLICA"
         public var description: String { return self.rawValue }
     }
 
-    public enum Scope: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Scope: String, CustomStringConvertible, Codable, Sendable {
         case shared = "shared"
         case task = "task"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceField: String, CustomStringConvertible, Codable, Sendable {
         case tags = "TAGS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SettingName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SettingName: String, CustomStringConvertible, Codable, Sendable {
         case awsvpcTrunking = "awsvpcTrunking"
         case containerInsights = "containerInsights"
         case containerInstanceLongArnFormat = "containerInstanceLongArnFormat"
@@ -335,57 +335,57 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum StabilityStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StabilityStatus: String, CustomStringConvertible, Codable, Sendable {
         case stabilizing = "STABILIZING"
         case steadyState = "STEADY_STATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetType: String, CustomStringConvertible, Codable, Sendable {
         case containerInstance = "container-instance"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskDefinitionFamilyStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskDefinitionFamilyStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case all = "ALL"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskDefinitionField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskDefinitionField: String, CustomStringConvertible, Codable, Sendable {
         case tags = "TAGS"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskDefinitionPlacementConstraintType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskDefinitionPlacementConstraintType: String, CustomStringConvertible, Codable, Sendable {
         case memberOf = "memberOf"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskDefinitionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskDefinitionStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskField: String, CustomStringConvertible, Codable, Sendable {
         case tags = "TAGS"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskSetField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskSetField: String, CustomStringConvertible, Codable, Sendable {
         case tags = "TAGS"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskStopCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskStopCode: String, CustomStringConvertible, Codable, Sendable {
         case essentialContainerExited = "EssentialContainerExited"
         case serviceSchedulerInitiated = "ServiceSchedulerInitiated"
         case spotInterruption = "SpotInterruption"
@@ -395,13 +395,13 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransportProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransportProtocol: String, CustomStringConvertible, Codable, Sendable {
         case tcp = "tcp"
         case udp = "udp"
         public var description: String { return self.rawValue }
     }
 
-    public enum UlimitName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UlimitName: String, CustomStringConvertible, Codable, Sendable {
         case core = "core"
         case cpu = "cpu"
         case data = "data"

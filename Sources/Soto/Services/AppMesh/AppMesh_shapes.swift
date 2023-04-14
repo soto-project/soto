@@ -21,38 +21,38 @@ import SotoCore
 extension AppMesh {
     // MARK: Enums
 
-    public enum DefaultGatewayRouteRewrite: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DefaultGatewayRouteRewrite: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DnsResponseType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DnsResponseType: String, CustomStringConvertible, Codable, Sendable {
         case endpoints = "ENDPOINTS"
         case loadbalancer = "LOADBALANCER"
         public var description: String { return self.rawValue }
     }
 
-    public enum DurationUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DurationUnit: String, CustomStringConvertible, Codable, Sendable {
         case ms = "ms"
         case s = "s"
         public var description: String { return self.rawValue }
     }
 
-    public enum EgressFilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EgressFilterType: String, CustomStringConvertible, Codable, Sendable {
         case allowAll = "ALLOW_ALL"
         case dropAll = "DROP_ALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum GatewayRouteStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GatewayRouteStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum GrpcRetryPolicyEvent: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GrpcRetryPolicyEvent: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "cancelled"
         case deadlineExceeded = "deadline-exceeded"
         case `internal` = "internal"
@@ -61,7 +61,7 @@ extension AppMesh {
         public var description: String { return self.rawValue }
     }
 
-    public enum HttpMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HttpMethod: String, CustomStringConvertible, Codable, Sendable {
         case connect = "CONNECT"
         case delete = "DELETE"
         case get = "GET"
@@ -74,13 +74,13 @@ extension AppMesh {
         public var description: String { return self.rawValue }
     }
 
-    public enum HttpScheme: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HttpScheme: String, CustomStringConvertible, Codable, Sendable {
         case http = "http"
         case https = "https"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpPreference: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpPreference: String, CustomStringConvertible, Codable, Sendable {
         case iPv4ONLY = "IPv4_ONLY"
         case iPv4PREFERRED = "IPv4_PREFERRED"
         case iPv6ONLY = "IPv6_ONLY"
@@ -88,21 +88,21 @@ extension AppMesh {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListenerTlsMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListenerTlsMode: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case permissive = "PERMISSIVE"
         case strict = "STRICT"
         public var description: String { return self.rawValue }
     }
 
-    public enum MeshStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MeshStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum PortProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PortProtocol: String, CustomStringConvertible, Codable, Sendable {
         case grpc = "grpc"
         case http = "http"
         case http2 = "http2"
@@ -110,61 +110,61 @@ extension AppMesh {
         public var description: String { return self.rawValue }
     }
 
-    public enum RouteStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RouteStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TcpRetryPolicyEvent: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TcpRetryPolicyEvent: String, CustomStringConvertible, Codable, Sendable {
         case connectionError = "connection-error"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualGatewayListenerTlsMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VirtualGatewayListenerTlsMode: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case permissive = "PERMISSIVE"
         case strict = "STRICT"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualGatewayPortProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VirtualGatewayPortProtocol: String, CustomStringConvertible, Codable, Sendable {
         case grpc = "grpc"
         case http = "http"
         case http2 = "http2"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualGatewayStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VirtualGatewayStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualNodeStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VirtualNodeStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualRouterStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VirtualRouterStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VirtualServiceStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VirtualServiceStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleted = "DELETED"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientTlsCertificate: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum ClientTlsCertificate: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An object that represents a local file certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see Transport Layer Security (TLS).
         case file(ListenerTlsFileCertificate)
         /// A reference to an object that represents a client's TLS Secret Discovery Service certificate.
@@ -214,7 +214,7 @@ extension AppMesh {
         }
     }
 
-    public enum GrpcMetadataMatchMethod: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum GrpcMetadataMatchMethod: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The exact method header to be matched on.
         case exact(String)
         /// The specified beginning characters of the method header to be matched on.
@@ -297,7 +297,7 @@ extension AppMesh {
         }
     }
 
-    public enum GrpcRouteMetadataMatchMethod: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum GrpcRouteMetadataMatchMethod: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The value sent by the client must match the specified value exactly.
         case exact(String)
         /// The value sent by the client must begin with the specified characters.
@@ -381,7 +381,7 @@ extension AppMesh {
         }
     }
 
-    public enum HeaderMatchMethod: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum HeaderMatchMethod: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The value sent by the client must match the specified value exactly.
         case exact(String)
         /// The value sent by the client must begin with the specified characters.
@@ -465,7 +465,7 @@ extension AppMesh {
         }
     }
 
-    public enum ListenerTimeout: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum ListenerTimeout: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An object that represents types of timeouts.
         case grpc(GrpcTimeout)
         /// An object that represents types of timeouts.
@@ -535,7 +535,7 @@ extension AppMesh {
         }
     }
 
-    public enum ListenerTlsCertificate: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum ListenerTlsCertificate: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A reference to an object that represents an Certificate Manager certificate.
         case acm(ListenerTlsAcmCertificate)
         /// A reference to an object that represents a local file certificate.
@@ -593,7 +593,7 @@ extension AppMesh {
         }
     }
 
-    public enum ListenerTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum ListenerTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
         case file(TlsValidationContextFileTrust)
         /// A reference to an object that represents a listener's Transport Layer Security (TLS) Secret Discovery Service validation context trust.
@@ -643,7 +643,7 @@ extension AppMesh {
         }
     }
 
-    public enum LoggingFormat: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum LoggingFormat: AWSEncodableShape & AWSDecodableShape, Sendable {
         case json([JsonFormatRef])
         case text(String)
 
@@ -694,7 +694,7 @@ extension AppMesh {
         }
     }
 
-    public enum ServiceDiscovery: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum ServiceDiscovery: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Specifies any Cloud Map information for the virtual node.
         case awsCloudMap(AwsCloudMapServiceDiscovery)
         /// Specifies the DNS information for the virtual node.
@@ -744,7 +744,7 @@ extension AppMesh {
         }
     }
 
-    public enum TlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum TlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A reference to an object that represents a Transport Layer Security (TLS) validation context trust for an Certificate Manager certificate.
         case acm(TlsValidationContextAcmTrust)
         /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
@@ -804,7 +804,7 @@ extension AppMesh {
         }
     }
 
-    public enum VirtualGatewayClientTlsCertificate: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum VirtualGatewayClientTlsCertificate: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An object that represents a local file certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see Transport Layer Security (TLS) .
         case file(VirtualGatewayListenerTlsFileCertificate)
         /// A reference to an object that represents a virtual gateway's client's Secret Discovery Service certificate.
@@ -854,7 +854,7 @@ extension AppMesh {
         }
     }
 
-    public enum VirtualGatewayConnectionPool: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum VirtualGatewayConnectionPool: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An object that represents a type of connection pool.
         case grpc(VirtualGatewayGrpcConnectionPool)
         /// An object that represents a type of connection pool.
@@ -914,7 +914,7 @@ extension AppMesh {
         }
     }
 
-    public enum VirtualGatewayListenerTlsCertificate: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum VirtualGatewayListenerTlsCertificate: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A reference to an object that represents an Certificate Manager certificate.
         case acm(VirtualGatewayListenerTlsAcmCertificate)
         /// A reference to an object that represents a local file certificate.
@@ -972,7 +972,7 @@ extension AppMesh {
         }
     }
 
-    public enum VirtualGatewayListenerTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum VirtualGatewayListenerTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
         case file(VirtualGatewayTlsValidationContextFileTrust)
         /// A reference to an object that represents a virtual gateway's listener's Transport Layer Security (TLS) Secret Discovery Service validation context trust.
@@ -1022,7 +1022,7 @@ extension AppMesh {
         }
     }
 
-    public enum VirtualGatewayTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum VirtualGatewayTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A reference to an object that represents a Transport Layer Security (TLS) validation context trust for an Certificate Manager certificate.
         case acm(VirtualGatewayTlsValidationContextAcmTrust)
         /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
@@ -1082,7 +1082,7 @@ extension AppMesh {
         }
     }
 
-    public enum VirtualNodeConnectionPool: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum VirtualNodeConnectionPool: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An object that represents a type of connection pool.
         case grpc(VirtualNodeGrpcConnectionPool)
         /// An object that represents a type of connection pool.
@@ -1152,7 +1152,7 @@ extension AppMesh {
         }
     }
 
-    public enum VirtualServiceProvider: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum VirtualServiceProvider: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The virtual node associated with a virtual service.
         case virtualNode(VirtualNodeServiceProvider)
         /// The virtual router associated with a virtual service.

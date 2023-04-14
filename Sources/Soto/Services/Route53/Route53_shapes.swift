@@ -21,7 +21,7 @@ import SotoCore
 extension Route53 {
     // MARK: Enums
 
-    public enum AccountLimitType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccountLimitType: String, CustomStringConvertible, Codable, Sendable {
         case maxHealthChecksByOwner = "MAX_HEALTH_CHECKS_BY_OWNER"
         case maxHostedZonesByOwner = "MAX_HOSTED_ZONES_BY_OWNER"
         case maxReusableDelegationSetsByOwner = "MAX_REUSABLE_DELEGATION_SETS_BY_OWNER"
@@ -30,26 +30,26 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeAction: String, CustomStringConvertible, Codable, Sendable {
         case create = "CREATE"
         case delete = "DELETE"
         case upsert = "UPSERT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeStatus: String, CustomStringConvertible, Codable, Sendable {
         case insync = "INSYNC"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum CidrCollectionChangeAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CidrCollectionChangeAction: String, CustomStringConvertible, Codable, Sendable {
         case deleteIfExists = "DELETE_IF_EXISTS"
         case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum CloudWatchRegion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CloudWatchRegion: String, CustomStringConvertible, Codable, Sendable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
         case apNortheast1 = "ap-northeast-1"
@@ -87,7 +87,7 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
         case greaterThanOrEqualToThreshold = "GreaterThanOrEqualToThreshold"
         case greaterThanThreshold = "GreaterThanThreshold"
         case lessThanOrEqualToThreshold = "LessThanOrEqualToThreshold"
@@ -95,7 +95,7 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum HealthCheckRegion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HealthCheckRegion: String, CustomStringConvertible, Codable, Sendable {
         case apNortheast1 = "ap-northeast-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
@@ -107,7 +107,7 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum HealthCheckType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HealthCheckType: String, CustomStringConvertible, Codable, Sendable {
         case calculated = "CALCULATED"
         case cloudwatchMetric = "CLOUDWATCH_METRIC"
         case http = "HTTP"
@@ -119,20 +119,20 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum HostedZoneLimitType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HostedZoneLimitType: String, CustomStringConvertible, Codable, Sendable {
         case maxRrsetsByZone = "MAX_RRSETS_BY_ZONE"
         case maxVpcsAssociatedByZone = "MAX_VPCS_ASSOCIATED_BY_ZONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum InsufficientDataHealthStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InsufficientDataHealthStatus: String, CustomStringConvertible, Codable, Sendable {
         case healthy = "Healthy"
         case lastKnownStatus = "LastKnownStatus"
         case unhealthy = "Unhealthy"
         public var description: String { return self.rawValue }
     }
 
-    public enum RRType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RRType: String, CustomStringConvertible, Codable, Sendable {
         case a = "A"
         case aaaa = "AAAA"
         case caa = "CAA"
@@ -149,7 +149,7 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResettableElementName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResettableElementName: String, CustomStringConvertible, Codable, Sendable {
         case childHealthChecks = "ChildHealthChecks"
         case fullyQualifiedDomainName = "FullyQualifiedDomainName"
         case regions = "Regions"
@@ -157,13 +157,13 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceRecordSetFailover: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceRecordSetFailover: String, CustomStringConvertible, Codable, Sendable {
         case primary = "PRIMARY"
         case secondary = "SECONDARY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceRecordSetRegion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceRecordSetRegion: String, CustomStringConvertible, Codable, Sendable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
         case apNortheast1 = "ap-northeast-1"
@@ -196,12 +196,12 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReusableDelegationSetLimitType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReusableDelegationSetLimitType: String, CustomStringConvertible, Codable, Sendable {
         case maxZonesByReusableDelegationSet = "MAX_ZONES_BY_REUSABLE_DELEGATION_SET"
         public var description: String { return self.rawValue }
     }
 
-    public enum Statistic: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Statistic: String, CustomStringConvertible, Codable, Sendable {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
@@ -210,13 +210,13 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TagResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TagResourceType: String, CustomStringConvertible, Codable, Sendable {
         case healthcheck = "healthcheck"
         case hostedzone = "hostedzone"
         public var description: String { return self.rawValue }
     }
 
-    public enum VPCRegion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VPCRegion: String, CustomStringConvertible, Codable, Sendable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
         case apNortheast1 = "ap-northeast-1"

@@ -21,7 +21,7 @@ import SotoCore
 extension FraudDetector {
     // MARK: Enums
 
-    public enum AsyncJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AsyncJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelInProgress = "CANCEL_IN_PROGRESS"
         case canceled = "CANCELED"
         case complete = "COMPLETE"
@@ -31,14 +31,14 @@ extension FraudDetector {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSource: String, CustomStringConvertible, Codable, Sendable {
         case event = "EVENT"
         case externalModelScore = "EXTERNAL_MODEL_SCORE"
         case modelScore = "MODEL_SCORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataType: String, CustomStringConvertible, Codable, Sendable {
         case boolean = "BOOLEAN"
         case float = "FLOAT"
         case integer = "INTEGER"
@@ -46,74 +46,74 @@ extension FraudDetector {
         public var description: String { return self.rawValue }
     }
 
-    public enum DetectorVersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DetectorVersionStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case draft = "DRAFT"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventIngestion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventIngestion: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Language: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Language: String, CustomStringConvertible, Codable, Sendable {
         case detectorpl = "DETECTORPL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelEndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelEndpointStatus: String, CustomStringConvertible, Codable, Sendable {
         case associated = "ASSOCIATED"
         case dissociated = "DISSOCIATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelInputDataFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelInputDataFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "TEXT_CSV"
         case json = "APPLICATION_JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelOutputDataFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelOutputDataFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "TEXT_CSV"
         case jsonlines = "APPLICATION_JSONLINES"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelSource: String, CustomStringConvertible, Codable, Sendable {
         case sagemaker = "SAGEMAKER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelTypeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelTypeEnum: String, CustomStringConvertible, Codable, Sendable {
         case accountTakeoverInsights = "ACCOUNT_TAKEOVER_INSIGHTS"
         case onlineFraudInsights = "ONLINE_FRAUD_INSIGHTS"
         case transactionFraudInsights = "TRANSACTION_FRAUD_INSIGHTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelVersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelVersionStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         case trainingCancelled = "TRAINING_CANCELLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleExecutionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuleExecutionMode: String, CustomStringConvertible, Codable, Sendable {
         case allMatched = "ALL_MATCHED"
         case firstMatched = "FIRST_MATCHED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrainingDataSourceEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrainingDataSourceEnum: String, CustomStringConvertible, Codable, Sendable {
         case externalEvents = "EXTERNAL_EVENTS"
         case ingestedEvents = "INGESTED_EVENTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum UnlabeledEventsTreatment: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UnlabeledEventsTreatment: String, CustomStringConvertible, Codable, Sendable {
         case fraud = "FRAUD"
         case ignore = "IGNORE"
         case legit = "LEGIT"

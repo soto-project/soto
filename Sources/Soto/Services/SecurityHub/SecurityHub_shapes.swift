@@ -21,31 +21,31 @@ import SotoCore
 extension SecurityHub {
     // MARK: Enums
 
-    public enum AdminStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AdminStatus: String, CustomStringConvertible, Codable, Sendable {
         case disableInProgress = "DISABLE_IN_PROGRESS"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoEnableStandards: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoEnableStandards: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AwsIamAccessKeyStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AwsIamAccessKeyStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
     }
 
-    public enum AwsS3BucketNotificationConfigurationS3KeyFilterRuleName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AwsS3BucketNotificationConfigurationS3KeyFilterRuleName: String, CustomStringConvertible, Codable, Sendable {
         case prefix = "Prefix"
         case suffix = "Suffix"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComplianceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComplianceStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case notAvailable = "NOT_AVAILABLE"
         case passed = "PASSED"
@@ -53,32 +53,32 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
-    public enum ControlStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ControlStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DateRangeUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DateRangeUnit: String, CustomStringConvertible, Codable, Sendable {
         case days = "DAYS"
         public var description: String { return self.rawValue }
     }
 
-    public enum IntegrationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IntegrationType: String, CustomStringConvertible, Codable, Sendable {
         case receiveFindingsFromSecurityHub = "RECEIVE_FINDINGS_FROM_SECURITY_HUB"
         case sendFindingsToSecurityHub = "SEND_FINDINGS_TO_SECURITY_HUB"
         case updateFindingsInSecurityHub = "UPDATE_FINDINGS_IN_SECURITY_HUB"
         public var description: String { return self.rawValue }
     }
 
-    public enum MalwareState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MalwareState: String, CustomStringConvertible, Codable, Sendable {
         case observed = "OBSERVED"
         case removalFailed = "REMOVAL_FAILED"
         case removed = "REMOVED"
         public var description: String { return self.rawValue }
     }
 
-    public enum MalwareType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MalwareType: String, CustomStringConvertible, Codable, Sendable {
         case adware = "ADWARE"
         case blendedThreat = "BLENDED_THREAT"
         case botnetAgent = "BOTNET_AGENT"
@@ -97,32 +97,32 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
-    public enum MapFilterComparison: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MapFilterComparison: String, CustomStringConvertible, Codable, Sendable {
         case equals = "EQUALS"
         case notEquals = "NOT_EQUALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkDirection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkDirection: String, CustomStringConvertible, Codable, Sendable {
         case `in` = "IN"
         case out = "OUT"
         public var description: String { return self.rawValue }
     }
 
-    public enum Partition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Partition: String, CustomStringConvertible, Codable, Sendable {
         case aws = "aws"
         case awsCn = "aws-cn"
         case awsUsGov = "aws-us-gov"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecordState: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SeverityLabel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SeverityLabel: String, CustomStringConvertible, Codable, Sendable {
         case critical = "CRITICAL"
         case high = "HIGH"
         case informational = "INFORMATIONAL"
@@ -131,7 +131,7 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
-    public enum SeverityRating: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SeverityRating: String, CustomStringConvertible, Codable, Sendable {
         case critical = "CRITICAL"
         case high = "HIGH"
         case low = "LOW"
@@ -139,13 +139,13 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "asc"
         case descending = "desc"
         public var description: String { return self.rawValue }
     }
 
-    public enum StandardsStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StandardsStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleting = "DELETING"
         case failed = "FAILED"
         case incomplete = "INCOMPLETE"
@@ -154,13 +154,13 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatusReasonCode: String, CustomStringConvertible, Codable, Sendable {
         case internalError = "INTERNAL_ERROR"
         case noAvailableConfigurationRecorder = "NO_AVAILABLE_CONFIGURATION_RECORDER"
         public var description: String { return self.rawValue }
     }
 
-    public enum StringFilterComparison: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StringFilterComparison: String, CustomStringConvertible, Codable, Sendable {
         case equals = "EQUALS"
         case notEquals = "NOT_EQUALS"
         case prefix = "PREFIX"
@@ -168,7 +168,7 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
-    public enum ThreatIntelIndicatorCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThreatIntelIndicatorCategory: String, CustomStringConvertible, Codable, Sendable {
         case backdoor = "BACKDOOR"
         case cardStealer = "CARD_STEALER"
         case commandAndControl = "COMMAND_AND_CONTROL"
@@ -178,7 +178,7 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
-    public enum ThreatIntelIndicatorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThreatIntelIndicatorType: String, CustomStringConvertible, Codable, Sendable {
         case domain = "DOMAIN"
         case emailAddress = "EMAIL_ADDRESS"
         case hashMd5 = "HASH_MD5"
@@ -193,7 +193,7 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
-    public enum VerificationState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VerificationState: String, CustomStringConvertible, Codable, Sendable {
         case benignPositive = "BENIGN_POSITIVE"
         case falsePositive = "FALSE_POSITIVE"
         case truePositive = "TRUE_POSITIVE"
@@ -201,14 +201,14 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
-    public enum VulnerabilityFixAvailable: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VulnerabilityFixAvailable: String, CustomStringConvertible, Codable, Sendable {
         case no = "NO"
         case partial = "PARTIAL"
         case yes = "YES"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkflowState: String, CustomStringConvertible, Codable, Sendable {
         case assigned = "ASSIGNED"
         case deferred = "DEFERRED"
         case inProgress = "IN_PROGRESS"
@@ -217,7 +217,7 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkflowStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkflowStatus: String, CustomStringConvertible, Codable, Sendable {
         case new = "NEW"
         case notified = "NOTIFIED"
         case resolved = "RESOLVED"

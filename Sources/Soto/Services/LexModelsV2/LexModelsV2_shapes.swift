@@ -21,35 +21,35 @@ import SotoCore
 extension LexModelsV2 {
     // MARK: Enums
 
-    public enum AggregatedUtterancesFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregatedUtterancesFilterName: String, CustomStringConvertible, Codable, Sendable {
         case utterance = "Utterance"
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregatedUtterancesFilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregatedUtterancesFilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregatedUtterancesSortAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregatedUtterancesSortAttribute: String, CustomStringConvertible, Codable, Sendable {
         case hitCount = "HitCount"
         case missedCount = "MissedCount"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssociatedTranscriptFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssociatedTranscriptFilterName: String, CustomStringConvertible, Codable, Sendable {
         case intentId = "IntentId"
         case slotTypeId = "SlotTypeId"
         public var description: String { return self.rawValue }
     }
 
-    public enum AudioRecognitionStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AudioRecognitionStrategy: String, CustomStringConvertible, Codable, Sendable {
         case useSlotValuesAsCustomVocabulary = "UseSlotValuesAsCustomVocabulary"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotAliasStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BotAliasStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "Available"
         case creating = "Creating"
         case deleting = "Deleting"
@@ -57,34 +57,34 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BotFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BotFilterName: String, CustomStringConvertible, Codable, Sendable {
         case botName = "BotName"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotFilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BotFilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotLocaleFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BotLocaleFilterName: String, CustomStringConvertible, Codable, Sendable {
         case botLocaleName = "BotLocaleName"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotLocaleFilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BotLocaleFilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotLocaleSortAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BotLocaleSortAttribute: String, CustomStringConvertible, Codable, Sendable {
         case botLocaleName = "BotLocaleName"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotLocaleStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BotLocaleStatus: String, CustomStringConvertible, Codable, Sendable {
         case building = "Building"
         case built = "Built"
         case creating = "Creating"
@@ -97,7 +97,7 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BotRecommendationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BotRecommendationStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "Available"
         case deleted = "Deleted"
         case deleting = "Deleting"
@@ -110,12 +110,12 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BotSortAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BotSortAttribute: String, CustomStringConvertible, Codable, Sendable {
         case botName = "BotName"
         public var description: String { return self.rawValue }
     }
 
-    public enum BotStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BotStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "Available"
         case creating = "Creating"
         case deleting = "Deleting"
@@ -126,22 +126,22 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BotVersionSortAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BotVersionSortAttribute: String, CustomStringConvertible, Codable, Sendable {
         case botVersion = "BotVersion"
         public var description: String { return self.rawValue }
     }
 
-    public enum BuiltInIntentSortAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BuiltInIntentSortAttribute: String, CustomStringConvertible, Codable, Sendable {
         case intentSignature = "IntentSignature"
         public var description: String { return self.rawValue }
     }
 
-    public enum BuiltInSlotTypeSortAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BuiltInSlotTypeSortAttribute: String, CustomStringConvertible, Codable, Sendable {
         case slotTypeSignature = "SlotTypeSignature"
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomVocabularyStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomVocabularyStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "Creating"
         case deleting = "Deleting"
         case exporting = "Exporting"
@@ -150,7 +150,7 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum DialogActionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DialogActionType: String, CustomStringConvertible, Codable, Sendable {
         case closeIntent = "CloseIntent"
         case confirmIntent = "ConfirmIntent"
         case elicitIntent = "ElicitIntent"
@@ -163,13 +163,13 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum Effect: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Effect: String, CustomStringConvertible, Codable, Sendable {
         case allow = "Allow"
         case deny = "Deny"
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case duplicateInput = "DUPLICATE_INPUT"
         case internalServerFailure = "INTERNAL_SERVER_FAILURE"
         case resourceAlreadyExists = "RESOURCE_ALREADY_EXISTS"
@@ -177,23 +177,23 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportFilterName: String, CustomStringConvertible, Codable, Sendable {
         case exportResourceType = "ExportResourceType"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportFilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportFilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportSortAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportSortAttribute: String, CustomStringConvertible, Codable, Sendable {
         case lastUpdatedDateTime = "LastUpdatedDateTime"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case deleting = "Deleting"
         case failed = "Failed"
@@ -201,36 +201,36 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportExportFileFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportExportFileFormat: String, CustomStringConvertible, Codable, Sendable {
         case lexJson = "LexJson"
         case tsv = "TSV"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportFilterName: String, CustomStringConvertible, Codable, Sendable {
         case importResourceType = "ImportResourceType"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportFilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportFilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportResourceType: String, CustomStringConvertible, Codable, Sendable {
         case bot = "Bot"
         case botLocale = "BotLocale"
         case customVocabulary = "CustomVocabulary"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportSortAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportSortAttribute: String, CustomStringConvertible, Codable, Sendable {
         case lastUpdatedDateTime = "LastUpdatedDateTime"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case deleting = "Deleting"
         case failed = "Failed"
@@ -238,43 +238,43 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum IntentFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IntentFilterName: String, CustomStringConvertible, Codable, Sendable {
         case intentName = "IntentName"
         public var description: String { return self.rawValue }
     }
 
-    public enum IntentFilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IntentFilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum IntentSortAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IntentSortAttribute: String, CustomStringConvertible, Codable, Sendable {
         case intentName = "IntentName"
         case lastUpdatedDateTime = "LastUpdatedDateTime"
         public var description: String { return self.rawValue }
     }
 
-    public enum MergeStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MergeStrategy: String, CustomStringConvertible, Codable, Sendable {
         case append = "Append"
         case failOnConflict = "FailOnConflict"
         case overwrite = "Overwrite"
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageSelectionStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MessageSelectionStrategy: String, CustomStringConvertible, Codable, Sendable {
         case ordered = "Ordered"
         case random = "Random"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObfuscationSettingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObfuscationSettingType: String, CustomStringConvertible, Codable, Sendable {
         case defaultObfuscation = "DefaultObfuscation"
         case none = "None"
         public var description: String { return self.rawValue }
     }
 
-    public enum PromptAttempt: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PromptAttempt: String, CustomStringConvertible, Codable, Sendable {
         case initial = "Initial"
         case retry1 = "Retry1"
         case retry2 = "Retry2"
@@ -284,42 +284,42 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SearchOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotConstraint: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlotConstraint: String, CustomStringConvertible, Codable, Sendable {
         case optional = "Optional"
         case required = "Required"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlotFilterName: String, CustomStringConvertible, Codable, Sendable {
         case slotName = "SlotName"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotFilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlotFilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotShape: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlotShape: String, CustomStringConvertible, Codable, Sendable {
         case list = "List"
         case scalar = "Scalar"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotSortAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlotSortAttribute: String, CustomStringConvertible, Codable, Sendable {
         case lastUpdatedDateTime = "LastUpdatedDateTime"
         case slotName = "SlotName"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotTypeCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlotTypeCategory: String, CustomStringConvertible, Codable, Sendable {
         case composite = "Composite"
         case custom = "Custom"
         case extended = "Extended"
@@ -327,50 +327,50 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotTypeFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlotTypeFilterName: String, CustomStringConvertible, Codable, Sendable {
         case externalSourceType = "ExternalSourceType"
         case slotTypeName = "SlotTypeName"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotTypeFilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlotTypeFilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CO"
         case equals = "EQ"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotTypeSortAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlotTypeSortAttribute: String, CustomStringConvertible, Codable, Sendable {
         case lastUpdatedDateTime = "LastUpdatedDateTime"
         case slotTypeName = "SlotTypeName"
         public var description: String { return self.rawValue }
     }
 
-    public enum SlotValueResolutionStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlotValueResolutionStrategy: String, CustomStringConvertible, Codable, Sendable {
         case concatenation = "Concatenation"
         case originalValue = "OriginalValue"
         case topResolution = "TopResolution"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum TimeDimension: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TimeDimension: String, CustomStringConvertible, Codable, Sendable {
         case days = "Days"
         case hours = "Hours"
         case weeks = "Weeks"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscriptFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TranscriptFormat: String, CustomStringConvertible, Codable, Sendable {
         case lex = "Lex"
         public var description: String { return self.rawValue }
     }
 
-    public enum VoiceEngine: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VoiceEngine: String, CustomStringConvertible, Codable, Sendable {
         case neural = "neural"
         case standard = "standard"
         public var description: String { return self.rawValue }

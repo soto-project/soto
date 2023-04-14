@@ -21,7 +21,7 @@ import SotoCore
 extension SnowDeviceManagement {
     // MARK: Enums
 
-    public enum AttachmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AttachmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case attached = "ATTACHED"
         case attaching = "ATTACHING"
         case detached = "DETACHED"
@@ -29,7 +29,7 @@ extension SnowDeviceManagement {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecutionState: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -40,7 +40,7 @@ extension SnowDeviceManagement {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceStateName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceStateName: String, CustomStringConvertible, Codable, Sendable {
         case pending = "PENDING"
         case running = "RUNNING"
         case shuttingDown = "SHUTTING_DOWN"
@@ -50,13 +50,13 @@ extension SnowDeviceManagement {
         public var description: String { return self.rawValue }
     }
 
-    public enum IpAddressAssignment: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpAddressAssignment: String, CustomStringConvertible, Codable, Sendable {
         case dhcp = "DHCP"
         case `static` = "STATIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum PhysicalConnectorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PhysicalConnectorType: String, CustomStringConvertible, Codable, Sendable {
         case qsfp = "QSFP"
         case rj45 = "RJ45"
         case rj452 = "RJ45_2"
@@ -65,21 +65,21 @@ extension SnowDeviceManagement {
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskState: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case completed = "COMPLETED"
         case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum UnlockState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UnlockState: String, CustomStringConvertible, Codable, Sendable {
         case locked = "LOCKED"
         case unlocked = "UNLOCKED"
         case unlocking = "UNLOCKING"
         public var description: String { return self.rawValue }
     }
 
-    public enum Command: AWSEncodableShape, _SotoSendable {
+    public enum Command: AWSEncodableShape, Sendable {
         /// Reboots the device.
         case reboot(Reboot)
         /// Unlocks the device.

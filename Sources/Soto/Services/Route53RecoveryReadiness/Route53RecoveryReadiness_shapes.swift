@@ -21,7 +21,7 @@ import SotoCore
 extension Route53RecoveryReadiness {
     // MARK: Enums
 
-    public enum Readiness: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Readiness: String, CustomStringConvertible, Codable, Sendable {
         case notAuthorized = "NOT_AUTHORIZED"
         case notReady = "NOT_READY"
         case ready = "READY"

@@ -21,29 +21,29 @@ import SotoCore
 extension SagemakerEdge {
     // MARK: Enums
 
-    public enum ChecksumType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChecksumType: String, CustomStringConvertible, Codable, Sendable {
         case sha1 = "SHA1"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
         case fail = "FAIL"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeploymentType: String, CustomStringConvertible, Codable, Sendable {
         case model = "Model"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureHandlingPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailureHandlingPolicy: String, CustomStringConvertible, Codable, Sendable {
         case doNothing = "DO_NOTHING"
         case rollbackOnFailure = "ROLLBACK_ON_FAILURE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelState: String, CustomStringConvertible, Codable, Sendable {
         case deploy = "DEPLOY"
         case undeploy = "UNDEPLOY"
         public var description: String { return self.rawValue }

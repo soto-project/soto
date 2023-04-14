@@ -21,7 +21,7 @@ import SotoCore
 extension ACM {
     // MARK: Enums
 
-    public enum CertificateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CertificateStatus: String, CustomStringConvertible, Codable, Sendable {
         case expired = "EXPIRED"
         case failed = "FAILED"
         case inactive = "INACTIVE"
@@ -32,27 +32,27 @@ extension ACM {
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateTransparencyLoggingPreference: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CertificateTransparencyLoggingPreference: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CertificateType: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "PRIVATE"
         case amazonIssued = "AMAZON_ISSUED"
         case imported = "IMPORTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DomainStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pendingValidation = "PENDING_VALIDATION"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExtendedKeyUsageName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExtendedKeyUsageName: String, CustomStringConvertible, Codable, Sendable {
         case any = "ANY"
         case codeSigning = "CODE_SIGNING"
         case custom = "CUSTOM"
@@ -68,7 +68,7 @@ extension ACM {
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailureReason: String, CustomStringConvertible, Codable, Sendable {
         case additionalVerificationRequired = "ADDITIONAL_VERIFICATION_REQUIRED"
         case caaError = "CAA_ERROR"
         case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
@@ -89,7 +89,7 @@ extension ACM {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyAlgorithm: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KeyAlgorithm: String, CustomStringConvertible, Codable, Sendable {
         case ecPrime256V1 = "EC_prime256v1"
         case ecSecp384R1 = "EC_secp384r1"
         case ecSecp521R1 = "EC_secp521r1"
@@ -100,7 +100,7 @@ extension ACM {
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyUsageName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KeyUsageName: String, CustomStringConvertible, Codable, Sendable {
         case any = "ANY"
         case certificateSigning = "CERTIFICATE_SIGNING"
         case crlSigning = "CRL_SIGNING"
@@ -115,18 +115,18 @@ extension ACM {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecordType: String, CustomStringConvertible, Codable, Sendable {
         case cname = "CNAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum RenewalEligibility: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RenewalEligibility: String, CustomStringConvertible, Codable, Sendable {
         case eligible = "ELIGIBLE"
         case ineligible = "INELIGIBLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum RenewalStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RenewalStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pendingAutoRenewal = "PENDING_AUTO_RENEWAL"
         case pendingValidation = "PENDING_VALIDATION"
@@ -134,7 +134,7 @@ extension ACM {
         public var description: String { return self.rawValue }
     }
 
-    public enum RevocationReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RevocationReason: String, CustomStringConvertible, Codable, Sendable {
         case aACompromise = "A_A_COMPROMISE"
         case affiliationChanged = "AFFILIATION_CHANGED"
         case caCompromise = "CA_COMPROMISE"
@@ -148,18 +148,18 @@ extension ACM {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortBy: String, CustomStringConvertible, Codable, Sendable {
         case createdAt = "CREATED_AT"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ValidationMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ValidationMethod: String, CustomStringConvertible, Codable, Sendable {
         case dns = "DNS"
         case email = "EMAIL"
         public var description: String { return self.rawValue }

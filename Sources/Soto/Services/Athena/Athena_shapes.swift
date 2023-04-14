@@ -21,7 +21,7 @@ import SotoCore
 extension Athena {
     // MARK: Enums
 
-    public enum CalculationExecutionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CalculationExecutionState: String, CustomStringConvertible, Codable, Sendable {
         case canceled = "CANCELED"
         case canceling = "CANCELING"
         case completed = "COMPLETED"
@@ -33,28 +33,28 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
-    public enum ColumnNullable: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ColumnNullable: String, CustomStringConvertible, Codable, Sendable {
         case notNull = "NOT_NULL"
         case nullable = "NULLABLE"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataCatalogType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataCatalogType: String, CustomStringConvertible, Codable, Sendable {
         case glue = "GLUE"
         case hive = "HIVE"
         case lambda = "LAMBDA"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionOption: String, CustomStringConvertible, Codable, Sendable {
         case cseKms = "CSE_KMS"
         case sseKms = "SSE_KMS"
         case sseS3 = "SSE_S3"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutorState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecutorState: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case creating = "CREATING"
         case failed = "FAILED"
@@ -64,19 +64,19 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecutorType: String, CustomStringConvertible, Codable, Sendable {
         case coordinator = "COORDINATOR"
         case gateway = "GATEWAY"
         case worker = "WORKER"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotebookType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotebookType: String, CustomStringConvertible, Codable, Sendable {
         case ipynb = "IPYNB"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryExecutionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QueryExecutionState: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
         case queued = "QUEUED"
@@ -85,12 +85,12 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3AclOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3AclOption: String, CustomStringConvertible, Codable, Sendable {
         case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
         public var description: String { return self.rawValue }
     }
 
-    public enum SessionState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SessionState: String, CustomStringConvertible, Codable, Sendable {
         case busy = "BUSY"
         case created = "CREATED"
         case creating = "CREATING"
@@ -102,14 +102,14 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
-    public enum StatementType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatementType: String, CustomStringConvertible, Codable, Sendable {
         case ddl = "DDL"
         case dml = "DML"
         case utility = "UTILITY"
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkGroupState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkGroupState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }

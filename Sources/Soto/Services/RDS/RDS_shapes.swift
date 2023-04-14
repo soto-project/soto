@@ -21,13 +21,13 @@ import SotoCore
 extension RDS {
     // MARK: Enums
 
-    public enum ActivityStreamMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActivityStreamMode: String, CustomStringConvertible, Codable, Sendable {
         case `async` = "async"
         case sync = "sync"
         public var description: String { return self.rawValue }
     }
 
-    public enum ActivityStreamPolicyStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActivityStreamPolicyStatus: String, CustomStringConvertible, Codable, Sendable {
         case locked = "locked"
         case lockingPolicy = "locking-policy"
         case unlocked = "unlocked"
@@ -35,7 +35,7 @@ extension RDS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ActivityStreamStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActivityStreamStatus: String, CustomStringConvertible, Codable, Sendable {
         case started = "started"
         case starting = "starting"
         case stopped = "stopped"
@@ -43,30 +43,30 @@ extension RDS {
         public var description: String { return self.rawValue }
     }
 
-    public enum ApplyMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ApplyMethod: String, CustomStringConvertible, Codable, Sendable {
         case immediate = "immediate"
         case pendingReboot = "pending-reboot"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuditPolicyState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuditPolicyState: String, CustomStringConvertible, Codable, Sendable {
         case lockedPolicy = "locked"
         case unlockedPolicy = "unlocked"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthScheme: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthScheme: String, CustomStringConvertible, Codable, Sendable {
         case secrets = "SECRETS"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutomationMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutomationMode: String, CustomStringConvertible, Codable, Sendable {
         case allPaused = "all-paused"
         case full = "full"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClientPasswordAuthType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClientPasswordAuthType: String, CustomStringConvertible, Codable, Sendable {
         case mysqlNativePassword = "MYSQL_NATIVE_PASSWORD"
         case postgresMd5 = "POSTGRES_MD5"
         case postgresScramSha256 = "POSTGRES_SCRAM_SHA_256"
@@ -74,14 +74,14 @@ extension RDS {
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomEngineVersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomEngineVersionStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case inactive = "inactive"
         case inactiveExceptRestore = "inactive-except-restore"
         public var description: String { return self.rawValue }
     }
 
-    public enum DBProxyEndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DBProxyEndpointStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case creating = "creating"
         case deleting = "deleting"
@@ -91,13 +91,13 @@ extension RDS {
         public var description: String { return self.rawValue }
     }
 
-    public enum DBProxyEndpointTargetRole: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DBProxyEndpointTargetRole: String, CustomStringConvertible, Codable, Sendable {
         case readOnly = "READ_ONLY"
         case readWrite = "READ_WRITE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DBProxyStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DBProxyStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "available"
         case creating = "creating"
         case deleting = "deleting"
@@ -110,40 +110,40 @@ extension RDS {
         public var description: String { return self.rawValue }
     }
 
-    public enum EngineFamily: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EngineFamily: String, CustomStringConvertible, Codable, Sendable {
         case mysql = "MYSQL"
         case postgresql = "POSTGRESQL"
         case sqlserver = "SQLSERVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExportSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExportSourceType: String, CustomStringConvertible, Codable, Sendable {
         case cluster = "CLUSTER"
         case snapshot = "SNAPSHOT"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailoverStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailoverStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelling = "cancelling"
         case failingOver = "failing-over"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum IAMAuthMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IAMAuthMode: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case required = "REQUIRED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicaMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicaMode: String, CustomStringConvertible, Codable, Sendable {
         case mounted = "mounted"
         case openReadOnly = "open-read-only"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
         case blueGreenDeployment = "blue-green-deployment"
         case customEngineVersion = "custom-engine-version"
         case dbCluster = "db-cluster"
@@ -156,7 +156,7 @@ extension RDS {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetHealthReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetHealthReason: String, CustomStringConvertible, Codable, Sendable {
         case authFailure = "AUTH_FAILURE"
         case connectionFailed = "CONNECTION_FAILED"
         case invalidReplicationState = "INVALID_REPLICATION_STATE"
@@ -165,28 +165,28 @@ extension RDS {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetRole: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetRole: String, CustomStringConvertible, Codable, Sendable {
         case readOnly = "READ_ONLY"
         case readWrite = "READ_WRITE"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetState: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case registering = "REGISTERING"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetType: String, CustomStringConvertible, Codable, Sendable {
         case rdsInstance = "RDS_INSTANCE"
         case rdsServerlessEndpoint = "RDS_SERVERLESS_ENDPOINT"
         case trackedCluster = "TRACKED_CLUSTER"
         public var description: String { return self.rawValue }
     }
 
-    public enum WriteForwardingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WriteForwardingStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "disabled"
         case disabling = "disabling"
         case enabled = "enabled"

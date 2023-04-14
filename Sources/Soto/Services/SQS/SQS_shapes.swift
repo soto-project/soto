@@ -21,7 +21,7 @@ import SotoCore
 extension SQS {
     // MARK: Enums
 
-    public enum MessageSystemAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MessageSystemAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case awsTraceHeader = "AWSTraceHeader"
         case approximateFirstReceiveTimestamp = "ApproximateFirstReceiveTimestamp"
         case approximateReceiveCount = "ApproximateReceiveCount"
@@ -33,12 +33,12 @@ extension SQS {
         public var description: String { return self.rawValue }
     }
 
-    public enum MessageSystemAttributeNameForSends: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MessageSystemAttributeNameForSends: String, CustomStringConvertible, Codable, Sendable {
         case awsTraceHeader = "AWSTraceHeader"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueueAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QueueAttributeName: String, CustomStringConvertible, Codable, Sendable {
         case all = "All"
         case approximateNumberOfMessages = "ApproximateNumberOfMessages"
         case approximateNumberOfMessagesDelayed = "ApproximateNumberOfMessagesDelayed"

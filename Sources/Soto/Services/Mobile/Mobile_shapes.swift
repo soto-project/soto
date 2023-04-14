@@ -21,7 +21,7 @@ import SotoCore
 extension Mobile {
     // MARK: Enums
 
-    public enum Platform: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Platform: String, CustomStringConvertible, Codable, Sendable {
         case android = "ANDROID"
         case javascript = "JAVASCRIPT"
         case linux = "LINUX"
@@ -32,7 +32,7 @@ extension Mobile {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProjectState: String, CustomStringConvertible, Codable, Sendable {
         case importing = "IMPORTING"
         case normal = "NORMAL"
         case syncing = "SYNCING"

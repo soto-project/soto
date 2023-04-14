@@ -21,19 +21,19 @@ import SotoCore
 extension Polly {
     // MARK: Enums
 
-    public enum Engine: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Engine: String, CustomStringConvertible, Codable, Sendable {
         case neural = "neural"
         case standard = "standard"
         public var description: String { return self.rawValue }
     }
 
-    public enum Gender: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Gender: String, CustomStringConvertible, Codable, Sendable {
         case female = "Female"
         case male = "Male"
         public var description: String { return self.rawValue }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable {
         case arAE = "ar-AE"
         case arb = "arb"
         case caES = "ca-ES"
@@ -73,7 +73,7 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
-    public enum OutputFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable {
         case json = "json"
         case mp3 = "mp3"
         case oggVorbis = "ogg_vorbis"
@@ -81,7 +81,7 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
-    public enum SpeechMarkType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SpeechMarkType: String, CustomStringConvertible, Codable, Sendable {
         case sentence = "sentence"
         case ssml = "ssml"
         case viseme = "viseme"
@@ -89,7 +89,7 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
-    public enum TaskStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaskStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "completed"
         case failed = "failed"
         case inProgress = "inProgress"
@@ -97,13 +97,13 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
-    public enum TextType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TextType: String, CustomStringConvertible, Codable, Sendable {
         case ssml = "ssml"
         case text = "text"
         public var description: String { return self.rawValue }
     }
 
-    public enum VoiceId: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VoiceId: String, CustomStringConvertible, Codable, Sendable {
         case aditi = "Aditi"
         case adriano = "Adriano"
         case amy = "Amy"

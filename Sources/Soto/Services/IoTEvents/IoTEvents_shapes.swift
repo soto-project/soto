@@ -21,7 +21,7 @@ import SotoCore
 extension IoTEvents {
     // MARK: Enums
 
-    public enum AlarmModelVersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AlarmModelVersionStatus: String, CustomStringConvertible, Codable, Sendable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case failed = "FAILED"
@@ -29,21 +29,21 @@ extension IoTEvents {
         public var description: String { return self.rawValue }
     }
 
-    public enum AnalysisResultLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnalysisResultLevel: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case info = "INFO"
         case warning = "WARNING"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnalysisStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnalysisStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case failed = "FAILED"
         case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
         case equal = "EQUAL"
         case greater = "GREATER"
         case greaterOrEqual = "GREATER_OR_EQUAL"
@@ -53,7 +53,7 @@ extension IoTEvents {
         public var description: String { return self.rawValue }
     }
 
-    public enum DetectorModelVersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DetectorModelVersionStatus: String, CustomStringConvertible, Codable, Sendable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case deprecated = "DEPRECATED"
@@ -64,13 +64,13 @@ extension IoTEvents {
         public var description: String { return self.rawValue }
     }
 
-    public enum EvaluationMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EvaluationMethod: String, CustomStringConvertible, Codable, Sendable {
         case batch = "BATCH"
         case serial = "SERIAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -78,14 +78,14 @@ extension IoTEvents {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggingLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LoggingLevel: String, CustomStringConvertible, Codable, Sendable {
         case debug = "DEBUG"
         case error = "ERROR"
         case info = "INFO"
         public var description: String { return self.rawValue }
     }
 
-    public enum PayloadType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PayloadType: String, CustomStringConvertible, Codable, Sendable {
         case json = "JSON"
         case string = "STRING"
         public var description: String { return self.rawValue }

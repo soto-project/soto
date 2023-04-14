@@ -21,13 +21,13 @@ import SotoCore
 extension SageMakerA2IRuntime {
     // MARK: Enums
 
-    public enum ContentClassifier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentClassifier: String, CustomStringConvertible, Codable, Sendable {
         case freeOfAdultContent = "FreeOfAdultContent"
         case freeOfPersonallyIdentifiableInformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 
-    public enum HumanLoopStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HumanLoopStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -36,7 +36,7 @@ extension SageMakerA2IRuntime {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }

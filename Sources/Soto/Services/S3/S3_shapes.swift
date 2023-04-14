@@ -21,24 +21,24 @@ import SotoCore
 extension S3 {
     // MARK: Enums
 
-    public enum AnalyticsS3ExportFileFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AnalyticsS3ExportFileFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArchiveStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ArchiveStatus: String, CustomStringConvertible, Codable, Sendable {
         case archiveAccess = "ARCHIVE_ACCESS"
         case deepArchiveAccess = "DEEP_ARCHIVE_ACCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum BucketAccelerateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BucketAccelerateStatus: String, CustomStringConvertible, Codable, Sendable {
         case enabled = "Enabled"
         case suspended = "Suspended"
         public var description: String { return self.rawValue }
     }
 
-    public enum BucketCannedACL: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BucketCannedACL: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case publicRead = "public-read"
@@ -46,7 +46,7 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public struct BucketLocationConstraint: RawRepresentable, Equatable, Codable, _SotoSendable {
+    public struct BucketLocationConstraint: RawRepresentable, Equatable, Codable, Sendable {
         public var rawValue: String
 
         public init(rawValue: String) {
@@ -82,20 +82,20 @@ extension S3 {
         public static var usWest2: Self { .init(rawValue: "us-west-2") }
     }
 
-    public enum BucketLogsPermission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BucketLogsPermission: String, CustomStringConvertible, Codable, Sendable {
         case fullControl = "FULL_CONTROL"
         case read = "READ"
         case write = "WRITE"
         public var description: String { return self.rawValue }
     }
 
-    public enum BucketVersioningStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BucketVersioningStatus: String, CustomStringConvertible, Codable, Sendable {
         case enabled = "Enabled"
         case suspended = "Suspended"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChecksumAlgorithm: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable {
         case crc32 = "CRC32"
         case crc32c = "CRC32C"
         case sha1 = "SHA1"
@@ -103,30 +103,30 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChecksumMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChecksumMode: String, CustomStringConvertible, Codable, Sendable {
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CompressionType: String, CustomStringConvertible, Codable, Sendable {
         case bzip2 = "BZIP2"
         case gzip = "GZIP"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeleteMarkerReplicationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeleteMarkerReplicationStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum EncodingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncodingType: String, CustomStringConvertible, Codable, Sendable {
         case url = "url"
         public var description: String { return self.rawValue }
     }
 
-    public enum Event: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Event: String, CustomStringConvertible, Codable, Sendable {
         case s3Intelligenttiering = "s3:IntelligentTiering"
         case s3LifecycleexpirationAll = "s3:LifecycleExpiration:*"
         case s3LifecycleexpirationDelete = "s3:LifecycleExpiration:Delete"
@@ -157,68 +157,68 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExistingObjectReplicationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExistingObjectReplicationStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExpirationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExpirationStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExpressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExpressionType: String, CustomStringConvertible, Codable, Sendable {
         case sql = "SQL"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileHeaderInfo: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileHeaderInfo: String, CustomStringConvertible, Codable, Sendable {
         case ignore = "IGNORE"
         case none = "NONE"
         case use = "USE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterRuleName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterRuleName: String, CustomStringConvertible, Codable, Sendable {
         case prefix = "prefix"
         case suffix = "suffix"
         public var description: String { return self.rawValue }
     }
 
-    public enum IntelligentTieringAccessTier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IntelligentTieringAccessTier: String, CustomStringConvertible, Codable, Sendable {
         case archiveAccess = "ARCHIVE_ACCESS"
         case deepArchiveAccess = "DEEP_ARCHIVE_ACCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum IntelligentTieringStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IntelligentTieringStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum InventoryFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InventoryFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case orc = "ORC"
         case parquet = "Parquet"
         public var description: String { return self.rawValue }
     }
 
-    public enum InventoryFrequency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InventoryFrequency: String, CustomStringConvertible, Codable, Sendable {
         case daily = "Daily"
         case weekly = "Weekly"
         public var description: String { return self.rawValue }
     }
 
-    public enum InventoryIncludedObjectVersions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InventoryIncludedObjectVersions: String, CustomStringConvertible, Codable, Sendable {
         case all = "All"
         case current = "Current"
         public var description: String { return self.rawValue }
     }
 
-    public enum InventoryOptionalField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InventoryOptionalField: String, CustomStringConvertible, Codable, Sendable {
         case bucketKeyStatus = "BucketKeyStatus"
         case checksumAlgorithm = "ChecksumAlgorithm"
         case eTag = "ETag"
@@ -235,37 +235,37 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public enum JSONType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JSONType: String, CustomStringConvertible, Codable, Sendable {
         case document = "DOCUMENT"
         case lines = "LINES"
         public var description: String { return self.rawValue }
     }
 
-    public enum MFADelete: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MFADelete: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum MFADeleteStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MFADeleteStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetadataDirective: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetadataDirective: String, CustomStringConvertible, Codable, Sendable {
         case copy = "COPY"
         case replace = "REPLACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricsStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricsStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectAttributes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectAttributes: String, CustomStringConvertible, Codable, Sendable {
         case checksum = "Checksum"
         case etag = "ETag"
         case objectParts = "ObjectParts"
@@ -274,7 +274,7 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectCannedACL: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectCannedACL: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
@@ -285,37 +285,37 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectLockEnabled: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectLockEnabled: String, CustomStringConvertible, Codable, Sendable {
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable, Sendable {
         case off = "OFF"
         case on = "ON"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectLockMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectLockMode: String, CustomStringConvertible, Codable, Sendable {
         case compliance = "COMPLIANCE"
         case governance = "GOVERNANCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectLockRetentionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectLockRetentionMode: String, CustomStringConvertible, Codable, Sendable {
         case compliance = "COMPLIANCE"
         case governance = "GOVERNANCE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectOwnership: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectOwnership: String, CustomStringConvertible, Codable, Sendable {
         case bucketOwnerEnforced = "BucketOwnerEnforced"
         case bucketOwnerPreferred = "BucketOwnerPreferred"
         case objectWriter = "ObjectWriter"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectStorageClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectStorageClass: String, CustomStringConvertible, Codable, Sendable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
         case glacierIr = "GLACIER_IR"
@@ -328,23 +328,23 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectVersionStorageClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectVersionStorageClass: String, CustomStringConvertible, Codable, Sendable {
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum OwnerOverride: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OwnerOverride: String, CustomStringConvertible, Codable, Sendable {
         case destination = "Destination"
         public var description: String { return self.rawValue }
     }
 
-    public enum Payer: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Payer: String, CustomStringConvertible, Codable, Sendable {
         case bucketOwner = "BucketOwner"
         case requester = "Requester"
         public var description: String { return self.rawValue }
     }
 
-    public enum Permission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Permission: String, CustomStringConvertible, Codable, Sendable {
         case fullControl = "FULL_CONTROL"
         case read = "READ"
         case readAcp = "READ_ACP"
@@ -353,25 +353,25 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public enum QuoteFields: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QuoteFields: String, CustomStringConvertible, Codable, Sendable {
         case always = "ALWAYS"
         case asneeded = "ASNEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicaModificationsStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicaModificationsStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationRuleStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationRuleStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case pending = "PENDING"
@@ -379,40 +379,40 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReplicationTimeStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReplicationTimeStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequestCharged: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RequestCharged: String, CustomStringConvertible, Codable, Sendable {
         case requester = "requester"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequestPayer: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RequestPayer: String, CustomStringConvertible, Codable, Sendable {
         case requester = "requester"
         public var description: String { return self.rawValue }
     }
 
-    public enum RestoreRequestType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RestoreRequestType: String, CustomStringConvertible, Codable, Sendable {
         case select = "SELECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServerSideEncryption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServerSideEncryption: String, CustomStringConvertible, Codable, Sendable {
         case aes256 = "AES256"
         case awsKms = "aws:kms"
         public var description: String { return self.rawValue }
     }
 
-    public enum SseKmsEncryptedObjectsStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SseKmsEncryptedObjectsStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
         case glacierIr = "GLACIER_IR"
@@ -426,25 +426,25 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageClassAnalysisSchemaVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageClassAnalysisSchemaVersion: String, CustomStringConvertible, Codable, Sendable {
         case v1 = "V_1"
         public var description: String { return self.rawValue }
     }
 
-    public enum TaggingDirective: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TaggingDirective: String, CustomStringConvertible, Codable, Sendable {
         case copy = "COPY"
         case replace = "REPLACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Tier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Tier: String, CustomStringConvertible, Codable, Sendable {
         case bulk = "Bulk"
         case expedited = "Expedited"
         case standard = "Standard"
         public var description: String { return self.rawValue }
     }
 
-    public enum TransitionStorageClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransitionStorageClass: String, CustomStringConvertible, Codable, Sendable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
         case glacierIr = "GLACIER_IR"
@@ -454,20 +454,20 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable {
         case http = "http"
         case https = "https"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
         case amazonCustomerByEmail = "AmazonCustomerByEmail"
         case canonicalUser = "CanonicalUser"
         case group = "Group"
         public var description: String { return self.rawValue }
     }
 
-    public enum AnalyticsFilter: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum AnalyticsFilter: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A conjunction (logical AND) of predicates, which is used in evaluating an analytics filter. The operator must have at least two predicates.
         case and(AnalyticsAndOperator)
         /// The prefix to use when evaluating an analytics filter.
@@ -527,7 +527,7 @@ extension S3 {
         }
     }
 
-    public enum LifecycleRuleFilter: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum LifecycleRuleFilter: AWSEncodableShape & AWSDecodableShape, Sendable {
         case and(LifecycleRuleAndOperator)
         /// Minimum object size to which the rule applies.
         case objectSizeGreaterThan(Int64)
@@ -602,7 +602,7 @@ extension S3 {
         }
     }
 
-    public enum MetricsFilter: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum MetricsFilter: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The access point ARN used when evaluating a metrics filter.
         case accessPointArn(String)
         /// A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predicates in order for the filter to apply.
@@ -670,7 +670,7 @@ extension S3 {
         }
     }
 
-    public enum ReplicationRuleFilter: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum ReplicationRuleFilter: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A container for specifying rule filters. The filters determine the subset of objects to which the rule applies. This element is required only if you specify more than one filter. For example:    If you specify both a Prefix and a Tag filter, wrap these filters in an And tag.   If you specify a filter based on multiple tags, wrap the Tag elements in an And tag.
         case and(ReplicationRuleAndOperator)
         /// An object key name prefix that identifies the subset of objects to which the rule applies.  Replacement must be made for object keys containing special characters (such as carriage returns) when using  XML requests. For more information, see  XML related object key constraints.
@@ -730,7 +730,7 @@ extension S3 {
         }
     }
 
-    public enum SelectObjectContentEventStream: AWSDecodableShape, _SotoSendable {
+    public enum SelectObjectContentEventStream: AWSDecodableShape, Sendable {
         /// The Continuation Event.
         case cont(ContinuationEvent)
         /// The End Event.

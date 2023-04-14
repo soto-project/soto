@@ -21,7 +21,7 @@ import SotoCore
 extension ElasticInference {
     // MARK: Enums
 
-    public enum LocationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocationType: String, CustomStringConvertible, Codable, Sendable {
         case availabilityZone = "availability-zone"
         case availabilityZoneId = "availability-zone-id"
         case region = "region"

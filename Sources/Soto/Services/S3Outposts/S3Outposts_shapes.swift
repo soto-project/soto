@@ -21,13 +21,13 @@ import SotoCore
 extension S3Outposts {
     // MARK: Enums
 
-    public enum EndpointAccessType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointAccessType: String, CustomStringConvertible, Codable, Sendable {
         case customerOwnedIp = "CustomerOwnedIp"
         case `private` = "Private"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "Available"
         case deleting = "Deleting"
         case pending = "Pending"

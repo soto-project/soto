@@ -21,7 +21,7 @@ import SotoCore
 extension SFN {
     // MARK: Enums
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case aborted = "ABORTED"
         case failed = "FAILED"
         case running = "RUNNING"
@@ -30,7 +30,7 @@ extension SFN {
         public var description: String { return self.rawValue }
     }
 
-    public enum HistoryEventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HistoryEventType: String, CustomStringConvertible, Codable, Sendable {
         case activityFailed = "ActivityFailed"
         case activityScheduleFailed = "ActivityScheduleFailed"
         case activityScheduled = "ActivityScheduled"
@@ -93,7 +93,7 @@ extension SFN {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogLevel: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case error = "ERROR"
         case fatal = "FATAL"
@@ -101,7 +101,7 @@ extension SFN {
         public var description: String { return self.rawValue }
     }
 
-    public enum MapRunStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MapRunStatus: String, CustomStringConvertible, Codable, Sendable {
         case aborted = "ABORTED"
         case failed = "FAILED"
         case running = "RUNNING"
@@ -109,19 +109,19 @@ extension SFN {
         public var description: String { return self.rawValue }
     }
 
-    public enum StateMachineStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StateMachineStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum StateMachineType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StateMachineType: String, CustomStringConvertible, Codable, Sendable {
         case express = "EXPRESS"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
-    public enum SyncExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SyncExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case succeeded = "SUCCEEDED"
         case timedOut = "TIMED_OUT"

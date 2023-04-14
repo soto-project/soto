@@ -21,37 +21,37 @@ import SotoCore
 extension Route53Resolver {
     // MARK: Enums
 
-    public enum Action: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Action: String, CustomStringConvertible, Codable, Sendable {
         case alert = "ALERT"
         case allow = "ALLOW"
         case block = "BLOCK"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutodefinedReverseFlag: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutodefinedReverseFlag: String, CustomStringConvertible, Codable, Sendable {
         case disable = "DISABLE"
         case enable = "ENABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum BlockOverrideDnsType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BlockOverrideDnsType: String, CustomStringConvertible, Codable, Sendable {
         case cname = "CNAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum BlockResponse: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BlockResponse: String, CustomStringConvertible, Codable, Sendable {
         case nodata = "NODATA"
         case nxdomain = "NXDOMAIN"
         case override = "OVERRIDE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FirewallDomainImportOperation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FirewallDomainImportOperation: String, CustomStringConvertible, Codable, Sendable {
         case replace = "REPLACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FirewallDomainListStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FirewallDomainListStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case completeImportFailed = "COMPLETE_IMPORT_FAILED"
         case deleting = "DELETING"
@@ -60,34 +60,34 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
-    public enum FirewallDomainUpdateOperation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FirewallDomainUpdateOperation: String, CustomStringConvertible, Codable, Sendable {
         case add = "ADD"
         case remove = "REMOVE"
         case replace = "REPLACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FirewallFailOpenStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FirewallFailOpenStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FirewallRuleGroupAssociationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FirewallRuleGroupAssociationStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case deleting = "DELETING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum FirewallRuleGroupStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FirewallRuleGroupStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case deleting = "DELETING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpAddressStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpAddressStatus: String, CustomStringConvertible, Codable, Sendable {
         case attached = "ATTACHED"
         case attaching = "ATTACHING"
         case creating = "CREATING"
@@ -101,21 +101,13 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
-    public enum MutationProtectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MutationProtectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResolverAutodefinedReverseStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case disabled = "DISABLED"
-        case disabling = "DISABLING"
-        case enabled = "ENABLED"
-        case enabling = "ENABLING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResolverDNSSECValidationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResolverAutodefinedReverseStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case disabling = "DISABLING"
         case enabled = "ENABLED"
@@ -123,13 +115,21 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResolverEndpointDirection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResolverDNSSECValidationStatus: String, CustomStringConvertible, Codable, Sendable {
+        case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResolverEndpointDirection: String, CustomStringConvertible, Codable, Sendable {
         case inbound = "INBOUND"
         case outbound = "OUTBOUND"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResolverEndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResolverEndpointStatus: String, CustomStringConvertible, Codable, Sendable {
         case actionNeeded = "ACTION_NEEDED"
         case autoRecovering = "AUTO_RECOVERING"
         case creating = "CREATING"
@@ -139,7 +139,7 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResolverQueryLogConfigAssociationError: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResolverQueryLogConfigAssociationError: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case destinationNotFound = "DESTINATION_NOT_FOUND"
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
@@ -147,7 +147,7 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResolverQueryLogConfigAssociationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResolverQueryLogConfigAssociationStatus: String, CustomStringConvertible, Codable, Sendable {
         case actionNeeded = "ACTION_NEEDED"
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -156,7 +156,7 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResolverQueryLogConfigStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResolverQueryLogConfigStatus: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -164,7 +164,7 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResolverRuleAssociationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResolverRuleAssociationStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -173,7 +173,7 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResolverRuleStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResolverRuleStatus: String, CustomStringConvertible, Codable, Sendable {
         case complete = "COMPLETE"
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -181,27 +181,27 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleTypeOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuleTypeOption: String, CustomStringConvertible, Codable, Sendable {
         case forward = "FORWARD"
         case recursive = "RECURSIVE"
         case system = "SYSTEM"
         public var description: String { return self.rawValue }
     }
 
-    public enum ShareStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ShareStatus: String, CustomStringConvertible, Codable, Sendable {
         case notShared = "NOT_SHARED"
         case sharedByMe = "SHARED_BY_ME"
         case sharedWithMe = "SHARED_WITH_ME"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum Validation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Validation: String, CustomStringConvertible, Codable, Sendable {
         case disable = "DISABLE"
         case enable = "ENABLE"
         public var description: String { return self.rawValue }

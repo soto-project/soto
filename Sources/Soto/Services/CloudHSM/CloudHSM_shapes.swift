@@ -21,20 +21,20 @@ import SotoCore
 extension CloudHSM {
     // MARK: Enums
 
-    public enum ClientVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClientVersion: String, CustomStringConvertible, Codable, Sendable {
         case clientVersion51 = "5.1"
         case clientVersion53 = "5.3"
         public var description: String { return self.rawValue }
     }
 
-    public enum CloudHsmObjectState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CloudHsmObjectState: String, CustomStringConvertible, Codable, Sendable {
         case degraded = "DEGRADED"
         case ready = "READY"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum HsmStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HsmStatus: String, CustomStringConvertible, Codable, Sendable {
         case degraded = "DEGRADED"
         case pending = "PENDING"
         case running = "RUNNING"
@@ -45,7 +45,7 @@ extension CloudHSM {
         public var description: String { return self.rawValue }
     }
 
-    public enum SubscriptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SubscriptionType: String, CustomStringConvertible, Codable, Sendable {
         case production = "PRODUCTION"
         public var description: String { return self.rawValue }
     }

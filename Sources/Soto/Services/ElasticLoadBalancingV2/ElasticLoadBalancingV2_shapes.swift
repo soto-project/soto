@@ -21,7 +21,7 @@ import SotoCore
 extension ElasticLoadBalancingV2 {
     // MARK: Enums
 
-    public enum ActionTypeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionTypeEnum: String, CustomStringConvertible, Codable, Sendable {
         case authenticateCognito = "authenticate-cognito"
         case authenticateOidc = "authenticate-oidc"
         case fixedResponse = "fixed-response"
@@ -30,33 +30,33 @@ extension ElasticLoadBalancingV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticateCognitoActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthenticateCognitoActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable, Sendable {
         case allow = "allow"
         case authenticate = "authenticate"
         case deny = "deny"
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthenticateOidcActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthenticateOidcActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable, Sendable {
         case allow = "allow"
         case authenticate = "authenticate"
         case deny = "deny"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpAddressType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable {
         case dualstack = "dualstack"
         case ipv4 = "ipv4"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoadBalancerSchemeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LoadBalancerSchemeEnum: String, CustomStringConvertible, Codable, Sendable {
         case `internal` = "internal"
         case internetFacing = "internet-facing"
         public var description: String { return self.rawValue }
     }
 
-    public enum LoadBalancerStateEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LoadBalancerStateEnum: String, CustomStringConvertible, Codable, Sendable {
         case active = "active"
         case activeImpaired = "active_impaired"
         case failed = "failed"
@@ -64,14 +64,14 @@ extension ElasticLoadBalancingV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoadBalancerTypeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LoadBalancerTypeEnum: String, CustomStringConvertible, Codable, Sendable {
         case application = "application"
         case gateway = "gateway"
         case network = "network"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtocolEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProtocolEnum: String, CustomStringConvertible, Codable, Sendable {
         case geneve = "GENEVE"
         case http = "HTTP"
         case https = "HTTPS"
@@ -82,19 +82,19 @@ extension ElasticLoadBalancingV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum RedirectActionStatusCodeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RedirectActionStatusCodeEnum: String, CustomStringConvertible, Codable, Sendable {
         case http301 = "HTTP_301"
         case http302 = "HTTP_302"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetGroupIpAddressTypeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetGroupIpAddressTypeEnum: String, CustomStringConvertible, Codable, Sendable {
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetHealthReasonEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetHealthReasonEnum: String, CustomStringConvertible, Codable, Sendable {
         case deregistrationInProgress = "Target.DeregistrationInProgress"
         case failedHealthChecks = "Target.FailedHealthChecks"
         case healthCheckDisabled = "Target.HealthCheckDisabled"
@@ -110,7 +110,7 @@ extension ElasticLoadBalancingV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetHealthStateEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetHealthStateEnum: String, CustomStringConvertible, Codable, Sendable {
         case draining = "draining"
         case healthy = "healthy"
         case initial = "initial"
@@ -120,7 +120,7 @@ extension ElasticLoadBalancingV2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetTypeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetTypeEnum: String, CustomStringConvertible, Codable, Sendable {
         case alb = "alb"
         case instance = "instance"
         case ip = "ip"

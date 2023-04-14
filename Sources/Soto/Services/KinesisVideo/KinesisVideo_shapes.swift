@@ -21,7 +21,7 @@ import SotoCore
 extension KinesisVideo {
     // MARK: Enums
 
-    public enum APIName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum APIName: String, CustomStringConvertible, Codable, Sendable {
         case getClip = "GET_CLIP"
         case getDashStreamingSessionUrl = "GET_DASH_STREAMING_SESSION_URL"
         case getHlsStreamingSessionUrl = "GET_HLS_STREAMING_SESSION_URL"
@@ -33,66 +33,66 @@ extension KinesisVideo {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChannelProtocol: String, CustomStringConvertible, Codable, Sendable {
         case https = "HTTPS"
         case webrtc = "WEBRTC"
         case wss = "WSS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelRole: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChannelRole: String, CustomStringConvertible, Codable, Sendable {
         case master = "MASTER"
         case viewer = "VIEWER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable {
         case fullMesh = "FULL_MESH"
         case singleMaster = "SINGLE_MASTER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
         case beginsWith = "BEGINS_WITH"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Format: String, CustomStringConvertible, Codable, Sendable {
         case jpeg = "JPEG"
         case png = "PNG"
         public var description: String { return self.rawValue }
     }
 
-    public enum FormatConfigKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FormatConfigKey: String, CustomStringConvertible, Codable, Sendable {
         case jpegQuality = "JPEGQuality"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageSelectorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageSelectorType: String, CustomStringConvertible, Codable, Sendable {
         case producerTimestamp = "PRODUCER_TIMESTAMP"
         case serverTimestamp = "SERVER_TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
-    public enum MediaStorageConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MediaStorageConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum MediaUriType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MediaUriType: String, CustomStringConvertible, Codable, Sendable {
         case fileUri = "FILE_URI"
         case rtspUri = "RTSP_URI"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -100,13 +100,13 @@ extension KinesisVideo {
         public var description: String { return self.rawValue }
     }
 
-    public enum StrategyOnFullSize: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StrategyOnFullSize: String, CustomStringConvertible, Codable, Sendable {
         case deleteOldestMedia = "DELETE_OLDEST_MEDIA"
         case denyNewMedia = "DENY_NEW_MEDIA"
         public var description: String { return self.rawValue }
     }
 
-    public enum SyncStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SyncStatus: String, CustomStringConvertible, Codable, Sendable {
         case acknowledged = "ACKNOWLEDGED"
         case deleteFailed = "DELETE_FAILED"
         case deleting = "DELETING"
@@ -116,7 +116,7 @@ extension KinesisVideo {
         public var description: String { return self.rawValue }
     }
 
-    public enum UpdateDataRetentionOperation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UpdateDataRetentionOperation: String, CustomStringConvertible, Codable, Sendable {
         case decreaseDataRetention = "DECREASE_DATA_RETENTION"
         case increaseDataRetention = "INCREASE_DATA_RETENTION"
         public var description: String { return self.rawValue }

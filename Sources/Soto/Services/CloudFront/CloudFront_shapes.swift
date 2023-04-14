@@ -21,7 +21,7 @@ import SotoCore
 extension CloudFront {
     // MARK: Enums
 
-    public enum CachePolicyCookieBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CachePolicyCookieBehavior: String, CustomStringConvertible, Codable, Sendable {
         case all = "all"
         case allExcept = "allExcept"
         case none = "none"
@@ -29,13 +29,13 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum CachePolicyHeaderBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CachePolicyHeaderBehavior: String, CustomStringConvertible, Codable, Sendable {
         case none = "none"
         case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
-    public enum CachePolicyQueryStringBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CachePolicyQueryStringBehavior: String, CustomStringConvertible, Codable, Sendable {
         case all = "all"
         case allExcept = "allExcept"
         case none = "none"
@@ -43,26 +43,26 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum CachePolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CachePolicyType: String, CustomStringConvertible, Codable, Sendable {
         case custom = "custom"
         case managed = "managed"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CertificateSource: String, CustomStringConvertible, Codable, Sendable {
         case acm = "acm"
         case cloudfront = "cloudfront"
         case iam = "iam"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContinuousDeploymentPolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContinuousDeploymentPolicyType: String, CustomStringConvertible, Codable, Sendable {
         case singleHeader = "SingleHeader"
         case singleWeight = "SingleWeight"
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
         case originRequest = "origin-request"
         case originResponse = "origin-response"
         case viewerRequest = "viewer-request"
@@ -70,36 +70,36 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Format: String, CustomStringConvertible, Codable, Sendable {
         case urlEncoded = "URLEncoded"
         public var description: String { return self.rawValue }
     }
 
-    public enum FrameOptionsList: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FrameOptionsList: String, CustomStringConvertible, Codable, Sendable {
         case deny = "DENY"
         case sameorigin = "SAMEORIGIN"
         public var description: String { return self.rawValue }
     }
 
-    public enum FunctionRuntime: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FunctionRuntime: String, CustomStringConvertible, Codable, Sendable {
         case cloudfrontJs10 = "cloudfront-js-1.0"
         public var description: String { return self.rawValue }
     }
 
-    public enum FunctionStage: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FunctionStage: String, CustomStringConvertible, Codable, Sendable {
         case development = "DEVELOPMENT"
         case live = "LIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum GeoRestrictionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GeoRestrictionType: String, CustomStringConvertible, Codable, Sendable {
         case blacklist = "blacklist"
         case none = "none"
         case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
-    public enum HttpVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HttpVersion: String, CustomStringConvertible, Codable, Sendable {
         case http11 = "http1.1"
         case http2 = "http2"
         case http2and3 = "http2and3"
@@ -107,21 +107,21 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum ICPRecordalStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ICPRecordalStatus: String, CustomStringConvertible, Codable, Sendable {
         case approved = "APPROVED"
         case pending = "PENDING"
         case suspended = "SUSPENDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ItemSelection: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ItemSelection: String, CustomStringConvertible, Codable, Sendable {
         case all = "all"
         case none = "none"
         case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
-    public enum Method: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Method: String, CustomStringConvertible, Codable, Sendable {
         case delete = "DELETE"
         case get = "GET"
         case head = "HEAD"
@@ -132,7 +132,7 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum MinimumProtocolVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MinimumProtocolVersion: String, CustomStringConvertible, Codable, Sendable {
         case ssLv3 = "SSLv3"
         case tlSv1 = "TLSv1"
         case tlSv112016 = "TLSv1.1_2016"
@@ -143,38 +143,38 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginAccessControlOriginTypes: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OriginAccessControlOriginTypes: String, CustomStringConvertible, Codable, Sendable {
         case s3 = "s3"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginAccessControlSigningBehaviors: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OriginAccessControlSigningBehaviors: String, CustomStringConvertible, Codable, Sendable {
         case always = "always"
         case never = "never"
         case noOverride = "no-override"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginAccessControlSigningProtocols: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OriginAccessControlSigningProtocols: String, CustomStringConvertible, Codable, Sendable {
         case sigv4 = "sigv4"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginProtocolPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OriginProtocolPolicy: String, CustomStringConvertible, Codable, Sendable {
         case httpOnly = "http-only"
         case httpsOnly = "https-only"
         case matchViewer = "match-viewer"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginRequestPolicyCookieBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OriginRequestPolicyCookieBehavior: String, CustomStringConvertible, Codable, Sendable {
         case all = "all"
         case none = "none"
         case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginRequestPolicyHeaderBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OriginRequestPolicyHeaderBehavior: String, CustomStringConvertible, Codable, Sendable {
         case allViewer = "allViewer"
         case allViewerAndWhitelistCloudFront = "allViewerAndWhitelistCloudFront"
         case none = "none"
@@ -182,33 +182,33 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginRequestPolicyQueryStringBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OriginRequestPolicyQueryStringBehavior: String, CustomStringConvertible, Codable, Sendable {
         case all = "all"
         case none = "none"
         case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
-    public enum OriginRequestPolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OriginRequestPolicyType: String, CustomStringConvertible, Codable, Sendable {
         case custom = "custom"
         case managed = "managed"
         public var description: String { return self.rawValue }
     }
 
-    public enum PriceClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PriceClass: String, CustomStringConvertible, Codable, Sendable {
         case priceClass100 = "PriceClass_100"
         case priceClass200 = "PriceClass_200"
         case priceClassAll = "PriceClass_All"
         public var description: String { return self.rawValue }
     }
 
-    public enum RealtimeMetricsSubscriptionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RealtimeMetricsSubscriptionStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReferrerPolicyList: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReferrerPolicyList: String, CustomStringConvertible, Codable, Sendable {
         case noReferrer = "no-referrer"
         case noReferrerWhenDowngrade = "no-referrer-when-downgrade"
         case origin = "origin"
@@ -220,7 +220,7 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResponseHeadersPolicyAccessControlAllowMethodsValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResponseHeadersPolicyAccessControlAllowMethodsValues: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case delete = "DELETE"
         case get = "GET"
@@ -232,20 +232,20 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResponseHeadersPolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResponseHeadersPolicyType: String, CustomStringConvertible, Codable, Sendable {
         case custom = "custom"
         case managed = "managed"
         public var description: String { return self.rawValue }
     }
 
-    public enum SSLSupportMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SSLSupportMethod: String, CustomStringConvertible, Codable, Sendable {
         case sniOnly = "sni-only"
         case staticIp = "static-ip"
         case vip = "vip"
         public var description: String { return self.rawValue }
     }
 
-    public enum SslProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SslProtocol: String, CustomStringConvertible, Codable, Sendable {
         case ssLv3 = "SSLv3"
         case tlSv1 = "TLSv1"
         case tlSv11 = "TLSv1.1"
@@ -253,13 +253,13 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
-    public enum UppercaseHttpVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UppercaseHttpVersion: String, CustomStringConvertible, Codable, Sendable {
         case http11 = "HTTP1_1"
         case http2 = "HTTP2"
         public var description: String { return self.rawValue }
     }
 
-    public enum ViewerProtocolPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ViewerProtocolPolicy: String, CustomStringConvertible, Codable, Sendable {
         case allowAll = "allow-all"
         case httpsOnly = "https-only"
         case redirectToHttps = "redirect-to-https"

@@ -21,39 +21,39 @@ import SotoCore
 extension SSOAdmin {
     // MARK: Enums
 
-    public enum InstanceAccessControlAttributeConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceAccessControlAttributeConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
         case creationFailed = "CREATION_FAILED"
         case creationInProgress = "CREATION_IN_PROGRESS"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PrincipalType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable {
         case group = "GROUP"
         case user = "USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProvisionTargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProvisionTargetType: String, CustomStringConvertible, Codable, Sendable {
         case allProvisionedAccounts = "ALL_PROVISIONED_ACCOUNTS"
         case awsAccount = "AWS_ACCOUNT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProvisioningStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProvisioningStatus: String, CustomStringConvertible, Codable, Sendable {
         case latestPermissionSetNotProvisioned = "LATEST_PERMISSION_SET_NOT_PROVISIONED"
         case latestPermissionSetProvisioned = "LATEST_PERMISSION_SET_PROVISIONED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusValues: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatusValues: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetType: String, CustomStringConvertible, Codable, Sendable {
         case awsAccount = "AWS_ACCOUNT"
         public var description: String { return self.rawValue }
     }

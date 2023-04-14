@@ -21,39 +21,39 @@ import SotoCore
 extension GameLift {
     // MARK: Enums
 
-    public enum AcceptanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AcceptanceType: String, CustomStringConvertible, Codable, Sendable {
         case accept = "ACCEPT"
         case reject = "REJECT"
         public var description: String { return self.rawValue }
     }
 
-    public enum BackfillMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BackfillMode: String, CustomStringConvertible, Codable, Sendable {
         case automatic = "AUTOMATIC"
         case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum BalancingStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BalancingStrategy: String, CustomStringConvertible, Codable, Sendable {
         case onDemandOnly = "ON_DEMAND_ONLY"
         case spotOnly = "SPOT_ONLY"
         case spotPreferred = "SPOT_PREFERRED"
         public var description: String { return self.rawValue }
     }
 
-    public enum BuildStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BuildStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case initialized = "INITIALIZED"
         case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CertificateType: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case generated = "GENERATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperatorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComparisonOperatorType: String, CustomStringConvertible, Codable, Sendable {
         case greaterThanOrEqualToThreshold = "GreaterThanOrEqualToThreshold"
         case greaterThanThreshold = "GreaterThanThreshold"
         case lessThanOrEqualToThreshold = "LessThanOrEqualToThreshold"
@@ -61,20 +61,20 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComputeStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComputeStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case pending = "PENDING"
         case terminating = "TERMINATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ComputeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComputeType: String, CustomStringConvertible, Codable, Sendable {
         case anywhere = "ANYWHERE"
         case ec2 = "EC2"
         public var description: String { return self.rawValue }
     }
 
-    public enum EC2InstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EC2InstanceType: String, CustomStringConvertible, Codable, Sendable {
         case c32Xlarge = "c3.2xlarge"
         case c34Xlarge = "c3.4xlarge"
         case c38Xlarge = "c3.8xlarge"
@@ -192,7 +192,7 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventCode: String, CustomStringConvertible, Codable, Sendable {
         case fleetActivationFailed = "FLEET_ACTIVATION_FAILED"
         case fleetActivationFailedNoInstances = "FLEET_ACTIVATION_FAILED_NO_INSTANCES"
         case fleetBinaryDownloadFailed = "FLEET_BINARY_DOWNLOAD_FAILED"
@@ -230,12 +230,12 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetAction: String, CustomStringConvertible, Codable, Sendable {
         case autoScaling = "AUTO_SCALING"
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetStatus: String, CustomStringConvertible, Codable, Sendable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case building = "BUILDING"
@@ -249,36 +249,36 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public enum FleetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FleetType: String, CustomStringConvertible, Codable, Sendable {
         case onDemand = "ON_DEMAND"
         case spot = "SPOT"
         public var description: String { return self.rawValue }
     }
 
-    public enum FlexMatchMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FlexMatchMode: String, CustomStringConvertible, Codable, Sendable {
         case standalone = "STANDALONE"
         case withQueue = "WITH_QUEUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum GameServerClaimStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GameServerClaimStatus: String, CustomStringConvertible, Codable, Sendable {
         case claimed = "CLAIMED"
         public var description: String { return self.rawValue }
     }
 
-    public enum GameServerGroupAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GameServerGroupAction: String, CustomStringConvertible, Codable, Sendable {
         case replaceInstanceTypes = "REPLACE_INSTANCE_TYPES"
         public var description: String { return self.rawValue }
     }
 
-    public enum GameServerGroupDeleteOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GameServerGroupDeleteOption: String, CustomStringConvertible, Codable, Sendable {
         case forceDelete = "FORCE_DELETE"
         case retain = "RETAIN"
         case safeDelete = "SAFE_DELETE"
         public var description: String { return self.rawValue }
     }
 
-    public enum GameServerGroupInstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GameServerGroupInstanceType: String, CustomStringConvertible, Codable, Sendable {
         case c42Xlarge = "c4.2xlarge"
         case c44Xlarge = "c4.4xlarge"
         case c48Xlarge = "c4.8xlarge"
@@ -370,7 +370,7 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public enum GameServerGroupStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GameServerGroupStatus: String, CustomStringConvertible, Codable, Sendable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case deleteScheduled = "DELETE_SCHEDULED"
@@ -381,31 +381,31 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public enum GameServerHealthCheck: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GameServerHealthCheck: String, CustomStringConvertible, Codable, Sendable {
         case healthy = "HEALTHY"
         public var description: String { return self.rawValue }
     }
 
-    public enum GameServerInstanceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GameServerInstanceStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case draining = "DRAINING"
         case spotTerminating = "SPOT_TERMINATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum GameServerProtectionPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GameServerProtectionPolicy: String, CustomStringConvertible, Codable, Sendable {
         case fullProtection = "FULL_PROTECTION"
         case noProtection = "NO_PROTECTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum GameServerUtilizationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GameServerUtilizationStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case utilized = "UTILIZED"
         public var description: String { return self.rawValue }
     }
 
-    public enum GameSessionPlacementState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GameSessionPlacementState: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
         case fulfilled = "FULFILLED"
@@ -414,7 +414,7 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public enum GameSessionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GameSessionStatus: String, CustomStringConvertible, Codable, Sendable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case error = "ERROR"
@@ -423,36 +423,36 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public enum GameSessionStatusReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GameSessionStatusReason: String, CustomStringConvertible, Codable, Sendable {
         case interrupted = "INTERRUPTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case pending = "PENDING"
         case terminating = "TERMINATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum IpProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IpProtocol: String, CustomStringConvertible, Codable, Sendable {
         case tcp = "TCP"
         case udp = "UDP"
         public var description: String { return self.rawValue }
     }
 
-    public enum LocationFilter: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocationFilter: String, CustomStringConvertible, Codable, Sendable {
         case aws = "AWS"
         case custom = "CUSTOM"
         public var description: String { return self.rawValue }
     }
 
-    public enum LocationUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LocationUpdateStatus: String, CustomStringConvertible, Codable, Sendable {
         case pendingUpdate = "PENDING_UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum MatchmakingConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MatchmakingConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -464,7 +464,7 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricName: String, CustomStringConvertible, Codable, Sendable {
         case activatingGameSessions = "ActivatingGameSessions"
         case activeGameSessions = "ActiveGameSessions"
         case activeInstances = "ActiveInstances"
@@ -480,20 +480,20 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public enum OperatingSystem: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperatingSystem: String, CustomStringConvertible, Codable, Sendable {
         case amazonLinux = "AMAZON_LINUX"
         case amazonLinux2 = "AMAZON_LINUX_2"
         case windows2012 = "WINDOWS_2012"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlayerSessionCreationPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlayerSessionCreationPolicy: String, CustomStringConvertible, Codable, Sendable {
         case acceptAll = "ACCEPT_ALL"
         case denyAll = "DENY_ALL"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlayerSessionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlayerSessionStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case completed = "COMPLETED"
         case reserved = "RESERVED"
@@ -501,13 +501,13 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable {
         case ruleBased = "RuleBased"
         case targetBased = "TargetBased"
         public var description: String { return self.rawValue }
     }
 
-    public enum PriorityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PriorityType: String, CustomStringConvertible, Codable, Sendable {
         case cost = "COST"
         case destination = "DESTINATION"
         case latency = "LATENCY"
@@ -515,26 +515,26 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProtectionPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProtectionPolicy: String, CustomStringConvertible, Codable, Sendable {
         case fullProtection = "FullProtection"
         case noProtection = "NoProtection"
         public var description: String { return self.rawValue }
     }
 
-    public enum RoutingStrategyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RoutingStrategyType: String, CustomStringConvertible, Codable, Sendable {
         case simple = "SIMPLE"
         case terminal = "TERMINAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalingAdjustmentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScalingAdjustmentType: String, CustomStringConvertible, Codable, Sendable {
         case changeInCapacity = "ChangeInCapacity"
         case exactCapacity = "ExactCapacity"
         case percentChangeInCapacity = "PercentChangeInCapacity"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScalingStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScalingStatusType: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleteRequested = "DELETE_REQUESTED"
         case deleted = "DELETED"
@@ -545,7 +545,7 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }

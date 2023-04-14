@@ -21,7 +21,7 @@ import SotoCore
 extension SageMaker {
     // MARK: Enums
 
-    public enum ActionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -31,13 +31,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum AlgorithmSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AlgorithmSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum AlgorithmStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AlgorithmStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case deleting = "Deleting"
         case failed = "Failed"
@@ -46,14 +46,14 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum AppImageConfigSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppImageConfigSortKey: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum AppInstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppInstanceType: String, CustomStringConvertible, Codable, Sendable {
         case mlC512Xlarge = "ml.c5.12xlarge"
         case mlC518Xlarge = "ml.c5.18xlarge"
         case mlC524Xlarge = "ml.c5.24xlarge"
@@ -114,24 +114,24 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum AppNetworkAccessType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppNetworkAccessType: String, CustomStringConvertible, Codable, Sendable {
         case publicInternetOnly = "PublicInternetOnly"
         case vpcOnly = "VpcOnly"
         public var description: String { return self.rawValue }
     }
 
-    public enum AppSecurityGroupManagement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppSecurityGroupManagement: String, CustomStringConvertible, Codable, Sendable {
         case customer = "Customer"
         case service = "Service"
         public var description: String { return self.rawValue }
     }
 
-    public enum AppSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppSortKey: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         public var description: String { return self.rawValue }
     }
 
-    public enum AppStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleted = "Deleted"
         case deleting = "Deleting"
         case failed = "Failed"
@@ -140,7 +140,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum AppType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AppType: String, CustomStringConvertible, Codable, Sendable {
         case jupyterServer = "JupyterServer"
         case kernelGateway = "KernelGateway"
         case rSessionGateway = "RSessionGateway"
@@ -149,7 +149,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactSourceIdType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ArtifactSourceIdType: String, CustomStringConvertible, Codable, Sendable {
         case custom = "Custom"
         case md5Hash = "MD5Hash"
         case s3Etag = "S3ETag"
@@ -157,13 +157,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum AssemblyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssemblyType: String, CustomStringConvertible, Codable, Sendable {
         case line = "Line"
         case none = "None"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssociationEdgeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssociationEdgeType: String, CustomStringConvertible, Codable, Sendable {
         case associatedWith = "AssociatedWith"
         case contributedTo = "ContributedTo"
         case derivedFrom = "DerivedFrom"
@@ -171,14 +171,14 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum AthenaResultCompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AthenaResultCompressionType: String, CustomStringConvertible, Codable, Sendable {
         case gzip = "GZIP"
         case snappy = "SNAPPY"
         case zlib = "ZLIB"
         public var description: String { return self.rawValue }
     }
 
-    public enum AthenaResultFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AthenaResultFormat: String, CustomStringConvertible, Codable, Sendable {
         case avro = "AVRO"
         case json = "JSON"
         case orc = "ORC"
@@ -187,25 +187,25 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthMode: String, CustomStringConvertible, Codable, Sendable {
         case iam = "IAM"
         case sso = "SSO"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoMLChannelType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoMLChannelType: String, CustomStringConvertible, Codable, Sendable {
         case training = "training"
         case validation = "validation"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoMLJobObjectiveType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoMLJobObjectiveType: String, CustomStringConvertible, Codable, Sendable {
         case maximize = "Maximize"
         case minimize = "Minimize"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoMLJobSecondaryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoMLJobSecondaryStatus: String, CustomStringConvertible, Codable, Sendable {
         case analyzingData = "AnalyzingData"
         case candidateDefinitionsGenerated = "CandidateDefinitionsGenerated"
         case completed = "Completed"
@@ -226,7 +226,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoMLJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoMLJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -235,7 +235,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoMLMetricEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoMLMetricEnum: String, CustomStringConvertible, Codable, Sendable {
         case accuracy = "Accuracy"
         case auc = "AUC"
         case balancedAccuracy = "BalancedAccuracy"
@@ -252,7 +252,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoMLMetricExtendedEnum: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoMLMetricExtendedEnum: String, CustomStringConvertible, Codable, Sendable {
         case accuracy = "Accuracy"
         case auc = "AUC"
         case balancedAccuracy = "BalancedAccuracy"
@@ -271,58 +271,58 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoMLMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoMLMode: String, CustomStringConvertible, Codable, Sendable {
         case auto = "AUTO"
         case ensembling = "ENSEMBLING"
         case hyperparameterTuning = "HYPERPARAMETER_TUNING"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoMLS3DataType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoMLS3DataType: String, CustomStringConvertible, Codable, Sendable {
         case manifestFile = "ManifestFile"
         case s3Prefix = "S3Prefix"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoMLSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoMLSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoMLSortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoMLSortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum AwsManagedHumanLoopRequestSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AwsManagedHumanLoopRequestSource: String, CustomStringConvertible, Codable, Sendable {
         case rekognitionDetectModerationLabelsImageV3 = "AWS/Rekognition/DetectModerationLabels/Image/V3"
         case textractAnalyzeDocumentFormsV1 = "AWS/Textract/AnalyzeDocument/Forms/V1"
         public var description: String { return self.rawValue }
     }
 
-    public enum BatchStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BatchStrategy: String, CustomStringConvertible, Codable, Sendable {
         case multiRecord = "MultiRecord"
         case singleRecord = "SingleRecord"
         public var description: String { return self.rawValue }
     }
 
-    public enum BooleanOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BooleanOperator: String, CustomStringConvertible, Codable, Sendable {
         case and = "And"
         case or = "Or"
         public var description: String { return self.rawValue }
     }
 
-    public enum CandidateSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CandidateSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case finalObjectiveMetricValue = "FinalObjectiveMetricValue"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum CandidateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CandidateStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -331,46 +331,46 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum CandidateStepType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CandidateStepType: String, CustomStringConvertible, Codable, Sendable {
         case processing = "AWS::SageMaker::ProcessingJob"
         case training = "AWS::SageMaker::TrainingJob"
         case transform = "AWS::SageMaker::TransformJob"
         public var description: String { return self.rawValue }
     }
 
-    public enum CapacitySizeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CapacitySizeType: String, CustomStringConvertible, Codable, Sendable {
         case capacityPercent = "CAPACITY_PERCENT"
         case instanceCount = "INSTANCE_COUNT"
         public var description: String { return self.rawValue }
     }
 
-    public enum CaptureMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CaptureMode: String, CustomStringConvertible, Codable, Sendable {
         case input = "Input"
         case output = "Output"
         public var description: String { return self.rawValue }
     }
 
-    public enum CaptureStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CaptureStatus: String, CustomStringConvertible, Codable, Sendable {
         case started = "Started"
         case stopped = "Stopped"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClarifyFeatureType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClarifyFeatureType: String, CustomStringConvertible, Codable, Sendable {
         case categorical = "categorical"
         case numerical = "numerical"
         case text = "text"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClarifyTextGranularity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClarifyTextGranularity: String, CustomStringConvertible, Codable, Sendable {
         case paragraph = "paragraph"
         case sentence = "sentence"
         case token = "token"
         public var description: String { return self.rawValue }
     }
 
-    public enum ClarifyTextLanguage: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ClarifyTextLanguage: String, CustomStringConvertible, Codable, Sendable {
         case afrikaans = "af"
         case albanian = "sq"
         case arabic = "ar"
@@ -434,20 +434,20 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum CodeRepositorySortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CodeRepositorySortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum CodeRepositorySortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CodeRepositorySortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum CompilationJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CompilationJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inprogress = "INPROGRESS"
@@ -457,37 +457,37 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum CompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CompressionType: String, CustomStringConvertible, Codable, Sendable {
         case gzip = "Gzip"
         case none = "None"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConditionOutcome: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConditionOutcome: String, CustomStringConvertible, Codable, Sendable {
         case `false` = "False"
         case `true` = "True"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContainerMode: String, CustomStringConvertible, Codable, Sendable {
         case multiModel = "MultiModel"
         case singleModel = "SingleModel"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentClassifier: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentClassifier: String, CustomStringConvertible, Codable, Sendable {
         case freeOfAdultContent = "FreeOfAdultContent"
         case freeOfPersonallyIdentifiableInformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 
-    public enum DataDistributionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataDistributionType: String, CustomStringConvertible, Codable, Sendable {
         case fullyreplicated = "FullyReplicated"
         case shardedbys3key = "ShardedByS3Key"
         public var description: String { return self.rawValue }
     }
 
-    public enum DetailedAlgorithmStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DetailedAlgorithmStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -495,7 +495,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum DetailedModelPackageStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DetailedModelPackageStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -503,7 +503,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceDeploymentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceDeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
         case deployed = "DEPLOYED"
         case failed = "FAILED"
         case inProgress = "INPROGRESS"
@@ -513,27 +513,27 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceSubsetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceSubsetType: String, CustomStringConvertible, Codable, Sendable {
         case nameContains = "NAMECONTAINS"
         case percentage = "PERCENTAGE"
         case selection = "SELECTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectInternetAccess: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DirectInternetAccess: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum Direction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Direction: String, CustomStringConvertible, Codable, Sendable {
         case ascendants = "Ascendants"
         case both = "Both"
         case descendants = "Descendants"
         public var description: String { return self.rawValue }
     }
 
-    public enum DomainStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DomainStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleteFailed = "Delete_Failed"
         case deleting = "Deleting"
         case failed = "Failed"
@@ -544,7 +544,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum EdgePackagingJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EdgePackagingJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "INPROGRESS"
@@ -554,31 +554,31 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum EdgePresetDeploymentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EdgePresetDeploymentStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EdgePresetDeploymentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EdgePresetDeploymentType: String, CustomStringConvertible, Codable, Sendable {
         case greengrassV2Component = "GreengrassV2Component"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointConfigSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointConfigSortKey: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointSortKey: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "Creating"
         case deleting = "Deleting"
         case failed = "Failed"
@@ -590,13 +590,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionRoleIdentityConfig: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecutionRoleIdentityConfig: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case userProfileName = "USER_PROFILE_NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case completedWithViolations = "CompletedWithViolations"
         case failed = "Failed"
@@ -607,13 +607,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureHandlingPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FailureHandlingPolicy: String, CustomStringConvertible, Codable, Sendable {
         case doNothing = "DO_NOTHING"
         case rollbackOnFailure = "ROLLBACK_ON_FAILURE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureGroupSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FeatureGroupSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case featureGroupStatus = "FeatureGroupStatus"
         case name = "Name"
@@ -621,13 +621,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureGroupSortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FeatureGroupSortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureGroupStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FeatureGroupStatus: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CreateFailed"
         case created = "Created"
         case creating = "Creating"
@@ -636,32 +636,32 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FeatureStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FeatureType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FeatureType: String, CustomStringConvertible, Codable, Sendable {
         case fractional = "Fractional"
         case integral = "Integral"
         case string = "String"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileSystemAccessMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileSystemAccessMode: String, CustomStringConvertible, Codable, Sendable {
         case ro = "ro"
         case rw = "rw"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileSystemType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileSystemType: String, CustomStringConvertible, Codable, Sendable {
         case efs = "EFS"
         case fsxlustre = "FSxLustre"
         public var description: String { return self.rawValue }
     }
 
-    public enum FlowDefinitionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FlowDefinitionStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case deleting = "Deleting"
         case failed = "Failed"
@@ -669,7 +669,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum Framework: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Framework: String, CustomStringConvertible, Codable, Sendable {
         case darknet = "DARKNET"
         case keras = "KERAS"
         case mxnet = "MXNET"
@@ -682,14 +682,14 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum HubContentSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HubContentSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case hubContentName = "HubContentName"
         case hubContentStatus = "HubContentStatus"
         public var description: String { return self.rawValue }
     }
 
-    public enum HubContentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HubContentStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "Available"
         case deleteFailed = "DeleteFailed"
         case deleting = "Deleting"
@@ -698,13 +698,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum HubContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HubContentType: String, CustomStringConvertible, Codable, Sendable {
         case model = "Model"
         case notebook = "Notebook"
         public var description: String { return self.rawValue }
     }
 
-    public enum HubSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HubSortBy: String, CustomStringConvertible, Codable, Sendable {
         case accountIdOwner = "AccountIdOwner"
         case creationTime = "CreationTime"
         case hubName = "HubName"
@@ -712,7 +712,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum HubStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HubStatus: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CreateFailed"
         case creating = "Creating"
         case deleteFailed = "DeleteFailed"
@@ -723,13 +723,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum HumanTaskUiStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HumanTaskUiStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case deleting = "Deleting"
         public var description: String { return self.rawValue }
     }
 
-    public enum HyperParameterScalingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HyperParameterScalingType: String, CustomStringConvertible, Codable, Sendable {
         case auto = "Auto"
         case linear = "Linear"
         case logarithmic = "Logarithmic"
@@ -737,25 +737,25 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum HyperParameterTuningAllocationStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HyperParameterTuningAllocationStrategy: String, CustomStringConvertible, Codable, Sendable {
         case prioritized = "Prioritized"
         public var description: String { return self.rawValue }
     }
 
-    public enum HyperParameterTuningJobObjectiveType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HyperParameterTuningJobObjectiveType: String, CustomStringConvertible, Codable, Sendable {
         case maximize = "Maximize"
         case minimize = "Minimize"
         public var description: String { return self.rawValue }
     }
 
-    public enum HyperParameterTuningJobSortByOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HyperParameterTuningJobSortByOptions: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum HyperParameterTuningJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HyperParameterTuningJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -764,7 +764,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum HyperParameterTuningJobStrategyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HyperParameterTuningJobStrategyType: String, CustomStringConvertible, Codable, Sendable {
         case bayesian = "Bayesian"
         case grid = "Grid"
         case hyperband = "Hyperband"
@@ -772,26 +772,26 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum HyperParameterTuningJobWarmStartType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HyperParameterTuningJobWarmStartType: String, CustomStringConvertible, Codable, Sendable {
         case identicalDataAndAlgorithm = "IdenticalDataAndAlgorithm"
         case transferLearning = "TransferLearning"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CREATION_TIME"
         case imageName = "IMAGE_NAME"
         case lastModifiedTime = "LAST_MODIFIED_TIME"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageSortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageSortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageStatus: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CREATE_FAILED"
         case created = "CREATED"
         case creating = "CREATING"
@@ -802,20 +802,20 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageVersionSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageVersionSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CREATION_TIME"
         case lastModifiedTime = "LAST_MODIFIED_TIME"
         case version = "VERSION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageVersionSortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageVersionSortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageVersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageVersionStatus: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CREATE_FAILED"
         case created = "CREATED"
         case creating = "CREATING"
@@ -824,13 +824,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum InferenceExecutionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InferenceExecutionMode: String, CustomStringConvertible, Codable, Sendable {
         case direct = "Direct"
         case serial = "Serial"
         public var description: String { return self.rawValue }
     }
 
-    public enum InferenceExperimentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InferenceExperimentStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "Cancelled"
         case completed = "Completed"
         case created = "Created"
@@ -842,24 +842,24 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum InferenceExperimentStopDesiredState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InferenceExperimentStopDesiredState: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "Cancelled"
         case completed = "Completed"
         public var description: String { return self.rawValue }
     }
 
-    public enum InferenceExperimentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InferenceExperimentType: String, CustomStringConvertible, Codable, Sendable {
         case shadowMode = "ShadowMode"
         public var description: String { return self.rawValue }
     }
 
-    public enum InputMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InputMode: String, CustomStringConvertible, Codable, Sendable {
         case file = "File"
         case pipe = "Pipe"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceType: String, CustomStringConvertible, Codable, Sendable {
         case mlC42Xlarge = "ml.c4.2xlarge"
         case mlC44Xlarge = "ml.c4.4xlarge"
         case mlC48Xlarge = "ml.c4.8xlarge"
@@ -932,20 +932,20 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobType: String, CustomStringConvertible, Codable, Sendable {
         case inference = "INFERENCE"
         case notebookKernel = "NOTEBOOK_KERNEL"
         case training = "TRAINING"
         public var description: String { return self.rawValue }
     }
 
-    public enum JoinSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JoinSource: String, CustomStringConvertible, Codable, Sendable {
         case input = "Input"
         case none = "None"
         public var description: String { return self.rawValue }
     }
 
-    public enum LabelingJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LabelingJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -955,14 +955,14 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum LastUpdateStatusValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LastUpdateStatusValue: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case successful = "Successful"
         public var description: String { return self.rawValue }
     }
 
-    public enum LineageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LineageType: String, CustomStringConvertible, Codable, Sendable {
         case action = "Action"
         case artifact = "Artifact"
         case context = "Context"
@@ -970,21 +970,21 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListCompilationJobsSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListCompilationJobsSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListDeviceFleetsSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListDeviceFleetsSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CREATION_TIME"
         case lastModifiedTime = "LAST_MODIFIED_TIME"
         case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListEdgeDeploymentPlansSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListEdgeDeploymentPlansSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CREATION_TIME"
         case deviceFleetName = "DEVICE_FLEET_NAME"
         case lastModifiedTime = "LAST_MODIFIED_TIME"
@@ -992,7 +992,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListEdgePackagingJobsSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListEdgePackagingJobsSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CREATION_TIME"
         case edgePackagingJobStatus = "STATUS"
         case lastModifiedTime = "LAST_MODIFIED_TIME"
@@ -1001,71 +1001,71 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListInferenceRecommendationsJobsSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListInferenceRecommendationsJobsSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListLabelingJobsForWorkteamSortByOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListLabelingJobsForWorkteamSortByOptions: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListWorkforcesSortByOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListWorkforcesSortByOptions: String, CustomStringConvertible, Codable, Sendable {
         case createDate = "CreateDate"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum ListWorkteamsSortByOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ListWorkteamsSortByOptions: String, CustomStringConvertible, Codable, Sendable {
         case createDate = "CreateDate"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricSetSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricSetSource: String, CustomStringConvertible, Codable, Sendable {
         case test = "Test"
         case train = "Train"
         case validation = "Validation"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelApprovalStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelApprovalStatus: String, CustomStringConvertible, Codable, Sendable {
         case approved = "Approved"
         case pendingManualApproval = "PendingManualApproval"
         case rejected = "Rejected"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelCacheSetting: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelCacheSetting: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelCardExportJobSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelCardExportJobSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelCardExportJobSortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelCardExportJobSortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelCardExportJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelCardExportJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelCardProcessingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelCardProcessingStatus: String, CustomStringConvertible, Codable, Sendable {
         case contentDeleted = "ContentDeleted"
         case deleteCompleted = "DeleteCompleted"
         case deleteFailed = "DeleteFailed"
@@ -1075,19 +1075,19 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelCardSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelCardSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelCardSortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelCardSortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelCardStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelCardStatus: String, CustomStringConvertible, Codable, Sendable {
         case approved = "Approved"
         case archived = "Archived"
         case draft = "Draft"
@@ -1095,17 +1095,17 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelCardVersionSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelCardVersionSortBy: String, CustomStringConvertible, Codable, Sendable {
         case version = "Version"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelInfrastructureType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelInfrastructureType: String, CustomStringConvertible, Codable, Sendable {
         case realTimeInference = "RealTimeInference"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelMetadataFilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelMetadataFilterType: String, CustomStringConvertible, Codable, Sendable {
         case domain = "Domain"
         case framework = "Framework"
         case frameworkversion = "FrameworkVersion"
@@ -1113,13 +1113,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelPackageGroupSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelPackageGroupSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelPackageGroupStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelPackageGroupStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case deleteFailed = "DeleteFailed"
         case deleting = "Deleting"
@@ -1129,13 +1129,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelPackageSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelPackageSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelPackageStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelPackageStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case deleting = "Deleting"
         case failed = "Failed"
@@ -1144,27 +1144,27 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelPackageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelPackageType: String, CustomStringConvertible, Codable, Sendable {
         case both = "Both"
         case unversioned = "Unversioned"
         case versioned = "Versioned"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelSortKey: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelVariantAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelVariantAction: String, CustomStringConvertible, Codable, Sendable {
         case promote = "Promote"
         case remove = "Remove"
         case retain = "Retain"
         public var description: String { return self.rawValue }
     }
 
-    public enum ModelVariantStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ModelVariantStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "Creating"
         case deleted = "Deleted"
         case deleting = "Deleting"
@@ -1173,46 +1173,46 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum MonitoringAlertHistorySortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MonitoringAlertHistorySortKey: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum MonitoringAlertStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MonitoringAlertStatus: String, CustomStringConvertible, Codable, Sendable {
         case inAlert = "InAlert"
         case ok = "OK"
         public var description: String { return self.rawValue }
     }
 
-    public enum MonitoringExecutionSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MonitoringExecutionSortKey: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case scheduledTime = "ScheduledTime"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum MonitoringJobDefinitionSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MonitoringJobDefinitionSortKey: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum MonitoringProblemType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MonitoringProblemType: String, CustomStringConvertible, Codable, Sendable {
         case binaryClassification = "BinaryClassification"
         case multiclassClassification = "MulticlassClassification"
         case regression = "Regression"
         public var description: String { return self.rawValue }
     }
 
-    public enum MonitoringScheduleSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MonitoringScheduleSortKey: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum MonitoringType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MonitoringType: String, CustomStringConvertible, Codable, Sendable {
         case dataQuality = "DataQuality"
         case modelBias = "ModelBias"
         case modelExplainability = "ModelExplainability"
@@ -1220,7 +1220,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum NotebookInstanceAcceleratorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotebookInstanceAcceleratorType: String, CustomStringConvertible, Codable, Sendable {
         case mlEia1Large = "ml.eia1.large"
         case mlEia1Medium = "ml.eia1.medium"
         case mlEia1Xlarge = "ml.eia1.xlarge"
@@ -1230,33 +1230,33 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum NotebookInstanceLifecycleConfigSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotebookInstanceLifecycleConfigSortKey: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotebookInstanceLifecycleConfigSortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotebookInstanceLifecycleConfigSortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotebookInstanceSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotebookInstanceSortKey: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotebookInstanceSortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotebookInstanceSortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotebookInstanceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotebookInstanceStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleting = "Deleting"
         case failed = "Failed"
         case inService = "InService"
@@ -1267,27 +1267,27 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum NotebookOutputOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotebookOutputOption: String, CustomStringConvertible, Codable, Sendable {
         case allowed = "Allowed"
         case disabled = "Disabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObjectiveStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObjectiveStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case pending = "Pending"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
-    public enum OfflineStoreStatusValue: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OfflineStoreStatusValue: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case blocked = "Blocked"
         case disabled = "Disabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum Operator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Operator: String, CustomStringConvertible, Codable, Sendable {
         case `in` = "In"
         case contains = "Contains"
         case equals = "Equals"
@@ -1301,13 +1301,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrderKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrderKey: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParameterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ParameterType: String, CustomStringConvertible, Codable, Sendable {
         case categorical = "Categorical"
         case continuous = "Continuous"
         case freeText = "FreeText"
@@ -1315,7 +1315,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
         case executing = "Executing"
         case failed = "Failed"
         case stopped = "Stopped"
@@ -1324,19 +1324,19 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum PipelineStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PipelineStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProblemType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProblemType: String, CustomStringConvertible, Codable, Sendable {
         case binaryClassification = "BinaryClassification"
         case multiclassClassification = "MulticlassClassification"
         case regression = "Regression"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProcessingInstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProcessingInstanceType: String, CustomStringConvertible, Codable, Sendable {
         case mlC42Xlarge = "ml.c4.2xlarge"
         case mlC44Xlarge = "ml.c4.4xlarge"
         case mlC48Xlarge = "ml.c4.8xlarge"
@@ -1384,7 +1384,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProcessingJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProcessingJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -1393,43 +1393,43 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProcessingS3CompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProcessingS3CompressionType: String, CustomStringConvertible, Codable, Sendable {
         case gzip = "Gzip"
         case none = "None"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProcessingS3DataDistributionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProcessingS3DataDistributionType: String, CustomStringConvertible, Codable, Sendable {
         case fullyreplicated = "FullyReplicated"
         case shardedbys3key = "ShardedByS3Key"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProcessingS3DataType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProcessingS3DataType: String, CustomStringConvertible, Codable, Sendable {
         case manifestFile = "ManifestFile"
         case s3Prefix = "S3Prefix"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProcessingS3InputMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProcessingS3InputMode: String, CustomStringConvertible, Codable, Sendable {
         case file = "File"
         case pipe = "Pipe"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProcessingS3UploadMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProcessingS3UploadMode: String, CustomStringConvertible, Codable, Sendable {
         case continuous = "Continuous"
         case endOfJob = "EndOfJob"
         public var description: String { return self.rawValue }
     }
 
-    public enum Processor: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Processor: String, CustomStringConvertible, Codable, Sendable {
         case cpu = "CPU"
         case gpu = "GPU"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProductionVariantAcceleratorType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProductionVariantAcceleratorType: String, CustomStringConvertible, Codable, Sendable {
         case mlEia1Large = "ml.eia1.large"
         case mlEia1Medium = "ml.eia1.medium"
         case mlEia1Xlarge = "ml.eia1.xlarge"
@@ -1439,7 +1439,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProductionVariantInstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProductionVariantInstanceType: String, CustomStringConvertible, Codable, Sendable {
         case mlC42Xlarge = "ml.c4.2xlarge"
         case mlC44Xlarge = "ml.c4.4xlarge"
         case mlC48Xlarge = "ml.c4.8xlarge"
@@ -1584,25 +1584,25 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProfilingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProfilingStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProjectSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectSortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProjectSortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProjectStatus: String, CustomStringConvertible, Codable, Sendable {
         case createCompleted = "CreateCompleted"
         case createFailed = "CreateFailed"
         case createInProgress = "CreateInProgress"
@@ -1616,19 +1616,19 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum RStudioServerProAccessStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RStudioServerProAccessStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RStudioServerProUserGroup: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RStudioServerProUserGroup: String, CustomStringConvertible, Codable, Sendable {
         case admin = "R_STUDIO_ADMIN"
         case user = "R_STUDIO_USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -1638,24 +1638,24 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationJobType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationJobType: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "Default"
         case advanced = "Advanced"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecommendationStepType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecommendationStepType: String, CustomStringConvertible, Codable, Sendable {
         case benchmark = "BENCHMARK"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordWrapper: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecordWrapper: String, CustomStringConvertible, Codable, Sendable {
         case none = "None"
         case recordio = "RecordIO"
         public var description: String { return self.rawValue }
     }
 
-    public enum RedshiftResultCompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RedshiftResultCompressionType: String, CustomStringConvertible, Codable, Sendable {
         case bzip2 = "BZIP2"
         case gzip = "GZIP"
         case none = "None"
@@ -1664,19 +1664,19 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum RedshiftResultFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RedshiftResultFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case parquet = "PARQUET"
         public var description: String { return self.rawValue }
     }
 
-    public enum RepositoryAccessMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RepositoryAccessMode: String, CustomStringConvertible, Codable, Sendable {
         case platform = "Platform"
         case vpc = "Vpc"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case endpoint = "Endpoint"
         case experiment = "Experiment"
         case experimentTrial = "ExperimentTrial"
@@ -1695,19 +1695,19 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum RetentionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RetentionType: String, CustomStringConvertible, Codable, Sendable {
         case delete = "Delete"
         case retain = "Retain"
         public var description: String { return self.rawValue }
     }
 
-    public enum RootAccess: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RootAccess: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleEvaluationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuleEvaluationStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "Error"
         case inProgress = "InProgress"
         case issuesFound = "IssuesFound"
@@ -1717,26 +1717,26 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum S3DataDistribution: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3DataDistribution: String, CustomStringConvertible, Codable, Sendable {
         case fullyReplicated = "FullyReplicated"
         case shardedByS3Key = "ShardedByS3Key"
         public var description: String { return self.rawValue }
     }
 
-    public enum S3DataType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum S3DataType: String, CustomStringConvertible, Codable, Sendable {
         case augmentedManifestFile = "AugmentedManifestFile"
         case manifestFile = "ManifestFile"
         case s3Prefix = "S3Prefix"
         public var description: String { return self.rawValue }
     }
 
-    public enum SagemakerServicecatalogStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SagemakerServicecatalogStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScheduleStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScheduleStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case pending = "Pending"
         case scheduled = "Scheduled"
@@ -1744,13 +1744,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum SearchSortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SearchSortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum SecondaryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SecondaryStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case downloading = "Downloading"
         case downloadingTrainingImage = "DownloadingTrainingImage"
@@ -1770,18 +1770,18 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortActionsBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortActionsBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortArtifactsBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortArtifactsBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortAssociationsBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortAssociationsBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case destinationArn = "DestinationArn"
         case destinationType = "DestinationType"
@@ -1790,75 +1790,75 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortContextsBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortContextsBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortExperimentsBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortExperimentsBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortInferenceExperimentsBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortInferenceExperimentsBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortLineageGroupsBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortLineageGroupsBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortPipelineExecutionsBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortPipelineExecutionsBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case pipelineExecutionArn = "PipelineExecutionArn"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortPipelinesBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortPipelinesBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortTrialComponentsBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortTrialComponentsBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum SortTrialsBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortTrialsBy: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum SpaceSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SpaceSortKey: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case lastModifiedTime = "LastModifiedTime"
         public var description: String { return self.rawValue }
     }
 
-    public enum SpaceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SpaceStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleteFailed = "Delete_Failed"
         case deleting = "Deleting"
         case failed = "Failed"
@@ -1869,7 +1869,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum SplitType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SplitType: String, CustomStringConvertible, Codable, Sendable {
         case line = "Line"
         case none = "None"
         case recordio = "RecordIO"
@@ -1877,7 +1877,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum StageStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StageStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "CREATING"
         case deployed = "DEPLOYED"
         case failed = "FAILED"
@@ -1889,7 +1889,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum StepStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StepStatus: String, CustomStringConvertible, Codable, Sendable {
         case executing = "Executing"
         case failed = "Failed"
         case starting = "Starting"
@@ -1899,26 +1899,26 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum StudioLifecycleConfigAppType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StudioLifecycleConfigAppType: String, CustomStringConvertible, Codable, Sendable {
         case jupyterServer = "JupyterServer"
         case kernelGateway = "KernelGateway"
         public var description: String { return self.rawValue }
     }
 
-    public enum StudioLifecycleConfigSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StudioLifecycleConfigSortKey: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         public var description: String { return self.rawValue }
     }
 
-    public enum TableFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TableFormat: String, CustomStringConvertible, Codable, Sendable {
         case glue = "Glue"
         case iceberg = "Iceberg"
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetDevice: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetDevice: String, CustomStringConvertible, Codable, Sendable {
         case aisage = "aisage"
         case ambaCv2 = "amba_cv2"
         case ambaCv22 = "amba_cv22"
@@ -1954,7 +1954,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetPlatformAccelerator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetPlatformAccelerator: String, CustomStringConvertible, Codable, Sendable {
         case intelGraphics = "INTEL_GRAPHICS"
         case mali = "MALI"
         case nna = "NNA"
@@ -1962,7 +1962,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetPlatformArch: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetPlatformArch: String, CustomStringConvertible, Codable, Sendable {
         case arm64 = "ARM64"
         case armEabi = "ARM_EABI"
         case armEabihf = "ARM_EABIHF"
@@ -1971,32 +1971,32 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum TargetPlatformOs: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetPlatformOs: String, CustomStringConvertible, Codable, Sendable {
         case android = "ANDROID"
         case linux = "LINUX"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrafficRoutingConfigType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrafficRoutingConfigType: String, CustomStringConvertible, Codable, Sendable {
         case allAtOnce = "ALL_AT_ONCE"
         case canary = "CANARY"
         case linear = "LINEAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrafficType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrafficType: String, CustomStringConvertible, Codable, Sendable {
         case phases = "PHASES"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrainingInputMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrainingInputMode: String, CustomStringConvertible, Codable, Sendable {
         case fastfile = "FastFile"
         case file = "File"
         case pipe = "Pipe"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrainingInstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrainingInstanceType: String, CustomStringConvertible, Codable, Sendable {
         case mlC42Xlarge = "ml.c4.2xlarge"
         case mlC44Xlarge = "ml.c4.4xlarge"
         case mlC48Xlarge = "ml.c4.8xlarge"
@@ -2049,13 +2049,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum TrainingJobEarlyStoppingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrainingJobEarlyStoppingType: String, CustomStringConvertible, Codable, Sendable {
         case auto = "Auto"
         case off = "Off"
         public var description: String { return self.rawValue }
     }
 
-    public enum TrainingJobSortByOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrainingJobSortByOptions: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case finalObjectiveMetricValue = "FinalObjectiveMetricValue"
         case name = "Name"
@@ -2063,7 +2063,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum TrainingJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrainingJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -2072,13 +2072,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum TrainingRepositoryAccessMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrainingRepositoryAccessMode: String, CustomStringConvertible, Codable, Sendable {
         case platform = "Platform"
         case vpc = "Vpc"
         public var description: String { return self.rawValue }
     }
 
-    public enum TransformInstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransformInstanceType: String, CustomStringConvertible, Codable, Sendable {
         case mlC42Xlarge = "ml.c4.2xlarge"
         case mlC44Xlarge = "ml.c4.4xlarge"
         case mlC48Xlarge = "ml.c4.8xlarge"
@@ -2114,7 +2114,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum TransformJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TransformJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -2123,7 +2123,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum TrialComponentPrimaryStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TrialComponentPrimaryStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "Completed"
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -2132,13 +2132,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum UserProfileSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UserProfileSortKey: String, CustomStringConvertible, Codable, Sendable {
         case creationTime = "CreationTime"
         case lastModifiedTime = "LastModifiedTime"
         public var description: String { return self.rawValue }
     }
 
-    public enum UserProfileStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UserProfileStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleteFailed = "Delete_Failed"
         case deleting = "Deleting"
         case failed = "Failed"
@@ -2149,14 +2149,14 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum VariantPropertyType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VariantPropertyType: String, CustomStringConvertible, Codable, Sendable {
         case dataCaptureConfig = "DataCaptureConfig"
         case desiredInstanceCount = "DesiredInstanceCount"
         case desiredWeight = "DesiredWeight"
         public var description: String { return self.rawValue }
     }
 
-    public enum VariantStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VariantStatus: String, CustomStringConvertible, Codable, Sendable {
         case activatingTraffic = "ActivatingTraffic"
         case baking = "Baking"
         case creating = "Creating"
@@ -2165,7 +2165,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum VendorGuidance: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VendorGuidance: String, CustomStringConvertible, Codable, Sendable {
         case archived = "ARCHIVED"
         case notProvided = "NOT_PROVIDED"
         case stable = "STABLE"
@@ -2173,7 +2173,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum WarmPoolResourceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WarmPoolResourceStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "Available"
         case inuse = "InUse"
         case reused = "Reused"
@@ -2181,7 +2181,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkforceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkforceStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case deleting = "Deleting"
         case failed = "Failed"
@@ -2190,7 +2190,7 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
-    public enum TrialComponentParameterValue: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
+    public enum TrialComponentParameterValue: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The numeric value of a numeric hyperparameter. If you specify a value for this parameter, you can't specify the StringValue parameter.
         case numberValue(Double)
         /// The string value of a categorical hyperparameter. If you specify a value for this parameter, you can't specify the NumberValue parameter.

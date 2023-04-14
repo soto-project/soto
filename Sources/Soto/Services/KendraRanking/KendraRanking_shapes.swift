@@ -21,7 +21,7 @@ import SotoCore
 extension KendraRanking {
     // MARK: Enums
 
-    public enum RescoreExecutionPlanStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RescoreExecutionPlanStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"

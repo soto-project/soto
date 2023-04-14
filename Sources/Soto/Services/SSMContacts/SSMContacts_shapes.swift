@@ -21,38 +21,38 @@ import SotoCore
 extension SSMContacts {
     // MARK: Enums
 
-    public enum AcceptCodeValidation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AcceptCodeValidation: String, CustomStringConvertible, Codable, Sendable {
         case enforce = "ENFORCE"
         case ignore = "IGNORE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AcceptType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AcceptType: String, CustomStringConvertible, Codable, Sendable {
         case delivered = "DELIVERED"
         case read = "READ"
         public var description: String { return self.rawValue }
     }
 
-    public enum ActivationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActivationStatus: String, CustomStringConvertible, Codable, Sendable {
         case activated = "ACTIVATED"
         case notActivated = "NOT_ACTIVATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable {
         case email = "EMAIL"
         case sms = "SMS"
         case voice = "VOICE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContactType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContactType: String, CustomStringConvertible, Codable, Sendable {
         case escalation = "ESCALATION"
         case personal = "PERSONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReceiptType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReceiptType: String, CustomStringConvertible, Codable, Sendable {
         case delivered = "DELIVERED"
         case error = "ERROR"
         case read = "READ"

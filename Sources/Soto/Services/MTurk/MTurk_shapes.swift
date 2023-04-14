@@ -21,14 +21,14 @@ import SotoCore
 extension MTurk {
     // MARK: Enums
 
-    public enum AssignmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssignmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case approved = "Approved"
         case rejected = "Rejected"
         case submitted = "Submitted"
         public var description: String { return self.rawValue }
     }
 
-    public enum Comparator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Comparator: String, CustomStringConvertible, Codable, Sendable {
         case doesNotExist = "DoesNotExist"
         case equalTo = "EqualTo"
         case exists = "Exists"
@@ -42,7 +42,7 @@ extension MTurk {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
         case assignmentAbandoned = "AssignmentAbandoned"
         case assignmentAccepted = "AssignmentAccepted"
         case assignmentApproved = "AssignmentApproved"
@@ -58,14 +58,14 @@ extension MTurk {
         public var description: String { return self.rawValue }
     }
 
-    public enum HITAccessActions: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HITAccessActions: String, CustomStringConvertible, Codable, Sendable {
         case accept = "Accept"
         case discoverPreviewAndAccept = "DiscoverPreviewAndAccept"
         case previewAndAccept = "PreviewAndAccept"
         public var description: String { return self.rawValue }
     }
 
-    public enum HITReviewStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HITReviewStatus: String, CustomStringConvertible, Codable, Sendable {
         case markedForReview = "MarkedForReview"
         case notReviewed = "NotReviewed"
         case reviewedAppropriate = "ReviewedAppropriate"
@@ -73,7 +73,7 @@ extension MTurk {
         public var description: String { return self.rawValue }
     }
 
-    public enum HITStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HITStatus: String, CustomStringConvertible, Codable, Sendable {
         case assignable = "Assignable"
         case disposed = "Disposed"
         case reviewable = "Reviewable"
@@ -82,32 +82,32 @@ extension MTurk {
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationTransport: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotificationTransport: String, CustomStringConvertible, Codable, Sendable {
         case email = "Email"
         case sns = "SNS"
         case sqs = "SQS"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotifyWorkersFailureCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NotifyWorkersFailureCode: String, CustomStringConvertible, Codable, Sendable {
         case hardFailure = "HardFailure"
         case softFailure = "SoftFailure"
         public var description: String { return self.rawValue }
     }
 
-    public enum QualificationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QualificationStatus: String, CustomStringConvertible, Codable, Sendable {
         case granted = "Granted"
         case revoked = "Revoked"
         public var description: String { return self.rawValue }
     }
 
-    public enum QualificationTypeStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QualificationTypeStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReviewActionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReviewActionStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "Cancelled"
         case failed = "Failed"
         case intended = "Intended"
@@ -115,13 +115,13 @@ extension MTurk {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReviewPolicyLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReviewPolicyLevel: String, CustomStringConvertible, Codable, Sendable {
         case assignment = "Assignment"
         case hit = "HIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReviewableHITStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReviewableHITStatus: String, CustomStringConvertible, Codable, Sendable {
         case reviewable = "Reviewable"
         case reviewing = "Reviewing"
         public var description: String { return self.rawValue }

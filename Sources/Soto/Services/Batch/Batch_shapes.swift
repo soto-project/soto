@@ -21,25 +21,25 @@ import SotoCore
 extension Batch {
     // MARK: Enums
 
-    public enum ArrayJobDependency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ArrayJobDependency: String, CustomStringConvertible, Codable, Sendable {
         case nToN = "N_TO_N"
         case sequential = "SEQUENTIAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssignPublicIp: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AssignPublicIp: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CEState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CEState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CEStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CEStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "CREATING"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -49,20 +49,20 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
-    public enum CEType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CEType: String, CustomStringConvertible, Codable, Sendable {
         case managed = "MANAGED"
         case unmanaged = "UNMANAGED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CRAllocationStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CRAllocationStrategy: String, CustomStringConvertible, Codable, Sendable {
         case bestFit = "BEST_FIT"
         case bestFitProgressive = "BEST_FIT_PROGRESSIVE"
         case spotCapacityOptimized = "SPOT_CAPACITY_OPTIMIZED"
         public var description: String { return self.rawValue }
     }
 
-    public enum CRType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CRType: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "EC2"
         case fargate = "FARGATE"
         case fargateSpot = "FARGATE_SPOT"
@@ -70,38 +70,38 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
-    public enum CRUpdateAllocationStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CRUpdateAllocationStrategy: String, CustomStringConvertible, Codable, Sendable {
         case bestFitProgressive = "BEST_FIT_PROGRESSIVE"
         case spotCapacityOptimized = "SPOT_CAPACITY_OPTIMIZED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable, Sendable {
         case mknod = "MKNOD"
         case read = "READ"
         case write = "WRITE"
         public var description: String { return self.rawValue }
     }
 
-    public enum EFSAuthorizationConfigIAM: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EFSAuthorizationConfigIAM: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum EFSTransitEncryption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EFSTransitEncryption: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum JQState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JQState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum JQStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JQStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "CREATING"
         case deleted = "DELETED"
         case deleting = "DELETING"
@@ -111,13 +111,13 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
-    public enum JobDefinitionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobDefinitionType: String, CustomStringConvertible, Codable, Sendable {
         case container = "container"
         case multinode = "multinode"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pending = "PENDING"
         case runnable = "RUNNABLE"
@@ -128,7 +128,7 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
-    public enum LogDriver: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LogDriver: String, CustomStringConvertible, Codable, Sendable {
         case awslogs = "awslogs"
         case fluentd = "fluentd"
         case gelf = "gelf"
@@ -139,26 +139,26 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
-    public enum OrchestrationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrchestrationType: String, CustomStringConvertible, Codable, Sendable {
         case ecs = "ECS"
         case eks = "EKS"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformCapability: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PlatformCapability: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "EC2"
         case fargate = "FARGATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case gpu = "GPU"
         case memory = "MEMORY"
         case vcpu = "VCPU"
         public var description: String { return self.rawValue }
     }
 
-    public enum RetryAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RetryAction: String, CustomStringConvertible, Codable, Sendable {
         case exit = "EXIT"
         case retry = "RETRY"
         public var description: String { return self.rawValue }

@@ -21,40 +21,40 @@ import SotoCore
 extension ServiceCatalog {
     // MARK: Enums
 
-    public enum AccessLevelFilterKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessLevelFilterKey: String, CustomStringConvertible, Codable, Sendable {
         case account = "Account"
         case role = "Role"
         case user = "User"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccessStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccessStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case underChange = "UNDER_CHANGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ChangeAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ChangeAction: String, CustomStringConvertible, Codable, Sendable {
         case add = "ADD"
         case modify = "MODIFY"
         case remove = "REMOVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CopyOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CopyOption: String, CustomStringConvertible, Codable, Sendable {
         case copyTags = "CopyTags"
         public var description: String { return self.rawValue }
     }
 
-    public enum CopyProductStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CopyProductStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum DescribePortfolioShareType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DescribePortfolioShareType: String, CustomStringConvertible, Codable, Sendable {
         case account = "ACCOUNT"
         case organization = "ORGANIZATION"
         case organizationMemberAccount = "ORGANIZATION_MEMBER_ACCOUNT"
@@ -62,50 +62,50 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
-    public enum EvaluationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EvaluationType: String, CustomStringConvertible, Codable, Sendable {
         case `static` = "STATIC"
         case dynamic = "DYNAMIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum LastSyncStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LastSyncStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum OrganizationNodeType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OrganizationNodeType: String, CustomStringConvertible, Codable, Sendable {
         case account = "ACCOUNT"
         case organization = "ORGANIZATION"
         case organizationalUnit = "ORGANIZATIONAL_UNIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum PortfolioShareType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PortfolioShareType: String, CustomStringConvertible, Codable, Sendable {
         case awsOrganizations = "AWS_ORGANIZATIONS"
         case awsServicecatalog = "AWS_SERVICECATALOG"
         case imported = "IMPORTED"
         public var description: String { return self.rawValue }
     }
 
-    public enum PrincipalType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable {
         case iam = "IAM"
         case iamPattern = "IAM_PATTERN"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProductSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProductSource: String, CustomStringConvertible, Codable, Sendable {
         case account = "ACCOUNT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProductType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProductType: String, CustomStringConvertible, Codable, Sendable {
         case cloudFormationTemplate = "CLOUD_FORMATION_TEMPLATE"
         case marketplace = "MARKETPLACE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProductViewFilterBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProductViewFilterBy: String, CustomStringConvertible, Codable, Sendable {
         case fullTextSearch = "FullTextSearch"
         case owner = "Owner"
         case productType = "ProductType"
@@ -113,20 +113,20 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProductViewSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProductViewSortBy: String, CustomStringConvertible, Codable, Sendable {
         case creationDate = "CreationDate"
         case title = "Title"
         case versionCount = "VersionCount"
         public var description: String { return self.rawValue }
     }
 
-    public enum PropertyKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PropertyKey: String, CustomStringConvertible, Codable, Sendable {
         case launchRole = "LAUNCH_ROLE"
         case owner = "OWNER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProvisionedProductPlanStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProvisionedProductPlanStatus: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createSuccess = "CREATE_SUCCESS"
@@ -136,12 +136,12 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProvisionedProductPlanType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProvisionedProductPlanType: String, CustomStringConvertible, Codable, Sendable {
         case cloudformation = "CLOUDFORMATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProvisionedProductStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProvisionedProductStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case error = "ERROR"
         case planInProgress = "PLAN_IN_PROGRESS"
@@ -150,30 +150,30 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProvisionedProductViewFilterBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProvisionedProductViewFilterBy: String, CustomStringConvertible, Codable, Sendable {
         case searchQuery = "SearchQuery"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProvisioningArtifactGuidance: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProvisioningArtifactGuidance: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case deprecated = "DEPRECATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProvisioningArtifactPropertyName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProvisioningArtifactPropertyName: String, CustomStringConvertible, Codable, Sendable {
         case id = "Id"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProvisioningArtifactType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProvisioningArtifactType: String, CustomStringConvertible, Codable, Sendable {
         case cloudFormationTemplate = "CLOUD_FORMATION_TEMPLATE"
         case marketplaceAmi = "MARKETPLACE_AMI"
         case marketplaceCar = "MARKETPLACE_CAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RecordStatus: String, CustomStringConvertible, Codable, Sendable {
         case created = "CREATED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -182,21 +182,21 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
-    public enum Replacement: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Replacement: String, CustomStringConvertible, Codable, Sendable {
         case `false` = "FALSE"
         case `true` = "TRUE"
         case conditional = "CONDITIONAL"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequiresRecreation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RequiresRecreation: String, CustomStringConvertible, Codable, Sendable {
         case always = "ALWAYS"
         case conditionally = "CONDITIONALLY"
         case never = "NEVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceAttribute: String, CustomStringConvertible, Codable, Sendable {
         case creationpolicy = "CREATIONPOLICY"
         case deletionpolicy = "DELETIONPOLICY"
         case metadata = "METADATA"
@@ -206,7 +206,7 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceActionAssociationErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceActionAssociationErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case duplicateResourceException = "DUPLICATE_RESOURCE"
         case internalFailure = "INTERNAL_FAILURE"
         case limitExceededException = "LIMIT_EXCEEDED"
@@ -215,7 +215,7 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceActionDefinitionKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceActionDefinitionKey: String, CustomStringConvertible, Codable, Sendable {
         case assumeRole = "AssumeRole"
         case name = "Name"
         case parameters = "Parameters"
@@ -223,12 +223,12 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceActionDefinitionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceActionDefinitionType: String, CustomStringConvertible, Codable, Sendable {
         case ssmAutomation = "SSM_AUTOMATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum ShareStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ShareStatus: String, CustomStringConvertible, Codable, Sendable {
         case completed = "COMPLETED"
         case completedWithErrors = "COMPLETED_WITH_ERRORS"
         case error = "ERROR"
@@ -237,32 +237,32 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable {
         case codestar = "CODESTAR"
         public var description: String { return self.rawValue }
     }
 
-    public enum StackInstanceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackInstanceStatus: String, CustomStringConvertible, Codable, Sendable {
         case current = "CURRENT"
         case inoperable = "INOPERABLE"
         case outdated = "OUTDATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StackSetOperationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StackSetOperationType: String, CustomStringConvertible, Codable, Sendable {
         case create = "CREATE"
         case delete = "DELETE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case failed = "FAILED"

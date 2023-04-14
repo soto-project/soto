@@ -21,7 +21,7 @@ import SotoCore
 extension Amp {
     // MARK: Enums
 
-    public enum AlertManagerDefinitionStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AlertManagerDefinitionStatusCode: String, CustomStringConvertible, Codable, Sendable {
         /// Definition has been created/updated. Update/Deletion is disallowed until definition is ACTIVE and workspace status is ACTIVE.
         case active = "ACTIVE"
         /// Definition is being created. Update/Deletion is disallowed until definition is ACTIVE and workspace status is ACTIVE.
@@ -37,7 +37,7 @@ extension Amp {
         public var description: String { return self.rawValue }
     }
 
-    public enum LoggingConfigurationStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LoggingConfigurationStatusCode: String, CustomStringConvertible, Codable, Sendable {
         /// Logging configuration has been created/updated. Update/Deletion is disallowed until logging configuration is ACTIVE and workspace status is ACTIVE.
         case active = "ACTIVE"
         /// Logging configuration is being created. Update/Deletion is disallowed until logging configuration is ACTIVE and workspace status is ACTIVE.
@@ -53,7 +53,7 @@ extension Amp {
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleGroupsNamespaceStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RuleGroupsNamespaceStatusCode: String, CustomStringConvertible, Codable, Sendable {
         /// Namespace has been created/updated. Update/Deletion is disallowed until namespace is ACTIVE and workspace status is ACTIVE.
         case active = "ACTIVE"
         /// Namespace is being created. Update/Deletion is disallowed until namespace is ACTIVE and workspace status is ACTIVE.
@@ -69,7 +69,7 @@ extension Amp {
         public var description: String { return self.rawValue }
     }
 
-    public enum WorkspaceStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WorkspaceStatusCode: String, CustomStringConvertible, Codable, Sendable {
         /// Workspace has been created and is usable.
         case active = "ACTIVE"
         /// Workspace is being created. Deletion is disallowed until status is ACTIVE.

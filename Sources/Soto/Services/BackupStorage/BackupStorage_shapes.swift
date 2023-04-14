@@ -21,12 +21,12 @@ import SotoCore
 extension BackupStorage {
     // MARK: Enums
 
-    public enum DataChecksumAlgorithm: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable {
         case sha256 = "SHA256"
         public var description: String { return self.rawValue }
     }
 
-    public enum SummaryChecksumAlgorithm: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SummaryChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable {
         case summary = "SUMMARY"
         public var description: String { return self.rawValue }
     }

@@ -21,7 +21,7 @@ import SotoCore
 extension PinpointSMSVoice {
     // MARK: Enums
 
-    public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
         case answered = "ANSWERED"
         case busy = "BUSY"
         case completedCall = "COMPLETED_CALL"

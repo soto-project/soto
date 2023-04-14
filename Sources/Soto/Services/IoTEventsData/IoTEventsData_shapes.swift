@@ -21,7 +21,7 @@ import SotoCore
 extension IoTEventsData {
     // MARK: Enums
 
-    public enum AlarmStateName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AlarmStateName: String, CustomStringConvertible, Codable, Sendable {
         case acknowledged = "ACKNOWLEDGED"
         case active = "ACTIVE"
         case disabled = "DISABLED"
@@ -31,7 +31,7 @@ extension IoTEventsData {
         public var description: String { return self.rawValue }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
         case equal = "EQUAL"
         case greater = "GREATER"
         case greaterOrEqual = "GREATER_OR_EQUAL"
@@ -41,7 +41,7 @@ extension IoTEventsData {
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomerActionName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomerActionName: String, CustomStringConvertible, Codable, Sendable {
         case acknowledge = "ACKNOWLEDGE"
         case disable = "DISABLE"
         case enable = "ENABLE"
@@ -50,7 +50,7 @@ extension IoTEventsData {
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case internalFailureException = "InternalFailureException"
         case invalidRequestException = "InvalidRequestException"
         case resourceNotFoundException = "ResourceNotFoundException"
@@ -59,12 +59,12 @@ extension IoTEventsData {
         public var description: String { return self.rawValue }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EventType: String, CustomStringConvertible, Codable, Sendable {
         case stateChange = "STATE_CHANGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TriggerType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TriggerType: String, CustomStringConvertible, Codable, Sendable {
         case snoozeTimeout = "SNOOZE_TIMEOUT"
         public var description: String { return self.rawValue }
     }

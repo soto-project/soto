@@ -21,7 +21,7 @@ import SotoCore
 extension MigrationHubConfig {
     // MARK: Enums
 
-    public enum TargetType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TargetType: String, CustomStringConvertible, Codable, Sendable {
         case account = "ACCOUNT"
         public var description: String { return self.rawValue }
     }

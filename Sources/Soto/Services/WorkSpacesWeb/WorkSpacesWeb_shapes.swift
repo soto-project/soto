@@ -21,24 +21,24 @@ import SotoCore
 extension WorkSpacesWeb {
     // MARK: Enums
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable {
         case iamIdentityCenter = "IAM_Identity_Center"
         case standard = "Standard"
         public var description: String { return self.rawValue }
     }
 
-    public enum BrowserType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum BrowserType: String, CustomStringConvertible, Codable, Sendable {
         case chrome = "Chrome"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnabledType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EnabledType: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityProviderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IdentityProviderType: String, CustomStringConvertible, Codable, Sendable {
         case facebook = "Facebook"
         case google = "Google"
         case loginWithAmazon = "LoginWithAmazon"
@@ -48,14 +48,14 @@ extension WorkSpacesWeb {
         public var description: String { return self.rawValue }
     }
 
-    public enum PortalStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PortalStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case incomplete = "Incomplete"
         case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
-    public enum RendererType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RendererType: String, CustomStringConvertible, Codable, Sendable {
         case appStream = "AppStream"
         public var description: String { return self.rawValue }
     }

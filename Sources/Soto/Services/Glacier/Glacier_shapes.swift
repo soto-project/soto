@@ -21,14 +21,14 @@ import SotoCore
 extension Glacier {
     // MARK: Enums
 
-    public enum ActionCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ActionCode: String, CustomStringConvertible, Codable, Sendable {
         case archiveRetrieval = "ArchiveRetrieval"
         case inventoryRetrieval = "InventoryRetrieval"
         case select = "Select"
         public var description: String { return self.rawValue }
     }
 
-    public enum CannedACL: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CannedACL: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
@@ -39,25 +39,25 @@ extension Glacier {
         public var description: String { return self.rawValue }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable {
         case kms = "aws:kms"
         case s3 = "AES256"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExpressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExpressionType: String, CustomStringConvertible, Codable, Sendable {
         case sql = "SQL"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileHeaderInfo: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FileHeaderInfo: String, CustomStringConvertible, Codable, Sendable {
         case ignore = "IGNORE"
         case none = "NONE"
         case use = "USE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Permission: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Permission: String, CustomStringConvertible, Codable, Sendable {
         case fullControl = "FULL_CONTROL"
         case read = "READ"
         case readAcp = "READ_ACP"
@@ -66,27 +66,27 @@ extension Glacier {
         public var description: String { return self.rawValue }
     }
 
-    public enum QuoteFields: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QuoteFields: String, CustomStringConvertible, Codable, Sendable {
         case always = "ALWAYS"
         case asNeeded = "ASNEEDED"
         public var description: String { return self.rawValue }
     }
 
-    public enum StatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StatusCode: String, CustomStringConvertible, Codable, Sendable {
         case failed = "Failed"
         case inProgress = "InProgress"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
-    public enum StorageClass: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable {
         case reducedRedundancy = "REDUCED_REDUNDANCY"
         case standard = "STANDARD"
         case standardInfrequentAccess = "STANDARD_IA"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
         case amazonCustomerByEmail = "AmazonCustomerByEmail"
         case canonicalUser = "CanonicalUser"
         case group = "Group"

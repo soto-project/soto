@@ -21,27 +21,27 @@ import SotoCore
 extension Inspector2 {
     // MARK: Enums
 
-    public enum AccountSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AccountSortBy: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case critical = "CRITICAL"
         case high = "HIGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregationFindingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregationFindingType: String, CustomStringConvertible, Codable, Sendable {
         case networkReachability = "NETWORK_REACHABILITY"
         case packageVulnerability = "PACKAGE_VULNERABILITY"
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregationResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregationResourceType: String, CustomStringConvertible, Codable, Sendable {
         case awsEc2Instance = "AWS_EC2_INSTANCE"
         case awsEcrContainerImage = "AWS_ECR_CONTAINER_IMAGE"
         case awsLambdaFunction = "AWS_LAMBDA_FUNCTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AggregationType: String, CustomStringConvertible, Codable, Sendable {
         case account = "ACCOUNT"
         case ami = "AMI"
         case awsEc2Instance = "AWS_EC2_INSTANCE"
@@ -56,7 +56,7 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum AmiSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AmiSortBy: String, CustomStringConvertible, Codable, Sendable {
         case affectedInstances = "AFFECTED_INSTANCES"
         case all = "ALL"
         case critical = "CRITICAL"
@@ -64,25 +64,25 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum Architecture: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Architecture: String, CustomStringConvertible, Codable, Sendable {
         case arm64 = "ARM64"
         case x8664 = "X86_64"
         public var description: String { return self.rawValue }
     }
 
-    public enum AwsEcrContainerSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AwsEcrContainerSortBy: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case critical = "CRITICAL"
         case high = "HIGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum CoverageMapComparison: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CoverageMapComparison: String, CustomStringConvertible, Codable, Sendable {
         case equals = "EQUALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum CoverageResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CoverageResourceType: String, CustomStringConvertible, Codable, Sendable {
         case awsEc2Instance = "AWS_EC2_INSTANCE"
         case awsEcrContainerImage = "AWS_ECR_CONTAINER_IMAGE"
         case awsEcrRepository = "AWS_ECR_REPOSITORY"
@@ -90,24 +90,24 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum CoverageStringComparison: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CoverageStringComparison: String, CustomStringConvertible, Codable, Sendable {
         case equals = "EQUALS"
         case notEquals = "NOT_EQUALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum Currency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Currency: String, CustomStringConvertible, Codable, Sendable {
         case usd = "USD"
         public var description: String { return self.rawValue }
     }
 
-    public enum DelegatedAdminStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DelegatedAdminStatus: String, CustomStringConvertible, Codable, Sendable {
         case disableInProgress = "DISABLE_IN_PROGRESS"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum Ec2InstanceSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Ec2InstanceSortBy: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case critical = "CRITICAL"
         case high = "HIGH"
@@ -115,35 +115,35 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum Ec2Platform: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Ec2Platform: String, CustomStringConvertible, Codable, Sendable {
         case linux = "LINUX"
         case unknown = "UNKNOWN"
         case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
 
-    public enum EcrRescanDuration: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EcrRescanDuration: String, CustomStringConvertible, Codable, Sendable {
         case days180 = "DAYS_180"
         case days30 = "DAYS_30"
         case lifetime = "LIFETIME"
         public var description: String { return self.rawValue }
     }
 
-    public enum EcrRescanDurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EcrRescanDurationStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pending = "PENDING"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum EcrScanFrequency: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EcrScanFrequency: String, CustomStringConvertible, Codable, Sendable {
         case continuousScan = "CONTINUOUS_SCAN"
         case manual = "MANUAL"
         case scanOnPush = "SCAN_ON_PUSH"
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case accountIsIsolated = "ACCOUNT_IS_ISOLATED"
         case alreadyEnabled = "ALREADY_ENABLED"
@@ -161,13 +161,13 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExploitAvailable: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExploitAvailable: String, CustomStringConvertible, Codable, Sendable {
         case no = "NO"
         case yes = "YES"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExternalReportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExternalReportStatus: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -175,59 +175,59 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterAction: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterAction: String, CustomStringConvertible, Codable, Sendable {
         case none = "NONE"
         case suppress = "SUPPRESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case closed = "CLOSED"
         case suppressed = "SUPPRESSED"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingType: String, CustomStringConvertible, Codable, Sendable {
         case networkReachability = "NETWORK_REACHABILITY"
         case packageVulnerability = "PACKAGE_VULNERABILITY"
         public var description: String { return self.rawValue }
     }
 
-    public enum FindingTypeSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FindingTypeSortBy: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case critical = "CRITICAL"
         case high = "HIGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum FixAvailable: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FixAvailable: String, CustomStringConvertible, Codable, Sendable {
         case no = "NO"
         case partial = "PARTIAL"
         case yes = "YES"
         public var description: String { return self.rawValue }
     }
 
-    public enum FreeTrialInfoErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FreeTrialInfoErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case internalError = "INTERNAL_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum FreeTrialStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FreeTrialStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FreeTrialType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FreeTrialType: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "EC2"
         case ecr = "ECR"
         case lambda = "LAMBDA"
         public var description: String { return self.rawValue }
     }
 
-    public enum GroupKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum GroupKey: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "ACCOUNT_ID"
         case ecrRepositoryName = "ECR_REPOSITORY_NAME"
         case resourceType = "RESOURCE_TYPE"
@@ -236,39 +236,39 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageLayerSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageLayerSortBy: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case critical = "CRITICAL"
         case high = "HIGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaFunctionSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LambdaFunctionSortBy: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case critical = "CRITICAL"
         case high = "HIGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum LambdaLayerSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum LambdaLayerSortBy: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case critical = "CRITICAL"
         case high = "HIGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum MapComparison: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MapComparison: String, CustomStringConvertible, Codable, Sendable {
         case equals = "EQUALS"
         public var description: String { return self.rawValue }
     }
 
-    public enum NetworkProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum NetworkProtocol: String, CustomStringConvertible, Codable, Sendable {
         case tcp = "TCP"
         case udp = "UDP"
         public var description: String { return self.rawValue }
     }
 
-    public enum Operation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Operation: String, CustomStringConvertible, Codable, Sendable {
         case disableRepository = "DISABLE_REPOSITORY"
         case disableScanning = "DISABLE_SCANNING"
         case enableRepository = "ENABLE_REPOSITORY"
@@ -276,7 +276,7 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageManager: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PackageManager: String, CustomStringConvertible, Codable, Sendable {
         case bundler = "BUNDLER"
         case cargo = "CARGO"
         case composer = "COMPOSER"
@@ -296,20 +296,20 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PackageSortBy: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case critical = "CRITICAL"
         case high = "HIGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum PackageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PackageType: String, CustomStringConvertible, Codable, Sendable {
         case image = "IMAGE"
         case zip = "ZIP"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelationshipStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RelationshipStatus: String, CustomStringConvertible, Codable, Sendable {
         case accountSuspended = "ACCOUNT_SUSPENDED"
         case cannotCreateDetectorInOrgMaster = "CANNOT_CREATE_DETECTOR_IN_ORG_MASTER"
         case created = "CREATED"
@@ -325,13 +325,13 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReportingErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReportingErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case bucketNotFound = "BUCKET_NOT_FOUND"
         case incompatibleBucketRegion = "INCOMPATIBLE_BUCKET_REGION"
         case internalError = "INTERNAL_ERROR"
@@ -341,7 +341,7 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum RepositorySortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RepositorySortBy: String, CustomStringConvertible, Codable, Sendable {
         case affectedImages = "AFFECTED_IMAGES"
         case all = "ALL"
         case critical = "CRITICAL"
@@ -349,14 +349,14 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceScanType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceScanType: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "EC2"
         case ecr = "ECR"
         case lambda = "LAMBDA"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
         case awsEc2Instance = "AWS_EC2_INSTANCE"
         case awsEcrContainerImage = "AWS_ECR_CONTAINER_IMAGE"
         case awsEcrRepository = "AWS_ECR_REPOSITORY"
@@ -364,7 +364,7 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum Runtime: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Runtime: String, CustomStringConvertible, Codable, Sendable {
         case go1X = "GO_1_X"
         case java11 = "JAVA_11"
         case java8 = "JAVA_8"
@@ -381,13 +381,13 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScanStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanStatusReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScanStatusReason: String, CustomStringConvertible, Codable, Sendable {
         case accessDenied = "ACCESS_DENIED"
         case ec2InstanceStopped = "EC2_INSTANCE_STOPPED"
         case excludedByTag = "EXCLUDED_BY_TAG"
@@ -409,20 +409,20 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScanType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScanType: String, CustomStringConvertible, Codable, Sendable {
         case network = "NETWORK"
         case package = "PACKAGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum Service: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Service: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "EC2"
         case ecr = "ECR"
         case lambda = "LAMBDA"
         public var description: String { return self.rawValue }
     }
 
-    public enum Severity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Severity: String, CustomStringConvertible, Codable, Sendable {
         case critical = "CRITICAL"
         case high = "HIGH"
         case informational = "INFORMATIONAL"
@@ -432,7 +432,7 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortField: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortField: String, CustomStringConvertible, Codable, Sendable {
         case awsAccountId = "AWS_ACCOUNT_ID"
         case componentType = "COMPONENT_TYPE"
         case ecrImagePushedAt = "ECR_IMAGE_PUSHED_AT"
@@ -452,13 +452,13 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case disabling = "DISABLING"
         case enabled = "ENABLED"
@@ -468,21 +468,21 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum StringComparison: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum StringComparison: String, CustomStringConvertible, Codable, Sendable {
         case equals = "EQUALS"
         case notEquals = "NOT_EQUALS"
         case prefix = "PREFIX"
         public var description: String { return self.rawValue }
     }
 
-    public enum TitleSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TitleSortBy: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case critical = "CRITICAL"
         case high = "HIGH"
         public var description: String { return self.rawValue }
     }
 
-    public enum UsageType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UsageType: String, CustomStringConvertible, Codable, Sendable {
         case ec2InstanceHours = "EC2_INSTANCE_HOURS"
         case ecrInitialScan = "ECR_INITIAL_SCAN"
         case ecrRescan = "ECR_RESCAN"
@@ -490,7 +490,7 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum AggregationRequest: AWSEncodableShape, _SotoSendable {
+    public enum AggregationRequest: AWSEncodableShape, Sendable {
         /// An object that contains details about an aggregation request based on Amazon Web Services account IDs.
         case accountAggregation(AccountAggregation)
         /// An object that contains details about an aggregation request based on Amazon Machine Images (AMIs).
@@ -582,7 +582,7 @@ extension Inspector2 {
         }
     }
 
-    public enum AggregationResponse: AWSDecodableShape, _SotoSendable {
+    public enum AggregationResponse: AWSDecodableShape, Sendable {
         /// An object that contains details about an aggregation response based on Amazon Web Services account IDs.
         case accountAggregation(AccountAggregationResponse)
         /// An object that contains details about an aggregation response based on Amazon Machine Images (AMIs).

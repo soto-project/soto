@@ -21,20 +21,20 @@ import SotoCore
 extension MediaStore {
     // MARK: Enums
 
-    public enum ContainerLevelMetrics: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContainerLevelMetrics: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContainerStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
-    public enum MethodName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MethodName: String, CustomStringConvertible, Codable, Sendable {
         case delete = "DELETE"
         case get = "GET"
         case head = "HEAD"

@@ -21,7 +21,7 @@ import SotoCore
 extension CodeCatalyst {
     // MARK: Enums
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable {
         case eq = "EQ"
         case ge = "GE"
         case gt = "GT"
@@ -30,13 +30,13 @@ extension CodeCatalyst {
         public var description: String { return self.rawValue }
     }
 
-    public enum DevEnvironmentSessionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DevEnvironmentSessionType: String, CustomStringConvertible, Codable, Sendable {
         case ssh = "SSH"
         case ssm = "SSM"
         public var description: String { return self.rawValue }
     }
 
-    public enum DevEnvironmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DevEnvironmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleted = "DELETED"
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -48,12 +48,12 @@ extension CodeCatalyst {
         public var description: String { return self.rawValue }
     }
 
-    public enum FilterKey: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FilterKey: String, CustomStringConvertible, Codable, Sendable {
         case hasAccessTo = "hasAccessTo"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InstanceType: String, CustomStringConvertible, Codable, Sendable {
         case devStandard1Large = "dev.standard1.large"
         case devStandard1Medium = "dev.standard1.medium"
         case devStandard1Small = "dev.standard1.small"
@@ -61,13 +61,13 @@ extension CodeCatalyst {
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperationType: String, CustomStringConvertible, Codable, Sendable {
         case mutation = "MUTATION"
         case readonly = "READONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum UserType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UserType: String, CustomStringConvertible, Codable, Sendable {
         case awsAccount = "AWS_ACCOUNT"
         case unknown = "UNKNOWN"
         case user = "USER"

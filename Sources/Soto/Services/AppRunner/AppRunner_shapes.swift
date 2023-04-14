@@ -21,26 +21,26 @@ import SotoCore
 extension AppRunner {
     // MARK: Enums
 
-    public enum AutoScalingConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AutoScalingConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum CertificateValidationRecordStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CertificateValidationRecordStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case pendingValidation = "PENDING_VALIDATION"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfigurationSource: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfigurationSource: String, CustomStringConvertible, Codable, Sendable {
         case api = "API"
         case repository = "REPOSITORY"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case error = "ERROR"
@@ -48,7 +48,7 @@ extension AppRunner {
         public var description: String { return self.rawValue }
     }
 
-    public enum CustomDomainAssociationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum CustomDomainAssociationStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case bindingCertificate = "BINDING_CERTIFICATE"
         case createFailed = "CREATE_FAILED"
@@ -59,31 +59,31 @@ extension AppRunner {
         public var description: String { return self.rawValue }
     }
 
-    public enum EgressType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EgressType: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case vpc = "VPC"
         public var description: String { return self.rawValue }
     }
 
-    public enum HealthCheckProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HealthCheckProtocol: String, CustomStringConvertible, Codable, Sendable {
         case http = "HTTP"
         case tcp = "TCP"
         public var description: String { return self.rawValue }
     }
 
-    public enum ImageRepositoryType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ImageRepositoryType: String, CustomStringConvertible, Codable, Sendable {
         case ecr = "ECR"
         case ecrPublic = "ECR_PUBLIC"
         public var description: String { return self.rawValue }
     }
 
-    public enum ObservabilityConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ObservabilityConfigurationStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperationStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case pending = "PENDING"
@@ -94,7 +94,7 @@ extension AppRunner {
         public var description: String { return self.rawValue }
     }
 
-    public enum OperationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum OperationType: String, CustomStringConvertible, Codable, Sendable {
         case createService = "CREATE_SERVICE"
         case deleteService = "DELETE_SERVICE"
         case pauseService = "PAUSE_SERVICE"
@@ -103,12 +103,12 @@ extension AppRunner {
         public var description: String { return self.rawValue }
     }
 
-    public enum ProviderType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ProviderType: String, CustomStringConvertible, Codable, Sendable {
         case github = "GITHUB"
         public var description: String { return self.rawValue }
     }
 
-    public enum Runtime: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Runtime: String, CustomStringConvertible, Codable, Sendable {
         case corretto11 = "CORRETTO_11"
         case corretto8 = "CORRETTO_8"
         case dotnet6 = "DOTNET_6"
@@ -122,7 +122,7 @@ extension AppRunner {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceStatus: String, CustomStringConvertible, Codable, Sendable {
         case createFailed = "CREATE_FAILED"
         case deleteFailed = "DELETE_FAILED"
         case deleted = "DELETED"
@@ -132,23 +132,23 @@ extension AppRunner {
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceCodeVersionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SourceCodeVersionType: String, CustomStringConvertible, Codable, Sendable {
         case branch = "BRANCH"
         public var description: String { return self.rawValue }
     }
 
-    public enum TracingVendor: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TracingVendor: String, CustomStringConvertible, Codable, Sendable {
         case awsxray = "AWSXRAY"
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcConnectorStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpcConnectorStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum VpcIngressConnectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum VpcIngressConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case failedCreation = "FAILED_CREATION"

@@ -21,32 +21,32 @@ import SotoCore
 extension Detective {
     // MARK: Enums
 
-    public enum DatasourcePackage: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatasourcePackage: String, CustomStringConvertible, Codable, Sendable {
         case detectiveCore = "DETECTIVE_CORE"
         case eksAudit = "EKS_AUDIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum DatasourcePackageIngestState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatasourcePackageIngestState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case started = "STARTED"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InvitationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum InvitationType: String, CustomStringConvertible, Codable, Sendable {
         case invitation = "INVITATION"
         case organization = "ORGANIZATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberDisabledReason: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MemberDisabledReason: String, CustomStringConvertible, Codable, Sendable {
         case volumeTooHigh = "VOLUME_TOO_HIGH"
         case volumeUnknown = "VOLUME_UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
-    public enum MemberStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MemberStatus: String, CustomStringConvertible, Codable, Sendable {
         case acceptedButDisabled = "ACCEPTED_BUT_DISABLED"
         case enabled = "ENABLED"
         case invited = "INVITED"

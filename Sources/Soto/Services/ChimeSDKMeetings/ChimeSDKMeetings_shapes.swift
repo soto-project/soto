@@ -21,7 +21,7 @@ import SotoCore
 extension ChimeSDKMeetings {
     // MARK: Enums
 
-    public enum MediaCapabilities: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MediaCapabilities: String, CustomStringConvertible, Codable, Sendable {
         case none = "None"
         case receive = "Receive"
         case send = "Send"
@@ -29,23 +29,23 @@ extension ChimeSDKMeetings {
         public var description: String { return self.rawValue }
     }
 
-    public enum MeetingFeatureStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MeetingFeatureStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeContentIdentificationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TranscribeContentIdentificationType: String, CustomStringConvertible, Codable, Sendable {
         case pii = "PII"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeContentRedactionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TranscribeContentRedactionType: String, CustomStringConvertible, Codable, Sendable {
         case pii = "PII"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeLanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TranscribeLanguageCode: String, CustomStringConvertible, Codable, Sendable {
         case deDE = "de-DE"
         case enAU = "en-AU"
         case enGB = "en-GB"
@@ -61,17 +61,17 @@ extension ChimeSDKMeetings {
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeMedicalContentIdentificationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TranscribeMedicalContentIdentificationType: String, CustomStringConvertible, Codable, Sendable {
         case phi = "PHI"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeMedicalLanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TranscribeMedicalLanguageCode: String, CustomStringConvertible, Codable, Sendable {
         case enUS = "en-US"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeMedicalRegion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TranscribeMedicalRegion: String, CustomStringConvertible, Codable, Sendable {
         case apSoutheast2 = "ap-southeast-2"
         case auto = "auto"
         case caCentral1 = "ca-central-1"
@@ -82,7 +82,7 @@ extension ChimeSDKMeetings {
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeMedicalSpecialty: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TranscribeMedicalSpecialty: String, CustomStringConvertible, Codable, Sendable {
         case cardiology = "CARDIOLOGY"
         case neurology = "NEUROLOGY"
         case oncology = "ONCOLOGY"
@@ -92,20 +92,20 @@ extension ChimeSDKMeetings {
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeMedicalType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TranscribeMedicalType: String, CustomStringConvertible, Codable, Sendable {
         case conversation = "CONVERSATION"
         case dictation = "DICTATION"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribePartialResultsStability: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TranscribePartialResultsStability: String, CustomStringConvertible, Codable, Sendable {
         case high = "high"
         case low = "low"
         case medium = "medium"
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeRegion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TranscribeRegion: String, CustomStringConvertible, Codable, Sendable {
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
         case apSoutheast2 = "ap-southeast-2"
@@ -122,7 +122,7 @@ extension ChimeSDKMeetings {
         public var description: String { return self.rawValue }
     }
 
-    public enum TranscribeVocabularyFilterMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum TranscribeVocabularyFilterMethod: String, CustomStringConvertible, Codable, Sendable {
         case mask = "mask"
         case remove = "remove"
         case tag = "tag"

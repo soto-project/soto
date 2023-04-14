@@ -21,19 +21,19 @@ import SotoCore
 extension Kendra {
     // MARK: Enums
 
-    public enum AdditionalResultAttributeValueType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AdditionalResultAttributeValueType: String, CustomStringConvertible, Codable, Sendable {
         case textWithHighlightsValue = "TEXT_WITH_HIGHLIGHTS_VALUE"
         public var description: String { return self.rawValue }
     }
 
-    public enum AlfrescoEntity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum AlfrescoEntity: String, CustomStringConvertible, Codable, Sendable {
         case blog = "blog"
         case documentLibrary = "documentLibrary"
         case wiki = "wiki"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConditionOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConditionOperator: String, CustomStringConvertible, Codable, Sendable {
         case beginsWith = "BeginsWith"
         case contains = "Contains"
         case equals = "Equals"
@@ -48,7 +48,7 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfluenceAttachmentFieldName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfluenceAttachmentFieldName: String, CustomStringConvertible, Codable, Sendable {
         case author = "AUTHOR"
         case contentType = "CONTENT_TYPE"
         case createdDate = "CREATED_DATE"
@@ -63,13 +63,13 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfluenceAuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfluenceAuthenticationType: String, CustomStringConvertible, Codable, Sendable {
         case httpBasic = "HTTP_BASIC"
         case pat = "PAT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfluenceBlogFieldName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfluenceBlogFieldName: String, CustomStringConvertible, Codable, Sendable {
         case author = "AUTHOR"
         case displayUrl = "DISPLAY_URL"
         case itemType = "ITEM_TYPE"
@@ -82,7 +82,7 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfluencePageFieldName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfluencePageFieldName: String, CustomStringConvertible, Codable, Sendable {
         case author = "AUTHOR"
         case contentStatus = "CONTENT_STATUS"
         case createdDate = "CREATED_DATE"
@@ -98,7 +98,7 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfluenceSpaceFieldName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfluenceSpaceFieldName: String, CustomStringConvertible, Codable, Sendable {
         case displayUrl = "DISPLAY_URL"
         case itemType = "ITEM_TYPE"
         case spaceKey = "SPACE_KEY"
@@ -106,13 +106,13 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum ConfluenceVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ConfluenceVersion: String, CustomStringConvertible, Codable, Sendable {
         case cloud = "CLOUD"
         case server = "SERVER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ContentType: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case html = "HTML"
         case json = "JSON"
@@ -128,7 +128,7 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSourceStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -137,7 +137,7 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceSyncJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSourceSyncJobStatus: String, CustomStringConvertible, Codable, Sendable {
         case aborted = "ABORTED"
         case failed = "FAILED"
         case incomplete = "INCOMPLETE"
@@ -148,7 +148,7 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable {
         case alfresco = "ALFRESCO"
         case box = "BOX"
         case confluence = "CONFLUENCE"
@@ -171,7 +171,7 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum DatabaseEngineType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DatabaseEngineType: String, CustomStringConvertible, Codable, Sendable {
         case rdsAuroraMysql = "RDS_AURORA_MYSQL"
         case rdsAuroraPostgresql = "RDS_AURORA_POSTGRESQL"
         case rdsMysql = "RDS_MYSQL"
@@ -179,7 +179,7 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentAttributeValueType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DocumentAttributeValueType: String, CustomStringConvertible, Codable, Sendable {
         case dateValue = "DATE_VALUE"
         case longValue = "LONG_VALUE"
         case stringListValue = "STRING_LIST_VALUE"
@@ -187,7 +187,7 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum DocumentStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case indexed = "INDEXED"
         case notFound = "NOT_FOUND"
@@ -197,24 +197,24 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum EndpointType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EndpointType: String, CustomStringConvertible, Codable, Sendable {
         case home = "HOME"
         public var description: String { return self.rawValue }
     }
 
-    public enum EntityType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum EntityType: String, CustomStringConvertible, Codable, Sendable {
         case group = "GROUP"
         case user = "USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case internalError = "InternalError"
         case invalidRequest = "InvalidRequest"
         public var description: String { return self.rawValue }
     }
 
-    public enum ExperienceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ExperienceStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -222,14 +222,14 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum FaqFileFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FaqFileFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
         case csvWithHeader = "CSV_WITH_HEADER"
         case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
-    public enum FaqStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FaqStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -238,24 +238,24 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum FsxFileSystemType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum FsxFileSystemType: String, CustomStringConvertible, Codable, Sendable {
         case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
 
-    public enum HighlightType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum HighlightType: String, CustomStringConvertible, Codable, Sendable {
         case standard = "STANDARD"
         case thesaurusSynonym = "THESAURUS_SYNONYM"
         public var description: String { return self.rawValue }
     }
 
-    public enum IndexEdition: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IndexEdition: String, CustomStringConvertible, Codable, Sendable {
         case developerEdition = "DEVELOPER_EDITION"
         case enterpriseEdition = "ENTERPRISE_EDITION"
         public var description: String { return self.rawValue }
     }
 
-    public enum IndexStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IndexStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -265,7 +265,7 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum Interval: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Interval: String, CustomStringConvertible, Codable, Sendable {
         case oneMonthAgo = "ONE_MONTH_AGO"
         case oneWeekAgo = "ONE_WEEK_AGO"
         case thisMonth = "THIS_MONTH"
@@ -275,20 +275,20 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum IssueSubEntity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum IssueSubEntity: String, CustomStringConvertible, Codable, Sendable {
         case attachments = "ATTACHMENTS"
         case comments = "COMMENTS"
         case worklogs = "WORKLOGS"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyLocation: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum KeyLocation: String, CustomStringConvertible, Codable, Sendable {
         case secretManager = "SECRET_MANAGER"
         case url = "URL"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum MetricType: String, CustomStringConvertible, Codable, Sendable {
         case aggQueryDocMetrics = "AGG_QUERY_DOC_METRICS"
         case docsByClickCount = "DOCS_BY_CLICK_COUNT"
         case queriesByCount = "QUERIES_BY_COUNT"
@@ -298,25 +298,25 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum Mode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Mode: String, CustomStringConvertible, Codable, Sendable {
         case enabled = "ENABLED"
         case learnOnly = "LEARN_ONLY"
         public var description: String { return self.rawValue }
     }
 
-    public enum Order: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Order: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum Persona: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum Persona: String, CustomStringConvertible, Codable, Sendable {
         case owner = "OWNER"
         case viewer = "VIEWER"
         public var description: String { return self.rawValue }
     }
 
-    public enum PrincipalMappingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PrincipalMappingStatus: String, CustomStringConvertible, Codable, Sendable {
         case deleted = "DELETED"
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -325,32 +325,32 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum PrincipalType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable {
         case group = "GROUP"
         case user = "USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryIdentifiersEnclosingOption: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QueryIdentifiersEnclosingOption: String, CustomStringConvertible, Codable, Sendable {
         case doubleQuotes = "DOUBLE_QUOTES"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryResultFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QueryResultFormat: String, CustomStringConvertible, Codable, Sendable {
         case table = "TABLE"
         case text = "TEXT"
         public var description: String { return self.rawValue }
     }
 
-    public enum QueryResultType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QueryResultType: String, CustomStringConvertible, Codable, Sendable {
         case answer = "ANSWER"
         case document = "DOCUMENT"
         case questionAnswer = "QUESTION_ANSWER"
         public var description: String { return self.rawValue }
     }
 
-    public enum QuerySuggestionsBlockListStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QuerySuggestionsBlockListStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case activeButUpdateFailed = "ACTIVE_BUT_UPDATE_FAILED"
         case creating = "CREATING"
@@ -360,38 +360,38 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum QuerySuggestionsStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum QuerySuggestionsStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ReadAccessType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ReadAccessType: String, CustomStringConvertible, Codable, Sendable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum RelevanceType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum RelevanceType: String, CustomStringConvertible, Codable, Sendable {
         case notRelevant = "NOT_RELEVANT"
         case relevant = "RELEVANT"
         public var description: String { return self.rawValue }
     }
 
-    public enum SalesforceChatterFeedIncludeFilterType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SalesforceChatterFeedIncludeFilterType: String, CustomStringConvertible, Codable, Sendable {
         case activeUser = "ACTIVE_USER"
         case standardUser = "STANDARD_USER"
         public var description: String { return self.rawValue }
     }
 
-    public enum SalesforceKnowledgeArticleState: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SalesforceKnowledgeArticleState: String, CustomStringConvertible, Codable, Sendable {
         case archived = "ARCHIVED"
         case draft = "DRAFT"
         case published = "PUBLISHED"
         public var description: String { return self.rawValue }
     }
 
-    public enum SalesforceStandardObjectName: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SalesforceStandardObjectName: String, CustomStringConvertible, Codable, Sendable {
         case `case` = "CASE"
         case account = "ACCOUNT"
         case campaign = "CAMPAIGN"
@@ -412,7 +412,7 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum ScoreConfidence: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ScoreConfidence: String, CustomStringConvertible, Codable, Sendable {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
@@ -421,25 +421,25 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceNowAuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceNowAuthenticationType: String, CustomStringConvertible, Codable, Sendable {
         case httpBasic = "HTTP_BASIC"
         case oauth2 = "OAUTH2"
         public var description: String { return self.rawValue }
     }
 
-    public enum ServiceNowBuildVersionType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ServiceNowBuildVersionType: String, CustomStringConvertible, Codable, Sendable {
         case london = "LONDON"
         case others = "OTHERS"
         public var description: String { return self.rawValue }
     }
 
-    public enum SharePointOnlineAuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SharePointOnlineAuthenticationType: String, CustomStringConvertible, Codable, Sendable {
         case httpBasic = "HTTP_BASIC"
         case oauth2 = "OAUTH2"
         public var description: String { return self.rawValue }
     }
 
-    public enum SharePointVersion: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SharePointVersion: String, CustomStringConvertible, Codable, Sendable {
         case sharepoint2013 = "SHAREPOINT_2013"
         case sharepoint2016 = "SHAREPOINT_2016"
         case sharepoint2019 = "SHAREPOINT_2019"
@@ -447,7 +447,7 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum SlackEntity: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SlackEntity: String, CustomStringConvertible, Codable, Sendable {
         case directMessage = "DIRECT_MESSAGE"
         case groupMessage = "GROUP_MESSAGE"
         case privateChannel = "PRIVATE_CHANNEL"
@@ -455,13 +455,13 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
-    public enum ThesaurusStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum ThesaurusStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case activeButUpdateFailed = "ACTIVE_BUT_UPDATE_FAILED"
         case creating = "CREATING"
@@ -471,31 +471,31 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
-    public enum UserContextPolicy: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UserContextPolicy: String, CustomStringConvertible, Codable, Sendable {
         case attributeFilter = "ATTRIBUTE_FILTER"
         case userToken = "USER_TOKEN"
         public var description: String { return self.rawValue }
     }
 
-    public enum UserGroupResolutionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum UserGroupResolutionMode: String, CustomStringConvertible, Codable, Sendable {
         case awsSso = "AWS_SSO"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum WarningCode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WarningCode: String, CustomStringConvertible, Codable, Sendable {
         case queryLanguageInvalidSyntax = "QUERY_LANGUAGE_INVALID_SYNTAX"
         public var description: String { return self.rawValue }
     }
 
-    public enum WebCrawlerMode: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum WebCrawlerMode: String, CustomStringConvertible, Codable, Sendable {
         case everything = "EVERYTHING"
         case hostOnly = "HOST_ONLY"
         case subdomains = "SUBDOMAINS"
         public var description: String { return self.rawValue }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable {
         case onPremise = "ON_PREMISE"
         case saas = "SAAS"
         public var description: String { return self.rawValue }
