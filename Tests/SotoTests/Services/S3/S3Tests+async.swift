@@ -22,12 +22,11 @@ import XCTest
 import SotoS3
 import SotoS3Control
 
-#if compiler(>=5.5.2) && canImport(_Concurrency)
-
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class S3AsyncTests: XCTestCase {
     static var client: AWSClient!
     static var s3: S3!
+    static var randomBytes: Data!
 
     override class func setUp() {
         if TestEnvironment.isUsingLocalstack {
@@ -42,6 +41,7 @@ class S3AsyncTests: XCTestCase {
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
+        Self.randomBytes = Self.createRandomBuffer(size: 23 * 1024 * 1024)
     }
 
     override class func tearDown() {
@@ -528,22 +528,16 @@ class S3AsyncTests: XCTestCase {
     }
 
     func testMultiPartDownloadAsync() async throws {
-        // doesnt work with LocalStack
-        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1028)
         let name = TestEnvironment.generateResourceName()
         let filename = "testMultiPartDownloadAsync"
 
         try await self.s3Test(bucket: name) {
-            var buffer = ByteBuffer(data: data)
+            let buffer = ByteBuffer(data: data)
+            let bufferSequence = TestByteBufferSequence(source: buffer, size: 1024 * 1024)
             let putRequest = S3.CreateMultipartUploadRequest(bucket: name, key: filename)
-            _ = try await s3.multipartUploadFromStream(putRequest, logger: TestEnvironment.logger) { _ -> AWSPayload in
-                let blockSize = min(buffer.readableBytes, 5 * 1024 * 1024)
-                let slice = buffer.readSlice(length: blockSize)!
-                return .byteBuffer(slice)
-            }
+            _ = try await s3.multipartUpload(putRequest, bufferSequence: bufferSequence, logger: TestEnvironment.logger)
 
             let request = S3.GetObjectRequest(bucket: name, key: filename)
             let size = try await s3.multipartDownload(request, partSize: 1024 * 1024, filename: filename, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
@@ -557,7 +551,7 @@ class S3AsyncTests: XCTestCase {
 
     func testMultiPartUploadAsync() async throws {
         let s3 = Self.s3.with(timeout: .minutes(2))
-        let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
+        let data = Self.randomBytes!
         let name = TestEnvironment.generateResourceName()
         let filename = "testMultiPartUploadAsync"
 
@@ -571,10 +565,35 @@ class S3AsyncTests: XCTestCase {
                 bucket: name,
                 key: name
             )
+            let date = Date()
             _ = try await s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
+            print(-date.timeIntervalSinceNow)
 
             let download = try await s3.getObject(.init(bucket: name, key: name), logger: TestEnvironment.logger)
             XCTAssertEqual(download.body?.asData(), data)
+        }
+    }
+
+    func testMultiPartUploadAsyncSequence() async throws {
+        let s3 = Self.s3.with(timeout: .minutes(2))
+        let name = TestEnvironment.generateResourceName()
+        let buffer = ByteBufferAllocator().buffer(data: Self.randomBytes)
+        let seq = TestByteBufferSequence(source: buffer, range: 32768..<65536)
+
+        try await self.s3Test(bucket: name) {
+            let request = S3.CreateMultipartUploadRequest(
+                bucket: name,
+                key: name
+            )
+            let date = Date()
+            @Sendable func printProgress(_ value: Int) {
+                print("Progress \(value) bytes")
+            }
+            _ = try await s3.multipartUpload(request, partSize: 5 * 1024 * 1024, bufferSequence: seq, logger: TestEnvironment.logger, progress: printProgress)
+            print(-date.timeIntervalSinceNow)
+
+            let download = try await s3.getObject(.init(bucket: name, key: name), logger: TestEnvironment.logger)
+            XCTAssertEqual(download.body?.asByteBuffer(), buffer)
         }
     }
 
@@ -604,7 +623,7 @@ class S3AsyncTests: XCTestCase {
     func testResumeMultiPartUploadAsync() async throws {
         struct CancelError: Error {}
         let s3 = Self.s3.with(timeout: .minutes(2))
-        let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
+        let data = Self.randomBytes!
         let name = TestEnvironment.generateResourceName()
         let filename = "testResumeMultiPartUploadAsync"
 
@@ -689,4 +708,38 @@ class S3AsyncTests: XCTestCase {
     }
 }
 
-#endif
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+struct TestByteBufferSequence: AsyncSequence {
+    typealias Element = ByteBuffer
+    let source: ByteBuffer
+    let range: Range<Int>
+
+    init(source: ByteBuffer, range: Range<Int>) {
+        self.source = source
+        self.range = range
+    }
+
+    init(source: ByteBuffer, size: Int) {
+        self.source = source
+        self.range = size..<size + 1
+    }
+
+    struct AsyncIterator: AsyncIteratorProtocol {
+        var source: ByteBuffer
+        var range: Range<Int>
+
+        mutating func next() async throws -> ByteBuffer? {
+            let size = Swift.min(Int.random(in: self.range), self.source.readableBytes)
+            if size == 0 {
+                return nil
+            } else {
+                return self.source.readSlice(length: size)
+            }
+        }
+    }
+
+    /// Make async iterator
+    public func makeAsyncIterator() -> AsyncIterator {
+        return AsyncIterator(source: self.source, range: self.range)
+    }
+}

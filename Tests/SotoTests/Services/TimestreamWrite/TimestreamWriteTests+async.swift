@@ -12,8 +12,6 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if compiler(>=5.5.2) && canImport(_Concurrency)
-
 @testable import SotoTimestreamWrite
 import XCTest
 
@@ -106,5 +104,3 @@ class TimestreamWriteAsyncTests: XCTestCase {
         _ = try await self.deleteDatabase(named: name)
     }
 }
-
-#endif // compiler(>=5.5.2) && canImport(_Concurrency)

@@ -21,6 +21,7 @@ import XCTest
 class S3ExtensionTests: XCTestCase {
     static var client: AWSClient!
     static var s3: S3!
+    static var randomBytes: Data!
 
     override class func setUp() {
         if TestEnvironment.isUsingLocalstack {
@@ -35,6 +36,7 @@ class S3ExtensionTests: XCTestCase {
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
+        Self.randomBytes = S3Tests.createRandomBuffer(size: 23 * 1024 * 1024)
     }
 
     override class func tearDown() {
@@ -87,7 +89,7 @@ class S3ExtensionTests: XCTestCase {
     func testMultiPartUploadDownloadFile() {
         guard !TestEnvironment.isUsingLocalstack else { return }
         let s3 = Self.s3.with(timeout: .minutes(2))
-        let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1028)
+        let data = Self.randomBytes!
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartDownloadTest"
         let response = S3Tests.createBucket(name: name, s3: s3)

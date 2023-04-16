@@ -12,8 +12,6 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if compiler(>=5.5.2) && canImport(_Concurrency)
-
 import SotoCore
 import SotoDynamoDB
 import XCTest
@@ -180,5 +178,3 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
         try await self.deleteTable(name: tableName)
     }
 }
-
-#endif // compiler(>=5.5.2) && canImport(_Concurrency)
