@@ -397,7 +397,7 @@ extension S3 {
     ///     - progress: Callback that returns the progress of the upload. It is called after each part and is called with how
     ///         many bytes have been uploaded so far.
     /// - returns: Output from CompleteMultipartUpload.
-    public func multipartUpload<ByteBufferSequence: AsyncSequence & Sendable>(
+    public func multipartUpload<ByteBufferSequence: AsyncSequence>(
         _ input: CreateMultipartUploadRequest,
         partSize: Int = 5 * 1024 * 1024,
         bufferSequence: ByteBufferSequence,
@@ -476,7 +476,7 @@ extension S3 {
     ///   - progress: Callback that returns the progress of the upload. It is called after each part and is called with how
     ///         many bytes have been uploaded so far.
     /// - Returns: Output from CompleteMultipartUpload.
-    public func resumeMultipartUpload<ByteBufferSequence: AsyncSequence & Sendable>(
+    public func resumeMultipartUpload<ByteBufferSequence: AsyncSequence>(
         _ input: ResumeMultipartUploadRequest,
         partSize: Int = 5 * 1024 * 1024,
         bufferSequence: ByteBufferSequence,
@@ -515,7 +515,7 @@ extension S3 {
     ///   - progress: Callback that returns the progress of the upload. It is called after each part and is called with how
     ///         many bytes have been uploaded so far.
     /// - Returns: Output from CompleteMultipartUpload.
-    public func resumeMultipartUpload<PartsSequence: AsyncSequence & Sendable>(
+    public func resumeMultipartUpload<PartsSequence: AsyncSequence>(
         _ input: ResumeMultipartUploadRequest,
         partSize: Int = 5 * 1024 * 1024,
         partSequence: PartsSequence,
