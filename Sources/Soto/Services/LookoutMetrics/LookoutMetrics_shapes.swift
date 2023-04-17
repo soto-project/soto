@@ -2078,7 +2078,7 @@ extension LookoutMetrics {
         /// The minimum severity score for inclusion in the output.
         public let sensitivityThreshold: Int
 
-        public init(anomalyDetectorArn: String, maxResults: Int? = nil, nextToken: String? = nil, sensitivityThreshold: Int) {
+        public init(anomalyDetectorArn: String, maxResults: Int? = nil, nextToken: String? = nil, sensitivityThreshold: Int = 0) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.maxResults = maxResults
             self.nextToken = nextToken

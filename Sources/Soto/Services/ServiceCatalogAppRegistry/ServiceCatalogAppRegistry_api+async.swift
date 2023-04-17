@@ -26,7 +26,7 @@ extension ServiceCatalogAppRegistry {
         return try await self.client.execute(operation: "AssociateAttributeGroup", path: "/applications/{application}/attribute-groups/{attributeGroup}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Associates a resource with an application. Both the resource and the application can be specified either by ID or name.
+    ///  Associates a resource  with an application.  The resource can be specified  by its ARN or name.  The application can be specified  by ARN, ID, or name.
     public func associateResource(_ input: AssociateResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateResourceResponse {
         return try await self.client.execute(operation: "AssociateResource", path: "/applications/{application}/resources/{resourceType}/{resource}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -41,12 +41,12 @@ extension ServiceCatalogAppRegistry {
         return try await self.client.execute(operation: "CreateAttributeGroup", path: "/attribute-groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an application that is specified either by its application ID or name. All associated attribute groups and resources must be disassociated from it before deleting an application.
+    /// Deletes an application that is specified either by its application ID, name, or ARN. All associated attribute groups and resources must be disassociated from it before deleting an application.
     public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteApplicationResponse {
         return try await self.client.execute(operation: "DeleteApplication", path: "/applications/{application}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an attribute group, specified either by its attribute group ID or name.
+    /// Deletes an attribute group, specified either by its attribute group ID, name, or ARN.
     public func deleteAttributeGroup(_ input: DeleteAttributeGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteAttributeGroupResponse {
         return try await self.client.execute(operation: "DeleteAttributeGroup", path: "/attribute-groups/{attributeGroup}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -61,7 +61,7 @@ extension ServiceCatalogAppRegistry {
         return try await self.client.execute(operation: "DisassociateResource", path: "/applications/{application}/resources/{resourceType}/{resource}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves metadata information about one of your applications. The application can be specified either by its unique ID or by its name (which is unique within one account in one region at a given point in time). Specify by ID in automated workflows if you want to make sure that the exact same application is returned or a ResourceNotFoundException is thrown, avoiding the ABA addressing problem.
+    ///  Retrieves metadata information  about one  of your applications.  The application can be specified  by its ARN, ID, or name  (which is unique  within one account  in one region  at a given point  in time).  Specify  by ARN or ID  in automated workflows  if you want  to make sure  that the exact same application is returned or a ResourceNotFoundException is thrown,  avoiding the ABA addressing problem.
     public func getApplication(_ input: GetApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetApplicationResponse {
         return try await self.client.execute(operation: "GetApplication", path: "/applications/{application}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -71,7 +71,7 @@ extension ServiceCatalogAppRegistry {
         return try await self.client.execute(operation: "GetAssociatedResource", path: "/applications/{application}/resources/{resourceType}/{resource}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves an attribute group, either by its name or its ID. The attribute group can be specified either by its unique ID or by its name.
+    ///  Retrieves an attribute group by its ARN, ID, or name.  The attribute group can be specified  by its ARN, ID, or name.
     public func getAttributeGroup(_ input: GetAttributeGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAttributeGroupResponse {
         return try await self.client.execute(operation: "GetAttributeGroup", path: "/attribute-groups/{attributeGroup}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -116,7 +116,7 @@ extension ServiceCatalogAppRegistry {
         return try await self.client.execute(operation: "PutConfiguration", path: "/configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Syncs the resource with current AppRegistry records.  Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
+    /// Syncs the resource with current AppRegistry records. Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
     public func syncResource(_ input: SyncResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SyncResourceResponse {
         return try await self.client.execute(operation: "SyncResource", path: "/sync/{resourceType}/{resource}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

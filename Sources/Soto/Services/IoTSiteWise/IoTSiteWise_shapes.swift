@@ -1727,7 +1727,7 @@ extension IoTSiteWise {
     }
 
     public struct BatchGetAssetPropertyValueRequest: AWSEncodableShape {
-        /// The list of asset property value entries for the batch get request. You can specify up to 16 entries per request.
+        /// The list of asset property value entries for the batch get request. You can specify up to 128 entries per request.
         public let entries: [BatchGetAssetPropertyValueEntry]
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3653,6 +3653,8 @@ extension IoTSiteWise {
         public let dataTypeSpec: String?
         /// The ID of the asset property.
         public let propertyId: String?
+        /// The ARN of the time series, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:time-series/${TimeSeriesId}
+        public let timeSeriesArn: String
         /// The date that the time series was created, in Unix epoch time.
         public let timeSeriesCreationDate: Date
         /// The ID of the time series.
@@ -3660,12 +3662,13 @@ extension IoTSiteWise {
         /// The date that the time series was last updated, in Unix epoch time.
         public let timeSeriesLastUpdateDate: Date
 
-        public init(alias: String? = nil, assetId: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, propertyId: String? = nil, timeSeriesCreationDate: Date, timeSeriesId: String, timeSeriesLastUpdateDate: Date) {
+        public init(alias: String? = nil, assetId: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, propertyId: String? = nil, timeSeriesArn: String, timeSeriesCreationDate: Date, timeSeriesId: String, timeSeriesLastUpdateDate: Date) {
             self.alias = alias
             self.assetId = assetId
             self.dataType = dataType
             self.dataTypeSpec = dataTypeSpec
             self.propertyId = propertyId
+            self.timeSeriesArn = timeSeriesArn
             self.timeSeriesCreationDate = timeSeriesCreationDate
             self.timeSeriesId = timeSeriesId
             self.timeSeriesLastUpdateDate = timeSeriesLastUpdateDate
@@ -3677,6 +3680,7 @@ extension IoTSiteWise {
             case dataType = "dataType"
             case dataTypeSpec = "dataTypeSpec"
             case propertyId = "propertyId"
+            case timeSeriesArn = "timeSeriesArn"
             case timeSeriesCreationDate = "timeSeriesCreationDate"
             case timeSeriesId = "timeSeriesId"
             case timeSeriesLastUpdateDate = "timeSeriesLastUpdateDate"
@@ -5953,6 +5957,8 @@ extension IoTSiteWise {
         public let dataTypeSpec: String?
         /// The ID of the asset property.
         public let propertyId: String?
+        /// The ARN of the time series, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:time-series/${TimeSeriesId}
+        public let timeSeriesArn: String
         /// The date that the time series was created, in Unix epoch time.
         public let timeSeriesCreationDate: Date
         /// The ID of the time series.
@@ -5960,12 +5966,13 @@ extension IoTSiteWise {
         /// The date that the time series was last updated, in Unix epoch time.
         public let timeSeriesLastUpdateDate: Date
 
-        public init(alias: String? = nil, assetId: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, propertyId: String? = nil, timeSeriesCreationDate: Date, timeSeriesId: String, timeSeriesLastUpdateDate: Date) {
+        public init(alias: String? = nil, assetId: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, propertyId: String? = nil, timeSeriesArn: String, timeSeriesCreationDate: Date, timeSeriesId: String, timeSeriesLastUpdateDate: Date) {
             self.alias = alias
             self.assetId = assetId
             self.dataType = dataType
             self.dataTypeSpec = dataTypeSpec
             self.propertyId = propertyId
+            self.timeSeriesArn = timeSeriesArn
             self.timeSeriesCreationDate = timeSeriesCreationDate
             self.timeSeriesId = timeSeriesId
             self.timeSeriesLastUpdateDate = timeSeriesLastUpdateDate
@@ -5977,6 +5984,7 @@ extension IoTSiteWise {
             case dataType = "dataType"
             case dataTypeSpec = "dataTypeSpec"
             case propertyId = "propertyId"
+            case timeSeriesArn = "timeSeriesArn"
             case timeSeriesCreationDate = "timeSeriesCreationDate"
             case timeSeriesId = "timeSeriesId"
             case timeSeriesLastUpdateDate = "timeSeriesLastUpdateDate"

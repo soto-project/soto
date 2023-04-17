@@ -497,7 +497,11 @@ extension SecurityLake {
     }
 
     public struct CreateSubscriberResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) created by you to provide to the subscriber. For more information about ARNs and how to use them in policies, see IAM identifiers in the Identity and Access Management (IAM) User Guide. .
+        /// The Amazon Resource Name (ARN) which uniquely defines the AWS RAM resource share. Before accepting the RAM resource share invitation, you can view details related to the RAM resource share.
+        public let resourceShareArn: String?
+        /// The name of the resource share.
+        public let resourceShareName: String?
+        /// The Amazon Resource Name (ARN) created by you to provide to the subscriber. For more information about ARNs and how to use them in policies, see Amazon Security Lake User Guide.
         public let roleArn: String?
         /// The ARN for the Amazon S3 bucket.
         public let s3BucketArn: String?
@@ -506,7 +510,9 @@ extension SecurityLake {
         /// The subscriptionId created by the CreateSubscriber API call.
         public let subscriptionId: String
 
-        public init(roleArn: String? = nil, s3BucketArn: String? = nil, snsArn: String? = nil, subscriptionId: String) {
+        public init(resourceShareArn: String? = nil, resourceShareName: String? = nil, roleArn: String? = nil, s3BucketArn: String? = nil, snsArn: String? = nil, subscriptionId: String) {
+            self.resourceShareArn = resourceShareArn
+            self.resourceShareName = resourceShareName
             self.roleArn = roleArn
             self.s3BucketArn = s3BucketArn
             self.snsArn = snsArn
@@ -514,6 +520,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case resourceShareArn = "resourceShareArn"
+            case resourceShareName = "resourceShareName"
             case roleArn = "roleArn"
             case s3BucketArn = "s3BucketArn"
             case snsArn = "snsArn"
@@ -534,11 +542,11 @@ extension SecurityLake {
         public let httpsApiKeyValue: String?
         /// The HTTPS method used for the notification subscription.
         public let httpsMethod: HttpsMethod?
-        /// The Amazon Resource Name (ARN) of the EventBridge API destinations IAM role that you created.
+        /// The Amazon Resource Name (ARN) of the EventBridge API destinations IAM role that you created. For more information about ARNs and how to use them in policies, see Managing data access and Amazon Web Services Managed Policies in the Amazon Security Lake User Guide.
         public let roleArn: String?
         /// The subscription endpoint in Security Lake. If you prefer notification with an HTTPs endpoint, populate this field.
         public let subscriptionEndpoint: String?
-        /// The subscription ID for the notification subscription/
+        /// The subscription ID for the notification subscription.
         public let subscriptionId: String
 
         public init(createSqs: Bool? = nil, httpsApiKeyName: String? = nil, httpsApiKeyValue: String? = nil, httpsMethod: HttpsMethod? = nil, roleArn: String? = nil, subscriptionEndpoint: String? = nil, subscriptionId: String) {
@@ -656,7 +664,7 @@ extension SecurityLake {
     }
 
     public struct DeleteDatalakeAutoEnableRequest: AWSEncodableShape {
-        /// Delete Amazon Security Lake with the specified configuration settings to stop ingesting security data for new accounts in Security Lake.
+        /// Remove automatic enablement of configuration settings for new member accounts in Security Lake.
         public let removeFromConfigurationForNewAccounts: [AutoEnableNewRegionConfiguration]
 
         public init(removeFromConfigurationForNewAccounts: [AutoEnableNewRegionConfiguration]) {
@@ -989,8 +997,10 @@ extension SecurityLake {
         public let status: SettingsStatus?
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define.
         public let tagsMap: [String: String]?
+        /// The status of the last UpdateDatalake or DeleteDatalake API request.
+        public let updateStatus: UpdateStatus?
 
-        public init(encryptionKey: String? = nil, replicationDestinationRegions: [Region]? = nil, replicationRoleArn: String? = nil, retentionSettings: [RetentionSetting]? = nil, s3BucketArn: String? = nil, status: SettingsStatus? = nil, tagsMap: [String: String]? = nil) {
+        public init(encryptionKey: String? = nil, replicationDestinationRegions: [Region]? = nil, replicationRoleArn: String? = nil, retentionSettings: [RetentionSetting]? = nil, s3BucketArn: String? = nil, status: SettingsStatus? = nil, tagsMap: [String: String]? = nil, updateStatus: UpdateStatus? = nil) {
             self.encryptionKey = encryptionKey
             self.replicationDestinationRegions = replicationDestinationRegions
             self.replicationRoleArn = replicationRoleArn
@@ -998,6 +1008,7 @@ extension SecurityLake {
             self.s3BucketArn = s3BucketArn
             self.status = status
             self.tagsMap = tagsMap
+            self.updateStatus = updateStatus
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1008,6 +1019,24 @@ extension SecurityLake {
             case s3BucketArn = "s3BucketArn"
             case status = "status"
             case tagsMap = "tagsMap"
+            case updateStatus = "updateStatus"
+        }
+    }
+
+    public struct LastUpdateFailure: AWSDecodableShape {
+        /// The reason code for the failure of the last UpdateDatalake or DeleteDatalake API request.
+        public let code: String?
+        /// The reason for the failure of the last UpdateDatalakeor DeleteDatalake API request.
+        public let reason: String?
+
+        public init(code: String? = nil, reason: String? = nil) {
+            self.code = code
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case reason = "reason"
         }
     }
 
@@ -1206,6 +1235,10 @@ extension SecurityLake {
         public let createdAt: Date?
         /// The external ID of the subscriber. The external ID lets the user that is assuming the role assert the circumstances in which they are operating. It also provides a way for the account owner to permit the role to be assumed only under specific circumstances.
         public let externalId: String?
+        /// The Amazon Resource Name (ARN) which uniquely defines the AWS RAM resource share. Before accepting the RAM resource share invitation, you can view details related to the RAM resource share. This field is available only for Lake Formation subscribers created after March 8, 2023.
+        public let resourceShareArn: String?
+        /// The name of the resource share.
+        public let resourceShareName: String?
         /// The Amazon Resource Name (ARN) specifying the role of the subscriber.
         public let roleArn: String?
         /// The ARN for the Amazon S3 bucket.
@@ -1229,11 +1262,13 @@ extension SecurityLake {
         /// The date and time when the subscription was created.
         public let updatedAt: Date?
 
-        public init(accessTypes: [AccessType]? = nil, accountId: String, createdAt: Date? = nil, externalId: String? = nil, roleArn: String? = nil, s3BucketArn: String? = nil, snsArn: String? = nil, sourceTypes: [SourceType], subscriberDescription: String? = nil, subscriberName: String? = nil, subscriptionEndpoint: String? = nil, subscriptionId: String, subscriptionProtocol: EndpointProtocol? = nil, subscriptionStatus: SubscriptionStatus? = nil, updatedAt: Date? = nil) {
+        public init(accessTypes: [AccessType]? = nil, accountId: String, createdAt: Date? = nil, externalId: String? = nil, resourceShareArn: String? = nil, resourceShareName: String? = nil, roleArn: String? = nil, s3BucketArn: String? = nil, snsArn: String? = nil, sourceTypes: [SourceType], subscriberDescription: String? = nil, subscriberName: String? = nil, subscriptionEndpoint: String? = nil, subscriptionId: String, subscriptionProtocol: EndpointProtocol? = nil, subscriptionStatus: SubscriptionStatus? = nil, updatedAt: Date? = nil) {
             self.accessTypes = accessTypes
             self.accountId = accountId
             self.createdAt = createdAt
             self.externalId = externalId
+            self.resourceShareArn = resourceShareArn
+            self.resourceShareName = resourceShareName
             self.roleArn = roleArn
             self.s3BucketArn = s3BucketArn
             self.snsArn = snsArn
@@ -1252,6 +1287,8 @@ extension SecurityLake {
             case accountId = "accountId"
             case createdAt = "createdAt"
             case externalId = "externalId"
+            case resourceShareArn = "resourceShareArn"
+            case resourceShareName = "resourceShareName"
             case roleArn = "roleArn"
             case s3BucketArn = "s3BucketArn"
             case snsArn = "snsArn"
@@ -1331,6 +1368,27 @@ extension SecurityLake {
         public init() {}
     }
 
+    public struct UpdateStatus: AWSDecodableShape {
+        /// The details of the last UpdateDatalakeor DeleteDatalake API request which failed.
+        public let lastUpdateFailure: LastUpdateFailure?
+        /// The unique ID for the UpdateDatalake or DeleteDatalake API request.
+        public let lastUpdateRequestId: String?
+        /// The status of the last UpdateDatalake or DeleteDatalake API request that was requested.
+        public let lastUpdateStatus: SettingsStatus?
+
+        public init(lastUpdateFailure: LastUpdateFailure? = nil, lastUpdateRequestId: String? = nil, lastUpdateStatus: SettingsStatus? = nil) {
+            self.lastUpdateFailure = lastUpdateFailure
+            self.lastUpdateRequestId = lastUpdateRequestId
+            self.lastUpdateStatus = lastUpdateStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdateFailure = "lastUpdateFailure"
+            case lastUpdateRequestId = "lastUpdateRequestId"
+            case lastUpdateStatus = "lastUpdateStatus"
+        }
+    }
+
     public struct UpdateSubscriberRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("id"))
@@ -1398,7 +1456,7 @@ extension SecurityLake {
         public let httpsApiKeyValue: String?
         /// The HTTPS method used for the subscription notification.
         public let httpsMethod: HttpsMethod?
-        /// The Amazon Resource Name (ARN) specifying the role of the subscriber.
+        /// The Amazon Resource Name (ARN) specifying the role of the subscriber. For more information about ARNs and how to use them in policies, see, see the Managing data access and Amazon Web Services Managed Policiesin the Amazon Security Lake User Guide.
         public let roleArn: String?
         /// The subscription endpoint in Security Lake.
         public let subscriptionEndpoint: String?

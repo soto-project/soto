@@ -833,7 +833,7 @@ extension StorageGateway {
         /// The size of the volume in bytes.
         public let volumeSizeInBytes: Int64
 
-        public init(clientToken: String, gatewayARN: String, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, networkInterfaceId: String, snapshotId: String? = nil, sourceVolumeARN: String? = nil, tags: [Tag]? = nil, targetName: String, volumeSizeInBytes: Int64) {
+        public init(clientToken: String, gatewayARN: String, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, networkInterfaceId: String, snapshotId: String? = nil, sourceVolumeARN: String? = nil, tags: [Tag]? = nil, targetName: String, volumeSizeInBytes: Int64 = 0) {
             self.clientToken = clientToken
             self.gatewayARN = gatewayARN
             self.kmsEncrypted = kmsEncrypted
@@ -1383,7 +1383,7 @@ extension StorageGateway {
         ///  If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name.
         public let targetName: String
 
-        public init(diskId: String, gatewayARN: String, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, networkInterfaceId: String, preserveExistingData: Bool, snapshotId: String? = nil, tags: [Tag]? = nil, targetName: String) {
+        public init(diskId: String, gatewayARN: String, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, networkInterfaceId: String, preserveExistingData: Bool = false, snapshotId: String? = nil, tags: [Tag]? = nil, targetName: String) {
             self.diskId = diskId
             self.gatewayARN = gatewayARN
             self.kmsEncrypted = kmsEncrypted

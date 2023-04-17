@@ -107,7 +107,7 @@ public struct WorkSpaces: AWSService {
         return self.client.execute(operation: "CreateIpGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a Standby WorkSpace in a secondary region.
+    /// Creates a standby WorkSpace in a secondary Region.
     public func createStandbyWorkspaces(_ input: CreateStandbyWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStandbyWorkspacesResult> {
         return self.client.execute(operation: "CreateStandbyWorkspaces", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -117,7 +117,7 @@ public struct WorkSpaces: AWSService {
         return self.client.execute(operation: "CreateTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new updated WorkSpace image based on the specified source image. The new updated WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces components. To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces requirements, use  DescribeWorkspaceImages.    Only Windows 10, Windows Sever 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time.   Microsoft Windows updates and other application updates are not included in the update process.   The source WorkSpace image is not deleted. You can delete the source image after you've verified your new updated image and created a new bundle.
+    /// Creates a new updated WorkSpace image based on the specified source image. The new updated WorkSpace image has the latest drivers and other updates required by the  Amazon WorkSpaces components. To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces requirements, use  DescribeWorkspaceImages.    Only Windows 10, Windows Server 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time.   Microsoft Windows updates and other application updates are not included in the update process.   The source WorkSpace image is not deleted. You can delete the source image after you've verified your new updated image and created a new bundle.
     public func createUpdatedWorkspaceImage(_ input: CreateUpdatedWorkspaceImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUpdatedWorkspaceImageResult> {
         return self.client.execute(operation: "CreateUpdatedWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -272,7 +272,7 @@ public struct WorkSpaces: AWSService {
         return self.client.execute(operation: "ImportClientBranding", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Imports the specified Windows 10 Bring Your Own License (BYOL) or Windows Server 2016 BYOL  image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is  in your Amazon Web Services account, and you must own the image. For more information about  creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
+    /// Imports the specified Windows 10 Bring Your Own License (BYOL)  image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is  in your Amazon Web Services account, and you must own the image. For more information about  creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
     public func importWorkspaceImage(_ input: ImportWorkspaceImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportWorkspaceImageResult> {
         return self.client.execute(operation: "ImportWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -387,7 +387,7 @@ public struct WorkSpaces: AWSService {
         return self.client.execute(operation: "UpdateRulesOfIpGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a WorkSpace bundle with a new image. For more information about updating WorkSpace bundles, see   Update a Custom WorkSpaces Bundle.   Existing WorkSpaces aren't automatically updated when you update the bundle that they're  based on. To update existing WorkSpaces that are based on a bundle that you've updated, you  must either rebuild the WorkSpaces or delete and recreate them.
+    /// Updates a WorkSpace bundle with a new image. For more information about updating WorkSpace bundles, see   Update a Custom WorkSpaces Bundle.  Existing WorkSpaces aren't automatically updated when you update the bundle that they're  based on. To update existing WorkSpaces that are based on a bundle that you've updated, you  must either rebuild the WorkSpaces or delete and recreate them.
     public func updateWorkspaceBundle(_ input: UpdateWorkspaceBundleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWorkspaceBundleResult> {
         return self.client.execute(operation: "UpdateWorkspaceBundle", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

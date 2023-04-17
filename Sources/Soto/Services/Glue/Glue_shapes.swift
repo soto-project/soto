@@ -231,6 +231,12 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeltaTargetCompressionType: String, CustomStringConvertible, Codable, Sendable {
+        case snappy = "snappy"
+        case uncompressed = "uncompressed"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EnableHybridValues: String, CustomStringConvertible, Codable, Sendable {
         case `false` = "FALSE"
         case `true` = "TRUE"
@@ -311,6 +317,15 @@ extension Glue {
         case lzo = "lzo"
         case snappy = "snappy"
         case uncompressed = "uncompressed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JDBCConnectionType: String, CustomStringConvertible, Codable, Sendable {
+        case mysql = "mysql"
+        case oracle = "oracle"
+        case postgresql = "postgresql"
+        case redshift = "redshift"
+        case sqlserver = "sqlserver"
         public var description: String { return self.rawValue }
     }
 
@@ -514,6 +529,7 @@ extension Glue {
 
     public enum ResourceShareType: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
+        case federated = "FEDERATED"
         case foreign = "FOREIGN"
         public var description: String { return self.rawValue }
     }
@@ -622,6 +638,7 @@ extension Glue {
     public enum TargetFormat: String, CustomStringConvertible, Codable, Sendable {
         case avro = "avro"
         case csv = "csv"
+        case delta = "delta"
         case hudi = "hudi"
         case json = "json"
         case orc = "orc"
@@ -926,7 +943,7 @@ extension Glue {
     }
 
     public struct AuditContext: AWSEncodableShape {
-        /// The context for the audit..
+        /// A string containing the additional audit context information.
         public let additionalAuditContext: String?
         /// All columns request for audit.
         public let allColumnsRequested: Bool?
@@ -2132,6 +2149,48 @@ extension Glue {
         public init() {}
     }
 
+    public struct CatalogDeltaSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options.
+        public let additionalDeltaOptions: [String: String]?
+        /// The name of the database to read from.
+        public let database: String
+        /// The name of the Delta Lake data source.
+        public let name: String
+        /// Specifies the data schema for the Delta Lake source.
+        public let outputSchemas: [GlueSchema]?
+        /// The name of the table in the database to read from.
+        public let table: String
+
+        public init(additionalDeltaOptions: [String: String]? = nil, database: String, name: String, outputSchemas: [GlueSchema]? = nil, table: String) {
+            self.additionalDeltaOptions = additionalDeltaOptions
+            self.database = database
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalDeltaOptions?.forEach {
+                try validate($0.key, name: "additionalDeltaOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.value, name: "additionalDeltaOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalDeltaOptions = "AdditionalDeltaOptions"
+            case database = "Database"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+            case table = "Table"
+        }
+    }
+
     public struct CatalogEntry: AWSEncodableShape {
         /// The database in which the table metadata resides.
         public let databaseName: String
@@ -2491,6 +2550,8 @@ extension Glue {
         public let applyMapping: ApplyMapping?
         /// Specifies a connector to an Amazon Athena data source.
         public let athenaConnectorSource: AthenaConnectorSource?
+        /// Specifies a Delta Lake data source that is registered in the Glue Data Catalog.
+        public let catalogDeltaSource: CatalogDeltaSource?
         /// Specifies a Hudi data source that is registered in the Glue Data Catalog.
         public let catalogHudiSource: CatalogHudiSource?
         /// Specifies an Apache Kafka data store in the Data Catalog.
@@ -2503,6 +2564,7 @@ extension Glue {
         public let catalogTarget: BasicCatalogTarget?
         /// Specifies a transform that uses custom code you provide to perform the data transformation. The output is a collection of DynamicFrames.
         public let customCode: CustomCode?
+        public let directJDBCSource: DirectJDBCSource?
         /// Specifies an Apache Kafka data store.
         public let directKafkaSource: DirectKafkaSource?
         /// Specifies a direct Amazon Kinesis data source.
@@ -2515,6 +2577,7 @@ extension Glue {
         public let dropNullFields: DropNullFields?
         /// Specifies a custom visual transform created by a user.
         public let dynamicTransform: DynamicTransform?
+        /// Specifies a DynamoDBC Catalog data store in the Glue Data Catalog.
         public let dynamoDBCatalogSource: DynamoDBCatalogSource?
         /// Specifies your data quality evaluation criteria.
         public let evaluateDataQuality: EvaluateDataQuality?
@@ -2556,10 +2619,13 @@ extension Glue {
         public let redshiftSource: RedshiftSource?
         /// Specifies a target that uses Amazon Redshift.
         public let redshiftTarget: RedshiftTarget?
+        /// Specifies a relational catalog data store in the Glue Data Catalog.
         public let relationalCatalogSource: RelationalCatalogSource?
         /// Specifies a transform that renames a single data property key.
         public let renameField: RenameField?
-        /// Specifies a Hudi data source that is registered in the Glue Data Catalog. The Hudi data source must be stored in Amazon S3.
+        /// Specifies a Delta Lake data source that is registered in the Glue Data Catalog. The data source must be stored in Amazon S3.
+        public let s3CatalogDeltaSource: S3CatalogDeltaSource?
+        /// Specifies a Hudi data source that is registered in the Glue Data Catalog. The data source must be stored in Amazon S3.
         public let s3CatalogHudiSource: S3CatalogHudiSource?
         /// Specifies an Amazon S3 data store in the Glue Data Catalog.
         public let s3CatalogSource: S3CatalogSource?
@@ -2567,6 +2633,12 @@ extension Glue {
         public let s3CatalogTarget: S3CatalogTarget?
         /// Specifies a command-separated value (CSV) data store stored in Amazon S3.
         public let s3CsvSource: S3CsvSource?
+        /// Specifies a target that writes to a Delta Lake data source in the Glue Data Catalog.
+        public let s3DeltaCatalogTarget: S3DeltaCatalogTarget?
+        /// Specifies a target that writes to a Delta Lake data source in Amazon S3.
+        public let s3DeltaDirectTarget: S3DeltaDirectTarget?
+        /// Specifies a Delta Lake data source stored in Amazon S3.
+        public let s3DeltaSource: S3DeltaSource?
         /// Specifies a data target that writes to Amazon S3.
         public let s3DirectTarget: S3DirectTarget?
         /// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar storage.
@@ -2598,16 +2670,18 @@ extension Glue {
         /// Specifies a transform that combines the rows from two or more datasets into a single result.
         public let union: Union?
 
-        public init(aggregate: Aggregate? = nil, applyMapping: ApplyMapping? = nil, athenaConnectorSource: AthenaConnectorSource? = nil, catalogHudiSource: CatalogHudiSource? = nil, catalogKafkaSource: CatalogKafkaSource? = nil, catalogKinesisSource: CatalogKinesisSource? = nil, catalogSource: CatalogSource? = nil, catalogTarget: BasicCatalogTarget? = nil, customCode: CustomCode? = nil, directKafkaSource: DirectKafkaSource? = nil, directKinesisSource: DirectKinesisSource? = nil, dropDuplicates: DropDuplicates? = nil, dropFields: DropFields? = nil, dropNullFields: DropNullFields? = nil, dynamicTransform: DynamicTransform? = nil, dynamoDBCatalogSource: DynamoDBCatalogSource? = nil, evaluateDataQuality: EvaluateDataQuality? = nil, fillMissingValues: FillMissingValues? = nil, filter: Filter? = nil, governedCatalogSource: GovernedCatalogSource? = nil, governedCatalogTarget: GovernedCatalogTarget? = nil, jdbcConnectorSource: JDBCConnectorSource? = nil, jdbcConnectorTarget: JDBCConnectorTarget? = nil, join: Join? = nil, merge: Merge? = nil, microsoftSQLServerCatalogSource: MicrosoftSQLServerCatalogSource? = nil, microsoftSQLServerCatalogTarget: MicrosoftSQLServerCatalogTarget? = nil, mySQLCatalogSource: MySQLCatalogSource? = nil, mySQLCatalogTarget: MySQLCatalogTarget? = nil, oracleSQLCatalogSource: OracleSQLCatalogSource? = nil, oracleSQLCatalogTarget: OracleSQLCatalogTarget? = nil, piiDetection: PIIDetection? = nil, postgreSQLCatalogSource: PostgreSQLCatalogSource? = nil, postgreSQLCatalogTarget: PostgreSQLCatalogTarget? = nil, redshiftSource: RedshiftSource? = nil, redshiftTarget: RedshiftTarget? = nil, relationalCatalogSource: RelationalCatalogSource? = nil, renameField: RenameField? = nil, s3CatalogHudiSource: S3CatalogHudiSource? = nil, s3CatalogSource: S3CatalogSource? = nil, s3CatalogTarget: S3CatalogTarget? = nil, s3CsvSource: S3CsvSource? = nil, s3DirectTarget: S3DirectTarget? = nil, s3GlueParquetTarget: S3GlueParquetTarget? = nil, s3HudiCatalogTarget: S3HudiCatalogTarget? = nil, s3HudiDirectTarget: S3HudiDirectTarget? = nil, s3HudiSource: S3HudiSource? = nil, s3JsonSource: S3JsonSource? = nil, s3ParquetSource: S3ParquetSource? = nil, selectFields: SelectFields? = nil, selectFromCollection: SelectFromCollection? = nil, sparkConnectorSource: SparkConnectorSource? = nil, sparkConnectorTarget: SparkConnectorTarget? = nil, sparkSQL: SparkSQL? = nil, spigot: Spigot? = nil, splitFields: SplitFields? = nil, union: Union? = nil) {
+        public init(aggregate: Aggregate? = nil, applyMapping: ApplyMapping? = nil, athenaConnectorSource: AthenaConnectorSource? = nil, catalogDeltaSource: CatalogDeltaSource? = nil, catalogHudiSource: CatalogHudiSource? = nil, catalogKafkaSource: CatalogKafkaSource? = nil, catalogKinesisSource: CatalogKinesisSource? = nil, catalogSource: CatalogSource? = nil, catalogTarget: BasicCatalogTarget? = nil, customCode: CustomCode? = nil, directJDBCSource: DirectJDBCSource? = nil, directKafkaSource: DirectKafkaSource? = nil, directKinesisSource: DirectKinesisSource? = nil, dropDuplicates: DropDuplicates? = nil, dropFields: DropFields? = nil, dropNullFields: DropNullFields? = nil, dynamicTransform: DynamicTransform? = nil, dynamoDBCatalogSource: DynamoDBCatalogSource? = nil, evaluateDataQuality: EvaluateDataQuality? = nil, fillMissingValues: FillMissingValues? = nil, filter: Filter? = nil, governedCatalogSource: GovernedCatalogSource? = nil, governedCatalogTarget: GovernedCatalogTarget? = nil, jdbcConnectorSource: JDBCConnectorSource? = nil, jdbcConnectorTarget: JDBCConnectorTarget? = nil, join: Join? = nil, merge: Merge? = nil, microsoftSQLServerCatalogSource: MicrosoftSQLServerCatalogSource? = nil, microsoftSQLServerCatalogTarget: MicrosoftSQLServerCatalogTarget? = nil, mySQLCatalogSource: MySQLCatalogSource? = nil, mySQLCatalogTarget: MySQLCatalogTarget? = nil, oracleSQLCatalogSource: OracleSQLCatalogSource? = nil, oracleSQLCatalogTarget: OracleSQLCatalogTarget? = nil, piiDetection: PIIDetection? = nil, postgreSQLCatalogSource: PostgreSQLCatalogSource? = nil, postgreSQLCatalogTarget: PostgreSQLCatalogTarget? = nil, redshiftSource: RedshiftSource? = nil, redshiftTarget: RedshiftTarget? = nil, relationalCatalogSource: RelationalCatalogSource? = nil, renameField: RenameField? = nil, s3CatalogDeltaSource: S3CatalogDeltaSource? = nil, s3CatalogHudiSource: S3CatalogHudiSource? = nil, s3CatalogSource: S3CatalogSource? = nil, s3CatalogTarget: S3CatalogTarget? = nil, s3CsvSource: S3CsvSource? = nil, s3DeltaCatalogTarget: S3DeltaCatalogTarget? = nil, s3DeltaDirectTarget: S3DeltaDirectTarget? = nil, s3DeltaSource: S3DeltaSource? = nil, s3DirectTarget: S3DirectTarget? = nil, s3GlueParquetTarget: S3GlueParquetTarget? = nil, s3HudiCatalogTarget: S3HudiCatalogTarget? = nil, s3HudiDirectTarget: S3HudiDirectTarget? = nil, s3HudiSource: S3HudiSource? = nil, s3JsonSource: S3JsonSource? = nil, s3ParquetSource: S3ParquetSource? = nil, selectFields: SelectFields? = nil, selectFromCollection: SelectFromCollection? = nil, sparkConnectorSource: SparkConnectorSource? = nil, sparkConnectorTarget: SparkConnectorTarget? = nil, sparkSQL: SparkSQL? = nil, spigot: Spigot? = nil, splitFields: SplitFields? = nil, union: Union? = nil) {
             self.aggregate = aggregate
             self.applyMapping = applyMapping
             self.athenaConnectorSource = athenaConnectorSource
+            self.catalogDeltaSource = catalogDeltaSource
             self.catalogHudiSource = catalogHudiSource
             self.catalogKafkaSource = catalogKafkaSource
             self.catalogKinesisSource = catalogKinesisSource
             self.catalogSource = catalogSource
             self.catalogTarget = catalogTarget
             self.customCode = customCode
+            self.directJDBCSource = directJDBCSource
             self.directKafkaSource = directKafkaSource
             self.directKinesisSource = directKinesisSource
             self.dropDuplicates = dropDuplicates
@@ -2637,10 +2711,14 @@ extension Glue {
             self.redshiftTarget = redshiftTarget
             self.relationalCatalogSource = relationalCatalogSource
             self.renameField = renameField
+            self.s3CatalogDeltaSource = s3CatalogDeltaSource
             self.s3CatalogHudiSource = s3CatalogHudiSource
             self.s3CatalogSource = s3CatalogSource
             self.s3CatalogTarget = s3CatalogTarget
             self.s3CsvSource = s3CsvSource
+            self.s3DeltaCatalogTarget = s3DeltaCatalogTarget
+            self.s3DeltaDirectTarget = s3DeltaDirectTarget
+            self.s3DeltaSource = s3DeltaSource
             self.s3DirectTarget = s3DirectTarget
             self.s3GlueParquetTarget = s3GlueParquetTarget
             self.s3HudiCatalogTarget = s3HudiCatalogTarget
@@ -2662,12 +2740,14 @@ extension Glue {
             try self.aggregate?.validate(name: "\(name).aggregate")
             try self.applyMapping?.validate(name: "\(name).applyMapping")
             try self.athenaConnectorSource?.validate(name: "\(name).athenaConnectorSource")
+            try self.catalogDeltaSource?.validate(name: "\(name).catalogDeltaSource")
             try self.catalogHudiSource?.validate(name: "\(name).catalogHudiSource")
             try self.catalogKafkaSource?.validate(name: "\(name).catalogKafkaSource")
             try self.catalogKinesisSource?.validate(name: "\(name).catalogKinesisSource")
             try self.catalogSource?.validate(name: "\(name).catalogSource")
             try self.catalogTarget?.validate(name: "\(name).catalogTarget")
             try self.customCode?.validate(name: "\(name).customCode")
+            try self.directJDBCSource?.validate(name: "\(name).directJDBCSource")
             try self.directKafkaSource?.validate(name: "\(name).directKafkaSource")
             try self.directKinesisSource?.validate(name: "\(name).directKinesisSource")
             try self.dropDuplicates?.validate(name: "\(name).dropDuplicates")
@@ -2697,10 +2777,14 @@ extension Glue {
             try self.redshiftTarget?.validate(name: "\(name).redshiftTarget")
             try self.relationalCatalogSource?.validate(name: "\(name).relationalCatalogSource")
             try self.renameField?.validate(name: "\(name).renameField")
+            try self.s3CatalogDeltaSource?.validate(name: "\(name).s3CatalogDeltaSource")
             try self.s3CatalogHudiSource?.validate(name: "\(name).s3CatalogHudiSource")
             try self.s3CatalogSource?.validate(name: "\(name).s3CatalogSource")
             try self.s3CatalogTarget?.validate(name: "\(name).s3CatalogTarget")
             try self.s3CsvSource?.validate(name: "\(name).s3CsvSource")
+            try self.s3DeltaCatalogTarget?.validate(name: "\(name).s3DeltaCatalogTarget")
+            try self.s3DeltaDirectTarget?.validate(name: "\(name).s3DeltaDirectTarget")
+            try self.s3DeltaSource?.validate(name: "\(name).s3DeltaSource")
             try self.s3DirectTarget?.validate(name: "\(name).s3DirectTarget")
             try self.s3GlueParquetTarget?.validate(name: "\(name).s3GlueParquetTarget")
             try self.s3HudiCatalogTarget?.validate(name: "\(name).s3HudiCatalogTarget")
@@ -2722,12 +2806,14 @@ extension Glue {
             case aggregate = "Aggregate"
             case applyMapping = "ApplyMapping"
             case athenaConnectorSource = "AthenaConnectorSource"
+            case catalogDeltaSource = "CatalogDeltaSource"
             case catalogHudiSource = "CatalogHudiSource"
             case catalogKafkaSource = "CatalogKafkaSource"
             case catalogKinesisSource = "CatalogKinesisSource"
             case catalogSource = "CatalogSource"
             case catalogTarget = "CatalogTarget"
             case customCode = "CustomCode"
+            case directJDBCSource = "DirectJDBCSource"
             case directKafkaSource = "DirectKafkaSource"
             case directKinesisSource = "DirectKinesisSource"
             case dropDuplicates = "DropDuplicates"
@@ -2757,10 +2843,14 @@ extension Glue {
             case redshiftTarget = "RedshiftTarget"
             case relationalCatalogSource = "RelationalCatalogSource"
             case renameField = "RenameField"
+            case s3CatalogDeltaSource = "S3CatalogDeltaSource"
             case s3CatalogHudiSource = "S3CatalogHudiSource"
             case s3CatalogSource = "S3CatalogSource"
             case s3CatalogTarget = "S3CatalogTarget"
             case s3CsvSource = "S3CsvSource"
+            case s3DeltaCatalogTarget = "S3DeltaCatalogTarget"
+            case s3DeltaDirectTarget = "S3DeltaDirectTarget"
+            case s3DeltaSource = "S3DeltaSource"
             case s3DirectTarget = "S3DirectTarget"
             case s3GlueParquetTarget = "S3GlueParquetTarget"
             case s3HudiCatalogTarget = "S3HudiCatalogTarget"
@@ -2938,7 +3028,9 @@ extension Glue {
     }
 
     public struct ColumnRowFilter: AWSDecodableShape {
+        /// A string containing the name of the column.
         public let columnName: String?
+        /// A string containing the row-level filter expression.
         public let rowFilterExpression: String?
 
         public init(columnName: String? = nil, rowFilterExpression: String? = nil) {
@@ -2993,7 +3085,7 @@ extension Glue {
         public let booleanColumnStatisticsData: BooleanColumnStatisticsData?
         /// Date column statistics data.
         public let dateColumnStatisticsData: DateColumnStatisticsData?
-        /// Decimal column statistics data.
+        ///  Decimal column statistics data. UnscaledValues within are Base64-encoded binary objects storing big-endian, two's complement representations of the decimal's unscaled value.
         public let decimalColumnStatisticsData: DecimalColumnStatisticsData?
         /// Double column statistics data.
         public let doubleColumnStatisticsData: DoubleColumnStatisticsData?
@@ -3118,7 +3210,7 @@ extension Glue {
     }
 
     public struct Connection: AWSDecodableShape {
-        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME -  The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    SECRET_ID - The secret ID used for the secret manager of credentials.    CONNECTOR_URL - The connector URL for a MARKETPLACE or CUSTOM connection.    CONNECTOR_TYPE - The connector type for a MARKETPLACE or CUSTOM connection.    CONNECTOR_CLASS_NAME - The connector class name for a MARKETPLACE or CUSTOM connection.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".    KAFKA_CLIENT_KEYSTORE - The Amazon S3 location of the client keystore file for Kafka client side authentication (Optional).    KAFKA_CLIENT_KEYSTORE_PASSWORD - The password to access the provided keystore (Optional).    KAFKA_CLIENT_KEY_PASSWORD - A keystore can consist of multiple keys, so this is the password to access the client key to be used with the Kafka server side key (Optional).    ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD - The encrypted version of the Kafka client keystore password (if the user has the Glue encrypt passwords setting selected).    ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_MECHANISM - "SCRAM-SHA-512" or "GSSAPI". These are the two supported SASL Mechanisms.    KAFKA_SASL_SCRAM_USERNAME - A plaintext username used to authenticate with the "SCRAM-SHA-512" mechanism.    KAFKA_SASL_SCRAM_PASSWORD - A plaintext password used to authenticate with the "SCRAM-SHA-512" mechanism.    ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD - The encrypted version of the Kafka SASL SCRAM password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_GSSAPI_KEYTAB - The S3 location of a Kerberos keytab file. A keytab stores long-term keys for one or more principals. For more information, see MIT Kerberos Documentation: Keytab.    KAFKA_SASL_GSSAPI_KRB5_CONF - The S3 location of a Kerberos krb5.conf file. A krb5.conf stores Kerberos configuration information, such as the location of the KDC server. For more information, see MIT Kerberos Documentation: krb5.conf.    KAFKA_SASL_GSSAPI_SERVICE - The Kerberos service name, as set with sasl.kerberos.service.name in your Kafka Configuration.    KAFKA_SASL_GSSAPI_PRINCIPAL - The name of the Kerberos princial used by Glue. For more information, see Kafka Documentation: Configuring Kafka Brokers.
+        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME -  The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    SECRET_ID - The secret ID used for the secret manager of credentials.    CONNECTOR_URL - The connector URL for a MARKETPLACE or CUSTOM connection.    CONNECTOR_TYPE - The connector type for a MARKETPLACE or CUSTOM connection.    CONNECTOR_CLASS_NAME - The connector class name for a MARKETPLACE or CUSTOM connection.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".    KAFKA_CLIENT_KEYSTORE - The Amazon S3 location of the client keystore file for Kafka client side authentication (Optional).    KAFKA_CLIENT_KEYSTORE_PASSWORD - The password to access the provided keystore (Optional).    KAFKA_CLIENT_KEY_PASSWORD - A keystore can consist of multiple keys, so this is the password to access the client key to be used with the Kafka server side key (Optional).    ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD - The encrypted version of the Kafka client keystore password (if the user has the Glue encrypt passwords setting selected).    ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_MECHANISM - "SCRAM-SHA-512", "GSSAPI", or "AWS_MSK_IAM". These are the supported SASL Mechanisms.    KAFKA_SASL_SCRAM_USERNAME - A plaintext username used to authenticate with the "SCRAM-SHA-512" mechanism.    KAFKA_SASL_SCRAM_PASSWORD - A plaintext password used to authenticate with the "SCRAM-SHA-512" mechanism.    ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD - The encrypted version of the Kafka SASL SCRAM password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_GSSAPI_KEYTAB - The S3 location of a Kerberos keytab file. A keytab stores long-term keys for one or more principals. For more information, see MIT Kerberos Documentation: Keytab.    KAFKA_SASL_GSSAPI_KRB5_CONF - The S3 location of a Kerberos krb5.conf file. A krb5.conf stores Kerberos configuration information, such as the location of the KDC server. For more information, see MIT Kerberos Documentation: krb5.conf.    KAFKA_SASL_GSSAPI_SERVICE - The Kerberos service name, as set with sasl.kerberos.service.name in your Kafka Configuration.    KAFKA_SASL_GSSAPI_PRINCIPAL - The name of the Kerberos princial used by Glue. For more information, see Kafka Documentation: Configuring Kafka Brokers.
         public let connectionProperties: [ConnectionPropertyKey: String]?
         /// The type of the connection. Currently, SFTP is not supported.
         public let connectionType: ConnectionType?
@@ -3165,13 +3257,13 @@ extension Glue {
     public struct ConnectionInput: AWSEncodableShape {
         /// These key-value pairs define parameters for the connection.
         public let connectionProperties: [ConnectionPropertyKey: String]
-        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).    KAFKA - Designates a connection to an Apache Kafka streaming platform.    MONGODB - Designates a connection to a MongoDB document database.    NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).    MARKETPLACE - Uses configuration settings contained in a connector purchased from Amazon Web Services Marketplace to read from and write to data stores that are not natively supported by Glue.    CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.   SFTP is not supported.
+        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).  JDBC Connections use the following ConnectionParameters.   Required: All of (HOST, PORT, JDBC_ENGINE) or JDBC_CONNECTION_URL.   Required: All of (USERNAME, PASSWORD) or SECRET_ID.   Optional: JDBC_ENFORCE_SSL, CUSTOM_JDBC_CERT, CUSTOM_JDBC_CERT_STRING, SKIP_CUSTOM_JDBC_CERT_VALIDATION.  These parameters are used to configure SSL with JDBC.      KAFKA - Designates a connection to an Apache Kafka streaming platform.  KAFKA Connections use the following ConnectionParameters.   Required: KAFKA_BOOTSTRAP_SERVERS.   Optional: KAFKA_SSL_ENABLED, KAFKA_CUSTOM_CERT, KAFKA_SKIP_CUSTOM_CERT_VALIDATION. These parameters are used to configure SSL with KAFKA.   Optional: KAFKA_CLIENT_KEYSTORE, KAFKA_CLIENT_KEYSTORE_PASSWORD, KAFKA_CLIENT_KEY_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD. These parameters are used to configure TLS client configuration with SSL in KAFKA.   Optional: KAFKA_SASL_MECHANISM. Can be specified as SCRAM-SHA-512, GSSAPI, or AWS_MSK_IAM.   Optional: KAFKA_SASL_SCRAM_USERNAME, KAFKA_SASL_SCRAM_PASSWORD, ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD. These parameters are used to configure SASL/SCRAM-SHA-512 authentication with KAFKA.   Optional: KAFKA_SASL_GSSAPI_KEYTAB, KAFKA_SASL_GSSAPI_KRB5_CONF, KAFKA_SASL_GSSAPI_SERVICE, KAFKA_SASL_GSSAPI_PRINCIPAL. These parameters are used to configure SASL/GSSAPI authentication with KAFKA.      MONGODB - Designates a connection to a MongoDB document database.  MONGODB Connections use the following ConnectionParameters.   Required: CONNECTION_URL.   Required: All of (USERNAME, PASSWORD) or SECRET_ID.      NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).  NETWORK Connections do not require ConnectionParameters. Instead, provide a PhysicalConnectionRequirements.    MARKETPLACE - Uses configuration settings contained in a connector purchased from Amazon Web Services Marketplace to read from and write to data stores that are not natively supported by Glue.  MARKETPLACE Connections use the following ConnectionParameters.   Required: CONNECTOR_TYPE, CONNECTOR_URL, CONNECTOR_CLASS_NAME, CONNECTION_URL.   Required for JDBC CONNECTOR_TYPE connections: All of (USERNAME, PASSWORD) or SECRET_ID.      CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.    SFTP is not supported. For more information about how optional ConnectionProperties are used to configure features in Glue, consult Glue connection properties. For more information about how optional ConnectionProperties are used to configure features in Glue Studio, consult Using connectors and connections.
         public let connectionType: ConnectionType
         /// The description of the connection.
         public let description: String?
         /// A list of criteria that can be used in selecting this connection.
         public let matchCriteria: [String]?
-        /// The name of the connection.
+        /// The name of the connection. Connection will not function as expected without a name.
         public let name: String
         /// A map of physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to successfully make this connection.
         public let physicalConnectionRequirements: PhysicalConnectionRequirements?
@@ -4839,7 +4931,7 @@ extension Glue {
         public let glueVersion: String?
         /// The ID of the session request.
         public let id: String
-        /// The number of seconds when idle before request times out.
+        ///  The number of minutes when idle before session times out. Default for Spark ETL jobs is value of Timeout. Consult the documentation for other job types.
         public let idleTimeout: Int?
         /// The number of Glue data processing units (DPUs) that can be allocated when the job runs.  A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB memory.
         public let maxCapacity: Double?
@@ -4853,7 +4945,7 @@ extension Glue {
         public let securityConfiguration: String?
         /// The map of key value pairs (tags) belonging to the session.
         public let tags: [String: String]?
-        /// The number of seconds before request times out.
+        ///  The number of minutes before session times out. Default for Spark ETL jobs is 48 hours (2880 minutes), the maximum session lifetime for this job type. Consult the documentation for other job types.
         public let timeout: Int?
         /// The type of predefined worker that is allocated to use for the session. Accepts a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
         public let workerType: WorkerType?
@@ -5795,12 +5887,14 @@ extension Glue {
     public struct Database: AWSDecodableShape {
         /// The ID of the Data Catalog in which the database resides.
         public let catalogId: String?
-        /// Creates a set of default permissions on the table for principals.
+        /// Creates a set of default permissions on the table for principals. Used by Lake Formation. Not used in the normal course of Glue operations.
         public let createTableDefaultPermissions: [PrincipalPermissions]?
         /// The time at which the metadata database was created in the catalog.
         public let createTime: Date?
         /// A description of the database.
         public let description: String?
+        /// A FederatedDatabase structure that references an entity outside the Glue Data Catalog.
+        public let federatedDatabase: FederatedDatabase?
         /// The location of the database (for example, an HDFS path).
         public let locationUri: String?
         /// The name of the database. For Hive compatibility, this is folded to lowercase when it is stored.
@@ -5810,11 +5904,12 @@ extension Glue {
         /// A DatabaseIdentifier structure that describes a target database for resource linking.
         public let targetDatabase: DatabaseIdentifier?
 
-        public init(catalogId: String? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, createTime: Date? = nil, description: String? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil, targetDatabase: DatabaseIdentifier? = nil) {
+        public init(catalogId: String? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, createTime: Date? = nil, description: String? = nil, federatedDatabase: FederatedDatabase? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil, targetDatabase: DatabaseIdentifier? = nil) {
             self.catalogId = catalogId
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.createTime = createTime
             self.description = description
+            self.federatedDatabase = federatedDatabase
             self.locationUri = locationUri
             self.name = name
             self.parameters = parameters
@@ -5826,6 +5921,7 @@ extension Glue {
             case createTableDefaultPermissions = "CreateTableDefaultPermissions"
             case createTime = "CreateTime"
             case description = "Description"
+            case federatedDatabase = "FederatedDatabase"
             case locationUri = "LocationUri"
             case name = "Name"
             case parameters = "Parameters"
@@ -5860,10 +5956,12 @@ extension Glue {
     }
 
     public struct DatabaseInput: AWSEncodableShape {
-        /// Creates a set of default permissions on the table for principals.
+        /// Creates a set of default permissions on the table for principals. Used by Lake Formation. Not used in the normal course of Glue operations.
         public let createTableDefaultPermissions: [PrincipalPermissions]?
         /// A description of the database.
         public let description: String?
+        /// A FederatedDatabase structure that references an entity outside the Glue Data Catalog.
+        public let federatedDatabase: FederatedDatabase?
         /// The location of the database (for example, an HDFS path).
         public let locationUri: String?
         /// The name of the database. For Hive compatibility, this is folded to lowercase when it is stored.
@@ -5873,9 +5971,10 @@ extension Glue {
         /// A DatabaseIdentifier structure that describes a target database for resource linking.
         public let targetDatabase: DatabaseIdentifier?
 
-        public init(createTableDefaultPermissions: [PrincipalPermissions]? = nil, description: String? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil, targetDatabase: DatabaseIdentifier? = nil) {
+        public init(createTableDefaultPermissions: [PrincipalPermissions]? = nil, description: String? = nil, federatedDatabase: FederatedDatabase? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil, targetDatabase: DatabaseIdentifier? = nil) {
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.description = description
+            self.federatedDatabase = federatedDatabase
             self.locationUri = locationUri
             self.name = name
             self.parameters = parameters
@@ -5888,6 +5987,7 @@ extension Glue {
             }
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.federatedDatabase?.validate(name: "\(name).federatedDatabase")
             try self.validate(self.locationUri, name: "locationUri", parent: name, max: 1024)
             try self.validate(self.locationUri, name: "locationUri", parent: name, min: 1)
             try self.validate(self.locationUri, name: "locationUri", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
@@ -5906,6 +6006,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case createTableDefaultPermissions = "CreateTableDefaultPermissions"
             case description = "Description"
+            case federatedDatabase = "FederatedDatabase"
             case locationUri = "LocationUri"
             case name = "Name"
             case parameters = "Parameters"
@@ -7014,6 +7115,47 @@ extension Glue {
         }
     }
 
+    public struct DirectJDBCSource: AWSEncodableShape & AWSDecodableShape {
+        /// The connection name of the JDBC source.
+        public let connectionName: String
+        /// The connection type of the JDBC source.
+        public let connectionType: JDBCConnectionType
+        /// The database of the JDBC source connection.
+        public let database: String
+        /// The name of the JDBC source connection.
+        public let name: String
+        /// The temp directory of the JDBC Redshift source.
+        public let redshiftTmpDir: String?
+        /// The table of the JDBC source connection.
+        public let table: String
+
+        public init(connectionName: String, connectionType: JDBCConnectionType, database: String, name: String, redshiftTmpDir: String? = nil, table: String) {
+            self.connectionName = connectionName
+            self.connectionType = connectionType
+            self.database = database
+            self.name = name
+            self.redshiftTmpDir = redshiftTmpDir
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.redshiftTmpDir, name: "redshiftTmpDir", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionName = "ConnectionName"
+            case connectionType = "ConnectionType"
+            case database = "Database"
+            case name = "Name"
+            case redshiftTmpDir = "RedshiftTmpDir"
+            case table = "Table"
+        }
+    }
+
     public struct DirectKafkaSource: AWSEncodableShape & AWSDecodableShape {
         /// Specifies options related to data preview for viewing a sample of your data.
         public let dataPreviewOptions: StreamingDataPreviewOptions?
@@ -7558,6 +7700,53 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case outputS3Path = "OutputS3Path"
+        }
+    }
+
+    public struct FederatedDatabase: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the connection to the external metastore.
+        public let connectionName: String?
+        /// A unique identifier for the federated database.
+        public let identifier: String?
+
+        public init(connectionName: String? = nil, identifier: String? = nil) {
+            self.connectionName = connectionName
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionName, name: "connectionName", parent: name, max: 255)
+            try self.validate(self.connectionName, name: "connectionName", parent: name, min: 1)
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 512)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionName = "ConnectionName"
+            case identifier = "Identifier"
+        }
+    }
+
+    public struct FederatedTable: AWSDecodableShape {
+        /// The name of the connection to the external metastore.
+        public let connectionName: String?
+        /// A unique identifier for the federated database.
+        public let databaseIdentifier: String?
+        /// A unique identifier for the federated table.
+        public let identifier: String?
+
+        public init(connectionName: String? = nil, databaseIdentifier: String? = nil, identifier: String? = nil) {
+            self.connectionName = connectionName
+            self.databaseIdentifier = databaseIdentifier
+            self.identifier = identifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionName = "ConnectionName"
+            case databaseIdentifier = "DatabaseIdentifier"
+            case identifier = "Identifier"
         }
     }
 
@@ -8112,7 +8301,7 @@ extension Glue {
     }
 
     public struct GetColumnStatisticsForTableResponse: AWSDecodableShape {
-        /// List of ColumnStatistics that failed to be retrieved.
+        /// List of ColumnStatistics.
         public let columnStatisticsList: [ColumnStatistics]?
         /// List of ColumnStatistics that failed to be retrieved.
         public let errors: [ColumnError]?
@@ -8782,7 +8971,7 @@ extension Glue {
         public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
-        /// Allows you to specify that you want to list the databases shared with your account. The allowable values are FOREIGN or ALL.    If set to FOREIGN, will list the databases shared with your account.    If set to ALL, will list the databases shared with your account, as well as the databases in yor local account.
+        /// Allows you to specify that you want to list the databases shared with your account. The allowable values are FEDERATED, FOREIGN or ALL.    If set to FEDERATED, will list the federated databases (referencing an external entity) shared with your account.   If set to FOREIGN, will list the databases shared with your account.    If set to ALL, will list the databases shared with your account, as well as the databases in yor local account.
         public let resourceShareType: ResourceShareType?
 
         public init(catalogId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceShareType: ResourceShareType? = nil) {
@@ -10562,11 +10751,17 @@ extension Glue {
     }
 
     public struct GetUnfilteredPartitionMetadataRequest: AWSEncodableShape {
+        /// A structure containing Lake Formation audit context information.
         public let auditContext: AuditContext?
+        /// The catalog ID where the partition resides.
         public let catalogId: String
+        /// (Required) Specifies the name of a database that contains the partition.
         public let databaseName: String
+        /// (Required) A list of partition key values.
         public let partitionValues: [String]
+        /// (Required) A list of supported permission types.
         public let supportedPermissionTypes: [PermissionType]
+        /// (Required) Specifies the name of a table that contains the partition.
         public let tableName: String
 
         public init(auditContext: AuditContext? = nil, catalogId: String, databaseName: String, partitionValues: [String], supportedPermissionTypes: [PermissionType], tableName: String) {
@@ -10607,8 +10802,11 @@ extension Glue {
     }
 
     public struct GetUnfilteredPartitionMetadataResponse: AWSDecodableShape {
+        /// A list of column names that the user has been granted access to.
         public let authorizedColumns: [String]?
+        /// A Boolean value that indicates whether the partition location is registered  with Lake Formation.
         public let isRegisteredWithLakeFormation: Bool?
+        /// A Partition object containing the partition metadata.
         public let partition: Partition?
 
         public init(authorizedColumns: [String]? = nil, isRegisteredWithLakeFormation: Bool? = nil, partition: Partition? = nil) {
@@ -10625,14 +10823,23 @@ extension Glue {
     }
 
     public struct GetUnfilteredPartitionsMetadataRequest: AWSEncodableShape {
+        /// A structure containing Lake Formation audit context information.
         public let auditContext: AuditContext?
+        /// The ID of the Data Catalog where the partitions in question reside. If none is provided,  the AWS account ID is used by default.
         public let catalogId: String
+        /// The name of the catalog database where the partitions reside.
         public let databaseName: String
+        /// An expression that filters the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression.   Operators: The following are the operators that you can use in the Expression API call:  =  Checks whether the values of the two operands are equal; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20.  (a = b) is not true.    Checks whether the values of two operands are equal; if the values are not equal, then the condition becomes true. Example: (a  b) is true.  >  Checks whether the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a > b) is not true.    Checks whether the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a   >=  Checks whether the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a >= b) is not true.    Checks whether the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a   AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL  Logical operators.    Supported Partition Key Types: The following are the supported partition keys.    string     date     timestamp     int     bigint     long     tinyint     smallint     decimal    If an type is encountered that is not valid, an exception is thrown.
         public let expression: String?
+        /// The maximum number of partitions to return in a single response.
         public let maxResults: Int?
+        /// A continuation token, if this is not the first call to retrieve these partitions.
         public let nextToken: String?
+        /// The segment of the table's partitions to scan in this request.
         public let segment: Segment?
+        /// A list of supported permission types.
         public let supportedPermissionTypes: [PermissionType]
+        /// The name of the table that contains the partition.
         public let tableName: String
 
         public init(auditContext: AuditContext? = nil, catalogId: String, databaseName: String, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, segment: Segment? = nil, supportedPermissionTypes: [PermissionType], tableName: String) {
@@ -10681,7 +10888,9 @@ extension Glue {
     }
 
     public struct GetUnfilteredPartitionsMetadataResponse: AWSDecodableShape {
+        /// A continuation token, if the returned list of partitions does not include the last one.
         public let nextToken: String?
+        /// A list of requested partitions.
         public let unfilteredPartitions: [UnfilteredPartition]?
 
         public init(nextToken: String? = nil, unfilteredPartitions: [UnfilteredPartition]? = nil) {
@@ -10696,10 +10905,15 @@ extension Glue {
     }
 
     public struct GetUnfilteredTableMetadataRequest: AWSEncodableShape {
+        /// A structure containing Lake Formation audit context information.
         public let auditContext: AuditContext?
+        /// The catalog ID where the table resides.
         public let catalogId: String
+        /// (Required) Specifies the name of a database that contains the table.
         public let databaseName: String
+        /// (Required) Specifies the name of a table for which you are requesting metadata.
         public let name: String
+        /// (Required) A list of supported permission types.
         public let supportedPermissionTypes: [PermissionType]
 
         public init(auditContext: AuditContext? = nil, catalogId: String, databaseName: String, name: String, supportedPermissionTypes: [PermissionType]) {
@@ -10735,9 +10949,13 @@ extension Glue {
     }
 
     public struct GetUnfilteredTableMetadataResponse: AWSDecodableShape {
+        /// A list of column names that the user has been granted access to.
         public let authorizedColumns: [String]?
+        /// A list of column row filters.
         public let cellFilters: [ColumnRowFilter]?
+        /// A Boolean value that indicates whether the partition location is registered  with Lake Formation.
         public let isRegisteredWithLakeFormation: Bool?
+        /// A Table object containing the table metadata.
         public let table: Table?
 
         public init(authorizedColumns: [String]? = nil, cellFilters: [ColumnRowFilter]? = nil, isRegisteredWithLakeFormation: Bool? = nil, table: Table? = nil) {
@@ -11525,7 +11743,7 @@ extension Glue {
         public let lastModifiedOn: Date?
         /// This field is reserved for future use.
         public let logUri: String?
-        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate a minimum of 2 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.   For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
+        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.   For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job after a JobRun fails.
         public let maxRetries: Int?
@@ -12080,6 +12298,8 @@ extension Glue {
     }
 
     public struct KafkaStreamingSourceOptions: AWSEncodableShape & AWSDecodableShape {
+        /// When this option is set to 'true', the data output will contain an additional column named "__src_timestamp" that indicates the time when the corresponding record received by the topic. The default value is 'false'. This option is supported in Glue  version 4.0 or later.
+        public let addRecordTimestamp: String?
         /// The specific TopicPartitions to consume. You must specify at least one of "topicName", "assign" or "subscribePattern".
         public let assign: String?
         /// A list of bootstrap server URLs, for example, as b-1.vpc-test-2.o4q88o.c6.kafka.us-east-1.amazonaws.com:9094. This option must be specified in the API call or defined in the table metadata in the Data Catalog.
@@ -12090,8 +12310,12 @@ extension Glue {
         public let connectionName: String?
         /// Specifies the delimiter character.
         public let delimiter: String?
+        /// When this option is set to 'true', for each batch, it will emit the metrics for the duration between the oldest record received by the topic and the time it arrives in Glue to CloudWatch. The metric's name is "glue.driver.streaming.maxConsumerLagInMs". The default value is 'false'. This option is supported in Glue version 4.0 or later.
+        public let emitConsumerLagMetrics: String?
         /// The end point when a batch query is ended. Possible values are either "latest" or a JSON string that specifies an ending offset for each TopicPartition.
         public let endingOffsets: String?
+        /// Whether to include the Kafka headers. When the option is set to "true", the data output will contain an additional column named "glue_streaming_kafka_headers"  with type Array[Struct(key: String, value: String)]. The default value is "false".  This option is available in Glue version 3.0 or later only.
+        public let includeHeaders: Bool?
         /// The rate limit on the maximum number of offsets that are processed per trigger interval. The specified total number of offsets is proportionally split across topicPartitions of different volumes. The default value is null, which means that the consumer reads all offsets until the known latest offset.
         public let maxOffsetsPerTrigger: Int64?
         /// The desired minimum number of partitions to read from Kafka. The default value is null, which means that the number of spark partitions is equal to the number of Kafka partitions.
@@ -12111,13 +12335,16 @@ extension Glue {
         /// The topic name as specified in Apache Kafka. You must specify at least one of "topicName", "assign" or "subscribePattern".
         public let topicName: String?
 
-        public init(assign: String? = nil, bootstrapServers: String? = nil, classification: String? = nil, connectionName: String? = nil, delimiter: String? = nil, endingOffsets: String? = nil, maxOffsetsPerTrigger: Int64? = nil, minPartitions: Int? = nil, numRetries: Int? = nil, pollTimeoutMs: Int64? = nil, retryIntervalMs: Int64? = nil, securityProtocol: String? = nil, startingOffsets: String? = nil, subscribePattern: String? = nil, topicName: String? = nil) {
+        public init(addRecordTimestamp: String? = nil, assign: String? = nil, bootstrapServers: String? = nil, classification: String? = nil, connectionName: String? = nil, delimiter: String? = nil, emitConsumerLagMetrics: String? = nil, endingOffsets: String? = nil, includeHeaders: Bool? = nil, maxOffsetsPerTrigger: Int64? = nil, minPartitions: Int? = nil, numRetries: Int? = nil, pollTimeoutMs: Int64? = nil, retryIntervalMs: Int64? = nil, securityProtocol: String? = nil, startingOffsets: String? = nil, subscribePattern: String? = nil, topicName: String? = nil) {
+            self.addRecordTimestamp = addRecordTimestamp
             self.assign = assign
             self.bootstrapServers = bootstrapServers
             self.classification = classification
             self.connectionName = connectionName
             self.delimiter = delimiter
+            self.emitConsumerLagMetrics = emitConsumerLagMetrics
             self.endingOffsets = endingOffsets
+            self.includeHeaders = includeHeaders
             self.maxOffsetsPerTrigger = maxOffsetsPerTrigger
             self.minPartitions = minPartitions
             self.numRetries = numRetries
@@ -12130,11 +12357,13 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.addRecordTimestamp, name: "addRecordTimestamp", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
             try self.validate(self.assign, name: "assign", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
             try self.validate(self.bootstrapServers, name: "bootstrapServers", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
             try self.validate(self.classification, name: "classification", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
             try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
             try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.emitConsumerLagMetrics, name: "emitConsumerLagMetrics", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
             try self.validate(self.endingOffsets, name: "endingOffsets", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
             try self.validate(self.maxOffsetsPerTrigger, name: "maxOffsetsPerTrigger", parent: name, min: 0)
             try self.validate(self.minPartitions, name: "minPartitions", parent: name, min: 0)
@@ -12148,12 +12377,15 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addRecordTimestamp = "AddRecordTimestamp"
             case assign = "Assign"
             case bootstrapServers = "BootstrapServers"
             case classification = "Classification"
             case connectionName = "ConnectionName"
             case delimiter = "Delimiter"
+            case emitConsumerLagMetrics = "EmitConsumerLagMetrics"
             case endingOffsets = "EndingOffsets"
+            case includeHeaders = "IncludeHeaders"
             case maxOffsetsPerTrigger = "MaxOffsetsPerTrigger"
             case minPartitions = "MinPartitions"
             case numRetries = "NumRetries"
@@ -12186,6 +12418,8 @@ extension Glue {
     public struct KinesisStreamingSourceOptions: AWSEncodableShape & AWSDecodableShape {
         /// Adds a time delay between two consecutive getRecords operations. The default value is "False". This option is only configurable for Glue version 2.0 and above.
         public let addIdleTimeBetweenReads: Bool?
+        /// When this option is set to 'true', the data output will contain an additional column named "__src_timestamp" that indicates the time when the corresponding record received by the stream. The default value is 'false'. This option is supported in Glue version 4.0 or later.
+        public let addRecordTimestamp: String?
         /// Avoids creating an empty microbatch job by checking for unread data in the Kinesis data stream before the batch is started. The default value is "False".
         public let avoidEmptyBatches: Bool?
         /// An optional classification.
@@ -12194,6 +12428,8 @@ extension Glue {
         public let delimiter: String?
         /// The minimum time interval between two ListShards API calls for your script to consider resharding. The default value is 1s.
         public let describeShardInterval: Int64?
+        /// When this option is set to 'true', for each batch, it will emit the metrics for the duration between the oldest record received by the stream and the time it arrives in Glue  to CloudWatch. The metric's name is "glue.driver.streaming.maxConsumerLagInMs". The default value is 'false'. This option is supported in Glue version 4.0 or later.
+        public let emitConsumerLagMetrics: String?
         /// The URL of the Kinesis endpoint.
         public let endpointUrl: String?
         /// The minimum time delay between two consecutive getRecords operations, specified in ms. The default value is 1000. This option is only configurable for Glue version 2.0 and above.
@@ -12221,12 +12457,14 @@ extension Glue {
         /// The name of the Kinesis data stream.
         public let streamName: String?
 
-        public init(addIdleTimeBetweenReads: Bool? = nil, avoidEmptyBatches: Bool? = nil, classification: String? = nil, delimiter: String? = nil, describeShardInterval: Int64? = nil, endpointUrl: String? = nil, idleTimeBetweenReadsInMs: Int64? = nil, maxFetchRecordsPerShard: Int64? = nil, maxFetchTimeInMs: Int64? = nil, maxRecordPerRead: Int64? = nil, maxRetryIntervalMs: Int64? = nil, numRetries: Int? = nil, retryIntervalMs: Int64? = nil, roleArn: String? = nil, roleSessionName: String? = nil, startingPosition: StartingPosition? = nil, streamArn: String? = nil, streamName: String? = nil) {
+        public init(addIdleTimeBetweenReads: Bool? = nil, addRecordTimestamp: String? = nil, avoidEmptyBatches: Bool? = nil, classification: String? = nil, delimiter: String? = nil, describeShardInterval: Int64? = nil, emitConsumerLagMetrics: String? = nil, endpointUrl: String? = nil, idleTimeBetweenReadsInMs: Int64? = nil, maxFetchRecordsPerShard: Int64? = nil, maxFetchTimeInMs: Int64? = nil, maxRecordPerRead: Int64? = nil, maxRetryIntervalMs: Int64? = nil, numRetries: Int? = nil, retryIntervalMs: Int64? = nil, roleArn: String? = nil, roleSessionName: String? = nil, startingPosition: StartingPosition? = nil, streamArn: String? = nil, streamName: String? = nil) {
             self.addIdleTimeBetweenReads = addIdleTimeBetweenReads
+            self.addRecordTimestamp = addRecordTimestamp
             self.avoidEmptyBatches = avoidEmptyBatches
             self.classification = classification
             self.delimiter = delimiter
             self.describeShardInterval = describeShardInterval
+            self.emitConsumerLagMetrics = emitConsumerLagMetrics
             self.endpointUrl = endpointUrl
             self.idleTimeBetweenReadsInMs = idleTimeBetweenReadsInMs
             self.maxFetchRecordsPerShard = maxFetchRecordsPerShard
@@ -12243,9 +12481,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.addRecordTimestamp, name: "addRecordTimestamp", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
             try self.validate(self.classification, name: "classification", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
             try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
             try self.validate(self.describeShardInterval, name: "describeShardInterval", parent: name, min: 0)
+            try self.validate(self.emitConsumerLagMetrics, name: "emitConsumerLagMetrics", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
             try self.validate(self.endpointUrl, name: "endpointUrl", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
             try self.validate(self.idleTimeBetweenReadsInMs, name: "idleTimeBetweenReadsInMs", parent: name, min: 0)
             try self.validate(self.maxFetchRecordsPerShard, name: "maxFetchRecordsPerShard", parent: name, min: 0)
@@ -12262,10 +12502,12 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case addIdleTimeBetweenReads = "AddIdleTimeBetweenReads"
+            case addRecordTimestamp = "AddRecordTimestamp"
             case avoidEmptyBatches = "AvoidEmptyBatches"
             case classification = "Classification"
             case delimiter = "Delimiter"
             case describeShardInterval = "DescribeShardInterval"
+            case emitConsumerLagMetrics = "EmitConsumerLagMetrics"
             case endpointUrl = "EndpointUrl"
             case idleTimeBetweenReadsInMs = "IdleTimeBetweenReadsInMs"
             case maxFetchRecordsPerShard = "MaxFetchRecordsPerShard"
@@ -15103,6 +15345,48 @@ extension Glue {
         }
     }
 
+    public struct S3CatalogDeltaSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options.
+        public let additionalDeltaOptions: [String: String]?
+        /// The name of the database to read from.
+        public let database: String
+        /// The name of the Delta Lake data source.
+        public let name: String
+        /// Specifies the data schema for the Delta Lake source.
+        public let outputSchemas: [GlueSchema]?
+        /// The name of the table in the database to read from.
+        public let table: String
+
+        public init(additionalDeltaOptions: [String: String]? = nil, database: String, name: String, outputSchemas: [GlueSchema]? = nil, table: String) {
+            self.additionalDeltaOptions = additionalDeltaOptions
+            self.database = database
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalDeltaOptions?.forEach {
+                try validate($0.key, name: "additionalDeltaOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.value, name: "additionalDeltaOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalDeltaOptions = "AdditionalDeltaOptions"
+            case database = "Database"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+            case table = "Table"
+        }
+    }
+
     public struct S3CatalogHudiSource: AWSEncodableShape & AWSDecodableShape {
         /// Specifies additional connection options.
         public let additionalHudiOptions: [String: String]?
@@ -15329,6 +15613,158 @@ extension Glue {
         }
     }
 
+    public struct S3DeltaCatalogTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options for the connector.
+        public let additionalOptions: [String: String]?
+        /// The name of the database to write to.
+        public let database: String
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// Specifies native partitioning using a sequence of keys.
+        public let partitionKeys: [[String]]?
+        /// A policy that specifies update behavior for the crawler.
+        public let schemaChangePolicy: CatalogSchemaChangePolicy?
+        /// The name of the table in the database to write to.
+        public let table: String
+
+        public init(additionalOptions: [String: String]? = nil, database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
+            self.additionalOptions = additionalOptions
+            self.database = database
+            self.inputs = inputs
+            self.name = name
+            self.partitionKeys = partitionKeys
+            self.schemaChangePolicy = schemaChangePolicy
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalOptions?.forEach {
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case database = "Database"
+            case inputs = "Inputs"
+            case name = "Name"
+            case partitionKeys = "PartitionKeys"
+            case schemaChangePolicy = "SchemaChangePolicy"
+            case table = "Table"
+        }
+    }
+
+    public struct S3DeltaDirectTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options for the connector.
+        public let additionalOptions: [String: String]?
+        /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
+        public let compression: DeltaTargetCompressionType
+        /// Specifies the data output format for the target.
+        public let format: TargetFormat
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// Specifies native partitioning using a sequence of keys.
+        public let partitionKeys: [[String]]?
+        /// The Amazon S3 path of your Delta Lake data source to write to.
+        public let path: String
+        /// A policy that specifies update behavior for the crawler.
+        public let schemaChangePolicy: DirectSchemaChangePolicy?
+
+        public init(additionalOptions: [String: String]? = nil, compression: DeltaTargetCompressionType, format: TargetFormat, inputs: [String], name: String, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
+            self.additionalOptions = additionalOptions
+            self.compression = compression
+            self.format = format
+            self.inputs = inputs
+            self.name = name
+            self.partitionKeys = partitionKeys
+            self.path = path
+            self.schemaChangePolicy = schemaChangePolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalOptions?.forEach {
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.schemaChangePolicy?.validate(name: "\(name).schemaChangePolicy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case compression = "Compression"
+            case format = "Format"
+            case inputs = "Inputs"
+            case name = "Name"
+            case partitionKeys = "PartitionKeys"
+            case path = "Path"
+            case schemaChangePolicy = "SchemaChangePolicy"
+        }
+    }
+
+    public struct S3DeltaSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options.
+        public let additionalDeltaOptions: [String: String]?
+        /// Specifies additional options for the connector.
+        public let additionalOptions: S3DirectSourceAdditionalOptions?
+        /// The name of the Delta Lake source.
+        public let name: String
+        /// Specifies the data schema for the Delta Lake source.
+        public let outputSchemas: [GlueSchema]?
+        /// A list of the Amazon S3 paths to read from.
+        public let paths: [String]
+
+        public init(additionalDeltaOptions: [String: String]? = nil, additionalOptions: S3DirectSourceAdditionalOptions? = nil, name: String, outputSchemas: [GlueSchema]? = nil, paths: [String]) {
+            self.additionalDeltaOptions = additionalDeltaOptions
+            self.additionalOptions = additionalOptions
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.paths = paths
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalDeltaOptions?.forEach {
+                try validate($0.key, name: "additionalDeltaOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.value, name: "additionalDeltaOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.additionalOptions?.validate(name: "\(name).additionalOptions")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.paths.forEach {
+                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalDeltaOptions = "AdditionalDeltaOptions"
+            case additionalOptions = "AdditionalOptions"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+            case paths = "Paths"
+        }
+    }
+
     public struct S3DirectSourceAdditionalOptions: AWSEncodableShape & AWSDecodableShape {
         /// Sets the upper limit for the target number of files that will be processed.
         public let boundedFiles: Int64?
@@ -15483,6 +15919,7 @@ extension Glue {
         public let name: String
         /// Specifies native partitioning using a sequence of keys.
         public let partitionKeys: [[String]]?
+        /// A policy that specifies update behavior for the crawler.
         public let schemaChangePolicy: CatalogSchemaChangePolicy?
         /// The name of the table in the database to write to.
         public let table: String
@@ -15524,6 +15961,7 @@ extension Glue {
     }
 
     public struct S3HudiDirectTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options for the connector.
         public let additionalOptions: [String: String]
         /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
         public let compression: HudiTargetCompressionType
@@ -15537,6 +15975,7 @@ extension Glue {
         public let partitionKeys: [[String]]?
         /// The Amazon S3 path of your Hudi data source to write to.
         public let path: String
+        /// A policy that specifies update behavior for the crawler.
         public let schemaChangePolicy: DirectSchemaChangePolicy?
 
         public init(additionalOptions: [String: String], compression: HudiTargetCompressionType, format: TargetFormat, inputs: [String], name: String, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
@@ -15580,6 +16019,7 @@ extension Glue {
     public struct S3HudiSource: AWSEncodableShape & AWSDecodableShape {
         /// Specifies additional connection options.
         public let additionalHudiOptions: [String: String]?
+        /// Specifies additional options for the connector.
         public let additionalOptions: S3DirectSourceAdditionalOptions?
         /// The name of the Hudi source.
         public let name: String
@@ -17628,6 +18068,8 @@ extension Glue {
         public let databaseName: String?
         /// A description of the table.
         public let description: String?
+        /// A FederatedTable structure that references an entity outside the Glue Data Catalog.
+        public let federatedTable: FederatedTable?
         /// Indicates whether the table has been registered with Lake Formation.
         public let isRegisteredWithLakeFormation: Bool?
         /// The last time that the table was accessed. This is usually taken from HDFS, and might not be reliable.
@@ -17646,7 +18088,7 @@ extension Glue {
         public let retention: Int?
         /// A storage descriptor containing information about the physical storage of this table.
         public let storageDescriptor: StorageDescriptor?
-        /// The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.).
+        /// The type of this table. Glue will create tables with the EXTERNAL_TABLE type. Other services, such as Athena, may create tables with additional table types.  Glue related table types:  EXTERNAL_TABLE  Hive compatible attribute - indicates a non-Hive managed table.  GOVERNED  Used by Lake Formation. The Glue Data Catalog understands GOVERNED.
         public let tableType: String?
         /// A TableIdentifier structure that describes a target table for resource linking.
         public let targetTable: TableIdentifier?
@@ -17654,17 +18096,18 @@ extension Glue {
         public let updateTime: Date?
         /// The ID of the table version.
         public let versionId: String?
-        /// If the table is a view, the expanded text of the view; otherwise null.
+        /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations.
         public let viewExpandedText: String?
-        /// If the table is a view, the original text of the view; otherwise null.
+        /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations. If the table is a VIRTUAL_VIEW, certain Athena configuration encoded in base64.
         public let viewOriginalText: String?
 
-        public init(catalogId: String? = nil, createdBy: String? = nil, createTime: Date? = nil, databaseName: String? = nil, description: String? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: Date? = nil, versionId: String? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+        public init(catalogId: String? = nil, createdBy: String? = nil, createTime: Date? = nil, databaseName: String? = nil, description: String? = nil, federatedTable: FederatedTable? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: Date? = nil, versionId: String? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.catalogId = catalogId
             self.createdBy = createdBy
             self.createTime = createTime
             self.databaseName = databaseName
             self.description = description
+            self.federatedTable = federatedTable
             self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
@@ -17688,6 +18131,7 @@ extension Glue {
             case createTime = "CreateTime"
             case databaseName = "DatabaseName"
             case description = "Description"
+            case federatedTable = "FederatedTable"
             case isRegisteredWithLakeFormation = "IsRegisteredWithLakeFormation"
             case lastAccessTime = "LastAccessTime"
             case lastAnalyzedTime = "LastAnalyzedTime"
@@ -17765,7 +18209,7 @@ extension Glue {
         public let lastAnalyzedTime: Date?
         /// The table name. For Hive compatibility, this is folded to lowercase when it is stored.
         public let name: String
-        /// The table owner.
+        /// The table owner. Included for Apache Hive compatibility. Not used in the normal course of Glue operations.
         public let owner: String?
         /// These key-value pairs define properties associated with the table.
         public let parameters: [String: String]?
@@ -17775,13 +18219,13 @@ extension Glue {
         public let retention: Int?
         /// A storage descriptor containing information about the physical storage of this table.
         public let storageDescriptor: StorageDescriptor?
-        /// The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.).
+        /// The type of this table. Glue will create tables with the EXTERNAL_TABLE type. Other services, such as Athena, may create tables with additional table types.  Glue related table types:  EXTERNAL_TABLE  Hive compatible attribute - indicates a non-Hive managed table.  GOVERNED  Used by Lake Formation. The Glue Data Catalog understands GOVERNED.
         public let tableType: String?
         /// A TableIdentifier structure that describes a target table for resource linking.
         public let targetTable: TableIdentifier?
-        /// If the table is a view, the expanded text of the view; otherwise null.
+        /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations.
         public let viewExpandedText: String?
-        /// If the table is a view, the original text of the view; otherwise null.
+        /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations. If the table is a VIRTUAL_VIEW, certain Athena configuration encoded in base64.
         public let viewOriginalText: String?
 
         public init(description: String? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
@@ -18309,8 +18753,11 @@ extension Glue {
     }
 
     public struct UnfilteredPartition: AWSDecodableShape {
+        /// The list of columns the user has permissions to access.
         public let authorizedColumns: [String]?
+        /// A Boolean value indicating that the partition location is registered with Lake Formation.
         public let isRegisteredWithLakeFormation: Bool?
+        /// The partition object.
         public let partition: Partition?
 
         public init(authorizedColumns: [String]? = nil, isRegisteredWithLakeFormation: Bool? = nil, partition: Partition? = nil) {
@@ -18806,14 +19253,11 @@ extension Glue {
         public let name: String
         /// A Data Quality Definition Language (DQDL) ruleset. For more information, see the Glue developer guide.
         public let ruleset: String?
-        /// The new name of the ruleset, if you are renaming it.
-        public let updatedName: String?
 
-        public init(description: String? = nil, name: String, ruleset: String? = nil, updatedName: String? = nil) {
+        public init(description: String? = nil, name: String, ruleset: String? = nil) {
             self.description = description
             self.name = name
             self.ruleset = ruleset
-            self.updatedName = updatedName
         }
 
         public func validate(name: String) throws {
@@ -18824,16 +19268,12 @@ extension Glue {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.ruleset, name: "ruleset", parent: name, max: 65536)
             try self.validate(self.ruleset, name: "ruleset", parent: name, min: 1)
-            try self.validate(self.updatedName, name: "updatedName", parent: name, max: 255)
-            try self.validate(self.updatedName, name: "updatedName", parent: name, min: 1)
-            try self.validate(self.updatedName, name: "updatedName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case name = "Name"
             case ruleset = "Ruleset"
-            case updatedName = "UpdatedName"
         }
     }
 
@@ -19957,6 +20397,9 @@ public struct GlueErrorType: AWSErrorType {
         case crawlerRunningException = "CrawlerRunningException"
         case crawlerStoppingException = "CrawlerStoppingException"
         case entityNotFoundException = "EntityNotFoundException"
+        case federatedResourceAlreadyExistsException = "FederatedResourceAlreadyExistsException"
+        case federationSourceException = "FederationSourceException"
+        case federationSourceRetryableException = "FederationSourceRetryableException"
         case glueEncryptionException = "GlueEncryptionException"
         case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
         case illegalBlueprintStateException = "IllegalBlueprintStateException"
@@ -20016,6 +20459,11 @@ public struct GlueErrorType: AWSErrorType {
     public static var crawlerStoppingException: Self { .init(.crawlerStoppingException) }
     /// A specified entity does not exist
     public static var entityNotFoundException: Self { .init(.entityNotFoundException) }
+    /// A federated resource already exists.
+    public static var federatedResourceAlreadyExistsException: Self { .init(.federatedResourceAlreadyExistsException) }
+    /// A federation source failed.
+    public static var federationSourceException: Self { .init(.federationSourceException) }
+    public static var federationSourceRetryableException: Self { .init(.federationSourceRetryableException) }
     /// An encryption operation failed.
     public static var glueEncryptionException: Self { .init(.glueEncryptionException) }
     /// The same unique identifier was associated with two different records.
@@ -20038,6 +20486,7 @@ public struct GlueErrorType: AWSErrorType {
     public static var noScheduleException: Self { .init(.noScheduleException) }
     /// The operation timed out.
     public static var operationTimeoutException: Self { .init(.operationTimeoutException) }
+    /// The operation timed out.
     public static var permissionTypeMismatchException: Self { .init(.permissionTypeMismatchException) }
     /// A resource was not ready for a transaction.
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }

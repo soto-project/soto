@@ -234,7 +234,7 @@ extension EMRContainers {
         public let id: String
         /// The information about the container cluster.
         public let info: ContainerInfo?
-        /// The type of the container provider. EKS is the only supported type as of now.
+        /// The type of the container provider. Amazon EKS is the only supported type as of now.
         public let type: ContainerProviderType
 
         public init(id: String, info: ContainerInfo? = nil, type: ContainerProviderType) {
@@ -338,7 +338,7 @@ extension EMRContainers {
             AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
         ]
 
-        /// The certificate ARN provided by users for the managed endpoint. This field  is under deprecation and will be removed in future releases.
+        /// The certificate ARN provided by users for the managed endpoint. This field is under deprecation and will be removed in future releases.
         public let certificateArn: String?
         /// The client idempotency token for this create call.
         public let clientToken: String
@@ -780,7 +780,7 @@ extension EMRContainers {
     }
 
     public struct EksInfo: AWSEncodableShape & AWSDecodableShape {
-        /// The namespaces of the EKS cluster.
+        /// The namespaces of the Amazon EKS cluster.
         public let namespace: String?
 
         public init(namespace: String? = nil) {
@@ -951,6 +951,10 @@ extension EMRContainers {
         public let name: String?
         /// The release version of Amazon EMR.
         public let releaseLabel: String?
+        /// The configuration of the retry policy that the job runs on.
+        public let retryPolicyConfiguration: RetryPolicyConfiguration?
+        /// The current status of the retry policy executed on the job.
+        public let retryPolicyExecution: RetryPolicyExecution?
         /// The state of the job run.
         public let state: JobRunState?
         /// Additional details of the job run state.
@@ -960,7 +964,7 @@ extension EMRContainers {
         /// The ID of the job run's virtual cluster.
         public let virtualClusterId: String?
 
-        public init(arn: String? = nil, clientToken: String? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date? = nil, createdBy: String? = nil, executionRoleArn: String? = nil, failureReason: FailureReason? = nil, finishedAt: Date? = nil, id: String? = nil, jobDriver: JobDriver? = nil, name: String? = nil, releaseLabel: String? = nil, state: JobRunState? = nil, stateDetails: String? = nil, tags: [String: String]? = nil, virtualClusterId: String? = nil) {
+        public init(arn: String? = nil, clientToken: String? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date? = nil, createdBy: String? = nil, executionRoleArn: String? = nil, failureReason: FailureReason? = nil, finishedAt: Date? = nil, id: String? = nil, jobDriver: JobDriver? = nil, name: String? = nil, releaseLabel: String? = nil, retryPolicyConfiguration: RetryPolicyConfiguration? = nil, retryPolicyExecution: RetryPolicyExecution? = nil, state: JobRunState? = nil, stateDetails: String? = nil, tags: [String: String]? = nil, virtualClusterId: String? = nil) {
             self.arn = arn
             self.clientToken = clientToken
             self.configurationOverrides = configurationOverrides
@@ -973,6 +977,8 @@ extension EMRContainers {
             self.jobDriver = jobDriver
             self.name = name
             self.releaseLabel = releaseLabel
+            self.retryPolicyConfiguration = retryPolicyConfiguration
+            self.retryPolicyExecution = retryPolicyExecution
             self.state = state
             self.stateDetails = stateDetails
             self.tags = tags
@@ -992,6 +998,8 @@ extension EMRContainers {
             case jobDriver = "jobDriver"
             case name = "name"
             case releaseLabel = "releaseLabel"
+            case retryPolicyConfiguration = "retryPolicyConfiguration"
+            case retryPolicyExecution = "retryPolicyExecution"
             case state = "state"
             case stateDetails = "stateDetails"
             case tags = "tags"
@@ -1347,7 +1355,7 @@ extension EMRContainers {
 
         /// The container provider ID of the virtual cluster.
         public let containerProviderId: String?
-        /// The container provider type of the virtual cluster. EKS is the only supported type as of now.
+        /// The container provider type of the virtual cluster. Amazon EKS is the only supported type as of now.
         public let containerProviderType: ContainerProviderType?
         /// The date and time after which the virtual clusters are created.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -1527,6 +1535,32 @@ extension EMRContainers {
         }
     }
 
+    public struct RetryPolicyConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of attempts on the job's driver.
+        public let maxAttempts: Int
+
+        public init(maxAttempts: Int) {
+            self.maxAttempts = maxAttempts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxAttempts = "maxAttempts"
+        }
+    }
+
+    public struct RetryPolicyExecution: AWSDecodableShape {
+        /// The current number of attempts made on the driver of the job.
+        public let currentAttemptCount: Int
+
+        public init(currentAttemptCount: Int) {
+            self.currentAttemptCount = currentAttemptCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentAttemptCount = "currentAttemptCount"
+        }
+    }
+
     public struct S3MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Amazon S3 destination URI for log publishing.
         public let logUri: String
@@ -1628,12 +1662,14 @@ extension EMRContainers {
         public let name: String?
         /// The Amazon EMR release version to use for the job run.
         public let releaseLabel: String?
+        /// The retry policy configuration for the job run.
+        public let retryPolicyConfiguration: RetryPolicyConfiguration?
         /// The tags assigned to job runs.
         public let tags: [String: String]?
         /// The virtual cluster ID for which the job run request is submitted.
         public let virtualClusterId: String
 
-        public init(clientToken: String = StartJobRunRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String? = nil, jobDriver: JobDriver? = nil, jobTemplateId: String? = nil, jobTemplateParameters: [String: String]? = nil, name: String? = nil, releaseLabel: String? = nil, tags: [String: String]? = nil, virtualClusterId: String) {
+        public init(clientToken: String = StartJobRunRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String? = nil, jobDriver: JobDriver? = nil, jobTemplateId: String? = nil, jobTemplateParameters: [String: String]? = nil, name: String? = nil, releaseLabel: String? = nil, retryPolicyConfiguration: RetryPolicyConfiguration? = nil, tags: [String: String]? = nil, virtualClusterId: String) {
             self.clientToken = clientToken
             self.configurationOverrides = configurationOverrides
             self.executionRoleArn = executionRoleArn
@@ -1642,6 +1678,7 @@ extension EMRContainers {
             self.jobTemplateParameters = jobTemplateParameters
             self.name = name
             self.releaseLabel = releaseLabel
+            self.retryPolicyConfiguration = retryPolicyConfiguration
             self.tags = tags
             self.virtualClusterId = virtualClusterId
         }
@@ -1695,6 +1732,7 @@ extension EMRContainers {
             case jobTemplateParameters = "jobTemplateParameters"
             case name = "name"
             case releaseLabel = "releaseLabel"
+            case retryPolicyConfiguration = "retryPolicyConfiguration"
             case tags = "tags"
         }
     }
@@ -1765,7 +1803,7 @@ extension EMRContainers {
     public struct TemplateParameterConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The default value for the job template parameter.
         public let defaultValue: String?
-        /// The type of the job template parameter. Allowed values are: ‘String’, ‘Number’.
+        /// The type of the job template parameter. Allowed values are: ‘STRING’, ‘NUMBER’.
         public let type: TemplateParameterDataType?
 
         public init(defaultValue: String? = nil, type: TemplateParameterDataType? = nil) {
@@ -1859,7 +1897,7 @@ extension EMRContainers {
     }
 
     public struct ContainerInfo: AWSEncodableShape & AWSDecodableShape {
-        /// The information about the EKS cluster.
+        /// The information about the Amazon EKS cluster.
         public let eksInfo: EksInfo?
 
         public init(eksInfo: EksInfo? = nil) {

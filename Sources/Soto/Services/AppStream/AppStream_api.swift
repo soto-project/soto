@@ -59,6 +59,7 @@ public struct AppStream: AWSService {
             variantEndpoints: [
                 [.fips]: .init(endpoints: [
                     "us-east-1": "appstream2-fips.us-east-1.amazonaws.com",
+                    "us-gov-east-1": "appstream2-fips.us-gov-east-1.amazonaws.com",
                     "us-gov-west-1": "appstream2-fips.us-gov-west-1.amazonaws.com",
                     "us-west-2": "appstream2-fips.us-west-2.amazonaws.com"
                 ])

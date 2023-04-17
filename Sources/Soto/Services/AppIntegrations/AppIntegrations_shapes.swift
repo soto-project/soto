@@ -24,26 +24,32 @@ extension AppIntegrations {
     // MARK: Shapes
 
     public struct CreateDataIntegrationRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// A description of the DataIntegration.
         public let description: String?
+        /// The configuration for what files should be pulled from the source.
+        public let fileConfiguration: FileConfiguration?
         /// The KMS key for the DataIntegration.
-        public let kmsKey: String?
+        public let kmsKey: String
         /// The name of the DataIntegration.
         public let name: String
+        /// The configuration for what data should be pulled from the source.
+        public let objectConfiguration: [String: [String: [String]]]?
         /// The name of the data and how often it should be pulled from the source.
-        public let scheduleConfig: ScheduleConfiguration?
+        public let scheduleConfig: ScheduleConfiguration
         /// The URI of the data source.
-        public let sourceURI: String?
-        /// One or more tags.
+        public let sourceURI: String
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateDataIntegrationRequest.idempotencyToken(), description: String? = nil, kmsKey: String? = nil, name: String, scheduleConfig: ScheduleConfiguration? = nil, sourceURI: String? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateDataIntegrationRequest.idempotencyToken(), description: String? = nil, fileConfiguration: FileConfiguration? = nil, kmsKey: String, name: String, objectConfiguration: [String: [String: [String]]]? = nil, scheduleConfig: ScheduleConfiguration, sourceURI: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
+            self.fileConfiguration = fileConfiguration
             self.kmsKey = kmsKey
             self.name = name
+            self.objectConfiguration = objectConfiguration
             self.scheduleConfig = scheduleConfig
             self.sourceURI = sourceURI
             self.tags = tags
@@ -56,16 +62,22 @@ extension AppIntegrations {
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.fileConfiguration?.validate(name: "\(name).fileConfiguration")
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 255)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\/\\._\\-]+$")
-            try self.scheduleConfig?.validate(name: "\(name).scheduleConfig")
-            try self.validate(self.sourceURI, name: "sourceURI", parent: name, max: 255)
+            try self.objectConfiguration?.forEach {
+                try validate($0.key, name: "objectConfiguration.key", parent: name, max: 255)
+                try validate($0.key, name: "objectConfiguration.key", parent: name, min: 1)
+                try validate($0.key, name: "objectConfiguration.key", parent: name, pattern: "\\S")
+            }
+            try self.scheduleConfig.validate(name: "\(name).scheduleConfig")
+            try self.validate(self.sourceURI, name: "sourceURI", parent: name, max: 1000)
             try self.validate(self.sourceURI, name: "sourceURI", parent: name, min: 1)
-            try self.validate(self.sourceURI, name: "sourceURI", parent: name, pattern: "\\S")
+            try self.validate(self.sourceURI, name: "sourceURI", parent: name, pattern: "^(\\w+\\:\\/\\/[\\w.-]+[\\w/!@#+=.-]+$)|(\\w+\\:\\/\\/[\\w.-]+[\\w/!@#+=.-]+[\\w/!@#+=.-]+[\\w/!@#+=.,-]+$)$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -79,8 +91,10 @@ extension AppIntegrations {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case description = "Description"
+            case fileConfiguration = "FileConfiguration"
             case kmsKey = "KmsKey"
             case name = "Name"
+            case objectConfiguration = "ObjectConfiguration"
             case scheduleConfig = "ScheduleConfig"
             case sourceURI = "SourceURI"
             case tags = "Tags"
@@ -90,30 +104,36 @@ extension AppIntegrations {
     public struct CreateDataIntegrationResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN)
         public let arn: String?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// A description of the DataIntegration.
         public let description: String?
+        /// The configuration for what files should be pulled from the source.
+        public let fileConfiguration: FileConfiguration?
         /// A unique identifier.
         public let id: String?
         /// The KMS key for the DataIntegration.
         public let kmsKey: String?
         /// The name of the DataIntegration.
         public let name: String?
+        /// The configuration for what data should be pulled from the source.
+        public let objectConfiguration: [String: [String: [String]]]?
         /// The name of the data and how often it should be pulled from the source.
         public let scheduleConfiguration: ScheduleConfiguration?
         /// The URI of the data source.
         public let sourceURI: String?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, clientToken: String? = nil, description: String? = nil, id: String? = nil, kmsKey: String? = nil, name: String? = nil, scheduleConfiguration: ScheduleConfiguration? = nil, sourceURI: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, clientToken: String? = nil, description: String? = nil, fileConfiguration: FileConfiguration? = nil, id: String? = nil, kmsKey: String? = nil, name: String? = nil, objectConfiguration: [String: [String: [String]]]? = nil, scheduleConfiguration: ScheduleConfiguration? = nil, sourceURI: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.clientToken = clientToken
             self.description = description
+            self.fileConfiguration = fileConfiguration
             self.id = id
             self.kmsKey = kmsKey
             self.name = name
+            self.objectConfiguration = objectConfiguration
             self.scheduleConfiguration = scheduleConfiguration
             self.sourceURI = sourceURI
             self.tags = tags
@@ -123,9 +143,11 @@ extension AppIntegrations {
             case arn = "Arn"
             case clientToken = "ClientToken"
             case description = "Description"
+            case fileConfiguration = "FileConfiguration"
             case id = "Id"
             case kmsKey = "KmsKey"
             case name = "Name"
+            case objectConfiguration = "ObjectConfiguration"
             case scheduleConfiguration = "ScheduleConfiguration"
             case sourceURI = "SourceURI"
             case tags = "Tags"
@@ -133,7 +155,7 @@ extension AppIntegrations {
     }
 
     public struct CreateEventIntegrationRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The description of the event integration.
         public let description: String?
@@ -143,7 +165,7 @@ extension AppIntegrations {
         public let eventFilter: EventFilter
         /// The name of the event integration.
         public let name: String
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
         public init(clientToken: String? = CreateEventIntegrationRequest.idempotencyToken(), description: String? = nil, eventBridgeBus: String, eventFilter: EventFilter, name: String, tags: [String: String]? = nil) {
@@ -203,9 +225,9 @@ extension AppIntegrations {
     }
 
     public struct DataIntegrationAssociationSummary: AWSDecodableShape {
-        /// The identifier for teh client that is associated with the DataIntegration association.
+        /// The identifier for the client that is associated with the DataIntegration association.
         public let clientId: String?
-        /// The Amazon Resource Name (ARN)of the DataIntegration.
+        /// The Amazon Resource Name (ARN) of the DataIntegration.
         public let dataIntegrationArn: String?
         /// The Amazon Resource Name (ARN) of the DataIntegration association.
         public let dataIntegrationAssociationArn: String?
@@ -324,7 +346,7 @@ extension AppIntegrations {
         public let eventIntegrationArn: String?
         /// The name of the event integration.
         public let name: String?
-        /// The tags.
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
         public init(description: String? = nil, eventBridgeBus: String? = nil, eventFilter: EventFilter? = nil, eventIntegrationArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
@@ -379,6 +401,40 @@ extension AppIntegrations {
         }
     }
 
+    public struct FileConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Restrictions for what files should be pulled from the source.
+        public let filters: [String: [String]]?
+        /// Identifiers for the source folders to pull all files from recursively.
+        public let folders: [String]
+
+        public init(filters: [String: [String]]? = nil, folders: [String]) {
+            self.filters = filters
+            self.folders = folders
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try validate($0.key, name: "filters.key", parent: name, max: 255)
+                try validate($0.key, name: "filters.key", parent: name, min: 1)
+                try validate($0.key, name: "filters.key", parent: name, pattern: "\\S")
+                try validate($0.value, name: "filters[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "filters[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.folders.forEach {
+                try validate($0, name: "folders[]", parent: name, max: 200)
+                try validate($0, name: "folders[]", parent: name, min: 1)
+                try validate($0, name: "folders[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.folders, name: "folders", parent: name, max: 10)
+            try self.validate(self.folders, name: "folders", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case folders = "Folders"
+        }
+    }
+
     public struct GetDataIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
@@ -405,25 +461,31 @@ extension AppIntegrations {
         public let arn: String?
         /// The KMS key for the DataIntegration.
         public let description: String?
+        /// The configuration for what files should be pulled from the source.
+        public let fileConfiguration: FileConfiguration?
         /// A unique identifier.
         public let id: String?
         /// The KMS key for the DataIntegration.
         public let kmsKey: String?
         /// The name of the DataIntegration.
         public let name: String?
+        /// The configuration for what data should be pulled from the source.
+        public let objectConfiguration: [String: [String: [String]]]?
         /// The name of the data and how often it should be pulled from the source.
         public let scheduleConfiguration: ScheduleConfiguration?
         /// The URI of the data source.
         public let sourceURI: String?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, id: String? = nil, kmsKey: String? = nil, name: String? = nil, scheduleConfiguration: ScheduleConfiguration? = nil, sourceURI: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, description: String? = nil, fileConfiguration: FileConfiguration? = nil, id: String? = nil, kmsKey: String? = nil, name: String? = nil, objectConfiguration: [String: [String: [String]]]? = nil, scheduleConfiguration: ScheduleConfiguration? = nil, sourceURI: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
+            self.fileConfiguration = fileConfiguration
             self.id = id
             self.kmsKey = kmsKey
             self.name = name
+            self.objectConfiguration = objectConfiguration
             self.scheduleConfiguration = scheduleConfiguration
             self.sourceURI = sourceURI
             self.tags = tags
@@ -432,9 +494,11 @@ extension AppIntegrations {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case description = "Description"
+            case fileConfiguration = "FileConfiguration"
             case id = "Id"
             case kmsKey = "KmsKey"
             case name = "Name"
+            case objectConfiguration = "ObjectConfiguration"
             case scheduleConfiguration = "ScheduleConfiguration"
             case sourceURI = "SourceURI"
             case tags = "Tags"
@@ -473,7 +537,7 @@ extension AppIntegrations {
         public let eventIntegrationArn: String?
         /// The name of the event integration.
         public let name: String?
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
         public init(description: String? = nil, eventBridgeBus: String? = nil, eventFilter: EventFilter? = nil, eventIntegrationArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
@@ -724,14 +788,14 @@ extension AppIntegrations {
     }
 
     public struct ScheduleConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The start date for objects to import in the first flow run.
+        /// The start date for objects to import in the first flow run as an Unix/epoch timestamp in milliseconds or in ISO-8601 format.
         public let firstExecutionFrom: String?
         /// The name of the object to pull from the data source.
         public let object: String?
         /// How often the data should be pulled from data source.
-        public let scheduleExpression: String?
+        public let scheduleExpression: String
 
-        public init(firstExecutionFrom: String? = nil, object: String? = nil, scheduleExpression: String? = nil) {
+        public init(firstExecutionFrom: String? = nil, object: String? = nil, scheduleExpression: String) {
             self.firstExecutionFrom = firstExecutionFrom
             self.object = object
             self.scheduleExpression = scheduleExpression
@@ -746,7 +810,7 @@ extension AppIntegrations {
             try self.validate(self.object, name: "object", parent: name, pattern: "^[a-zA-Z0-9\\/\\._\\-]+$")
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 255)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
-            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, pattern: "^[a-zA-Z0-9\\/\\._\\-]+$")
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -763,7 +827,7 @@ extension AppIntegrations {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
-        /// One or more tags.
+        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {

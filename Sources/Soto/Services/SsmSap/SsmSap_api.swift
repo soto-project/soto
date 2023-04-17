@@ -54,6 +54,15 @@ public struct SsmSap: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "ssm-sap-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "ssm-sap-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "ssm-sap-fips.us-east-2.amazonaws.com",
+                    "us-west-1": "ssm-sap-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "ssm-sap-fips.us-west-2.amazonaws.com"
+                ])
+            ],
             errorType: SsmSapErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

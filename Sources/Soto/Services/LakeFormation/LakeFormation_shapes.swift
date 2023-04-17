@@ -179,8 +179,7 @@ extension LakeFormation {
     public struct AddObjectInput: AWSEncodableShape {
         /// The Amazon S3 ETag of the object. Returned by GetTableObjects for validation and used to identify changes to the underlying data.
         public let eTag: String
-        /// A list of partition values for the object. A value must be specified for each partition key associated with the table.
-        /// 	        The supported data types are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal.
+        /// A list of partition values for the object. A value must be specified for each partition key associated with the table. The supported data types are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal.
         public let partitionValues: [String]?
         /// The size of the Amazon S3 object in bytes.
         public let size: Int64
@@ -589,7 +588,7 @@ extension LakeFormation {
     public struct DataCellsFilter: AWSEncodableShape & AWSDecodableShape {
         /// A list of column names.
         public let columnNames: [String]?
-        /// A wildcard with exclusions.  You must specify either a ColumnNames list or the ColumnWildCard.
+        /// A wildcard with exclusions. You must specify either a ColumnNames list or the ColumnWildCard.
         public let columnWildcard: ColumnWildcard?
         /// A database in the Glue Data Catalog.
         public let databaseName: String
@@ -601,8 +600,10 @@ extension LakeFormation {
         public let tableCatalogId: String
         /// A table in the database.
         public let tableName: String
+        /// The ID of the data cells filter version.
+        public let versionId: String?
 
-        public init(columnNames: [String]? = nil, columnWildcard: ColumnWildcard? = nil, databaseName: String, name: String, rowFilter: RowFilter? = nil, tableCatalogId: String, tableName: String) {
+        public init(columnNames: [String]? = nil, columnWildcard: ColumnWildcard? = nil, databaseName: String, name: String, rowFilter: RowFilter? = nil, tableCatalogId: String, tableName: String, versionId: String? = nil) {
             self.columnNames = columnNames
             self.columnWildcard = columnWildcard
             self.databaseName = databaseName
@@ -610,6 +611,7 @@ extension LakeFormation {
             self.rowFilter = rowFilter
             self.tableCatalogId = tableCatalogId
             self.tableName = tableName
+            self.versionId = versionId
         }
 
         public func validate(name: String) throws {
@@ -632,6 +634,9 @@ extension LakeFormation {
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.versionId, name: "versionId", parent: name, max: 255)
+            try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
+            try self.validate(self.versionId, name: "versionId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -642,6 +647,7 @@ extension LakeFormation {
             case rowFilter = "RowFilter"
             case tableCatalogId = "TableCatalogId"
             case tableName = "TableName"
+            case versionId = "VersionId"
         }
     }
 
@@ -704,22 +710,13 @@ extension LakeFormation {
     }
 
     public struct DataLakeSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Whether to allow Amazon EMR clusters to access data managed by Lake Formation.
-        /// 	 If true, you allow Amazon EMR clusters to access data in Amazon S3 locations that are registered with Lake Formation.
-        /// 	 If false or null, no Amazon EMR clusters will be able to access data in Amazon S3 locations that are registered with Lake Formation.  For more information, see (Optional) Allow Data Filtering on Amazon EMR.
+        /// Whether to allow Amazon EMR clusters to access data managed by Lake Formation.  If true, you allow Amazon EMR clusters to access data in Amazon S3 locations that are registered with Lake Formation. If false or null, no Amazon EMR clusters will be able to access data in Amazon S3 locations that are registered with Lake Formation. For more information, see (Optional) Allow Data Filtering on Amazon EMR.
         public let allowExternalDataFiltering: Bool?
         /// Lake Formation relies on a privileged process secured by Amazon EMR or the third party integrator to tag the user's role while assuming it. Lake Formation will publish the acceptable key-value pair, for example key = "LakeFormationTrustedCaller" and value = "TRUE" and the third party integrator must properly tag the temporary security credentials that will be used to call Lake Formation's administrative APIs.
         public let authorizedSessionTagValueList: [String]?
-        /// Specifies whether access control on newly created database is managed by Lake Formation permissions or exclusively by IAM permissions.
-        /// 	  A null value indicates access control by Lake Formation permissions. A value that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM permissions. This is referred to as the setting "Use only IAM access control," and is for backward compatibility with the Glue permission model implemented by IAM permissions.
-        ///
-        /// 	        The only permitted values are an empty array or an array that contains a single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS.
-        ///  For more information, see Changing the Default Security Settings for Your Data Lake.
+        /// Specifies whether access control on newly created database is managed by Lake Formation permissions or exclusively by IAM permissions. A null value indicates access control by Lake Formation permissions. A value that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM permissions. This is referred to as the setting "Use only IAM access control," and is for backward compatibility with the Glue permission model implemented by IAM permissions. The only permitted values are an empty array or an array that contains a single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS. For more information, see Changing the Default Security Settings for Your Data Lake.
         public let createDatabaseDefaultPermissions: [PrincipalPermissions]?
-        /// Specifies whether access control on newly created table is managed by Lake Formation permissions or exclusively by IAM permissions.
-        /// 	  A null value indicates access control by Lake Formation permissions. A value that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM permissions. This is referred to as the setting "Use only IAM access control," and is for backward compatibility with the Glue permission model implemented by IAM permissions.
-        ///
-        /// 	        The only permitted values are an empty array or an array that contains a single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS.  For more information, see Changing the Default Security Settings for Your Data Lake.
+        /// Specifies whether access control on newly created table is managed by Lake Formation permissions or exclusively by IAM permissions. A null value indicates access control by Lake Formation permissions. A value that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM permissions. This is referred to as the setting "Use only IAM access control," and is for backward compatibility with the Glue permission model implemented by IAM permissions. The only permitted values are an empty array or an array that contains a single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS. For more information, see Changing the Default Security Settings for Your Data Lake.
         public let createTableDefaultPermissions: [PrincipalPermissions]?
         /// A list of Lake Formation principals. Supported principals are IAM users or IAM roles.
         public let dataLakeAdmins: [DataLakePrincipal]?
@@ -727,9 +724,7 @@ extension LakeFormation {
         public let externalDataFilteringAllowList: [DataLakePrincipal]?
         /// A key-value map that provides an additional configuration on your data lake. CrossAccountVersion is the key you can configure in the Parameters field. Accepted values for the CrossAccountVersion key are 1, 2, and 3.
         public let parameters: [String: String]?
-        /// A list of the resource-owning account IDs that the caller's account can use to share their user access details (user ARNs). The user ARNs can be logged in the resource owner's CloudTrail log.
-        ///
-        /// 	        You may want to specify this property when you are in a high-trust boundary, such as the same team or company.
+        /// A list of the resource-owning account IDs that the caller's account can use to share their user access details (user ARNs). The user ARNs can be logged in the resource owner's CloudTrail log. You may want to specify this property when you are in a high-trust boundary, such as the same team or company.
         public let trustedResourceOwners: [String]?
 
         public init(allowExternalDataFiltering: Bool? = nil, authorizedSessionTagValueList: [String]? = nil, createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, dataLakeAdmins: [DataLakePrincipal]? = nil, externalDataFilteringAllowList: [DataLakePrincipal]? = nil, parameters: [String: String]? = nil, trustedResourceOwners: [String]? = nil) {
@@ -1169,6 +1164,59 @@ extension LakeFormation {
         }
     }
 
+    public struct GetDataCellsFilterRequest: AWSEncodableShape {
+        /// A database in the Glue Data Catalog.
+        public let databaseName: String
+        /// The name given by the user to the data filter cell.
+        public let name: String
+        /// The ID of the catalog to which the table belongs.
+        public let tableCatalogId: String
+        /// A table in the database.
+        public let tableName: String
+
+        public init(databaseName: String, name: String, tableCatalogId: String, tableName: String) {
+            self.databaseName = databaseName
+            self.name = name
+            self.tableCatalogId = tableCatalogId
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableCatalogId, name: "tableCatalogId", parent: name, max: 255)
+            try self.validate(self.tableCatalogId, name: "tableCatalogId", parent: name, min: 1)
+            try self.validate(self.tableCatalogId, name: "tableCatalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case name = "Name"
+            case tableCatalogId = "TableCatalogId"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct GetDataCellsFilterResponse: AWSDecodableShape {
+        /// A structure that describes certain columns on certain rows.
+        public let dataCellsFilter: DataCellsFilter?
+
+        public init(dataCellsFilter: DataCellsFilter? = nil) {
+            self.dataCellsFilter = dataCellsFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataCellsFilter = "DataCellsFilter"
+        }
+    }
+
     public struct GetDataLakeSettingsRequest: AWSEncodableShape {
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
@@ -1319,9 +1367,7 @@ extension LakeFormation {
     public struct GetQueryStateResponse: AWSDecodableShape {
         /// An error message when the operation fails.
         public let error: String?
-        /// The state of a query previously submitted. The possible states are:
-        ///
-        /// 	          PENDING: the query is pending.   WORKUNITS_AVAILABLE: some work units are ready for retrieval and execution.   FINISHED: the query planning finished successfully, and all work units are ready for retrieval and execution.   ERROR: an error occurred with the query, such as an invalid query ID or a backend error.
+        /// The state of a query previously submitted. The possible states are:   PENDING: the query is pending.   WORKUNITS_AVAILABLE: some work units are ready for retrieval and execution.   FINISHED: the query planning finished successfully, and all work units are ready for retrieval and execution.   ERROR: an error occurred with the query, such as an invalid query ID or a backend error.
         public let state: QueryStateString
 
         public init(error: String? = nil, state: QueryStateString) {
@@ -1433,8 +1479,7 @@ extension LakeFormation {
         public let maxResults: Int?
         /// A continuation token if this is not the first call to retrieve these objects.
         public let nextToken: String?
-        /// A predicate to filter the objects returned based on the partition keys defined in the governed table.
-        /// 	          The comparison operators supported are: =, >, =,    The logical operators supported are: AND   The data types supported are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal.
+        /// A predicate to filter the objects returned based on the partition keys defined in the governed table.   The comparison operators supported are: =, >, =,    The logical operators supported are: AND   The data types supported are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal.
         public let partitionPredicate: String?
         /// The time as of when to read the governed table contents. If not set, the most recent transaction commit time is used. Cannot be specified along with TransactionId.
         public let queryAsOfTime: Date?
@@ -1734,8 +1779,7 @@ extension LakeFormation {
         public let permissions: [Permission]
         /// Indicates a list of the granted permissions that the principal may pass to other users. These permissions may only be a subset of the permissions granted in the Privileges.
         public let permissionsWithGrantOption: [Permission]?
-        /// The principal to be granted the permissions on the resource. Supported principals are IAM users or IAM roles, and they are defined by their principal type and their ARN.
-        /// 	        Note that if you define a resource with a particular ARN, then later delete, and recreate a resource with that same ARN, the resource maintains the permissions already granted.
+        /// The principal to be granted the permissions on the resource. Supported principals are IAM users or IAM roles, and they are defined by their principal type and their ARN. Note that if you define a resource with a particular ARN, then later delete, and recreate a resource with that same ARN, the resource maintains the permissions already granted.
         public let principal: DataLakePrincipal
         /// The resource to which permissions are to be granted. Resources in Lake Formation are the Data Catalog, databases, and tables.
         public let resource: Resource
@@ -1908,8 +1952,6 @@ extension LakeFormation {
             try self.expression.forEach {
                 try $0.validate(name: "\(name).expression[]")
             }
-            try self.validate(self.expression, name: "expression", parent: name, max: 5)
-            try self.validate(self.expression, name: "expression", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2422,13 +2464,16 @@ extension LakeFormation {
         public let resourceArn: String
         /// The identifier for the role that registers the resource.
         public let roleArn: String?
-        /// Designates an Identity and Access Management (IAM) service-linked role by registering this role with the Data Catalog. A service-linked role is a unique type of IAM role that is linked directly to Lake Formation.  For more information, see Using Service-Linked Roles for Lake Formation.
+        /// Designates an Identity and Access Management (IAM) service-linked role by registering this role with the Data Catalog. A service-linked role is a unique type of IAM role that is linked directly to Lake Formation. For more information, see Using Service-Linked Roles for Lake Formation.
         public let useServiceLinkedRole: Bool?
+        /// Whether or not the resource is a federated resource.
+        public let withFederation: Bool?
 
-        public init(resourceArn: String, roleArn: String? = nil, useServiceLinkedRole: Bool? = nil) {
+        public init(resourceArn: String, roleArn: String? = nil, useServiceLinkedRole: Bool? = nil, withFederation: Bool? = nil) {
             self.resourceArn = resourceArn
             self.roleArn = roleArn
             self.useServiceLinkedRole = useServiceLinkedRole
+            self.withFederation = withFederation
         }
 
         public func validate(name: String) throws {
@@ -2439,6 +2484,7 @@ extension LakeFormation {
             case resourceArn = "ResourceArn"
             case roleArn = "RoleArn"
             case useServiceLinkedRole = "UseServiceLinkedRole"
+            case withFederation = "WithFederation"
         }
     }
 
@@ -2550,17 +2596,21 @@ extension LakeFormation {
         public let resourceArn: String?
         /// The IAM role that registered a resource.
         public let roleArn: String?
+        /// Whether or not the resource is a federated resource.
+        public let withFederation: Bool?
 
-        public init(lastModified: Date? = nil, resourceArn: String? = nil, roleArn: String? = nil) {
+        public init(lastModified: Date? = nil, resourceArn: String? = nil, roleArn: String? = nil, withFederation: Bool? = nil) {
             self.lastModified = lastModified
             self.resourceArn = resourceArn
             self.roleArn = roleArn
+            self.withFederation = withFederation
         }
 
         private enum CodingKeys: String, CodingKey {
             case lastModified = "LastModified"
             case resourceArn = "ResourceArn"
             case roleArn = "RoleArn"
+            case withFederation = "WithFederation"
         }
     }
 
@@ -2651,8 +2701,6 @@ extension LakeFormation {
             try self.expression.forEach {
                 try $0.validate(name: "\(name).expression[]")
             }
-            try self.validate(self.expression, name: "expression", parent: name, max: 5)
-            try self.validate(self.expression, name: "expression", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2706,8 +2754,6 @@ extension LakeFormation {
             try self.expression.forEach {
                 try $0.validate(name: "\(name).expression[]")
             }
-            try self.validate(self.expression, name: "expression", parent: name, max: 5)
-            try self.validate(self.expression, name: "expression", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2801,10 +2847,7 @@ extension LakeFormation {
     public struct StorageOptimizer: AWSDecodableShape {
         /// A map of the storage optimizer configuration. Currently contains only one key-value pair: is_enabled indicates true or false for acceleration.
         public let config: [String: String]?
-        /// A message that contains information about any error (if present).
-        ///
-        /// 	        When an acceleration result has an enabled status, the error message is empty.
-        /// 	        When an acceleration result has a disabled status, the message describes an error or simply indicates "disabled by the user".
+        /// A message that contains information about any error (if present). When an acceleration result has an enabled status, the error message is empty. When an acceleration result has a disabled status, the message describes an error or simply indicates "disabled by the user".
         public let errorMessage: String?
         /// When an acceleration result has an enabled status, contains the details of the last job run.
         public let lastRunDetails: String?
@@ -2858,8 +2901,7 @@ extension LakeFormation {
         public let databaseName: String
         /// The name of the table.
         public let name: String?
-        /// A wildcard object representing every table under a database.
-        ///  At least one of TableResource$Name or TableResource$TableWildcard is required.
+        /// A wildcard object representing every table under a database. At least one of TableResource$Name or TableResource$TableWildcard is required.
         public let tableWildcard: TableWildcard?
 
         public init(catalogId: String? = nil, databaseName: String, name: String? = nil, tableWildcard: TableWildcard? = nil) {
@@ -3007,6 +3049,27 @@ extension LakeFormation {
         }
     }
 
+    public struct UpdateDataCellsFilterRequest: AWSEncodableShape {
+        /// A DataCellsFilter structure containing information about the data cells filter.
+        public let tableData: DataCellsFilter
+
+        public init(tableData: DataCellsFilter) {
+            self.tableData = tableData
+        }
+
+        public func validate(name: String) throws {
+            try self.tableData.validate(name: "\(name).tableData")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableData = "TableData"
+        }
+    }
+
+    public struct UpdateDataCellsFilterResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateLFTagRequest: AWSEncodableShape {
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
@@ -3062,10 +3125,13 @@ extension LakeFormation {
         public let resourceArn: String
         /// The new role to use for the given resource registered in Lake Formation.
         public let roleArn: String
+        /// Whether or not the resource is a federated resource.
+        public let withFederation: Bool?
 
-        public init(resourceArn: String, roleArn: String) {
+        public init(resourceArn: String, roleArn: String, withFederation: Bool? = nil) {
             self.resourceArn = resourceArn
             self.roleArn = roleArn
+            self.withFederation = withFederation
         }
 
         public func validate(name: String) throws {
@@ -3075,6 +3141,7 @@ extension LakeFormation {
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
             case roleArn = "RoleArn"
+            case withFederation = "WithFederation"
         }
     }
 
@@ -3304,7 +3371,7 @@ public struct LakeFormationErrorType: AWSErrorType {
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
     /// Two processes are trying to modify a resource simultaneously.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
-    /// A specified entity does not exist
+    /// A specified entity does not exist.
     public static var entityNotFoundException: Self { .init(.entityNotFoundException) }
     /// Contains details about an error where the query request expired.
     public static var expiredException: Self { .init(.expiredException) }

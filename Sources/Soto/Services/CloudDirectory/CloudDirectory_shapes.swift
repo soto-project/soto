@@ -62,8 +62,8 @@ extension CloudDirectory {
     }
 
     public enum FacetStyle: String, CustomStringConvertible, Codable, Sendable {
-        case dynamic = "DYNAMIC"
         case `static` = "STATIC"
+        case dynamic = "DYNAMIC"
         public var description: String { return self.rawValue }
     }
 
@@ -665,7 +665,7 @@ extension CloudDirectory {
         /// A reference to the parent object that contains the index object.
         public let parentReference: ObjectReference?
 
-        public init(batchReferenceName: String? = nil, isUnique: Bool, linkName: String? = nil, orderedIndexedAttributeList: [AttributeKey], parentReference: ObjectReference? = nil) {
+        public init(batchReferenceName: String? = nil, isUnique: Bool = false, linkName: String? = nil, orderedIndexedAttributeList: [AttributeKey], parentReference: ObjectReference? = nil) {
             self.batchReferenceName = batchReferenceName
             self.isUnique = isUnique
             self.linkName = linkName
@@ -2110,7 +2110,7 @@ extension CloudDirectory {
         /// A reference to the parent object that contains the index object.
         public let parentReference: ObjectReference?
 
-        public init(directoryArn: String, isUnique: Bool, linkName: String? = nil, orderedIndexedAttributeList: [AttributeKey], parentReference: ObjectReference? = nil) {
+        public init(directoryArn: String, isUnique: Bool = false, linkName: String? = nil, orderedIndexedAttributeList: [AttributeKey], parentReference: ObjectReference? = nil) {
             self.directoryArn = directoryArn
             self.isUnique = isUnique
             self.linkName = linkName

@@ -174,6 +174,11 @@ public struct Lightsail: AWSService {
         return self.client.execute(operation: "CreateDomainEntry", path: "/ls/api/2016-11-28/CreateDomainEntry", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates two URLs that are used to access a virtual computer’s graphical user interface (GUI) session. The primary URL initiates a web-based NICE DCV session to the virtual computer's application. The secondary URL initiates a web-based NICE DCV session to the virtual computer's operating session.  Use StartGUISession to open the session.
+    public func createGUISessionAccessDetails(_ input: CreateGUISessionAccessDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGUISessionAccessDetailsResult> {
+        return self.client.execute(operation: "CreateGUISessionAccessDetails", path: "/ls/api/2016-11-28/create-gui-session-access-details", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a snapshot of a specific virtual private server, or instance. You can use a snapshot to create a new instance that is based on that snapshot. The create instance snapshot operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide.
     public func createInstanceSnapshot(_ input: CreateInstanceSnapshotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInstanceSnapshotResult> {
         return self.client.execute(operation: "CreateInstanceSnapshot", path: "/ls/api/2016-11-28/CreateInstanceSnapshot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -457,6 +462,11 @@ public struct Lightsail: AWSService {
     /// Returns information about one or more of your Amazon Lightsail container services.
     public func getContainerServices(_ input: GetContainerServicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ContainerServicesListResult> {
         return self.client.execute(operation: "GetContainerServices", path: "/ls/api/2016-11-28/container-services", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves information about the cost estimate for a specified resource. A cost estimate will not generate for a resource that has been deleted.
+    public func getCostEstimate(_ input: GetCostEstimateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCostEstimateResult> {
+        return self.client.execute(operation: "GetCostEstimate", path: "/budgettracker/getCostEstimate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about a specific block storage disk.
@@ -749,6 +759,11 @@ public struct Lightsail: AWSService {
         return self.client.execute(operation: "SetResourceAccessForBucket", path: "/ls/api/2016-11-28/SetResourceAccessForBucket", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Initiates a graphical user interface (GUI) session that’s used to access a virtual computer’s operating system and application. The session will be active for 1 hour. Use this action to resume the session after it expires.
+    public func startGUISession(_ input: StartGUISessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartGUISessionResult> {
+        return self.client.execute(operation: "StartGUISession", path: "/ls/api/2016-11-28/start-gui-session", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance, use the reboot instance operation.  When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Amazon Lightsail Developer Guide.  The start instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Amazon Lightsail Developer Guide.
     public func startInstance(_ input: StartInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartInstanceResult> {
         return self.client.execute(operation: "StartInstance", path: "/ls/api/2016-11-28/StartInstance", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -757,6 +772,11 @@ public struct Lightsail: AWSService {
     /// Starts a specific database from a stopped state in Amazon Lightsail. To restart a database, use the reboot relational database operation. The start relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide.
     public func startRelationalDatabase(_ input: StartRelationalDatabaseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartRelationalDatabaseResult> {
         return self.client.execute(operation: "StartRelationalDatabase", path: "/ls/api/2016-11-28/StartRelationalDatabase", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Terminates a web-based NICE DCV session that’s used to access a virtual computer’s operating system or application. The session will close and any unsaved data will be lost.
+    public func stopGUISession(_ input: StopGUISessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopGUISessionResult> {
+        return self.client.execute(operation: "StopGUISession", path: "/ls/api/2016-11-28/stop-gui-session", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Stops a specific Amazon Lightsail instance that is currently running.  When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Amazon Lightsail Developer Guide.  The stop instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Amazon Lightsail Developer Guide.

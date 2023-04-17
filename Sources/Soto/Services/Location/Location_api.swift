@@ -113,47 +113,57 @@ public struct Location: AWSService {
         return self.client.execute(operation: "CreateGeofenceCollection", path: "/geofencing/v0/collections", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
     }
 
-    /// Creates a map resource in your AWS account, which provides map tiles of different styles sourced from global location data providers.  If your application is tracking or routing assets you use in your business, such  as delivery vehicles or employees, you must not use Esri as your geolocation  provider. See section 82 of the AWS service terms for more details.
+    /// Creates an API key resource in your Amazon Web Services account, which lets you grant geo:GetMap* actions for Amazon Location Map resources to the API key bearer.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    public func createKey(_ input: CreateKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateKeyResponse> {
+        return self.client.execute(operation: "CreateKey", path: "/metadata/v0/keys", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "metadata.", logger: logger, on: eventLoop)
+    }
+
+    /// Creates a map resource in your Amazon Web Services account, which provides map tiles of different styles sourced from global location data providers.  If your application is tracking or routing assets you use in your business, such  as delivery vehicles or employees, you must not use Esri as your geolocation  provider. See section 82 of the Amazon Web Services service terms for more details.
     public func createMap(_ input: CreateMapRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMapResponse> {
         return self.client.execute(operation: "CreateMap", path: "/maps/v0/maps", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "maps.", logger: logger, on: eventLoop)
     }
 
-    /// Creates a place index resource in your AWS account. Use a place index resource to geocode addresses and other text queries by using the SearchPlaceIndexForText operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable autosuggestions by using the SearchPlaceIndexForSuggestions operation.  If your application is tracking or routing assets you use in your business, such  as delivery vehicles or employees, you must not use Esri as your geolocation  provider. See section 82 of the AWS service terms for more details.
+    /// Creates a place index resource in your Amazon Web Services account. Use a place index resource to geocode addresses and other text queries by using the SearchPlaceIndexForText operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable autosuggestions by using the SearchPlaceIndexForSuggestions operation.  If your application is tracking or routing assets you use in your business, such  as delivery vehicles or employees, you must not use Esri as your geolocation  provider. See section 82 of the Amazon Web Services service terms for more details.
     public func createPlaceIndex(_ input: CreatePlaceIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePlaceIndexResponse> {
         return self.client.execute(operation: "CreatePlaceIndex", path: "/places/v0/indexes", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "places.", logger: logger, on: eventLoop)
     }
 
-    /// Creates a route calculator resource in your AWS account. You can send requests to a route calculator resource to estimate travel time, distance, and get directions. A route calculator sources traffic and road network data from your chosen data provider.  If your application is tracking or routing assets you use in your business, such  as delivery vehicles or employees, you must not use Esri as your geolocation  provider. See section 82 of the AWS service terms for more details.
+    /// Creates a route calculator resource in your Amazon Web Services account. You can send requests to a route calculator resource to estimate travel time, distance, and get directions. A route calculator sources traffic and road network data from your chosen data provider.  If your application is tracking or routing assets you use in your business, such  as delivery vehicles or employees, you must not use Esri as your geolocation  provider. See section 82 of the Amazon Web Services service terms for more details.
     public func createRouteCalculator(_ input: CreateRouteCalculatorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRouteCalculatorResponse> {
         return self.client.execute(operation: "CreateRouteCalculator", path: "/routes/v0/calculators", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "routes.", logger: logger, on: eventLoop)
     }
 
-    /// Creates a tracker resource in your AWS account, which lets you retrieve current and historical location of devices.
+    /// Creates a tracker resource in your Amazon Web Services account, which lets you retrieve current and historical location of devices.
     public func createTracker(_ input: CreateTrackerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTrackerResponse> {
         return self.client.execute(operation: "CreateTracker", path: "/tracking/v0/trackers", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "tracking.", logger: logger, on: eventLoop)
     }
 
-    /// Deletes a geofence collection from your AWS account.  This operation deletes the resource permanently. If the geofence collection is the target of a tracker resource, the devices will no longer be monitored.
+    /// Deletes a geofence collection from your Amazon Web Services account.  This operation deletes the resource permanently. If the geofence collection is the target of a tracker resource, the devices will no longer be monitored.
     public func deleteGeofenceCollection(_ input: DeleteGeofenceCollectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGeofenceCollectionResponse> {
         return self.client.execute(operation: "DeleteGeofenceCollection", path: "/geofencing/v0/collections/{CollectionName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
     }
 
-    /// Deletes a map resource from your AWS account.  This operation deletes the resource permanently. If the map is being used in an application, the map may not render.
+    /// Deletes the specified API key. The API key must have been deactivated more than 90 days previously.
+    public func deleteKey(_ input: DeleteKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteKeyResponse> {
+        return self.client.execute(operation: "DeleteKey", path: "/metadata/v0/keys/{KeyName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "metadata.", logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a map resource from your Amazon Web Services account.  This operation deletes the resource permanently. If the map is being used in an application, the map may not render.
     public func deleteMap(_ input: DeleteMapRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMapResponse> {
         return self.client.execute(operation: "DeleteMap", path: "/maps/v0/maps/{MapName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "maps.", logger: logger, on: eventLoop)
     }
 
-    /// Deletes a place index resource from your AWS account.  This operation deletes the resource permanently.
+    /// Deletes a place index resource from your Amazon Web Services account.  This operation deletes the resource permanently.
     public func deletePlaceIndex(_ input: DeletePlaceIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePlaceIndexResponse> {
         return self.client.execute(operation: "DeletePlaceIndex", path: "/places/v0/indexes/{IndexName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "places.", logger: logger, on: eventLoop)
     }
 
-    /// Deletes a route calculator resource from your AWS account.  This operation deletes the resource permanently.
+    /// Deletes a route calculator resource from your Amazon Web Services account.  This operation deletes the resource permanently.
     public func deleteRouteCalculator(_ input: DeleteRouteCalculatorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRouteCalculatorResponse> {
         return self.client.execute(operation: "DeleteRouteCalculator", path: "/routes/v0/calculators/{CalculatorName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "routes.", logger: logger, on: eventLoop)
     }
 
-    /// Deletes a tracker resource from your AWS account.  This operation deletes the resource permanently. If the tracker resource is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications.
+    /// Deletes a tracker resource from your Amazon Web Services account.  This operation deletes the resource permanently. If the tracker resource is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications.
     public func deleteTracker(_ input: DeleteTrackerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTrackerResponse> {
         return self.client.execute(operation: "DeleteTracker", path: "/tracking/v0/trackers/{TrackerName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "tracking.", logger: logger, on: eventLoop)
     }
@@ -161,6 +171,11 @@ public struct Location: AWSService {
     /// Retrieves the geofence collection details.
     public func describeGeofenceCollection(_ input: DescribeGeofenceCollectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeGeofenceCollectionResponse> {
         return self.client.execute(operation: "DescribeGeofenceCollection", path: "/geofencing/v0/collections/{CollectionName}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the API key resource details.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    public func describeKey(_ input: DescribeKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeKeyResponse> {
+        return self.client.execute(operation: "DescribeKey", path: "/metadata/v0/keys/{KeyName}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "metadata.", logger: logger, on: eventLoop)
     }
 
     /// Retrieves the map resource details.
@@ -223,7 +238,7 @@ public struct Location: AWSService {
         return self.client.execute(operation: "GetMapTile", path: "/maps/v0/maps/{MapName}/tiles/{Z}/{X}/{Y}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "maps.", logger: logger, on: eventLoop)
     }
 
-    /// Finds a place by its unique ID. A PlaceId is returned by other search operations.  A PlaceId is valid only if all of the following are the same in the original search request and the call to GetPlace.   Customer AWS account   AWS Region   Data provider specified in the place index resource
+    /// Finds a place by its unique ID. A PlaceId is returned by other search operations.  A PlaceId is valid only if all of the following are the same in the original search request and the call to GetPlace.   Customer Amazon Web Services account   Amazon Web Services Region   Data provider specified in the place index resource
     public func getPlace(_ input: GetPlaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPlaceResponse> {
         return self.client.execute(operation: "GetPlace", path: "/places/v0/indexes/{IndexName}/places/{PlaceId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "places.", logger: logger, on: eventLoop)
     }
@@ -233,7 +248,7 @@ public struct Location: AWSService {
         return self.client.execute(operation: "ListDevicePositions", path: "/tracking/v0/trackers/{TrackerName}/list-positions", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "tracking.", logger: logger, on: eventLoop)
     }
 
-    /// Lists geofence collections in your AWS account.
+    /// Lists geofence collections in your Amazon Web Services account.
     public func listGeofenceCollections(_ input: ListGeofenceCollectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGeofenceCollectionsResponse> {
         return self.client.execute(operation: "ListGeofenceCollections", path: "/geofencing/v0/list-collections", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
     }
@@ -243,17 +258,22 @@ public struct Location: AWSService {
         return self.client.execute(operation: "ListGeofences", path: "/geofencing/v0/collections/{CollectionName}/list-geofences", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
     }
 
-    /// Lists map resources in your AWS account.
+    /// Lists API key resources in your Amazon Web Services account.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    public func listKeys(_ input: ListKeysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListKeysResponse> {
+        return self.client.execute(operation: "ListKeys", path: "/metadata/v0/list-keys", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "metadata.", logger: logger, on: eventLoop)
+    }
+
+    /// Lists map resources in your Amazon Web Services account.
     public func listMaps(_ input: ListMapsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMapsResponse> {
         return self.client.execute(operation: "ListMaps", path: "/maps/v0/list-maps", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "maps.", logger: logger, on: eventLoop)
     }
 
-    /// Lists place index resources in your AWS account.
+    /// Lists place index resources in your Amazon Web Services account.
     public func listPlaceIndexes(_ input: ListPlaceIndexesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPlaceIndexesResponse> {
         return self.client.execute(operation: "ListPlaceIndexes", path: "/places/v0/list-indexes", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "places.", logger: logger, on: eventLoop)
     }
 
-    /// Lists route calculator resources in your AWS account.
+    /// Lists route calculator resources in your Amazon Web Services account.
     public func listRouteCalculators(_ input: ListRouteCalculatorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRouteCalculatorsResponse> {
         return self.client.execute(operation: "ListRouteCalculators", path: "/routes/v0/list-calculators", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "routes.", logger: logger, on: eventLoop)
     }
@@ -268,7 +288,7 @@ public struct Location: AWSService {
         return self.client.execute(operation: "ListTrackerConsumers", path: "/tracking/v0/trackers/{TrackerName}/list-consumers", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "tracking.", logger: logger, on: eventLoop)
     }
 
-    /// Lists tracker resources in your AWS account.
+    /// Lists tracker resources in your Amazon Web Services account.
     public func listTrackers(_ input: ListTrackersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTrackersResponse> {
         return self.client.execute(operation: "ListTrackers", path: "/tracking/v0/list-trackers", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "tracking.", logger: logger, on: eventLoop)
     }
@@ -306,6 +326,11 @@ public struct Location: AWSService {
     /// Updates the specified properties of a given geofence collection.
     public func updateGeofenceCollection(_ input: UpdateGeofenceCollectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGeofenceCollectionResponse> {
         return self.client.execute(operation: "UpdateGeofenceCollection", path: "/geofencing/v0/collections/{CollectionName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
+    }
+
+    /// Updates the specified properties of a given API key resource.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    public func updateKey(_ input: UpdateKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateKeyResponse> {
+        return self.client.execute(operation: "UpdateKey", path: "/metadata/v0/keys/{KeyName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, hostPrefix: "metadata.", logger: logger, on: eventLoop)
     }
 
     /// Updates the specified properties of a given map resource.
@@ -447,7 +472,7 @@ extension Location {
         )
     }
 
-    /// Lists geofence collections in your AWS account.
+    /// Lists geofence collections in your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -553,7 +578,60 @@ extension Location {
         )
     }
 
-    /// Lists map resources in your AWS account.
+    /// Lists API key resources in your Amazon Web Services account.  The API keys feature is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Using API keys.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listKeysPaginator<Result>(
+        _ input: ListKeysRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListKeysResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listKeys,
+            inputKey: \ListKeysRequest.nextToken,
+            outputKey: \ListKeysResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listKeysPaginator(
+        _ input: ListKeysRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListKeysResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listKeys,
+            inputKey: \ListKeysRequest.nextToken,
+            outputKey: \ListKeysResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists map resources in your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -606,7 +684,7 @@ extension Location {
         )
     }
 
-    /// Lists place index resources in your AWS account.
+    /// Lists place index resources in your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -659,7 +737,7 @@ extension Location {
         )
     }
 
-    /// Lists route calculator resources in your AWS account.
+    /// Lists route calculator resources in your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -765,7 +843,7 @@ extension Location {
         )
     }
 
-    /// Lists tracker resources in your AWS account.
+    /// Lists tracker resources in your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -855,6 +933,16 @@ extension Location.ListGeofencesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Location.ListGeofencesRequest {
         return .init(
             collectionName: self.collectionName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Location.ListKeysRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Location.ListKeysRequest {
+        return .init(
+            filter: self.filter,
             maxResults: self.maxResults,
             nextToken: token
         )

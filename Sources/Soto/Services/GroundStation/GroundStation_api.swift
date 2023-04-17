@@ -125,6 +125,11 @@ public struct GroundStation: AWSService {
         return self.client.execute(operation: "DescribeEphemeris", path: "/ephemeris/{ephemerisId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  For use by AWS Ground Station Agent and shouldn't be called directly.  Gets the latest configuration information for a registered agent.
+    public func getAgentConfiguration(_ input: GetAgentConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAgentConfigurationResponse> {
+        return self.client.execute(operation: "GetAgentConfiguration", path: "/agent/{agentId}/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns Config information. Only one Config response can be returned.
     public func getConfig(_ input: GetConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConfigResponse> {
         return self.client.execute(operation: "GetConfig", path: "/config/{configType}/{configId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -190,6 +195,11 @@ public struct GroundStation: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  For use by AWS Ground Station Agent and shouldn't be called directly.  Registers a new agent with AWS Ground Station.
+    public func registerAgent(_ input: RegisterAgentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterAgentResponse> {
+        return self.client.execute(operation: "RegisterAgent", path: "/agent", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Reserves a contact using specified parameters.
     public func reserveContact(_ input: ReserveContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ContactIdResponse> {
         return self.client.execute(operation: "ReserveContact", path: "/contact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -203,6 +213,11 @@ public struct GroundStation: AWSService {
     /// Deassigns a resource tag.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  For use by AWS Ground Station Agent and shouldn't be called directly.  Update the status of the agent.
+    public func updateAgentStatus(_ input: UpdateAgentStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAgentStatusResponse> {
+        return self.client.execute(operation: "UpdateAgentStatus", path: "/agent/{agentId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.

@@ -27,6 +27,12 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssociationStatus: String, CustomStringConvertible, Codable, Sendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AutoEnableStandards: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "DEFAULT"
         case none = "NONE"
@@ -50,6 +56,12 @@ extension SecurityHub {
         case notAvailable = "NOT_AVAILABLE"
         case passed = "PASSED"
         case warning = "WARNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ControlFindingGenerator: String, CustomStringConvertible, Codable, Sendable {
+        case securityControl = "SECURITY_CONTROL"
+        case standardControl = "STANDARD_CONTROL"
         public var description: String { return self.rawValue }
     }
 
@@ -122,6 +134,12 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum RegionAvailabilityStatus: String, CustomStringConvertible, Codable, Sendable {
+        case available = "AVAILABLE"
+        case unavailable = "UNAVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SeverityLabel: String, CustomStringConvertible, Codable, Sendable {
         case critical = "CRITICAL"
         case high = "HIGH"
@@ -190,6 +208,14 @@ extension SecurityHub {
         case mutex = "MUTEX"
         case process = "PROCESS"
         case url = "URL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UnprocessedErrorCode: String, CustomStringConvertible, Codable, Sendable {
+        case accessDenied = "ACCESS_DENIED"
+        case invalidInput = "INVALID_INPUT"
+        case limitExceeded = "LIMIT_EXCEEDED"
+        case notFound = "NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -492,6 +518,86 @@ extension SecurityHub {
         }
     }
 
+    public struct AssociatedStandard: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of the  Amazon Resource Name (ARN) returned for a standard in the DescribeStandards API response.
+        public let standardsId: String?
+
+        public init(standardsId: String? = nil) {
+            self.standardsId = standardsId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.standardsId, name: "standardsId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case standardsId = "StandardsId"
+        }
+    }
+
+    public struct AssociationSetDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The state of the association between a route table and a subnet or gateway.
+        public let associationState: AssociationStateDetails?
+        ///  The ID of the internet gateway or virtual private gateway.
+        public let gatewayId: String?
+        ///  Indicates whether this is the main route table.
+        public let main: Bool?
+        ///  The ID of the association.
+        public let routeTableAssociationId: String?
+        ///  The ID of the route table.
+        public let routeTableId: String?
+        ///  The ID of the subnet. A subnet ID is not returned for an implicit association.
+        public let subnetId: String?
+
+        public init(associationState: AssociationStateDetails? = nil, gatewayId: String? = nil, main: Bool? = nil, routeTableAssociationId: String? = nil, routeTableId: String? = nil, subnetId: String? = nil) {
+            self.associationState = associationState
+            self.gatewayId = gatewayId
+            self.main = main
+            self.routeTableAssociationId = routeTableAssociationId
+            self.routeTableId = routeTableId
+            self.subnetId = subnetId
+        }
+
+        public func validate(name: String) throws {
+            try self.associationState?.validate(name: "\(name).associationState")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "\\S")
+            try self.validate(self.routeTableAssociationId, name: "routeTableAssociationId", parent: name, pattern: "\\S")
+            try self.validate(self.routeTableId, name: "routeTableId", parent: name, pattern: "\\S")
+            try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationState = "AssociationState"
+            case gatewayId = "GatewayId"
+            case main = "Main"
+            case routeTableAssociationId = "RouteTableAssociationId"
+            case routeTableId = "RouteTableId"
+            case subnetId = "SubnetId"
+        }
+    }
+
+    public struct AssociationStateDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The state of the association.
+        public let state: String?
+        ///  The status message, if applicable.
+        public let statusMessage: String?
+
+        public init(state: String? = nil, statusMessage: String? = nil) {
+            self.state = state
+            self.statusMessage = statusMessage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.state, name: "state", parent: name, pattern: "\\S")
+            try self.validate(self.statusMessage, name: "statusMessage", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct AvailabilityZone: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the subnet. You can specify one subnet per Availability Zone.
         public let subnetId: String?
@@ -523,9 +629,9 @@ extension SecurityHub {
         public let callerType: String?
         /// Provided if CallerType is domain. Provides information about the DNS domain that the API call originated from.
         public let domainDetails: AwsApiCallActionDomainDetails?
-        /// An ISO8601-formatted timestamp that indicates when the API call was first observed.
+        /// An ISO8601-formatted timestamp that indicates when the API call was first observed. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see RFC 3339 section 5.6, Internet Date/Time Format.
         public let firstSeen: String?
-        /// An ISO8601-formatted timestamp that indicates when the API call was most recently observed.
+        /// An ISO8601-formatted timestamp that indicates when the API call was most recently observed. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see RFC 3339 section 5.6, Internet Date/Time Format.
         public let lastSeen: String?
         /// Provided if CallerType is remoteIp. Provides information about the remote IP address that the API call originated from.
         public let remoteIpDetails: ActionRemoteIpDetails?
@@ -729,7 +835,7 @@ extension SecurityHub {
         public let apiKeySource: String?
         /// The list of binary media types supported by the REST API.
         public let binaryMediaTypes: [String]?
-        /// Indicates when the API was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the API was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createdDate: String?
         /// A description of the REST API.
         public let description: String?
@@ -795,7 +901,7 @@ extension SecurityHub {
         public let canarySettings: AwsApiGatewayCanarySettings?
         /// The identifier of the client certificate for the stage.
         public let clientCertificateId: String?
-        /// Indicates when the stage was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the stage was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createdDate: String?
         /// The identifier of the deployment that the stage points to.
         public let deploymentId: String?
@@ -803,7 +909,7 @@ extension SecurityHub {
         public let description: String?
         /// The version of the API documentation that is associated with the stage.
         public let documentationVersion: String?
-        /// Indicates when the stage was most recently updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the stage was most recently updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let lastUpdatedDate: String?
         /// Defines the method settings for the stage.
         public let methodSettings: [AwsApiGatewayMethodSettings]?
@@ -886,7 +992,7 @@ extension SecurityHub {
         public let apiKeySelectionExpression: String?
         /// A cross-origin resource sharing (CORS) configuration. Supported only for HTTP APIs.
         public let corsConfiguration: AwsCorsConfiguration?
-        /// Indicates when the API was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the API was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createdDate: String?
         /// A description of the API.
         public let description: String?
@@ -981,7 +1087,7 @@ extension SecurityHub {
         public let autoDeploy: Bool?
         /// The identifier of a client certificate for a stage. Supported only for WebSocket API calls.
         public let clientCertificateId: String?
-        /// Indicates when the stage was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the stage was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createdDate: String?
         /// Default route settings for the stage.
         public let defaultRouteSettings: AwsApiGatewayV2RouteSettings?
@@ -991,7 +1097,7 @@ extension SecurityHub {
         public let description: String?
         /// The status of the last deployment of a stage. Supported only if the stage has automatic deployment enabled.
         public let lastDeploymentStatusMessage: String?
-        /// Indicates when the stage was most recently updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the stage was most recently updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let lastUpdatedDate: String?
         /// The route settings for the stage.
         public let routeSettings: AwsApiGatewayV2RouteSettings?
@@ -1072,7 +1178,7 @@ extension SecurityHub {
         public let availabilityZones: [AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails]?
         /// Indicates whether capacity rebalancing is enabled.
         public let capacityRebalance: Bool?
-        /// Indicates when the auto scaling group was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the auto scaling group was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createdTime: String?
         /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before it checks the health status of an EC2 instance that has come into service.
         public let healthCheckGracePeriod: Int?
@@ -1365,7 +1471,7 @@ extension SecurityHub {
         public let classicLinkVpcId: String?
         /// The identifiers of one or more security groups for the VPC that is specified in ClassicLinkVPCId.
         public let classicLinkVpcSecurityGroups: [String]?
-        /// The creation date and time for the launch configuration. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The creation date and time for the launch configuration. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createdTime: String?
         /// Whether the launch configuration is optimized for Amazon EBS I/O.
         public let ebsOptimized: Bool?
@@ -1731,7 +1837,7 @@ extension SecurityHub {
         /// An array of events that indicate the status of jobs to back up resources to the backup vault.
         /// The following events are supported:    BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED     COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED     RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED     S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED
         public let backupVaultEvents: [String]?
-        /// An ARN that uniquely identifies the Amazon SNS topic for a backup vault’s events.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the Amazon SNS topic for a backup vault's events.
         public let snsTopicArn: String?
 
         public init(backupVaultEvents: [String]? = nil, snsTopicArn: String? = nil) {
@@ -1946,7 +2052,7 @@ extension SecurityHub {
     public struct AwsCertificateManagerCertificateDetails: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the private certificate authority (CA) that will be used to issue the certificate.
         public let certificateAuthorityArn: String?
-        /// Indicates when the certificate was requested. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the certificate was requested. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createdAt: String?
         /// The fully qualified domain name (FQDN), such as www.example.com, that is secured by the certificate.
         public let domainName: String?
@@ -1956,11 +2062,11 @@ extension SecurityHub {
         public let extendedKeyUsages: [AwsCertificateManagerCertificateExtendedKeyUsage]?
         /// For a failed certificate request, the reason for the failure. Valid values: NO_AVAILABLE_CONTACTS | ADDITIONAL_VERIFICATION_REQUIRED | DOMAIN_NOT_ALLOWED | INVALID_PUBLIC_DOMAIN | DOMAIN_VALIDATION_DENIED | CAA_ERROR | PCA_LIMIT_EXCEEDED | PCA_INVALID_ARN | PCA_INVALID_STATE | PCA_REQUEST_FAILED | PCA_NAME_CONSTRAINTS_VALIDATION | PCA_RESOURCE_NOT_FOUND | PCA_INVALID_ARGS | PCA_INVALID_DURATION | PCA_ACCESS_DENIED | SLR_NOT_FOUND | OTHER
         public let failureReason: String?
-        /// Indicates when the certificate was imported. Provided if the certificate type is IMPORTED. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the certificate was imported. Provided if the certificate type is IMPORTED. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let importedAt: String?
         /// The list of ARNs for the Amazon Web Services resources that use the certificate.
         public let inUseBy: [String]?
-        /// Indicates when the certificate was issued. Provided if the certificate type is AMAZON_ISSUED. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the certificate was issued. Provided if the certificate type is AMAZON_ISSUED. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let issuedAt: String?
         /// The name of the certificate authority that issued and signed the certificate.
         public let issuer: String?
@@ -1968,9 +2074,9 @@ extension SecurityHub {
         public let keyAlgorithm: String?
         /// A list of key usage X.509 v3 extension objects.
         public let keyUsages: [AwsCertificateManagerCertificateKeyUsage]?
-        /// The time after which the certificate becomes invalid. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The time after which the certificate becomes invalid. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let notAfter: String?
-        /// The time before which the certificate is not valid. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The time before which the certificate is not valid. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let notBefore: String?
         /// Provides a value that specifies whether to add the certificate to a transparency log.
         public let options: AwsCertificateManagerCertificateOptions?
@@ -2187,7 +2293,7 @@ extension SecurityHub {
         public let renewalStatus: String?
         /// The reason that a renewal request was unsuccessful. This attribute is used only when RenewalStatus is FAILED. Valid values: NO_AVAILABLE_CONTACTS | ADDITIONAL_VERIFICATION_REQUIRED | DOMAIN_NOT_ALLOWED | INVALID_PUBLIC_DOMAIN | DOMAIN_VALIDATION_DENIED | CAA_ERROR | PCA_LIMIT_EXCEEDED | PCA_INVALID_ARN | PCA_INVALID_STATE | PCA_REQUEST_FAILED | PCA_NAME_CONSTRAINTS_VALIDATION | PCA_RESOURCE_NOT_FOUND | PCA_INVALID_ARGS | PCA_INVALID_DURATION | PCA_ACCESS_DENIED | SLR_NOT_FOUND | OTHER
         public let renewalStatusReason: String?
-        /// Indicates when the renewal summary was last updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the renewal summary was last updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let updatedAt: String?
 
         public init(domainValidationOptions: [AwsCertificateManagerCertificateDomainValidationOption]? = nil, renewalStatus: String? = nil, renewalStatusReason: String? = nil, updatedAt: String? = nil) {
@@ -2442,7 +2548,7 @@ extension SecurityHub {
         public let domainName: String?
         /// The entity tag is a hash of the object.
         public let eTag: String?
-        /// Indicates when that the distribution was last modified. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when that the distribution was last modified. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let lastModifiedTime: String?
         /// A complex type that controls whether access logs are written for the distribution.
         public let logging: AwsCloudFrontDistributionLogging?
@@ -3427,7 +3533,7 @@ extension SecurityHub {
     public struct AwsDynamoDbTableBillingModeSummary: AWSEncodableShape & AWSDecodableShape {
         /// The method used to charge for read and write throughput and to manage capacity.
         public let billingMode: String?
-        /// If the billing mode is PAY_PER_REQUEST, indicates when the billing mode was set to that value. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// If the billing mode is PAY_PER_REQUEST, indicates when the billing mode was set to that value. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let lastUpdateToPayPerRequestDateTime: String?
 
         public init(billingMode: String? = nil, lastUpdateToPayPerRequestDateTime: String? = nil) {
@@ -3451,7 +3557,7 @@ extension SecurityHub {
         public let attributeDefinitions: [AwsDynamoDbTableAttributeDefinition]?
         /// Information about the billing for read/write capacity on the table.
         public let billingModeSummary: AwsDynamoDbTableBillingModeSummary?
-        /// Indicates when the table was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the table was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let creationDateTime: String?
         /// List of global secondary indexes for the table.
         public let globalSecondaryIndexes: [AwsDynamoDbTableGlobalSecondaryIndex]?
@@ -3698,9 +3804,9 @@ extension SecurityHub {
     }
 
     public struct AwsDynamoDbTableProvisionedThroughput: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates when the provisioned throughput was last decreased. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the provisioned throughput was last decreased. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let lastDecreaseDateTime: String?
-        /// Indicates when the provisioned throughput was last increased. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the provisioned throughput was last increased. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let lastIncreaseDateTime: String?
         /// The number of times during the current UTC calendar day that the provisioned throughput was decreased.
         public let numberOfDecreasesToday: Int?
@@ -3809,7 +3915,7 @@ extension SecurityHub {
     }
 
     public struct AwsDynamoDbTableRestoreSummary: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates the point in time that the table was restored to. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates the point in time that the table was restored to. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let restoreDateTime: String?
         /// Whether a restore is currently in progress.
         public let restoreInProgress: Bool?
@@ -3840,7 +3946,7 @@ extension SecurityHub {
     }
 
     public struct AwsDynamoDbTableSseDescription: AWSEncodableShape & AWSDecodableShape {
-        /// If the key is inaccessible, the date and time when DynamoDB detected that the key was inaccessible. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// If the key is inaccessible, the date and time when DynamoDB detected that the key was inaccessible. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let inaccessibleEncryptionDateTime: String?
         /// The ARN of the KMS key that is used for the KMS encryption.
         public let kmsMasterKeyArn: String?
@@ -3965,10 +4071,12 @@ extension SecurityHub {
         public let ipV6Addresses: [String]?
         /// The key name associated with the instance.
         public let keyName: String?
-        /// Indicates when the instance was launched. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the instance was launched. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let launchedAt: String?
         /// Details about the metadata options for the Amazon EC2 instance.
         public let metadataOptions: AwsEc2InstanceMetadataOptions?
+        ///  Describes the type of monitoring that’s turned on for an instance.
+        public let monitoring: AwsEc2InstanceMonitoringDetails?
         /// The identifiers of the network interfaces for the EC2 instance. The details for each network interface are in a corresponding AwsEc2NetworkInterfacesDetails object.
         public let networkInterfaces: [AwsEc2InstanceNetworkInterfacesDetails]?
         /// The identifier of the subnet that the instance was launched in.
@@ -3980,7 +4088,7 @@ extension SecurityHub {
         /// The identifier of the VPC that the instance was launched in.
         public let vpcId: String?
 
-        public init(iamInstanceProfileArn: String? = nil, imageId: String? = nil, ipV4Addresses: [String]? = nil, ipV6Addresses: [String]? = nil, keyName: String? = nil, launchedAt: String? = nil, metadataOptions: AwsEc2InstanceMetadataOptions? = nil, networkInterfaces: [AwsEc2InstanceNetworkInterfacesDetails]? = nil, subnetId: String? = nil, type: String? = nil, virtualizationType: String? = nil, vpcId: String? = nil) {
+        public init(iamInstanceProfileArn: String? = nil, imageId: String? = nil, ipV4Addresses: [String]? = nil, ipV6Addresses: [String]? = nil, keyName: String? = nil, launchedAt: String? = nil, metadataOptions: AwsEc2InstanceMetadataOptions? = nil, monitoring: AwsEc2InstanceMonitoringDetails? = nil, networkInterfaces: [AwsEc2InstanceNetworkInterfacesDetails]? = nil, subnetId: String? = nil, type: String? = nil, virtualizationType: String? = nil, vpcId: String? = nil) {
             self.iamInstanceProfileArn = iamInstanceProfileArn
             self.imageId = imageId
             self.ipV4Addresses = ipV4Addresses
@@ -3988,6 +4096,7 @@ extension SecurityHub {
             self.keyName = keyName
             self.launchedAt = launchedAt
             self.metadataOptions = metadataOptions
+            self.monitoring = monitoring
             self.networkInterfaces = networkInterfaces
             self.subnetId = subnetId
             self.type = type
@@ -4007,6 +4116,7 @@ extension SecurityHub {
             try self.validate(self.keyName, name: "keyName", parent: name, pattern: "\\S")
             try self.validate(self.launchedAt, name: "launchedAt", parent: name, pattern: "\\S")
             try self.metadataOptions?.validate(name: "\(name).metadataOptions")
+            try self.monitoring?.validate(name: "\(name).monitoring")
             try self.networkInterfaces?.forEach {
                 try $0.validate(name: "\(name).networkInterfaces[]")
             }
@@ -4024,6 +4134,7 @@ extension SecurityHub {
             case keyName = "KeyName"
             case launchedAt = "LaunchedAt"
             case metadataOptions = "MetadataOptions"
+            case monitoring = "Monitoring"
             case networkInterfaces = "NetworkInterfaces"
             case subnetId = "SubnetId"
             case type = "Type"
@@ -4065,6 +4176,23 @@ extension SecurityHub {
             case httpPutResponseHopLimit = "HttpPutResponseHopLimit"
             case httpTokens = "HttpTokens"
             case instanceMetadataTags = "InstanceMetadataTags"
+        }
+    }
+
+    public struct AwsEc2InstanceMonitoringDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Indicates whether detailed monitoring is turned on. Otherwise, basic monitoring is turned on.
+        public let state: String?
+
+        public init(state: String? = nil) {
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.state, name: "state", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
         }
     }
 
@@ -4639,11 +4767,11 @@ extension SecurityHub {
         public let memoryMiB: AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails?
         ///  The minimum and maximum number of network interfaces.
         public let networkInterfaceCount: AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails?
-        ///  The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. A high value, such as 999999, turns off price protection.
+        ///  The price protection threshold for On-Demand Instances. This is the maximum you'll pay for an On-Demand Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. A high value, such as 999999, turns off price protection.
         public let onDemandMaxPricePercentageOverLowestPrice: Int?
         ///  Indicates whether instance types must support hibernation for On-Demand Instances.
         public let requireHibernateSupport: Bool?
-        ///  The price protection threshold for Spot Instances. This is the maximum you’ll pay for a Spot Instance, expressed as a  percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When  Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold.  The parameter accepts an integer, which Amazon EC2 interprets as a percentage. A high value, such as 999999, turns off price protection.
+        ///  The price protection threshold for Spot Instances. This is the maximum you'll pay for a Spot Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold.  The parameter accepts an integer, which Amazon EC2 interprets as a percentage. A high value, such as 999999, turns off price protection.
         public let spotMaxPricePercentageOverLowestPrice: Int?
         ///  The minimum and maximum amount of total local storage, in GB.
         public let totalLocalStorageGB: AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails?
@@ -4846,7 +4974,7 @@ extension SecurityHub {
     }
 
     public struct AwsEc2LaunchTemplateDataMetadataOptionsDetails: AWSEncodableShape & AWSDecodableShape {
-        ///  Enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled, and you won’t be able to access your instance metadata.
+        ///  Enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled, and you won't be able to access your instance metadata.
         public let httpEndpoint: String?
         ///  Enables or disables the IPv6 endpoint for the instance metadata service.
         public let httpProtocolIpv6: String?
@@ -5309,7 +5437,7 @@ extension SecurityHub {
     public struct AwsEc2NetworkInterfaceAttachment: AWSEncodableShape & AWSDecodableShape {
         /// The identifier of the network interface attachment
         public let attachmentId: String?
-        /// Indicates when the attachment initiated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the attachment initiated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let attachTime: String?
         /// Indicates whether the network interface is deleted when the instance is terminated.
         public let deleteOnTermination: Bool?
@@ -5466,6 +5594,54 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case groupId = "GroupId"
             case groupName = "GroupName"
+        }
+    }
+
+    public struct AwsEc2RouteTableDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The associations between a route table and one or more subnets or a gateway.
+        public let associationSet: [AssociationSetDetails]?
+        ///  The ID of the Amazon Web Services account that owns the route table.
+        public let ownerId: String?
+        ///  Describes a virtual private gateway propagating route.
+        public let propagatingVgwSet: [PropagatingVgwSetDetails]?
+        ///  The routes in the route table.
+        public let routeSet: [RouteSetDetails]?
+        ///  The ID of the route table.
+        public let routeTableId: String?
+        ///  The ID of the virtual private cloud (VPC).
+        public let vpcId: String?
+
+        public init(associationSet: [AssociationSetDetails]? = nil, ownerId: String? = nil, propagatingVgwSet: [PropagatingVgwSetDetails]? = nil, routeSet: [RouteSetDetails]? = nil, routeTableId: String? = nil, vpcId: String? = nil) {
+            self.associationSet = associationSet
+            self.ownerId = ownerId
+            self.propagatingVgwSet = propagatingVgwSet
+            self.routeSet = routeSet
+            self.routeTableId = routeTableId
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.associationSet?.forEach {
+                try $0.validate(name: "\(name).associationSet[]")
+            }
+            try self.validate(self.ownerId, name: "ownerId", parent: name, pattern: "\\S")
+            try self.propagatingVgwSet?.forEach {
+                try $0.validate(name: "\(name).propagatingVgwSet[]")
+            }
+            try self.routeSet?.forEach {
+                try $0.validate(name: "\(name).routeSet[]")
+            }
+            try self.validate(self.routeTableId, name: "routeTableId", parent: name, pattern: "\\S")
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationSet = "AssociationSet"
+            case ownerId = "OwnerId"
+            case propagatingVgwSet = "PropagatingVgwSet"
+            case routeSet = "RouteSet"
+            case routeTableId = "RouteTableId"
+            case vpcId = "VpcId"
         }
     }
 
@@ -5843,7 +6019,7 @@ extension SecurityHub {
     public struct AwsEc2VolumeDetails: AWSEncodableShape & AWSDecodableShape {
         /// The volume attachments.
         public let attachments: [AwsEc2VolumeAttachment]?
-        /// Indicates when the volume was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the volume was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createTime: String?
         /// The device name for the volume that is attached to the instance.
         public let deviceName: String?
@@ -6359,7 +6535,7 @@ extension SecurityHub {
         public let acceptedRouteCount: Int?
         /// The ARN of the VPN tunnel endpoint certificate.
         public let certificateArn: String?
-        /// The date and time of the last change in status. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The date and time of the last change in status. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let lastStatusChange: String?
         /// The Internet-routable IP address of the virtual private gateway's outside interface.
         public let outsideIpAddress: String?
@@ -6400,7 +6576,7 @@ extension SecurityHub {
         public let architecture: String?
         /// The sha256 digest of the image manifest.
         public let imageDigest: String?
-        /// The date and time when the image was pushed to the repository. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The date and time when the image was pushed to the repository. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let imagePublishedAt: String?
         /// The list of tags that are associated with the image.
         public let imageTags: [String]?
@@ -8511,12 +8687,15 @@ extension SecurityHub {
     }
 
     public struct AwsEksClusterResourcesVpcConfigDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Indicates whether the Amazon EKS public API server endpoint is turned on. If the Amazon EKS public API  server endpoint is turned off, your cluster's Kubernetes API server can only receive requests that originate from within  the cluster VPC.
+        public let endpointPublicAccess: Bool?
         /// The security groups that are associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Amazon EKS control plane.
         public let securityGroupIds: [String]?
         /// The subnets that are associated with the cluster.
         public let subnetIds: [String]?
 
-        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+        public init(endpointPublicAccess: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+            self.endpointPublicAccess = endpointPublicAccess
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -8531,6 +8710,7 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case endpointPublicAccess = "EndpointPublicAccess"
             case securityGroupIds = "SecurityGroupIds"
             case subnetIds = "SubnetIds"
         }
@@ -9238,7 +9418,7 @@ extension SecurityHub {
         public let canonicalHostedZoneName: String?
         /// The ID of the Amazon Route 53 hosted zone for the load balancer.
         public let canonicalHostedZoneNameID: String?
-        /// Indicates when the load balancer was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the load balancer was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createdTime: String?
         /// The DNS name of the load balancer.
         public let dnsName: String?
@@ -9529,7 +9709,7 @@ extension SecurityHub {
         public let availabilityZones: [AvailabilityZone]?
         /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
         public let canonicalHostedZoneId: String?
-        /// Indicates when the load balancer was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the load balancer was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createdTime: String?
         /// The public DNS name of the load balancer.
         public let dnsName: String?
@@ -9602,7 +9782,7 @@ extension SecurityHub {
         public let accessKeyId: String?
         /// The Amazon Web Services account ID of the account for the key.
         public let accountId: String?
-        /// Indicates when the IAM access key was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the IAM access key was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createdAt: String?
         /// The ID of the principal associated with an access key.
         public let principalId: String?
@@ -9689,7 +9869,7 @@ extension SecurityHub {
     }
 
     public struct AwsIamAccessKeySessionContextAttributes: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates when the session was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the session was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let creationDate: String?
         /// Indicates whether the session used multi-factor authentication (MFA).
         public let mfaAuthenticated: Bool?
@@ -9771,7 +9951,7 @@ extension SecurityHub {
     public struct AwsIamGroupDetails: AWSEncodableShape & AWSDecodableShape {
         /// A list of the managed policies that are attached to the IAM group.
         public let attachedManagedPolicies: [AwsIamAttachedManagedPolicy]?
-        /// Indicates when the IAM group was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the IAM group was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createDate: String?
         /// The identifier of the IAM group.
         public let groupId: String?
@@ -9834,7 +10014,7 @@ extension SecurityHub {
     public struct AwsIamInstanceProfile: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the instance profile.
         public let arn: String?
-        /// Indicates when the instance profile was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the instance profile was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createDate: String?
         /// The identifier of the instance profile.
         public let instanceProfileId: String?
@@ -9880,7 +10060,7 @@ extension SecurityHub {
         public let arn: String?
         /// The policy that grants an entity permission to assume the role.
         public let assumeRolePolicyDocument: String?
-        /// Indicates when the role was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the role was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createDate: String?
         /// The path to the role.
         public let path: String?
@@ -9944,7 +10124,7 @@ extension SecurityHub {
     public struct AwsIamPolicyDetails: AWSEncodableShape & AWSDecodableShape {
         /// The number of users, groups, and roles that the policy is attached to.
         public let attachmentCount: Int?
-        /// When the policy was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// When the policy was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createDate: String?
         /// The identifier of the default version of the policy.
         public let defaultVersionId: String?
@@ -9962,7 +10142,7 @@ extension SecurityHub {
         public let policyName: String?
         /// List of versions of the policy.
         public let policyVersionList: [AwsIamPolicyVersion]?
-        /// When the policy was most recently updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// When the policy was most recently updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let updateDate: String?
 
         public init(attachmentCount: Int? = nil, createDate: String? = nil, defaultVersionId: String? = nil, description: String? = nil, isAttachable: Bool? = nil, path: String? = nil, permissionsBoundaryUsageCount: Int? = nil, policyId: String? = nil, policyName: String? = nil, policyVersionList: [AwsIamPolicyVersion]? = nil, updateDate: String? = nil) {
@@ -10008,7 +10188,7 @@ extension SecurityHub {
     }
 
     public struct AwsIamPolicyVersion: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates when the version was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the version was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createDate: String?
         /// Whether the version is the default version.
         public let isDefaultVersion: Bool?
@@ -10038,7 +10218,7 @@ extension SecurityHub {
         public let assumeRolePolicyDocument: String?
         /// The list of the managed policies that are attached to the role.
         public let attachedManagedPolicies: [AwsIamAttachedManagedPolicy]?
-        /// Indicates when the role was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the role was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createDate: String?
         /// The list of instance profiles that contain this role.
         public let instanceProfileList: [AwsIamInstanceProfile]?
@@ -10121,7 +10301,7 @@ extension SecurityHub {
     public struct AwsIamUserDetails: AWSEncodableShape & AWSDecodableShape {
         /// A list of the managed policies that are attached to the user.
         public let attachedManagedPolicies: [AwsIamAttachedManagedPolicy]?
-        /// Indicates when the user was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the user was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createDate: String?
         /// A list of IAM groups that the user belongs to.
         public let groupList: [String]?
@@ -10255,7 +10435,7 @@ extension SecurityHub {
     public struct AwsKmsKeyDetails: AWSEncodableShape & AWSDecodableShape {
         /// The twelve-digit account ID of the Amazon Web Services account that owns the KMS key.
         public let awsAccountId: String?
-        /// Indicates when the KMS key was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the KMS key was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let creationDate: Double?
         /// A description of the KMS key.
         public let description: String?
@@ -10369,7 +10549,7 @@ extension SecurityHub {
         public let handler: String?
         /// The KMS key that is used to encrypt the function's environment variables. This key is only returned if you've configured a customer managed customer managed key.
         public let kmsKeyArn: String?
-        /// Indicates when the function was last updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the function was last updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let lastModified: String?
         /// The function's layers.
         public let layers: [AwsLambdaFunctionLayer]?
@@ -10585,7 +10765,7 @@ extension SecurityHub {
     public struct AwsLambdaLayerVersionDetails: AWSEncodableShape & AWSDecodableShape {
         /// The layer's compatible runtimes. Maximum number of five items. Valid values: nodejs10.x | nodejs12.x | java8 | java11 | python2.7 | python3.6 | python3.7 | python3.8 | dotnetcore1.0 | dotnetcore2.1 | go1.x | ruby2.5 | provided
         public let compatibleRuntimes: [String]?
-        /// Indicates when the version was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the version was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createdDate: String?
         /// The version number.
         public let version: Int64?
@@ -11228,7 +11408,7 @@ extension SecurityHub {
         public let availabilityZones: [String]?
         /// The number of days for which automated backups are retained.
         public let backupRetentionPeriod: Int?
-        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let clusterCreateTime: String?
         /// Whether tags are copied from the DB cluster to snapshots of the DB cluster.
         public let copyTagsToSnapshot: Bool?
@@ -11479,7 +11659,7 @@ extension SecurityHub {
         public let allocatedStorage: Int?
         /// A list of Availability Zones where instances in the DB cluster can be created.
         public let availabilityZones: [String]?
-        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let clusterCreateTime: String?
         /// The DB cluster identifier.
         public let dbClusterIdentifier: String?
@@ -11501,7 +11681,7 @@ extension SecurityHub {
         public let percentProgress: Int?
         /// The port number on which the DB instances in the DB cluster accept connections.
         public let port: Int?
-        /// Indicates when the snapshot was taken. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the snapshot was taken. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let snapshotCreateTime: String?
         /// The type of DB cluster snapshot.
         public let snapshotType: String?
@@ -11685,13 +11865,13 @@ extension SecurityHub {
         public let enhancedMonitoringResourceArn: String?
         /// True if mapping of IAM accounts to database accounts is enabled, and otherwise false. IAM database authentication can be enabled for the following database engines.   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora 5.6 or higher
         public let iamDatabaseAuthenticationEnabled: Bool?
-        /// Indicates when the DB instance was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the DB instance was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let instanceCreateTime: String?
         /// Specifies the provisioned IOPS (I/O operations per second) for this DB instance.
         public let iops: Int?
         /// If StorageEncrypted is true, the KMS key identifier for the encrypted DB instance.
         public let kmsKeyId: String?
-        /// Specifies the latest time to which a database can be restored with point-in-time restore. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Specifies the latest time to which a database can be restored with point-in-time restore. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let latestRestorableTime: String?
         /// License model information for this DB instance.
         public let licenseModel: String?
@@ -12518,7 +12698,7 @@ extension SecurityHub {
         public let sourceType: String?
         /// The status of the event notification subscription. Valid values: creating | modifying | deleting | active | no-permission | topic-not-exist
         public let status: String?
-        /// The datetime when the event notification subscription was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The datetime when the event notification subscription was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let subscriptionCreationTime: String?
 
         public init(customerAwsId: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventCategoriesList: [String]? = nil, eventSubscriptionArn: String? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, status: String? = nil, subscriptionCreationTime: String? = nil) {
@@ -12698,7 +12878,7 @@ extension SecurityHub {
     public struct AwsRedshiftClusterClusterSnapshotCopyStatus: AWSEncodableShape & AWSDecodableShape {
         /// The destination Region that snapshots are automatically copied to when cross-Region snapshot copy is enabled.
         public let destinationRegion: String?
-        /// The number of days that manual snapshots are retained in the destination region after they are copied from a source region. If the value is -1, then the manual snapshot is retained indefinitely. Valid values: Either -1 or an integer between 1 and 3,653
+        /// The number of days that manual snapshots are retained in the destination Region after they are copied from a source Region. If the value is -1, then the manual snapshot is retained indefinitely. Valid values: Either -1 or an integer between 1 and 3,653
         public let manualSnapshotRetentionPeriod: Int?
         /// The number of days to retain automated snapshots in the destination Region after they are copied from a source Region.
         public let retentionPeriod: Int?
@@ -12726,11 +12906,11 @@ extension SecurityHub {
     }
 
     public struct AwsRedshiftClusterDeferredMaintenanceWindow: AWSEncodableShape & AWSDecodableShape {
-        /// The end of the time window for which maintenance was deferred. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The end of the time window for which maintenance was deferred. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let deferMaintenanceEndTime: String?
         /// The identifier of the maintenance window.
         public let deferMaintenanceIdentifier: String?
-        /// The start of the time window for which maintenance was deferred. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The start of the time window for which maintenance was deferred. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let deferMaintenanceStartTime: String?
 
         public init(deferMaintenanceEndTime: String? = nil, deferMaintenanceIdentifier: String? = nil, deferMaintenanceStartTime: String? = nil) {
@@ -12761,7 +12941,7 @@ extension SecurityHub {
         public let availabilityZone: String?
         /// The availability status of the cluster for queries. Possible values are the following:    Available - The cluster is available for queries.    Unavailable - The cluster is not available for queries.    Maintenance - The cluster is intermittently available for queries due to maintenance activities.    Modifying -The cluster is intermittently available for queries due to changes that modify the cluster.    Failed - The cluster failed and is not available for queries.
         public let clusterAvailabilityStatus: String?
-        /// Indicates when the cluster was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the cluster was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let clusterCreateTime: String?
         /// The unique identifier of the cluster.
         public let clusterIdentifier: String?
@@ -12797,7 +12977,7 @@ extension SecurityHub {
         public let endpoint: AwsRedshiftClusterEndpoint?
         /// Indicates whether to create the cluster with enhanced VPC routing enabled.
         public let enhancedVpcRouting: Bool?
-        /// Indicates when the next snapshot is expected to be taken. The cluster must have a valid snapshot schedule and have backups enabled. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the next snapshot is expected to be taken. The cluster must have a valid snapshot schedule and have backups enabled. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let expectedNextSnapshotScheduleTime: String?
         /// The status of the next expected snapshot. Valid values: OnTrack | Pending
         public let expectedNextSnapshotScheduleTimeStatus: String?
@@ -12815,7 +12995,7 @@ extension SecurityHub {
         public let manualSnapshotRetentionPeriod: Int?
         /// The master user name for the cluster. This name is used to connect to the database that is specified in as the value of DBName.
         public let masterUsername: String?
-        /// Indicates the start of the next maintenance window. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates the start of the next maintenance window. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let nextMaintenanceWindowStartTime: String?
         /// The node type for the nodes in the cluster.
         public let nodeType: String?
@@ -13088,9 +13268,9 @@ extension SecurityHub {
         public let bucketName: String?
         /// The message indicating that the logs failed to be delivered.
         public let lastFailureMessage: String?
-        /// The last time when logs failed to be delivered. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The last time when logs failed to be delivered. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let lastFailureTime: String?
-        /// The last time that logs were delivered successfully. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The last time that logs were delivered successfully. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let lastSuccessfulDeliveryTime: String?
         /// Indicates whether logging is enabled.
         public let loggingEnabled: Bool?
@@ -13327,7 +13507,7 @@ extension SecurityHub {
     public struct AwsS3BucketBucketLifecycleConfigurationRulesDetails: AWSEncodableShape & AWSDecodableShape {
         /// How Amazon S3 responds when a multipart upload is incomplete. Specifically, provides a number of days before Amazon S3 cancels the entire upload.
         public let abortIncompleteMultipartUpload: AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails?
-        /// The date when objects are moved or deleted. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The date when objects are moved or deleted. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let expirationDate: String?
         /// The length in days of the lifetime for objects that are subject to the rule.
         public let expirationInDays: Int?
@@ -13537,7 +13717,7 @@ extension SecurityHub {
     }
 
     public struct AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails: AWSEncodableShape & AWSDecodableShape {
-        /// A date on which to transition objects to the specified storage class. If you provide Date, you cannot provide Days. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// A date on which to transition objects to the specified storage class. If you provide Date, you cannot provide Days. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let date: String?
         /// The number of days after which to transition the object to the specified storage class. If you provide Days, you cannot provide Date.
         public let days: Int?
@@ -13596,8 +13776,10 @@ extension SecurityHub {
         public let bucketVersioningConfiguration: AwsS3BucketBucketVersioningConfiguration?
         /// The website configuration parameters for the S3 bucket.
         public let bucketWebsiteConfiguration: AwsS3BucketWebsiteConfiguration?
-        /// Indicates when the S3 bucket was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the S3 bucket was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createdAt: String?
+        ///  Specifies which rule Amazon S3 applies by default to every new object placed in the specified bucket.
+        public let objectLockConfiguration: AwsS3BucketObjectLockConfiguration?
         /// The Amazon Web Services account identifier of the account that owns the S3 bucket.
         public let ownerAccountId: String?
         /// The canonical user ID of the owner of the S3 bucket.
@@ -13609,7 +13791,7 @@ extension SecurityHub {
         /// The encryption rules that are applied to the S3 bucket.
         public let serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration?
 
-        public init(accessControlList: String? = nil, bucketLifecycleConfiguration: AwsS3BucketBucketLifecycleConfigurationDetails? = nil, bucketLoggingConfiguration: AwsS3BucketLoggingConfiguration? = nil, bucketNotificationConfiguration: AwsS3BucketNotificationConfiguration? = nil, bucketVersioningConfiguration: AwsS3BucketBucketVersioningConfiguration? = nil, bucketWebsiteConfiguration: AwsS3BucketWebsiteConfiguration? = nil, createdAt: String? = nil, ownerAccountId: String? = nil, ownerId: String? = nil, ownerName: String? = nil, publicAccessBlockConfiguration: AwsS3AccountPublicAccessBlockDetails? = nil, serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration? = nil) {
+        public init(accessControlList: String? = nil, bucketLifecycleConfiguration: AwsS3BucketBucketLifecycleConfigurationDetails? = nil, bucketLoggingConfiguration: AwsS3BucketLoggingConfiguration? = nil, bucketNotificationConfiguration: AwsS3BucketNotificationConfiguration? = nil, bucketVersioningConfiguration: AwsS3BucketBucketVersioningConfiguration? = nil, bucketWebsiteConfiguration: AwsS3BucketWebsiteConfiguration? = nil, createdAt: String? = nil, objectLockConfiguration: AwsS3BucketObjectLockConfiguration? = nil, ownerAccountId: String? = nil, ownerId: String? = nil, ownerName: String? = nil, publicAccessBlockConfiguration: AwsS3AccountPublicAccessBlockDetails? = nil, serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration? = nil) {
             self.accessControlList = accessControlList
             self.bucketLifecycleConfiguration = bucketLifecycleConfiguration
             self.bucketLoggingConfiguration = bucketLoggingConfiguration
@@ -13617,6 +13799,7 @@ extension SecurityHub {
             self.bucketVersioningConfiguration = bucketVersioningConfiguration
             self.bucketWebsiteConfiguration = bucketWebsiteConfiguration
             self.createdAt = createdAt
+            self.objectLockConfiguration = objectLockConfiguration
             self.ownerAccountId = ownerAccountId
             self.ownerId = ownerId
             self.ownerName = ownerName
@@ -13632,6 +13815,7 @@ extension SecurityHub {
             try self.bucketVersioningConfiguration?.validate(name: "\(name).bucketVersioningConfiguration")
             try self.bucketWebsiteConfiguration?.validate(name: "\(name).bucketWebsiteConfiguration")
             try self.validate(self.createdAt, name: "createdAt", parent: name, pattern: "\\S")
+            try self.objectLockConfiguration?.validate(name: "\(name).objectLockConfiguration")
             try self.validate(self.ownerAccountId, name: "ownerAccountId", parent: name, pattern: "\\S")
             try self.validate(self.ownerId, name: "ownerId", parent: name, pattern: "\\S")
             try self.validate(self.ownerName, name: "ownerName", parent: name, pattern: "\\S")
@@ -13646,6 +13830,7 @@ extension SecurityHub {
             case bucketVersioningConfiguration = "BucketVersioningConfiguration"
             case bucketWebsiteConfiguration = "BucketWebsiteConfiguration"
             case createdAt = "CreatedAt"
+            case objectLockConfiguration = "ObjectLockConfiguration"
             case ownerAccountId = "OwnerAccountId"
             case ownerId = "OwnerId"
             case ownerName = "OwnerName"
@@ -13783,6 +13968,70 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case value = "Value"
+        }
+    }
+
+    public struct AwsS3BucketObjectLockConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  Indicates whether the bucket has an Object Lock configuration enabled.
+        public let objectLockEnabled: String?
+        ///  Specifies the Object Lock rule for the specified object.
+        public let rule: AwsS3BucketObjectLockConfigurationRuleDetails?
+
+        public init(objectLockEnabled: String? = nil, rule: AwsS3BucketObjectLockConfigurationRuleDetails? = nil) {
+            self.objectLockEnabled = objectLockEnabled
+            self.rule = rule
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.objectLockEnabled, name: "objectLockEnabled", parent: name, pattern: "\\S")
+            try self.rule?.validate(name: "\(name).rule")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectLockEnabled = "ObjectLockEnabled"
+            case rule = "Rule"
+        }
+    }
+
+    public struct AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The number of days that you want to specify for the default retention period.
+        public let days: Int?
+        ///  The default Object Lock retention mode you want to apply to new objects placed in the specified bucket.
+        public let mode: String?
+        ///  The number of years that you want to specify for the default retention period.
+        public let years: Int?
+
+        public init(days: Int? = nil, mode: String? = nil, years: Int? = nil) {
+            self.days = days
+            self.mode = mode
+            self.years = years
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mode, name: "mode", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case days = "Days"
+            case mode = "Mode"
+            case years = "Years"
+        }
+    }
+
+    public struct AwsS3BucketObjectLockConfigurationRuleDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The default Object Lock retention mode and period that you want to apply to new objects placed in the specified bucket.
+        public let defaultRetention: AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails?
+
+        public init(defaultRetention: AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails? = nil) {
+            self.defaultRetention = defaultRetention
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultRetention?.validate(name: "\(name).defaultRetention")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultRetention = "DefaultRetention"
         }
     }
 
@@ -13987,7 +14236,7 @@ extension SecurityHub {
         public let contentType: String?
         /// The opaque identifier assigned by a web server to a specific version of a resource found at a URL.
         public let eTag: String?
-        /// Indicates when the object was last modified. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the object was last modified. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let lastModified: String?
         /// If the object is stored using server-side encryption, the value of the server-side encryption algorithm used when storing this object in Amazon S3.
         public let serverSideEncryption: String?
@@ -14027,9 +14276,9 @@ extension SecurityHub {
     public struct AwsSageMakerNotebookInstanceDetails: AWSEncodableShape & AWSDecodableShape {
         ///  A list of Amazon Elastic Inference instance types to associate with the notebook instance. Currently, only one instance type can be associated with a notebook instance.
         public let acceleratorTypes: [String]?
-        ///  An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository.  These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git repositories with SageMaker notebook instances in the Amazon SageMaker Developer Guide.
+        ///  An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in CodeCommit or in any other Git repository.  These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git repositories with SageMaker notebook instances in the Amazon SageMaker Developer Guide.
         public let additionalCodeRepositories: [String]?
-        ///  The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in AWS CodeCommit or in any other Git repository.  When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git repositories with SageMaker notebook instances in the Amazon SageMaker Developer Guide.
+        ///  The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in CodeCommit or in any other Git repository.  When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git repositories with SageMaker notebook instances in the Amazon SageMaker Developer Guide.
         public let defaultCodeRepository: String?
         ///  Sets whether SageMaker provides internet access to the notebook instance. If you set this to Disabled, this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker training and endpoint services unless you configure a Network Address Translation (NAT) Gateway in your VPC.
         public let directInternetAccess: String?
@@ -14230,7 +14479,7 @@ extension SecurityHub {
         public let compliance: Compliance?
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
         public let confidence: Int?
-        /// Indicates when the security-findings provider created the potential security issue that a finding captured. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the security-findings provider created the potential security issue that a finding captured. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let createdAt: String
         /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
         public let criticality: Int?
@@ -14238,13 +14487,13 @@ extension SecurityHub {
         public let description: String
         /// In a BatchImportFindings request, finding providers use FindingProviderFields to provide and update their own values for confidence, criticality, related findings, severity, and types.
         public let findingProviderFields: FindingProviderFields?
-        /// Indicates when the security-findings provider first observed the potential security issue that a finding captured. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the security-findings provider first observed the potential security issue that a finding captured. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let firstObservedAt: String?
         /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security-findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, etc.
         public let generatorId: String
         /// The security findings provider-specific identifier for a finding.
         public let id: String
-        /// Indicates when the security-findings provider most recently observed the potential security issue that a finding captured. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the security-findings provider most recently observed the potential security issue that a finding captured. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let lastObservedAt: String?
         /// A list of malware related to a finding.
         public let malware: [Malware]?
@@ -14290,7 +14539,7 @@ extension SecurityHub {
         public let title: String
         /// One or more finding types in the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
         public let types: [String]?
-        /// Indicates when the security-findings provider last updated the finding record. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the security-findings provider last updated the finding record. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let updatedAt: String
         /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding.
         public let userDefinedFields: [String: String]?
@@ -14456,11 +14705,15 @@ extension SecurityHub {
         public let awsAccountId: [StringFilter]?
         /// The name of the findings provider (company) that owns the solution (product) that generates findings.
         public let companyName: [StringFilter]?
+        ///  The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of the  Amazon Resource Name (ARN) returned for a standard in the DescribeStandards API response.
+        public let complianceAssociatedStandardsId: [StringFilter]?
+        ///  The unique identifier of a control across standards. Values for this field typically consist of an  Amazon Web Service and a number, such as APIGateway.5.
+        public let complianceSecurityControlId: [StringFilter]?
         /// Exclusive to findings that are generated as the result of a check run against a specific rule in a supported standard, such as CIS Amazon Web Services Foundations. Contains security standard-related finding details.
         public let complianceStatus: [StringFilter]?
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
         public let confidence: [NumberFilter]?
-        /// An ISO8601-formatted timestamp that indicates when the security-findings provider captured the potential security issue that a finding captured.
+        /// An ISO8601-formatted timestamp that indicates when the security-findings provider captured the potential security issue that a finding captured. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see RFC 3339 section 5.6, Internet Date/Time Format.
         public let createdAt: [DateFilter]?
         /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
         public let criticality: [NumberFilter]?
@@ -14480,7 +14733,7 @@ extension SecurityHub {
         public let findingProviderFieldsSeverityOriginal: [StringFilter]?
         /// One or more finding types that the finding provider assigned to the finding. Uses the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
         public let findingProviderFieldsTypes: [StringFilter]?
-        /// An ISO8601-formatted timestamp that indicates when the security-findings provider first observed the potential security issue that a finding captured.
+        /// An ISO8601-formatted timestamp that indicates when the security-findings provider first observed the potential security issue that a finding captured. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see RFC 3339 section 5.6, Internet Date/Time Format.
         public let firstObservedAt: [DateFilter]?
         /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security-findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, etc.
         public let generatorId: [StringFilter]?
@@ -14488,7 +14741,7 @@ extension SecurityHub {
         public let id: [StringFilter]?
         /// A keyword for a finding.
         public let keyword: [KeywordFilter]?
-        /// An ISO8601-formatted timestamp that indicates when the security-findings provider most recently observed the potential security issue that a finding captured.
+        /// An ISO8601-formatted timestamp that indicates when the security-findings provider most recently observed the potential security issue that a finding captured. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see RFC 3339 section 5.6, Internet Date/Time Format.
         public let lastObservedAt: [DateFilter]?
         /// The name of the malware that was observed.
         public let malwareName: [StringFilter]?
@@ -14526,17 +14779,17 @@ extension SecurityHub {
         public let noteUpdatedAt: [DateFilter]?
         /// The principal that created a note.
         public let noteUpdatedBy: [StringFilter]?
-        /// The date/time that the process was launched.
+        /// A timestamp that identifies when the process was launched. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see RFC 3339 section 5.6, Internet Date/Time Format.
         public let processLaunchedAt: [DateFilter]?
         /// The name of the process.
         public let processName: [StringFilter]?
-        /// The parent process ID.
+        /// The parent process ID. This field accepts positive integers between O and 2147483647.
         public let processParentPid: [NumberFilter]?
         /// The path to the process executable.
         public let processPath: [StringFilter]?
         /// The process ID.
         public let processPid: [NumberFilter]?
-        /// The date/time that the process was terminated.
+        /// A timestamp that identifies when the process was terminated. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see RFC 3339 section 5.6, Internet Date/Time Format.
         public let processTerminatedAt: [DateFilter]?
         /// The ARN generated by Security Hub that uniquely identifies a third-party company (security findings provider) after this provider's product (solution that generates findings) is registered with Security Hub.
         public let productArn: [StringFilter]?
@@ -14590,7 +14843,7 @@ extension SecurityHub {
         public let resourceContainerImageId: [StringFilter]?
         /// The name of the image related to a finding.
         public let resourceContainerImageName: [StringFilter]?
-        /// The date/time that the container was started.
+        /// A timestamp that identifies when the container was started. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see RFC 3339 section 5.6, Internet Date/Time Format.
         public let resourceContainerLaunchedAt: [DateFilter]?
         /// The name of the container related to a finding.
         public let resourceContainerName: [StringFilter]?
@@ -14618,7 +14871,7 @@ extension SecurityHub {
         public let sourceUrl: [StringFilter]?
         /// The category of a threat intelligence indicator.
         public let threatIntelIndicatorCategory: [StringFilter]?
-        /// The date/time of the last observation of a threat intelligence indicator.
+        /// A timestamp that identifies the last observation of a threat intelligence indicator.
         public let threatIntelIndicatorLastObservedAt: [DateFilter]?
         /// The source of the threat intelligence.
         public let threatIntelIndicatorSource: [StringFilter]?
@@ -14632,7 +14885,7 @@ extension SecurityHub {
         public let title: [StringFilter]?
         /// A finding type in the format of namespace/category/classifier that classifies a finding.
         public let type: [StringFilter]?
-        /// An ISO8601-formatted timestamp that indicates when the security-findings provider last updated the finding record.
+        /// An ISO8601-formatted timestamp that indicates when the security-findings provider last updated the finding record.  A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see RFC 3339 section 5.6, Internet Date/Time Format.
         public let updatedAt: [DateFilter]?
         /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding.
         public let userDefinedFields: [MapFilter]?
@@ -14643,9 +14896,11 @@ extension SecurityHub {
         /// The status of the investigation into a finding. Allowed values are the following.    NEW - The initial state of a finding, before it is reviewed. Security Hub also resets the workflow status from NOTIFIED or RESOLVED to NEW in the following cases:    RecordState changes from ARCHIVED to ACTIVE.    Compliance.Status changes from PASSED to either WARNING, FAILED, or NOT_AVAILABLE.      NOTIFIED - Indicates that the resource owner has been notified about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner. If one of the following occurs, the workflow status is changed automatically from NOTIFIED to NEW:    RecordState changes from ARCHIVED to ACTIVE.    Compliance.Status changes from PASSED to FAILED, WARNING, or NOT_AVAILABLE.      SUPPRESSED - Indicates that you reviewed the finding and do not believe that any action is needed. The workflow status of a SUPPRESSED finding does not change if RecordState changes from ARCHIVED to ACTIVE.    RESOLVED - The finding was reviewed and remediated and is now considered resolved.  The finding remains RESOLVED unless one of the following occurs:    RecordState changes from ARCHIVED to ACTIVE.    Compliance.Status changes from PASSED to FAILED, WARNING, or NOT_AVAILABLE.   In those cases, the workflow status is automatically reset to NEW. For findings from controls, if Compliance.Status is PASSED, then Security Hub automatically sets the workflow status to RESOLVED.
         public let workflowStatus: [StringFilter]?
 
-        public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, region: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyPrincipalName: [StringFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamUserUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, sample: [BooleanFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
+        public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceAssociatedStandardsId: [StringFilter]? = nil, complianceSecurityControlId: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, region: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyPrincipalName: [StringFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamUserUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, sample: [BooleanFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.companyName = companyName
+            self.complianceAssociatedStandardsId = complianceAssociatedStandardsId
+            self.complianceSecurityControlId = complianceSecurityControlId
             self.complianceStatus = complianceStatus
             self.confidence = confidence
             self.createdAt = createdAt
@@ -14742,9 +14997,11 @@ extension SecurityHub {
         }
 
         @available(*, deprecated, message: "Members keyword, resourceAwsIamAccessKeyUserName, severityNormalized, severityProduct have been deprecated")
-        public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, keyword: [KeywordFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, region: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyPrincipalName: [StringFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, resourceAwsIamUserUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, sample: [BooleanFilter]? = nil, severityLabel: [StringFilter]? = nil, severityNormalized: [NumberFilter]? = nil, severityProduct: [NumberFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
+        public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceAssociatedStandardsId: [StringFilter]? = nil, complianceSecurityControlId: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, keyword: [KeywordFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, region: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyPrincipalName: [StringFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, resourceAwsIamUserUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, sample: [BooleanFilter]? = nil, severityLabel: [StringFilter]? = nil, severityNormalized: [NumberFilter]? = nil, severityProduct: [NumberFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.companyName = companyName
+            self.complianceAssociatedStandardsId = complianceAssociatedStandardsId
+            self.complianceSecurityControlId = complianceSecurityControlId
             self.complianceStatus = complianceStatus
             self.confidence = confidence
             self.createdAt = createdAt
@@ -14846,6 +15103,12 @@ extension SecurityHub {
             }
             try self.companyName?.forEach {
                 try $0.validate(name: "\(name).companyName[]")
+            }
+            try self.complianceAssociatedStandardsId?.forEach {
+                try $0.validate(name: "\(name).complianceAssociatedStandardsId[]")
+            }
+            try self.complianceSecurityControlId?.forEach {
+                try $0.validate(name: "\(name).complianceSecurityControlId[]")
             }
             try self.complianceStatus?.forEach {
                 try $0.validate(name: "\(name).complianceStatus[]")
@@ -15098,6 +15361,8 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
             case companyName = "CompanyName"
+            case complianceAssociatedStandardsId = "ComplianceAssociatedStandardsId"
+            case complianceSecurityControlId = "ComplianceSecurityControlId"
             case complianceStatus = "ComplianceStatus"
             case confidence = "Confidence"
             case createdAt = "CreatedAt"
@@ -16562,6 +16827,78 @@ extension SecurityHub {
         }
     }
 
+    public struct BatchGetSecurityControlsRequest: AWSEncodableShape {
+        ///  A list of security controls (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters). The security control ID or Amazon Resource Name (ARN) is the same across standards.
+        public let securityControlIds: [String]
+
+        public init(securityControlIds: [String]) {
+            self.securityControlIds = securityControlIds
+        }
+
+        public func validate(name: String) throws {
+            try self.securityControlIds.forEach {
+                try validate($0, name: "securityControlIds[]", parent: name, pattern: "\\S")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityControlIds = "SecurityControlIds"
+        }
+    }
+
+    public struct BatchGetSecurityControlsResponse: AWSDecodableShape {
+        ///  An array that returns the identifier, Amazon Resource Name (ARN), and other details about a security control.  The same information is returned whether the request includes SecurityControlId or SecurityControlArn.
+        public let securityControls: [SecurityControl]
+        ///  A security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) for which  details cannot be returned.
+        public let unprocessedIds: [UnprocessedSecurityControl]?
+
+        public init(securityControls: [SecurityControl], unprocessedIds: [UnprocessedSecurityControl]? = nil) {
+            self.securityControls = securityControls
+            self.unprocessedIds = unprocessedIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityControls = "SecurityControls"
+            case unprocessedIds = "UnprocessedIds"
+        }
+    }
+
+    public struct BatchGetStandardsControlAssociationsRequest: AWSEncodableShape {
+        ///  An array with one or more objects that includes a security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard.  This field is used to query the enablement status of a control in a specified standard. The security control ID or ARN is the same across standards.
+        public let standardsControlAssociationIds: [StandardsControlAssociationId]
+
+        public init(standardsControlAssociationIds: [StandardsControlAssociationId]) {
+            self.standardsControlAssociationIds = standardsControlAssociationIds
+        }
+
+        public func validate(name: String) throws {
+            try self.standardsControlAssociationIds.forEach {
+                try $0.validate(name: "\(name).standardsControlAssociationIds[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case standardsControlAssociationIds = "StandardsControlAssociationIds"
+        }
+    }
+
+    public struct BatchGetStandardsControlAssociationsResponse: AWSDecodableShape {
+        /// Provides the enablement status of a security control in a specified standard and other details for the control in relation to  the specified standard.
+        public let standardsControlAssociationDetails: [StandardsControlAssociationDetail]
+        ///  A security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) whose enablement  status in a specified standard cannot be returned.
+        public let unprocessedAssociations: [UnprocessedStandardsControlAssociation]?
+
+        public init(standardsControlAssociationDetails: [StandardsControlAssociationDetail], unprocessedAssociations: [UnprocessedStandardsControlAssociation]? = nil) {
+            self.standardsControlAssociationDetails = standardsControlAssociationDetails
+            self.unprocessedAssociations = unprocessedAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case standardsControlAssociationDetails = "StandardsControlAssociationDetails"
+            case unprocessedAssociations = "UnprocessedAssociations"
+        }
+    }
+
     public struct BatchImportFindingsRequest: AWSEncodableShape {
         /// A list of findings to import. To successfully import a finding, it must follow the Amazon Web Services Security Finding Format. Maximum of 100 findings per request.
         public let findings: [AwsSecurityFinding]
@@ -16711,6 +17048,38 @@ extension SecurityHub {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
             case findingIdentifier = "FindingIdentifier"
+        }
+    }
+
+    public struct BatchUpdateStandardsControlAssociationsRequest: AWSEncodableShape {
+        ///  Updates the enablement status of a security control in a specified standard.
+        public let standardsControlAssociationUpdates: [StandardsControlAssociationUpdate]
+
+        public init(standardsControlAssociationUpdates: [StandardsControlAssociationUpdate]) {
+            self.standardsControlAssociationUpdates = standardsControlAssociationUpdates
+        }
+
+        public func validate(name: String) throws {
+            try self.standardsControlAssociationUpdates.forEach {
+                try $0.validate(name: "\(name).standardsControlAssociationUpdates[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case standardsControlAssociationUpdates = "StandardsControlAssociationUpdates"
+        }
+    }
+
+    public struct BatchUpdateStandardsControlAssociationsResponse: AWSDecodableShape {
+        ///  A security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) whose enablement status in a specified standard couldn't be updated.
+        public let unprocessedAssociationUpdates: [UnprocessedStandardsControlAssociationUpdate]?
+
+        public init(unprocessedAssociationUpdates: [UnprocessedStandardsControlAssociationUpdate]? = nil) {
+            self.unprocessedAssociationUpdates = unprocessedAssociationUpdates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedAssociationUpdates = "UnprocessedAssociationUpdates"
         }
     }
 
@@ -16866,30 +17235,42 @@ extension SecurityHub {
     }
 
     public struct Compliance: AWSEncodableShape & AWSDecodableShape {
+        /// The enabled security standards in which a security control is currently enabled.
+        public let associatedStandards: [AssociatedStandard]?
         /// For a control, the industry or regulatory framework requirements that are related to the control. The check for that control is aligned with these requirements.
         public let relatedRequirements: [String]?
+        ///  The unique identifier of a control across standards. Values for this field typically consist of an  Amazon Web Service and a number, such as APIGateway.5.
+        public let securityControlId: String?
         /// The result of a standards check. The valid values for Status are as follows.      PASSED - Standards check passed for all evaluated resources.    WARNING - Some information is missing or this check is not supported for your configuration.    FAILED - Standards check failed for at least one evaluated resource.    NOT_AVAILABLE - Check could not be performed due to a service outage, API error, or because the result of the Config evaluation was NOT_APPLICABLE. If the Config evaluation result was NOT_APPLICABLE, then after 3 days, Security Hub automatically archives the finding.
         public let status: ComplianceStatus?
         /// For findings generated from controls, a list of reasons behind the value of Status. For the list of status reason codes and their meanings, see Standards-related information in the ASFF in the Security Hub User Guide.
         public let statusReasons: [StatusReason]?
 
-        public init(relatedRequirements: [String]? = nil, status: ComplianceStatus? = nil, statusReasons: [StatusReason]? = nil) {
+        public init(associatedStandards: [AssociatedStandard]? = nil, relatedRequirements: [String]? = nil, securityControlId: String? = nil, status: ComplianceStatus? = nil, statusReasons: [StatusReason]? = nil) {
+            self.associatedStandards = associatedStandards
             self.relatedRequirements = relatedRequirements
+            self.securityControlId = securityControlId
             self.status = status
             self.statusReasons = statusReasons
         }
 
         public func validate(name: String) throws {
+            try self.associatedStandards?.forEach {
+                try $0.validate(name: "\(name).associatedStandards[]")
+            }
             try self.relatedRequirements?.forEach {
                 try validate($0, name: "relatedRequirements[]", parent: name, pattern: "\\S")
             }
+            try self.validate(self.securityControlId, name: "securityControlId", parent: name, pattern: "\\S")
             try self.statusReasons?.forEach {
                 try $0.validate(name: "\(name).statusReasons[]")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case associatedStandards = "AssociatedStandards"
             case relatedRequirements = "RelatedRequirements"
+            case securityControlId = "SecurityControlId"
             case status = "Status"
             case statusReasons = "StatusReasons"
         }
@@ -16902,7 +17283,7 @@ extension SecurityHub {
         public let imageId: String?
         /// The name of the container image related to a finding.
         public let imageName: String?
-        /// Indicates when the container started. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the container started. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let launchedAt: String?
         /// The name of the container related to a finding.
         public let name: String?
@@ -16994,7 +17375,7 @@ extension SecurityHub {
     }
 
     public struct CreateActionTargetResponse: AWSDecodableShape {
-        /// The ARN for the custom action target.
+        /// The Amazon Resource Name (ARN) for the custom action target.
         public let actionTargetArn: String
 
         public init(actionTargetArn: String) {
@@ -17244,9 +17625,9 @@ extension SecurityHub {
     public struct DateFilter: AWSEncodableShape & AWSDecodableShape {
         /// A date range for the date filter.
         public let dateRange: DateRange?
-        /// An end date for the date filter.
+        /// A timestamp that provides the end date for the date filter. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T.  For more information, see RFC 3339 section 5.6, Internet Date/Time Format.
         public let end: String?
-        /// A start date for the date filter.
+        /// A timestamp that provides the start date for the date filter. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T.  For more information, see RFC 3339 section 5.6, Internet Date/Time Format.
         public let start: String?
 
         public init(dateRange: DateRange? = nil, end: String? = nil, start: String? = nil) {
@@ -17285,7 +17666,7 @@ extension SecurityHub {
     }
 
     public struct DeclineInvitationsRequest: AWSEncodableShape {
-        /// The list of account IDs for the accounts from which to decline the invitations to Security Hub.
+        /// The list of prospective member account IDs for which to decline an invitation.
         public let accountIds: [String]
 
         public init(accountIds: [String]) {
@@ -17321,7 +17702,7 @@ extension SecurityHub {
             AWSMemberEncoding(label: "actionTargetArn", location: .uri("ActionTargetArn"))
         ]
 
-        /// The ARN of the custom action target to delete.
+        /// The Amazon Resource Name (ARN) of the custom action target to delete.
         public let actionTargetArn: String
 
         public init(actionTargetArn: String) {
@@ -17404,7 +17785,7 @@ extension SecurityHub {
     }
 
     public struct DeleteInvitationsRequest: AWSEncodableShape {
-        /// The list of the account IDs that sent the invitations to delete.
+        /// The list of member account IDs that received the invitations you want to delete.
         public let accountIds: [String]
 
         public init(accountIds: [String]) {
@@ -17535,19 +17916,23 @@ extension SecurityHub {
     public struct DescribeHubResponse: AWSDecodableShape {
         /// Whether to automatically enable new controls when they are added to standards that are enabled. If set to true, then new controls for enabled standards are enabled automatically. If set to false, then new controls are not enabled.
         public let autoEnableControls: Bool?
+        /// Specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to  SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check  applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings  for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 23, 2023.
+        public let controlFindingGenerator: ControlFindingGenerator?
         /// The ARN of the Hub resource that was retrieved.
         public let hubArn: String?
         /// The date and time when Security Hub was enabled in the account.
         public let subscribedAt: String?
 
-        public init(autoEnableControls: Bool? = nil, hubArn: String? = nil, subscribedAt: String? = nil) {
+        public init(autoEnableControls: Bool? = nil, controlFindingGenerator: ControlFindingGenerator? = nil, hubArn: String? = nil, subscribedAt: String? = nil) {
             self.autoEnableControls = autoEnableControls
+            self.controlFindingGenerator = controlFindingGenerator
             self.hubArn = hubArn
             self.subscribedAt = subscribedAt
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoEnableControls = "AutoEnableControls"
+            case controlFindingGenerator = "ControlFindingGenerator"
             case hubArn = "HubArn"
             case subscribedAt = "SubscribedAt"
         }
@@ -17880,12 +18265,15 @@ extension SecurityHub {
     }
 
     public struct EnableSecurityHubRequest: AWSEncodableShape {
+        /// This field, used when enabling Security Hub, specifies whether the calling account has consolidated control findings turned on.  If the value for this field is set to  SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check  applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings  for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 23, 2023.
+        public let controlFindingGenerator: ControlFindingGenerator?
         /// Whether to enable the security standards that Security Hub has designated as automatically enabled. If you do not provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
         public let enableDefaultStandards: Bool?
         /// The tags to add to the hub resource when you enable Security Hub.
         public let tags: [String: String]?
 
-        public init(enableDefaultStandards: Bool? = nil, tags: [String: String]? = nil) {
+        public init(controlFindingGenerator: ControlFindingGenerator? = nil, enableDefaultStandards: Bool? = nil, tags: [String: String]? = nil) {
+            self.controlFindingGenerator = controlFindingGenerator
             self.enableDefaultStandards = enableDefaultStandards
             self.tags = tags
         }
@@ -17902,6 +18290,7 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case controlFindingGenerator = "ControlFindingGenerator"
             case enableDefaultStandards = "EnableDefaultStandards"
             case tags = "Tags"
         }
@@ -18915,6 +19304,98 @@ extension SecurityHub {
         }
     }
 
+    public struct ListSecurityControlDefinitionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "standardsArn", location: .querystring("StandardsArn"))
+        ]
+
+        ///  An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 security controls that apply to the specified standard. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 controls. This repeats until all controls for the standard are returned.
+        public let maxResults: Int?
+        ///  Optional pagination parameter.
+        public let nextToken: String?
+        ///  The Amazon Resource Name (ARN) of the standard that you want to view controls for.
+        public let standardsArn: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, standardsArn: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.standardsArn = standardsArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.standardsArn, name: "standardsArn", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSecurityControlDefinitionsResponse: AWSDecodableShape {
+        ///  A pagination parameter that's included in the response only if it was included in the request.
+        public let nextToken: String?
+        ///  An array of controls that apply to the specified standard.
+        public let securityControlDefinitions: [SecurityControlDefinition]
+
+        public init(nextToken: String? = nil, securityControlDefinitions: [SecurityControlDefinition]) {
+            self.nextToken = nextToken
+            self.securityControlDefinitions = securityControlDefinitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case securityControlDefinitions = "SecurityControlDefinitions"
+        }
+    }
+
+    public struct ListStandardsControlAssociationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "securityControlId", location: .querystring("SecurityControlId"))
+        ]
+
+        ///  An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 standard and control associations. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 associations. This repeats until all associations for the specified control are returned. The number of results is limited by the number of supported Security Hub standards that you've enabled in the calling account.
+        public let maxResults: Int?
+        ///  Optional pagination parameter.
+        public let nextToken: String?
+        ///  The identifier of the control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) that you  want to determine the enablement status of in each enabled standard.
+        public let securityControlId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, securityControlId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.securityControlId = securityControlId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.securityControlId, name: "securityControlId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListStandardsControlAssociationsResponse: AWSDecodableShape {
+        ///  A pagination parameter that's included in the response only if it was included in the request.
+        public let nextToken: String?
+        ///  An array that provides the enablement status and other details for each security control that applies to each enabled standard.
+        public let standardsControlAssociationSummaries: [StandardsControlAssociationSummary]
+
+        public init(nextToken: String? = nil, standardsControlAssociationSummaries: [StandardsControlAssociationSummary]) {
+            self.nextToken = nextToken
+            self.standardsControlAssociationSummaries = standardsControlAssociationSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case standardsControlAssociationSummaries = "StandardsControlAssociationSummaries"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
@@ -19037,7 +19518,7 @@ extension SecurityHub {
         public var invitedAt: Date?
         /// This is replaced by AdministratorID. The Amazon Web Services account ID of the Security Hub administrator account associated with this member account.
         public let masterId: String?
-        /// The status of the relationship between the member account and its administrator account.  The status can have one of the following values:    CREATED - Indicates that the administrator account added the member account, but has not yet invited the member account.    INVITED - Indicates that the administrator account invited the member account. The member account has not yet responded to the invitation.    ENABLED - Indicates that the member account is currently active. For manually invited member accounts, indicates that the member account accepted the invitation.    REMOVED - Indicates that the administrator account disassociated the member account.    RESIGNED - Indicates that the member account disassociated themselves from the administrator account.    DELETED - Indicates that the administrator account deleted the member account.    ACCOUNT_SUSPENDED - Indicates that an organization account was suspended from Amazon Web Services at the same time that the administrator account tried to enable the organization account as a member account.
+        /// The status of the relationship between the member account and its administrator account.  The status can have one of the following values:    Created - Indicates that the administrator account added the member account, but has not yet invited the member account.    Invited - Indicates that the administrator account invited the member account. The member account has not yet responded to the invitation.    Enabled - Indicates that the member account is currently active. For manually invited member accounts, indicates that the member account accepted the invitation.    Removed - Indicates that the administrator account disassociated the member account.    Resigned - Indicates that the member account disassociated themselves from the administrator account.    Deleted - Indicates that the administrator account deleted the member account.    AccountSuspended - Indicates that an organization account was suspended from Amazon Web Services at the same time that the administrator account tried to enable the organization account as a member account.
         public let memberStatus: String?
         /// The timestamp for the date and time when the member account was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -19269,7 +19750,7 @@ extension SecurityHub {
     public struct Note: AWSEncodableShape & AWSDecodableShape {
         /// The text of a note.
         public let text: String
-        /// The timestamp of when the note was updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The timestamp of when the note was updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let updatedAt: String
         /// The principal that created a note.
         public let updatedBy: String
@@ -19412,9 +19893,9 @@ extension SecurityHub {
         public let missingCount: Int?
         /// The type of patch operation performed. For Patch Manager, the values are SCAN and INSTALL.
         public let operation: String?
-        /// Indicates when the operation completed. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the operation completed. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let operationEndTime: String?
-        /// Indicates when the operation started. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the operation started. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let operationStartTime: String?
         /// The reboot option specified for the instance.
         public let rebootOption: String?
@@ -19541,17 +20022,17 @@ extension SecurityHub {
     }
 
     public struct ProcessDetails: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates when the process was launched. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the process was launched. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let launchedAt: String?
         /// The name of the process.
         public let name: String?
-        /// The parent process ID.
+        /// The parent process ID. This field accepts positive integers between O and 2147483647.
         public let parentPid: Int?
         /// The path to the process executable.
         public let path: String?
         /// The process ID.
         public let pid: Int?
-        /// Indicates when the process was terminated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the process was terminated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let terminatedAt: String?
 
         public init(launchedAt: String? = nil, name: String? = nil, parentPid: Int? = nil, path: String? = nil, pid: Int? = nil, terminatedAt: String? = nil) {
@@ -19622,6 +20103,23 @@ extension SecurityHub {
             case productArn = "ProductArn"
             case productName = "ProductName"
             case productSubscriptionResourcePolicy = "ProductSubscriptionResourcePolicy"
+        }
+    }
+
+    public struct PropagatingVgwSetDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The ID of the virtual private gateway.
+        public let gatewayId: String?
+
+        public init(gatewayId: String? = nil) {
+            self.gatewayId = gatewayId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayId = "GatewayId"
         }
     }
 
@@ -19824,6 +20322,8 @@ extension SecurityHub {
         public let awsEc2NetworkAcl: AwsEc2NetworkAclDetails?
         /// Details for an EC2 network interface.
         public let awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails?
+        ///  Provides details about a route table. A route table contains a set of rules, called routes, that  determine where to direct network traffic from your subnet or gateway.
+        public let awsEc2RouteTable: AwsEc2RouteTableDetails?
         /// Details for an EC2 security group.
         public let awsEc2SecurityGroup: AwsEc2SecurityGroupDetails?
         /// Details about a subnet in Amazon EC2.
@@ -19947,7 +20447,7 @@ extension SecurityHub {
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.   The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.   The resource type does not have a corresponding object. This includes resources for which the type is Other.
         public let other: [String: String]?
 
-        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsBackupBackupPlan: AwsBackupBackupPlanDetails? = nil, awsBackupBackupVault: AwsBackupBackupVaultDetails? = nil, awsBackupRecoveryPoint: AwsBackupRecoveryPointDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFormationStack: AwsCloudFormationStackDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCloudWatchAlarm: AwsCloudWatchAlarmDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2LaunchTemplate: AwsEc2LaunchTemplateDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2TransitGateway: AwsEc2TransitGatewayDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsContainer: AwsEcsContainerDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTask: AwsEcsTaskDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEfsAccessPoint: AwsEfsAccessPointDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKinesisStream: AwsKinesisStreamDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSageMakerNotebookInstance: AwsSageMakerNotebookInstanceDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafRegionalRule: AwsWafRegionalRuleDetails? = nil, awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails? = nil, awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails? = nil, awsWafRule: AwsWafRuleDetails? = nil, awsWafRuleGroup: AwsWafRuleGroupDetails? = nil, awsWafv2RuleGroup: AwsWafv2RuleGroupDetails? = nil, awsWafv2WebAcl: AwsWafv2WebAclDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsBackupBackupPlan: AwsBackupBackupPlanDetails? = nil, awsBackupBackupVault: AwsBackupBackupVaultDetails? = nil, awsBackupRecoveryPoint: AwsBackupRecoveryPointDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFormationStack: AwsCloudFormationStackDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCloudWatchAlarm: AwsCloudWatchAlarmDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2LaunchTemplate: AwsEc2LaunchTemplateDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2RouteTable: AwsEc2RouteTableDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2TransitGateway: AwsEc2TransitGatewayDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsContainer: AwsEcsContainerDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTask: AwsEcsTaskDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEfsAccessPoint: AwsEfsAccessPointDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKinesisStream: AwsKinesisStreamDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSageMakerNotebookInstance: AwsSageMakerNotebookInstanceDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafRegionalRule: AwsWafRegionalRuleDetails? = nil, awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails? = nil, awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails? = nil, awsWafRule: AwsWafRuleDetails? = nil, awsWafRuleGroup: AwsWafRuleGroupDetails? = nil, awsWafv2RuleGroup: AwsWafv2RuleGroupDetails? = nil, awsWafv2WebAcl: AwsWafv2WebAclDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
             self.awsApiGatewayRestApi = awsApiGatewayRestApi
             self.awsApiGatewayStage = awsApiGatewayStage
             self.awsApiGatewayV2Api = awsApiGatewayV2Api
@@ -19969,6 +20469,7 @@ extension SecurityHub {
             self.awsEc2LaunchTemplate = awsEc2LaunchTemplate
             self.awsEc2NetworkAcl = awsEc2NetworkAcl
             self.awsEc2NetworkInterface = awsEc2NetworkInterface
+            self.awsEc2RouteTable = awsEc2RouteTable
             self.awsEc2SecurityGroup = awsEc2SecurityGroup
             self.awsEc2Subnet = awsEc2Subnet
             self.awsEc2TransitGateway = awsEc2TransitGateway
@@ -20055,6 +20556,7 @@ extension SecurityHub {
             try self.awsEc2LaunchTemplate?.validate(name: "\(name).awsEc2LaunchTemplate")
             try self.awsEc2NetworkAcl?.validate(name: "\(name).awsEc2NetworkAcl")
             try self.awsEc2NetworkInterface?.validate(name: "\(name).awsEc2NetworkInterface")
+            try self.awsEc2RouteTable?.validate(name: "\(name).awsEc2RouteTable")
             try self.awsEc2SecurityGroup?.validate(name: "\(name).awsEc2SecurityGroup")
             try self.awsEc2Subnet?.validate(name: "\(name).awsEc2Subnet")
             try self.awsEc2TransitGateway?.validate(name: "\(name).awsEc2TransitGateway")
@@ -20143,6 +20645,7 @@ extension SecurityHub {
             case awsEc2LaunchTemplate = "AwsEc2LaunchTemplate"
             case awsEc2NetworkAcl = "AwsEc2NetworkAcl"
             case awsEc2NetworkInterface = "AwsEc2NetworkInterface"
+            case awsEc2RouteTable = "AwsEc2RouteTable"
             case awsEc2SecurityGroup = "AwsEc2SecurityGroup"
             case awsEc2Subnet = "AwsEc2Subnet"
             case awsEc2TransitGateway = "AwsEc2TransitGateway"
@@ -20222,6 +20725,98 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case processingResult = "ProcessingResult"
+        }
+    }
+
+    public struct RouteSetDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The ID of the carrier gateway.
+        public let carrierGatewayId: String?
+        ///  The Amazon Resource Name (ARN) of the core network.
+        public let coreNetworkArn: String?
+        ///  The IPv4 CIDR block used for the destination match.
+        public let destinationCidrBlock: String?
+        ///  The IPv6 CIDR block used for the destination match.
+        public let destinationIpv6CidrBlock: String?
+        ///  The prefix of the destination Amazon Web Service.
+        public let destinationPrefixListId: String?
+        ///  The ID of the egress-only internet gateway.
+        public let egressOnlyInternetGatewayId: String?
+        ///  The ID of a gateway attached to your VPC.
+        public let gatewayId: String?
+        ///  The ID of a NAT instance in your VPC.
+        public let instanceId: String?
+        ///  The ID of the Amazon Web Services account that owns the instance.
+        public let instanceOwnerId: String?
+        ///  The ID of the local gateway.
+        public let localGatewayId: String?
+        ///  The ID of a NAT gateway.
+        public let natGatewayId: String?
+        ///  The ID of the network interface.
+        public let networkInterfaceId: String?
+        ///  Describes how the route was created.
+        public let origin: String?
+        ///  The state of the route.
+        public let state: String?
+        ///  The ID of a transit gateway.
+        public let transitGatewayId: String?
+        ///  The ID of a VPC peering connection.
+        public let vpcPeeringConnectionId: String?
+
+        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, origin: String? = nil, state: String? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+            self.carrierGatewayId = carrierGatewayId
+            self.coreNetworkArn = coreNetworkArn
+            self.destinationCidrBlock = destinationCidrBlock
+            self.destinationIpv6CidrBlock = destinationIpv6CidrBlock
+            self.destinationPrefixListId = destinationPrefixListId
+            self.egressOnlyInternetGatewayId = egressOnlyInternetGatewayId
+            self.gatewayId = gatewayId
+            self.instanceId = instanceId
+            self.instanceOwnerId = instanceOwnerId
+            self.localGatewayId = localGatewayId
+            self.natGatewayId = natGatewayId
+            self.networkInterfaceId = networkInterfaceId
+            self.origin = origin
+            self.state = state
+            self.transitGatewayId = transitGatewayId
+            self.vpcPeeringConnectionId = vpcPeeringConnectionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.carrierGatewayId, name: "carrierGatewayId", parent: name, pattern: "\\S")
+            try self.validate(self.coreNetworkArn, name: "coreNetworkArn", parent: name, pattern: "\\S")
+            try self.validate(self.destinationCidrBlock, name: "destinationCidrBlock", parent: name, pattern: "\\S")
+            try self.validate(self.destinationIpv6CidrBlock, name: "destinationIpv6CidrBlock", parent: name, pattern: "\\S")
+            try self.validate(self.destinationPrefixListId, name: "destinationPrefixListId", parent: name, pattern: "\\S")
+            try self.validate(self.egressOnlyInternetGatewayId, name: "egressOnlyInternetGatewayId", parent: name, pattern: "\\S")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "\\S")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "\\S")
+            try self.validate(self.instanceOwnerId, name: "instanceOwnerId", parent: name, pattern: "\\S")
+            try self.validate(self.localGatewayId, name: "localGatewayId", parent: name, pattern: "\\S")
+            try self.validate(self.natGatewayId, name: "natGatewayId", parent: name, pattern: "\\S")
+            try self.validate(self.networkInterfaceId, name: "networkInterfaceId", parent: name, pattern: "\\S")
+            try self.validate(self.origin, name: "origin", parent: name, pattern: "\\S")
+            try self.validate(self.state, name: "state", parent: name, pattern: "\\S")
+            try self.validate(self.transitGatewayId, name: "transitGatewayId", parent: name, pattern: "\\S")
+            try self.validate(self.vpcPeeringConnectionId, name: "vpcPeeringConnectionId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case carrierGatewayId = "CarrierGatewayId"
+            case coreNetworkArn = "CoreNetworkArn"
+            case destinationCidrBlock = "DestinationCidrBlock"
+            case destinationIpv6CidrBlock = "DestinationIpv6CidrBlock"
+            case destinationPrefixListId = "DestinationPrefixListId"
+            case egressOnlyInternetGatewayId = "EgressOnlyInternetGatewayId"
+            case gatewayId = "GatewayId"
+            case instanceId = "InstanceId"
+            case instanceOwnerId = "InstanceOwnerId"
+            case localGatewayId = "LocalGatewayId"
+            case natGatewayId = "NatGatewayId"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case origin = "Origin"
+            case state = "State"
+            case transitGatewayId = "TransitGatewayId"
+            case vpcPeeringConnectionId = "VpcPeeringConnectionId"
         }
     }
 
@@ -20699,6 +21294,76 @@ extension SecurityHub {
         }
     }
 
+    public struct SecurityControl: AWSDecodableShape {
+        ///  The description of a security control across standards. This typically summarizes how Security Hub evaluates the control and the conditions under which it produces a failed finding. This parameter doesn't reference a specific standard.
+        public let description: String
+        ///  A link to Security Hub documentation that explains how to remediate a failed finding for a security control.
+        public let remediationUrl: String
+        ///  The Amazon Resource Name (ARN) for a security control across standards, such as arn:aws:securityhub:eu-central-1:123456789012:security-control/S3.1. This parameter doesn't mention a specific standard.
+        public let securityControlArn: String
+        ///  The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Service name and a  number, such as APIGateway.3.
+        public let securityControlId: String
+        ///  The status of a security control based on the compliance status of its findings. For more information about how control  status is determined, see Determining the overall status of a control from its findings in the  Security Hub User Guide.
+        public let securityControlStatus: ControlStatus
+        ///  The severity of a security control. For more information about how Security Hub determines control severity, see  Assigning severity to control findings in the  Security Hub User Guide.
+        public let severityRating: SeverityRating
+        /// The title of a security control.
+        public let title: String
+
+        public init(description: String, remediationUrl: String, securityControlArn: String, securityControlId: String, securityControlStatus: ControlStatus, severityRating: SeverityRating, title: String) {
+            self.description = description
+            self.remediationUrl = remediationUrl
+            self.securityControlArn = securityControlArn
+            self.securityControlId = securityControlId
+            self.securityControlStatus = securityControlStatus
+            self.severityRating = severityRating
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case remediationUrl = "RemediationUrl"
+            case securityControlArn = "SecurityControlArn"
+            case securityControlId = "SecurityControlId"
+            case securityControlStatus = "SecurityControlStatus"
+            case severityRating = "SeverityRating"
+            case title = "Title"
+        }
+    }
+
+    public struct SecurityControlDefinition: AWSDecodableShape {
+        ///  Specifies whether a security control is available in the current Amazon Web Services Region.
+        public let currentRegionAvailability: RegionAvailabilityStatus
+        ///  The description of a security control across standards. This typically summarizes how Security Hub evaluates the control and the conditions under which it produces a failed finding. This parameter doesn't reference a specific standard.
+        public let description: String
+        ///  A link to Security Hub documentation that explains how to remediate a failed finding for a security control.
+        public let remediationUrl: String
+        ///  The unique identifier of a security control across standards. Values for this field typically consist of an  Amazon Web Service name and a number (for example, APIGateway.3). This parameter differs from  SecurityControlArn, which is a unique Amazon Resource Name (ARN) assigned to a control. The  ARN references the security control ID (for example, arn:aws:securityhub:eu-central-1:123456789012:security-control/APIGateway.3).
+        public let securityControlId: String
+        ///  The severity of a security control. For more information about how Security Hub determines control severity,  see Assigning severity to control findings in the  Security Hub User Guide.
+        public let severityRating: SeverityRating
+        ///  The title of a security control.
+        public let title: String
+
+        public init(currentRegionAvailability: RegionAvailabilityStatus, description: String, remediationUrl: String, securityControlId: String, severityRating: SeverityRating, title: String) {
+            self.currentRegionAvailability = currentRegionAvailability
+            self.description = description
+            self.remediationUrl = remediationUrl
+            self.securityControlId = securityControlId
+            self.severityRating = severityRating
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentRegionAvailability = "CurrentRegionAvailability"
+            case description = "Description"
+            case remediationUrl = "RemediationUrl"
+            case securityControlId = "SecurityControlId"
+            case severityRating = "SeverityRating"
+            case title = "Title"
+        }
+    }
+
     public struct SensitiveDataDetections: AWSEncodableShape & AWSDecodableShape {
         /// The total number of occurrences of sensitive data that were detected.
         public let count: Int64?
@@ -20975,6 +21640,155 @@ extension SecurityHub {
         }
     }
 
+    public struct StandardsControlAssociationDetail: AWSDecodableShape {
+        ///  Specifies whether a control is enabled or disabled in a specified standard.
+        public let associationStatus: AssociationStatus
+        ///  The requirement that underlies a control in the compliance framework related to the standard.
+        public let relatedRequirements: [String]?
+        ///  The ARN of a security control across standards, such as arn:aws:securityhub:eu-central-1:123456789012:security-control/S3.1. This parameter doesn't mention a specific standard.
+        public let securityControlArn: String
+        ///  The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Service  name and a number, such as APIGateway.3.
+        public let securityControlId: String
+        ///  The Amazon Resource Name (ARN) of a security standard.
+        public let standardsArn: String
+        ///  Provides the input parameter that Security Hub uses to call the UpdateStandardsControl API. This API can be used to enable or disable a control in a specified standard.
+        public let standardsControlArns: [String]?
+        ///  The description of a control. This typically summarizes how Security Hub evaluates the control and the  conditions under which it produces a failed finding. This parameter may reference a specific standard.
+        public let standardsControlDescription: String?
+        ///  The title of a control. This field may reference a specific standard.
+        public let standardsControlTitle: String?
+        ///  The time at which the enablement status of the control in the specified standard was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+        ///  The reason for updating the enablement status of a control in a specified standard.
+        public let updatedReason: String?
+
+        public init(associationStatus: AssociationStatus, relatedRequirements: [String]? = nil, securityControlArn: String, securityControlId: String, standardsArn: String, standardsControlArns: [String]? = nil, standardsControlDescription: String? = nil, standardsControlTitle: String? = nil, updatedAt: Date? = nil, updatedReason: String? = nil) {
+            self.associationStatus = associationStatus
+            self.relatedRequirements = relatedRequirements
+            self.securityControlArn = securityControlArn
+            self.securityControlId = securityControlId
+            self.standardsArn = standardsArn
+            self.standardsControlArns = standardsControlArns
+            self.standardsControlDescription = standardsControlDescription
+            self.standardsControlTitle = standardsControlTitle
+            self.updatedAt = updatedAt
+            self.updatedReason = updatedReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationStatus = "AssociationStatus"
+            case relatedRequirements = "RelatedRequirements"
+            case securityControlArn = "SecurityControlArn"
+            case securityControlId = "SecurityControlId"
+            case standardsArn = "StandardsArn"
+            case standardsControlArns = "StandardsControlArns"
+            case standardsControlDescription = "StandardsControlDescription"
+            case standardsControlTitle = "StandardsControlTitle"
+            case updatedAt = "UpdatedAt"
+            case updatedReason = "UpdatedReason"
+        }
+    }
+
+    public struct StandardsControlAssociationId: AWSEncodableShape & AWSDecodableShape {
+        ///  The unique identifier (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) of a security  control across standards.
+        public let securityControlId: String
+        ///  The ARN of a standard.
+        public let standardsArn: String
+
+        public init(securityControlId: String, standardsArn: String) {
+            self.securityControlId = securityControlId
+            self.standardsArn = standardsArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.securityControlId, name: "securityControlId", parent: name, pattern: "\\S")
+            try self.validate(self.standardsArn, name: "standardsArn", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityControlId = "SecurityControlId"
+            case standardsArn = "StandardsArn"
+        }
+    }
+
+    public struct StandardsControlAssociationSummary: AWSDecodableShape {
+        ///  The enablement status of a control in a specific standard.
+        public let associationStatus: AssociationStatus
+        ///  The requirement that underlies this control in the compliance framework related to the standard.
+        public let relatedRequirements: [String]?
+        ///  The ARN of a control, such as arn:aws:securityhub:eu-central-1:123456789012:security-control/S3.1. This parameter doesn't mention a specific standard.
+        public let securityControlArn: String
+        ///  A unique standard-agnostic identifier for a control. Values for this field typically consist of an  Amazon Web Service and a number, such as APIGateway.5. This field doesn't reference a specific standard.
+        public let securityControlId: String
+        ///  The Amazon Resource Name (ARN) of a standard.
+        public let standardsArn: String
+        ///  The description of a control. This typically summarizes how Security Hub evaluates the control and the  conditions under which it produces a failed finding. The parameter may reference a specific standard.
+        public let standardsControlDescription: String?
+        ///  The title of a control.
+        public let standardsControlTitle: String?
+        ///  The last time that a control's enablement status in a specified standard was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+        ///  The reason for updating the control's enablement status in a specified standard.
+        public let updatedReason: String?
+
+        public init(associationStatus: AssociationStatus, relatedRequirements: [String]? = nil, securityControlArn: String, securityControlId: String, standardsArn: String, standardsControlDescription: String? = nil, standardsControlTitle: String? = nil, updatedAt: Date? = nil, updatedReason: String? = nil) {
+            self.associationStatus = associationStatus
+            self.relatedRequirements = relatedRequirements
+            self.securityControlArn = securityControlArn
+            self.securityControlId = securityControlId
+            self.standardsArn = standardsArn
+            self.standardsControlDescription = standardsControlDescription
+            self.standardsControlTitle = standardsControlTitle
+            self.updatedAt = updatedAt
+            self.updatedReason = updatedReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationStatus = "AssociationStatus"
+            case relatedRequirements = "RelatedRequirements"
+            case securityControlArn = "SecurityControlArn"
+            case securityControlId = "SecurityControlId"
+            case standardsArn = "StandardsArn"
+            case standardsControlDescription = "StandardsControlDescription"
+            case standardsControlTitle = "StandardsControlTitle"
+            case updatedAt = "UpdatedAt"
+            case updatedReason = "UpdatedReason"
+        }
+    }
+
+    public struct StandardsControlAssociationUpdate: AWSEncodableShape & AWSDecodableShape {
+        /// The desired enablement status of the control in the standard.
+        public let associationStatus: AssociationStatus
+        /// The unique identifier for the security control whose enablement status you want to update.
+        public let securityControlId: String
+        /// The Amazon Resource Name (ARN) of the standard in which you want to update the control's enablement status.
+        public let standardsArn: String
+        /// The reason for updating the control's enablement status in the standard.
+        public let updatedReason: String?
+
+        public init(associationStatus: AssociationStatus, securityControlId: String, standardsArn: String, updatedReason: String? = nil) {
+            self.associationStatus = associationStatus
+            self.securityControlId = securityControlId
+            self.standardsArn = standardsArn
+            self.updatedReason = updatedReason
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.securityControlId, name: "securityControlId", parent: name, pattern: "\\S")
+            try self.validate(self.standardsArn, name: "standardsArn", parent: name, pattern: "\\S")
+            try self.validate(self.updatedReason, name: "updatedReason", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationStatus = "AssociationStatus"
+            case securityControlId = "SecurityControlId"
+            case standardsArn = "StandardsArn"
+            case updatedReason = "UpdatedReason"
+        }
+    }
+
     public struct StandardsManagedBy: AWSDecodableShape {
         /// An identifier for the company that manages a specific security standard. For existing standards, the value is equal to Amazon Web Services.
         public let company: String?
@@ -21231,7 +22045,7 @@ extension SecurityHub {
     public struct ThreatIntelIndicator: AWSEncodableShape & AWSDecodableShape {
         /// The category of a threat intelligence indicator.
         public let category: ThreatIntelIndicatorCategory?
-        /// Indicates when the most recent instance of a threat intelligence indicator was observed. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the most recent instance of a threat intelligence indicator was observed. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let lastObservedAt: String?
         /// The source of the threat intelligence indicator.
         public let source: String?
@@ -21265,6 +22079,69 @@ extension SecurityHub {
             case sourceUrl = "SourceUrl"
             case type = "Type"
             case value = "Value"
+        }
+    }
+
+    public struct UnprocessedSecurityControl: AWSDecodableShape {
+        ///  The error code for the unprocessed security control.
+        public let errorCode: UnprocessedErrorCode
+        ///  The reason why the security control was unprocessed.
+        public let errorReason: String?
+        ///  The control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) for which a response couldn't be returned.
+        public let securityControlId: String
+
+        public init(errorCode: UnprocessedErrorCode, errorReason: String? = nil, securityControlId: String) {
+            self.errorCode = errorCode
+            self.errorReason = errorReason
+            self.securityControlId = securityControlId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorReason = "ErrorReason"
+            case securityControlId = "SecurityControlId"
+        }
+    }
+
+    public struct UnprocessedStandardsControlAssociation: AWSDecodableShape {
+        /// The error code for the unprocessed standard and control association.
+        public let errorCode: UnprocessedErrorCode
+        /// The reason why the standard and control association was unprocessed.
+        public let errorReason: String?
+        ///  An array with one or more objects that includes a security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. This parameter shows the specific controls for which the enablement status couldn't be retrieved in specified standards when calling BatchUpdateStandardsControlAssociations.
+        public let standardsControlAssociationId: StandardsControlAssociationId
+
+        public init(errorCode: UnprocessedErrorCode, errorReason: String? = nil, standardsControlAssociationId: StandardsControlAssociationId) {
+            self.errorCode = errorCode
+            self.errorReason = errorReason
+            self.standardsControlAssociationId = standardsControlAssociationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorReason = "ErrorReason"
+            case standardsControlAssociationId = "StandardsControlAssociationId"
+        }
+    }
+
+    public struct UnprocessedStandardsControlAssociationUpdate: AWSDecodableShape {
+        /// The error code for the unprocessed update of the control's enablement status in the specified standard.
+        public let errorCode: UnprocessedErrorCode
+        /// The reason why a control's enablement status in the specified standard couldn't be updated.
+        public let errorReason: String?
+        /// An array of control and standard associations for which an update failed when calling  BatchUpdateStandardsControlAssociations.
+        public let standardsControlAssociationUpdate: StandardsControlAssociationUpdate
+
+        public init(errorCode: UnprocessedErrorCode, errorReason: String? = nil, standardsControlAssociationUpdate: StandardsControlAssociationUpdate) {
+            self.errorCode = errorCode
+            self.errorReason = errorReason
+            self.standardsControlAssociationUpdate = standardsControlAssociationUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorReason = "ErrorReason"
+            case standardsControlAssociationUpdate = "StandardsControlAssociationUpdate"
         }
     }
 
@@ -21483,13 +22360,17 @@ extension SecurityHub {
     public struct UpdateSecurityHubConfigurationRequest: AWSEncodableShape {
         /// Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true, and new controls are enabled automatically. To not automatically enable new controls, set this to false.
         public let autoEnableControls: Bool?
+        /// Updates whether the calling account has consolidated control findings turned on.  If the value for this field is set to  SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check  applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings  for a control check when the check applies to multiple enabled standards. For accounts that are part of an organization, this value can only be updated in the administrator account.
+        public let controlFindingGenerator: ControlFindingGenerator?
 
-        public init(autoEnableControls: Bool? = nil) {
+        public init(autoEnableControls: Bool? = nil, controlFindingGenerator: ControlFindingGenerator? = nil) {
             self.autoEnableControls = autoEnableControls
+            self.controlFindingGenerator = controlFindingGenerator
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoEnableControls = "AutoEnableControls"
+            case controlFindingGenerator = "ControlFindingGenerator"
         }
     }
 
@@ -21669,11 +22550,11 @@ extension SecurityHub {
         public let name: String
         /// The URL of the vulnerability advisory.
         public let url: String?
-        /// Indicates when the vulnerability advisory was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the vulnerability advisory was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let vendorCreatedAt: String?
         /// The severity that the vendor assigned to the vulnerability.
         public let vendorSeverity: String?
-        /// Indicates when the vulnerability advisory was last updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the vulnerability advisory was last updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public let vendorUpdatedAt: String?
 
         public init(name: String, url: String? = nil, vendorCreatedAt: String? = nil, vendorSeverity: String? = nil, vendorUpdatedAt: String? = nil) {

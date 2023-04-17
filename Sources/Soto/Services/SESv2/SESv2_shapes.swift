@@ -212,6 +212,7 @@ extension SESv2 {
     }
 
     public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable {
+        case bimi = "BIMI"
         case dkim = "DKIM"
         case dmarc = "DMARC"
         case spf = "SPF"
@@ -858,8 +859,7 @@ extension SESv2 {
         public let emailIdentity: String
         /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide.
         public let policy: String
-        /// The name of the policy.
-        ///  The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
+        /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
         public let policyName: String
 
         public init(emailIdentity: String, policy: String, policyName: String) {
@@ -1246,8 +1246,7 @@ extension SESv2 {
 
         /// The email identity.
         public let emailIdentity: String
-        /// The name of the policy.
-        ///  The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
+        /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
         public let policyName: String
 
         public init(emailIdentity: String, policyName: String) {
@@ -1656,7 +1655,7 @@ extension SESv2 {
         public let enabled: Bool?
         /// An object that defines an Amazon Kinesis Data Firehose destination for email events. You can use Amazon Kinesis Data Firehose to stream data to other services, such as Amazon S3 and Amazon Redshift.
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
-        /// The types of events that Amazon SES sends to the specified event destinations.
+        /// The types of events that Amazon SES sends to the specified event destinations.    SEND - The send request was successful and SES will attempt to deliver the message to the recipient’s mail server. (If account-level or global suppression is being used, SES will still count it as a send, but delivery is suppressed.)    REJECT - SES accepted the email, but determined that it contained a virus and didn’t attempt to deliver it to the recipient’s mail server.    BOUNCE - (Hard bounce) The recipient's mail server permanently rejected the email. (Soft bounces are only included when SES fails to deliver the email after retrying for a period of time.)    COMPLAINT - The email was successfully delivered to the recipient’s mail server, but the recipient marked it as spam.    DELIVERY - SES successfully delivered the email to the recipient's mail server.    OPEN - The recipient received the message and opened it in their email client.    CLICK - The recipient clicked one or more links in the email.    RENDERING_FAILURE - The email wasn't sent because of a template rendering issue. This event type can occur when template data is missing, or when there is a mismatch between template parameters and data. (This event type only occurs when you send email using the  SendTemplatedEmail or  SendBulkTemplatedEmail API operations.)     DELIVERY_DELAY - The email couldn't be delivered to the recipient’s mail server because a temporary issue occurred. Delivery delays can occur, for example, when the recipient's inbox is full, or when the receiving email server experiences a transient issue.    SUBSCRIPTION - The email was successfully delivered, but the recipient updated their subscription preferences by clicking on an unsubscribe link as part of your subscription management.
         public let matchingEventTypes: [EventType]
         /// A name that identifies the event destination.
         public let name: String
@@ -3941,7 +3940,7 @@ extension SESv2 {
         public let resourceArn: String?
         /// The recommendation status, with values like OPEN or FIXED.
         public let status: RecommendationStatus?
-        /// The recommendation type, with values like DKIM, SPF or DMARC.
+        /// The recommendation type, with values like DKIM, SPF, DMARC or BIMI.
         public let type: RecommendationType?
 
         public init(createdTimestamp: Date? = nil, description: String? = nil, impact: RecommendationImpact? = nil, lastUpdatedTimestamp: Date? = nil, resourceArn: String? = nil, status: RecommendationStatus? = nil, type: RecommendationType? = nil) {
@@ -4694,8 +4693,7 @@ extension SESv2 {
         public let emailIdentity: String
         /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide.
         public let policy: String
-        /// The name of the policy.
-        ///  The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
+        /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
         public let policyName: String
 
         public init(emailIdentity: String, policy: String, policyName: String) {

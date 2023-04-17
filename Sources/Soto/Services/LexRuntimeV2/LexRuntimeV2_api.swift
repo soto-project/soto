@@ -18,6 +18,8 @@
 @_exported import SotoCore
 
 /// Service object for interacting with AWS LexRuntimeV2 service.
+///
+/// This section contains documentation for the Amazon Lex V2 Runtime V2 API operations.
 public struct LexRuntimeV2: AWSService {
     // MARK: Member variables
 

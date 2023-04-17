@@ -99,7 +99,7 @@ extension CognitoIdentity {
         /// Optional key:value pairs mapping provider names to provider app IDs.
         public let supportedLoginProviders: [String: String]?
 
-        public init(allowClassicFlow: Bool? = nil, allowUnauthenticatedIdentities: Bool, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil, identityPoolName: String, identityPoolTags: [String: String]? = nil, openIdConnectProviderARNs: [String]? = nil, samlProviderARNs: [String]? = nil, supportedLoginProviders: [String: String]? = nil) {
+        public init(allowClassicFlow: Bool? = nil, allowUnauthenticatedIdentities: Bool = false, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil, identityPoolName: String, identityPoolTags: [String: String]? = nil, openIdConnectProviderARNs: [String]? = nil, samlProviderARNs: [String]? = nil, supportedLoginProviders: [String: String]? = nil) {
             self.allowClassicFlow = allowClassicFlow
             self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
             self.cognitoIdentityProviders = cognitoIdentityProviders
@@ -723,7 +723,7 @@ extension CognitoIdentity {
         /// A pagination token.
         public let nextToken: String?
 
-        public init(hideDisabled: Bool? = nil, identityPoolId: String, maxResults: Int, nextToken: String? = nil) {
+        public init(hideDisabled: Bool? = nil, identityPoolId: String, maxResults: Int = 0, nextToken: String? = nil) {
             self.hideDisabled = hideDisabled
             self.identityPoolId = identityPoolId
             self.maxResults = maxResults
@@ -776,7 +776,7 @@ extension CognitoIdentity {
         /// A pagination token.
         public let nextToken: String?
 
-        public init(maxResults: Int, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }

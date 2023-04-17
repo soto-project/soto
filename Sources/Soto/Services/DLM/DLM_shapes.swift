@@ -219,14 +219,12 @@ extension DLM {
         ///  [Snapshot policies only] Specifies the destination for snapshots created by the policy. To create
         /// 			snapshots in the same Region as the source resource, specify CLOUD. To create
         /// 			snapshots on the same Outpost as the source resource, specify OUTPOST_LOCAL.
-        /// 			If you omit this parameter, CLOUD is used by default.
-        /// 		       If the policy targets resources in an Amazon Web Services Region, then you must create
+        /// 			If you omit this parameter, CLOUD is used by default. If the policy targets resources in an Amazon Web Services Region, then you must create
         /// 			snapshots in the same Region as the source resource. If the policy targets resources on an
         /// 			Outpost, then you can create snapshots on the same Outpost as the source resource, or in
         /// 			the Region of that Outpost.
         public let location: LocationValues?
-        /// The time, in UTC, to start the operation. The supported format is hh:mm.
-        /// 		       The operation occurs within a one-hour window following the specified time. If you do
+        /// The time, in UTC, to start the operation. The supported format is hh:mm. The operation occurs within a one-hour window following the specified time. If you do
         /// 			not specify a time, Amazon Data Lifecycle Manager selects a time within the next 24 hours.
         public let times: [String]?
 
@@ -352,16 +350,13 @@ extension DLM {
         /// 			to be retained in the destination Region.
         public let retainRule: CrossRegionCopyRetainRule?
         /// The target Region or the Amazon Resource Name (ARN) of the target Outpost for the
-        /// 			snapshot copies.
-        /// 		       Use this parameter instead of TargetRegion. Do not
+        /// 			snapshot copies. Use this parameter instead of TargetRegion. Do not
         /// 			specify both.
         public let target: String?
-        /// 			         Avoid using this parameter when creating new policies. Instead, use
+        ///  Avoid using this parameter when creating new policies. Instead, use
         /// 				Target to specify a target Region or a target
-        /// 				Outpost for snapshot copies.
-        /// 			         For policies created before the Target parameter
+        /// 				Outpost for snapshot copies. For policies created before the Target parameter
         /// 				was introduced, this parameter indicates the target Region for snapshot copies.
-        ///
         public let targetRegion: String?
 
         public init(cmkArn: String? = nil, copyTags: Bool? = nil, deprecateRule: CrossRegionCopyDeprecateRule? = nil, encrypted: Bool, retainRule: CrossRegionCopyRetainRule? = nil, target: String? = nil, targetRegion: String? = nil) {
@@ -480,8 +475,7 @@ extension DLM {
     public struct EventParameters: AWSEncodableShape & AWSDecodableShape {
         /// The snapshot description that can trigger the policy. The description pattern is specified using
         /// 			a regular expression. The policy runs only if a snapshot with a description that matches the
-        /// 			specified pattern is shared with your account.
-        /// 		       For example, specifying ^.*Created for policy: policy-1234567890abcdef0.*$
+        /// 			specified pattern is shared with your account. For example, specifying ^.*Created for policy: policy-1234567890abcdef0.*$
         /// 			configures the policy to run only if snapshots created by policy policy-1234567890abcdef0
         /// 			are shared with your account.
         public let descriptionRegex: String
@@ -589,12 +583,9 @@ extension DLM {
         public let resourceTypes: [ResourceTypeValues]?
         /// The activation state.
         public let state: GettablePolicyStateValues?
-        /// The tags to add to objects created by the policy.
-        /// 		       Tags are strings in the format key=value.
-        /// 		       These user-defined tags are added in addition to the Amazon Web Services-added lifecycle tags.
+        /// The tags to add to objects created by the policy. Tags are strings in the format key=value. These user-defined tags are added in addition to the Amazon Web Services-added lifecycle tags.
         public let tagsToAdd: [String]?
-        /// The target tag for a policy.
-        /// 		       Tags are strings in the format key=value.
+        /// The target tag for a policy. Tags are strings in the format key=value.
         public let targetTags: [String]?
 
         public init(policyIds: [String]? = nil, resourceTypes: [ResourceTypeValues]? = nil, state: GettablePolicyStateValues? = nil, tagsToAdd: [String]? = nil, targetTags: [String]? = nil) {
@@ -676,9 +667,11 @@ extension DLM {
 
     public struct LifecyclePolicy: AWSDecodableShape {
         /// The local date and time when the lifecycle policy was created.
-        public let dateCreated: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var dateCreated: Date?
         /// The local date and time when the lifecycle policy was last modified.
-        public let dateModified: Date?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var dateModified: Date?
         /// The description of the lifecycle policy.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by
@@ -797,8 +790,7 @@ extension DLM {
         /// 			snapshot sets created by the policy.
         public let excludeBootVolume: Bool?
         ///  [Snapshot policies that target instances only] The tags used to identify data (non-root) volumes to exclude from
-        /// 			multi-volume snapshot sets.
-        /// 		       If you create a snapshot lifecycle policy that targets instances and you specify tags for
+        /// 			multi-volume snapshot sets. If you create a snapshot lifecycle policy that targets instances and you specify tags for
         /// 			this parameter, then data volumes with the specified tags that are attached to targeted
         /// 			instances will be excluded from the multi-volume snapshot sets created by the policy.
         public let excludeDataVolumeTags: [Tag]?
@@ -834,25 +826,19 @@ extension DLM {
         public let actions: [Action]?
         ///  [Event-based policies only]  The event that activates the event-based policy.
         public let eventSource: EventSource?
-        ///  [Snapshot and AMI policies only] A set of optional parameters for snapshot and AMI lifecycle policies.
-        ///
-        ///
-        /// 			         If you are modifying a policy that was created or previously modified using the Amazon
+        ///  [Snapshot and AMI policies only] A set of optional parameters for snapshot and AMI lifecycle policies.   If you are modifying a policy that was created or previously modified using the Amazon
         /// 				Data Lifecycle Manager console, then you must include this parameter and specify either
         /// 				the default values or the new values that you require. You can't omit this parameter or
         /// 				set its values to null.
-        ///
         public let parameters: Parameters?
         ///  [All policy types] The valid target resource types and actions a policy can manage. Specify EBS_SNAPSHOT_MANAGEMENT
         /// 			to create a lifecycle policy that manages the lifecycle of Amazon EBS snapshots. Specify IMAGE_MANAGEMENT
         /// 			to create a lifecycle policy that manages the lifecycle of EBS-backed AMIs. Specify EVENT_BASED_POLICY
-        /// 			to create an event-based policy that performs specific actions when a defined event occurs in your Amazon Web Services account.
-        /// 		       The default is EBS_SNAPSHOT_MANAGEMENT.
+        /// 			to create an event-based policy that performs specific actions when a defined event occurs in your Amazon Web Services account. The default is EBS_SNAPSHOT_MANAGEMENT.
         public let policyType: PolicyTypeValues?
         ///  [Snapshot and AMI policies only] The location of the resources to backup. If the source resources are located in an
         /// 			Amazon Web Services Region, specify CLOUD. If the source resources are located on an Outpost
-        /// 			in your account, specify OUTPOST.
-        /// 			      If you specify OUTPOST, Amazon Data Lifecycle Manager backs up all resources
+        /// 			in your account, specify OUTPOST. If you specify OUTPOST, Amazon Data Lifecycle Manager backs up all resources
         /// 				of the specified type with matching target tags across all of the Outposts in your account.
         public let resourceLocations: [ResourceLocationValues]?
         ///  [Snapshot policies only] The target resource type for snapshot and AMI lifecycle policies. Use VOLUME to
@@ -983,8 +969,7 @@ extension DLM {
         ///  [Snapshot policies that target volumes only] The snapshot archiving rule for the schedule. When you specify an archiving
         /// 			rule, snapshots are automatically moved from the standard tier to the archive tier once the schedule's
         /// 			retention threshold is met. Snapshots are then retained in the archive tier for the archive retention
-        /// 			period that you specify.
-        /// 		       For more information about using snapshot archiving, see Considerations for
+        /// 			period that you specify.  For more information about using snapshot archiving, see Considerations for
         /// 				snapshot lifecycle policies.
         public let archiveRule: ArchiveRule?
         /// Copy all user-defined tags on a source volume to snapshots of the volume created by
@@ -992,9 +977,7 @@ extension DLM {
         public let copyTags: Bool?
         /// The creation rule.
         public let createRule: CreateRule?
-        /// Specifies a rule for copying snapshots or AMIs across regions.
-        ///
-        /// 		        You can't specify cross-Region copy rules for policies that create snapshots on an Outpost.
+        /// Specifies a rule for copying snapshots or AMIs across regions.  You can't specify cross-Region copy rules for policies that create snapshots on an Outpost.
         /// 			If the policy creates snapshots in a Region, then snapshots can be copied to up to three
         /// 			Regions or Outposts.
         public let crossRegionCopyRules: [CrossRegionCopyRule]?

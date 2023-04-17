@@ -31,12 +31,12 @@ extension SageMakerGeospatial {
         return try await self.client.execute(operation: "DeleteVectorEnrichmentJob", path: "/vector-enrichment-jobs/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an S3 location.
+    /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
     public func exportEarthObservationJob(_ input: ExportEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ExportEarthObservationJobOutput {
         return try await self.client.execute(operation: "ExportEarthObservationJob", path: "/export-earth-observation-job", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Use this operation to copy results of a Vector Enrichment job to an S3 location.
+    /// Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
     public func exportVectorEnrichmentJob(_ input: ExportVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ExportVectorEnrichmentJobOutput {
         return try await self.client.execute(operation: "ExportVectorEnrichmentJob", path: "/export-vector-enrichment-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

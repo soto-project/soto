@@ -1708,7 +1708,7 @@ extension FinspaceData {
         /// The unique identifier for the user.
         public let userId: String
 
-        public init(maxResults: Int, nextToken: String? = nil, userId: String) {
+        public init(maxResults: Int = 0, nextToken: String? = nil, userId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.userId = userId
@@ -1753,7 +1753,7 @@ extension FinspaceData {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
-        public init(maxResults: Int, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1797,7 +1797,7 @@ extension FinspaceData {
         /// The unique identifier for the permission group.
         public let permissionGroupId: String
 
-        public init(maxResults: Int, nextToken: String? = nil, permissionGroupId: String) {
+        public init(maxResults: Int = 0, nextToken: String? = nil, permissionGroupId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.permissionGroupId = permissionGroupId
@@ -1842,7 +1842,7 @@ extension FinspaceData {
         /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
-        public init(maxResults: Int, nextToken: String? = nil) {
+        public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }

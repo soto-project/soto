@@ -38,6 +38,12 @@ extension PI {
         public var description: String { return self.rawValue }
     }
 
+    public enum PeriodAlignment: String, CustomStringConvertible, Codable, Sendable {
+        case endTime = "END_TIME"
+        case startTime = "START_TIME"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceType: String, CustomStringConvertible, Codable, Sendable {
         case docdb = "DOCDB"
         case rds = "RDS"
@@ -82,7 +88,7 @@ extension PI {
         public let nextToken: String?
         /// For each dimension specified in GroupBy, specify a secondary dimension  to further subdivide the partition keys in the response.
         public let partitionBy: DimensionGroup?
-        /// The granularity, in seconds, of the data points returned from Performance Insights. A period can be as short as  one second, or as long as one day (86400 seconds). Valid values are:     1 (one second)    60 (one minute)    300 (five minutes)    3600 (one hour)    86400 (twenty-four hours)    If you don't specify PeriodInSeconds, then Performance Insights chooses a value for you, with a  goal of returning roughly 100-200 data points in the response.
+        /// The granularity, in seconds, of the data points returned from Performance Insights. A period can be as short as  one second, or as long as one day (86400 seconds). Valid values are:     1 (one second)    60 (one minute)    300 (five minutes)    3600 (one hour)    86400 (twenty-four hours)   If you don't specify PeriodInSeconds, then Performance Insights chooses a value for you, with a  goal of returning roughly 100-200 data points in the response.
         public let periodInSeconds: Int?
         /// The Amazon Web Services service for which Performance Insights will return metrics. Valid values are as follows:    RDS     DOCDB
         public let serviceType: ServiceType
@@ -405,6 +411,8 @@ extension PI {
         public let metricQueries: [MetricQuery]
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
         public let nextToken: String?
+        /// The returned timestamp which is the start or end time of the time periods. The default value is END_TIME.
+        public let periodAlignment: PeriodAlignment?
         /// The granularity, in seconds, of the data points returned from Performance Insights. A period can be as short as one second, or as long as one day (86400 seconds). Valid values are:    1 (one second)    60 (one minute)    300 (five minutes)    3600 (one hour)    86400 (twenty-four hours)   If you don't specify PeriodInSeconds, then Performance Insights will choose a value for you, with a goal of returning roughly 100-200 data points in the response.
         public let periodInSeconds: Int?
         /// The Amazon Web Services service for which Performance Insights returns metrics. Valid values are as follows:    RDS     DOCDB
@@ -412,12 +420,13 @@ extension PI {
         /// The date and time specifying the beginning of the requested time series query range. You can't specify a StartTime that is earlier than 7 days ago. By default, Performance Insights has 7 days of  retention, but you can extend this range up to 2 years. The value specified is inclusive. Thus, the command returns data points equal to or greater  than StartTime. The value for StartTime must be earlier than the value for EndTime.
         public let startTime: Date
 
-        public init(endTime: Date, identifier: String, maxResults: Int? = nil, metricQueries: [MetricQuery], nextToken: String? = nil, periodInSeconds: Int? = nil, serviceType: ServiceType, startTime: Date) {
+        public init(endTime: Date, identifier: String, maxResults: Int? = nil, metricQueries: [MetricQuery], nextToken: String? = nil, periodAlignment: PeriodAlignment? = nil, periodInSeconds: Int? = nil, serviceType: ServiceType, startTime: Date) {
             self.endTime = endTime
             self.identifier = identifier
             self.maxResults = maxResults
             self.metricQueries = metricQueries
             self.nextToken = nextToken
+            self.periodAlignment = periodAlignment
             self.periodInSeconds = periodInSeconds
             self.serviceType = serviceType
             self.startTime = startTime
@@ -444,6 +453,7 @@ extension PI {
             case maxResults = "MaxResults"
             case metricQueries = "MetricQueries"
             case nextToken = "NextToken"
+            case periodAlignment = "PeriodAlignment"
             case periodInSeconds = "PeriodInSeconds"
             case serviceType = "ServiceType"
             case startTime = "StartTime"

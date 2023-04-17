@@ -21,6 +21,21 @@ import SotoCore
 extension TimestreamWrite {
     // MARK: Enums
 
+    public enum BatchLoadDataFormat: String, CustomStringConvertible, Codable, Sendable {
+        case csv = "CSV"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchLoadStatus: String, CustomStringConvertible, Codable, Sendable {
+        case created = "CREATED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case pendingResume = "PENDING_RESUME"
+        case progressStopped = "PROGRESS_STOPPED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DimensionValueType: String, CustomStringConvertible, Codable, Sendable {
         case varchar = "VARCHAR"
         public var description: String { return self.rawValue }
@@ -42,9 +57,19 @@ extension TimestreamWrite {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScalarMeasureValueType: String, CustomStringConvertible, Codable, Sendable {
+        case bigint = "BIGINT"
+        case boolean = "BOOLEAN"
+        case double = "DOUBLE"
+        case timestamp = "TIMESTAMP"
+        case varchar = "VARCHAR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TableStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case deleting = "DELETING"
+        case restoring = "RESTORING"
         public var description: String { return self.rawValue }
     }
 
@@ -58,10 +83,186 @@ extension TimestreamWrite {
 
     // MARK: Shapes
 
+    public struct BatchLoadProgressReport: AWSDecodableShape {
+        public let bytesMetered: Int64?
+        public let fileFailures: Int64?
+        public let parseFailures: Int64?
+        public let recordIngestionFailures: Int64?
+        public let recordsIngested: Int64?
+        public let recordsProcessed: Int64?
+
+        public init(bytesMetered: Int64? = nil, fileFailures: Int64? = nil, parseFailures: Int64? = nil, recordIngestionFailures: Int64? = nil, recordsIngested: Int64? = nil, recordsProcessed: Int64? = nil) {
+            self.bytesMetered = bytesMetered
+            self.fileFailures = fileFailures
+            self.parseFailures = parseFailures
+            self.recordIngestionFailures = recordIngestionFailures
+            self.recordsIngested = recordsIngested
+            self.recordsProcessed = recordsProcessed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesMetered = "BytesMetered"
+            case fileFailures = "FileFailures"
+            case parseFailures = "ParseFailures"
+            case recordIngestionFailures = "RecordIngestionFailures"
+            case recordsIngested = "RecordsIngested"
+            case recordsProcessed = "RecordsProcessed"
+        }
+    }
+
+    public struct BatchLoadTask: AWSDecodableShape {
+        /// The time when the Timestream batch load task was created.
+        public let creationTime: Date?
+        /// Database name for the database into which a batch load task loads data.
+        public let databaseName: String?
+        /// The time when the Timestream batch load task was last updated.
+        public let lastUpdatedTime: Date?
+        ///
+        public let resumableUntil: Date?
+        /// Table name for the table into which a batch load task loads data.
+        public let tableName: String?
+        /// The ID of the batch load task.
+        public let taskId: String?
+        /// Status of the batch load task.
+        public let taskStatus: BatchLoadStatus?
+
+        public init(creationTime: Date? = nil, databaseName: String? = nil, lastUpdatedTime: Date? = nil, resumableUntil: Date? = nil, tableName: String? = nil, taskId: String? = nil, taskStatus: BatchLoadStatus? = nil) {
+            self.creationTime = creationTime
+            self.databaseName = databaseName
+            self.lastUpdatedTime = lastUpdatedTime
+            self.resumableUntil = resumableUntil
+            self.tableName = tableName
+            self.taskId = taskId
+            self.taskStatus = taskStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case databaseName = "DatabaseName"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case resumableUntil = "ResumableUntil"
+            case tableName = "TableName"
+            case taskId = "TaskId"
+            case taskStatus = "TaskStatus"
+        }
+    }
+
+    public struct BatchLoadTaskDescription: AWSDecodableShape {
+        /// The time when the Timestream batch load task was created.
+        public let creationTime: Date?
+        /// Data model configuration for a batch load task. This contains details about where a data model for a batch load task is stored.
+        public let dataModelConfiguration: DataModelConfiguration?
+        /// Configuration details about the data source for a batch load task.
+        public let dataSourceConfiguration: DataSourceConfiguration?
+        public let errorMessage: String?
+        /// The time when the Timestream batch load task was last updated.
+        public let lastUpdatedTime: Date?
+        public let progressReport: BatchLoadProgressReport?
+        public let recordVersion: Int64?
+        /// Report configuration for a batch load task. This contains details about where error reports are stored.
+        public let reportConfiguration: ReportConfiguration?
+        ///
+        public let resumableUntil: Date?
+        public let targetDatabaseName: String?
+        public let targetTableName: String?
+        /// The ID of the batch load task.
+        public let taskId: String?
+        /// Status of the batch load task.
+        public let taskStatus: BatchLoadStatus?
+
+        public init(creationTime: Date? = nil, dataModelConfiguration: DataModelConfiguration? = nil, dataSourceConfiguration: DataSourceConfiguration? = nil, errorMessage: String? = nil, lastUpdatedTime: Date? = nil, progressReport: BatchLoadProgressReport? = nil, recordVersion: Int64? = nil, reportConfiguration: ReportConfiguration? = nil, resumableUntil: Date? = nil, targetDatabaseName: String? = nil, targetTableName: String? = nil, taskId: String? = nil, taskStatus: BatchLoadStatus? = nil) {
+            self.creationTime = creationTime
+            self.dataModelConfiguration = dataModelConfiguration
+            self.dataSourceConfiguration = dataSourceConfiguration
+            self.errorMessage = errorMessage
+            self.lastUpdatedTime = lastUpdatedTime
+            self.progressReport = progressReport
+            self.recordVersion = recordVersion
+            self.reportConfiguration = reportConfiguration
+            self.resumableUntil = resumableUntil
+            self.targetDatabaseName = targetDatabaseName
+            self.targetTableName = targetTableName
+            self.taskId = taskId
+            self.taskStatus = taskStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case dataModelConfiguration = "DataModelConfiguration"
+            case dataSourceConfiguration = "DataSourceConfiguration"
+            case errorMessage = "ErrorMessage"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case progressReport = "ProgressReport"
+            case recordVersion = "RecordVersion"
+            case reportConfiguration = "ReportConfiguration"
+            case resumableUntil = "ResumableUntil"
+            case targetDatabaseName = "TargetDatabaseName"
+            case targetTableName = "TargetTableName"
+            case taskId = "TaskId"
+            case taskStatus = "TaskStatus"
+        }
+    }
+
+    public struct CreateBatchLoadTaskRequest: AWSEncodableShape {
+        public let clientToken: String?
+        public let dataModelConfiguration: DataModelConfiguration?
+        /// Defines configuration details about the data source for a batch load task.
+        public let dataSourceConfiguration: DataSourceConfiguration
+        public let recordVersion: Int64?
+        public let reportConfiguration: ReportConfiguration
+        /// Target Timestream database for a batch load task.
+        public let targetDatabaseName: String
+        /// Target Timestream table for a batch load task.
+        public let targetTableName: String
+
+        public init(clientToken: String? = CreateBatchLoadTaskRequest.idempotencyToken(), dataModelConfiguration: DataModelConfiguration? = nil, dataSourceConfiguration: DataSourceConfiguration, recordVersion: Int64? = nil, reportConfiguration: ReportConfiguration, targetDatabaseName: String, targetTableName: String) {
+            self.clientToken = clientToken
+            self.dataModelConfiguration = dataModelConfiguration
+            self.dataSourceConfiguration = dataSourceConfiguration
+            self.recordVersion = recordVersion
+            self.reportConfiguration = reportConfiguration
+            self.targetDatabaseName = targetDatabaseName
+            self.targetTableName = targetTableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.dataModelConfiguration?.validate(name: "\(name).dataModelConfiguration")
+            try self.dataSourceConfiguration.validate(name: "\(name).dataSourceConfiguration")
+            try self.reportConfiguration.validate(name: "\(name).reportConfiguration")
+            try self.validate(self.targetDatabaseName, name: "targetDatabaseName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.validate(self.targetTableName, name: "targetTableName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case dataModelConfiguration = "DataModelConfiguration"
+            case dataSourceConfiguration = "DataSourceConfiguration"
+            case recordVersion = "RecordVersion"
+            case reportConfiguration = "ReportConfiguration"
+            case targetDatabaseName = "TargetDatabaseName"
+            case targetTableName = "TargetTableName"
+        }
+    }
+
+    public struct CreateBatchLoadTaskResponse: AWSDecodableShape {
+        /// The ID of the batch load task.
+        public let taskId: String
+
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "TaskId"
+        }
+    }
+
     public struct CreateDatabaseRequest: AWSEncodableShape {
         /// The name of the Timestream database.
         public let databaseName: String
-        /// The KMS key for the database.  If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account.  Refer to Amazon Web Services managed KMS keys for more info.
+        /// The KMS key for the database. If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account. For more information, see Amazon Web Services managed keys.
         public let kmsKeyId: String?
         ///  A list of key-value pairs to label the table.
         public let tags: [Tag]?
@@ -107,7 +308,7 @@ extension TimestreamWrite {
         public let databaseName: String
         /// Contains properties to set on the table when enabling magnetic store writes.
         public let magneticStoreWriteProperties: MagneticStoreWriteProperties?
-        /// The duration for which your time series data must be stored in the memory store and the magnetic store.
+        /// The duration for which your time-series data must be stored in the memory store and the magnetic store.
         public let retentionProperties: RetentionProperties?
         /// The name of the Timestream table.
         public let tableName: String
@@ -152,6 +353,189 @@ extension TimestreamWrite {
 
         private enum CodingKeys: String, CodingKey {
             case table = "Table"
+        }
+    }
+
+    public struct CsvConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Column separator can be one of comma (','), pipe ('|), semicolon (';'), tab('/t'), or blank space (' ').
+        public let columnSeparator: String?
+        /// Escape character can be one of
+        public let escapeChar: String?
+        /// Can be blank space (' ').
+        public let nullValue: String?
+        /// Can be single quote (') or double quote (").
+        public let quoteChar: String?
+        /// Specifies to trim leading and trailing white space.
+        public let trimWhiteSpace: Bool?
+
+        public init(columnSeparator: String? = nil, escapeChar: String? = nil, nullValue: String? = nil, quoteChar: String? = nil, trimWhiteSpace: Bool? = nil) {
+            self.columnSeparator = columnSeparator
+            self.escapeChar = escapeChar
+            self.nullValue = nullValue
+            self.quoteChar = quoteChar
+            self.trimWhiteSpace = trimWhiteSpace
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.columnSeparator, name: "columnSeparator", parent: name, max: 1)
+            try self.validate(self.columnSeparator, name: "columnSeparator", parent: name, min: 1)
+            try self.validate(self.escapeChar, name: "escapeChar", parent: name, max: 1)
+            try self.validate(self.escapeChar, name: "escapeChar", parent: name, min: 1)
+            try self.validate(self.nullValue, name: "nullValue", parent: name, max: 256)
+            try self.validate(self.nullValue, name: "nullValue", parent: name, min: 1)
+            try self.validate(self.quoteChar, name: "quoteChar", parent: name, max: 1)
+            try self.validate(self.quoteChar, name: "quoteChar", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnSeparator = "ColumnSeparator"
+            case escapeChar = "EscapeChar"
+            case nullValue = "NullValue"
+            case quoteChar = "QuoteChar"
+            case trimWhiteSpace = "TrimWhiteSpace"
+        }
+    }
+
+    public struct DataModel: AWSEncodableShape & AWSDecodableShape {
+        /// Source to target mappings for dimensions.
+        public let dimensionMappings: [DimensionMapping]
+        public let measureNameColumn: String?
+        /// Source to target mappings for measures.
+        public let mixedMeasureMappings: [MixedMeasureMapping]?
+        /// Source to target mappings for multi-measure records.
+        public let multiMeasureMappings: MultiMeasureMappings?
+        /// Source column to be mapped to time.
+        public let timeColumn: String?
+        ///  The granularity of the timestamp unit. It indicates if the time value is in seconds, milliseconds, nanoseconds, or other supported values. Default is MILLISECONDS.
+        public let timeUnit: TimeUnit?
+
+        public init(dimensionMappings: [DimensionMapping], measureNameColumn: String? = nil, mixedMeasureMappings: [MixedMeasureMapping]? = nil, multiMeasureMappings: MultiMeasureMappings? = nil, timeColumn: String? = nil, timeUnit: TimeUnit? = nil) {
+            self.dimensionMappings = dimensionMappings
+            self.measureNameColumn = measureNameColumn
+            self.mixedMeasureMappings = mixedMeasureMappings
+            self.multiMeasureMappings = multiMeasureMappings
+            self.timeColumn = timeColumn
+            self.timeUnit = timeUnit
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensionMappings.forEach {
+                try $0.validate(name: "\(name).dimensionMappings[]")
+            }
+            try self.validate(self.dimensionMappings, name: "dimensionMappings", parent: name, min: 1)
+            try self.validate(self.measureNameColumn, name: "measureNameColumn", parent: name, max: 256)
+            try self.validate(self.measureNameColumn, name: "measureNameColumn", parent: name, min: 1)
+            try self.mixedMeasureMappings?.forEach {
+                try $0.validate(name: "\(name).mixedMeasureMappings[]")
+            }
+            try self.validate(self.mixedMeasureMappings, name: "mixedMeasureMappings", parent: name, min: 1)
+            try self.multiMeasureMappings?.validate(name: "\(name).multiMeasureMappings")
+            try self.validate(self.timeColumn, name: "timeColumn", parent: name, max: 256)
+            try self.validate(self.timeColumn, name: "timeColumn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionMappings = "DimensionMappings"
+            case measureNameColumn = "MeasureNameColumn"
+            case mixedMeasureMappings = "MixedMeasureMappings"
+            case multiMeasureMappings = "MultiMeasureMappings"
+            case timeColumn = "TimeColumn"
+            case timeUnit = "TimeUnit"
+        }
+    }
+
+    public struct DataModelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let dataModel: DataModel?
+        public let dataModelS3Configuration: DataModelS3Configuration?
+
+        public init(dataModel: DataModel? = nil, dataModelS3Configuration: DataModelS3Configuration? = nil) {
+            self.dataModel = dataModel
+            self.dataModelS3Configuration = dataModelS3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.dataModel?.validate(name: "\(name).dataModel")
+            try self.dataModelS3Configuration?.validate(name: "\(name).dataModelS3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataModel = "DataModel"
+            case dataModelS3Configuration = "DataModelS3Configuration"
+        }
+    }
+
+    public struct DataModelS3Configuration: AWSEncodableShape & AWSDecodableShape {
+        public let bucketName: String?
+        public let objectKey: String?
+
+        public init(bucketName: String? = nil, objectKey: String? = nil) {
+            self.bucketName = bucketName
+            self.objectKey = objectKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+            try self.validate(self.objectKey, name: "objectKey", parent: name, max: 1024)
+            try self.validate(self.objectKey, name: "objectKey", parent: name, min: 1)
+            try self.validate(self.objectKey, name: "objectKey", parent: name, pattern: "^[a-zA-Z0-9|!\\-_*'\\(\\)]([a-zA-Z0-9]|[!\\-_*'\\(\\)\\/.])+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case objectKey = "ObjectKey"
+        }
+    }
+
+    public struct DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let csvConfiguration: CsvConfiguration?
+        /// This is currently CSV.
+        public let dataFormat: BatchLoadDataFormat
+        /// Configuration of an S3 location for a file which contains data to load.
+        public let dataSourceS3Configuration: DataSourceS3Configuration
+
+        public init(csvConfiguration: CsvConfiguration? = nil, dataFormat: BatchLoadDataFormat, dataSourceS3Configuration: DataSourceS3Configuration) {
+            self.csvConfiguration = csvConfiguration
+            self.dataFormat = dataFormat
+            self.dataSourceS3Configuration = dataSourceS3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.csvConfiguration?.validate(name: "\(name).csvConfiguration")
+            try self.dataSourceS3Configuration.validate(name: "\(name).dataSourceS3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csvConfiguration = "CsvConfiguration"
+            case dataFormat = "DataFormat"
+            case dataSourceS3Configuration = "DataSourceS3Configuration"
+        }
+    }
+
+    public struct DataSourceS3Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// The bucket name of the customer S3 bucket.
+        public let bucketName: String
+        ///
+        public let objectKeyPrefix: String?
+
+        public init(bucketName: String, objectKeyPrefix: String? = nil) {
+            self.bucketName = bucketName
+            self.objectKeyPrefix = objectKeyPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+            try self.validate(self.objectKeyPrefix, name: "objectKeyPrefix", parent: name, max: 1024)
+            try self.validate(self.objectKeyPrefix, name: "objectKeyPrefix", parent: name, min: 1)
+            try self.validate(self.objectKeyPrefix, name: "objectKeyPrefix", parent: name, pattern: "^[a-zA-Z0-9|!\\-_*'\\(\\)]([a-zA-Z0-9]|[!\\-_*'\\(\\)\\/.])+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case objectKeyPrefix = "ObjectKeyPrefix"
         }
     }
 
@@ -215,6 +599,38 @@ extension TimestreamWrite {
         private enum CodingKeys: String, CodingKey {
             case databaseName = "DatabaseName"
             case tableName = "TableName"
+        }
+    }
+
+    public struct DescribeBatchLoadTaskRequest: AWSEncodableShape {
+        /// The ID of the batch load task.
+        public let taskId: String
+
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.taskId, name: "taskId", parent: name, max: 32)
+            try self.validate(self.taskId, name: "taskId", parent: name, min: 3)
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^[A-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "TaskId"
+        }
+    }
+
+    public struct DescribeBatchLoadTaskResponse: AWSDecodableShape {
+        /// Description of the batch load task.
+        public let batchLoadTaskDescription: BatchLoadTaskDescription
+
+        public init(batchLoadTaskDescription: BatchLoadTaskDescription) {
+            self.batchLoadTaskDescription = batchLoadTaskDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchLoadTaskDescription = "BatchLoadTaskDescription"
         }
     }
 
@@ -292,9 +708,9 @@ extension TimestreamWrite {
     }
 
     public struct Dimension: AWSEncodableShape {
-        /// The data type of the dimension for the time series data point.
+        /// The data type of the dimension for the time-series data point.
         public let dimensionValueType: DimensionValueType?
-        ///  Dimension represents the meta data attributes of the time series.  For example, the name and availability zone of an EC2 instance or  the name of the manufacturer of a wind turbine are dimensions.   For constraints on Dimension names,  see Naming Constraints.
+        ///  Dimension represents the metadata attributes of the time series. For example, the name and Availability Zone of an EC2 instance or the name of the manufacturer of a wind turbine are dimensions.  For constraints on dimension names, see Naming Constraints.
         public let name: String
         /// The value of the dimension.
         public let value: String
@@ -316,6 +732,27 @@ extension TimestreamWrite {
         }
     }
 
+    public struct DimensionMapping: AWSEncodableShape & AWSDecodableShape {
+        ///
+        public let destinationColumn: String?
+        public let sourceColumn: String?
+
+        public init(destinationColumn: String? = nil, sourceColumn: String? = nil) {
+            self.destinationColumn = destinationColumn
+            self.sourceColumn = sourceColumn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationColumn, name: "destinationColumn", parent: name, min: 1)
+            try self.validate(self.sourceColumn, name: "sourceColumn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationColumn = "DestinationColumn"
+            case sourceColumn = "SourceColumn"
+        }
+    }
+
     public struct Endpoint: AWSDecodableShape {
         /// An endpoint address.
         public let address: String
@@ -330,6 +767,49 @@ extension TimestreamWrite {
         private enum CodingKeys: String, CodingKey {
             case address = "Address"
             case cachePeriodInMinutes = "CachePeriodInMinutes"
+        }
+    }
+
+    public struct ListBatchLoadTasksRequest: AWSEncodableShape {
+        /// The total number of items to return in the output. If the total number of items available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
+        public let maxResults: Int?
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
+        public let nextToken: String?
+        /// Status of the batch load task.
+        public let taskStatus: BatchLoadStatus?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, taskStatus: BatchLoadStatus? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.taskStatus = taskStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case taskStatus = "TaskStatus"
+        }
+    }
+
+    public struct ListBatchLoadTasksResponse: AWSDecodableShape {
+        /// A list of batch load task details.
+        public let batchLoadTasks: [BatchLoadTask]?
+        /// A token to specify where to start paginating. Provide the next ListBatchLoadTasksRequest.
+        public let nextToken: String?
+
+        public init(batchLoadTasks: [BatchLoadTask]? = nil, nextToken: String? = nil) {
+            self.batchLoadTasks = batchLoadTasks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchLoadTasks = "BatchLoadTasks"
+            case nextToken = "NextToken"
         }
     }
 
@@ -416,7 +896,7 @@ extension TimestreamWrite {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The Timestream resource with tags to be listed. This value is an Amazon Resource Name (ARN).
+        ///  The Timestream resource with tags to be listed. This value is an Amazon Resource Name (ARN).
         public let resourceARN: String
 
         public init(resourceARN: String) {
@@ -434,7 +914,7 @@ extension TimestreamWrite {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// The tags currently associated with the Timestream resource.
+        ///  The tags currently associated with the Timestream resource.
         public let tags: [Tag]?
 
         public init(tags: [Tag]? = nil) {
@@ -485,11 +965,11 @@ extension TimestreamWrite {
     }
 
     public struct MeasureValue: AWSEncodableShape {
-        ///  Name of the MeasureValue.   For constraints on MeasureValue names, refer to  Naming Constraints in the Timestream developer guide.
+        ///  The name of the MeasureValue.  For constraints on MeasureValue names, see  Naming Constraints in the Amazon Timestream Developer Guide.
         public let name: String
-        /// Contains the data type of the MeasureValue for the time series data point.
+        /// Contains the data type of the MeasureValue for the time-series data point.
         public let type: MeasureValueType
-        ///  Value for the MeasureValue.
+        ///  The value for the MeasureValue.
         public let value: String
 
         public init(name: String, type: MeasureValueType, value: String) {
@@ -511,25 +991,102 @@ extension TimestreamWrite {
         }
     }
 
+    public struct MixedMeasureMapping: AWSEncodableShape & AWSDecodableShape {
+        public let measureName: String?
+        public let measureValueType: MeasureValueType
+        public let multiMeasureAttributeMappings: [MultiMeasureAttributeMapping]?
+        public let sourceColumn: String?
+        public let targetMeasureName: String?
+
+        public init(measureName: String? = nil, measureValueType: MeasureValueType, multiMeasureAttributeMappings: [MultiMeasureAttributeMapping]? = nil, sourceColumn: String? = nil, targetMeasureName: String? = nil) {
+            self.measureName = measureName
+            self.measureValueType = measureValueType
+            self.multiMeasureAttributeMappings = multiMeasureAttributeMappings
+            self.sourceColumn = sourceColumn
+            self.targetMeasureName = targetMeasureName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.measureName, name: "measureName", parent: name, min: 1)
+            try self.multiMeasureAttributeMappings?.forEach {
+                try $0.validate(name: "\(name).multiMeasureAttributeMappings[]")
+            }
+            try self.validate(self.multiMeasureAttributeMappings, name: "multiMeasureAttributeMappings", parent: name, min: 1)
+            try self.validate(self.sourceColumn, name: "sourceColumn", parent: name, min: 1)
+            try self.validate(self.targetMeasureName, name: "targetMeasureName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case measureName = "MeasureName"
+            case measureValueType = "MeasureValueType"
+            case multiMeasureAttributeMappings = "MultiMeasureAttributeMappings"
+            case sourceColumn = "SourceColumn"
+            case targetMeasureName = "TargetMeasureName"
+        }
+    }
+
+    public struct MultiMeasureAttributeMapping: AWSEncodableShape & AWSDecodableShape {
+        public let measureValueType: ScalarMeasureValueType?
+        public let sourceColumn: String
+        public let targetMultiMeasureAttributeName: String?
+
+        public init(measureValueType: ScalarMeasureValueType? = nil, sourceColumn: String, targetMultiMeasureAttributeName: String? = nil) {
+            self.measureValueType = measureValueType
+            self.sourceColumn = sourceColumn
+            self.targetMultiMeasureAttributeName = targetMultiMeasureAttributeName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceColumn, name: "sourceColumn", parent: name, min: 1)
+            try self.validate(self.targetMultiMeasureAttributeName, name: "targetMultiMeasureAttributeName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case measureValueType = "MeasureValueType"
+            case sourceColumn = "SourceColumn"
+            case targetMultiMeasureAttributeName = "TargetMultiMeasureAttributeName"
+        }
+    }
+
+    public struct MultiMeasureMappings: AWSEncodableShape & AWSDecodableShape {
+        public let multiMeasureAttributeMappings: [MultiMeasureAttributeMapping]
+        public let targetMultiMeasureName: String?
+
+        public init(multiMeasureAttributeMappings: [MultiMeasureAttributeMapping], targetMultiMeasureName: String? = nil) {
+            self.multiMeasureAttributeMappings = multiMeasureAttributeMappings
+            self.targetMultiMeasureName = targetMultiMeasureName
+        }
+
+        public func validate(name: String) throws {
+            try self.multiMeasureAttributeMappings.forEach {
+                try $0.validate(name: "\(name).multiMeasureAttributeMappings[]")
+            }
+            try self.validate(self.multiMeasureAttributeMappings, name: "multiMeasureAttributeMappings", parent: name, min: 1)
+            try self.validate(self.targetMultiMeasureName, name: "targetMultiMeasureName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiMeasureAttributeMappings = "MultiMeasureAttributeMappings"
+            case targetMultiMeasureName = "TargetMultiMeasureName"
+        }
+    }
+
     public struct Record: AWSEncodableShape {
-        /// Contains the list of dimensions for time series data points.
+        /// Contains the list of dimensions for time-series data points.
         public let dimensions: [Dimension]?
         /// Measure represents the data attribute of the time series. For example, the CPU utilization of an EC2 instance or the RPM of a wind turbine are measures.
         public let measureName: String?
-        /// Contains the measure value for the time series data point.
+        ///  Contains the measure value for the time-series data point.
         public let measureValue: String?
-        ///  Contains the list of MeasureValue for time series data points.  This is only allowed for type MULTI. For scalar values, use MeasureValue attribute of the Record directly.
+        ///  Contains the list of MeasureValue for time-series data points.  This is only allowed for type MULTI. For scalar values, use MeasureValue attribute of the record directly.
         public let measureValues: [MeasureValue]?
-        /// Contains the data type of the measure value for the time series data point. Default type is DOUBLE.
+        ///  Contains the data type of the measure value for the time-series data point. Default type is DOUBLE.
         public let measureValueType: MeasureValueType?
-        /// Contains the time at which the measure value for the data point was collected.
-        /// The time value plus the unit provides the time elapsed since the epoch.
-        /// For example, if the time value is 12345 and the unit is ms, then 12345 ms have elapsed since the epoch.
+        ///  Contains the time at which the measure value for the data point was collected. The time value plus the unit provides the time elapsed since the epoch. For example, if the time value is 12345 and the unit is ms, then 12345 ms have elapsed since the epoch.
         public let time: String?
-        /// The granularity of the timestamp unit. It indicates if the time value is in seconds, milliseconds, nanoseconds or other supported values.
-        /// Default is MILLISECONDS.
+        ///  The granularity of the timestamp unit. It indicates if the time value is in seconds, milliseconds, nanoseconds, or other supported values. Default is MILLISECONDS.
         public let timeUnit: TimeUnit?
-        /// 64-bit attribute used for record updates.  Write requests for duplicate data with a higher version number will update the existing measure value and version.  In cases where the measure value is the same, Version will still be updated . Default value is 1.    Version must be 1 or greater, or you will receive a ValidationException error.
+        /// 64-bit attribute used for record updates. Write requests for duplicate data with a higher version number will update the existing measure value and version. In cases where the measure value is the same, Version will still be updated. Default value is 1.   Version must be 1 or greater, or you will receive a ValidationException error.
         public let version: Int64?
 
         public init(dimensions: [Dimension]? = nil, measureName: String? = nil, measureValue: String? = nil, measureValues: [MeasureValue]? = nil, measureValueType: MeasureValueType? = nil, time: String? = nil, timeUnit: TimeUnit? = nil, version: Int64? = nil) {
@@ -591,6 +1148,78 @@ extension TimestreamWrite {
         }
     }
 
+    public struct ReportConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration of an S3 location to write error reports and events for a batch load.
+        public let reportS3Configuration: ReportS3Configuration?
+
+        public init(reportS3Configuration: ReportS3Configuration? = nil) {
+            self.reportS3Configuration = reportS3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.reportS3Configuration?.validate(name: "\(name).reportS3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportS3Configuration = "ReportS3Configuration"
+        }
+    }
+
+    public struct ReportS3Configuration: AWSEncodableShape & AWSDecodableShape {
+        public let bucketName: String
+        public let encryptionOption: S3EncryptionOption?
+        public let kmsKeyId: String?
+        public let objectKeyPrefix: String?
+
+        public init(bucketName: String, encryptionOption: S3EncryptionOption? = nil, kmsKeyId: String? = nil, objectKeyPrefix: String? = nil) {
+            self.bucketName = bucketName
+            self.encryptionOption = encryptionOption
+            self.kmsKeyId = kmsKeyId
+            self.objectKeyPrefix = objectKeyPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.objectKeyPrefix, name: "objectKeyPrefix", parent: name, max: 928)
+            try self.validate(self.objectKeyPrefix, name: "objectKeyPrefix", parent: name, min: 1)
+            try self.validate(self.objectKeyPrefix, name: "objectKeyPrefix", parent: name, pattern: "^[a-zA-Z0-9|!\\-_*'\\(\\)]([a-zA-Z0-9]|[!\\-_*'\\(\\)\\/.])+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case encryptionOption = "EncryptionOption"
+            case kmsKeyId = "KmsKeyId"
+            case objectKeyPrefix = "ObjectKeyPrefix"
+        }
+    }
+
+    public struct ResumeBatchLoadTaskRequest: AWSEncodableShape {
+        /// The ID of the batch load task to resume.
+        public let taskId: String
+
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.taskId, name: "taskId", parent: name, max: 32)
+            try self.validate(self.taskId, name: "taskId", parent: name, min: 3)
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^[A-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "TaskId"
+        }
+    }
+
+    public struct ResumeBatchLoadTaskResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct RetentionProperties: AWSEncodableShape & AWSDecodableShape {
         /// The duration for which data must be stored in the magnetic store.
         public let magneticStoreRetentionPeriodInDays: Int64
@@ -616,13 +1245,13 @@ extension TimestreamWrite {
     }
 
     public struct S3Configuration: AWSEncodableShape & AWSDecodableShape {
-        /// >Bucket name of the customer S3 bucket.
+        /// The bucket name of the customer S3 bucket.
         public let bucketName: String?
-        /// Encryption option for the customer s3 location. Options are S3 server side encryption with an S3-managed key or KMS managed key.
+        /// The encryption option for the customer S3 location. Options are S3 server-side encryption with an S3 managed key or Amazon Web Services managed key.
         public let encryptionOption: S3EncryptionOption?
-        /// KMS key id for the customer s3 location when encrypting with a KMS managed key.
+        /// The KMS key ID for the customer S3 location when encrypting with an Amazon Web Services managed key.
         public let kmsKeyId: String?
-        /// Object key preview for the customer S3 location.
+        /// The object key preview for the customer S3 location.
         public let objectKeyPrefix: String?
 
         public init(bucketName: String? = nil, encryptionOption: S3EncryptionOption? = nil, kmsKeyId: String? = nil, objectKeyPrefix: String? = nil) {
@@ -666,7 +1295,7 @@ extension TimestreamWrite {
         public let retentionProperties: RetentionProperties?
         /// The name of the Timestream table.
         public let tableName: String?
-        /// The current state of the table:     DELETING - The table is being deleted.     ACTIVE - The table is ready for use.
+        /// The current state of the table:    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.
         public let tableStatus: TableStatus?
 
         public init(arn: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, lastUpdatedTime: Date? = nil, magneticStoreWriteProperties: MagneticStoreWriteProperties? = nil, retentionProperties: RetentionProperties? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil) {
@@ -693,9 +1322,9 @@ extension TimestreamWrite {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-        /// The key of the tag. Tag keys are case sensitive.
+        ///  The key of the tag. Tag keys are case sensitive.
         public let key: String
-        /// The value of the tag. Tag values are case-sensitive and can be null.
+        ///  The value of the tag. Tag values are case-sensitive and can be null.
         public let value: String
 
         public init(key: String, value: String) {
@@ -718,7 +1347,7 @@ extension TimestreamWrite {
     public struct TagResourceRequest: AWSEncodableShape {
         ///  Identifies the Timestream resource to which tags should be added. This value is an Amazon Resource Name (ARN).
         public let resourceARN: String
-        /// The tags to be assigned to the Timestream resource.
+        ///  The tags to be assigned to the Timestream resource.
         public let tags: [Tag]
 
         public init(resourceARN: String, tags: [Tag]) {
@@ -779,7 +1408,7 @@ extension TimestreamWrite {
     public struct UpdateDatabaseRequest: AWSEncodableShape {
         ///  The name of the database.
         public let databaseName: String
-        ///  The identifier of the new KMS key (KmsKeyId) to be used to encrypt the data stored in the database. If the KmsKeyId currently registered with the database is the same as the KmsKeyId in the  request, there will not be any update.   You can specify the KmsKeyId using any of the following:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias
+        ///  The identifier of the new KMS key (KmsKeyId) to be used to encrypt the data stored in the database. If the KmsKeyId currently registered with the database is the same as the KmsKeyId in the request, there will not be any update.  You can specify the KmsKeyId using any of the following:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias
         public let kmsKeyId: String
 
         public init(databaseName: String, kmsKeyId: String) {
@@ -854,11 +1483,11 @@ extension TimestreamWrite {
     }
 
     public struct WriteRecordsRequest: AWSEncodableShape {
-        /// A record containing the common measure, dimension, time,  and version attributes   shared across all the records in the request. The measure and dimension  attributes specified will be merged with the measure and dimension attributes in the records object when the data is written into Timestream. Dimensions may not overlap, or a ValidationException will be thrown. In other words, a record must contain dimensions with unique names.
+        /// A record that contains the common measure, dimension, time, and version attributes shared across all the records in the request. The measure and dimension attributes specified will be merged with the measure and dimension attributes in the records object when the data is written into Timestream. Dimensions may not overlap, or a ValidationException will be thrown. In other words, a record must contain dimensions with unique names.
         public let commonAttributes: Record?
         /// The name of the Timestream database.
         public let databaseName: String
-        /// An array of records containing the unique measure, dimension, time, and version   attributes for each time series data point.
+        /// An array of records that contain the unique measure, dimension, time, and version attributes for each time-series data point.
         public let records: [Record]
         /// The name of the Timestream table.
         public let tableName: String
@@ -941,17 +1570,17 @@ public struct TimestreamWriteErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     ///  Timestream was unable to fully process this request because of an internal server error.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The requested endpoint was invalid.
+    /// The requested endpoint was not valid.
     public static var invalidEndpointException: Self { .init(.invalidEndpointException) }
-    ///  WriteRecords would throw this exception in the following cases:    Records with duplicate data where there are multiple records with the same dimensions, timestamps, and measure names but:    Measure values are different   Version is not present in the request or the value of version in the new record is equal to or lower than the existing value    In this case, if Timestream rejects data, the ExistingVersion field in the RejectedRecords  response will indicate the current record’s version.  To force an update, you can resend the request with a version for the record set to a value greater than the ExistingVersion.    Records with timestamps that lie outside the retention duration of the memory store     Records with dimensions or measures that exceed the Timestream defined limits.     For more information, see Quotas in the Timestream Developer Guide.
+    ///  WriteRecords would throw this exception in the following cases:    Records with duplicate data where there are multiple records with the same dimensions, timestamps, and measure names but:    Measure values are different   Version is not present in the request or the value of version in the new record is equal to or lower than the existing value   In this case, if Timestream rejects data, the ExistingVersion field in the RejectedRecords response will indicate the current record’s version. To force an update, you can resend the request with a version for the record set to a value greater than the ExistingVersion.   Records with timestamps that lie outside the retention duration of the memory store.    Records with dimensions or measures that exceed the Timestream defined limits.    For more information, see Quotas in the Amazon Timestream Developer Guide.
     public static var rejectedRecordsException: Self { .init(.rejectedRecordsException) }
     /// The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    ///  Instance quota of resource exceeded for this account.
+    ///  The instance quota of resource exceeded for this account.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    ///  Too many requests were made by a user exceeding service quotas. The request was throttled.
+    ///  Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
     public static var throttlingException: Self { .init(.throttlingException) }
-    ///  Invalid or malformed request.
+    ///  An invalid or malformed request.
     public static var validationException: Self { .init(.validationException) }
 }
 

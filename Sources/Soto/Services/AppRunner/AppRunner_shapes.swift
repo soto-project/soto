@@ -100,6 +100,7 @@ extension AppRunner {
         case pauseService = "PAUSE_SERVICE"
         case resumeService = "RESUME_SERVICE"
         case startDeployment = "START_DEPLOYMENT"
+        case updateService = "UPDATE_SERVICE"
         public var description: String { return self.rawValue }
     }
 
@@ -524,7 +525,6 @@ extension AppRunner {
             try self.validate(self.autoScalingConfigurationName, name: "autoScalingConfigurationName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{3,31}$")
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, max: 200)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, min: 1)
-            try self.validate(self.maxSize, name: "maxSize", parent: name, max: 25)
             try self.validate(self.maxSize, name: "maxSize", parent: name, min: 1)
             try self.validate(self.minSize, name: "minSize", parent: name, max: 25)
             try self.validate(self.minSize, name: "minSize", parent: name, min: 1)
@@ -1529,15 +1529,15 @@ extension AppRunner {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.cpu, name: "cpu", parent: name, max: 6)
-            try self.validate(self.cpu, name: "cpu", parent: name, min: 4)
-            try self.validate(self.cpu, name: "cpu", parent: name, pattern: "^1024|2048|(1|2) vCPU$")
+            try self.validate(self.cpu, name: "cpu", parent: name, max: 9)
+            try self.validate(self.cpu, name: "cpu", parent: name, min: 3)
+            try self.validate(self.cpu, name: "cpu", parent: name, pattern: "^256|512|1024|2048|4096|(0.25|0.5|1|2|4) vCPU$")
             try self.validate(self.instanceRoleArn, name: "instanceRoleArn", parent: name, max: 1024)
             try self.validate(self.instanceRoleArn, name: "instanceRoleArn", parent: name, min: 29)
             try self.validate(self.instanceRoleArn, name: "instanceRoleArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::[0-9]{12}:(role|role\\/service-role)\\/[\\w+=,.@\\-/]{1,1000}$")
-            try self.validate(self.memory, name: "memory", parent: name, max: 4)
-            try self.validate(self.memory, name: "memory", parent: name, min: 4)
-            try self.validate(self.memory, name: "memory", parent: name, pattern: "^2048|3072|4096|(2|3|4) GB$")
+            try self.validate(self.memory, name: "memory", parent: name, max: 6)
+            try self.validate(self.memory, name: "memory", parent: name, min: 3)
+            try self.validate(self.memory, name: "memory", parent: name, pattern: "^512|1024|2048|3072|4096|6144|8192|10240|12288|(0.5|1|2|3|4|6|8|10|12) GB$")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -241,6 +241,7 @@ extension EC2 {
     public enum BootModeValues: String, CustomStringConvertible, Codable, Sendable {
         case legacyBios = "legacy-bios"
         case uefi = "uefi"
+        case uefiPreferred = "uefi-preferred"
         public var description: String { return self.rawValue }
     }
 
@@ -779,6 +780,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum HostMaintenance: String, CustomStringConvertible, Codable, Sendable {
+        case off = "off"
+        case on = "on"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HostRecovery: String, CustomStringConvertible, Codable, Sendable {
         case off = "off"
         case on = "on"
@@ -885,6 +892,12 @@ extension EC2 {
     public enum InstanceAutoRecoveryState: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "default"
         case disabled = "disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceBootModeValues: String, CustomStringConvertible, Codable, Sendable {
+        case legacyBios = "legacy-bios"
+        case uefi = "uefi"
         public var description: String { return self.rawValue }
     }
 
@@ -1104,6 +1117,7 @@ extension EC2 {
         public static var c6in4Xlarge: Self { .init(rawValue: "c6in.4xlarge") }
         public static var c6in8Xlarge: Self { .init(rawValue: "c6in.8xlarge") }
         public static var c6inLarge: Self { .init(rawValue: "c6in.large") }
+        public static var c6inMetal: Self { .init(rawValue: "c6in.metal") }
         public static var c6inXlarge: Self { .init(rawValue: "c6in.xlarge") }
         public static var c7g12Xlarge: Self { .init(rawValue: "c7g.12xlarge") }
         public static var c7g16Xlarge: Self { .init(rawValue: "c7g.16xlarge") }
@@ -1112,6 +1126,7 @@ extension EC2 {
         public static var c7g8Xlarge: Self { .init(rawValue: "c7g.8xlarge") }
         public static var c7gLarge: Self { .init(rawValue: "c7g.large") }
         public static var c7gMedium: Self { .init(rawValue: "c7g.medium") }
+        public static var c7gMetal: Self { .init(rawValue: "c7g.metal") }
         public static var c7gXlarge: Self { .init(rawValue: "c7g.xlarge") }
         public static var cc14Xlarge: Self { .init(rawValue: "cc1.4xlarge") }
         public static var cc28Xlarge: Self { .init(rawValue: "cc2.8xlarge") }
@@ -1351,6 +1366,7 @@ extension EC2 {
         public static var m6idn4Xlarge: Self { .init(rawValue: "m6idn.4xlarge") }
         public static var m6idn8Xlarge: Self { .init(rawValue: "m6idn.8xlarge") }
         public static var m6idnLarge: Self { .init(rawValue: "m6idn.large") }
+        public static var m6idnMetal: Self { .init(rawValue: "m6idn.metal") }
         public static var m6idnXlarge: Self { .init(rawValue: "m6idn.xlarge") }
         public static var m6in12Xlarge: Self { .init(rawValue: "m6in.12xlarge") }
         public static var m6in16Xlarge: Self { .init(rawValue: "m6in.16xlarge") }
@@ -1360,7 +1376,17 @@ extension EC2 {
         public static var m6in4Xlarge: Self { .init(rawValue: "m6in.4xlarge") }
         public static var m6in8Xlarge: Self { .init(rawValue: "m6in.8xlarge") }
         public static var m6inLarge: Self { .init(rawValue: "m6in.large") }
+        public static var m6inMetal: Self { .init(rawValue: "m6in.metal") }
         public static var m6inXlarge: Self { .init(rawValue: "m6in.xlarge") }
+        public static var m7g12Xlarge: Self { .init(rawValue: "m7g.12xlarge") }
+        public static var m7g16Xlarge: Self { .init(rawValue: "m7g.16xlarge") }
+        public static var m7g2Xlarge: Self { .init(rawValue: "m7g.2xlarge") }
+        public static var m7g4Xlarge: Self { .init(rawValue: "m7g.4xlarge") }
+        public static var m7g8Xlarge: Self { .init(rawValue: "m7g.8xlarge") }
+        public static var m7gLarge: Self { .init(rawValue: "m7g.large") }
+        public static var m7gMedium: Self { .init(rawValue: "m7g.medium") }
+        public static var m7gMetal: Self { .init(rawValue: "m7g.metal") }
+        public static var m7gXlarge: Self { .init(rawValue: "m7g.xlarge") }
         public static var mac1Metal: Self { .init(rawValue: "mac1.metal") }
         public static var mac2Metal: Self { .init(rawValue: "mac2.metal") }
         public static var p216Xlarge: Self { .init(rawValue: "p2.16xlarge") }
@@ -1501,6 +1527,7 @@ extension EC2 {
         public static var r6idn4Xlarge: Self { .init(rawValue: "r6idn.4xlarge") }
         public static var r6idn8Xlarge: Self { .init(rawValue: "r6idn.8xlarge") }
         public static var r6idnLarge: Self { .init(rawValue: "r6idn.large") }
+        public static var r6idnMetal: Self { .init(rawValue: "r6idn.metal") }
         public static var r6idnXlarge: Self { .init(rawValue: "r6idn.xlarge") }
         public static var r6in12Xlarge: Self { .init(rawValue: "r6in.12xlarge") }
         public static var r6in16Xlarge: Self { .init(rawValue: "r6in.16xlarge") }
@@ -1510,7 +1537,17 @@ extension EC2 {
         public static var r6in4Xlarge: Self { .init(rawValue: "r6in.4xlarge") }
         public static var r6in8Xlarge: Self { .init(rawValue: "r6in.8xlarge") }
         public static var r6inLarge: Self { .init(rawValue: "r6in.large") }
+        public static var r6inMetal: Self { .init(rawValue: "r6in.metal") }
         public static var r6inXlarge: Self { .init(rawValue: "r6in.xlarge") }
+        public static var r7g12Xlarge: Self { .init(rawValue: "r7g.12xlarge") }
+        public static var r7g16Xlarge: Self { .init(rawValue: "r7g.16xlarge") }
+        public static var r7g2Xlarge: Self { .init(rawValue: "r7g.2xlarge") }
+        public static var r7g4Xlarge: Self { .init(rawValue: "r7g.4xlarge") }
+        public static var r7g8Xlarge: Self { .init(rawValue: "r7g.8xlarge") }
+        public static var r7gLarge: Self { .init(rawValue: "r7g.large") }
+        public static var r7gMedium: Self { .init(rawValue: "r7g.medium") }
+        public static var r7gMetal: Self { .init(rawValue: "r7g.metal") }
+        public static var r7gXlarge: Self { .init(rawValue: "r7g.xlarge") }
         public static var t1Micro: Self { .init(rawValue: "t1.micro") }
         public static var t22Xlarge: Self { .init(rawValue: "t2.2xlarge") }
         public static var t2Large: Self { .init(rawValue: "t2.large") }
@@ -1966,6 +2003,16 @@ extension EC2 {
     public enum MulticastSupportValue: String, CustomStringConvertible, Codable, Sendable {
         case disable = "disable"
         case enable = "enable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NatGatewayAddressStatus: String, CustomStringConvertible, Codable, Sendable {
+        case assigning = "assigning"
+        case associating = "associating"
+        case disassociating = "disassociating"
+        case failed = "failed"
+        case succeeded = "succeeded"
+        case unassigning = "unassigning"
         public var description: String { return self.rawValue }
     }
 
@@ -3490,19 +3537,52 @@ extension EC2 {
     }
 
     public struct AdditionalDetail: AWSDecodableShape {
-        /// The information type.
+        public struct _LoadBalancersEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _RuleGroupRuleOptionsPairsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _RuleGroupTypePairsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _RuleOptionsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The additional detail code.
         public let additionalDetailType: String?
         /// The path component.
         public let component: AnalysisComponent?
+        /// The load balancers.
+        @OptionalCustomCoding<EC2ArrayCoder<_LoadBalancersEncoding, AnalysisComponent>>
+        public var loadBalancers: [AnalysisComponent]?
+        /// The rule options.
+        @OptionalCustomCoding<EC2ArrayCoder<_RuleGroupRuleOptionsPairsEncoding, RuleGroupRuleOptionsPair>>
+        public var ruleGroupRuleOptionsPairs: [RuleGroupRuleOptionsPair]?
+        /// The rule group type.
+        @OptionalCustomCoding<EC2ArrayCoder<_RuleGroupTypePairsEncoding, RuleGroupTypePair>>
+        public var ruleGroupTypePairs: [RuleGroupTypePair]?
+        /// The rule options.
+        @OptionalCustomCoding<EC2ArrayCoder<_RuleOptionsEncoding, RuleOption>>
+        public var ruleOptions: [RuleOption]?
+        /// The name of the VPC endpoint service.
+        public let serviceName: String?
+        /// The VPC endpoint service.
+        public let vpcEndpointService: AnalysisComponent?
 
-        public init(additionalDetailType: String? = nil, component: AnalysisComponent? = nil) {
+        public init(additionalDetailType: String? = nil, component: AnalysisComponent? = nil, loadBalancers: [AnalysisComponent]? = nil, ruleGroupRuleOptionsPairs: [RuleGroupRuleOptionsPair]? = nil, ruleGroupTypePairs: [RuleGroupTypePair]? = nil, ruleOptions: [RuleOption]? = nil, serviceName: String? = nil, vpcEndpointService: AnalysisComponent? = nil) {
             self.additionalDetailType = additionalDetailType
             self.component = component
+            self.loadBalancers = loadBalancers
+            self.ruleGroupRuleOptionsPairs = ruleGroupRuleOptionsPairs
+            self.ruleGroupTypePairs = ruleGroupTypePairs
+            self.ruleOptions = ruleOptions
+            self.serviceName = serviceName
+            self.vpcEndpointService = vpcEndpointService
         }
 
         private enum CodingKeys: String, CodingKey {
             case additionalDetailType = "additionalDetailType"
             case component = "component"
+            case loadBalancers = "loadBalancerSet"
+            case ruleGroupRuleOptionsPairs = "ruleGroupRuleOptionsPairSet"
+            case ruleGroupTypePairs = "ruleGroupTypePairSet"
+            case ruleOptions = "ruleOptionSet"
+            case serviceName = "serviceName"
+            case vpcEndpointService = "vpcEndpointService"
         }
     }
 
@@ -3754,6 +3834,8 @@ extension EC2 {
         public let availabilityZone: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
         public let clientToken: String?
+        /// Indicates whether to enable or disable host maintenance for the Dedicated Host. For more information, see Host maintenance in the Amazon EC2 User Guide.
+        public let hostMaintenance: HostMaintenance?
         /// Indicates whether to enable or disable host recovery for the Dedicated Host. Host recovery is disabled by default. For more information, see  Host recovery in the Amazon EC2 User Guide. Default: off
         public let hostRecovery: HostRecovery?
         /// Specifies the instance family to be supported by the Dedicated Hosts. If you specify an instance family, the Dedicated Hosts support multiple instance types within that instance family. If you want the Dedicated Hosts to support a specific instance type only, omit this parameter and specify InstanceType instead. You cannot specify InstanceFamily and InstanceType in the same request.
@@ -3768,10 +3850,11 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(autoPlacement: AutoPlacement? = nil, availabilityZone: String? = nil, clientToken: String? = nil, hostRecovery: HostRecovery? = nil, instanceFamily: String? = nil, instanceType: String? = nil, outpostArn: String? = nil, quantity: Int? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(autoPlacement: AutoPlacement? = nil, availabilityZone: String? = nil, clientToken: String? = nil, hostMaintenance: HostMaintenance? = nil, hostRecovery: HostRecovery? = nil, instanceFamily: String? = nil, instanceType: String? = nil, outpostArn: String? = nil, quantity: Int? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.autoPlacement = autoPlacement
             self.availabilityZone = availabilityZone
             self.clientToken = clientToken
+            self.hostMaintenance = hostMaintenance
             self.hostRecovery = hostRecovery
             self.instanceFamily = instanceFamily
             self.instanceType = instanceType
@@ -3784,6 +3867,7 @@ extension EC2 {
             case autoPlacement = "autoPlacement"
             case availabilityZone = "availabilityZone"
             case clientToken = "clientToken"
+            case hostMaintenance = "HostMaintenance"
             case hostRecovery = "HostRecovery"
             case instanceFamily = "InstanceFamily"
             case instanceType = "instanceType"
@@ -4050,6 +4134,10 @@ extension EC2 {
     }
 
     public struct AnalysisRouteTableRoute: AWSDecodableShape {
+        /// The ID of a carrier gateway.
+        public let carrierGatewayId: String?
+        /// The Amazon Resource Name (ARN) of a core network.
+        public let coreNetworkArn: String?
         /// The destination IPv4 address, in CIDR notation.
         public let destinationCidr: String?
         /// The prefix of the Amazon Web Service.
@@ -4060,6 +4148,8 @@ extension EC2 {
         public let gatewayId: String?
         /// The ID of the instance, such as a NAT instance.
         public let instanceId: String?
+        /// The ID of a local gateway.
+        public let localGatewayId: String?
         /// The ID of a NAT gateway.
         public let natGatewayId: String?
         /// The ID of a network interface.
@@ -4073,12 +4163,15 @@ extension EC2 {
         /// The ID of a VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
-        public init(destinationCidr: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, origin: String? = nil, state: String? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+        public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidr: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, origin: String? = nil, state: String? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
+            self.carrierGatewayId = carrierGatewayId
+            self.coreNetworkArn = coreNetworkArn
             self.destinationCidr = destinationCidr
             self.destinationPrefixListId = destinationPrefixListId
             self.egressOnlyInternetGatewayId = egressOnlyInternetGatewayId
             self.gatewayId = gatewayId
             self.instanceId = instanceId
+            self.localGatewayId = localGatewayId
             self.natGatewayId = natGatewayId
             self.networkInterfaceId = networkInterfaceId
             self.origin = origin
@@ -4088,11 +4181,14 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case carrierGatewayId = "carrierGatewayId"
+            case coreNetworkArn = "coreNetworkArn"
             case destinationCidr = "destinationCidr"
             case destinationPrefixListId = "destinationPrefixListId"
             case egressOnlyInternetGatewayId = "egressOnlyInternetGatewayId"
             case gatewayId = "gatewayId"
             case instanceId = "instanceId"
+            case localGatewayId = "localGatewayId"
             case natGatewayId = "natGatewayId"
             case networkInterfaceId = "networkInterfaceId"
             case origin = "origin"
@@ -4304,6 +4400,59 @@ extension EC2 {
         }
     }
 
+    public struct AssignPrivateNatGatewayAddressRequest: AWSEncodableShape {
+        public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The NAT gateway ID.
+        public let natGatewayId: String?
+        /// The number of private IP addresses to assign to the NAT gateway. You can't specify this parameter when also specifying private IP addresses.
+        public let privateIpAddressCount: Int?
+        /// The private IPv4 addresses you want to assign to the private NAT gateway.
+        @OptionalCustomCoding<EC2ArrayCoder<_PrivateIpAddressesEncoding, String>>
+        public var privateIpAddresses: [String]?
+
+        public init(dryRun: Bool? = nil, natGatewayId: String? = nil, privateIpAddressCount: Int? = nil, privateIpAddresses: [String]? = nil) {
+            self.dryRun = dryRun
+            self.natGatewayId = natGatewayId
+            self.privateIpAddressCount = privateIpAddressCount
+            self.privateIpAddresses = privateIpAddresses
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.privateIpAddressCount, name: "privateIpAddressCount", parent: name, max: 7)
+            try self.validate(self.privateIpAddressCount, name: "privateIpAddressCount", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case natGatewayId = "NatGatewayId"
+            case privateIpAddressCount = "PrivateIpAddressCount"
+            case privateIpAddresses = "PrivateIpAddress"
+        }
+    }
+
+    public struct AssignPrivateNatGatewayAddressResult: AWSDecodableShape {
+        public struct _NatGatewayAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// NAT gateway IP addresses.
+        @OptionalCustomCoding<EC2ArrayCoder<_NatGatewayAddressesEncoding, NatGatewayAddress>>
+        public var natGatewayAddresses: [NatGatewayAddress]?
+        /// The NAT gateway ID.
+        public let natGatewayId: String?
+
+        public init(natGatewayAddresses: [NatGatewayAddress]? = nil, natGatewayId: String? = nil) {
+            self.natGatewayAddresses = natGatewayAddresses
+            self.natGatewayId = natGatewayId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case natGatewayAddresses = "natGatewayAddressSet"
+            case natGatewayId = "natGatewayId"
+        }
+    }
+
     public struct AssignedPrivateIpAddress: AWSDecodableShape {
         /// The private IP address assigned to the network interface.
         public let privateIpAddress: String?
@@ -4445,13 +4594,6 @@ extension EC2 {
             self.roleArn = roleArn
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 1283)
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 1)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1283)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
             case dryRun = "DryRun"
@@ -4587,6 +4729,56 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case ipamResourceDiscoveryAssociation = "ipamResourceDiscoveryAssociation"
+        }
+    }
+
+    public struct AssociateNatGatewayAddressRequest: AWSEncodableShape {
+        public struct _AllocationIdsEncoding: ArrayCoderProperties { public static let member = "AllocationId" }
+        public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The allocation IDs of EIPs that you want to associate with your NAT gateway.
+        @OptionalCustomCoding<EC2ArrayCoder<_AllocationIdsEncoding, String>>
+        public var allocationIds: [String]?
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The NAT gateway ID.
+        public let natGatewayId: String?
+        /// The private IPv4 addresses that you want to assign to the NAT gateway.
+        @OptionalCustomCoding<EC2ArrayCoder<_PrivateIpAddressesEncoding, String>>
+        public var privateIpAddresses: [String]?
+
+        public init(allocationIds: [String]? = nil, dryRun: Bool? = nil, natGatewayId: String? = nil, privateIpAddresses: [String]? = nil) {
+            self.allocationIds = allocationIds
+            self.dryRun = dryRun
+            self.natGatewayId = natGatewayId
+            self.privateIpAddresses = privateIpAddresses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationIds = "AllocationId"
+            case dryRun = "DryRun"
+            case natGatewayId = "NatGatewayId"
+            case privateIpAddresses = "PrivateIpAddress"
+        }
+    }
+
+    public struct AssociateNatGatewayAddressResult: AWSDecodableShape {
+        public struct _NatGatewayAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The IP addresses.
+        @OptionalCustomCoding<EC2ArrayCoder<_NatGatewayAddressesEncoding, NatGatewayAddress>>
+        public var natGatewayAddresses: [NatGatewayAddress]?
+        /// The NAT gateway ID.
+        public let natGatewayId: String?
+
+        public init(natGatewayAddresses: [NatGatewayAddress]? = nil, natGatewayId: String? = nil) {
+            self.natGatewayAddresses = natGatewayAddresses
+            self.natGatewayId = natGatewayId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case natGatewayAddresses = "natGatewayAddressSet"
+            case natGatewayId = "natGatewayId"
         }
     }
 
@@ -6064,12 +6256,12 @@ extension EC2 {
     public struct CancelSpotFleetRequestsRequest: AWSEncodableShape {
         public struct _SpotFleetRequestIdsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the Spot Fleet requests.
         @OptionalCustomCoding<EC2ArrayCoder<_SpotFleetRequestIdsEncoding, String>>
         public var spotFleetRequestIds: [String]?
-        /// Indicates whether to terminate instances for a Spot Fleet request if it is canceled successfully.
+        /// Indicates whether to terminate the associated instances when the Spot Fleet request is canceled.  The default is to terminate the instances. To let the instances continue to run after the Spot Fleet request is canceled, specify no-terminate-instances.
         public let terminateInstances: Bool?
 
         public init(dryRun: Bool? = nil, spotFleetRequestIds: [String]? = nil, terminateInstances: Bool? = nil) {
@@ -8527,7 +8719,7 @@ extension EC2 {
         public let context: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Indicates whether running instances should be terminated if the total target capacity of the EC2 Fleet is decreased below the current size of the EC2 Fleet.
+        /// Indicates whether running instances should be terminated if the total target capacity of the EC2 Fleet is decreased below the current size of the EC2 Fleet. Supported only for fleets of type maintain.
         public let excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy?
         /// The configuration for the EC2 Fleet.
         @OptionalCustomCoding<EC2ArrayCoder<_LaunchTemplateConfigsEncoding, FleetLaunchTemplateConfigRequest>>
@@ -9373,6 +9565,8 @@ extension EC2 {
     public struct CreateLocalGatewayRouteRequest: AWSEncodableShape {
         /// The CIDR range used for destination matches. Routing decisions are based on  the most specific match.
         public let destinationCidrBlock: String?
+        ///  The ID of the prefix list. Use a prefix list in place of DestinationCidrBlock. You  cannot use DestinationPrefixListId and DestinationCidrBlock in the same request.
+        public let destinationPrefixListId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the local gateway route table.
@@ -9382,8 +9576,9 @@ extension EC2 {
         /// The ID of the network interface.
         public let networkInterfaceId: String?
 
-        public init(destinationCidrBlock: String? = nil, dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, networkInterfaceId: String? = nil) {
+        public init(destinationCidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, networkInterfaceId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
+            self.destinationPrefixListId = destinationPrefixListId
             self.dryRun = dryRun
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
@@ -9392,6 +9587,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case destinationCidrBlock = "DestinationCidrBlock"
+            case destinationPrefixListId = "DestinationPrefixListId"
             case dryRun = "DryRun"
             case localGatewayRouteTableId = "LocalGatewayRouteTableId"
             case localGatewayVirtualInterfaceGroupId = "LocalGatewayVirtualInterfaceGroupId"
@@ -9594,6 +9790,8 @@ extension EC2 {
     }
 
     public struct CreateNatGatewayRequest: AWSEncodableShape {
+        public struct _SecondaryAllocationIdsEncoding: ArrayCoderProperties { public static let member = "AllocationId" }
+        public struct _SecondaryPrivateIpAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// [Public NAT gateways only] The allocation ID of an Elastic IP address to associate  with the NAT gateway. You cannot specify an Elastic IP address with a private NAT gateway. If the Elastic IP address is associated with another resource, you must first disassociate it.
@@ -9608,20 +9806,36 @@ extension EC2 {
         public let dryRun: Bool?
         /// The private IPv4 address to assign to the NAT gateway. If you don't provide an address, a private IPv4 address will be automatically assigned.
         public let privateIpAddress: String?
-        /// The subnet in which to create the NAT gateway.
+        /// Secondary EIP allocation IDs. For more information about secondary addresses, see Create a NAT gateway in the Amazon Virtual Private Cloud User Guide.
+        @OptionalCustomCoding<EC2ArrayCoder<_SecondaryAllocationIdsEncoding, String>>
+        public var secondaryAllocationIds: [String]?
+        /// [Private NAT gateway only] The number of secondary private IPv4 addresses you want to assign to the NAT gateway. For more information about secondary addresses, see Create a NAT gateway in the Amazon Virtual Private Cloud User Guide.
+        public let secondaryPrivateIpAddressCount: Int?
+        /// Secondary private IPv4 addresses. For more information about secondary addresses, see Create a NAT gateway in the Amazon Virtual Private Cloud User Guide.
+        @OptionalCustomCoding<EC2ArrayCoder<_SecondaryPrivateIpAddressesEncoding, String>>
+        public var secondaryPrivateIpAddresses: [String]?
+        /// The ID of the subnet in which to create the NAT gateway.
         public let subnetId: String?
         /// The tags to assign to the NAT gateway.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(allocationId: String? = nil, clientToken: String? = CreateNatGatewayRequest.idempotencyToken(), connectivityType: ConnectivityType? = nil, dryRun: Bool? = nil, privateIpAddress: String? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(allocationId: String? = nil, clientToken: String? = CreateNatGatewayRequest.idempotencyToken(), connectivityType: ConnectivityType? = nil, dryRun: Bool? = nil, privateIpAddress: String? = nil, secondaryAllocationIds: [String]? = nil, secondaryPrivateIpAddressCount: Int? = nil, secondaryPrivateIpAddresses: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.allocationId = allocationId
             self.clientToken = clientToken
             self.connectivityType = connectivityType
             self.dryRun = dryRun
             self.privateIpAddress = privateIpAddress
+            self.secondaryAllocationIds = secondaryAllocationIds
+            self.secondaryPrivateIpAddressCount = secondaryPrivateIpAddressCount
+            self.secondaryPrivateIpAddresses = secondaryPrivateIpAddresses
             self.subnetId = subnetId
             self.tagSpecifications = tagSpecifications
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.secondaryPrivateIpAddressCount, name: "secondaryPrivateIpAddressCount", parent: name, max: 7)
+            try self.validate(self.secondaryPrivateIpAddressCount, name: "secondaryPrivateIpAddressCount", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9630,6 +9844,9 @@ extension EC2 {
             case connectivityType = "ConnectivityType"
             case dryRun = "DryRun"
             case privateIpAddress = "PrivateIpAddress"
+            case secondaryAllocationIds = "SecondaryAllocationId"
+            case secondaryPrivateIpAddressCount = "SecondaryPrivateIpAddressCount"
+            case secondaryPrivateIpAddresses = "SecondaryPrivateIpAddress"
             case subnetId = "SubnetId"
             case tagSpecifications = "TagSpecification"
         }
@@ -9803,30 +10020,36 @@ extension EC2 {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information,  see How to ensure idempotency.
         public let clientToken: String?
-        /// The Amazon Web Services resource that is the destination of the path.
+        /// The ID or ARN of the destination. If the resource is in another account, you must specify an ARN.
         public let destination: String?
-        /// The IP address of the Amazon Web Services resource that is the destination of the path.
+        /// The IP address of the destination.
         public let destinationIp: String?
         /// The destination port.
         public let destinationPort: Int?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// Scopes the analysis to network paths that match specific filters at the destination. If you specify this parameter, you can't specify the parameter for the destination IP address.
+        public let filterAtDestination: PathRequestFilter?
+        /// Scopes the analysis to network paths that match specific filters at the source. If you specify this parameter, you can't specify the parameters for the source IP address or the destination port.
+        public let filterAtSource: PathRequestFilter?
         /// The protocol.
         public let `protocol`: `Protocol`?
-        /// The Amazon Web Services resource that is the source of the path.
+        /// The ID or ARN of the source. If the resource is in another account, you must specify an ARN.
         public let source: String?
-        /// The IP address of the Amazon Web Services resource that is the source of the path.
+        /// The IP address of the source.
         public let sourceIp: String?
         /// The tags to add to the path.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String? = nil, destination: String? = nil, destinationIp: String? = nil, destinationPort: Int? = nil, dryRun: Bool? = nil, protocol: `Protocol`? = nil, source: String? = nil, sourceIp: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = nil, destination: String? = nil, destinationIp: String? = nil, destinationPort: Int? = nil, dryRun: Bool? = nil, filterAtDestination: PathRequestFilter? = nil, filterAtSource: PathRequestFilter? = nil, protocol: `Protocol`? = nil, source: String? = nil, sourceIp: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.destination = destination
             self.destinationIp = destinationIp
             self.destinationPort = destinationPort
             self.dryRun = dryRun
+            self.filterAtDestination = filterAtDestination
+            self.filterAtSource = filterAtSource
             self.`protocol` = `protocol`
             self.source = source
             self.sourceIp = sourceIp
@@ -9838,6 +10061,8 @@ extension EC2 {
             try self.validate(self.destinationIp, name: "destinationIp", parent: name, pattern: "^([0-9]{1,3}.){3}[0-9]{1,3}$")
             try self.validate(self.destinationPort, name: "destinationPort", parent: name, max: 65535)
             try self.validate(self.destinationPort, name: "destinationPort", parent: name, min: 0)
+            try self.filterAtDestination?.validate(name: "\(name).filterAtDestination")
+            try self.filterAtSource?.validate(name: "\(name).filterAtSource")
             try self.validate(self.sourceIp, name: "sourceIp", parent: name, max: 15)
             try self.validate(self.sourceIp, name: "sourceIp", parent: name, pattern: "^([0-9]{1,3}.){3}[0-9]{1,3}$")
         }
@@ -9848,6 +10073,8 @@ extension EC2 {
             case destinationIp = "DestinationIp"
             case destinationPort = "DestinationPort"
             case dryRun = "DryRun"
+            case filterAtDestination = "FilterAtDestination"
+            case filterAtSource = "FilterAtSource"
             case `protocol` = "Protocol"
             case source = "Source"
             case sourceIp = "SourceIp"
@@ -10370,7 +10597,7 @@ extension EC2 {
     public struct CreateSecurityGroupRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// A description for the security group. This is informational only. Constraints: Up to 255 characters in length Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
+        /// A description for the security group. Constraints: Up to 255 characters in length Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -11929,7 +12156,7 @@ extension EC2 {
         public var tagSpecifications: [TagSpecification]?
         /// The throughput to provision for a volume, with a maximum of 1,000 MiB/s. This parameter is valid only for gp3 volumes. Valid Range: Minimum value of 125. Maximum value of 1000.
         public let throughput: Int?
-        /// The volume type. This parameter can be one of the following values:   General Purpose SSD: gp2 | gp3    Provisioned IOPS SSD: io1 | io2    Throughput Optimized HDD: st1    Cold HDD: sc1    Magnetic: standard    For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Default: gp2
+        /// The volume type. This parameter can be one of the following values:   General Purpose SSD: gp2 | gp3    Provisioned IOPS SSD: io1 | io2    Throughput Optimized HDD: st1    Cold HDD: sc1    Magnetic: standard     Throughput Optimized HDD (st1) and Cold HDD (sc1) volumes can't be used as boot volumes.  For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Default: gp2
         public let volumeType: VolumeType?
 
         public init(availabilityZone: String? = nil, clientToken: String? = CreateVolumeRequest.idempotencyToken(), dryRun: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, multiAttachEnabled: Bool? = nil, outpostArn: String? = nil, size: Int? = nil, snapshotId: String? = nil, tagSpecifications: [TagSpecification]? = nil, throughput: Int? = nil, volumeType: VolumeType? = nil) {
@@ -12842,7 +13069,7 @@ extension EC2 {
         /// The IDs of the EC2 Fleets.
         @OptionalCustomCoding<EC2StandardArrayCoder>
         public var fleetIds: [String]?
-        /// Indicates whether to terminate the instances when the EC2 Fleet is deleted. The default is to terminate the instances. To let the instances continue to run after the EC2 Fleet is deleted, specify NoTerminateInstances. Supported only for fleets of type maintain and request. For instant fleets, you cannot specify NoTerminateInstances. A deleted instant fleet with running instances is not supported.
+        /// Indicates whether to terminate the associated instances when the EC2 Fleet is deleted. The default is to terminate the instances. To let the instances continue to run after the EC2 Fleet is deleted, specify no-terminate-instances. Supported only for fleets of type maintain and request. For instant fleets, you cannot specify NoTerminateInstances. A deleted instant fleet with running instances is not supported.
         public let terminateInstances: Bool?
 
         public init(dryRun: Bool? = nil, fleetIds: [String]? = nil, terminateInstances: Bool? = nil) {
@@ -13287,19 +13514,23 @@ extension EC2 {
     public struct DeleteLocalGatewayRouteRequest: AWSEncodableShape {
         /// The CIDR range for the route. This must match the CIDR for the route exactly.
         public let destinationCidrBlock: String?
+        ///  Use a prefix list in place of DestinationCidrBlock. You cannot use  DestinationPrefixListId and DestinationCidrBlock in the same request.
+        public let destinationPrefixListId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String?
 
-        public init(destinationCidrBlock: String? = nil, dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil) {
+        public init(destinationCidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
+            self.destinationPrefixListId = destinationPrefixListId
             self.dryRun = dryRun
             self.localGatewayRouteTableId = localGatewayRouteTableId
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinationCidrBlock = "DestinationCidrBlock"
+            case destinationPrefixListId = "DestinationPrefixListId"
             case dryRun = "DryRun"
             case localGatewayRouteTableId = "LocalGatewayRouteTableId"
         }
@@ -14846,7 +15077,7 @@ extension EC2 {
     }
 
     public struct DeprovisionPublicIpv4PoolCidrRequest: AWSEncodableShape {
-        /// The CIDR you want to deprovision from the pool.
+        /// The CIDR you want to deprovision from the pool. Enter the CIDR you want to deprovision with a netmask of /32. You must rerun this command for each IP address in the CIDR range. If your CIDR is a /24, you will have to run this command to deprovision each of the 256 IP addresses in the /24 CIDR.
         public let cidr: String?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -15273,7 +15504,7 @@ extension EC2 {
         public let allAvailabilityZones: Bool?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    group-name - For Availability Zones, use the Region name. For Local Zones, use the name of the group associated with the Local Zone (for example, us-west-2-lax-1) For Wavelength Zones, use the name of the group associated with the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    message - The Zone message.    opt-in-status - The opt-in status (opted-in, and not-opted-in | opt-in-not-required).    parent-zoneID - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    parent-zoneName - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    region-name - The name of the Region for the Zone (for example, us-east-1).    state - The state of the Availability Zone, the Local Zone, or the Wavelength Zone (available).    zone-id - The ID of the Availability Zone (for example, use1-az1), the Local Zone (for example, usw2-lax1-az1), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone, for example, local-zone.    zone-name - The name of the Availability Zone (for example, us-east-1a), the Local Zone (for example, us-west-2-lax-1a), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone, for example, local-zone.
+        /// The filters.    group-name - For Availability Zones, use the Region name. For Local Zones, use the name of the group associated with the Local Zone (for example, us-west-2-lax-1) For Wavelength Zones, use the name of the group associated with the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    message - The Zone message.    opt-in-status - The opt-in status (opted-in | not-opted-in | opt-in-not-required).    parent-zoneID - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    parent-zoneName - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    region-name - The name of the Region for the Zone (for example, us-east-1).    state - The state of the Availability Zone, the Local Zone, or the Wavelength Zone (available).    zone-id - The ID of the Availability Zone (for example, use1-az1), the Local Zone (for example, usw2-lax1-az1), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-name - The name of the Availability Zone (for example, us-east-1a), the Local Zone (for example, us-west-2-lax-1a), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone (availability-zone |  local-zone | wavelength-zone).
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The IDs of the Availability Zones, Local Zones, and Wavelength Zones.
@@ -15662,10 +15893,11 @@ extension EC2 {
         /// One or more instance IDs. Must be instances linked to a VPC through ClassicLink.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
         public var instanceIds: [String]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value. Constraint: If the value is greater than 1000, we return only 1000 items.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination. Constraint: If the value is greater than 1000, we return only 1000 items.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, instanceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -15696,7 +15928,7 @@ extension EC2 {
         /// Information about one or more linked EC2-Classic instances.
         @OptionalCustomCoding<EC2ArrayCoder<_InstancesEncoding, ClassicLinkInstance>>
         public var instances: [ClassicLinkInstance]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(instances: [ClassicLinkInstance]? = nil, nextToken: String? = nil) {
@@ -16153,10 +16385,11 @@ extension EC2 {
         /// One or more filters.    dhcp-options-id - The ID of a DHCP options set.    key - The key for one of the options (for example, domain-name).    value - The value for one of the options.    owner-id - The ID of the Amazon Web Services account that owns the DHCP options set.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dhcpOptionsIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -16187,7 +16420,7 @@ extension EC2 {
         /// Information about one or more DHCP options sets.
         @OptionalCustomCoding<EC2ArrayCoder<_DhcpOptionsEncoding, DhcpOptions>>
         public var dhcpOptions: [DhcpOptions]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(dhcpOptions: [DhcpOptions]? = nil, nextToken: String? = nil) {
@@ -16213,10 +16446,11 @@ extension EC2 {
         /// One or more filters.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, egressOnlyInternetGatewayIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -16247,7 +16481,7 @@ extension EC2 {
         /// Information about the egress-only internet gateways.
         @OptionalCustomCoding<EC2ArrayCoder<_EgressOnlyInternetGatewaysEncoding, EgressOnlyInternetGateway>>
         public var egressOnlyInternetGateways: [EgressOnlyInternetGateway]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(egressOnlyInternetGateways: [EgressOnlyInternetGateway]? = nil, nextToken: String? = nil) {
@@ -16435,11 +16669,10 @@ extension EC2 {
         /// Details for one or more Windows AMI image IDs.
         @OptionalCustomCoding<EC2ArrayCoder<_ImageIdsEncoding, String>>
         public var imageIds: [String]?
-        /// The maximum number of results to return in a single call. To retrieve the remaining results,
-        /// 			make another request with the returned NextToken value. If this parameter is not specified,
-        /// 			then all results are returned.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next set of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, imageIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -16471,8 +16704,7 @@ extension EC2 {
         /// 			the requested criteria.
         @OptionalCustomCoding<EC2ArrayCoder<_FastLaunchImagesEncoding, DescribeFastLaunchImagesSuccessItem>>
         public var fastLaunchImages: [DescribeFastLaunchImagesSuccessItem]?
-        /// The token to use for the next set of results. This value is null when there are
-        /// 			no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(fastLaunchImages: [DescribeFastLaunchImagesSuccessItem]? = nil, nextToken: String? = nil) {
@@ -16492,7 +16724,8 @@ extension EC2 {
         /// The launch template that the fast-launch enabled Windows AMI uses when it launches
         /// 			Windows instances from pre-provisioned snapshots.
         public let launchTemplate: FastLaunchLaunchTemplateSpecificationResponse?
-        /// The maximum number of parallel instances that are launched for creating resources.
+        /// The maximum number of instances that Amazon EC2 can launch at the same time to create
+        /// 			pre-provisioned snapshots for Windows faster launching.
         public let maxParallelLaunches: Int?
         /// The owner ID for the fast-launch enabled Windows AMI.
         public let ownerId: String?
@@ -16595,10 +16828,11 @@ extension EC2 {
         /// The filters. The possible values are:    availability-zone: The Availability Zone of the snapshot.    owner-id: The ID of the Amazon Web Services account that enabled fast snapshot restore on the snapshot.    snapshot-id: The ID of the snapshot.    state: The state of fast snapshot restores for the snapshot  (enabling |  optimizing |  enabled |  disabling |  disabled).
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -16627,7 +16861,7 @@ extension EC2 {
         /// Information about the state of fast snapshot restores.
         @OptionalCustomCoding<EC2ArrayCoder<_FastSnapshotRestoresEncoding, DescribeFastSnapshotRestoreSuccessItem>>
         public var fastSnapshotRestores: [DescribeFastSnapshotRestoreSuccessItem]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items.  This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(fastSnapshotRestores: [DescribeFastSnapshotRestoreSuccessItem]? = nil, nextToken: String? = nil) {
@@ -16673,9 +16907,10 @@ extension EC2 {
         public let eventType: FleetEventType?
         /// The ID of the EC2 Fleet.
         public let fleetId: String?
-        /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next set of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// The start date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let startTime: Date?
@@ -16707,9 +16942,9 @@ extension EC2 {
         /// Information about the events in the history of the EC2 Fleet.
         @OptionalCustomCoding<EC2ArrayCoder<_HistoryRecordsEncoding, HistoryRecordEntry>>
         public var historyRecords: [HistoryRecordEntry]?
-        /// The last date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). All records up to this time were retrieved. If nextToken indicates that there are more results, this value is not present.
+        /// The last date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). All records up to this time were retrieved. If nextToken indicates that there are more items, this value is not present.
         public let lastEvaluatedTime: Date?
-        /// The token for the next set of results.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The start date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let startTime: Date?
@@ -16741,9 +16976,10 @@ extension EC2 {
         public var filters: [Filter]?
         /// The ID of the EC2 Fleet.
         public let fleetId: String?
-        /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next set of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, fleetId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -16771,7 +17007,7 @@ extension EC2 {
         public var activeInstances: [ActiveInstance]?
         /// The ID of the EC2 Fleet.
         public let fleetId: String?
-        /// The token for the next set of results.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(activeInstances: [ActiveInstance]? = nil, fleetId: String? = nil, nextToken: String? = nil) {
@@ -16830,9 +17066,10 @@ extension EC2 {
         /// The IDs of the EC2 Fleets.  If a fleet is of type instant, you must specify the fleet ID, otherwise it does not appear in the response.
         @OptionalCustomCoding<EC2StandardArrayCoder>
         public var fleetIds: [String]?
-        /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next set of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, fleetIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -16858,7 +17095,7 @@ extension EC2 {
         /// Information about the EC2 Fleets.
         @OptionalCustomCoding<EC2ArrayCoder<_FleetsEncoding, FleetData>>
         public var fleets: [FleetData]?
-        /// The token for the next set of results.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(fleets: [FleetData]? = nil, nextToken: String? = nil) {
@@ -16884,10 +17121,11 @@ extension EC2 {
         /// One or more flow log IDs. Constraint: Maximum of 1000 flow log IDs.
         @OptionalCustomCoding<EC2ArrayCoder<_FlowLogIdsEncoding, String>>
         public var flowLogIds: [String]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token to request the next page of items. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filter: [Filter]? = nil, flowLogIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -16913,7 +17151,7 @@ extension EC2 {
         /// Information about the flow logs.
         @OptionalCustomCoding<EC2ArrayCoder<_FlowLogsEncoding, FlowLog>>
         public var flowLogs: [FlowLog]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to request the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(flowLogs: [FlowLog]? = nil, nextToken: String? = nil) {
@@ -17199,9 +17437,9 @@ extension EC2 {
         /// The filters.    instance-id - The ID of the instance.    state - The state of the association (associating | associated | disassociating).
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
         public let maxResults: Int?
-        /// The token to request the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(associationIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -17230,7 +17468,7 @@ extension EC2 {
         /// Information about the IAM instance profile associations.
         @OptionalCustomCoding<EC2ArrayCoder<_IamInstanceProfileAssociationsEncoding, IamInstanceProfileAssociation>>
         public var iamInstanceProfileAssociations: [IamInstanceProfileAssociation]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items.  This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(iamInstanceProfileAssociations: [IamInstanceProfileAssociation]? = nil, nextToken: String? = nil) {
@@ -17351,10 +17589,10 @@ extension EC2 {
         public var imageIds: [String]?
         /// Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
         public let includeDeprecated: Bool?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// Scopes the results to images with the specified owners. You can specify a combination of   Amazon Web Services account IDs, self, amazon, and aws-marketplace.  If you omit this parameter, the results include all images for which you have launch permissions,  regardless of ownership.
         @OptionalCustomCoding<EC2ArrayCoder<_OwnersEncoding, String>>
@@ -17389,7 +17627,7 @@ extension EC2 {
         /// Information about the images.
         @OptionalCustomCoding<EC2ArrayCoder<_ImagesEncoding, Image>>
         public var images: [Image]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(images: [Image]? = nil, nextToken: String? = nil) {
@@ -17544,9 +17782,10 @@ extension EC2 {
         /// The instance IDs. Default: Describes all your instances. Constraints: Maximum 1000 explicitly specified instance IDs.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
         public var instanceIds: [String]?
-        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 5 and 1000. You cannot specify this parameter and the instance IDs parameter in the same call.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination. You cannot specify this parameter and the instance IDs parameter in the same call.
         public let maxResults: Int?
-        /// The token to retrieve the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, instanceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -17577,7 +17816,7 @@ extension EC2 {
         /// Information about the credit option for CPU usage of an instance.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceCreditSpecificationsEncoding, InstanceCreditSpecification>>
         public var instanceCreditSpecifications: [InstanceCreditSpecification]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(instanceCreditSpecifications: [InstanceCreditSpecification]? = nil, nextToken: String? = nil) {
@@ -17690,9 +17929,10 @@ extension EC2 {
         /// The instance IDs. Default: Describes all your instances. Constraints: Maximum 100 explicitly specified instance IDs.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
         public var instanceIds: [String]?
-        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 5 and 1000. You cannot specify this parameter and the instance IDs parameter in the same call.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination. You cannot specify this parameter and the instance IDs parameter in the same request.
         public let maxResults: Int?
-        /// The token to retrieve the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, includeAllInstances: Bool? = nil, instanceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -17720,7 +17960,7 @@ extension EC2 {
         /// Information about the status of the instances.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceStatusesEncoding, InstanceStatus>>
         public var instanceStatuses: [InstanceStatus]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(instanceStatuses: [InstanceStatus]? = nil, nextToken: String? = nil) {
@@ -17744,9 +17984,10 @@ extension EC2 {
         public var filters: [Filter]?
         /// The location type.
         public let locationType: LocationType?
-        /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the next token value.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token to retrieve the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, locationType: LocationType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -17777,7 +18018,7 @@ extension EC2 {
         /// The instance types offered.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceTypeOfferingsEncoding, InstanceTypeOffering>>
         public var instanceTypeOfferings: [InstanceTypeOffering]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(instanceTypeOfferings: [InstanceTypeOffering]? = nil, nextToken: String? = nil) {
@@ -17802,9 +18043,10 @@ extension EC2 {
         /// The instance types. For more information, see Instance types in the Amazon EC2 User Guide.
         @OptionalCustomCoding<EC2StandardArrayCoder>
         public var instanceTypes: [InstanceType]?
-        /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the next token value.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token to retrieve the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, instanceTypes: [InstanceType]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -17836,7 +18078,7 @@ extension EC2 {
         /// The instance type. For more information, see Instance types in the Amazon EC2 User Guide.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceTypesEncoding, InstanceTypeInfo>>
         public var instanceTypes: [InstanceTypeInfo]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(instanceTypes: [InstanceTypeInfo]? = nil, nextToken: String? = nil) {
@@ -17862,9 +18104,10 @@ extension EC2 {
         /// The instance IDs. Default: Describes all your instances.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
         public var instanceIds: [String]?
-        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 5 and 1000. You cannot specify this parameter and the instance IDs parameter in the same call.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination. You cannot specify this parameter and the instance IDs parameter in the same request.
         public let maxResults: Int?
-        /// The token to request the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, instanceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -17887,7 +18130,7 @@ extension EC2 {
     public struct DescribeInstancesResult: AWSDecodableShape {
         public struct _ReservationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about the reservations.
         @OptionalCustomCoding<EC2ArrayCoder<_ReservationsEncoding, Reservation>>
@@ -17916,10 +18159,11 @@ extension EC2 {
         /// One or more internet gateway IDs. Default: Describes all your internet gateways.
         @OptionalCustomCoding<EC2ArrayCoder<_InternetGatewayIdsEncoding, String>>
         public var internetGatewayIds: [String]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, internetGatewayIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -17950,7 +18194,7 @@ extension EC2 {
         /// Information about one or more internet gateways.
         @OptionalCustomCoding<EC2ArrayCoder<_InternetGatewaysEncoding, InternetGateway>>
         public var internetGateways: [InternetGateway]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(internetGateways: [InternetGateway]? = nil, nextToken: String? = nil) {
@@ -19009,13 +19253,14 @@ extension EC2 {
         /// One or more filters.    nat-gateway-id - The ID of the NAT gateway.    state - The state of the NAT gateway (pending | failed | available | deleting | deleted).    subnet-id - The ID of the subnet in which the NAT gateway resides.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC in which the NAT gateway resides.
         @OptionalCustomCoding<EC2ArrayCoder<_FilterEncoding, Filter>>
         public var filter: [Filter]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
         /// One or more NAT gateway IDs.
         @OptionalCustomCoding<EC2ArrayCoder<_NatGatewayIdsEncoding, String>>
         public var natGatewayIds: [String]?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filter: [Filter]? = nil, maxResults: Int? = nil, natGatewayIds: [String]? = nil, nextToken: String? = nil) {
@@ -19046,7 +19291,7 @@ extension EC2 {
         /// Information about the NAT gateways.
         @OptionalCustomCoding<EC2ArrayCoder<_NatGatewaysEncoding, NatGateway>>
         public var natGateways: [NatGateway]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(natGateways: [NatGateway]? = nil, nextToken: String? = nil) {
@@ -19070,13 +19315,14 @@ extension EC2 {
         /// 		                for egress rules, or false for ingress rules.    entry.rule-number - The number of an entry (in other words, rule) in the set of ACL entries.    network-acl-id - The ID of the network ACL.    owner-id - The ID of the Amazon Web Services account that owns the network ACL.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network ACL.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
         /// One or more network ACL IDs. Default: Describes all your network ACLs.
         @OptionalCustomCoding<EC2ArrayCoder<_NetworkAclIdsEncoding, String>>
         public var networkAclIds: [String]?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, networkAclIds: [String]? = nil, nextToken: String? = nil) {
@@ -19107,7 +19353,7 @@ extension EC2 {
         /// Information about one or more network ACLs.
         @OptionalCustomCoding<EC2ArrayCoder<_NetworkAclsEncoding, NetworkAcl>>
         public var networkAcls: [NetworkAcl]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(networkAcls: [NetworkAcl]? = nil, nextToken: String? = nil) {
@@ -19328,7 +19574,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters. The following are the possible values:   destination - The ID of the resource.   destination-port - The destination port.   protocol - The protocol.   source - The ID of the resource.
+        /// The filters. The following are the possible values:   destination - The ID of the resource.   filter-at-source.source-address - The source IPv4 address at the source.   filter-at-source.source-port-range - The source port range at the source.   filter-at-source.destination-address - The destination IPv4 address at the source.   filter-at-source.destination-port-range - The destination port range at the source.   filter-at-destination.source-address - The source IPv4 address at the destination.   filter-at-destination.source-port-range - The source port range at the destination.   filter-at-destination.destination-address - The destination IPv4 address at the destination.   filter-at-destination.destination-port-range - The destination port range at the destination.   protocol - The protocol.   source - The ID of the resource.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -19444,13 +19690,16 @@ extension EC2 {
         /// 					EIP-ASSOCIATE).
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return in a single call. To retrieve the remaining results,
-        /// 			make another call with the returned NextToken value. If this parameter is not specified, up to 50 results are returned by default.
+        /// The maximum number of items to return for this request. To get the next page of items,
+        /// 			make another request with the token returned in the output. If this parameter is not specified,
+        /// 			up to 50 results are returned by default. For more information, see
+        /// 			Pagination.
         public let maxResults: Int?
         /// The network interface permission IDs.
         @OptionalCustomCoding<EC2StandardArrayCoder>
         public var networkInterfacePermissionIds: [String]?
-        /// The token to request the next page of results.
+        /// The token returned from a previous paginated request.
+        /// 		    Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, networkInterfacePermissionIds: [String]? = nil, nextToken: String? = nil) {
@@ -19479,7 +19728,8 @@ extension EC2 {
         /// The network interface permissions.
         @OptionalCustomCoding<EC2ArrayCoder<_NetworkInterfacePermissionsEncoding, NetworkInterfacePermission>>
         public var networkInterfacePermissions: [NetworkInterfacePermission]?
-        /// The token to use to retrieve the next page of results.
+        /// The token to include in another request to get the next page of items.
+        /// 		  This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(networkInterfacePermissions: [NetworkInterfacePermission]? = nil, nextToken: String? = nil) {
@@ -19511,12 +19761,16 @@ extension EC2 {
         /// 		            if a network interface is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for the network interface.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network interface.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results. You cannot specify this parameter and the network interface IDs parameter in the same request.
+        /// The maximum number of items to return for this request. To get the next page of items,
+        /// 		    make another request with the token returned in the output. You cannot specify this
+        /// 		    parameter and the network interface IDs parameter in the same request. For more information,
+        /// 		    see Pagination.
         public let maxResults: Int?
         /// The network interface IDs. Default: Describes all your network interfaces.
         @OptionalCustomCoding<EC2ArrayCoder<_NetworkInterfaceIdsEncoding, String>>
         public var networkInterfaceIds: [String]?
-        /// The token to retrieve the next page of results.
+        /// The token returned from a previous paginated request.
+        /// 		    Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, networkInterfaceIds: [String]? = nil, nextToken: String? = nil) {
@@ -19547,7 +19801,8 @@ extension EC2 {
         /// Information about one or more network interfaces.
         @OptionalCustomCoding<EC2ArrayCoder<_NetworkInterfacesEncoding, NetworkInterface>>
         public var networkInterfaces: [NetworkInterface]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items.
+        /// 		    This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(networkInterfaces: [NetworkInterface]? = nil, nextToken: String? = nil) {
@@ -19827,10 +20082,11 @@ extension EC2 {
         /// Filter to use:    instance-id - The ID of the instance for which the root volume replacement task was created.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// The ID of the root volume replacement task to view.
         @OptionalCustomCoding<EC2ArrayCoder<_ReplaceRootVolumeTaskIdsEncoding, String>>
@@ -19861,7 +20117,7 @@ extension EC2 {
     public struct DescribeReplaceRootVolumeTasksResult: AWSDecodableShape {
         public struct _ReplaceRootVolumeTasksEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items.  This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about the root volume replacement task.
         @OptionalCustomCoding<EC2ArrayCoder<_ReplaceRootVolumeTasksEncoding, ReplaceRootVolumeTask>>
@@ -20125,10 +20381,11 @@ extension EC2 {
         /// 		                connection specified in a route in the table.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the route table.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// One or more route table IDs. Default: Describes all your route tables.
         @OptionalCustomCoding<EC2ArrayCoder<_RouteTableIdsEncoding, String>>
@@ -20159,7 +20416,7 @@ extension EC2 {
     public struct DescribeRouteTablesResult: AWSDecodableShape {
         public struct _RouteTablesEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about one or more route tables.
         @OptionalCustomCoding<EC2ArrayCoder<_RouteTablesEncoding, RouteTable>>
@@ -20348,9 +20605,9 @@ extension EC2 {
         /// One or more filters.    group-id - The ID of the security group.    security-group-rule-id - The ID of the security group rule.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another request with the returned NextToken value. This value can be between 5 and 1000. If this parameter is not specified, then all results are returned.
+        /// The maximum number of items to return for this request. To get the next page of  items, make another request with the token returned in the output. This value can be between 5 and 1000. If this parameter is not specified, then all items are returned. For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// The IDs of the security group rules.
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupRuleIdsEncoding, String>>
@@ -20381,7 +20638,7 @@ extension EC2 {
     public struct DescribeSecurityGroupRulesResult: AWSDecodableShape {
         public struct _SecurityGroupRulesEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items.  This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about security group rules.
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupRulesEncoding, SecurityGroupRule>>
@@ -20416,9 +20673,9 @@ extension EC2 {
         /// 			the group-name filter to describe security groups by name. Default: Describes all of your security groups.
         @OptionalCustomCoding<EC2ArrayCoder<_GroupNamesEncoding, String>>
         public var groupNames: [String]?
-        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another request with the returned NextToken value. This value can be between 5 and 1000. If this parameter is not specified, then all results are returned.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. This value can be between 5 and 1000.  If this parameter is not specified, then all items are returned. For more information, see  Pagination.
         public let maxResults: Int?
-        /// The token to request the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, groupIds: [String]? = nil, groupNames: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -20448,7 +20705,7 @@ extension EC2 {
     public struct DescribeSecurityGroupsResult: AWSDecodableShape {
         public struct _SecurityGroupsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items.  This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about the security groups.
         @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupsEncoding, SecurityGroup>>
@@ -20521,10 +20778,11 @@ extension EC2 {
         /// 		temporary-restore-in-progress | temporary-restore-completed | temporary-restore-failed)
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -20545,7 +20803,7 @@ extension EC2 {
     public struct DescribeSnapshotTierStatusResult: AWSDecodableShape {
         public struct _SnapshotTierStatusesEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items.  This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about the snapshot's storage tier.
         @OptionalCustomCoding<EC2ArrayCoder<_SnapshotTierStatusesEncoding, SnapshotTierStatus>>
@@ -20572,9 +20830,9 @@ extension EC2 {
         /// The filters.    description - A description of the snapshot.    encrypted - Indicates whether the snapshot is encrypted (true | false)    owner-alias - The owner alias, from an Amazon-maintained list   (amazon).  This is not the user-configured Amazon Web Services account alias set using the IAM console. We recommend that you use the related parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that  you use the related parameter instead of this filter.    progress - The progress of the snapshot, as a percentage (for example, 80%).    snapshot-id - The snapshot ID.    start-time - The time stamp when the snapshot was initiated.    status - The status of the snapshot (pending | completed | error).    storage-tier - The storage tier of the snapshot (archive | standard).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The ID of the volume the snapshot is for.    volume-size - The size of the volume, in GiB.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of snapshot results returned by DescribeSnapshots in paginated output. When this parameter is used, DescribeSnapshots only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeSnapshots request with the returned NextToken value. This value can be between 5 and 1,000; if MaxResults is given a value larger than 1,000, only 1,000 results are returned. If this parameter is not used, then DescribeSnapshots returns all results. You cannot specify this parameter and the snapshot IDs parameter in the same request.
+        /// The maximum number of snapshots to return for this request. This value can be between 5 and 1,000; if this value is larger than 1,000, only 1,000 results are returned.  If this parameter is not used, then the request returns all snapshots.  You cannot specify this parameter and the snapshot IDs parameter in the same request. For more information,  see Pagination.
         public let maxResults: Int?
-        /// The NextToken value returned from a previous paginated DescribeSnapshots request where MaxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// Scopes the results to snapshots with the specified owners. You can specify a combination of Amazon Web Services account IDs, self, and amazon.
         @OptionalCustomCoding<EC2ArrayCoder<_OwnerIdsEncoding, String>>
@@ -20610,7 +20868,7 @@ extension EC2 {
     public struct DescribeSnapshotsResult: AWSDecodableShape {
         public struct _SnapshotsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The NextToken value to include in a future DescribeSnapshots request. When the results of a DescribeSnapshots request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to return the next page of snapshots.  This value is null when there are no more snapshots to return.
         public let nextToken: String?
         /// Information about the snapshots.
         @OptionalCustomCoding<EC2ArrayCoder<_SnapshotsEncoding, Snapshot>>
@@ -20656,9 +20914,10 @@ extension EC2 {
     public struct DescribeSpotFleetInstancesRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next set of results.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The ID of the Spot Fleet request.
         public let spotFleetRequestId: String?
@@ -20689,7 +20948,7 @@ extension EC2 {
         /// The running instances. This list is refreshed periodically and might be out of date.
         @OptionalCustomCoding<EC2ArrayCoder<_ActiveInstancesEncoding, ActiveInstance>>
         public var activeInstances: [ActiveInstance]?
-        /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The ID of the Spot Fleet request.
         public let spotFleetRequestId: String?
@@ -20712,9 +20971,10 @@ extension EC2 {
         public let dryRun: Bool?
         /// The type of events to describe. By default, all events are described.
         public let eventType: EventType?
-        /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next set of results.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The ID of the Spot Fleet request.
         public let spotFleetRequestId: String?
@@ -20751,9 +21011,9 @@ extension EC2 {
         /// Information about the events in the history of the Spot Fleet request.
         @OptionalCustomCoding<EC2ArrayCoder<_HistoryRecordsEncoding, HistoryRecord>>
         public var historyRecords: [HistoryRecord]?
-        /// The last date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). All records up to this time were retrieved. If nextToken indicates that there are more results, this value is not present.
+        /// The last date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). All records up to this time were retrieved. If nextToken indicates that there are more items, this value is not present.
         public let lastEvaluatedTime: Date?
-        /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The ID of the Spot Fleet request.
         public let spotFleetRequestId: String?
@@ -20782,9 +21042,10 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next set of results.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The IDs of the Spot Fleet requests.
         @OptionalCustomCoding<EC2ArrayCoder<_SpotFleetRequestIdsEncoding, String>>
@@ -20808,7 +21069,7 @@ extension EC2 {
     public struct DescribeSpotFleetRequestsResponse: AWSDecodableShape {
         public struct _SpotFleetRequestConfigsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about the configuration of your Spot Fleet.
         @OptionalCustomCoding<EC2ArrayCoder<_SpotFleetRequestConfigsEncoding, SpotFleetRequestConfig>>
@@ -20834,9 +21095,10 @@ extension EC2 {
         /// One or more filters.    availability-zone-group - The Availability Zone group.    create-time - The time stamp when the Spot Instance request was created.    fault-code - The fault code related to the request.    fault-message - The fault message related to the request.    instance-id - The ID of the instance that fulfilled the request.    launch-group - The Spot Instance launch group.    launch.block-device-mapping.delete-on-termination - Indicates whether the EBS volume is deleted on instance termination.    launch.block-device-mapping.device-name - The device name for the volume in the block device mapping (for example, /dev/sdh or xvdh).    launch.block-device-mapping.snapshot-id - The ID of the snapshot for the EBS volume.    launch.block-device-mapping.volume-size - The size of the EBS volume, in GiB.    launch.block-device-mapping.volume-type - The type of EBS volume: gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1for Cold HDD, or standard for Magnetic.    launch.group-id - The ID of the security group for the instance.    launch.group-name - The name of the security group for the instance.    launch.image-id - The ID of the AMI.    launch.instance-type - The type of instance (for example, m3.medium).    launch.kernel-id - The kernel ID.    launch.key-name - The name of the key pair the instance launched with.    launch.monitoring-enabled - Whether detailed monitoring is enabled for the Spot Instance.    launch.ramdisk-id - The RAM disk ID.    launched-availability-zone - The Availability Zone in which the request is launched.    network-interface.addresses.primary - Indicates whether the IP address is the primary private IP address.    network-interface.delete-on-termination - Indicates whether the network interface is deleted when the instance is terminated.    network-interface.description - A description of the network interface.    network-interface.device-index - The index of the device for the network interface attachment on the instance.    network-interface.group-id - The ID of the security group associated with the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.private-ip-address - The primary private IP address of the network interface.    network-interface.subnet-id - The ID of the subnet for the instance.    product-description - The product description associated with the instance (Linux/UNIX | Windows).    spot-instance-request-id - The Spot Instance request ID.    spot-price - The maximum hourly price for any Spot Instance launched to fulfill the request.    state - The state of the Spot Instance request (open | active | closed | cancelled | failed). Spot request status information can help you track your Amazon EC2 Spot Instance requests. For more information, see Spot request status in the Amazon EC2 User Guide for Linux Instances.    status-code - The short code describing the most recent evaluation of your Spot Instance request.    status-message - The message explaining the status of the Spot Instance request.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    type - The type of Spot Instance request (one-time | persistent).    valid-from - The start date of the request.    valid-until - The end date of the request.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return in a single call. Specify a value between 5 and 1000. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token to request the next set of results. This value is null when there are no more results to return.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// One or more Spot Instance request IDs.
         @OptionalCustomCoding<EC2ArrayCoder<_SpotInstanceRequestIdsEncoding, String>>
@@ -20862,7 +21124,7 @@ extension EC2 {
     public struct DescribeSpotInstanceRequestsResult: AWSDecodableShape {
         public struct _SpotInstanceRequestsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next set of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// One or more Spot Instance requests.
         @OptionalCustomCoding<EC2ArrayCoder<_SpotInstanceRequestsEncoding, SpotInstanceRequest>>
@@ -20894,9 +21156,10 @@ extension EC2 {
         /// Filters the results by the specified instance types.
         @OptionalCustomCoding<EC2StandardArrayCoder>
         public var instanceTypes: [InstanceType]?
-        /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next set of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// Filters the results by the specified basic product descriptions.
         @OptionalCustomCoding<EC2StandardArrayCoder>
@@ -20932,7 +21195,7 @@ extension EC2 {
     public struct DescribeSpotPriceHistoryResult: AWSDecodableShape {
         public struct _SpotPriceHistoryEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token required to retrieve the next set of results. This value is null or an empty string when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The historical Spot prices.
         @OptionalCustomCoding<EC2ArrayCoder<_SpotPriceHistoryEncoding, SpotPrice>>
@@ -20952,9 +21215,9 @@ extension EC2 {
     public struct DescribeStaleSecurityGroupsRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
         public let maxResults: Int?
-        /// The token for the next set of items to return. (You received this token from a prior call.)
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// The ID of the VPC.
         public let vpcId: String?
@@ -20984,7 +21247,7 @@ extension EC2 {
     public struct DescribeStaleSecurityGroupsResult: AWSDecodableShape {
         public struct _StaleSecurityGroupSetEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
+        /// The token to include in another request to get the next page of items.  If there are no additional items to return, the string is empty.
         public let nextToken: String?
         /// Information about the stale security groups.
         @OptionalCustomCoding<EC2ArrayCoder<_StaleSecurityGroupSetEncoding, StaleSecurityGroup>>
@@ -21015,9 +21278,10 @@ extension EC2 {
         /// The AMI IDs for which to show progress. Up to 20 AMI IDs can be included in a request.
         @OptionalCustomCoding<EC2ArrayCoder<_ImageIdsEncoding, String>>
         public var imageIds: [String]?
-        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 1 and 200. You cannot specify this parameter and the ImageIDs parameter in the same call.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination. You cannot specify this parameter and the ImageIDs parameter in the same call.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, imageIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -21045,7 +21309,7 @@ extension EC2 {
     public struct DescribeStoreImageTasksResult: AWSDecodableShape {
         public struct _StoreImageTaskResultsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The information about the AMI store tasks.
         @OptionalCustomCoding<EC2ArrayCoder<_StoreImageTaskResultsEncoding, StoreImageTaskResult>>
@@ -21071,10 +21335,11 @@ extension EC2 {
         /// One or more filters.    availability-zone - The Availability Zone for the subnet. You can also use availabilityZone as the filter name.    availability-zone-id - The ID of the Availability Zone for the subnet. You can also use availabilityZoneId as the filter name.    available-ip-address-count - The number of IPv4 addresses in the subnet that are available.    cidr-block - The IPv4 CIDR block of the subnet. The CIDR block you specify must exactly match the subnet's CIDR block for information to be returned for the subnet. You can also use cidr or cidrBlock as the filter names.    customer-owned-ipv4-pool - The customer-owned IPv4 address pool associated with the subnet.    default-for-az - Indicates whether this is the default subnet for the Availability Zone (true | false). You can also use defaultForAz as the filter name.    enable-dns64 - Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet should return synthetic IPv6 addresses for IPv4-only destinations.    enable-lni-at-device-index - Indicates the device position for local network interfaces in this subnet. For example, 1 indicates local network interfaces in this subnet are the secondary network interface (eth1).     ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the subnet.    ipv6-cidr-block-association.association-id - An association ID for an IPv6 CIDR block associated with the subnet.    ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the subnet.    ipv6-native - Indicates whether this is an IPv6 only subnet (true | false).    map-customer-owned-ip-on-launch - Indicates whether a network interface created in this subnet (including a network interface created by RunInstances) receives a customer-owned IPv4 address.    map-public-ip-on-launch - Indicates whether instances launched in this subnet receive a public IPv4 address.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The ID of the Amazon Web Services account that owns the subnet.    private-dns-name-options-on-launch.hostname-type - The type of hostname to assign to instances in the subnet at launch. For IPv4-only and dual-stack (IPv4 and IPv6) subnets, an instance DNS name can be based on the instance IPv4 address (ip-name) or the instance ID (resource-name). For IPv6 only subnets, an instance DNS name must be based on the instance ID (resource-name).    private-dns-name-options-on-launch.enable-resource-name-dns-a-record - Indicates whether to respond to DNS queries for instance hostnames with DNS A records.    private-dns-name-options-on-launch.enable-resource-name-dns-aaaa-record - Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.    state - The state of the subnet (pending | available).    subnet-arn - The Amazon Resource Name (ARN) of the subnet.    subnet-id - The ID of the subnet.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the subnet.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// One or more subnet IDs. Default: Describes all your subnets.
         @OptionalCustomCoding<EC2ArrayCoder<_SubnetIdsEncoding, String>>
@@ -21105,7 +21370,7 @@ extension EC2 {
     public struct DescribeSubnetsResult: AWSDecodableShape {
         public struct _SubnetsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about one or more subnets.
         @OptionalCustomCoding<EC2ArrayCoder<_SubnetsEncoding, Subnet>>
@@ -21130,10 +21395,9 @@ extension EC2 {
         /// The filters.    key - The tag key.    resource-id - The ID of the resource.    resource-type - The resource type (customer-gateway | dedicated-host | dhcp-options | elastic-ip | fleet | fpga-image | host-reservation | image | instance | internet-gateway | key-pair | launch-template | natgateway | network-acl | network-interface | placement-group | reserved-instances | route-table | security-group | snapshot | spot-instances-request | subnet | volume | vpc | vpc-endpoint | vpc-endpoint-service | vpc-peering-connection | vpn-connection | vpn-gateway).    tag: - The key/value combination of the tag. For example, specify "tag:Owner" for the filter name and "TeamA" for the filter value to find resources with the tag "Owner=TeamA".    value - The tag value.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return in a single call. This value can be between 5 and 1000.
-        /// 			To retrieve the remaining results, make another call with the returned NextToken value.
+        /// The maximum number of items to return for this request. This value can be between 5 and 1000.  To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
         public let maxResults: Int?
-        /// The token to retrieve the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -21154,7 +21418,7 @@ extension EC2 {
     public struct DescribeTagsResult: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items.  This value is null when there are no more items to return.
         public let nextToken: String?
         /// The tags.
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, TagDescription>>
@@ -22372,9 +22636,9 @@ extension EC2 {
         /// The filters.    action.code - The action code for the event (for example, enable-volume-io).    action.description - A description of the action.    action.event-id - The event ID associated with the action.    availability-zone - The Availability Zone of the instance.    event.description - A description of the event.    event.event-id - The event ID.    event.event-type - The event type (for io-enabled: passed | failed; for io-performance: io-performance:degraded | io-performance:severely-degraded | io-performance:stalled).    event.not-after - The latest end time for the event.    event.not-before - The earliest start time for the event.    volume-status.details-name - The cause for volume-status.status (io-enabled | io-performance).    volume-status.details-status - The status of volume-status.details-name (for io-enabled: passed | failed; for io-performance: normal | degraded | severely-degraded | stalled).    volume-status.status - The status of the volume (ok | impaired | warning | insufficient-data).
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of volume results returned by DescribeVolumeStatus in paginated output. When this parameter is used, the request only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another request with the returned NextToken value. This value can be between 5 and 1,000; if MaxResults is given a value larger than 1,000, only 1,000 results are returned. If this parameter is not used, then DescribeVolumeStatus returns all results. You cannot specify this parameter and the volume IDs parameter in the same request.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. This value can be between 5 and 1,000; if the value is larger than 1,000, only 1,000 results are returned. If this parameter is not used,  then all items are returned. You cannot specify this parameter and the volume IDs parameter in the  same request. For more information, see Pagination.
         public let maxResults: Int?
-        /// The NextToken value to include in a future DescribeVolumeStatus request. When the results of the request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// The IDs of the volumes. Default: Describes all your volumes.
         @OptionalCustomCoding<EC2ArrayCoder<_VolumeIdsEncoding, String>>
@@ -22400,7 +22664,7 @@ extension EC2 {
     public struct DescribeVolumeStatusResult: AWSDecodableShape {
         public struct _VolumeStatusesEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items.  This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about the status of the volumes.
         @OptionalCustomCoding<EC2ArrayCoder<_VolumeStatusesEncoding, VolumeStatusItem>>
@@ -22426,9 +22690,9 @@ extension EC2 {
         /// The filters.    modification-state - The current modification state (modifying |  optimizing | completed | failed).    original-iops - The original IOPS rate of the volume.    original-size - The original size of the volume, in GiB.    original-volume-type - The original volume type of the volume (standard |  io1 | io2 | gp2 | sc1 | st1).    originalMultiAttachEnabled - Indicates whether Multi-Attach support was enabled (true | false).    start-time - The modification start time.    target-iops - The target IOPS rate of the volume.    target-size - The target size of the volume, in GiB.    target-volume-type - The target volume type of the volume (standard |  io1 | io2 | gp2 | sc1 | st1).    targetMultiAttachEnabled - Indicates whether Multi-Attach support is to be enabled (true | false).    volume-id - The ID of the volume.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results (up to a limit of 500) to be returned in a paginated request.
+        /// The maximum number of results (up to a limit of 500) to be returned in a paginated request. For more information, see Pagination.
         public let maxResults: Int?
-        /// The nextToken value returned by a previous paginated request.
+        /// The token returned by a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// The IDs of the volumes.
         @OptionalCustomCoding<EC2ArrayCoder<_VolumeIdsEncoding, String>>
@@ -22454,7 +22718,7 @@ extension EC2 {
     public struct DescribeVolumesModificationsResult: AWSDecodableShape {
         public struct _VolumesModificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Token for pagination, null if there are no more results
+        /// The token to include in another request to get the next page of items.  This value is null if there are no more items to return.
         public let nextToken: String?
         /// Information about the volume modifications.
         @OptionalCustomCoding<EC2ArrayCoder<_VolumesModificationsEncoding, VolumeModification>>
@@ -22480,9 +22744,9 @@ extension EC2 {
         /// The filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name specified in the block device mapping (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching).    availability-zone - The Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - Indicates whether the volume is encrypted (true | false)    multi-attach-enabled - Indicates whether the volume is enabled for Multi-Attach (true 			| false)    fast-restored - Indicates whether the volume was created from a  snapshot that is enabled for fast snapshot restore (true |  false).    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The state of the volume (creating | available | in-use | deleting | deleted | error).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type (gp2 | gp3 | io1 | io2 |  st1 | sc1| standard)
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of volume results returned by DescribeVolumes in paginated output. When this parameter is used, DescribeVolumes only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeVolumes request with the returned NextToken value. This value can be between 5 and 500; if MaxResults is given a value larger than 500, only 500 results are returned. If this parameter is not used, then DescribeVolumes returns all results. You cannot specify this parameter and the volume IDs parameter in the same request.
+        /// The maximum number of volumes to return for this request.  This value can be between 5 and 500; if you specify a value larger than 500, only 500 items are returned.  If this parameter is not used, then all items are returned. You cannot specify this parameter and the volume IDs parameter in the same request. For more information, see Pagination.
         public let maxResults: Int?
-        /// The NextToken value returned from a previous paginated DescribeVolumes request where MaxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
+        /// The token returned from a previous paginated request.  Pagination continues from the end of the items returned from the previous request.
         public let nextToken: String?
         /// The volume IDs.
         @OptionalCustomCoding<EC2ArrayCoder<_VolumeIdsEncoding, String>>
@@ -22508,7 +22772,7 @@ extension EC2 {
     public struct DescribeVolumesResult: AWSDecodableShape {
         public struct _VolumesEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The NextToken value to include in a future DescribeVolumes request. When the results of a DescribeVolumes request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items.  This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about the volumes.
         @OptionalCustomCoding<EC2ArrayCoder<_VolumesEncoding, Volume>>
@@ -22579,10 +22843,11 @@ extension EC2 {
     public struct DescribeVpcClassicLinkDnsSupportRequest: AWSEncodableShape {
         public struct _VpcIdsEncoding: ArrayCoderProperties { public static let member = "VpcId" }
 
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// One or more VPC IDs.
         @OptionalCustomCoding<EC2ArrayCoder<_VpcIdsEncoding, String>>
@@ -22611,7 +22876,7 @@ extension EC2 {
     public struct DescribeVpcClassicLinkDnsSupportResult: AWSDecodableShape {
         public struct _VpcsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about the ClassicLink DNS support status of the VPCs.
         @OptionalCustomCoding<EC2ArrayCoder<_VpcsEncoding, ClassicLinkDnsSupport>>
@@ -23006,10 +23271,11 @@ extension EC2 {
         /// One or more filters.    accepter-vpc-info.cidr-block - The IPv4 CIDR block of the accepter VPC.    accepter-vpc-info.owner-id - The ID of the Amazon Web Services account that owns the accepter VPC.    accepter-vpc-info.vpc-id - The ID of the accepter VPC.    expiration-time - The expiration date and time for the VPC peering connection.    requester-vpc-info.cidr-block - The IPv4 CIDR block of the requester's VPC.    requester-vpc-info.owner-id - The ID of the Amazon Web Services account that owns the requester VPC.    requester-vpc-info.vpc-id - The ID of the requester VPC.    status-code - The status of the VPC peering connection (pending-acceptance | failed | expired | provisioning | active | deleting | deleted | rejected).    status-message - A message that provides more information about the status of the VPC peering connection, if applicable.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-peering-connection-id - The ID of the VPC peering connection.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// One or more VPC peering connection IDs. Default: Describes all your VPC peering connections.
         @OptionalCustomCoding<EC2ArrayCoder<_VpcPeeringConnectionIdsEncoding, String>>
@@ -23040,7 +23306,7 @@ extension EC2 {
     public struct DescribeVpcPeeringConnectionsResult: AWSDecodableShape {
         public struct _VpcPeeringConnectionsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about the VPC peering connections.
         @OptionalCustomCoding<EC2ArrayCoder<_VpcPeeringConnectionsEncoding, VpcPeeringConnection>>
@@ -23066,10 +23332,11 @@ extension EC2 {
         /// One or more filters.    cidr - The primary IPv4 CIDR block of the VPC. The CIDR block you specify must exactly match the VPC's CIDR block for information to be returned for the VPC. Must contain the slash followed by one or two digits (for example, /28).    cidr-block-association.cidr-block - An IPv4 CIDR block associated with the VPC.    cidr-block-association.association-id - The association ID for an IPv4 CIDR block associated with the VPC.    cidr-block-association.state - The state of an IPv4 CIDR block associated with the VPC.    dhcp-options-id - The ID of a set of DHCP options.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.ipv6-pool - The ID of the IPv6 address pool from which the IPv6 CIDR block is allocated.    ipv6-cidr-block-association.association-id - The association ID for an IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the VPC.    is-default - Indicates whether the VPC is the default VPC.    owner-id - The ID of the Amazon Web Services account that owns the VPC.    state - The state of the VPC (pending | available).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// One or more VPC IDs. Default: Describes all your VPCs.
         @OptionalCustomCoding<EC2ArrayCoder<_VpcIdsEncoding, String>>
@@ -23100,7 +23367,7 @@ extension EC2 {
     public struct DescribeVpcsResult: AWSDecodableShape {
         public struct _VpcsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about one or more VPCs.
         @OptionalCustomCoding<EC2ArrayCoder<_VpcsEncoding, Vpc>>
@@ -23627,7 +23894,8 @@ extension EC2 {
         public let imageId: String?
         /// The launch template that was used to launch Windows instances from pre-provisioned snapshots.
         public let launchTemplate: FastLaunchLaunchTemplateSpecificationResponse?
-        /// The maximum number of parallel instances to launch for creating resources.
+        /// The maximum number of instances that Amazon EC2 can launch at the same time to
+        /// 			create pre-provisioned snapshots for Windows faster launching.
         public let maxParallelLaunches: Int?
         /// The owner of the Windows AMI for which faster launching was turned off.
         public let ownerId: String?
@@ -24102,13 +24370,6 @@ extension EC2 {
             self.roleArn = roleArn
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 1283)
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 1)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1283)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
             case dryRun = "DryRun"
@@ -24216,6 +24477,59 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case ipamResourceDiscoveryAssociation = "ipamResourceDiscoveryAssociation"
+        }
+    }
+
+    public struct DisassociateNatGatewayAddressRequest: AWSEncodableShape {
+        public struct _AssociationIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The association IDs of EIPs that have been associated with the NAT gateway.
+        @OptionalCustomCoding<EC2ArrayCoder<_AssociationIdsEncoding, String>>
+        public var associationIds: [String]?
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The maximum amount of time to wait (in seconds) before forcibly releasing the IP addresses if connections are still in progress. Default value is 350 seconds.
+        public let maxDrainDurationSeconds: Int?
+        /// The NAT gateway ID.
+        public let natGatewayId: String?
+
+        public init(associationIds: [String]? = nil, dryRun: Bool? = nil, maxDrainDurationSeconds: Int? = nil, natGatewayId: String? = nil) {
+            self.associationIds = associationIds
+            self.dryRun = dryRun
+            self.maxDrainDurationSeconds = maxDrainDurationSeconds
+            self.natGatewayId = natGatewayId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxDrainDurationSeconds, name: "maxDrainDurationSeconds", parent: name, max: 4000)
+            try self.validate(self.maxDrainDurationSeconds, name: "maxDrainDurationSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationIds = "AssociationId"
+            case dryRun = "DryRun"
+            case maxDrainDurationSeconds = "MaxDrainDurationSeconds"
+            case natGatewayId = "NatGatewayId"
+        }
+    }
+
+    public struct DisassociateNatGatewayAddressResult: AWSDecodableShape {
+        public struct _NatGatewayAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the NAT gateway IP addresses.
+        @OptionalCustomCoding<EC2ArrayCoder<_NatGatewayAddressesEncoding, NatGatewayAddress>>
+        public var natGatewayAddresses: [NatGatewayAddress]?
+        /// The NAT gateway ID.
+        public let natGatewayId: String?
+
+        public init(natGatewayAddresses: [NatGatewayAddress]? = nil, natGatewayId: String? = nil) {
+            self.natGatewayAddresses = natGatewayAddresses
+            self.natGatewayId = natGatewayId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case natGatewayAddresses = "natGatewayAddressSet"
+            case natGatewayId = "natGatewayId"
         }
     }
 
@@ -24572,26 +24886,34 @@ extension EC2 {
     public struct DnsOptions: AWSDecodableShape {
         /// The DNS records created for the endpoint.
         public let dnsRecordIpType: DnsRecordIpType?
+        /// Indicates whether to enable private DNS only for inbound endpoints.
+        public let privateDnsOnlyForInboundResolverEndpoint: Bool?
 
-        public init(dnsRecordIpType: DnsRecordIpType? = nil) {
+        public init(dnsRecordIpType: DnsRecordIpType? = nil, privateDnsOnlyForInboundResolverEndpoint: Bool? = nil) {
             self.dnsRecordIpType = dnsRecordIpType
+            self.privateDnsOnlyForInboundResolverEndpoint = privateDnsOnlyForInboundResolverEndpoint
         }
 
         private enum CodingKeys: String, CodingKey {
             case dnsRecordIpType = "dnsRecordIpType"
+            case privateDnsOnlyForInboundResolverEndpoint = "privateDnsOnlyForInboundResolverEndpoint"
         }
     }
 
     public struct DnsOptionsSpecification: AWSEncodableShape {
         /// The DNS records created for the endpoint.
         public let dnsRecordIpType: DnsRecordIpType?
+        /// Indicates whether to enable private DNS only for inbound endpoints. This option is available only for services that support both gateway and interface endpoints. It routes traffic that originates from the VPC to the gateway endpoint and traffic that originates from on-premises to the interface endpoint.
+        public let privateDnsOnlyForInboundResolverEndpoint: Bool?
 
-        public init(dnsRecordIpType: DnsRecordIpType? = nil) {
+        public init(dnsRecordIpType: DnsRecordIpType? = nil, privateDnsOnlyForInboundResolverEndpoint: Bool? = nil) {
             self.dnsRecordIpType = dnsRecordIpType
+            self.privateDnsOnlyForInboundResolverEndpoint = privateDnsOnlyForInboundResolverEndpoint
         }
 
         private enum CodingKeys: String, CodingKey {
             case dnsRecordIpType = "DnsRecordIpType"
+            case privateDnsOnlyForInboundResolverEndpoint = "PrivateDnsOnlyForInboundResolverEndpoint"
         }
     }
 
@@ -24622,7 +24944,7 @@ extension EC2 {
         /// Indicates whether the EBS volume is deleted on instance termination. For more information, see Preserving Amazon EBS volumes on instance termination in the Amazon EC2 User Guide.
         public let deleteOnTermination: Bool?
         /// Indicates whether the encryption state of an EBS volume is changed while being restored from a backing snapshot. The effect of setting the encryption state to true depends on
-        /// the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Amazon EBS encryption in the Amazon EC2 User Guide. In no case can you remove encryption from an encrypted volume. Encrypted volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported instance types. This parameter is not returned by DescribeImageAttribute.
+        /// the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Amazon EBS encryption in the Amazon EC2 User Guide. In no case can you remove encryption from an encrypted volume. Encrypted volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported instance types. This parameter is not returned by DescribeImageAttribute. For CreateImage and RegisterImage, whether you can  include this parameter, and the allowed values differ depending on the type of block  device mapping you are creating.   If you are creating a block device mapping for a new (empty)  volume, you can include this parameter, and specify either true  for an encrypted volume, or false for an unencrypted volume. If you omit  this parameter, it defaults to false (unencrypted).   If you are creating a block device mapping from an existing  encrypted or unencrypted snapshot, you must omit this parameter. If you  include this parameter, the request will fail, regardless of the value that you  specify.   If you are creating a block device mapping from an existing  unencrypted volume, you can include this parameter, but you must specify  false. If you specify true, the request will fail. In this  case, we recommend that you omit the parameter.   If you are creating a block device mapping from an existing  encrypted volume, you can include this parameter, and specify either  true or false. However, if you specify false,  the parameter is ignored and the block device mapping is always encrypted. In this  case, we recommend that you omit the parameter.
         public let encrypted: Bool?
         /// The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. The following are the supported values for each volume type:    gp3: 3,000-16,000 IOPS    io1: 100-64,000 IOPS    io2: 100-64,000 IOPS   For io1 and io2 volumes, we guarantee 64,000 IOPS only for Instances built on the Nitro System. Other instance families guarantee performance up to 32,000 IOPS. This parameter is required for io1 and io2 volumes. The default for gp3 volumes is 3,000 IOPS. This parameter is not supported for gp2, st1, sc1, or standard volumes.
         public let iops: Int?
@@ -25096,7 +25418,9 @@ extension EC2 {
         /// 			snapshots. Launch template parameters can include either the name or ID of the launch
         /// 			template, but not both.
         public let launchTemplate: FastLaunchLaunchTemplateSpecificationRequest?
-        /// The maximum number of parallel instances to launch for creating resources. Value must be 6 or greater.
+        /// The maximum number of instances that Amazon EC2 can launch at the same time to create
+        /// 			pre-provisioned snapshots for Windows faster launching. Value must be
+        /// 			6 or greater.
         public let maxParallelLaunches: Int?
         /// The type of resource to use for pre-provisioning the Windows AMI for faster launching.
         /// 			Supported values include: snapshot, which is the default value.
@@ -25130,14 +25454,15 @@ extension EC2 {
         public let imageId: String?
         /// The launch template that is used when launching Windows instances from pre-provisioned snapshots.
         public let launchTemplate: FastLaunchLaunchTemplateSpecificationResponse?
-        /// The maximum number of parallel instances to launch for creating resources.
+        /// The maximum number of instances that Amazon EC2 can launch at the same time to
+        /// 			create pre-provisioned snapshots for Windows faster launching.
         public let maxParallelLaunches: Int?
         /// The owner ID for the Windows AMI for which faster launching was enabled.
         public let ownerId: String?
         /// The type of resource that was defined for pre-provisioning the Windows AMI for faster launching.
         public let resourceType: FastLaunchResourceType?
-        /// The configuration settings that were defined for creating and managing the pre-provisioned snapshots
-        /// 			for faster launching of the Windows AMI. This property is returned when the associated
+        /// Settings to create and manage the pre-provisioned snapshots that Amazon EC2 uses for faster
+        /// 			launches from the Windows AMI. This property is returned when the associated
         /// 			resourceType is snapshot.
         public let snapshotConfiguration: FastLaunchSnapshotConfigurationResponse?
         /// The current state of faster launching for the specified Windows AMI.
@@ -25672,6 +25997,10 @@ extension EC2 {
         public let elasticLoadBalancerListener: AnalysisComponent?
         /// The explanation code.
         public let explanationCode: String?
+        /// The Network Firewall stateful rule.
+        public let firewallStatefulRule: FirewallStatefulRule?
+        /// The Network Firewall stateless rule.
+        public let firewallStatelessRule: FirewallStatelessRule?
         /// The route table.
         public let ingressRouteTable: AnalysisComponent?
         /// The internet gateway.
@@ -25745,7 +26074,7 @@ extension EC2 {
         /// The VPN gateway.
         public let vpnGateway: AnalysisComponent?
 
-        public init(acl: AnalysisComponent? = nil, aclRule: AnalysisAclRule? = nil, address: String? = nil, addresses: [String]? = nil, attachedTo: AnalysisComponent? = nil, availabilityZones: [String]? = nil, cidrs: [String]? = nil, classicLoadBalancerListener: AnalysisLoadBalancerListener? = nil, component: AnalysisComponent? = nil, componentAccount: String? = nil, componentRegion: String? = nil, customerGateway: AnalysisComponent? = nil, destination: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, direction: String? = nil, elasticLoadBalancerListener: AnalysisComponent? = nil, explanationCode: String? = nil, ingressRouteTable: AnalysisComponent? = nil, internetGateway: AnalysisComponent? = nil, loadBalancerArn: String? = nil, loadBalancerListenerPort: Int? = nil, loadBalancerTarget: AnalysisLoadBalancerTarget? = nil, loadBalancerTargetGroup: AnalysisComponent? = nil, loadBalancerTargetGroups: [AnalysisComponent]? = nil, loadBalancerTargetPort: Int? = nil, missingComponent: String? = nil, natGateway: AnalysisComponent? = nil, networkInterface: AnalysisComponent? = nil, packetField: String? = nil, port: Int? = nil, portRanges: [PortRange]? = nil, prefixList: AnalysisComponent? = nil, protocols: [String]? = nil, routeTable: AnalysisComponent? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroup: AnalysisComponent? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, securityGroups: [AnalysisComponent]? = nil, sourceVpc: AnalysisComponent? = nil, state: String? = nil, subnet: AnalysisComponent? = nil, subnetRouteTable: AnalysisComponent? = nil, transitGateway: AnalysisComponent? = nil, transitGatewayAttachment: AnalysisComponent? = nil, transitGatewayRouteTable: AnalysisComponent? = nil, transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute? = nil, vpc: AnalysisComponent? = nil, vpcEndpoint: AnalysisComponent? = nil, vpcPeeringConnection: AnalysisComponent? = nil, vpnConnection: AnalysisComponent? = nil, vpnGateway: AnalysisComponent? = nil) {
+        public init(acl: AnalysisComponent? = nil, aclRule: AnalysisAclRule? = nil, address: String? = nil, addresses: [String]? = nil, attachedTo: AnalysisComponent? = nil, availabilityZones: [String]? = nil, cidrs: [String]? = nil, classicLoadBalancerListener: AnalysisLoadBalancerListener? = nil, component: AnalysisComponent? = nil, componentAccount: String? = nil, componentRegion: String? = nil, customerGateway: AnalysisComponent? = nil, destination: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, direction: String? = nil, elasticLoadBalancerListener: AnalysisComponent? = nil, explanationCode: String? = nil, firewallStatefulRule: FirewallStatefulRule? = nil, firewallStatelessRule: FirewallStatelessRule? = nil, ingressRouteTable: AnalysisComponent? = nil, internetGateway: AnalysisComponent? = nil, loadBalancerArn: String? = nil, loadBalancerListenerPort: Int? = nil, loadBalancerTarget: AnalysisLoadBalancerTarget? = nil, loadBalancerTargetGroup: AnalysisComponent? = nil, loadBalancerTargetGroups: [AnalysisComponent]? = nil, loadBalancerTargetPort: Int? = nil, missingComponent: String? = nil, natGateway: AnalysisComponent? = nil, networkInterface: AnalysisComponent? = nil, packetField: String? = nil, port: Int? = nil, portRanges: [PortRange]? = nil, prefixList: AnalysisComponent? = nil, protocols: [String]? = nil, routeTable: AnalysisComponent? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroup: AnalysisComponent? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, securityGroups: [AnalysisComponent]? = nil, sourceVpc: AnalysisComponent? = nil, state: String? = nil, subnet: AnalysisComponent? = nil, subnetRouteTable: AnalysisComponent? = nil, transitGateway: AnalysisComponent? = nil, transitGatewayAttachment: AnalysisComponent? = nil, transitGatewayRouteTable: AnalysisComponent? = nil, transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute? = nil, vpc: AnalysisComponent? = nil, vpcEndpoint: AnalysisComponent? = nil, vpcPeeringConnection: AnalysisComponent? = nil, vpnConnection: AnalysisComponent? = nil, vpnGateway: AnalysisComponent? = nil) {
             self.acl = acl
             self.aclRule = aclRule
             self.address = address
@@ -25763,6 +26092,8 @@ extension EC2 {
             self.direction = direction
             self.elasticLoadBalancerListener = elasticLoadBalancerListener
             self.explanationCode = explanationCode
+            self.firewallStatefulRule = firewallStatefulRule
+            self.firewallStatelessRule = firewallStatelessRule
             self.ingressRouteTable = ingressRouteTable
             self.internetGateway = internetGateway
             self.loadBalancerArn = loadBalancerArn
@@ -25817,6 +26148,8 @@ extension EC2 {
             case direction = "direction"
             case elasticLoadBalancerListener = "elasticLoadBalancerListener"
             case explanationCode = "explanationCode"
+            case firewallStatefulRule = "firewallStatefulRule"
+            case firewallStatelessRule = "firewallStatelessRule"
             case ingressRouteTable = "ingressRouteTable"
             case internetGateway = "internetGateway"
             case loadBalancerArn = "loadBalancerArn"
@@ -26379,6 +26712,125 @@ extension EC2 {
         }
     }
 
+    public struct FilterPortRange: AWSDecodableShape {
+        /// The first port in the range.
+        public let fromPort: Int?
+        /// The last port in the range.
+        public let toPort: Int?
+
+        public init(fromPort: Int? = nil, toPort: Int? = nil) {
+            self.fromPort = fromPort
+            self.toPort = toPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromPort = "fromPort"
+            case toPort = "toPort"
+        }
+    }
+
+    public struct FirewallStatefulRule: AWSDecodableShape {
+        public struct _DestinationPortsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _DestinationsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _SourcePortsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _SourcesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The destination ports.
+        @OptionalCustomCoding<EC2ArrayCoder<_DestinationPortsEncoding, PortRange>>
+        public var destinationPorts: [PortRange]?
+        /// The destination IP addresses, in CIDR notation.
+        @OptionalCustomCoding<EC2ArrayCoder<_DestinationsEncoding, String>>
+        public var destinations: [String]?
+        /// The direction. The possible values are FORWARD and ANY.
+        public let direction: String?
+        /// The protocol.
+        public let `protocol`: String?
+        /// The rule action. The possible values are pass, drop, and  alert.
+        public let ruleAction: String?
+        /// The ARN of the stateful rule group.
+        public let ruleGroupArn: String?
+        /// The source ports.
+        @OptionalCustomCoding<EC2ArrayCoder<_SourcePortsEncoding, PortRange>>
+        public var sourcePorts: [PortRange]?
+        /// The source IP addresses, in CIDR notation.
+        @OptionalCustomCoding<EC2ArrayCoder<_SourcesEncoding, String>>
+        public var sources: [String]?
+
+        public init(destinationPorts: [PortRange]? = nil, destinations: [String]? = nil, direction: String? = nil, protocol: String? = nil, ruleAction: String? = nil, ruleGroupArn: String? = nil, sourcePorts: [PortRange]? = nil, sources: [String]? = nil) {
+            self.destinationPorts = destinationPorts
+            self.destinations = destinations
+            self.direction = direction
+            self.`protocol` = `protocol`
+            self.ruleAction = ruleAction
+            self.ruleGroupArn = ruleGroupArn
+            self.sourcePorts = sourcePorts
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationPorts = "destinationPortSet"
+            case destinations = "destinationSet"
+            case direction = "direction"
+            case `protocol` = "protocol"
+            case ruleAction = "ruleAction"
+            case ruleGroupArn = "ruleGroupArn"
+            case sourcePorts = "sourcePortSet"
+            case sources = "sourceSet"
+        }
+    }
+
+    public struct FirewallStatelessRule: AWSDecodableShape {
+        public struct _DestinationPortsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _DestinationsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _ProtocolsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _SourcePortsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _SourcesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The destination ports.
+        @OptionalCustomCoding<EC2ArrayCoder<_DestinationPortsEncoding, PortRange>>
+        public var destinationPorts: [PortRange]?
+        /// The destination IP addresses, in CIDR notation.
+        @OptionalCustomCoding<EC2ArrayCoder<_DestinationsEncoding, String>>
+        public var destinations: [String]?
+        /// The rule priority.
+        public let priority: Int?
+        /// The protocols.
+        @OptionalCustomCoding<EC2ArrayCoder<_ProtocolsEncoding, Int>>
+        public var protocols: [Int]?
+        /// The rule action. The possible values are pass, drop, and  forward_to_site.
+        public let ruleAction: String?
+        /// The ARN of the stateless rule group.
+        public let ruleGroupArn: String?
+        /// The source ports.
+        @OptionalCustomCoding<EC2ArrayCoder<_SourcePortsEncoding, PortRange>>
+        public var sourcePorts: [PortRange]?
+        /// The source IP addresses, in CIDR notation.
+        @OptionalCustomCoding<EC2ArrayCoder<_SourcesEncoding, String>>
+        public var sources: [String]?
+
+        public init(destinationPorts: [PortRange]? = nil, destinations: [String]? = nil, priority: Int? = nil, protocols: [Int]? = nil, ruleAction: String? = nil, ruleGroupArn: String? = nil, sourcePorts: [PortRange]? = nil, sources: [String]? = nil) {
+            self.destinationPorts = destinationPorts
+            self.destinations = destinations
+            self.priority = priority
+            self.protocols = protocols
+            self.ruleAction = ruleAction
+            self.ruleGroupArn = ruleGroupArn
+            self.sourcePorts = sourcePorts
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationPorts = "destinationPortSet"
+            case destinations = "destinationSet"
+            case priority = "priority"
+            case protocols = "protocolSet"
+            case ruleAction = "ruleAction"
+            case ruleGroupArn = "ruleGroupArn"
+            case sourcePorts = "sourcePortSet"
+            case sources = "sourceSet"
+        }
+    }
+
     public struct FleetCapacityReservation: AWSDecodableShape {
         /// The Availability Zone in which the Capacity Reservation reserves capacity.
         public let availabilityZone: String?
@@ -26455,7 +26907,7 @@ extension EC2 {
         /// Information about the instances that could not be launched by the fleet. Valid only when Type is set to instant.
         @OptionalCustomCoding<EC2ArrayCoder<_ErrorsEncoding, DescribeFleetError>>
         public var errors: [DescribeFleetError]?
-        /// Indicates whether running instances should be terminated if the target capacity of the EC2 Fleet is decreased below the current size of the EC2 Fleet.
+        /// Indicates whether running instances should be terminated if the target capacity of the EC2 Fleet is decreased below the current size of the EC2 Fleet. Supported only for fleets of type maintain.
         public let excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy?
         /// The ID of the EC2 Fleet.
         public let fleetId: String?
@@ -26594,7 +27046,7 @@ extension EC2 {
         public let imageId: String?
         /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.  If you specify InstanceRequirements, you can't specify InstanceType.
         public let instanceRequirements: InstanceRequirements?
-        /// The instance type.  If you specify InstanceType, you can't specify InstanceRequirements.
+        /// The instance type.  mac1.metal is not supported as a launch template override.  If you specify InstanceType, you can't specify InstanceRequirements.
         public let instanceType: InstanceType?
         /// The maximum price per unit hour that you are willing to pay for a Spot Instance. We do not recommend using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.   If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify this parameter.
         public let maxPrice: String?
@@ -26639,7 +27091,7 @@ extension EC2 {
         public let imageId: String?
         /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.  If you specify InstanceRequirements, you can't specify InstanceType.
         public let instanceRequirements: InstanceRequirementsRequest?
-        /// The instance type.  If you specify InstanceType, you can't specify InstanceRequirements.
+        /// The instance type.  mac1.metal is not supported as a launch template override.  If you specify InstanceType, you can't specify InstanceRequirements.
         public let instanceType: InstanceType?
         /// The maximum price per unit hour that you are willing to pay for a Spot Instance. We do not recommend using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.   If you specify a maximum price, your instances will be interrupted more frequently than if you do not specify this parameter.
         public let maxPrice: String?
@@ -27070,11 +27522,6 @@ extension EC2 {
         public init(certificateArn: String? = nil, dryRun: Bool? = nil) {
             self.certificateArn = certificateArn
             self.dryRun = dryRun
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 1283)
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -27546,7 +27993,8 @@ extension EC2 {
     }
 
     public struct GetGroupsForCapacityReservationRequest: AWSEncodableShape {
-        /// The ID of the Capacity Reservation.
+        /// The ID of the Capacity Reservation. If you specify a Capacity Reservation that is shared
+        /// 			with you, the operation returns only Capacity Reservation groups that you own.
         public let capacityReservationId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -27654,9 +28102,10 @@ extension EC2 {
         public let dryRun: Bool?
         /// The attributes required for the instance types.
         public let instanceRequirements: InstanceRequirementsRequest?
-        /// The maximum number of results to return in a single call. Specify a value between 1 and   1000. The default value is 1000. To retrieve the remaining results, make another call with   the returned NextToken value.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next set of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// The virtualization type.
         @OptionalCustomCoding<EC2ArrayCoder<_VirtualizationTypesEncoding, VirtualizationType>>
@@ -27693,7 +28142,7 @@ extension EC2 {
         /// The instance types with the specified instance attributes.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceTypesEncoding, InstanceTypeInfoFromInstanceRequirements>>
         public var instanceTypes: [InstanceTypeInfoFromInstanceRequirements]?
-        /// The token for the next set of results.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(instanceTypes: [InstanceTypeInfoFromInstanceRequirements]? = nil, nextToken: String? = nil) {
@@ -28498,9 +28947,10 @@ extension EC2 {
         /// The instance types. We recommend that you specify at least three instance types. If you specify one or two instance types, or specify variations of a single instance type (for example, an m3.xlarge with and without instance storage), the returned placement score will always be low.  If you specify InstanceTypes, you can't specify InstanceRequirementsWithMetadata.
         @OptionalCustomCoding<EC2StandardArrayCoder>
         public var instanceTypes: [String]?
-        /// The maximum number of results to return in a single call. Specify a value between 1 and        1000. The default value is 1000. To retrieve the remaining results, make another call with        the returned NextToken value.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next set of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// The Regions used to narrow down the list of Regions to be scored. Enter the Region code, for example, us-east-1.
         @OptionalCustomCoding<EC2StandardArrayCoder>
@@ -28550,7 +29000,7 @@ extension EC2 {
     public struct GetSpotPlacementScoresResult: AWSDecodableShape {
         public struct _SpotPlacementScoresEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token for the next set of results.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The Spot placement score for the top 10 Regions or Availability Zones, scored on a scale from 1 to 10. Each score  reflects how likely it is that each Region or Availability Zone will succeed at fulfilling the specified target capacity  at the time of the Spot placement score request. A score of 10 means that your Spot capacity request is highly likely to succeed in that Region or Availability Zone.  If you request a Spot placement score for Regions, a high score assumes that your fleet request will be configured to use all Availability Zones and the capacity-optimized allocation strategy. If you request a Spot placement score for Availability Zones, a high score assumes that your fleet request will be configured to use a single Availability Zone and the capacity-optimized allocation strategy. Different  Regions or Availability Zones might return the same score.  The Spot placement score serves as a recommendation only. No score guarantees that your Spot request will be fully or partially fulfilled.
         @OptionalCustomCoding<EC2ArrayCoder<_SpotPlacementScoresEncoding, SpotPlacementScore>>
@@ -29185,6 +29635,60 @@ extension EC2 {
         }
     }
 
+    public struct GetVpnTunnelReplacementStatusRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the Site-to-Site VPN connection.
+        public let vpnConnectionId: String?
+        /// The external IP address of the VPN tunnel.
+        public let vpnTunnelOutsideIpAddress: String?
+
+        public init(dryRun: Bool? = nil, vpnConnectionId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
+            self.dryRun = dryRun
+            self.vpnConnectionId = vpnConnectionId
+            self.vpnTunnelOutsideIpAddress = vpnTunnelOutsideIpAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case vpnConnectionId = "VpnConnectionId"
+            case vpnTunnelOutsideIpAddress = "VpnTunnelOutsideIpAddress"
+        }
+    }
+
+    public struct GetVpnTunnelReplacementStatusResult: AWSDecodableShape {
+        /// The ID of the customer gateway.
+        public let customerGatewayId: String?
+        /// Get details of pending tunnel endpoint maintenance.
+        public let maintenanceDetails: MaintenanceDetails?
+        /// The ID of the transit gateway associated with the VPN connection.
+        public let transitGatewayId: String?
+        /// The ID of the Site-to-Site VPN connection.
+        public let vpnConnectionId: String?
+        /// The ID of the virtual private gateway.
+        public let vpnGatewayId: String?
+        /// The external IP address of the VPN tunnel.
+        public let vpnTunnelOutsideIpAddress: String?
+
+        public init(customerGatewayId: String? = nil, maintenanceDetails: MaintenanceDetails? = nil, transitGatewayId: String? = nil, vpnConnectionId: String? = nil, vpnGatewayId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
+            self.customerGatewayId = customerGatewayId
+            self.maintenanceDetails = maintenanceDetails
+            self.transitGatewayId = transitGatewayId
+            self.vpnConnectionId = vpnConnectionId
+            self.vpnGatewayId = vpnGatewayId
+            self.vpnTunnelOutsideIpAddress = vpnTunnelOutsideIpAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerGatewayId = "customerGatewayId"
+            case maintenanceDetails = "maintenanceDetails"
+            case transitGatewayId = "transitGatewayId"
+            case vpnConnectionId = "vpnConnectionId"
+            case vpnGatewayId = "vpnGatewayId"
+            case vpnTunnelOutsideIpAddress = "vpnTunnelOutsideIpAddress"
+        }
+    }
+
     public struct GpuDeviceInfo: AWSDecodableShape {
         /// The number of GPUs for the instance type.
         public let count: Int?
@@ -29348,6 +29852,8 @@ extension EC2 {
         public let clientToken: String?
         /// The ID of the Dedicated Host.
         public let hostId: String?
+        /// Indicates whether host maintenance is enabled or disabled for the Dedicated Host.
+        public let hostMaintenance: HostMaintenance?
         /// The hardware specifications of the Dedicated Host.
         public let hostProperties: HostProperties?
         /// Indicates whether host recovery is enabled or disabled for the Dedicated Host.
@@ -29371,7 +29877,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(allocationTime: Date? = nil, allowsMultipleInstanceTypes: AllowsMultipleInstanceTypes? = nil, autoPlacement: AutoPlacement? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableCapacity: AvailableCapacity? = nil, clientToken: String? = nil, hostId: String? = nil, hostProperties: HostProperties? = nil, hostRecovery: HostRecovery? = nil, hostReservationId: String? = nil, instances: [HostInstance]? = nil, memberOfServiceLinkedResourceGroup: Bool? = nil, outpostArn: String? = nil, ownerId: String? = nil, releaseTime: Date? = nil, state: AllocationState? = nil, tags: [Tag]? = nil) {
+        public init(allocationTime: Date? = nil, allowsMultipleInstanceTypes: AllowsMultipleInstanceTypes? = nil, autoPlacement: AutoPlacement? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableCapacity: AvailableCapacity? = nil, clientToken: String? = nil, hostId: String? = nil, hostMaintenance: HostMaintenance? = nil, hostProperties: HostProperties? = nil, hostRecovery: HostRecovery? = nil, hostReservationId: String? = nil, instances: [HostInstance]? = nil, memberOfServiceLinkedResourceGroup: Bool? = nil, outpostArn: String? = nil, ownerId: String? = nil, releaseTime: Date? = nil, state: AllocationState? = nil, tags: [Tag]? = nil) {
             self.allocationTime = allocationTime
             self.allowsMultipleInstanceTypes = allowsMultipleInstanceTypes
             self.autoPlacement = autoPlacement
@@ -29380,6 +29886,7 @@ extension EC2 {
             self.availableCapacity = availableCapacity
             self.clientToken = clientToken
             self.hostId = hostId
+            self.hostMaintenance = hostMaintenance
             self.hostProperties = hostProperties
             self.hostRecovery = hostRecovery
             self.hostReservationId = hostReservationId
@@ -29401,6 +29908,7 @@ extension EC2 {
             case availableCapacity = "availableCapacity"
             case clientToken = "clientToken"
             case hostId = "hostId"
+            case hostMaintenance = "hostMaintenance"
             case hostProperties = "hostProperties"
             case hostRecovery = "hostRecovery"
             case hostReservationId = "hostReservationId"
@@ -30720,7 +31228,7 @@ extension EC2 {
         /// Any block device mapping entries for the instance.
         @OptionalCustomCoding<EC2ArrayCoder<_BlockDeviceMappingsEncoding, InstanceBlockDeviceMapping>>
         public var blockDeviceMappings: [InstanceBlockDeviceMapping]?
-        /// The boot mode of the instance. For more information, see Boot modes in the Amazon EC2 User Guide.
+        /// The boot mode that was specified by the AMI. If the value is uefi-preferred,  the AMI supports both UEFI and Legacy BIOS. The currentInstanceBootMode parameter  is the boot mode that is used to boot the instance at launch or start.  The operating system contained in the AMI must be configured to support the specified boot mode.  For more information, see Boot modes in the Amazon EC2 User Guide.
         public let bootMode: BootModeValues?
         /// The ID of the Capacity Reservation.
         public let capacityReservationId: String?
@@ -30730,12 +31238,14 @@ extension EC2 {
         public let clientToken: String?
         /// The CPU options for the instance.
         public let cpuOptions: CpuOptions?
+        /// The boot mode that is used to boot the instance at launch or start. For more information, see Boot modes in the Amazon EC2 User Guide.
+        public let currentInstanceBootMode: InstanceBootModeValues?
         /// Indicates whether the instance is optimized for Amazon EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS Optimized instance.
         public let ebsOptimized: Bool?
         /// The Elastic GPU associated with the instance.
         @OptionalCustomCoding<EC2ArrayCoder<_ElasticGpuAssociationsEncoding, ElasticGpuAssociation>>
         public var elasticGpuAssociations: [ElasticGpuAssociation]?
-        ///  The elastic inference accelerator associated with the instance.
+        /// The elastic inference accelerator associated with the instance.
         @OptionalCustomCoding<EC2ArrayCoder<_ElasticInferenceAcceleratorAssociationsEncoding, ElasticInferenceAcceleratorAssociation>>
         public var elasticInferenceAcceleratorAssociations: [ElasticInferenceAcceleratorAssociation]?
         /// Specifies whether enhanced networking with ENA is enabled.
@@ -30834,7 +31344,7 @@ extension EC2 {
         /// [EC2-VPC] The ID of the VPC in which the instance is running.
         public let vpcId: String?
 
-        public init(amiLaunchIndex: Int? = nil, architecture: ArchitectureValues? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, capacityReservationId: String? = nil, capacityReservationSpecification: CapacityReservationSpecificationResponse? = nil, clientToken: String? = nil, cpuOptions: CpuOptions? = nil, ebsOptimized: Bool? = nil, elasticGpuAssociations: [ElasticGpuAssociation]? = nil, elasticInferenceAcceleratorAssociations: [ElasticInferenceAcceleratorAssociation]? = nil, enaSupport: Bool? = nil, enclaveOptions: EnclaveOptions? = nil, hibernationOptions: HibernationOptions? = nil, hypervisor: HypervisorType? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageId: String? = nil, instanceId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, instanceType: InstanceType? = nil, ipv6Address: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchTime: Date? = nil, licenses: [LicenseConfiguration]? = nil, maintenanceOptions: InstanceMaintenanceOptions? = nil, metadataOptions: InstanceMetadataOptionsResponse? = nil, monitoring: Monitoring? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, outpostArn: String? = nil, placement: Placement? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, privateDnsName: String? = nil, privateDnsNameOptions: PrivateDnsNameOptionsResponse? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, publicDnsName: String? = nil, publicIpAddress: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, securityGroups: [GroupIdentifier]? = nil, sourceDestCheck: Bool? = nil, spotInstanceRequestId: String? = nil, sriovNetSupport: String? = nil, state: InstanceState? = nil, stateReason: StateReason? = nil, stateTransitionReason: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, tpmSupport: String? = nil, usageOperation: String? = nil, usageOperationUpdateTime: Date? = nil, virtualizationType: VirtualizationType? = nil, vpcId: String? = nil) {
+        public init(amiLaunchIndex: Int? = nil, architecture: ArchitectureValues? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, capacityReservationId: String? = nil, capacityReservationSpecification: CapacityReservationSpecificationResponse? = nil, clientToken: String? = nil, cpuOptions: CpuOptions? = nil, currentInstanceBootMode: InstanceBootModeValues? = nil, ebsOptimized: Bool? = nil, elasticGpuAssociations: [ElasticGpuAssociation]? = nil, elasticInferenceAcceleratorAssociations: [ElasticInferenceAcceleratorAssociation]? = nil, enaSupport: Bool? = nil, enclaveOptions: EnclaveOptions? = nil, hibernationOptions: HibernationOptions? = nil, hypervisor: HypervisorType? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageId: String? = nil, instanceId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, instanceType: InstanceType? = nil, ipv6Address: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchTime: Date? = nil, licenses: [LicenseConfiguration]? = nil, maintenanceOptions: InstanceMaintenanceOptions? = nil, metadataOptions: InstanceMetadataOptionsResponse? = nil, monitoring: Monitoring? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, outpostArn: String? = nil, placement: Placement? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, privateDnsName: String? = nil, privateDnsNameOptions: PrivateDnsNameOptionsResponse? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, publicDnsName: String? = nil, publicIpAddress: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, securityGroups: [GroupIdentifier]? = nil, sourceDestCheck: Bool? = nil, spotInstanceRequestId: String? = nil, sriovNetSupport: String? = nil, state: InstanceState? = nil, stateReason: StateReason? = nil, stateTransitionReason: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, tpmSupport: String? = nil, usageOperation: String? = nil, usageOperationUpdateTime: Date? = nil, virtualizationType: VirtualizationType? = nil, vpcId: String? = nil) {
             self.amiLaunchIndex = amiLaunchIndex
             self.architecture = architecture
             self.blockDeviceMappings = blockDeviceMappings
@@ -30843,6 +31353,7 @@ extension EC2 {
             self.capacityReservationSpecification = capacityReservationSpecification
             self.clientToken = clientToken
             self.cpuOptions = cpuOptions
+            self.currentInstanceBootMode = currentInstanceBootMode
             self.ebsOptimized = ebsOptimized
             self.elasticGpuAssociations = elasticGpuAssociations
             self.elasticInferenceAcceleratorAssociations = elasticInferenceAcceleratorAssociations
@@ -30902,6 +31413,7 @@ extension EC2 {
             case capacityReservationSpecification = "capacityReservationSpecification"
             case clientToken = "clientToken"
             case cpuOptions = "cpuOptions"
+            case currentInstanceBootMode = "currentInstanceBootMode"
             case ebsOptimized = "ebsOptimized"
             case elasticGpuAssociations = "elasticGpuAssociationSet"
             case elasticInferenceAcceleratorAssociations = "elasticInferenceAcceleratorAssociationSet"
@@ -33671,7 +34183,7 @@ extension EC2 {
         public var securityGroups: [GroupIdentifier]?
         /// The ID of the subnet in which to launch the instance.
         public let subnetId: String?
-        /// The Base64-encoded user data for the instance.
+        /// The base64-encoded user data that instances use when starting up. User data is limited to 16 KB.
         public let userData: String?
 
         public init(addressingType: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil, securityGroups: [GroupIdentifier]? = nil, subnetId: String? = nil, userData: String? = nil) {
@@ -34854,10 +35366,10 @@ extension EC2 {
         /// The IDs of the AMIs to list. Omit this parameter to list all of the AMIs that  are in the Recycle Bin. You can specify up to 20 IDs in a single request.
         @OptionalCustomCoding<EC2ArrayCoder<_ImageIdsEncoding, String>>
         public var imageIds: [String]?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value. If you do not specify a value for MaxResults, the request  returns 1,000 items per page by default. For more information, see   Pagination.
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         public init(dryRun: Bool? = nil, imageIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -34886,7 +35398,7 @@ extension EC2 {
         /// Information about the AMIs.
         @OptionalCustomCoding<EC2ArrayCoder<_ImagesEncoding, ImageRecycleBinInfo>>
         public var images: [ImageRecycleBinInfo]?
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
         public init(images: [ImageRecycleBinInfo]? = nil, nextToken: String? = nil) {
@@ -34905,10 +35417,11 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// The IDs of the snapshots to list. Omit this parameter to list all of the  snapshots that are in the Recycle Bin.
         @OptionalCustomCoding<EC2ArrayCoder<_SnapshotIdsEncoding, String>>
@@ -34937,7 +35450,7 @@ extension EC2 {
     public struct ListSnapshotsInRecycleBinResult: AWSDecodableShape {
         public struct _SnapshotsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// The token to include in another request to get the next page of items.  This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about the snapshots.
         @OptionalCustomCoding<EC2ArrayCoder<_SnapshotsEncoding, SnapshotRecycleBinInfo>>
@@ -35069,6 +35582,8 @@ extension EC2 {
         public let coipPoolId: String?
         /// The CIDR block used for destination matches.
         public let destinationCidrBlock: String?
+        ///  The ID of the prefix list.
+        public let destinationPrefixListId: String?
         /// The Amazon Resource Name (ARN) of the local gateway route table.
         public let localGatewayRouteTableArn: String?
         /// The ID of the local gateway route table.
@@ -35086,9 +35601,10 @@ extension EC2 {
         /// The route type.
         public let type: LocalGatewayRouteType?
 
-        public init(coipPoolId: String? = nil, destinationCidrBlock: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, networkInterfaceId: String? = nil, ownerId: String? = nil, state: LocalGatewayRouteState? = nil, subnetId: String? = nil, type: LocalGatewayRouteType? = nil) {
+        public init(coipPoolId: String? = nil, destinationCidrBlock: String? = nil, destinationPrefixListId: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, networkInterfaceId: String? = nil, ownerId: String? = nil, state: LocalGatewayRouteState? = nil, subnetId: String? = nil, type: LocalGatewayRouteType? = nil) {
             self.coipPoolId = coipPoolId
             self.destinationCidrBlock = destinationCidrBlock
+            self.destinationPrefixListId = destinationPrefixListId
             self.localGatewayRouteTableArn = localGatewayRouteTableArn
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
@@ -35102,6 +35618,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case coipPoolId = "coipPoolId"
             case destinationCidrBlock = "destinationCidrBlock"
+            case destinationPrefixListId = "destinationPrefixListId"
             case localGatewayRouteTableArn = "localGatewayRouteTableArn"
             case localGatewayRouteTableId = "localGatewayRouteTableId"
             case localGatewayVirtualInterfaceGroupId = "localGatewayVirtualInterfaceGroupId"
@@ -35328,6 +35845,27 @@ extension EC2 {
             case localGatewayVirtualInterfaceIds = "localGatewayVirtualInterfaceIdSet"
             case ownerId = "ownerId"
             case tags = "tagSet"
+        }
+    }
+
+    public struct MaintenanceDetails: AWSDecodableShape {
+        /// Timestamp of last applied maintenance.
+        public let lastMaintenanceApplied: Date?
+        /// The timestamp after which Amazon Web Services will automatically apply maintenance.
+        public let maintenanceAutoAppliedAfter: Date?
+        /// Verify existence of a pending maintenance.
+        public let pendingMaintenance: String?
+
+        public init(lastMaintenanceApplied: Date? = nil, maintenanceAutoAppliedAfter: Date? = nil, pendingMaintenance: String? = nil) {
+            self.lastMaintenanceApplied = lastMaintenanceApplied
+            self.maintenanceAutoAppliedAfter = maintenanceAutoAppliedAfter
+            self.pendingMaintenance = pendingMaintenance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastMaintenanceApplied = "lastMaintenanceApplied"
+            case maintenanceAutoAppliedAfter = "maintenanceAutoAppliedAfter"
+            case pendingMaintenance = "pendingMaintenance"
         }
     }
 
@@ -35827,7 +36365,7 @@ extension EC2 {
         public let context: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Indicates whether running instances should be terminated if the total target capacity of the EC2 Fleet is decreased below the current size of the EC2 Fleet.
+        /// Indicates whether running instances should be terminated if the total target capacity of the EC2 Fleet is decreased below the current size of the EC2 Fleet. Supported only for fleets of type maintain.
         public let excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy?
         /// The ID of the EC2 Fleet.
         public let fleetId: String?
@@ -35954,6 +36492,8 @@ extension EC2 {
         /// The IDs of the Dedicated Hosts to modify.
         @OptionalCustomCoding<EC2ArrayCoder<_HostIdsEncoding, String>>
         public var hostIds: [String]?
+        /// Indicates whether to enable or disable host maintenance for the Dedicated Host. For more information, see  Host maintenance in the Amazon EC2 User Guide.
+        public let hostMaintenance: HostMaintenance?
         /// Indicates whether to enable or disable host recovery for the Dedicated Host. For more information, see  Host recovery in the Amazon EC2 User Guide.
         public let hostRecovery: HostRecovery?
         /// Specifies the instance family to be supported by the Dedicated Host. Specify this parameter to modify a Dedicated Host to support multiple instance types within its current instance family. If you want to modify a Dedicated Host to support a specific instance type only, omit this parameter and specify InstanceType instead. You cannot specify InstanceFamily and InstanceType in the same request.
@@ -35961,9 +36501,10 @@ extension EC2 {
         /// Specifies the instance type to be supported by the Dedicated Host. Specify this parameter to modify a Dedicated Host to support only a specific instance type. If you want to modify a Dedicated Host to support multiple instance types in its current instance family, omit this parameter and specify InstanceFamily instead. You cannot specify InstanceType and InstanceFamily in the same request.
         public let instanceType: String?
 
-        public init(autoPlacement: AutoPlacement? = nil, hostIds: [String]? = nil, hostRecovery: HostRecovery? = nil, instanceFamily: String? = nil, instanceType: String? = nil) {
+        public init(autoPlacement: AutoPlacement? = nil, hostIds: [String]? = nil, hostMaintenance: HostMaintenance? = nil, hostRecovery: HostRecovery? = nil, instanceFamily: String? = nil, instanceType: String? = nil) {
             self.autoPlacement = autoPlacement
             self.hostIds = hostIds
+            self.hostMaintenance = hostMaintenance
             self.hostRecovery = hostRecovery
             self.instanceFamily = instanceFamily
             self.instanceType = instanceType
@@ -35972,6 +36513,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case autoPlacement = "autoPlacement"
             case hostIds = "hostId"
+            case hostMaintenance = "HostMaintenance"
             case hostRecovery = "HostRecovery"
             case instanceFamily = "InstanceFamily"
             case instanceType = "InstanceType"
@@ -36045,7 +36587,7 @@ extension EC2 {
         public struct _UserGroupsEncoding: ArrayCoderProperties { public static let member = "UserGroup" }
         public struct _UserIdsEncoding: ArrayCoderProperties { public static let member = "UserId" }
 
-        /// The name of the attribute to modify. Valid values: description | launchPermission
+        /// The name of the attribute to modify. Valid values: description | imdsSupport | launchPermission
         public let attribute: String?
         /// A new description for the AMI.
         public let description: AttributeValue?
@@ -36055,6 +36597,8 @@ extension EC2 {
         public let dryRun: Bool?
         /// The ID of the AMI.
         public let imageId: String?
+        /// Set to v2.0 to indicate that IMDSv2 is specified in the AMI. Instances launched from this AMI will have HttpTokens automatically set to required so that, by default, the instance requires that IMDSv2 is used when requesting instance metadata. In addition, HttpPutResponseHopLimit is set to 2. For more information, see Configure the AMI in the Amazon EC2 User Guide.  Do not use this parameter unless your AMI software supports IMDSv2. After you set the value to v2.0,  you can't undo it. The only way to “reset” your AMI is to create a new AMI from the underlying snapshot.
+        public let imdsSupport: AttributeValue?
         /// A new launch permission for the AMI.
         public let launchPermission: LaunchPermissionModifications?
         /// The operation type.  This parameter can be used only when the Attribute parameter is launchPermission.
@@ -36074,14 +36618,15 @@ extension EC2 {
         /// The Amazon Web Services account IDs.  This parameter can be used only when the Attribute parameter is launchPermission.
         @OptionalCustomCoding<EC2ArrayCoder<_UserIdsEncoding, String>>
         public var userIds: [String]?
-        /// The value of the attribute being modified.  This parameter can be used only when the Attribute parameter is description.
+        /// The value of the attribute being modified.  This parameter can be used only when the Attribute parameter is description or imdsSupport.
         public let value: String?
 
-        public init(attribute: String? = nil, description: AttributeValue? = nil, dryRun: Bool? = nil, imageId: String? = nil, launchPermission: LaunchPermissionModifications? = nil, operationType: OperationType? = nil, organizationalUnitArns: [String]? = nil, organizationArns: [String]? = nil, productCodes: [String]? = nil, userGroups: [String]? = nil, userIds: [String]? = nil, value: String? = nil) {
+        public init(attribute: String? = nil, description: AttributeValue? = nil, dryRun: Bool? = nil, imageId: String? = nil, imdsSupport: AttributeValue? = nil, launchPermission: LaunchPermissionModifications? = nil, operationType: OperationType? = nil, organizationalUnitArns: [String]? = nil, organizationArns: [String]? = nil, productCodes: [String]? = nil, userGroups: [String]? = nil, userIds: [String]? = nil, value: String? = nil) {
             self.attribute = attribute
             self.description = description
             self.dryRun = dryRun
             self.imageId = imageId
+            self.imdsSupport = imdsSupport
             self.launchPermission = launchPermission
             self.operationType = operationType
             self.organizationalUnitArns = organizationalUnitArns
@@ -36097,6 +36642,7 @@ extension EC2 {
             case description = "Description"
             case dryRun = "dryRun"
             case imageId = "ImageId"
+            case imdsSupport = "ImdsSupport"
             case launchPermission = "LaunchPermission"
             case operationType = "OperationType"
             case organizationalUnitArns = "OrganizationalUnitArn"
@@ -36812,6 +37358,8 @@ extension EC2 {
     public struct ModifyLocalGatewayRouteRequest: AWSEncodableShape {
         /// The CIDR block used for destination matches. The value that you provide must match the CIDR of an existing route in the table.
         public let destinationCidrBlock: String?
+        ///  The ID of the prefix list. Use a prefix list in place of DestinationCidrBlock. You  cannot use DestinationPrefixListId and DestinationCidrBlock in the same request.
+        public let destinationPrefixListId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the local gateway route table.
@@ -36821,8 +37369,9 @@ extension EC2 {
         /// The ID of the network interface.
         public let networkInterfaceId: String?
 
-        public init(destinationCidrBlock: String? = nil, dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, networkInterfaceId: String? = nil) {
+        public init(destinationCidrBlock: String? = nil, destinationPrefixListId: String? = nil, dryRun: Bool? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, networkInterfaceId: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
+            self.destinationPrefixListId = destinationPrefixListId
             self.dryRun = dryRun
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
@@ -36831,6 +37380,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case destinationCidrBlock = "DestinationCidrBlock"
+            case destinationPrefixListId = "DestinationPrefixListId"
             case dryRun = "DryRun"
             case localGatewayRouteTableId = "LocalGatewayRouteTableId"
             case localGatewayVirtualInterfaceGroupId = "LocalGatewayVirtualInterfaceGroupId"
@@ -37154,7 +37704,7 @@ extension EC2 {
 
         /// Reserved.
         public let context: String?
-        /// Indicates whether running Spot Instances should be terminated if the target capacity of the Spot Fleet request is decreased below the current size of the Spot Fleet.
+        /// Indicates whether running instances should be terminated if the target capacity of the Spot Fleet request is decreased below the current size of the Spot Fleet. Supported only for fleets of type maintain.
         public let excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy?
         /// The launch template and overrides. You can only use this parameter if you specified a launch template (LaunchTemplateConfigs) in your Spot Fleet request. If you specified LaunchSpecifications in your Spot Fleet request, then omit this parameter.
         @OptionalCustomCoding<EC2ArrayCoder<_LaunchTemplateConfigsEncoding, LaunchTemplateConfig>>
@@ -38603,6 +39153,8 @@ extension EC2 {
     public struct ModifyVpnTunnelOptionsRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// Choose whether or not to trigger immediate tunnel replacement. Valid values: True | False
+        public let skipTunnelReplacement: Bool?
         /// The tunnel options to modify.
         public let tunnelOptions: ModifyVpnTunnelOptionsSpecification?
         /// The ID of the Amazon Web Services Site-to-Site VPN connection.
@@ -38610,8 +39162,9 @@ extension EC2 {
         /// The external IP address of the VPN tunnel.
         public let vpnTunnelOutsideIpAddress: String?
 
-        public init(dryRun: Bool? = nil, tunnelOptions: ModifyVpnTunnelOptionsSpecification? = nil, vpnConnectionId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
+        public init(dryRun: Bool? = nil, skipTunnelReplacement: Bool? = nil, tunnelOptions: ModifyVpnTunnelOptionsSpecification? = nil, vpnConnectionId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
             self.dryRun = dryRun
+            self.skipTunnelReplacement = skipTunnelReplacement
             self.tunnelOptions = tunnelOptions
             self.vpnConnectionId = vpnConnectionId
             self.vpnTunnelOutsideIpAddress = vpnTunnelOutsideIpAddress
@@ -38619,6 +39172,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
+            case skipTunnelReplacement = "SkipTunnelReplacement"
             case tunnelOptions = "TunnelOptions"
             case vpnConnectionId = "VpnConnectionId"
             case vpnTunnelOutsideIpAddress = "VpnTunnelOutsideIpAddress"
@@ -38651,6 +39205,8 @@ extension EC2 {
         public let dpdTimeoutAction: String?
         /// The number of seconds after which a DPD timeout occurs. Constraints: A value greater than or equal to 30. Default: 30
         public let dpdTimeoutSeconds: Int?
+        /// Turn on or off tunnel endpoint lifecycle control feature.
+        public let enableTunnelLifecycleControl: Bool?
         /// The IKE versions that are permitted for the VPN tunnel. Valid values: ikev1 | ikev2
         @OptionalCustomCoding<EC2ArrayCoder<_IKEVersionsEncoding, IKEVersionsRequestListValue>>
         public var ikeVersions: [IKEVersionsRequestListValue]?
@@ -38693,9 +39249,10 @@ extension EC2 {
         /// The range of inside IPv6 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same transit gateway. Constraints: A size /126 CIDR block from the local fd00::/8 range.
         public let tunnelInsideIpv6Cidr: String?
 
-        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, ikeVersions: [IKEVersionsRequestListValue]? = nil, logOptions: VpnTunnelLogOptionsSpecification? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
+        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, enableTunnelLifecycleControl: Bool? = nil, ikeVersions: [IKEVersionsRequestListValue]? = nil, logOptions: VpnTunnelLogOptionsSpecification? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
             self.dpdTimeoutAction = dpdTimeoutAction
             self.dpdTimeoutSeconds = dpdTimeoutSeconds
+            self.enableTunnelLifecycleControl = enableTunnelLifecycleControl
             self.ikeVersions = ikeVersions
             self.logOptions = logOptions
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
@@ -38718,6 +39275,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case dpdTimeoutAction = "DPDTimeoutAction"
             case dpdTimeoutSeconds = "DPDTimeoutSeconds"
+            case enableTunnelLifecycleControl = "EnableTunnelLifecycleControl"
             case ikeVersions = "IKEVersion"
             case logOptions = "LogOptions"
             case phase1DHGroupNumbers = "Phase1DHGroupNumber"
@@ -38941,25 +39499,41 @@ extension EC2 {
     public struct NatGatewayAddress: AWSDecodableShape {
         /// [Public NAT gateway only] The allocation ID of the Elastic IP address that's associated with the NAT gateway.
         public let allocationId: String?
+        /// [Public NAT gateway only] The association ID of the Elastic IP address that's associated with the NAT gateway.
+        public let associationId: String?
+        /// The address failure message.
+        public let failureMessage: String?
+        /// Defines if the IP address is the primary address.
+        public let isPrimary: Bool?
         /// The ID of the network interface associated with the NAT gateway.
         public let networkInterfaceId: String?
         /// The private IP address associated with the NAT gateway.
         public let privateIp: String?
         /// [Public NAT gateway only] The Elastic IP address associated with the NAT gateway.
         public let publicIp: String?
+        /// The address status.
+        public let status: NatGatewayAddressStatus?
 
-        public init(allocationId: String? = nil, networkInterfaceId: String? = nil, privateIp: String? = nil, publicIp: String? = nil) {
+        public init(allocationId: String? = nil, associationId: String? = nil, failureMessage: String? = nil, isPrimary: Bool? = nil, networkInterfaceId: String? = nil, privateIp: String? = nil, publicIp: String? = nil, status: NatGatewayAddressStatus? = nil) {
             self.allocationId = allocationId
+            self.associationId = associationId
+            self.failureMessage = failureMessage
+            self.isPrimary = isPrimary
             self.networkInterfaceId = networkInterfaceId
             self.privateIp = privateIp
             self.publicIp = publicIp
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case allocationId = "allocationId"
+            case associationId = "associationId"
+            case failureMessage = "failureMessage"
+            case isPrimary = "isPrimary"
             case networkInterfaceId = "networkInterfaceId"
             case privateIp = "privateIp"
             case publicIp = "publicIp"
+            case status = "status"
         }
     }
 
@@ -39321,7 +39895,7 @@ extension EC2 {
         /// The explanations. For more information, see Reachability Analyzer explanation codes.
         @OptionalCustomCoding<EC2ArrayCoder<_ExplanationsEncoding, Explanation>>
         public var explanations: [Explanation]?
-        /// The Amazon Resource Names (ARN) of the Amazon Web Services resources that the path must traverse.
+        /// The Amazon Resource Names (ARN) of the resources that the path must traverse.
         @OptionalCustomCoding<EC2ArrayCoder<_FilterInArnsEncoding, String>>
         public var filterInArns: [String]?
         /// The components in the path from source to destination.
@@ -39397,36 +39971,42 @@ extension EC2 {
 
         /// The time stamp when the path was created.
         public let createdDate: Date?
-        /// The Amazon Web Services resource that is the destination of the path.
+        /// The ID of the destination.
         public let destination: String?
         /// The Amazon Resource Name (ARN) of the destination.
         public let destinationArn: String?
-        /// The IP address of the Amazon Web Services resource that is the destination of the path.
+        /// The IP address of the destination.
         public let destinationIp: String?
         /// The destination port.
         public let destinationPort: Int?
+        /// Scopes the analysis to network paths that match specific filters at the destination.
+        public let filterAtDestination: PathFilter?
+        /// Scopes the analysis to network paths that match specific filters at the source.
+        public let filterAtSource: PathFilter?
         /// The Amazon Resource Name (ARN) of the path.
         public let networkInsightsPathArn: String?
         /// The ID of the path.
         public let networkInsightsPathId: String?
         /// The protocol.
         public let `protocol`: `Protocol`?
-        /// The Amazon Web Services resource that is the source of the path.
+        /// The ID of the source.
         public let source: String?
         /// The Amazon Resource Name (ARN) of the source.
         public let sourceArn: String?
-        /// The IP address of the Amazon Web Services resource that is the source of the path.
+        /// The IP address of the source.
         public let sourceIp: String?
         /// The tags associated with the path.
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(createdDate: Date? = nil, destination: String? = nil, destinationArn: String? = nil, destinationIp: String? = nil, destinationPort: Int? = nil, networkInsightsPathArn: String? = nil, networkInsightsPathId: String? = nil, protocol: `Protocol`? = nil, source: String? = nil, sourceArn: String? = nil, sourceIp: String? = nil, tags: [Tag]? = nil) {
+        public init(createdDate: Date? = nil, destination: String? = nil, destinationArn: String? = nil, destinationIp: String? = nil, destinationPort: Int? = nil, filterAtDestination: PathFilter? = nil, filterAtSource: PathFilter? = nil, networkInsightsPathArn: String? = nil, networkInsightsPathId: String? = nil, protocol: `Protocol`? = nil, source: String? = nil, sourceArn: String? = nil, sourceIp: String? = nil, tags: [Tag]? = nil) {
             self.createdDate = createdDate
             self.destination = destination
             self.destinationArn = destinationArn
             self.destinationIp = destinationIp
             self.destinationPort = destinationPort
+            self.filterAtDestination = filterAtDestination
+            self.filterAtSource = filterAtSource
             self.networkInsightsPathArn = networkInsightsPathArn
             self.networkInsightsPathId = networkInsightsPathId
             self.`protocol` = `protocol`
@@ -39442,6 +40022,8 @@ extension EC2 {
             case destinationArn = "destinationArn"
             case destinationIp = "destinationIp"
             case destinationPort = "destinationPort"
+            case filterAtDestination = "filterAtDestination"
+            case filterAtSource = "filterAtSource"
             case networkInsightsPathArn = "networkInsightsPathArn"
             case networkInsightsPathId = "networkInsightsPathId"
             case `protocol` = "protocol"
@@ -40046,6 +40628,10 @@ extension EC2 {
         /// The explanation codes.
         @OptionalCustomCoding<EC2ArrayCoder<_ExplanationsEncoding, Explanation>>
         public var explanations: [Explanation]?
+        /// The Network Firewall stateful rule.
+        public let firewallStatefulRule: FirewallStatefulRule?
+        /// The Network Firewall stateless rule.
+        public let firewallStatelessRule: FirewallStatelessRule?
         /// The inbound header.
         public let inboundHeader: AnalysisPacketHeader?
         /// The outbound header.
@@ -40056,6 +40642,8 @@ extension EC2 {
         public let securityGroupRule: AnalysisSecurityGroupRule?
         /// The sequence number.
         public let sequenceNumber: Int?
+        /// The name of the VPC endpoint service.
+        public let serviceName: String?
         /// The source VPC.
         public let sourceVpc: AnalysisComponent?
         /// The subnet.
@@ -40067,7 +40655,7 @@ extension EC2 {
         /// The component VPC.
         public let vpc: AnalysisComponent?
 
-        public init(aclRule: AnalysisAclRule? = nil, additionalDetails: [AdditionalDetail]? = nil, attachedTo: AnalysisComponent? = nil, component: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, elasticLoadBalancerListener: AnalysisComponent? = nil, explanations: [Explanation]? = nil, inboundHeader: AnalysisPacketHeader? = nil, outboundHeader: AnalysisPacketHeader? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, sequenceNumber: Int? = nil, sourceVpc: AnalysisComponent? = nil, subnet: AnalysisComponent? = nil, transitGateway: AnalysisComponent? = nil, transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute? = nil, vpc: AnalysisComponent? = nil) {
+        public init(aclRule: AnalysisAclRule? = nil, additionalDetails: [AdditionalDetail]? = nil, attachedTo: AnalysisComponent? = nil, component: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, elasticLoadBalancerListener: AnalysisComponent? = nil, explanations: [Explanation]? = nil, firewallStatefulRule: FirewallStatefulRule? = nil, firewallStatelessRule: FirewallStatelessRule? = nil, inboundHeader: AnalysisPacketHeader? = nil, outboundHeader: AnalysisPacketHeader? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, sequenceNumber: Int? = nil, serviceName: String? = nil, sourceVpc: AnalysisComponent? = nil, subnet: AnalysisComponent? = nil, transitGateway: AnalysisComponent? = nil, transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute? = nil, vpc: AnalysisComponent? = nil) {
             self.aclRule = aclRule
             self.additionalDetails = additionalDetails
             self.attachedTo = attachedTo
@@ -40075,11 +40663,14 @@ extension EC2 {
             self.destinationVpc = destinationVpc
             self.elasticLoadBalancerListener = elasticLoadBalancerListener
             self.explanations = explanations
+            self.firewallStatefulRule = firewallStatefulRule
+            self.firewallStatelessRule = firewallStatelessRule
             self.inboundHeader = inboundHeader
             self.outboundHeader = outboundHeader
             self.routeTableRoute = routeTableRoute
             self.securityGroupRule = securityGroupRule
             self.sequenceNumber = sequenceNumber
+            self.serviceName = serviceName
             self.sourceVpc = sourceVpc
             self.subnet = subnet
             self.transitGateway = transitGateway
@@ -40095,16 +40686,78 @@ extension EC2 {
             case destinationVpc = "destinationVpc"
             case elasticLoadBalancerListener = "elasticLoadBalancerListener"
             case explanations = "explanationSet"
+            case firewallStatefulRule = "firewallStatefulRule"
+            case firewallStatelessRule = "firewallStatelessRule"
             case inboundHeader = "inboundHeader"
             case outboundHeader = "outboundHeader"
             case routeTableRoute = "routeTableRoute"
             case securityGroupRule = "securityGroupRule"
             case sequenceNumber = "sequenceNumber"
+            case serviceName = "serviceName"
             case sourceVpc = "sourceVpc"
             case subnet = "subnet"
             case transitGateway = "transitGateway"
             case transitGatewayRouteTableRoute = "transitGatewayRouteTableRoute"
             case vpc = "vpc"
+        }
+    }
+
+    public struct PathFilter: AWSDecodableShape {
+        /// The destination IPv4 address.
+        public let destinationAddress: String?
+        /// The destination port range.
+        public let destinationPortRange: FilterPortRange?
+        /// The source IPv4 address.
+        public let sourceAddress: String?
+        /// The source port range.
+        public let sourcePortRange: FilterPortRange?
+
+        public init(destinationAddress: String? = nil, destinationPortRange: FilterPortRange? = nil, sourceAddress: String? = nil, sourcePortRange: FilterPortRange? = nil) {
+            self.destinationAddress = destinationAddress
+            self.destinationPortRange = destinationPortRange
+            self.sourceAddress = sourceAddress
+            self.sourcePortRange = sourcePortRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationAddress = "destinationAddress"
+            case destinationPortRange = "destinationPortRange"
+            case sourceAddress = "sourceAddress"
+            case sourcePortRange = "sourcePortRange"
+        }
+    }
+
+    public struct PathRequestFilter: AWSEncodableShape {
+        /// The destination IPv4 address.
+        public let destinationAddress: String?
+        /// The destination port range.
+        public let destinationPortRange: RequestFilterPortRange?
+        /// The source IPv4 address.
+        public let sourceAddress: String?
+        /// The source port range.
+        public let sourcePortRange: RequestFilterPortRange?
+
+        public init(destinationAddress: String? = nil, destinationPortRange: RequestFilterPortRange? = nil, sourceAddress: String? = nil, sourcePortRange: RequestFilterPortRange? = nil) {
+            self.destinationAddress = destinationAddress
+            self.destinationPortRange = destinationPortRange
+            self.sourceAddress = sourceAddress
+            self.sourcePortRange = sourcePortRange
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationAddress, name: "destinationAddress", parent: name, max: 15)
+            try self.validate(self.destinationAddress, name: "destinationAddress", parent: name, pattern: "^([0-9]{1,3}.){3}[0-9]{1,3}$")
+            try self.destinationPortRange?.validate(name: "\(name).destinationPortRange")
+            try self.validate(self.sourceAddress, name: "sourceAddress", parent: name, max: 15)
+            try self.validate(self.sourceAddress, name: "sourceAddress", parent: name, pattern: "^([0-9]{1,3}.){3}[0-9]{1,3}$")
+            try self.sourcePortRange?.validate(name: "\(name).sourcePortRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationAddress = "DestinationAddress"
+            case destinationPortRange = "DestinationPortRange"
+            case sourceAddress = "SourceAddress"
+            case sourcePortRange = "SourcePortRange"
         }
     }
 
@@ -41457,7 +42110,7 @@ extension EC2 {
         /// The block device mapping entries. If you specify an Amazon EBS volume using the ID of an Amazon EBS snapshot, you can't specify the encryption state of the volume. If you create an AMI on an Outpost, then all backing snapshots must be on the same Outpost or in the Region of that Outpost. AMIs on an Outpost that include local snapshots can be used to launch instances on the same Outpost only. For more information, Amazon EBS local snapshots on Outposts in the Amazon EC2 User Guide.
         @OptionalCustomCoding<EC2ArrayCoder<_BlockDeviceMappingsEncoding, BlockDeviceMapping>>
         public var blockDeviceMappings: [BlockDeviceMapping]?
-        /// The boot mode of the AMI. For more information, see Boot modes in the Amazon EC2 User Guide.
+        /// The boot mode of the AMI. A value of uefi-preferred indicates that the AMI supports both UEFI and Legacy BIOS.  The operating system contained in the AMI must be configured to support the specified boot mode.  For more information, see Boot modes in the Amazon EC2 User Guide.
         public let bootMode: BootModeValues?
         /// A description for your AMI.
         public let description: String?
@@ -42298,6 +42951,44 @@ extension EC2 {
         }
     }
 
+    public struct ReplaceVpnTunnelRequest: AWSEncodableShape {
+        /// Trigger pending tunnel endpoint maintenance.
+        public let applyPendingMaintenance: Bool?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the Site-to-Site VPN connection.
+        public let vpnConnectionId: String?
+        /// The external IP address of the VPN tunnel.
+        public let vpnTunnelOutsideIpAddress: String?
+
+        public init(applyPendingMaintenance: Bool? = nil, dryRun: Bool? = nil, vpnConnectionId: String? = nil, vpnTunnelOutsideIpAddress: String? = nil) {
+            self.applyPendingMaintenance = applyPendingMaintenance
+            self.dryRun = dryRun
+            self.vpnConnectionId = vpnConnectionId
+            self.vpnTunnelOutsideIpAddress = vpnTunnelOutsideIpAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applyPendingMaintenance = "ApplyPendingMaintenance"
+            case dryRun = "DryRun"
+            case vpnConnectionId = "VpnConnectionId"
+            case vpnTunnelOutsideIpAddress = "VpnTunnelOutsideIpAddress"
+        }
+    }
+
+    public struct ReplaceVpnTunnelResult: AWSDecodableShape {
+        /// Confirmation of replace tunnel operation.
+        public let `return`: Bool?
+
+        public init(return: Bool? = nil) {
+            self.`return` = `return`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `return` = "return"
+        }
+    }
+
     public struct ReportInstanceStatusRequest: AWSEncodableShape {
         public struct _InstancesEncoding: ArrayCoderProperties { public static let member = "InstanceId" }
         public struct _ReasonCodesEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -42337,6 +43028,30 @@ extension EC2 {
             case reasonCodes = "reasonCode"
             case startTime = "startTime"
             case status = "status"
+        }
+    }
+
+    public struct RequestFilterPortRange: AWSEncodableShape {
+        /// The first port in the range.
+        public let fromPort: Int?
+        /// The last port in the range.
+        public let toPort: Int?
+
+        public init(fromPort: Int? = nil, toPort: Int? = nil) {
+            self.fromPort = fromPort
+            self.toPort = toPort
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fromPort, name: "fromPort", parent: name, max: 65535)
+            try self.validate(self.fromPort, name: "fromPort", parent: name, min: 0)
+            try self.validate(self.toPort, name: "toPort", parent: name, max: 65535)
+            try self.validate(self.toPort, name: "toPort", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromPort = "FromPort"
+            case toPort = "ToPort"
         }
     }
 
@@ -42394,7 +43109,7 @@ extension EC2 {
         public let hibernationOptions: LaunchTemplateHibernationOptionsRequest?
         /// The name or Amazon Resource Name (ARN) of an IAM instance profile.
         public let iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecificationRequest?
-        /// The ID of the AMI. Alternatively, you can specify a Systems Manager parameter, which will resolve to an AMI ID on launch. Valid formats:    ami-17characters00000     resolve:ssm:parameter-name     resolve:ssm:parameter-name:version-number     resolve:ssm:parameter-name:label    For more information, see Use a Systems  Manager parameter instead of an AMI ID in the Amazon Elastic Compute Cloud User Guide.
+        /// The ID of the AMI. Alternatively, you can specify a Systems Manager parameter, which will resolve to an AMI ID on launch. Valid formats:    ami-17characters00000     resolve:ssm:parameter-name     resolve:ssm:parameter-name:version-number     resolve:ssm:parameter-name:label    For more information, see Use a Systems Manager parameter to find an AMI in the Amazon Elastic Compute Cloud User Guide.
         public let imageId: String?
         /// Indicates whether an instance stops or terminates when you initiate shutdown from the instance (using the operating system command for system shutdown). Default: stop
         public let instanceInitiatedShutdownBehavior: ShutdownBehavior?
@@ -42668,7 +43383,7 @@ extension EC2 {
         public var securityGroups: [String]?
         /// The ID of the subnet in which to launch the instance.
         public let subnetId: String?
-        /// The Base64-encoded user data for the instance. User data is limited to 16 KB.
+        /// The base64-encoded user data that instances use when starting up. User data is limited to 16 KB.
         public let userData: String?
 
         public init(addressingType: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, userData: String? = nil) {
@@ -44164,6 +44879,63 @@ extension EC2 {
         }
     }
 
+    public struct RuleGroupRuleOptionsPair: AWSDecodableShape {
+        public struct _RuleOptionsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The ARN of the rule group.
+        public let ruleGroupArn: String?
+        /// The rule options.
+        @OptionalCustomCoding<EC2ArrayCoder<_RuleOptionsEncoding, RuleOption>>
+        public var ruleOptions: [RuleOption]?
+
+        public init(ruleGroupArn: String? = nil, ruleOptions: [RuleOption]? = nil) {
+            self.ruleGroupArn = ruleGroupArn
+            self.ruleOptions = ruleOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleGroupArn = "ruleGroupArn"
+            case ruleOptions = "ruleOptionSet"
+        }
+    }
+
+    public struct RuleGroupTypePair: AWSDecodableShape {
+        /// The ARN of the rule group.
+        public let ruleGroupArn: String?
+        /// The rule group type. The possible values are Domain List and Suricata.
+        public let ruleGroupType: String?
+
+        public init(ruleGroupArn: String? = nil, ruleGroupType: String? = nil) {
+            self.ruleGroupArn = ruleGroupArn
+            self.ruleGroupType = ruleGroupType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleGroupArn = "ruleGroupArn"
+            case ruleGroupType = "ruleGroupType"
+        }
+    }
+
+    public struct RuleOption: AWSDecodableShape {
+        public struct _SettingsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The Suricata keyword.
+        public let keyword: String?
+        /// The settings for the keyword.
+        @OptionalCustomCoding<EC2ArrayCoder<_SettingsEncoding, String>>
+        public var settings: [String]?
+
+        public init(keyword: String? = nil, settings: [String]? = nil) {
+            self.keyword = keyword
+            self.settings = settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyword = "keyword"
+            case settings = "settingSet"
+        }
+    }
+
     public struct RunInstancesMonitoringEnabled: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let enabled: Bool?
@@ -44212,7 +44984,7 @@ extension EC2 {
         /// An elastic GPU to associate with the instance. An Elastic GPU is a GPU resource that you can attach to your Windows instance to accelerate the graphics performance of your applications. For more information, see Amazon EC2 Elastic GPUs in the Amazon EC2 User Guide.
         @OptionalCustomCoding<EC2ArrayCoder<_ElasticGpuSpecificationEncoding, ElasticGpuSpecification>>
         public var elasticGpuSpecification: [ElasticGpuSpecification]?
-        /// An elastic inference accelerator to associate with the instance. Elastic inference accelerators are a resource you can attach to your Amazon EC2 instances to accelerate your Deep Learning (DL) inference workloads. You cannot specify accelerators from different generations in the same request.
+        /// An elastic inference accelerator to associate with the instance. Elastic inference accelerators are a resource you can attach to your Amazon EC2 instances to accelerate your Deep Learning (DL) inference workloads. You cannot specify accelerators from different generations in the same request.  Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
         @OptionalCustomCoding<EC2ArrayCoder<_ElasticInferenceAcceleratorsEncoding, ElasticInferenceAccelerator>>
         public var elasticInferenceAccelerators: [ElasticInferenceAccelerator]?
         /// Indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves. For more information, see  What is Amazon Web Services Nitro Enclaves? in the Amazon Web Services Nitro Enclaves User Guide. You can't enable Amazon Web Services Nitro Enclaves and hibernation on the same instance.
@@ -44434,7 +45206,7 @@ extension EC2 {
     }
 
     public struct S3Storage: AWSEncodableShape & AWSDecodableShape {
-        /// The access key ID of the owner of the bucket. Before you specify a value for your access key ID, review and follow the guidance in Best practices for managing Amazon Web Services access keys.
+        /// The access key ID of the owner of the bucket. Before you specify a value for your access key ID, review and follow the guidance in Best Practices for Amazon Web Services accounts in the Account ManagementReference Guide.
         public let awsAccessKeyId: String?
         /// The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error.
         public let bucket: String?
@@ -44932,7 +45704,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter.  For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match  as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the route.    type - The route type.
+        /// One or more filters.    prefix-list-id - The ID of the prefix list.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter.  For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match  as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the route.    type - The route type.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The ID of the local gateway route table.
@@ -45988,7 +46760,7 @@ extension EC2 {
         /// The tags to apply during creation.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, SpotFleetTagSpecification>>
         public var tagSpecifications: [SpotFleetTagSpecification]?
-        /// The Base64-encoded user data that instances use when starting up.
+        /// The base64-encoded user data that instances use when starting up. User data is limited to 16 KB.
         public let userData: String?
         /// The number of units provided by the specified instance type. These are the same units that you chose to set the target capacity in terms of instances, or a performance characteristic such as vCPUs, memory, or I/O. If the target capacity divided by this value is not a whole number, Amazon EC2 rounds the number of instances to the next whole number. If this value is not specified, the default is 1.
         public let weightedCapacity: Double?
@@ -46102,7 +46874,7 @@ extension EC2 {
         public let clientToken: String?
         /// Reserved.
         public let context: String?
-        /// Indicates whether running Spot Instances should be terminated if you decrease the target capacity of the Spot Fleet request below the current size of the Spot Fleet.
+        /// Indicates whether running instances should be terminated if you decrease the target capacity of the Spot Fleet request below the current size of the Spot Fleet. Supported only for fleets of type maintain.
         public let excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy?
         /// The number of units fulfilled by this request compared to the set target capacity. You cannot set this value.
         public let fulfilledCapacity: Double?
@@ -49168,6 +49940,8 @@ extension EC2 {
         public let dpdTimeoutAction: String?
         /// The number of seconds after which a DPD timeout occurs.
         public let dpdTimeoutSeconds: Int?
+        /// Status of tunnel endpoint lifecycle control feature.
+        public let enableTunnelLifecycleControl: Bool?
         /// The IKE versions that are permitted for the VPN tunnel.
         @OptionalCustomCoding<EC2ArrayCoder<_IkeVersionsEncoding, IKEVersionsListValue>>
         public var ikeVersions: [IKEVersionsListValue]?
@@ -49212,9 +49986,10 @@ extension EC2 {
         /// The range of inside IPv6 addresses for the tunnel.
         public let tunnelInsideIpv6Cidr: String?
 
-        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, ikeVersions: [IKEVersionsListValue]? = nil, logOptions: VpnTunnelLogOptions? = nil, outsideIpAddress: String? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
+        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, enableTunnelLifecycleControl: Bool? = nil, ikeVersions: [IKEVersionsListValue]? = nil, logOptions: VpnTunnelLogOptions? = nil, outsideIpAddress: String? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
             self.dpdTimeoutAction = dpdTimeoutAction
             self.dpdTimeoutSeconds = dpdTimeoutSeconds
+            self.enableTunnelLifecycleControl = enableTunnelLifecycleControl
             self.ikeVersions = ikeVersions
             self.logOptions = logOptions
             self.outsideIpAddress = outsideIpAddress
@@ -49238,6 +50013,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case dpdTimeoutAction = "dpdTimeoutAction"
             case dpdTimeoutSeconds = "dpdTimeoutSeconds"
+            case enableTunnelLifecycleControl = "enableTunnelLifecycleControl"
             case ikeVersions = "ikeVersionSet"
             case logOptions = "logOptions"
             case outsideIpAddress = "outsideIpAddress"
@@ -49334,6 +50110,59 @@ extension EC2 {
             case ipv4Prefixes = "Ipv4Prefix"
             case networkInterfaceId = "networkInterfaceId"
             case privateIpAddresses = "privateIpAddress"
+        }
+    }
+
+    public struct UnassignPrivateNatGatewayAddressRequest: AWSEncodableShape {
+        public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The maximum amount of time to wait (in seconds) before forcibly releasing the IP addresses if connections are still in progress. Default value is 350 seconds.
+        public let maxDrainDurationSeconds: Int?
+        /// The NAT gateway ID.
+        public let natGatewayId: String?
+        /// The private IPv4 addresses you want to unassign.
+        @OptionalCustomCoding<EC2ArrayCoder<_PrivateIpAddressesEncoding, String>>
+        public var privateIpAddresses: [String]?
+
+        public init(dryRun: Bool? = nil, maxDrainDurationSeconds: Int? = nil, natGatewayId: String? = nil, privateIpAddresses: [String]? = nil) {
+            self.dryRun = dryRun
+            self.maxDrainDurationSeconds = maxDrainDurationSeconds
+            self.natGatewayId = natGatewayId
+            self.privateIpAddresses = privateIpAddresses
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxDrainDurationSeconds, name: "maxDrainDurationSeconds", parent: name, max: 4000)
+            try self.validate(self.maxDrainDurationSeconds, name: "maxDrainDurationSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case maxDrainDurationSeconds = "MaxDrainDurationSeconds"
+            case natGatewayId = "NatGatewayId"
+            case privateIpAddresses = "PrivateIpAddress"
+        }
+    }
+
+    public struct UnassignPrivateNatGatewayAddressResult: AWSDecodableShape {
+        public struct _NatGatewayAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the NAT gateway IP addresses.
+        @OptionalCustomCoding<EC2ArrayCoder<_NatGatewayAddressesEncoding, NatGatewayAddress>>
+        public var natGatewayAddresses: [NatGatewayAddress]?
+        /// The NAT gateway ID.
+        public let natGatewayId: String?
+
+        public init(natGatewayAddresses: [NatGatewayAddress]? = nil, natGatewayId: String? = nil) {
+            self.natGatewayAddresses = natGatewayAddresses
+            self.natGatewayId = natGatewayId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case natGatewayAddresses = "natGatewayAddressSet"
+            case natGatewayId = "natGatewayId"
         }
     }
 
@@ -51388,6 +52217,8 @@ extension EC2 {
         public let dpdTimeoutAction: String?
         /// The number of seconds after which a DPD timeout occurs. Constraints: A value greater than or equal to 30. Default: 30
         public let dpdTimeoutSeconds: Int?
+        /// Turn on or off tunnel endpoint lifecycle control feature.
+        public let enableTunnelLifecycleControl: Bool?
         /// The IKE versions that are permitted for the VPN tunnel. Valid values: ikev1 | ikev2
         @OptionalCustomCoding<EC2ArrayCoder<_IKEVersionsEncoding, IKEVersionsRequestListValue>>
         public var ikeVersions: [IKEVersionsRequestListValue]?
@@ -51430,9 +52261,10 @@ extension EC2 {
         /// The range of inside IPv6 addresses for the tunnel. Any specified CIDR blocks must be unique across all VPN connections that use the same transit gateway. Constraints: A size /126 CIDR block from the local fd00::/8 range.
         public let tunnelInsideIpv6Cidr: String?
 
-        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, ikeVersions: [IKEVersionsRequestListValue]? = nil, logOptions: VpnTunnelLogOptionsSpecification? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
+        public init(dpdTimeoutAction: String? = nil, dpdTimeoutSeconds: Int? = nil, enableTunnelLifecycleControl: Bool? = nil, ikeVersions: [IKEVersionsRequestListValue]? = nil, logOptions: VpnTunnelLogOptionsSpecification? = nil, phase1DHGroupNumbers: [Phase1DHGroupNumbersRequestListValue]? = nil, phase1EncryptionAlgorithms: [Phase1EncryptionAlgorithmsRequestListValue]? = nil, phase1IntegrityAlgorithms: [Phase1IntegrityAlgorithmsRequestListValue]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DHGroupNumbers: [Phase2DHGroupNumbersRequestListValue]? = nil, phase2EncryptionAlgorithms: [Phase2EncryptionAlgorithmsRequestListValue]? = nil, phase2IntegrityAlgorithms: [Phase2IntegrityAlgorithmsRequestListValue]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, startupAction: String? = nil, tunnelInsideCidr: String? = nil, tunnelInsideIpv6Cidr: String? = nil) {
             self.dpdTimeoutAction = dpdTimeoutAction
             self.dpdTimeoutSeconds = dpdTimeoutSeconds
+            self.enableTunnelLifecycleControl = enableTunnelLifecycleControl
             self.ikeVersions = ikeVersions
             self.logOptions = logOptions
             self.phase1DHGroupNumbers = phase1DHGroupNumbers
@@ -51455,6 +52287,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case dpdTimeoutAction = "DPDTimeoutAction"
             case dpdTimeoutSeconds = "DPDTimeoutSeconds"
+            case enableTunnelLifecycleControl = "EnableTunnelLifecycleControl"
             case ikeVersions = "IKEVersion"
             case logOptions = "LogOptions"
             case phase1DHGroupNumbers = "Phase1DHGroupNumber"

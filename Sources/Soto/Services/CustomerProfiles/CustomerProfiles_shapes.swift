@@ -1784,7 +1784,7 @@ extension CustomerProfiles {
         public let createdAt: Date
         /// The unique name of the domain.
         public let domainName: String
-        /// Boolean to indicate if the Flow associated with the Integration is created via Appflow  console or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition
+        /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon  Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
         public let isUnstructured: Bool?
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
@@ -2457,7 +2457,7 @@ extension CustomerProfiles {
         public let createdAt: Date
         /// The unique name of the domain.
         public let domainName: String
-        /// Boolean to indicate if the Flow associated with the Integration is created via Appflow console or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition
+        /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon  Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
         public let isUnstructured: Bool?
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
@@ -3175,6 +3175,8 @@ extension CustomerProfiles {
         public let foundByItems: [FoundByKeyValue]?
         /// The gender with which the customer identifies.
         public let gender: Gender?
+        /// An alternative to Gender which accepts any string as input.
+        public let genderString: String?
         /// The customer’s home phone number.
         public let homePhoneNumber: String?
         /// The customer’s last name.
@@ -3187,6 +3189,8 @@ extension CustomerProfiles {
         public let mobilePhoneNumber: String?
         /// The type of profile used to describe the customer.
         public let partyType: PartyType?
+        /// An alternative to PartyType which accepts any string as input.
+        public let partyTypeString: String?
         /// The customer’s personal email address.
         public let personalEmailAddress: String?
         /// The customer's phone number, which has not been specified as a mobile, home, or business number.
@@ -3196,7 +3200,7 @@ extension CustomerProfiles {
         /// The customer’s shipping address.
         public let shippingAddress: Address?
 
-        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: Address? = nil, attributes: [String: String]? = nil, billingAddress: Address? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, emailAddress: String? = nil, firstName: String? = nil, foundByItems: [FoundByKeyValue]? = nil, gender: Gender? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: Address? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, profileId: String? = nil, shippingAddress: Address? = nil) {
+        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: Address? = nil, attributes: [String: String]? = nil, billingAddress: Address? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, emailAddress: String? = nil, firstName: String? = nil, foundByItems: [FoundByKeyValue]? = nil, gender: Gender? = nil, genderString: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: Address? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, partyTypeString: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, profileId: String? = nil, shippingAddress: Address? = nil) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address = address
@@ -3210,12 +3214,14 @@ extension CustomerProfiles {
             self.firstName = firstName
             self.foundByItems = foundByItems
             self.gender = gender
+            self.genderString = genderString
             self.homePhoneNumber = homePhoneNumber
             self.lastName = lastName
             self.mailingAddress = mailingAddress
             self.middleName = middleName
             self.mobilePhoneNumber = mobilePhoneNumber
             self.partyType = partyType
+            self.partyTypeString = partyTypeString
             self.personalEmailAddress = personalEmailAddress
             self.phoneNumber = phoneNumber
             self.profileId = profileId
@@ -3236,12 +3242,14 @@ extension CustomerProfiles {
             case firstName = "FirstName"
             case foundByItems = "FoundByItems"
             case gender = "Gender"
+            case genderString = "GenderString"
             case homePhoneNumber = "HomePhoneNumber"
             case lastName = "LastName"
             case mailingAddress = "MailingAddress"
             case middleName = "MiddleName"
             case mobilePhoneNumber = "MobilePhoneNumber"
             case partyType = "PartyType"
+            case partyTypeString = "PartyTypeString"
             case personalEmailAddress = "PersonalEmailAddress"
             case phoneNumber = "PhoneNumber"
             case profileId = "ProfileId"
@@ -3319,7 +3327,7 @@ extension CustomerProfiles {
         public let createdAt: Date
         /// The unique name of the domain.
         public let domainName: String
-        /// Boolean to indicate if the Flow associated with the Integration is created via Appflow  console or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition
+        /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon  Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
         public let isUnstructured: Bool?
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date

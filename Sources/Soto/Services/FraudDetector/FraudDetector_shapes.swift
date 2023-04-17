@@ -64,6 +64,13 @@ extension FraudDetector {
         public var description: String { return self.rawValue }
     }
 
+    public enum ListUpdateMode: String, CustomStringConvertible, Codable, Sendable {
+        case append = "APPEND"
+        case remove = "REMOVE"
+        case replace = "REPLACE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ModelEndpointStatus: String, CustomStringConvertible, Codable, Sendable {
         case associated = "ASSOCIATED"
         case dissociated = "DISSOCIATED"
@@ -114,6 +121,7 @@ extension FraudDetector {
     }
 
     public enum UnlabeledEventsTreatment: String, CustomStringConvertible, Codable, Sendable {
+        case auto = "AUTO"
         case fraud = "FRAUD"
         case ignore = "IGNORE"
         case legit = "LEGIT"
@@ -225,6 +233,39 @@ extension FraudDetector {
 
         private enum CodingKeys: String, CodingKey {
             case logOddsMetrics = "logOddsMetrics"
+        }
+    }
+
+    public struct AllowDenyList: AWSDecodableShape {
+        ///  The ARN of the list.
+        public let arn: String?
+        ///  The time the list was created.
+        public let createdTime: String?
+        ///  The description of the list.
+        public let description: String?
+        ///  The name of the list.
+        public let name: String
+        ///  The time the list was last updated.
+        public let updatedTime: String?
+        ///  The variable type of the list.
+        public let variableType: String?
+
+        public init(arn: String? = nil, createdTime: String? = nil, description: String? = nil, name: String, updatedTime: String? = nil, variableType: String? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.name = name
+            self.updatedTime = updatedTime
+            self.variableType = variableType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case name = "name"
+            case updatedTime = "updatedTime"
+            case variableType = "variableType"
         }
     }
 
@@ -523,7 +564,7 @@ extension FraudDetector {
     public struct CreateBatchImportJobRequest: AWSEncodableShape {
         /// The name of the event type.
         public let eventTypeName: String
-        /// The ARN of the IAM role created for Amazon S3 bucket that holds your data file.  The IAM role must have read permissions to your input S3 bucket and write permissions to your output S3 bucket. For more information about bucket permissions, see User policy examples in the  Amazon S3 User Guide.
+        /// The ARN of the IAM role created for Amazon S3 bucket that holds your data file. The IAM role must have read permissions to your input S3 bucket and write permissions to your output S3 bucket. For more information about bucket permissions, see User policy examples in the  Amazon S3 User Guide.
         public let iamRoleArn: String
         /// The URI that points to the Amazon S3 location of your data file.
         public let inputPath: String
@@ -661,10 +702,7 @@ extension FraudDetector {
         public let externalModelEndpoints: [String]?
         /// The model versions to include in the detector version.
         public let modelVersions: [ModelVersion]?
-        /// The rule execution mode for the rules included in the detector version.
-        /// 	        You can define and edit the rule mode at the detector version level, when it is in draft status.
-        /// 	        If you specify FIRST_MATCHED, Amazon Fraud Detector evaluates rules sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector then provides the outcomes for that single rule.
-        /// 	        If you specifiy ALL_MATCHED, Amazon Fraud Detector evaluates all rules and returns the outcomes for all matched rules.  The default behavior is FIRST_MATCHED.
+        /// The rule execution mode for the rules included in the detector version. You can define and edit the rule mode at the detector version level, when it is in draft status. If you specify FIRST_MATCHED, Amazon Fraud Detector evaluates rules sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector then provides the outcomes for that single rule. If you specifiy ALL_MATCHED, Amazon Fraud Detector evaluates all rules and returns the outcomes for all matched rules.  The default behavior is FIRST_MATCHED.
         public let ruleExecutionMode: RuleExecutionMode?
         /// The rules to include in the detector version.
         public let rules: [Rule]
@@ -729,6 +767,60 @@ extension FraudDetector {
             case detectorVersionId = "detectorVersionId"
             case status = "status"
         }
+    }
+
+    public struct CreateListRequest: AWSEncodableShape {
+        ///  The description of the list.
+        public let description: String?
+        ///  The names of the elements, if providing.  You can also create an empty list and add elements later using the UpdateList API.
+        public let elements: [String]?
+        ///  The name of the list.
+        public let name: String
+        ///  A collection of the key and value pairs.
+        public let tags: [Tag]?
+        ///  The variable type of the list. You can only assign the variable type with String data type.  For more information, see  Variable types.
+        public let variableType: String?
+
+        public init(description: String? = nil, elements: [String]? = nil, name: String, tags: [Tag]? = nil, variableType: String? = nil) {
+            self.description = description
+            self.elements = elements
+            self.name = name
+            self.tags = tags
+            self.variableType = variableType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 128)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.elements?.forEach {
+                try validate($0, name: "elements[]", parent: name, max: 320)
+                try validate($0, name: "elements[]", parent: name, min: 1)
+                try validate($0, name: "elements[]", parent: name, pattern: "^\\S+( +\\S+)*$")
+            }
+            try self.validate(self.elements, name: "elements", parent: name, max: 100000)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.variableType, name: "variableType", parent: name, max: 64)
+            try self.validate(self.variableType, name: "variableType", parent: name, min: 1)
+            try self.validate(self.variableType, name: "variableType", parent: name, pattern: "^[A-Z_]{1,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case elements = "elements"
+            case name = "name"
+            case tags = "tags"
+            case variableType = "variableType"
+        }
+    }
+
+    public struct CreateListResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct CreateModelRequest: AWSEncodableShape {
@@ -1242,6 +1334,29 @@ extension FraudDetector {
     }
 
     public struct DeleteLabelResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteListRequest: AWSEncodableShape {
+        ///  The name of the list to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct DeleteListResult: AWSDecodableShape {
         public init() {}
     }
 
@@ -2159,9 +2274,7 @@ extension FraudDetector {
         public let lastUpdatedTime: String?
         /// The model versions included in the detector version.
         public let modelVersions: [ModelVersion]?
-        /// The execution mode of the rule in the dectector
-        /// 	         FIRST_MATCHED indicates that Amazon Fraud Detector evaluates rules sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector then provides the outcomes for that single rule.
-        /// 	         ALL_MATCHED indicates that Amazon Fraud Detector evaluates all rules and returns the outcomes for all matched rules. You can define and edit the rule mode at the detector version level, when it is in draft status.
+        /// The execution mode of the rule in the dectector  FIRST_MATCHED indicates that Amazon Fraud Detector evaluates rules sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector then provides the outcomes for that single rule.  ALL_MATCHED indicates that Amazon Fraud Detector evaluates all rules and returns the outcomes for all matched rules. You can define and edit the rule mode at the detector version level, when it is in draft status.
         public let ruleExecutionMode: RuleExecutionMode?
         /// The rules included in the detector version.
         public let rules: [Rule]?
@@ -2417,7 +2530,7 @@ extension FraudDetector {
         public let eventTimestamp: String
         /// The event type associated with the detector specified for the prediction.
         public let eventTypeName: String
-        /// Names of the event type's variables you defined in Amazon Fraud Detector to represent data elements and  their corresponding values for the event you are sending for evaluation.  You must provide at least one eventVariable           To ensure most accurate fraud prediction and to simplify your data preparation, Amazon Fraud Detector will replace all missing variables or values as follows:   For Amazon Fraud Detector trained models:  If a null value is provided explicitly for a variable or if a variable is missing, model will replace the null value or the missing variable (no variable name in the eventVariables map)  with calculated default mean/medians for numeric variables and with special values for categorical variables.   For imported SageMaker models:  If a null value is provided explicitly for a variable, the model and rules will use “null” as the value. If a variable is not provided (no variable name in the eventVariables map), model and rules  will use the default value that is provided for the variable.
+        /// Names of the event type's variables you defined in Amazon Fraud Detector to represent data elements and  their corresponding values for the event you are sending for evaluation.  You must provide at least one eventVariable  To ensure most accurate fraud prediction and to simplify your data preparation, Amazon Fraud Detector will replace all missing variables or values as follows:  For Amazon Fraud Detector trained models:  If a null value is provided explicitly for a variable or if a variable is missing, model will replace the null value or the missing variable (no variable name in the eventVariables map)  with calculated default mean/medians for numeric variables and with special values for categorical variables.  For imported SageMaker models:  If a null value is provided explicitly for a variable, the model and rules will use “null” as the value. If a variable is not provided (no variable name in the eventVariables map), model and rules  will use the default value that is provided for the variable.
         public let eventVariables: [String: String]
         /// The Amazon SageMaker model endpoint input data blobs.
         public let externalModelEndpointDataBlobs: [String: ModelEndpointDataBlob]?
@@ -2668,6 +2781,102 @@ extension FraudDetector {
         }
     }
 
+    public struct GetListElementsRequest: AWSEncodableShape {
+        ///  The maximum number of objects to return for the request.
+        public let maxResults: Int?
+        ///  The name of the list.
+        public let name: String
+        ///  The next token for the subsequent request.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 5000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 500)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case name = "name"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetListElementsResult: AWSDecodableShape {
+        ///  The list elements.
+        public let elements: [String]?
+        ///  The next page token.
+        public let nextToken: String?
+
+        public init(elements: [String]? = nil, nextToken: String? = nil) {
+            self.elements = elements
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elements = "elements"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetListsMetadataRequest: AWSEncodableShape {
+        ///  The maximum number of objects to return for the request.
+        public let maxResults: Int?
+        ///  The name of the list.
+        public let name: String?
+        ///  The next token for the subsequent request.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case name = "name"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetListsMetadataResult: AWSDecodableShape {
+        ///  The metadata of the specified list or all lists under the account.
+        public let lists: [AllowDenyList]?
+        ///  The next page token.
+        public let nextToken: String?
+
+        public init(lists: [AllowDenyList]? = nil, nextToken: String? = nil) {
+            self.lists = lists
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lists = "lists"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct GetModelVersionRequest: AWSEncodableShape {
         /// The model ID.
         public let modelId: String
@@ -2711,9 +2920,7 @@ extension FraudDetector {
         public let modelType: ModelTypeEnum?
         /// The model version number.
         public let modelVersionNumber: String?
-        /// The model version status.
-        /// 	        Possible values are:
-        /// 	           TRAINING_IN_PROGRESS     TRAINING_COMPLETE     ACTIVATE_REQUESTED     ACTIVATE_IN_PROGRESS     ACTIVE     INACTIVATE_REQUESTED     INACTIVATE_IN_PROGRESS     INACTIVE     ERROR
+        /// The model version status. Possible values are:    TRAINING_IN_PROGRESS     TRAINING_COMPLETE     ACTIVATE_REQUESTED     ACTIVATE_IN_PROGRESS     ACTIVE     INACTIVATE_REQUESTED     INACTIVATE_IN_PROGRESS     INACTIVE     ERROR
         public let status: String?
         /// The training data schema.
         public let trainingDataSchema: TrainingDataSchema?
@@ -3059,7 +3266,7 @@ extension FraudDetector {
     public struct LabelSchema: AWSEncodableShape & AWSDecodableShape {
         /// The label mapper maps the Amazon Fraud Detector supported model classification labels (FRAUD, LEGIT) to the appropriate event type labels. For example, if "FRAUD" and "LEGIT" are Amazon Fraud Detector supported labels, this mapper could be: {"FRAUD" => ["0"], "LEGIT" => ["1"]} or {"FRAUD" => ["false"], "LEGIT" => ["true"]} or {"FRAUD" => ["fraud", "abuse"], "LEGIT" => ["legit", "safe"]}. The value part of the mapper is a list, because you may have multiple label variants from your event type for a single Amazon Fraud Detector label.
         public let labelMapper: [String: [String]]?
-        /// The action to take for unlabeled events.
+        /// The action to take for unlabeled events.   Use IGNORE if you want the unlabeled events to be ignored. This is recommended when the majority of the events in the dataset are labeled.   Use FRAUD  if you want to categorize all unlabeled events as “Fraud”.  This is recommended when most of the events in your dataset are fraudulent.   Use LEGIT f you want to categorize all unlabeled events as “Legit”. This is recommended when most of the events in your dataset are legitimate.   Use AUTO if you want Amazon Fraud Detector to decide how to use the unlabeled data.  This is recommended when there is significant unlabeled events in the dataset.   By default, Amazon Fraud Detector ignores the unlabeled data.
         public let unlabeledEventsTreatment: UnlabeledEventsTreatment?
 
         public init(labelMapper: [String: [String]]? = nil, unlabeledEventsTreatment: UnlabeledEventsTreatment? = nil) {
@@ -3512,13 +3719,17 @@ extension FraudDetector {
     public struct OFIModelPerformance: AWSDecodableShape {
         ///  The area under the curve (auc). This summarizes the total positive rate (tpr) and false positive rate (FPR) across all possible model score thresholds.
         public let auc: Float?
+        ///  Indicates the range of area under curve (auc) expected from the OFI model. A range greater than 0.1 indicates higher model uncertainity.
+        public let uncertaintyRange: UncertaintyRange?
 
-        public init(auc: Float? = nil) {
+        public init(auc: Float? = nil, uncertaintyRange: UncertaintyRange? = nil) {
             self.auc = auc
+            self.uncertaintyRange = uncertaintyRange
         }
 
         private enum CodingKeys: String, CodingKey {
             case auc = "auc"
+            case uncertaintyRange = "uncertaintyRange"
         }
     }
 
@@ -3569,7 +3780,7 @@ extension FraudDetector {
     }
 
     public struct PredictionExplanations: AWSDecodableShape {
-        ///  The details of the aggregated variables impact on the prediction score.     Account Takeover Insights (ATI) model uses event variables from the login data you  provide to continuously calculate a set of variables (aggregated variables) based on historical events. For example, your ATI model might calculate the number of times an user has logged in using the same IP address.  In this case, event variables used to derive the aggregated variables are IP address and user.
+        ///  The details of the aggregated variables impact on the prediction score.    Account Takeover Insights (ATI) model uses event variables from the login data you  provide to continuously calculate a set of variables (aggregated variables) based on historical events. For example, your ATI model might calculate the number of times an user has logged in using the same IP address.  In this case, event variables used to derive the aggregated variables are IP address and user.
         public let aggregatedVariablesImpactExplanations: [AggregatedVariablesImpactExplanation]?
         /// The details of the event variable's impact on the prediction score.
         public let variableImpactExplanations: [VariableImpactExplanation]?
@@ -4087,13 +4298,17 @@ extension FraudDetector {
     public struct TFIModelPerformance: AWSDecodableShape {
         ///  The area under the curve (auc). This summarizes the total positive rate (tpr) and false positive rate (FPR) across all possible model score thresholds.
         public let auc: Float?
+        ///  Indicates the range of area under curve (auc) expected from the TFI model. A range greater than 0.1 indicates higher model uncertainity.
+        public let uncertaintyRange: UncertaintyRange?
 
-        public init(auc: Float? = nil) {
+        public init(auc: Float? = nil, uncertaintyRange: UncertaintyRange? = nil) {
             self.auc = auc
+            self.uncertaintyRange = uncertaintyRange
         }
 
         private enum CodingKeys: String, CodingKey {
             case auc = "auc"
+            case uncertaintyRange = "uncertaintyRange"
         }
     }
 
@@ -4267,6 +4482,23 @@ extension FraudDetector {
         }
     }
 
+    public struct UncertaintyRange: AWSDecodableShape {
+        ///  The lower bound value of the area under curve (auc).
+        public let lowerBoundValue: Float
+        ///  The lower bound value of the area under curve (auc).
+        public let upperBoundValue: Float
+
+        public init(lowerBoundValue: Float, upperBoundValue: Float) {
+            self.lowerBoundValue = lowerBoundValue
+            self.upperBoundValue = upperBoundValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lowerBoundValue = "lowerBoundValue"
+            case upperBoundValue = "upperBoundValue"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The ARN of the resource from which to remove the tag.
         public let resourceARN: String
@@ -4347,9 +4579,7 @@ extension FraudDetector {
         public let externalModelEndpoints: [String]
         /// The model versions to include in the detector version.
         public let modelVersions: [ModelVersion]?
-        /// The rule execution mode to add to the detector.
-        /// 	        If you specify FIRST_MATCHED, Amazon Fraud Detector evaluates rules sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector then provides the outcomes for that single rule.
-        /// 	        If you specifiy ALL_MATCHED, Amazon Fraud Detector evaluates all rules and returns the outcomes for all matched rules. You can define and edit the rule mode at the detector version level, when it is in draft status. The default behavior is FIRST_MATCHED.
+        /// The rule execution mode to add to the detector. If you specify FIRST_MATCHED, Amazon Fraud Detector evaluates rules sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector then provides the outcomes for that single rule. If you specifiy ALL_MATCHED, Amazon Fraud Detector evaluates all rules and returns the outcomes for all matched rules. You can define and edit the rule mode at the detector version level, when it is in draft status. The default behavior is FIRST_MATCHED.
         public let ruleExecutionMode: RuleExecutionMode?
         /// The rules to include in the detector version.
         public let rules: [Rule]
@@ -4470,6 +4700,56 @@ extension FraudDetector {
     }
 
     public struct UpdateEventLabelResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateListRequest: AWSEncodableShape {
+        ///  The new description.
+        public let description: String?
+        ///  One or more list elements to add or replace. If you are providing the elements, make sure to specify the updateMode to use.  If you are deleting all elements from the list, use REPLACE for the updateMode and provide an empty list (0 elements).
+        public let elements: [String]?
+        ///  The name of the list to update.
+        public let name: String
+        ///  The update mode (type).    Use APPEND if you are adding elements to the list.   Use REPLACE if you replacing existing elements in the list.   Use REMOVE if you are removing elements from the list.
+        public let updateMode: ListUpdateMode?
+        ///  The variable type you want to assign to the list.   You cannot update a variable type of a list that already has a variable type assigned to it. You can assign a variable type to a list only if the list does not already have a variable type.
+        public let variableType: String?
+
+        public init(description: String? = nil, elements: [String]? = nil, name: String, updateMode: ListUpdateMode? = nil, variableType: String? = nil) {
+            self.description = description
+            self.elements = elements
+            self.name = name
+            self.updateMode = updateMode
+            self.variableType = variableType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 128)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.elements?.forEach {
+                try validate($0, name: "elements[]", parent: name, max: 320)
+                try validate($0, name: "elements[]", parent: name, min: 1)
+                try validate($0, name: "elements[]", parent: name, pattern: "^\\S+( +\\S+)*$")
+            }
+            try self.validate(self.elements, name: "elements", parent: name, max: 100000)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_]+$")
+            try self.validate(self.variableType, name: "variableType", parent: name, max: 64)
+            try self.validate(self.variableType, name: "variableType", parent: name, min: 1)
+            try self.validate(self.variableType, name: "variableType", parent: name, pattern: "^[A-Z_]{1,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case elements = "elements"
+            case name = "name"
+            case updateMode = "updateMode"
+            case variableType = "variableType"
+        }
+    }
+
+    public struct UpdateListResult: AWSDecodableShape {
         public init() {}
     }
 

@@ -291,12 +291,12 @@ extension Omics {
         return try await self.client.execute(operation: "StartAnnotationImportJob", path: "/import/annotation", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
     }
 
-    /// Starts a read set activation job.
+    /// Activates an archived read set. To reduce storage charges, Amazon Omics archives unused read sets after 30 days.
     public func startReadSetActivationJob(_ input: StartReadSetActivationJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartReadSetActivationJobResponse {
         return try await self.client.execute(operation: "StartReadSetActivationJob", path: "/sequencestore/{sequenceStoreId}/activationjob", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
     }
 
-    /// Starts a read set export job.
+    /// Exports a read set to Amazon S3.
     public func startReadSetExportJob(_ input: StartReadSetExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartReadSetExportJobResponse {
         return try await self.client.execute(operation: "StartReadSetExportJob", path: "/sequencestore/{sequenceStoreId}/exportjob", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
     }

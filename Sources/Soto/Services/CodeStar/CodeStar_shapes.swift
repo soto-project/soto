@@ -558,7 +558,7 @@ extension CodeStar {
         /// The type of GitHub repository to be created in AWS CodeStar. Valid values are User or Organization.
         public let type: String
 
-        public init(description: String? = nil, issuesEnabled: Bool, name: String, owner: String, privateRepository: Bool, token: String, type: String) {
+        public init(description: String? = nil, issuesEnabled: Bool = false, name: String, owner: String, privateRepository: Bool = false, token: String, type: String) {
             self.description = description
             self.issuesEnabled = issuesEnabled
             self.name = name

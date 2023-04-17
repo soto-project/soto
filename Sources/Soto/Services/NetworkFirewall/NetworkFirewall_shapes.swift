@@ -58,6 +58,7 @@ extension NetworkFirewall {
     public enum IPAddressType: String, CustomStringConvertible, Codable, Sendable {
         case dualstack = "DUALSTACK"
         case ipv4 = "IPV4"
+        case ipv6 = "IPV6"
         public var description: String { return self.rawValue }
     }
 
@@ -638,6 +639,67 @@ extension NetworkFirewall {
         }
     }
 
+    public struct CreateTLSInspectionConfigurationRequest: AWSEncodableShape {
+        /// A description of the TLS inspection configuration.
+        public let description: String?
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The key:value pairs to associate with the resource.
+        public let tags: [Tag]?
+        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see Decrypting SSL/TLS traffic with TLS
+        /// inspection configurations in the Network Firewall Developer Guide.
+        public let tlsInspectionConfiguration: TLSInspectionConfiguration
+        /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
+        public let tlsInspectionConfigurationName: String
+
+        public init(description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, tags: [Tag]? = nil, tlsInspectionConfiguration: TLSInspectionConfiguration, tlsInspectionConfigurationName: String) {
+            self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
+            self.tags = tags
+            self.tlsInspectionConfiguration = tlsInspectionConfiguration
+            self.tlsInspectionConfigurationName = tlsInspectionConfigurationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.tlsInspectionConfiguration.validate(name: "\(name).tlsInspectionConfiguration")
+            try self.validate(self.tlsInspectionConfigurationName, name: "tlsInspectionConfigurationName", parent: name, max: 128)
+            try self.validate(self.tlsInspectionConfigurationName, name: "tlsInspectionConfigurationName", parent: name, min: 1)
+            try self.validate(self.tlsInspectionConfigurationName, name: "tlsInspectionConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case tags = "Tags"
+            case tlsInspectionConfiguration = "TLSInspectionConfiguration"
+            case tlsInspectionConfigurationName = "TLSInspectionConfigurationName"
+        }
+    }
+
+    public struct CreateTLSInspectionConfigurationResponse: AWSDecodableShape {
+        /// The high-level properties of a TLS inspection configuration. This, along with the TLSInspectionConfiguration, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.
+        public let tlsInspectionConfigurationResponse: TLSInspectionConfigurationResponse
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the TLS inspection configuration. The token marks the state of the TLS inspection configuration resource at the time of the request.  To make changes to the TLS inspection configuration, you provide the token in your request. Network Firewall uses the token to ensure that the TLS inspection configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the TLS inspection configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        public init(tlsInspectionConfigurationResponse: TLSInspectionConfigurationResponse, updateToken: String) {
+            self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tlsInspectionConfigurationResponse = "TLSInspectionConfigurationResponse"
+            case updateToken = "UpdateToken"
+        }
+    }
+
     public struct CustomAction: AWSEncodableShape & AWSDecodableShape {
         /// The custom action associated with the action name.
         public let actionDefinition: ActionDefinition
@@ -806,6 +868,45 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case ruleGroupResponse = "RuleGroupResponse"
+        }
+    }
+
+    public struct DeleteTLSInspectionConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the TLS inspection configuration. You must specify the ARN or the name, and you can specify both.
+        public let tlsInspectionConfigurationArn: String?
+        /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it. You must specify the ARN or the name, and you can specify both.
+        public let tlsInspectionConfigurationName: String?
+
+        public init(tlsInspectionConfigurationArn: String? = nil, tlsInspectionConfigurationName: String? = nil) {
+            self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
+            self.tlsInspectionConfigurationName = tlsInspectionConfigurationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, max: 256)
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, min: 1)
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.tlsInspectionConfigurationName, name: "tlsInspectionConfigurationName", parent: name, max: 128)
+            try self.validate(self.tlsInspectionConfigurationName, name: "tlsInspectionConfigurationName", parent: name, min: 1)
+            try self.validate(self.tlsInspectionConfigurationName, name: "tlsInspectionConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
+            case tlsInspectionConfigurationName = "TLSInspectionConfigurationName"
+        }
+    }
+
+    public struct DeleteTLSInspectionConfigurationResponse: AWSDecodableShape {
+        /// The high-level properties of a TLS inspection configuration. This, along with the TLSInspectionConfiguration, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.
+        public let tlsInspectionConfigurationResponse: TLSInspectionConfigurationResponse
+
+        public init(tlsInspectionConfigurationResponse: TLSInspectionConfigurationResponse) {
+            self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tlsInspectionConfigurationResponse = "TLSInspectionConfigurationResponse"
         }
     }
 
@@ -1097,6 +1198,54 @@ extension NetworkFirewall {
         }
     }
 
+    public struct DescribeTLSInspectionConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the TLS inspection configuration. You must specify the ARN or the name, and you can specify both.
+        public let tlsInspectionConfigurationArn: String?
+        /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it. You must specify the ARN or the name, and you can specify both.
+        public let tlsInspectionConfigurationName: String?
+
+        public init(tlsInspectionConfigurationArn: String? = nil, tlsInspectionConfigurationName: String? = nil) {
+            self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
+            self.tlsInspectionConfigurationName = tlsInspectionConfigurationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, max: 256)
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, min: 1)
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.tlsInspectionConfigurationName, name: "tlsInspectionConfigurationName", parent: name, max: 128)
+            try self.validate(self.tlsInspectionConfigurationName, name: "tlsInspectionConfigurationName", parent: name, min: 1)
+            try self.validate(self.tlsInspectionConfigurationName, name: "tlsInspectionConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
+            case tlsInspectionConfigurationName = "TLSInspectionConfigurationName"
+        }
+    }
+
+    public struct DescribeTLSInspectionConfigurationResponse: AWSDecodableShape {
+        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see Decrypting SSL/TLS traffic with TLS
+        /// inspection configurations in the Network Firewall Developer Guide.
+        public let tlsInspectionConfiguration: TLSInspectionConfiguration?
+        /// The high-level properties of a TLS inspection configuration. This, along with the TLSInspectionConfiguration, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.
+        public let tlsInspectionConfigurationResponse: TLSInspectionConfigurationResponse
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the TLS inspection configuration. The token marks the state of the TLS inspection configuration resource at the time of the request.  To make changes to the TLS inspection configuration, you provide the token in your request. Network Firewall uses the token to ensure that the TLS inspection configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the TLS inspection configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        public init(tlsInspectionConfiguration: TLSInspectionConfiguration? = nil, tlsInspectionConfigurationResponse: TLSInspectionConfigurationResponse, updateToken: String) {
+            self.tlsInspectionConfiguration = tlsInspectionConfiguration
+            self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tlsInspectionConfiguration = "TLSInspectionConfiguration"
+            case tlsInspectionConfigurationResponse = "TLSInspectionConfigurationResponse"
+            case updateToken = "UpdateToken"
+        }
+    }
+
     public struct Dimension: AWSEncodableShape & AWSDecodableShape {
         /// The value to use in the custom metric dimension.
         public let value: String
@@ -1294,8 +1443,10 @@ extension NetworkFirewall {
         public let statelessFragmentDefaultActions: [String]
         /// References to the stateless rule groups that are used in the policy. These define the matching criteria in stateless rules.
         public let statelessRuleGroupReferences: [StatelessRuleGroupReference]?
+        /// The Amazon Resource Name (ARN) of the TLS inspection configuration.
+        public let tlsInspectionConfigurationArn: String?
 
-        public init(statefulDefaultActions: [String]? = nil, statefulEngineOptions: StatefulEngineOptions? = nil, statefulRuleGroupReferences: [StatefulRuleGroupReference]? = nil, statelessCustomActions: [CustomAction]? = nil, statelessDefaultActions: [String], statelessFragmentDefaultActions: [String], statelessRuleGroupReferences: [StatelessRuleGroupReference]? = nil) {
+        public init(statefulDefaultActions: [String]? = nil, statefulEngineOptions: StatefulEngineOptions? = nil, statefulRuleGroupReferences: [StatefulRuleGroupReference]? = nil, statelessCustomActions: [CustomAction]? = nil, statelessDefaultActions: [String], statelessFragmentDefaultActions: [String], statelessRuleGroupReferences: [StatelessRuleGroupReference]? = nil, tlsInspectionConfigurationArn: String? = nil) {
             self.statefulDefaultActions = statefulDefaultActions
             self.statefulEngineOptions = statefulEngineOptions
             self.statefulRuleGroupReferences = statefulRuleGroupReferences
@@ -1303,6 +1454,7 @@ extension NetworkFirewall {
             self.statelessDefaultActions = statelessDefaultActions
             self.statelessFragmentDefaultActions = statelessFragmentDefaultActions
             self.statelessRuleGroupReferences = statelessRuleGroupReferences
+            self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
         }
 
         public func validate(name: String) throws {
@@ -1315,6 +1467,9 @@ extension NetworkFirewall {
             try self.statelessRuleGroupReferences?.forEach {
                 try $0.validate(name: "\(name).statelessRuleGroupReferences[]")
             }
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, max: 256)
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, min: 1)
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, pattern: "^arn:aws")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1325,6 +1480,7 @@ extension NetworkFirewall {
             case statelessDefaultActions = "StatelessDefaultActions"
             case statelessFragmentDefaultActions = "StatelessFragmentDefaultActions"
             case statelessRuleGroupReferences = "StatelessRuleGroupReferences"
+            case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
         }
     }
 
@@ -1667,6 +1823,48 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case ruleGroups = "RuleGroups"
+        }
+    }
+
+    public struct ListTLSInspectionConfigurationsRequest: AWSEncodableShape {
+        /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTLSInspectionConfigurationsResponse: AWSDecodableShape {
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+        /// The TLS inspection configuration metadata objects that you've defined. Depending on your setting for max results and the number of TLS inspection configurations, this might not be the full list.
+        public let tlsInspectionConfigurations: [TLSInspectionConfigurationMetadata]?
+
+        public init(nextToken: String? = nil, tlsInspectionConfigurations: [TLSInspectionConfigurationMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.tlsInspectionConfigurations = tlsInspectionConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tlsInspectionConfigurations = "TLSInspectionConfigurations"
         }
     }
 
@@ -2205,6 +2403,102 @@ extension NetworkFirewall {
         }
     }
 
+    public struct ServerCertificate: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Certificate Manager SSL/TLS server certificate.
+        public let resourceArn: String?
+
+        public init(resourceArn: String? = nil) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ServerCertificateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of a server certificate configuration's scopes.
+        public let scopes: [ServerCertificateScope]?
+        /// The list of a server certificate configuration's Certificate Manager SSL/TLS certificates.
+        public let serverCertificates: [ServerCertificate]?
+
+        public init(scopes: [ServerCertificateScope]? = nil, serverCertificates: [ServerCertificate]? = nil) {
+            self.scopes = scopes
+            self.serverCertificates = serverCertificates
+        }
+
+        public func validate(name: String) throws {
+            try self.scopes?.forEach {
+                try $0.validate(name: "\(name).scopes[]")
+            }
+            try self.serverCertificates?.forEach {
+                try $0.validate(name: "\(name).serverCertificates[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scopes = "Scopes"
+            case serverCertificates = "ServerCertificates"
+        }
+    }
+
+    public struct ServerCertificateScope: AWSEncodableShape & AWSDecodableShape {
+        /// The destination ports to decrypt for inspection, in Transmission Control Protocol (TCP) format. If not specified, this matches with any destination port. You can specify individual ports, for example 1994, and you can specify port ranges, such as 1990:1994.
+        public let destinationPorts: [PortRange]?
+        /// The destination IP addresses and address ranges to decrypt for inspection, in CIDR notation. If not specified, this
+        /// matches with any destination address.
+        public let destinations: [Address]?
+        /// The protocols to decrypt for inspection, specified using each protocol's assigned internet protocol number
+        /// (IANA). Network Firewall currently supports only TCP.
+        public let protocols: [Int]?
+        /// The source ports to decrypt for inspection, in Transmission Control Protocol (TCP) format. If not specified, this matches with any source port. You can specify individual ports, for example 1994, and you can specify port ranges, such as 1990:1994.
+        public let sourcePorts: [PortRange]?
+        /// The source IP addresses and address ranges to decrypt for inspection, in CIDR notation. If not specified, this
+        /// matches with any source address.
+        public let sources: [Address]?
+
+        public init(destinationPorts: [PortRange]? = nil, destinations: [Address]? = nil, protocols: [Int]? = nil, sourcePorts: [PortRange]? = nil, sources: [Address]? = nil) {
+            self.destinationPorts = destinationPorts
+            self.destinations = destinations
+            self.protocols = protocols
+            self.sourcePorts = sourcePorts
+            self.sources = sources
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationPorts?.forEach {
+                try $0.validate(name: "\(name).destinationPorts[]")
+            }
+            try self.destinations?.forEach {
+                try $0.validate(name: "\(name).destinations[]")
+            }
+            try self.protocols?.forEach {
+                try validate($0, name: "protocols[]", parent: name, max: 255)
+                try validate($0, name: "protocols[]", parent: name, min: 0)
+            }
+            try self.sourcePorts?.forEach {
+                try $0.validate(name: "\(name).sourcePorts[]")
+            }
+            try self.sources?.forEach {
+                try $0.validate(name: "\(name).sources[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationPorts = "DestinationPorts"
+            case destinations = "Destinations"
+            case protocols = "Protocols"
+            case sourcePorts = "SourcePorts"
+            case sources = "Sources"
+        }
+    }
+
     public struct SourceMetadata: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the rule group that your own rule group is copied from.
         public let sourceArn: String?
@@ -2456,6 +2750,91 @@ extension NetworkFirewall {
         }
     }
 
+    public struct TLSInspectionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Lists the server certificate configurations that are associated with the TLS configuration.
+        public let serverCertificateConfigurations: [ServerCertificateConfiguration]?
+
+        public init(serverCertificateConfigurations: [ServerCertificateConfiguration]? = nil) {
+            self.serverCertificateConfigurations = serverCertificateConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.serverCertificateConfigurations?.forEach {
+                try $0.validate(name: "\(name).serverCertificateConfigurations[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverCertificateConfigurations = "ServerCertificateConfigurations"
+        }
+    }
+
+    public struct TLSInspectionConfigurationMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the TLS inspection configuration.
+        public let arn: String?
+        /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
+        public let name: String?
+
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
+        }
+    }
+
+    public struct TLSInspectionConfigurationResponse: AWSDecodableShape {
+        /// A list of the certificates associated with the TLS inspection configuration.
+        public let certificates: [TlsCertificateData]?
+        /// A description of the TLS inspection configuration.
+        public let description: String?
+        /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your TLS inspection configuration.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The last time that the TLS inspection configuration was changed.
+        public let lastModifiedTime: Date?
+        /// The number of firewall policies that use this TLS inspection configuration.
+        public let numberOfAssociations: Int?
+        /// The key:value pairs to associate with the resource.
+        public let tags: [Tag]?
+        /// The Amazon Resource Name (ARN) of the TLS inspection configuration.
+        public let tlsInspectionConfigurationArn: String
+        /// A unique identifier for the TLS inspection configuration. This ID is returned in the responses to create and list commands. You provide it to operations such as update and delete.
+        public let tlsInspectionConfigurationId: String
+        /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
+        public let tlsInspectionConfigurationName: String
+        /// Detailed information about the current status of a TLSInspectionConfiguration. You can retrieve this for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration and providing the TLS inspection configuration name and ARN.
+        public let tlsInspectionConfigurationStatus: ResourceStatus?
+
+        public init(certificates: [TlsCertificateData]? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, tags: [Tag]? = nil, tlsInspectionConfigurationArn: String, tlsInspectionConfigurationId: String, tlsInspectionConfigurationName: String, tlsInspectionConfigurationStatus: ResourceStatus? = nil) {
+            self.certificates = certificates
+            self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
+            self.lastModifiedTime = lastModifiedTime
+            self.numberOfAssociations = numberOfAssociations
+            self.tags = tags
+            self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
+            self.tlsInspectionConfigurationId = tlsInspectionConfigurationId
+            self.tlsInspectionConfigurationName = tlsInspectionConfigurationName
+            self.tlsInspectionConfigurationStatus = tlsInspectionConfigurationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificates = "Certificates"
+            case description = "Description"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case lastModifiedTime = "LastModifiedTime"
+            case numberOfAssociations = "NumberOfAssociations"
+            case tags = "Tags"
+            case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
+            case tlsInspectionConfigurationId = "TLSInspectionConfigurationId"
+            case tlsInspectionConfigurationName = "TLSInspectionConfigurationName"
+            case tlsInspectionConfigurationStatus = "TLSInspectionConfigurationStatus"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
         public let key: String
@@ -2510,6 +2889,31 @@ extension NetworkFirewall {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TlsCertificateData: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the certificate.
+        public let certificateArn: String?
+        /// The serial number of the certificate.
+        public let certificateSerial: String?
+        /// The status of the certificate.
+        public let status: String?
+        /// Contains details about the certificate status, including information about certificate errors.
+        public let statusMessage: String?
+
+        public init(certificateArn: String? = nil, certificateSerial: String? = nil, status: String? = nil, statusMessage: String? = nil) {
+            self.certificateArn = certificateArn
+            self.certificateSerial = certificateSerial
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case certificateSerial = "CertificateSerial"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -3060,6 +3464,73 @@ extension NetworkFirewall {
             case firewallArn = "FirewallArn"
             case firewallName = "FirewallName"
             case subnetChangeProtection = "SubnetChangeProtection"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateTLSInspectionConfigurationRequest: AWSEncodableShape {
+        /// A description of the TLS inspection configuration.
+        public let description: String?
+        /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your TLS inspection configuration.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The object that defines a TLS inspection configuration. This, along with TLSInspectionConfigurationResponse, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see Decrypting SSL/TLS traffic with TLS
+        /// inspection configurations in the Network Firewall Developer Guide.
+        public let tlsInspectionConfiguration: TLSInspectionConfiguration
+        /// The Amazon Resource Name (ARN) of the TLS inspection configuration.
+        public let tlsInspectionConfigurationArn: String?
+        /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
+        public let tlsInspectionConfigurationName: String?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the TLS inspection configuration. The token marks the state of the TLS inspection configuration resource at the time of the request.  To make changes to the TLS inspection configuration, you provide the token in your request. Network Firewall uses the token to ensure that the TLS inspection configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the TLS inspection configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        public init(description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, tlsInspectionConfiguration: TLSInspectionConfiguration, tlsInspectionConfigurationArn: String? = nil, tlsInspectionConfigurationName: String? = nil, updateToken: String) {
+            self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
+            self.tlsInspectionConfiguration = tlsInspectionConfiguration
+            self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
+            self.tlsInspectionConfigurationName = tlsInspectionConfigurationName
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.tlsInspectionConfiguration.validate(name: "\(name).tlsInspectionConfiguration")
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, max: 256)
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, min: 1)
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.tlsInspectionConfigurationName, name: "tlsInspectionConfigurationName", parent: name, max: 128)
+            try self.validate(self.tlsInspectionConfigurationName, name: "tlsInspectionConfigurationName", parent: name, min: 1)
+            try self.validate(self.tlsInspectionConfigurationName, name: "tlsInspectionConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case tlsInspectionConfiguration = "TLSInspectionConfiguration"
+            case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
+            case tlsInspectionConfigurationName = "TLSInspectionConfigurationName"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateTLSInspectionConfigurationResponse: AWSDecodableShape {
+        /// The high-level properties of a TLS inspection configuration. This, along with the TLSInspectionConfiguration, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.
+        public let tlsInspectionConfigurationResponse: TLSInspectionConfigurationResponse
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the TLS inspection configuration. The token marks the state of the TLS inspection configuration resource at the time of the request.  To make changes to the TLS inspection configuration, you provide the token in your request. Network Firewall uses the token to ensure that the TLS inspection configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the TLS inspection configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        public init(tlsInspectionConfigurationResponse: TLSInspectionConfigurationResponse, updateToken: String) {
+            self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tlsInspectionConfigurationResponse = "TLSInspectionConfigurationResponse"
             case updateToken = "UpdateToken"
         }
     }

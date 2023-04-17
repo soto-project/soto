@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Resiliencehub service.
 ///
-/// AWS Resilience Hub helps you proactively prepare and protect your Amazon Web Services applications from disruptions. Resilience Hub offers continuous resiliency assessment and validation that integrates into your software development lifecycle. This enables you to uncover resiliency weaknesses, ensure recovery time objective (RTO) and recovery point objective (RPO) targets for your applications are met, and resolve issues before they are released into production.
+/// Resilience Hub helps you proactively prepare and protect your Amazon Web Services applications from disruptions. It offers continual resiliency assessment and validation that integrates into your software development lifecycle. This enables you to uncover resiliency weaknesses, ensure recovery time objective (RTO) and recovery point objective (RPO) targets for your applications are met, and resolve issues before they are released into production.
 public struct Resiliencehub: AWSService {
     // MARK: Member variables
 
@@ -63,17 +63,27 @@ public struct Resiliencehub: AWSService {
 
     // MARK: API Calls
 
-    /// Adds the resource mapping for the draft application version.
+    /// Adds the resource mapping for the draft application version. You can also update an existing resource mapping to a new physical resource.
     public func addDraftAppVersionResourceMappings(_ input: AddDraftAppVersionResourceMappingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddDraftAppVersionResourceMappingsResponse> {
         return self.client.execute(operation: "AddDraftAppVersionResourceMappings", path: "/add-draft-app-version-resource-mappings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a Resilience Hub application. A Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more–up to five–CloudFormation stacks, and an appropriate resiliency policy. After you create a Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
+    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more–up to 20–CloudFormation stacks, and an appropriate resiliency policy. After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
     public func createApp(_ input: CreateAppRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppResponse> {
         return self.client.execute(operation: "CreateApp", path: "/create-app", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new recommendation template.
+    /// Creates a new Application Component in the Resilience Hub application.  This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
+    public func createAppVersionAppComponent(_ input: CreateAppVersionAppComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppVersionAppComponentResponse> {
+        return self.client.execute(operation: "CreateAppVersionAppComponent", path: "/create-app-version-app-component", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Adds a resource to the Resilience Hub application and assigns it to the specified Application Components. If you specify a new Application Component, Resilience Hub will automatically create the Application Component.    This action has no effect outside Resilience Hub.   This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.   To update application version with new physicalResourceID, you must call ResolveAppVersionResources API.
+    public func createAppVersionResource(_ input: CreateAppVersionResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppVersionResourceResponse> {
+        return self.client.execute(operation: "CreateAppVersionResource", path: "/create-app-version-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new recommendation template for the Resilience Hub application.
     public func createRecommendationTemplate(_ input: CreateRecommendationTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRecommendationTemplateResponse> {
         return self.client.execute(operation: "CreateRecommendationTemplate", path: "/create-recommendation-template", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -83,14 +93,29 @@ public struct Resiliencehub: AWSService {
         return self.client.execute(operation: "CreateResiliencyPolicy", path: "/create-resiliency-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an AWS Resilience Hub application. This is a destructive action that can't be undone.
+    /// Deletes an Resilience Hub application. This is a destructive action that can't be undone.
     public func deleteApp(_ input: DeleteAppRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppResponse> {
         return self.client.execute(operation: "DeleteApp", path: "/delete-app", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an AWS Resilience Hub application assessment. This is a destructive action that can't be undone.
+    /// Deletes an Resilience Hub application assessment. This is a destructive action that can't be undone.
     public func deleteAppAssessment(_ input: DeleteAppAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppAssessmentResponse> {
         return self.client.execute(operation: "DeleteAppAssessment", path: "/delete-app-assessment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the input source and all of its imported resources from the Resilience Hub application.
+    public func deleteAppInputSource(_ input: DeleteAppInputSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppInputSourceResponse> {
+        return self.client.execute(operation: "DeleteAppInputSource", path: "/delete-app-input-source", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an Application Component from the Resilience Hub application.    This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.   You will not be able to delete an Application Component if it has resources associated with it.
+    public func deleteAppVersionAppComponent(_ input: DeleteAppVersionAppComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppVersionAppComponentResponse> {
+        return self.client.execute(operation: "DeleteAppVersionAppComponent", path: "/delete-app-version-app-component", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a resource from the Resilience Hub application.    You can only delete a manually added resource. To exclude non-manually added resources, use the UpdateAppVersionResource API.   This action has no effect outside Resilience Hub.   This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
+    public func deleteAppVersionResource(_ input: DeleteAppVersionResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppVersionResourceResponse> {
+        return self.client.execute(operation: "DeleteAppVersionResource", path: "/delete-app-version-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a recommendation template. This is a destructive action that can't be undone.
@@ -103,14 +128,29 @@ public struct Resiliencehub: AWSService {
         return self.client.execute(operation: "DeleteResiliencyPolicy", path: "/delete-resiliency-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes an AWS Resilience Hub application.
+    /// Describes an Resilience Hub application.
     public func describeApp(_ input: DescribeAppRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppResponse> {
         return self.client.execute(operation: "DescribeApp", path: "/describe-app", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes an assessment for an AWS Resilience Hub application.
+    /// Describes an assessment for an Resilience Hub application.
     public func describeAppAssessment(_ input: DescribeAppAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppAssessmentResponse> {
         return self.client.execute(operation: "DescribeAppAssessment", path: "/describe-app-assessment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the Resilience Hub application version.
+    public func describeAppVersion(_ input: DescribeAppVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppVersionResponse> {
+        return self.client.execute(operation: "DescribeAppVersion", path: "/describe-app-version", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes an Application Component in the Resilience Hub application.
+    public func describeAppVersionAppComponent(_ input: DescribeAppVersionAppComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppVersionAppComponentResponse> {
+        return self.client.execute(operation: "DescribeAppVersionAppComponent", path: "/describe-app-version-app-component", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes a resource of the Resilience Hub application.  This API accepts only one of the following parameters to descibe the resource:    resourceName     logicalResourceId     physicalResourceId (Along with physicalResourceId, you can also provide awsAccountId, and awsRegion)
+    public func describeAppVersionResource(_ input: DescribeAppVersionResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppVersionResourceResponse> {
+        return self.client.execute(operation: "DescribeAppVersionResource", path: "/describe-app-version-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns the resolution status for the specified resolution identifier for an application version. If resolutionId is not specified, the current resolution status is returned.
@@ -118,44 +158,54 @@ public struct Resiliencehub: AWSService {
         return self.client.execute(operation: "DescribeAppVersionResourcesResolutionStatus", path: "/describe-app-version-resources-resolution-status", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes details about an AWS Resilience Hub
+    /// Describes details about an Resilience Hub application.
     public func describeAppVersionTemplate(_ input: DescribeAppVersionTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppVersionTemplateResponse> {
         return self.client.execute(operation: "DescribeAppVersionTemplate", path: "/describe-app-version-template", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the status of importing resources to an application version.
+    /// Describes the status of importing resources to an application version.  If you get a 404 error with ResourceImportStatusNotFoundAppMetadataException, you must call importResourcesToDraftAppVersion  after creating the application and before calling describeDraftAppVersionResourcesImportStatus to obtain the status.
     public func describeDraftAppVersionResourcesImportStatus(_ input: DescribeDraftAppVersionResourcesImportStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDraftAppVersionResourcesImportStatusResponse> {
         return self.client.execute(operation: "DescribeDraftAppVersionResourcesImportStatus", path: "/describe-draft-app-version-resources-import-status", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes a specified resiliency policy for an AWS Resilience Hub application. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more.
+    /// Describes a specified resiliency policy for an Resilience Hub application. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more.
     public func describeResiliencyPolicy(_ input: DescribeResiliencyPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeResiliencyPolicyResponse> {
         return self.client.execute(operation: "DescribeResiliencyPolicy", path: "/describe-resiliency-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Imports resources from sources such as a CloudFormation stack, resource-groups, or application registry app to a draft application version.
+    /// Imports resources to Resilience Hub application draft version from different input sources. For more information about the input sources supported by Resilience Hub, see Discover the structure and describe your Resilience Hub application.
     public func importResourcesToDraftAppVersion(_ input: ImportResourcesToDraftAppVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportResourcesToDraftAppVersionResponse> {
         return self.client.execute(operation: "ImportResourcesToDraftAppVersion", path: "/import-resources-to-draft-app-version", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the alarm recommendations for a AWS Resilience Hub application.
+    /// Lists the alarm recommendations for an Resilience Hub application.
     public func listAlarmRecommendations(_ input: ListAlarmRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAlarmRecommendationsResponse> {
         return self.client.execute(operation: "ListAlarmRecommendations", path: "/list-alarm-recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the assessments for an AWS Resilience Hub application. You can use request parameters to refine the results for the response object.
+    /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.
     public func listAppAssessments(_ input: ListAppAssessmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppAssessmentsResponse> {
         return self.client.execute(operation: "ListAppAssessments", path: "/list-app-assessments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the compliances for an AWS Resilience Hub component.
+    /// Lists the compliances for an Resilience Hub Application Component.
     public func listAppComponentCompliances(_ input: ListAppComponentCompliancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppComponentCompliancesResponse> {
         return self.client.execute(operation: "ListAppComponentCompliances", path: "/list-app-component-compliances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the recommendations for an AWS Resilience Hub component.
+    /// Lists the recommendations for an Resilience Hub Application Component.
     public func listAppComponentRecommendations(_ input: ListAppComponentRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppComponentRecommendationsResponse> {
         return self.client.execute(operation: "ListAppComponentRecommendations", path: "/list-app-component-recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all the input sources of the Resilience Hub application. For more information about the input sources supported by Resilience Hub, see Discover the structure and describe your Resilience Hub application.
+    public func listAppInputSources(_ input: ListAppInputSourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppInputSourcesResponse> {
+        return self.client.execute(operation: "ListAppInputSources", path: "/list-app-input-sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all the Application Components in the Resilience Hub application.
+    public func listAppVersionAppComponents(_ input: ListAppVersionAppComponentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppVersionAppComponentsResponse> {
+        return self.client.execute(operation: "ListAppVersionAppComponents", path: "/list-app-version-app-components", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists how the resources in an application version are mapped/sourced from. Mappings can be physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry app.
@@ -163,7 +213,7 @@ public struct Resiliencehub: AWSService {
         return self.client.execute(operation: "ListAppVersionResourceMappings", path: "/list-app-version-resource-mappings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all the resources in an application version.
+    /// Lists all the resources in an Resilience Hub application.
     public func listAppVersionResources(_ input: ListAppVersionResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppVersionResourcesResponse> {
         return self.client.execute(operation: "ListAppVersionResources", path: "/list-app-version-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -173,7 +223,7 @@ public struct Resiliencehub: AWSService {
         return self.client.execute(operation: "ListAppVersions", path: "/list-app-versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists your Resilience Hub applications.
+    /// Lists your Resilience Hub applications.  You can filter applications using only one filter at a time or without using any filter. If you try to filter applications using multiple filters, you will get the following error:  An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation.
     public func listApps(_ input: ListAppsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppsResponse> {
         return self.client.execute(operation: "ListApps", path: "/list-apps", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -208,7 +258,7 @@ public struct Resiliencehub: AWSService {
         return self.client.execute(operation: "ListTestRecommendations", path: "/list-test-recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the resources that are not currently supported in AWS Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
+    /// Lists the resources that are not currently supported in Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
     public func listUnsupportedAppVersionResources(_ input: ListUnsupportedAppVersionResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUnsupportedAppVersionResourcesResponse> {
         return self.client.execute(operation: "ListUnsupportedAppVersionResources", path: "/list-unsupported-app-version-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -218,7 +268,7 @@ public struct Resiliencehub: AWSService {
         return self.client.execute(operation: "PublishAppVersion", path: "/publish-app-version", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or updates the app template for a draft version of a Resilience Hub app.
+    /// Adds or updates the app template for an Resilience Hub application draft version.
     public func putDraftAppVersionTemplate(_ input: PutDraftAppVersionTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutDraftAppVersionTemplateResponse> {
         return self.client.execute(operation: "PutDraftAppVersionTemplate", path: "/put-draft-app-version-template", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -253,6 +303,21 @@ public struct Resiliencehub: AWSService {
         return self.client.execute(operation: "UpdateApp", path: "/update-app", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates the Resilience Hub application version.  This API updates the Resilience Hub application draft version. To use this information for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
+    public func updateAppVersion(_ input: UpdateAppVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppVersionResponse> {
+        return self.client.execute(operation: "UpdateAppVersion", path: "/update-app-version", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates an existing Application Component in the Resilience Hub application.  This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
+    public func updateAppVersionAppComponent(_ input: UpdateAppVersionAppComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppVersionAppComponentResponse> {
+        return self.client.execute(operation: "UpdateAppVersionAppComponent", path: "/update-app-version-app-component", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the resource details in the Resilience Hub application.    This action has no effect outside Resilience Hub.   This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.   To update application version with new physicalResourceID, you must call ResolveAppVersionResources API.
+    public func updateAppVersionResource(_ input: UpdateAppVersionResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppVersionResourceResponse> {
+        return self.client.execute(operation: "UpdateAppVersionResource", path: "/update-app-version-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates a resiliency policy.
     public func updateResiliencyPolicy(_ input: UpdateResiliencyPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResiliencyPolicyResponse> {
         return self.client.execute(operation: "UpdateResiliencyPolicy", path: "/update-resiliency-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -271,7 +336,7 @@ extension Resiliencehub {
 // MARK: Paginators
 
 extension Resiliencehub {
-    /// Lists the alarm recommendations for a AWS Resilience Hub application.
+    /// Lists the alarm recommendations for an Resilience Hub application.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -324,7 +389,7 @@ extension Resiliencehub {
         )
     }
 
-    /// Lists the assessments for an AWS Resilience Hub application. You can use request parameters to refine the results for the response object.
+    /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -377,7 +442,7 @@ extension Resiliencehub {
         )
     }
 
-    /// Lists the compliances for an AWS Resilience Hub component.
+    /// Lists the compliances for an Resilience Hub Application Component.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -430,7 +495,7 @@ extension Resiliencehub {
         )
     }
 
-    /// Lists the recommendations for an AWS Resilience Hub component.
+    /// Lists the recommendations for an Resilience Hub Application Component.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -478,6 +543,112 @@ extension Resiliencehub {
             command: self.listAppComponentRecommendations,
             inputKey: \ListAppComponentRecommendationsRequest.nextToken,
             outputKey: \ListAppComponentRecommendationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists all the input sources of the Resilience Hub application. For more information about the input sources supported by Resilience Hub, see Discover the structure and describe your Resilience Hub application.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAppInputSourcesPaginator<Result>(
+        _ input: ListAppInputSourcesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAppInputSourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listAppInputSources,
+            inputKey: \ListAppInputSourcesRequest.nextToken,
+            outputKey: \ListAppInputSourcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAppInputSourcesPaginator(
+        _ input: ListAppInputSourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAppInputSourcesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listAppInputSources,
+            inputKey: \ListAppInputSourcesRequest.nextToken,
+            outputKey: \ListAppInputSourcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists all the Application Components in the Resilience Hub application.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAppVersionAppComponentsPaginator<Result>(
+        _ input: ListAppVersionAppComponentsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAppVersionAppComponentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listAppVersionAppComponents,
+            inputKey: \ListAppVersionAppComponentsRequest.nextToken,
+            outputKey: \ListAppVersionAppComponentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAppVersionAppComponentsPaginator(
+        _ input: ListAppVersionAppComponentsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAppVersionAppComponentsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listAppVersionAppComponents,
+            inputKey: \ListAppVersionAppComponentsRequest.nextToken,
+            outputKey: \ListAppVersionAppComponentsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -536,7 +707,7 @@ extension Resiliencehub {
         )
     }
 
-    /// Lists all the resources in an application version.
+    /// Lists all the resources in an Resilience Hub application.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -642,7 +813,7 @@ extension Resiliencehub {
         )
     }
 
-    /// Lists your Resilience Hub applications.
+    /// Lists your Resilience Hub applications.  You can filter applications using only one filter at a time or without using any filter. If you try to filter applications using multiple filters, you will get the following error:  An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -960,7 +1131,7 @@ extension Resiliencehub {
         )
     }
 
-    /// Lists the resources that are not currently supported in AWS Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
+    /// Lists the resources that are not currently supported in Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1053,6 +1224,28 @@ extension Resiliencehub.ListAppComponentRecommendationsRequest: AWSPaginateToken
     public func usingPaginationToken(_ token: String) -> Resiliencehub.ListAppComponentRecommendationsRequest {
         return .init(
             assessmentArn: self.assessmentArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Resiliencehub.ListAppInputSourcesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Resiliencehub.ListAppInputSourcesRequest {
+        return .init(
+            appArn: self.appArn,
+            appVersion: self.appVersion,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Resiliencehub.ListAppVersionAppComponentsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Resiliencehub.ListAppVersionAppComponentsRequest {
+        return .init(
+            appArn: self.appArn,
+            appVersion: self.appVersion,
             maxResults: self.maxResults,
             nextToken: token
         )

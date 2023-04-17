@@ -424,6 +424,8 @@ extension Drs {
     public struct CreateReplicationConfigurationTemplateRequest: AWSEncodableShape {
         /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
         public let associateDefaultSecurityGroup: Bool
+        /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
+        public let autoReplicateNewDisks: Bool?
         /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
         public let bandwidthThrottling: Int64
         /// Whether to create a Public IP for the Recovery Instance by default.
@@ -451,8 +453,9 @@ extension Drs {
         /// Whether to use a dedicated Replication Server in the replication staging area.
         public let useDedicatedReplicationServer: Bool
 
-        public init(associateDefaultSecurityGroup: Bool, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, pitPolicy: [PITPolicyRule], replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool) {
+        public init(associateDefaultSecurityGroup: Bool, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, pitPolicy: [PITPolicyRule], replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
+            self.autoReplicateNewDisks = autoReplicateNewDisks
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
             self.dataPlaneRouting = dataPlaneRouting
@@ -498,6 +501,7 @@ extension Drs {
 
         private enum CodingKeys: String, CodingKey {
             case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case autoReplicateNewDisks = "autoReplicateNewDisks"
             case bandwidthThrottling = "bandwidthThrottling"
             case createPublicIP = "createPublicIP"
             case dataPlaneRouting = "dataPlaneRouting"
@@ -544,14 +548,17 @@ extension Drs {
         public let lagDuration: String?
         /// The disks that should be replicated.
         public let replicatedDisks: [DataReplicationInfoReplicatedDisk]?
+        /// AWS Availability zone into which data is being replicated.
+        public let stagingAvailabilityZone: String?
 
-        public init(dataReplicationError: DataReplicationError? = nil, dataReplicationInitiation: DataReplicationInitiation? = nil, dataReplicationState: DataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, replicatedDisks: [DataReplicationInfoReplicatedDisk]? = nil) {
+        public init(dataReplicationError: DataReplicationError? = nil, dataReplicationInitiation: DataReplicationInitiation? = nil, dataReplicationState: DataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, replicatedDisks: [DataReplicationInfoReplicatedDisk]? = nil, stagingAvailabilityZone: String? = nil) {
             self.dataReplicationError = dataReplicationError
             self.dataReplicationInitiation = dataReplicationInitiation
             self.dataReplicationState = dataReplicationState
             self.etaDateTime = etaDateTime
             self.lagDuration = lagDuration
             self.replicatedDisks = replicatedDisks
+            self.stagingAvailabilityZone = stagingAvailabilityZone
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -561,6 +568,7 @@ extension Drs {
             case etaDateTime = "etaDateTime"
             case lagDuration = "lagDuration"
             case replicatedDisks = "replicatedDisks"
+            case stagingAvailabilityZone = "stagingAvailabilityZone"
         }
     }
 
@@ -1482,13 +1490,17 @@ extension Drs {
     public struct LifeCycleLastLaunch: AWSDecodableShape {
         /// An object containing information regarding the initiation of the last launch of a Source Server.
         public let initiated: LifeCycleLastLaunchInitiated?
+        /// Status of Source Server's last launch.
+        public let status: LaunchStatus?
 
-        public init(initiated: LifeCycleLastLaunchInitiated? = nil) {
+        public init(initiated: LifeCycleLastLaunchInitiated? = nil, status: LaunchStatus? = nil) {
             self.initiated = initiated
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case initiated = "initiated"
+            case status = "status"
         }
     }
 
@@ -1739,6 +1751,8 @@ extension Drs {
         public let isDrill: Bool?
         /// The ID of the Job that created the Recovery Instance.
         public let jobID: String?
+        /// AWS availability zone associated with the recovery instance.
+        public let originAvailabilityZone: String?
         /// Environment (On Premises / AWS) of the instance that the recovery instance originated from.
         public let originEnvironment: OriginEnvironment?
         /// The date and time of the Point in Time (PIT) snapshot that this Recovery Instance was launched from.
@@ -1752,7 +1766,7 @@ extension Drs {
         /// An array of tags that are associated with the Recovery Instance.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, dataReplicationInfo: RecoveryInstanceDataReplicationInfo? = nil, ec2InstanceID: String? = nil, ec2InstanceState: EC2InstanceState? = nil, failback: RecoveryInstanceFailback? = nil, isDrill: Bool? = nil, jobID: String? = nil, originEnvironment: OriginEnvironment? = nil, pointInTimeSnapshotDateTime: String? = nil, recoveryInstanceID: String? = nil, recoveryInstanceProperties: RecoveryInstanceProperties? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, dataReplicationInfo: RecoveryInstanceDataReplicationInfo? = nil, ec2InstanceID: String? = nil, ec2InstanceState: EC2InstanceState? = nil, failback: RecoveryInstanceFailback? = nil, isDrill: Bool? = nil, jobID: String? = nil, originAvailabilityZone: String? = nil, originEnvironment: OriginEnvironment? = nil, pointInTimeSnapshotDateTime: String? = nil, recoveryInstanceID: String? = nil, recoveryInstanceProperties: RecoveryInstanceProperties? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dataReplicationInfo = dataReplicationInfo
             self.ec2InstanceID = ec2InstanceID
@@ -1760,6 +1774,7 @@ extension Drs {
             self.failback = failback
             self.isDrill = isDrill
             self.jobID = jobID
+            self.originAvailabilityZone = originAvailabilityZone
             self.originEnvironment = originEnvironment
             self.pointInTimeSnapshotDateTime = pointInTimeSnapshotDateTime
             self.recoveryInstanceID = recoveryInstanceID
@@ -1776,6 +1791,7 @@ extension Drs {
             case failback = "failback"
             case isDrill = "isDrill"
             case jobID = "jobID"
+            case originAvailabilityZone = "originAvailabilityZone"
             case originEnvironment = "originEnvironment"
             case pointInTimeSnapshotDateTime = "pointInTimeSnapshotDateTime"
             case recoveryInstanceID = "recoveryInstanceID"
@@ -1815,14 +1831,17 @@ extension Drs {
         public let lagDuration: String?
         /// The disks that should be replicated.
         public let replicatedDisks: [RecoveryInstanceDataReplicationInfoReplicatedDisk]?
+        /// AWS Availability zone into which data is being replicated.
+        public let stagingAvailabilityZone: String?
 
-        public init(dataReplicationError: RecoveryInstanceDataReplicationError? = nil, dataReplicationInitiation: RecoveryInstanceDataReplicationInitiation? = nil, dataReplicationState: RecoveryInstanceDataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, replicatedDisks: [RecoveryInstanceDataReplicationInfoReplicatedDisk]? = nil) {
+        public init(dataReplicationError: RecoveryInstanceDataReplicationError? = nil, dataReplicationInitiation: RecoveryInstanceDataReplicationInitiation? = nil, dataReplicationState: RecoveryInstanceDataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, replicatedDisks: [RecoveryInstanceDataReplicationInfoReplicatedDisk]? = nil, stagingAvailabilityZone: String? = nil) {
             self.dataReplicationError = dataReplicationError
             self.dataReplicationInitiation = dataReplicationInitiation
             self.dataReplicationState = dataReplicationState
             self.etaDateTime = etaDateTime
             self.lagDuration = lagDuration
             self.replicatedDisks = replicatedDisks
+            self.stagingAvailabilityZone = stagingAvailabilityZone
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1832,6 +1851,7 @@ extension Drs {
             case etaDateTime = "etaDateTime"
             case lagDuration = "lagDuration"
             case replicatedDisks = "replicatedDisks"
+            case stagingAvailabilityZone = "stagingAvailabilityZone"
         }
     }
 
@@ -2037,6 +2057,8 @@ extension Drs {
     public struct ReplicationConfiguration: AWSDecodableShape {
         /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration.
         public let associateDefaultSecurityGroup: Bool?
+        /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
+        public let autoReplicateNewDisks: Bool?
         /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
         public let bandwidthThrottling: Int64?
         /// Whether to create a Public IP for the Recovery Instance by default.
@@ -2068,8 +2090,9 @@ extension Drs {
         /// Whether to use a dedicated Replication Server in the replication staging area.
         public let useDedicatedReplicationServer: Bool?
 
-        public init(associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
+        public init(associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
+            self.autoReplicateNewDisks = autoReplicateNewDisks
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
             self.dataPlaneRouting = dataPlaneRouting
@@ -2089,6 +2112,7 @@ extension Drs {
 
         private enum CodingKeys: String, CodingKey {
             case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case autoReplicateNewDisks = "autoReplicateNewDisks"
             case bandwidthThrottling = "bandwidthThrottling"
             case createPublicIP = "createPublicIP"
             case dataPlaneRouting = "dataPlaneRouting"
@@ -2114,7 +2138,7 @@ extension Drs {
         public let iops: Int64?
         /// Whether to boot from this disk or not.
         public let isBootDisk: Bool?
-        /// When stagingDiskType is set to Auto, this field shows the current staging disk EBS volume type as it is constantly updated by the service. This is a read-only field.
+        /// The Staging Disk EBS volume type to be used during replication when stagingDiskType is set to Auto. This is a read-only field.
         public let optimizedStagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType?
         /// The Staging Disk EBS volume type to be used during replication.
         public let stagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType?
@@ -2151,6 +2175,8 @@ extension Drs {
         public let arn: String?
         /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
         public let associateDefaultSecurityGroup: Bool?
+        /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
+        public let autoReplicateNewDisks: Bool?
         /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
         public let bandwidthThrottling: Int64?
         /// Whether to create a Public IP for the Recovery Instance by default.
@@ -2180,9 +2206,10 @@ extension Drs {
         /// Whether to use a dedicated Replication Server in the replication staging area.
         public let useDedicatedReplicationServer: Bool?
 
-        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
+        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
+            self.autoReplicateNewDisks = autoReplicateNewDisks
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
             self.dataPlaneRouting = dataPlaneRouting
@@ -2202,6 +2229,7 @@ extension Drs {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case autoReplicateNewDisks = "autoReplicateNewDisks"
             case bandwidthThrottling = "bandwidthThrottling"
             case createPublicIP = "createPublicIP"
             case dataPlaneRouting = "dataPlaneRouting"
@@ -2808,6 +2836,8 @@ extension Drs {
     public struct UpdateReplicationConfigurationRequest: AWSEncodableShape {
         /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration.
         public let associateDefaultSecurityGroup: Bool?
+        /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
+        public let autoReplicateNewDisks: Bool?
         /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
         public let bandwidthThrottling: Int64?
         /// Whether to create a Public IP for the Recovery Instance by default.
@@ -2839,8 +2869,9 @@ extension Drs {
         /// Whether to use a dedicated Replication Server in the replication staging area.
         public let useDedicatedReplicationServer: Bool?
 
-        public init(associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
+        public init(associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
+            self.autoReplicateNewDisks = autoReplicateNewDisks
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
             self.dataPlaneRouting = dataPlaneRouting
@@ -2892,6 +2923,7 @@ extension Drs {
 
         private enum CodingKeys: String, CodingKey {
             case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case autoReplicateNewDisks = "autoReplicateNewDisks"
             case bandwidthThrottling = "bandwidthThrottling"
             case createPublicIP = "createPublicIP"
             case dataPlaneRouting = "dataPlaneRouting"
@@ -2915,6 +2947,8 @@ extension Drs {
         public let arn: String?
         /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
         public let associateDefaultSecurityGroup: Bool?
+        /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
+        public let autoReplicateNewDisks: Bool?
         /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
         public let bandwidthThrottling: Int64?
         /// Whether to create a Public IP for the Recovery Instance by default.
@@ -2942,9 +2976,10 @@ extension Drs {
         /// Whether to use a dedicated Replication Server in the replication staging area.
         public let useDedicatedReplicationServer: Bool?
 
-        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
+        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
+            self.autoReplicateNewDisks = autoReplicateNewDisks
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
             self.dataPlaneRouting = dataPlaneRouting
@@ -2993,6 +3028,7 @@ extension Drs {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case autoReplicateNewDisks = "autoReplicateNewDisks"
             case bandwidthThrottling = "bandwidthThrottling"
             case createPublicIP = "createPublicIP"
             case dataPlaneRouting = "dataPlaneRouting"

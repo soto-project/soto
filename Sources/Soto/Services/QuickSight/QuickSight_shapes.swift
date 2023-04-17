@@ -341,6 +341,17 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable {
+        case friday = "FRIDAY"
+        case monday = "MONDAY"
+        case saturday = "SATURDAY"
+        case sunday = "SUNDAY"
+        case thursday = "THURSDAY"
+        case tuesday = "TUESDAY"
+        case wednesday = "WEDNESDAY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Edition: String, CustomStringConvertible, Codable, Sendable {
         case enterprise = "ENTERPRISE"
         case enterpriseAndQ = "ENTERPRISE_AND_Q"
@@ -532,6 +543,7 @@ extension QuickSight {
         case dataSourceConnectionFailed = "DATA_SOURCE_CONNECTION_FAILED"
         case dataSourceNotFound = "DATA_SOURCE_NOT_FOUND"
         case dataToleranceException = "DATA_TOLERANCE_EXCEPTION"
+        case duplicateColumnNamesFound = "DUPLICATE_COLUMN_NAMES_FOUND"
         case elasticsearchCursorNotEnabled = "ELASTICSEARCH_CURSOR_NOT_ENABLED"
         case failureToAssumeRole = "FAILURE_TO_ASSUME_ROLE"
         case failureToProcessJsonFile = "FAILURE_TO_PROCESS_JSON_FILE"
@@ -660,6 +672,13 @@ extension QuickSight {
         case linear = "LINEAR"
         case smooth = "SMOOTH"
         case stepped = "STEPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LookbackWindowSizeUnit: String, CustomStringConvertible, Codable, Sendable {
+        case day = "DAY"
+        case hour = "HOUR"
+        case week = "WEEK"
         public var description: String { return self.rawValue }
     }
 
@@ -805,6 +824,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum RadarChartShape: String, CustomStringConvertible, Codable, Sendable {
+        case circle = "CIRCLE"
+        case polygon = "POLYGON"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReferenceLineLabelHorizontalPosition: String, CustomStringConvertible, Codable, Sendable {
         case center = "CENTER"
         case left = "LEFT"
@@ -828,6 +853,16 @@ extension QuickSight {
     public enum ReferenceLineValueLabelRelativePosition: String, CustomStringConvertible, Codable, Sendable {
         case afterCustomLabel = "AFTER_CUSTOM_LABEL"
         case beforeCustomLabel = "BEFORE_CUSTOM_LABEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RefreshInterval: String, CustomStringConvertible, Codable, Sendable {
+        case daily = "DAILY"
+        case hourly = "HOURLY"
+        case minute15 = "MINUTE15"
+        case minute30 = "MINUTE30"
+        case monthly = "MONTHLY"
+        case weekly = "WEEKLY"
         public var description: String { return self.rawValue }
     }
 
@@ -1651,7 +1686,7 @@ extension QuickSight {
         }
     }
 
-    public struct AdHocFilteringOption: AWSEncodableShape {
+    public struct AdHocFilteringOption: AWSEncodableShape & AWSDecodableShape {
         /// Availability status.
         public let availabilityStatus: DashboardBehavior?
 
@@ -1882,6 +1917,7 @@ extension QuickSight {
         public let message: String?
         /// The type of the analysis error.
         public let type: AnalysisErrorType?
+        /// Lists the violated entities that caused the analysis error
         public let violatedEntities: [Entity]?
 
         public init(message: String? = nil, type: AnalysisErrorType? = nil, violatedEntities: [Entity]? = nil) {
@@ -3361,11 +3397,11 @@ extension QuickSight {
         /// The column that the filter is applied to.
         public let column: ColumnIdentifier
         /// The configuration for a CategoryFilter.
-        public let configuration: CategoryFilterConfiguration?
+        public let configuration: CategoryFilterConfiguration
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
         public let filterId: String
 
-        public init(column: ColumnIdentifier, configuration: CategoryFilterConfiguration? = nil, filterId: String) {
+        public init(column: ColumnIdentifier, configuration: CategoryFilterConfiguration, filterId: String) {
             self.column = column
             self.configuration = configuration
             self.filterId = filterId
@@ -3373,7 +3409,7 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.column.validate(name: "\(name).column")
-            try self.configuration?.validate(name: "\(name).configuration")
+            try self.configuration.validate(name: "\(name).configuration")
             try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
             try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
             try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
@@ -4512,7 +4548,7 @@ extension QuickSight {
         public let analysisId: String
         /// The ID of the Amazon Web Services account where you are creating an analysis.
         public let awsAccountId: String
-        /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+        /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in  order for the request to be valid.
         public let definition: AnalysisDefinition?
         /// A descriptive name for the analysis that you're creating. This name displays for the analysis in the Amazon QuickSight console.
         public let name: String
@@ -4520,7 +4556,7 @@ extension QuickSight {
         public let parameters: Parameters?
         /// A structure that describes the principals and the resource-level permissions on an analysis. You can use the Permissions structure to grant permissions by providing a list of Identity and Access Management (IAM) action information for each principal listed by Amazon Resource Name (ARN).  To specify no permissions, omit Permissions.
         public let permissions: [ResourcePermission]?
-        /// A source entity to use for the analysis that you're creating. This metadata structure contains details that describe a source template and one or more datasets.
+        /// A source entity to use for the analysis that you're creating. This metadata structure contains details that describe a source template and one or more datasets. Either a SourceEntity or a Definition must be provided in  order for the request to be valid.
         public let sourceEntity: AnalysisSourceEntity?
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the analysis.
         public let tags: [Tag]?
@@ -4640,7 +4676,7 @@ extension QuickSight {
         public let dashboardId: String
         /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
         public let dashboardPublishOptions: DashboardPublishOptions?
-        /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+        /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in  order for the request to be valid.
         public let definition: DashboardVersionDefinition?
         /// The display name of the dashboard.
         public let name: String
@@ -4648,7 +4684,7 @@ extension QuickSight {
         public let parameters: Parameters?
         /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAM action information for each principal ARN.  To specify no permissions, omit the permissions list.
         public let permissions: [ResourcePermission]?
-        /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate  API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+        /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate  API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.  Either a SourceEntity or a Definition must be provided in  order for the request to be valid.
         public let sourceEntity: DashboardSourceEntity?
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
         public let tags: [Tag]?
@@ -5537,6 +5573,66 @@ extension QuickSight {
         }
     }
 
+    public struct CreateRefreshScheduleRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
+        ]
+
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The ID of the dataset.
+        public let dataSetId: String
+        /// The refresh schedule.
+        public let schedule: RefreshSchedule
+
+        public init(awsAccountId: String, dataSetId: String, schedule: RefreshSchedule) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+            self.schedule = schedule
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.schedule.validate(name: "\(name).schedule")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schedule = "Schedule"
+        }
+    }
+
+    public struct CreateRefreshScheduleResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the refresh schedule.
+        public let arn: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The ID of the refresh schedule.
+        public let scheduleId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(arn: String? = nil, requestId: String? = nil, scheduleId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.requestId = requestId
+            self.scheduleId = scheduleId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case requestId = "RequestId"
+            case scheduleId = "ScheduleId"
+            case status = "Status"
+        }
+    }
+
     public struct CreateTemplateAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "aliasName", location: .uri("AliasName")),
@@ -5613,7 +5709,8 @@ extension QuickSight {
 
         /// The ID for the Amazon Web Services account that the group is in. You use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
-        /// The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+        /// The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in
+        /// 			order for the request to be valid.
         public let definition: TemplateVersionDefinition?
         /// A display name for the template.
         public let name: String?
@@ -5627,7 +5724,8 @@ extension QuickSight {
         /// 			SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate
         /// 			ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate or
         /// 			SourceAnalysis to list the replacement datasets for the placeholders listed
-        /// 			in the original. The schema in each dataset must match its placeholder.
+        /// 			in the original. The schema in each dataset must match its placeholder.  Either a SourceEntity or a Definition must be provided in
+        /// 			order for the request to be valid.
         public let sourceEntity: TemplateSourceEntity?
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
         public let tags: [Tag]?
@@ -6365,6 +6463,7 @@ extension QuickSight {
         public let message: String?
         /// Type.
         public let type: DashboardErrorType?
+        /// Lists the violated entities that caused the dashboard error.
         public let violatedEntities: [Entity]?
 
         public init(message: String? = nil, type: DashboardErrorType? = nil, violatedEntities: [Entity]? = nil) {
@@ -6380,26 +6479,70 @@ extension QuickSight {
         }
     }
 
-    public struct DashboardPublishOptions: AWSEncodableShape {
+    public struct DashboardPublishOptions: AWSEncodableShape & AWSDecodableShape {
         /// Ad hoc (one-time) filtering option.
         public let adHocFilteringOption: AdHocFilteringOption?
+        /// The drill-down options of data points in a dashboard.
+        public let dataPointDrillUpDownOption: DataPointDrillUpDownOption?
+        /// The data point menu label options of a dashboard.
+        public let dataPointMenuLabelOption: DataPointMenuLabelOption?
+        /// The data point tool tip options of a dashboard.
+        public let dataPointTooltipOption: DataPointTooltipOption?
         /// Export to .csv option.
         public let exportToCSVOption: ExportToCSVOption?
+        /// Determines if hidden fields are exported with a dashboard.
+        public let exportWithHiddenFieldsOption: ExportWithHiddenFieldsOption?
         /// Sheet controls option.
         public let sheetControlsOption: SheetControlsOption?
+        /// The sheet layout maximization options of a dashbaord.
+        public let sheetLayoutElementMaximizationOption: SheetLayoutElementMaximizationOption?
+        /// The axis sort options of a dashboard.
+        public let visualAxisSortOption: VisualAxisSortOption?
+        /// The menu options of a visual in a dashboard.
+        public let visualMenuOption: VisualMenuOption?
+        /// The visual publish options of a visual in a dashboard.
         public let visualPublishOptions: DashboardVisualPublishOptions?
 
-        public init(adHocFilteringOption: AdHocFilteringOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, sheetControlsOption: SheetControlsOption? = nil, visualPublishOptions: DashboardVisualPublishOptions? = nil) {
+        public init(adHocFilteringOption: AdHocFilteringOption? = nil, dataPointDrillUpDownOption: DataPointDrillUpDownOption? = nil, dataPointMenuLabelOption: DataPointMenuLabelOption? = nil, dataPointTooltipOption: DataPointTooltipOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, exportWithHiddenFieldsOption: ExportWithHiddenFieldsOption? = nil, sheetControlsOption: SheetControlsOption? = nil, sheetLayoutElementMaximizationOption: SheetLayoutElementMaximizationOption? = nil, visualAxisSortOption: VisualAxisSortOption? = nil, visualMenuOption: VisualMenuOption? = nil) {
             self.adHocFilteringOption = adHocFilteringOption
+            self.dataPointDrillUpDownOption = dataPointDrillUpDownOption
+            self.dataPointMenuLabelOption = dataPointMenuLabelOption
+            self.dataPointTooltipOption = dataPointTooltipOption
             self.exportToCSVOption = exportToCSVOption
+            self.exportWithHiddenFieldsOption = exportWithHiddenFieldsOption
             self.sheetControlsOption = sheetControlsOption
+            self.sheetLayoutElementMaximizationOption = sheetLayoutElementMaximizationOption
+            self.visualAxisSortOption = visualAxisSortOption
+            self.visualMenuOption = visualMenuOption
+            self.visualPublishOptions = nil
+        }
+
+        @available(*, deprecated, message: "Members visualPublishOptions have been deprecated")
+        public init(adHocFilteringOption: AdHocFilteringOption? = nil, dataPointDrillUpDownOption: DataPointDrillUpDownOption? = nil, dataPointMenuLabelOption: DataPointMenuLabelOption? = nil, dataPointTooltipOption: DataPointTooltipOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, exportWithHiddenFieldsOption: ExportWithHiddenFieldsOption? = nil, sheetControlsOption: SheetControlsOption? = nil, sheetLayoutElementMaximizationOption: SheetLayoutElementMaximizationOption? = nil, visualAxisSortOption: VisualAxisSortOption? = nil, visualMenuOption: VisualMenuOption? = nil, visualPublishOptions: DashboardVisualPublishOptions? = nil) {
+            self.adHocFilteringOption = adHocFilteringOption
+            self.dataPointDrillUpDownOption = dataPointDrillUpDownOption
+            self.dataPointMenuLabelOption = dataPointMenuLabelOption
+            self.dataPointTooltipOption = dataPointTooltipOption
+            self.exportToCSVOption = exportToCSVOption
+            self.exportWithHiddenFieldsOption = exportWithHiddenFieldsOption
+            self.sheetControlsOption = sheetControlsOption
+            self.sheetLayoutElementMaximizationOption = sheetLayoutElementMaximizationOption
+            self.visualAxisSortOption = visualAxisSortOption
+            self.visualMenuOption = visualMenuOption
             self.visualPublishOptions = visualPublishOptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case adHocFilteringOption = "AdHocFilteringOption"
+            case dataPointDrillUpDownOption = "DataPointDrillUpDownOption"
+            case dataPointMenuLabelOption = "DataPointMenuLabelOption"
+            case dataPointTooltipOption = "DataPointTooltipOption"
             case exportToCSVOption = "ExportToCSVOption"
+            case exportWithHiddenFieldsOption = "ExportWithHiddenFieldsOption"
             case sheetControlsOption = "SheetControlsOption"
+            case sheetLayoutElementMaximizationOption = "SheetLayoutElementMaximizationOption"
+            case visualAxisSortOption = "VisualAxisSortOption"
+            case visualMenuOption = "VisualMenuOption"
             case visualPublishOptions = "VisualPublishOptions"
         }
     }
@@ -6682,7 +6825,8 @@ extension QuickSight {
         }
     }
 
-    public struct DashboardVisualPublishOptions: AWSEncodableShape {
+    public struct DashboardVisualPublishOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Determines if hidden fields are included in an exported dashboard.
         public let exportHiddenFieldsOption: ExportHiddenFieldsOption?
 
         public init(exportHiddenFieldsOption: ExportHiddenFieldsOption? = nil) {
@@ -6995,6 +7139,45 @@ extension QuickSight {
         }
     }
 
+    public struct DataPointDrillUpDownOption: AWSEncodableShape & AWSDecodableShape {
+        /// The status of the drill down options of data points.
+        public let availabilityStatus: DashboardBehavior?
+
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
+    public struct DataPointMenuLabelOption: AWSEncodableShape & AWSDecodableShape {
+        /// The status of the data point menu options.
+        public let availabilityStatus: DashboardBehavior?
+
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
+    public struct DataPointTooltipOption: AWSEncodableShape & AWSDecodableShape {
+        /// The status of the data point tool tip options.
+        public let availabilityStatus: DashboardBehavior?
+
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
     public struct DataSet: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
@@ -7137,6 +7320,23 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case dataSetArn = "DataSetArn"
             case dataSetPlaceholder = "DataSetPlaceholder"
+        }
+    }
+
+    public struct DataSetRefreshProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The refresh configuration for a dataset.
+        public let refreshConfiguration: RefreshConfiguration
+
+        public init(refreshConfiguration: RefreshConfiguration) {
+            self.refreshConfiguration = refreshConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.refreshConfiguration.validate(name: "\(name).refreshConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case refreshConfiguration = "RefreshConfiguration"
         }
     }
 
@@ -8111,6 +8311,52 @@ extension QuickSight {
         }
     }
 
+    public struct DeleteDataSetRefreshPropertiesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
+        ]
+
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The ID of the dataset.
+        public let dataSetId: String
+
+        public init(awsAccountId: String, dataSetId: String) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDataSetRefreshPropertiesResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct DeleteDataSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
@@ -8551,6 +8797,64 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DeleteRefreshScheduleRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
+            AWSMemberEncoding(label: "scheduleId", location: .uri("ScheduleId"))
+        ]
+
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The ID of the dataset.
+        public let dataSetId: String
+        /// The ID of the refresh schedule.
+        public let scheduleId: String
+
+        public init(awsAccountId: String, dataSetId: String, scheduleId: String) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+            self.scheduleId = scheduleId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteRefreshScheduleResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the refresh schedule.
+        public let arn: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The ID of the refresh schedule.
+        public let scheduleId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(arn: String? = nil, requestId: String? = nil, scheduleId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.requestId = requestId
+            self.scheduleId = scheduleId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case requestId = "RequestId"
+            case scheduleId = "ScheduleId"
             case status = "Status"
         }
     }
@@ -9323,6 +9627,8 @@ extension QuickSight {
 
         /// The ID of the dashboard described.
         public let dashboardId: String?
+        /// Options for publishing the dashboard:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
+        public let dashboardPublishOptions: DashboardPublishOptions?
         /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
         public let definition: DashboardVersionDefinition?
         /// Errors associated with this dashboard version.
@@ -9338,8 +9644,9 @@ extension QuickSight {
         /// The ARN of the theme of the dashboard.
         public let themeArn: String?
 
-        public init(dashboardId: String? = nil, definition: DashboardVersionDefinition? = nil, errors: [DashboardError]? = nil, name: String? = nil, requestId: String? = nil, resourceStatus: ResourceStatus? = nil, status: Int? = nil, themeArn: String? = nil) {
+        public init(dashboardId: String? = nil, dashboardPublishOptions: DashboardPublishOptions? = nil, definition: DashboardVersionDefinition? = nil, errors: [DashboardError]? = nil, name: String? = nil, requestId: String? = nil, resourceStatus: ResourceStatus? = nil, status: Int? = nil, themeArn: String? = nil) {
             self.dashboardId = dashboardId
+            self.dashboardPublishOptions = dashboardPublishOptions
             self.definition = definition
             self.errors = errors
             self.name = name
@@ -9351,6 +9658,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case dashboardId = "DashboardId"
+            case dashboardPublishOptions = "DashboardPublishOptions"
             case definition = "Definition"
             case errors = "Errors"
             case name = "Name"
@@ -9544,6 +9852,56 @@ extension QuickSight {
             case dataSetArn = "DataSetArn"
             case dataSetId = "DataSetId"
             case permissions = "Permissions"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeDataSetRefreshPropertiesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
+        ]
+
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The ID of the dataset.
+        public let dataSetId: String
+
+        public init(awsAccountId: String, dataSetId: String) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeDataSetRefreshPropertiesResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The dataset refresh properties.
+        public let dataSetRefreshProperties: DataSetRefreshProperties?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dataSetRefreshProperties: DataSetRefreshProperties? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dataSetRefreshProperties = dataSetRefreshProperties
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetRefreshProperties = "DataSetRefreshProperties"
             case requestId = "RequestId"
             case status = "Status"
         }
@@ -10221,6 +10579,64 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case namespace = "Namespace"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeRefreshScheduleRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
+            AWSMemberEncoding(label: "scheduleId", location: .uri("ScheduleId"))
+        ]
+
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The ID of the dataset.
+        public let dataSetId: String
+        /// The ID of the refresh schedule.
+        public let scheduleId: String
+
+        public init(awsAccountId: String, dataSetId: String, scheduleId: String) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+            self.scheduleId = scheduleId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeRefreshScheduleResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the refresh schedule.
+        public let arn: String?
+        /// The refresh schedule.
+        public let refreshSchedule: RefreshSchedule?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(arn: String? = nil, refreshSchedule: RefreshSchedule? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.refreshSchedule = refreshSchedule
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case refreshSchedule = "RefreshSchedule"
             case requestId = "RequestId"
             case status = "Status"
         }
@@ -11063,7 +11479,8 @@ extension QuickSight {
         }
     }
 
-    public struct ExportHiddenFieldsOption: AWSEncodableShape {
+    public struct ExportHiddenFieldsOption: AWSEncodableShape & AWSDecodableShape {
+        /// The status of the export hidden fields options of a dashbaord.
         public let availabilityStatus: DashboardBehavior?
 
         public init(availabilityStatus: DashboardBehavior? = nil) {
@@ -11075,8 +11492,21 @@ extension QuickSight {
         }
     }
 
-    public struct ExportToCSVOption: AWSEncodableShape {
+    public struct ExportToCSVOption: AWSEncodableShape & AWSDecodableShape {
         /// Availability status.
+        public let availabilityStatus: DashboardBehavior?
+
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
+    public struct ExportWithHiddenFieldsOption: AWSEncodableShape & AWSDecodableShape {
+        /// The status of the export with hidden fields options.
         public let availabilityStatus: DashboardBehavior?
 
         public init(availabilityStatus: DashboardBehavior? = nil) {
@@ -13520,7 +13950,7 @@ extension QuickSight {
         public let sessionLifetimeInMinutes: Int64?
         /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type.
         /// 			You can use this for any type of Amazon QuickSight users in your account (readers, authors, or
-        /// 			admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   Identity and Access Management (IAM) users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
+        /// 			admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
         public let userArn: String?
 
         public init(awsAccountId: String, entryPoint: String? = nil, sessionLifetimeInMinutes: Int64? = nil, userArn: String? = nil) {
@@ -14280,6 +14710,23 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case assignmentName = "AssignmentName"
             case assignmentStatus = "AssignmentStatus"
+        }
+    }
+
+    public struct IncrementalRefresh: AWSEncodableShape & AWSDecodableShape {
+        /// The lookback window setup for an incremental refresh configuration.
+        public let lookbackWindow: LookbackWindow
+
+        public init(lookbackWindow: LookbackWindow) {
+            self.lookbackWindow = lookbackWindow
+        }
+
+        public func validate(name: String) throws {
+            try self.lookbackWindow.validate(name: "\(name).lookbackWindow")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lookbackWindow = "LookbackWindow"
         }
     }
 
@@ -16274,6 +16721,56 @@ extension QuickSight {
         }
     }
 
+    public struct ListRefreshSchedulesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
+        ]
+
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The ID of the dataset.
+        public let dataSetId: String
+
+        public init(awsAccountId: String, dataSetId: String) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRefreshSchedulesResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The list of refresh schedules for the dataset.
+        public let refreshSchedules: [RefreshSchedule]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(refreshSchedules: [RefreshSchedule]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.refreshSchedules = refreshSchedules
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case refreshSchedules = "RefreshSchedules"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
@@ -16960,6 +17457,31 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case plainText = "PlainText"
             case richText = "RichText"
+        }
+    }
+
+    public struct LookbackWindow: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the lookback window column.
+        public let columnName: String
+        /// The lookback window column size.
+        public let size: Int64
+        /// The size unit that is used for the lookback window column. Valid values for this structure are HOUR, DAY, and WEEK.
+        public let sizeUnit: LookbackWindowSizeUnit
+
+        public init(columnName: String, size: Int64, sizeUnit: LookbackWindowSizeUnit) {
+            self.columnName = columnName
+            self.size = size
+            self.sizeUnit = sizeUnit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.size, name: "size", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "ColumnName"
+            case size = "Size"
+            case sizeUnit = "SizeUnit"
         }
     }
 
@@ -18880,6 +19402,8 @@ extension QuickSight {
     public struct PivotTableOptions: AWSEncodableShape & AWSDecodableShape {
         /// The table cell style of cells.
         public let cellStyle: TableCellStyle?
+        /// The visibility setting of a pivot table's collapsed row dimension fields. If the value of this structure is HIDDEN, all collapsed columns in a pivot table are automatically hidden. The default value is VISIBLE.
+        public let collapsedRowDimensionsVisibility: Visibility?
         /// The table cell style of the column header.
         public let columnHeaderStyle: TableCellStyle?
         /// The visibility of the column names.
@@ -18897,8 +19421,9 @@ extension QuickSight {
         /// Determines the visibility of the pivot table.
         public let toggleButtonsVisibility: Visibility?
 
-        public init(cellStyle: TableCellStyle? = nil, columnHeaderStyle: TableCellStyle? = nil, columnNamesVisibility: Visibility? = nil, metricPlacement: PivotTableMetricPlacement? = nil, rowAlternateColorOptions: RowAlternateColorOptions? = nil, rowFieldNamesStyle: TableCellStyle? = nil, rowHeaderStyle: TableCellStyle? = nil, singleMetricVisibility: Visibility? = nil, toggleButtonsVisibility: Visibility? = nil) {
+        public init(cellStyle: TableCellStyle? = nil, collapsedRowDimensionsVisibility: Visibility? = nil, columnHeaderStyle: TableCellStyle? = nil, columnNamesVisibility: Visibility? = nil, metricPlacement: PivotTableMetricPlacement? = nil, rowAlternateColorOptions: RowAlternateColorOptions? = nil, rowFieldNamesStyle: TableCellStyle? = nil, rowHeaderStyle: TableCellStyle? = nil, singleMetricVisibility: Visibility? = nil, toggleButtonsVisibility: Visibility? = nil) {
             self.cellStyle = cellStyle
+            self.collapsedRowDimensionsVisibility = collapsedRowDimensionsVisibility
             self.columnHeaderStyle = columnHeaderStyle
             self.columnNamesVisibility = columnNamesVisibility
             self.metricPlacement = metricPlacement
@@ -18919,6 +19444,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case cellStyle = "CellStyle"
+            case collapsedRowDimensionsVisibility = "CollapsedRowDimensionsVisibility"
             case columnHeaderStyle = "ColumnHeaderStyle"
             case columnNamesVisibility = "ColumnNamesVisibility"
             case metricPlacement = "MetricPlacement"
@@ -19241,6 +19767,58 @@ extension QuickSight {
         }
     }
 
+    public struct PutDataSetRefreshPropertiesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
+        ]
+
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The ID of the dataset.
+        public let dataSetId: String
+        /// The dataset refresh properties.
+        public let dataSetRefreshProperties: DataSetRefreshProperties
+
+        public init(awsAccountId: String, dataSetId: String, dataSetRefreshProperties: DataSetRefreshProperties) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+            self.dataSetRefreshProperties = dataSetRefreshProperties
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.dataSetRefreshProperties.validate(name: "\(name).dataSetRefreshProperties")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetRefreshProperties = "DataSetRefreshProperties"
+        }
+    }
+
+    public struct PutDataSetRefreshPropertiesResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct QueueInfo: AWSDecodableShape {
         /// The ID of the ongoing ingestion. The queued ingestion is waiting for the ongoing ingestion to complete.
         public let queuedIngestion: String
@@ -19255,6 +19833,251 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case queuedIngestion = "QueuedIngestion"
             case waitingOnIngestion = "WaitingOnIngestion"
+        }
+    }
+
+    public struct RadarChartAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated field well categories of a radar chart.
+        public let category: [DimensionField]?
+        /// The color that are assigned to the aggregated field wells of a radar chart.
+        public let color: [DimensionField]?
+        /// The values that are assigned to the aggregated field wells of a radar chart.
+        public let values: [MeasureField]?
+
+        public init(category: [DimensionField]? = nil, color: [DimensionField]? = nil, values: [MeasureField]? = nil) {
+            self.category = category
+            self.color = color
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.category?.forEach {
+                try $0.validate(name: "\(name).category[]")
+            }
+            try self.validate(self.category, name: "category", parent: name, max: 1)
+            try self.color?.forEach {
+                try $0.validate(name: "\(name).color[]")
+            }
+            try self.validate(self.color, name: "color", parent: name, max: 1)
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case color = "Color"
+            case values = "Values"
+        }
+    }
+
+    public struct RadarChartAreaStyleSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility settings of a radar chart.
+        public let visibility: Visibility?
+
+        public init(visibility: Visibility? = nil) {
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct RadarChartConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the visibility of the colors of alternatign bands in a radar chart.
+        public let alternateBandColorsVisibility: Visibility?
+        /// The color of the even-numbered alternate bands of a radar chart.
+        public let alternateBandEvenColor: String?
+        /// The color of the odd-numbered alternate bands of a radar chart.
+        public let alternateBandOddColor: String?
+        /// The base sreies settings of a radar chart.
+        public let baseSeriesSettings: RadarChartSeriesSettings?
+        /// The category axis of a radar chart.
+        public let categoryAxis: AxisDisplayOptions?
+        /// The category label options of a radar chart.
+        public let categoryLabelOptions: ChartAxisLabelOptions?
+        /// The color axis of a radar chart.
+        public let colorAxis: AxisDisplayOptions?
+        /// The color label options of a radar chart.
+        public let colorLabelOptions: ChartAxisLabelOptions?
+        /// The field well configuration of a RadarChartVisual.
+        public let fieldWells: RadarChartFieldWells?
+        /// The legend display setup of the visual.
+        public let legend: LegendOptions?
+        /// The shape of the radar chart.
+        public let shape: RadarChartShape?
+        /// The sort configuration of a RadarChartVisual.
+        public let sortConfiguration: RadarChartSortConfiguration?
+        /// The start angle of a radar chart's axis.
+        public let startAngle: Double?
+        /// The palette (chart color) display setup of the visual.
+        public let visualPalette: VisualPalette?
+
+        public init(alternateBandColorsVisibility: Visibility? = nil, alternateBandEvenColor: String? = nil, alternateBandOddColor: String? = nil, baseSeriesSettings: RadarChartSeriesSettings? = nil, categoryAxis: AxisDisplayOptions? = nil, categoryLabelOptions: ChartAxisLabelOptions? = nil, colorAxis: AxisDisplayOptions? = nil, colorLabelOptions: ChartAxisLabelOptions? = nil, fieldWells: RadarChartFieldWells? = nil, legend: LegendOptions? = nil, shape: RadarChartShape? = nil, sortConfiguration: RadarChartSortConfiguration? = nil, startAngle: Double? = nil, visualPalette: VisualPalette? = nil) {
+            self.alternateBandColorsVisibility = alternateBandColorsVisibility
+            self.alternateBandEvenColor = alternateBandEvenColor
+            self.alternateBandOddColor = alternateBandOddColor
+            self.baseSeriesSettings = baseSeriesSettings
+            self.categoryAxis = categoryAxis
+            self.categoryLabelOptions = categoryLabelOptions
+            self.colorAxis = colorAxis
+            self.colorLabelOptions = colorLabelOptions
+            self.fieldWells = fieldWells
+            self.legend = legend
+            self.shape = shape
+            self.sortConfiguration = sortConfiguration
+            self.startAngle = startAngle
+            self.visualPalette = visualPalette
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alternateBandEvenColor, name: "alternateBandEvenColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.validate(self.alternateBandOddColor, name: "alternateBandOddColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.categoryAxis?.validate(name: "\(name).categoryAxis")
+            try self.categoryLabelOptions?.validate(name: "\(name).categoryLabelOptions")
+            try self.colorAxis?.validate(name: "\(name).colorAxis")
+            try self.colorLabelOptions?.validate(name: "\(name).colorLabelOptions")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.legend?.validate(name: "\(name).legend")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.validate(self.startAngle, name: "startAngle", parent: name, max: 360.0)
+            try self.validate(self.startAngle, name: "startAngle", parent: name, min: -360.0)
+            try self.visualPalette?.validate(name: "\(name).visualPalette")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alternateBandColorsVisibility = "AlternateBandColorsVisibility"
+            case alternateBandEvenColor = "AlternateBandEvenColor"
+            case alternateBandOddColor = "AlternateBandOddColor"
+            case baseSeriesSettings = "BaseSeriesSettings"
+            case categoryAxis = "CategoryAxis"
+            case categoryLabelOptions = "CategoryLabelOptions"
+            case colorAxis = "ColorAxis"
+            case colorLabelOptions = "ColorLabelOptions"
+            case fieldWells = "FieldWells"
+            case legend = "Legend"
+            case shape = "Shape"
+            case sortConfiguration = "SortConfiguration"
+            case startAngle = "StartAngle"
+            case visualPalette = "VisualPalette"
+        }
+    }
+
+    public struct RadarChartFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated field wells of a radar chart visual.
+        public let radarChartAggregatedFieldWells: RadarChartAggregatedFieldWells?
+
+        public init(radarChartAggregatedFieldWells: RadarChartAggregatedFieldWells? = nil) {
+            self.radarChartAggregatedFieldWells = radarChartAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.radarChartAggregatedFieldWells?.validate(name: "\(name).radarChartAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case radarChartAggregatedFieldWells = "RadarChartAggregatedFieldWells"
+        }
+    }
+
+    public struct RadarChartSeriesSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The area style settings of a radar chart.
+        public let areaStyleSettings: RadarChartAreaStyleSettings?
+
+        public init(areaStyleSettings: RadarChartAreaStyleSettings? = nil) {
+            self.areaStyleSettings = areaStyleSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case areaStyleSettings = "AreaStyleSettings"
+        }
+    }
+
+    public struct RadarChartSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The category items limit for a radar chart.
+        public let categoryItemsLimit: ItemsLimitConfiguration?
+        /// The category sort options of a radar chart.
+        public let categorySort: [FieldSortOptions]?
+        /// The color items limit of a radar chart.
+        public let colorItemsLimit: ItemsLimitConfiguration?
+        /// The color sort configuration of a radar chart.
+        public let colorSort: [FieldSortOptions]?
+
+        public init(categoryItemsLimit: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil, colorItemsLimit: ItemsLimitConfiguration? = nil, colorSort: [FieldSortOptions]? = nil) {
+            self.categoryItemsLimit = categoryItemsLimit
+            self.categorySort = categorySort
+            self.colorItemsLimit = colorItemsLimit
+            self.colorSort = colorSort
+        }
+
+        public func validate(name: String) throws {
+            try self.categorySort?.forEach {
+                try $0.validate(name: "\(name).categorySort[]")
+            }
+            try self.validate(self.categorySort, name: "categorySort", parent: name, max: 100)
+            try self.colorSort?.forEach {
+                try $0.validate(name: "\(name).colorSort[]")
+            }
+            try self.validate(self.colorSort, name: "colorSort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryItemsLimit = "CategoryItemsLimit"
+            case categorySort = "CategorySort"
+            case colorItemsLimit = "ColorItemsLimit"
+            case colorSort = "ColorSort"
+        }
+    }
+
+    public struct RadarChartVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration settings of the visual.
+        public let chartConfiguration: RadarChartConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: RadarChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
         }
     }
 
@@ -19526,6 +20349,85 @@ extension QuickSight {
         }
     }
 
+    public struct RefreshConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The incremental refresh for the dataset.
+        public let incrementalRefresh: IncrementalRefresh
+
+        public init(incrementalRefresh: IncrementalRefresh) {
+            self.incrementalRefresh = incrementalRefresh
+        }
+
+        public func validate(name: String) throws {
+            try self.incrementalRefresh.validate(name: "\(name).incrementalRefresh")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case incrementalRefresh = "IncrementalRefresh"
+        }
+    }
+
+    public struct RefreshFrequency: AWSEncodableShape & AWSDecodableShape {
+        /// The interval between scheduled refreshes. Valid values are as follows:    MINUTE15: The dataset refreshes every 15 minutes. This value is only supported for incremental refreshes. This interval can only be used for one schedule per dataset.    MINUTE30:The dataset refreshes every 30 minutes. This value is only supported for incremental refreshes. This interval can only be used for one schedule per dataset.    HOURLY: The dataset refreshes every hour. This interval can only be used for one schedule per dataset.    DAILY: The dataset refreshes every day.    WEEKLY: The dataset refreshes every week.    MONTHLY: The dataset refreshes every month.
+        public let interval: RefreshInterval
+        /// The day of the week that you want to schedule the refresh on. This value is required for weekly and monthly refresh intervals.
+        public let refreshOnDay: ScheduleRefreshOnEntity?
+        /// The time of day that you want the datset to refresh. This value is expressed in HH:MM format. This field is not required for schedules that refresh hourly.
+        public let timeOfTheDay: String?
+        /// The timezone that you want the refresh schedule to use. The timezone ID must match a corresponding ID found on java.util.time.getAvailableIDs().
+        public let timezone: String?
+
+        public init(interval: RefreshInterval, refreshOnDay: ScheduleRefreshOnEntity? = nil, timeOfTheDay: String? = nil, timezone: String? = nil) {
+            self.interval = interval
+            self.refreshOnDay = refreshOnDay
+            self.timeOfTheDay = timeOfTheDay
+            self.timezone = timezone
+        }
+
+        public func validate(name: String) throws {
+            try self.refreshOnDay?.validate(name: "\(name).refreshOnDay")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interval = "Interval"
+            case refreshOnDay = "RefreshOnDay"
+            case timeOfTheDay = "TimeOfTheDay"
+            case timezone = "Timezone"
+        }
+    }
+
+    public struct RefreshSchedule: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the refresh schedule.
+        public let arn: String?
+        /// The type of refresh that a datset undergoes. Valid values are as follows:    FULL_REFRESH: A complete refresh of a dataset.    INCREMENTAL_REFRESH: A partial refresh of some rows of a dataset, based on the time window specified.   For more information on full and incremental refreshes, see Refreshing SPICE data in the Amazon QuickSight User Guide.
+        public let refreshType: IngestionType
+        /// The frequency for the refresh schedule.
+        public let scheduleFrequency: RefreshFrequency
+        /// An identifier for the refresh schedule.
+        public let scheduleId: String
+        /// Time after which the refresh schedule can be started, expressed in YYYY-MM-DDTHH:MM:SS format.
+        public let startAfterDateTime: Date?
+
+        public init(arn: String? = nil, refreshType: IngestionType, scheduleFrequency: RefreshFrequency, scheduleId: String, startAfterDateTime: Date? = nil) {
+            self.arn = arn
+            self.refreshType = refreshType
+            self.scheduleFrequency = scheduleFrequency
+            self.scheduleId = scheduleId
+            self.startAfterDateTime = startAfterDateTime
+        }
+
+        public func validate(name: String) throws {
+            try self.scheduleFrequency.validate(name: "\(name).scheduleFrequency")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case refreshType = "RefreshType"
+            case scheduleFrequency = "ScheduleFrequency"
+            case scheduleId = "ScheduleId"
+            case startAfterDateTime = "StartAfterDateTime"
+        }
+    }
+
     public struct RegisterUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
@@ -19646,11 +20548,27 @@ extension QuickSight {
         }
     }
 
+    public struct RegisteredUserConsoleFeatureConfigurations: AWSEncodableShape {
+        /// The state persistence configurations of an embedded Amazon QuickSight console.
+        public let statePersistence: StatePersistenceConfigurations?
+
+        public init(statePersistence: StatePersistenceConfigurations? = nil) {
+            self.statePersistence = statePersistence
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statePersistence = "StatePersistence"
+        }
+    }
+
     public struct RegisteredUserDashboardEmbeddingConfiguration: AWSEncodableShape {
+        /// The feature configurations of an embbedded Amazon QuickSight dashboard.
+        public let featureConfigurations: RegisteredUserDashboardFeatureConfigurations?
         /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard if the user has permissions to view it. If the user does not have permission to view this dashboard, they see a permissions error message.
         public let initialDashboardId: String
 
-        public init(initialDashboardId: String) {
+        public init(featureConfigurations: RegisteredUserDashboardFeatureConfigurations? = nil, initialDashboardId: String) {
+            self.featureConfigurations = featureConfigurations
             self.initialDashboardId = initialDashboardId
         }
 
@@ -19661,7 +20579,21 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case featureConfigurations = "FeatureConfigurations"
             case initialDashboardId = "InitialDashboardId"
+        }
+    }
+
+    public struct RegisteredUserDashboardFeatureConfigurations: AWSEncodableShape {
+        /// The state persistence settings of an embedded dashboard.
+        public let statePersistence: StatePersistenceConfigurations?
+
+        public init(statePersistence: StatePersistenceConfigurations? = nil) {
+            self.statePersistence = statePersistence
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statePersistence = "StatePersistence"
         }
     }
 
@@ -19734,10 +20666,13 @@ extension QuickSight {
     }
 
     public struct RegisteredUserQuickSightConsoleEmbeddingConfiguration: AWSEncodableShape {
+        /// The embedding configuration of an embedded Amazon QuickSight console.
+        public let featureConfigurations: RegisteredUserConsoleFeatureConfigurations?
         /// The initial URL path for the Amazon QuickSight console. InitialPath is required. The entry point URL is constrained to the following paths:    /start     /start/analyses     /start/dashboards     /start/favorites     /dashboards/DashboardId. DashboardId is the actual ID key from the Amazon QuickSight console URL of the dashboard.    /analyses/AnalysisId. AnalysisId is the actual ID key from the Amazon QuickSight console URL of the analysis.
         public let initialPath: String?
 
-        public init(initialPath: String? = nil) {
+        public init(featureConfigurations: RegisteredUserConsoleFeatureConfigurations? = nil, initialPath: String? = nil) {
+            self.featureConfigurations = featureConfigurations
             self.initialPath = initialPath
         }
 
@@ -19747,6 +20682,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case featureConfigurations = "FeatureConfigurations"
             case initialPath = "InitialPath"
         }
     }
@@ -20086,15 +21022,24 @@ extension QuickSight {
     public struct RowLevelPermissionTagConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The status of row-level security tags. If enabled, the status is ENABLED. If disabled, the status is DISABLED.
         public let status: Status?
+        /// A list of tag configuration rules to apply to a dataset. All tag configurations have the OR condition. Tags within each tile will be joined (AND). At least one rule in this structure must have all tag values assigned to it to apply Row-level security (RLS) to the dataset.
+        public let tagRuleConfigurations: [[String]]?
         /// A set of rules associated with row-level security, such as the tag names and columns that they are assigned to.
         public let tagRules: [RowLevelPermissionTagRule]
 
-        public init(status: Status? = nil, tagRules: [RowLevelPermissionTagRule]) {
+        public init(status: Status? = nil, tagRuleConfigurations: [[String]]? = nil, tagRules: [RowLevelPermissionTagRule]) {
             self.status = status
+            self.tagRuleConfigurations = tagRuleConfigurations
             self.tagRules = tagRules
         }
 
         public func validate(name: String) throws {
+            try self.tagRuleConfigurations?.forEach {
+                try validate($0, name: "tagRuleConfigurations[]", parent: name, max: 50)
+                try validate($0, name: "tagRuleConfigurations[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagRuleConfigurations, name: "tagRuleConfigurations", parent: name, max: 50)
+            try self.validate(self.tagRuleConfigurations, name: "tagRuleConfigurations", parent: name, min: 1)
             try self.tagRules.forEach {
                 try $0.validate(name: "\(name).tagRules[]")
             }
@@ -20104,6 +21049,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
+            case tagRuleConfigurations = "TagRuleConfigurations"
             case tagRules = "TagRules"
         }
     }
@@ -20144,17 +21090,23 @@ extension QuickSight {
     public struct S3Parameters: AWSEncodableShape & AWSDecodableShape {
         /// Location of the Amazon S3 manifest file. This is NULL if the manifest file was uploaded into Amazon QuickSight.
         public let manifestFileLocation: ManifestFileLocation
+        /// Use the RoleArn structure to override an account-wide role for a specific S3 data source. For example, say an account administrator has turned off all S3 access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow S3 access for the single S3 data source that is specified in the structure, even if the account-wide role forbidding S3 access is still active.
+        public let roleArn: String?
 
-        public init(manifestFileLocation: ManifestFileLocation) {
+        public init(manifestFileLocation: ManifestFileLocation, roleArn: String? = nil) {
             self.manifestFileLocation = manifestFileLocation
+            self.roleArn = roleArn
         }
 
         public func validate(name: String) throws {
             try self.manifestFileLocation.validate(name: "\(name).manifestFileLocation")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
             case manifestFileLocation = "ManifestFileLocation"
+            case roleArn = "RoleArn"
         }
     }
 
@@ -20571,6 +21523,29 @@ extension QuickSight {
             case subtitle = "Subtitle"
             case title = "Title"
             case visualId = "VisualId"
+        }
+    }
+
+    public struct ScheduleRefreshOnEntity: AWSEncodableShape & AWSDecodableShape {
+        /// The day of the month that you want to schedule refresh on.
+        public let dayOfMonth: String?
+        /// The day of the week that you want to schedule a refresh on.
+        public let dayOfWeek: DayOfWeek?
+
+        public init(dayOfMonth: String? = nil, dayOfWeek: DayOfWeek? = nil) {
+            self.dayOfMonth = dayOfMonth
+            self.dayOfWeek = dayOfWeek
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dayOfMonth, name: "dayOfMonth", parent: name, max: 17)
+            try self.validate(self.dayOfMonth, name: "dayOfMonth", parent: name, min: 1)
+            try self.validate(self.dayOfMonth, name: "dayOfMonth", parent: name, pattern: "^(?:LAST_DAY_OF_MONTH|1[0-9]|2[0-8]|[12]|[3-9])$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dayOfMonth = "DayOfMonth"
+            case dayOfWeek = "DayOfWeek"
         }
     }
 
@@ -21325,7 +22300,7 @@ extension QuickSight {
         }
     }
 
-    public struct SheetControlsOption: AWSEncodableShape {
+    public struct SheetControlsOption: AWSEncodableShape & AWSDecodableShape {
         /// Visibility state.
         public let visibilityState: DashboardUIState?
 
@@ -21460,6 +22435,19 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case configurationOverrides = "ConfigurationOverrides"
             case expression = "Expression"
+        }
+    }
+
+    public struct SheetLayoutElementMaximizationOption: AWSEncodableShape & AWSDecodableShape {
+        /// The status of the sheet layout maximization options of a dashbaord.
+        public let availabilityStatus: DashboardBehavior?
+
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
         }
     }
 
@@ -21767,6 +22755,19 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case disableSsl = "DisableSsl"
+        }
+    }
+
+    public struct StatePersistenceConfigurations: AWSEncodableShape {
+        /// Determines if a Amazon QuickSight dashboard's state persistence settings are turned on or off.
+        public let enabled: Bool
+
+        public init(enabled: Bool = false) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
         }
     }
 
@@ -24326,7 +25327,7 @@ extension QuickSight {
 
         /// The ID for the Amazon Web Services account that contains the Amazon QuickSight settings that you want to list.
         public let awsAccountId: String
-        /// The default namespace for this Amazon Web Services account. Currently, the default is default. Identity and Access Management (IAM) users that register for the first time with Amazon QuickSight provide an email address that becomes associated with the default namespace.
+        /// The default namespace for this Amazon Web Services account. Currently, the default is default. IAM users that register for the first time with Amazon QuickSight provide an email address that becomes associated with the default namespace.
         public let defaultNamespace: String
         /// The email address that you want Amazon QuickSight to send notifications to regarding your Amazon Web Services account or Amazon QuickSight subscription.
         public let notificationEmail: String?
@@ -25575,6 +26576,66 @@ extension QuickSight {
         }
     }
 
+    public struct UpdateRefreshScheduleRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
+        ]
+
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The ID of the dataset.
+        public let dataSetId: String
+        /// The refresh schedule.
+        public let schedule: RefreshSchedule
+
+        public init(awsAccountId: String, dataSetId: String, schedule: RefreshSchedule) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+            self.schedule = schedule
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.schedule.validate(name: "\(name).schedule")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schedule = "Schedule"
+        }
+    }
+
+    public struct UpdateRefreshScheduleResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the refresh schedule.
+        public let arn: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The ID of the refresh schedule.
+        public let scheduleId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(arn: String? = nil, requestId: String? = nil, scheduleId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.requestId = requestId
+            self.scheduleId = scheduleId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case requestId = "RequestId"
+            case scheduleId = "ScheduleId"
+            case status = "Status"
+        }
+    }
+
     public struct UpdateTemplateAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "aliasName", location: .uri("AliasName")),
@@ -26189,7 +27250,7 @@ extension QuickSight {
     }
 
     public struct User: AWSDecodableShape {
-        /// The active status of user. When you create an Amazon QuickSight user that’s not an IAM user or an Active Directory user, that user is inactive until they sign in and provide a password.
+        /// The active status of user. When you create an Amazon QuickSight user that's not an IAM user or an Active Directory user, that user is inactive until they sign in and provide a password.
         public let active: Bool?
         /// The Amazon Resource Name (ARN) for the user.
         public let arn: String?
@@ -26291,6 +27352,8 @@ extension QuickSight {
         public let pieChartVisual: PieChartVisual?
         /// A pivot table. For more information, see Using pivot tables in the Amazon QuickSight User Guide.
         public let pivotTableVisual: PivotTableVisual?
+        /// A radar chart visual. For more information, see Using radar charts in the Amazon QuickSight User Guide.
+        public let radarChartVisual: RadarChartVisual?
         /// A sankey diagram. For more information, see Using Sankey diagrams in the Amazon QuickSight User Guide.
         public let sankeyDiagramVisual: SankeyDiagramVisual?
         /// A scatter plot. For more information, see Using scatter plots in the Amazon QuickSight User Guide.
@@ -26304,7 +27367,7 @@ extension QuickSight {
         /// A word cloud. For more information, see Using word clouds in the Amazon QuickSight User Guide.
         public let wordCloudVisual: WordCloudVisual?
 
-        public init(barChartVisual: BarChartVisual? = nil, boxPlotVisual: BoxPlotVisual? = nil, comboChartVisual: ComboChartVisual? = nil, customContentVisual: CustomContentVisual? = nil, emptyVisual: EmptyVisual? = nil, filledMapVisual: FilledMapVisual? = nil, funnelChartVisual: FunnelChartVisual? = nil, gaugeChartVisual: GaugeChartVisual? = nil, geospatialMapVisual: GeospatialMapVisual? = nil, heatMapVisual: HeatMapVisual? = nil, histogramVisual: HistogramVisual? = nil, insightVisual: InsightVisual? = nil, kpiVisual: KPIVisual? = nil, lineChartVisual: LineChartVisual? = nil, pieChartVisual: PieChartVisual? = nil, pivotTableVisual: PivotTableVisual? = nil, sankeyDiagramVisual: SankeyDiagramVisual? = nil, scatterPlotVisual: ScatterPlotVisual? = nil, tableVisual: TableVisual? = nil, treeMapVisual: TreeMapVisual? = nil, waterfallVisual: WaterfallVisual? = nil, wordCloudVisual: WordCloudVisual? = nil) {
+        public init(barChartVisual: BarChartVisual? = nil, boxPlotVisual: BoxPlotVisual? = nil, comboChartVisual: ComboChartVisual? = nil, customContentVisual: CustomContentVisual? = nil, emptyVisual: EmptyVisual? = nil, filledMapVisual: FilledMapVisual? = nil, funnelChartVisual: FunnelChartVisual? = nil, gaugeChartVisual: GaugeChartVisual? = nil, geospatialMapVisual: GeospatialMapVisual? = nil, heatMapVisual: HeatMapVisual? = nil, histogramVisual: HistogramVisual? = nil, insightVisual: InsightVisual? = nil, kpiVisual: KPIVisual? = nil, lineChartVisual: LineChartVisual? = nil, pieChartVisual: PieChartVisual? = nil, pivotTableVisual: PivotTableVisual? = nil, radarChartVisual: RadarChartVisual? = nil, sankeyDiagramVisual: SankeyDiagramVisual? = nil, scatterPlotVisual: ScatterPlotVisual? = nil, tableVisual: TableVisual? = nil, treeMapVisual: TreeMapVisual? = nil, waterfallVisual: WaterfallVisual? = nil, wordCloudVisual: WordCloudVisual? = nil) {
             self.barChartVisual = barChartVisual
             self.boxPlotVisual = boxPlotVisual
             self.comboChartVisual = comboChartVisual
@@ -26321,6 +27384,7 @@ extension QuickSight {
             self.lineChartVisual = lineChartVisual
             self.pieChartVisual = pieChartVisual
             self.pivotTableVisual = pivotTableVisual
+            self.radarChartVisual = radarChartVisual
             self.sankeyDiagramVisual = sankeyDiagramVisual
             self.scatterPlotVisual = scatterPlotVisual
             self.tableVisual = tableVisual
@@ -26346,6 +27410,7 @@ extension QuickSight {
             try self.lineChartVisual?.validate(name: "\(name).lineChartVisual")
             try self.pieChartVisual?.validate(name: "\(name).pieChartVisual")
             try self.pivotTableVisual?.validate(name: "\(name).pivotTableVisual")
+            try self.radarChartVisual?.validate(name: "\(name).radarChartVisual")
             try self.sankeyDiagramVisual?.validate(name: "\(name).sankeyDiagramVisual")
             try self.scatterPlotVisual?.validate(name: "\(name).scatterPlotVisual")
             try self.tableVisual?.validate(name: "\(name).tableVisual")
@@ -26371,12 +27436,26 @@ extension QuickSight {
             case lineChartVisual = "LineChartVisual"
             case pieChartVisual = "PieChartVisual"
             case pivotTableVisual = "PivotTableVisual"
+            case radarChartVisual = "RadarChartVisual"
             case sankeyDiagramVisual = "SankeyDiagramVisual"
             case scatterPlotVisual = "ScatterPlotVisual"
             case tableVisual = "TableVisual"
             case treeMapVisual = "TreeMapVisual"
             case waterfallVisual = "WaterfallVisual"
             case wordCloudVisual = "WordCloudVisual"
+        }
+    }
+
+    public struct VisualAxisSortOption: AWSEncodableShape & AWSDecodableShape {
+        /// The availaiblity status of a visual's axis sort options.
+        public let availabilityStatus: DashboardBehavior?
+
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
         }
     }
 
@@ -26451,6 +27530,19 @@ extension QuickSight {
             case navigationOperation = "NavigationOperation"
             case setParametersOperation = "SetParametersOperation"
             case urlOperation = "URLOperation"
+        }
+    }
+
+    public struct VisualMenuOption: AWSEncodableShape & AWSDecodableShape {
+        /// The availaiblity status of a visual's menu options.
+        public let availabilityStatus: DashboardBehavior?
+
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
         }
     }
 
@@ -27010,7 +28102,7 @@ public struct QuickSightErrorType: AWSErrorType {
     /// You don't have access to this item. The provided credentials couldn't be
     /// 			validated. You might not be authorized to carry out the request. Make sure that your
     /// 			account is authorized to use the Amazon QuickSight service, that your policies have the
-    /// 			correct permissions, and that you are using the correct access keys.
+    /// 			correct permissions, and that you are using the correct credentials.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// A resource is already in a state that indicates an operation is happening that must complete
     /// 			before a new update can be applied.

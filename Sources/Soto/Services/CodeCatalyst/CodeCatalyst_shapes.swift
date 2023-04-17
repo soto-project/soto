@@ -122,21 +122,25 @@ extension CodeCatalyst {
     }
 
     public struct CreateAccessTokenResponse: AWSDecodableShape {
+        /// The system-generated unique ID of the access token.
+        public let accessTokenId: String
         /// The date and time the personal access token expires, in coordinated universal time (UTC) timestamp format as specified in RFC 3339. If not specified, the default is one year from creation.
-        @OptionalCustomCoding<ISO8601DateCoder>
-        public var expiresTime: Date?
+        @CustomCoding<ISO8601DateCoder>
+        public var expiresTime: Date
         /// The friendly name of the personal access token.
-        public let name: String?
+        public let name: String
         /// The secret value of the personal access token.
         public let secret: String
 
-        public init(expiresTime: Date? = nil, name: String? = nil, secret: String) {
+        public init(accessTokenId: String, expiresTime: Date, name: String, secret: String) {
+            self.accessTokenId = accessTokenId
             self.expiresTime = expiresTime
             self.name = name
             self.secret = secret
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessTokenId = "accessTokenId"
             case expiresTime = "expiresTime"
             case name = "name"
             case secret = "secret"
@@ -159,7 +163,7 @@ extension CodeCatalyst {
         public let inactivityTimeoutMinutes: Int?
         /// The Amazon EC2 instace type to use for the Dev Environment.
         public let instanceType: InstanceType
-        /// Information about the amount of storage allocated to the Dev Environment. By default, a Dev Environment is configured to have 16GB of persistent storage.  Valid values for persistent storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
+        /// Information about the amount of storage allocated to the Dev Environment.   By default, a Dev Environment is configured to have 16GB of persistent storage when created from the Amazon CodeCatalyst console, but there is no default when programmatically creating a Dev Environment.  Valid values for persistent storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
         public let persistentStorage: PersistentStorageConfiguration
         /// The name of the project in the space.
         public let projectName: String
@@ -1035,9 +1039,9 @@ extension CodeCatalyst {
     }
 
     public struct IdeConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the IDE.
+        /// The name of the IDE. Valid values include Cloud9, IntelliJ, PyCharm, GoLand, and VSCode.
         public let name: String?
-        /// A link to the IDE runtime image.
+        /// A link to the IDE runtime image.   This parameter is not required for VSCode.
         public let runtime: String?
 
         public init(name: String? = nil, runtime: String? = nil) {
@@ -1412,11 +1416,11 @@ extension CodeCatalyst {
 
     public struct ListSourceRepositoryBranchesResponse: AWSDecodableShape {
         /// Information about the source branches.
-        public let items: [ListSourceRepositoryBranchesItem]?
+        public let items: [ListSourceRepositoryBranchesItem]
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
         public let nextToken: String?
 
-        public init(items: [ListSourceRepositoryBranchesItem]? = nil, nextToken: String? = nil) {
+        public init(items: [ListSourceRepositoryBranchesItem], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -1572,7 +1576,7 @@ extension CodeCatalyst {
         public let description: String?
         /// The friendly name of the space displayed to users.
         public let displayName: String?
-        ///  We need to know what this is and the basic usage information so that third-party developers know how to use this data type.
+        /// The name of the space.
         public let name: String
         /// The Amazon Web Services Region where the space exists.
         public let regionName: String
@@ -1786,6 +1790,68 @@ extension CodeCatalyst {
             case projectName = "projectName"
             case spaceName = "spaceName"
             case status = "status"
+        }
+    }
+
+    public struct StopDevEnvironmentSessionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("id")),
+            AWSMemberEncoding(label: "projectName", location: .uri("projectName")),
+            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
+            AWSMemberEncoding(label: "spaceName", location: .uri("spaceName"))
+        ]
+
+        /// The system-generated unique ID of the Dev Environment. To obtain this ID, use ListDevEnvironments.
+        public let id: String
+        /// The name of the project in the space.
+        public let projectName: String
+        /// The system-generated unique ID of the Dev Environment session. This ID is returned by StartDevEnvironmentSession.
+        public let sessionId: String
+        /// The name of the space.
+        public let spaceName: String
+
+        public init(id: String, projectName: String, sessionId: String, spaceName: String) {
+            self.id = id
+            self.projectName = projectName
+            self.sessionId = sessionId
+            self.spaceName = spaceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            try self.validate(self.projectName, name: "projectName", parent: name, max: 63)
+            try self.validate(self.projectName, name: "projectName", parent: name, min: 3)
+            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_\\.][a-zA-Z0-9]+)*$")
+            try self.validate(self.spaceName, name: "spaceName", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, min: 3)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, pattern: "^[a-zA-Z0-9]+(?:[-_\\.][a-zA-Z0-9]+)*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopDevEnvironmentSessionResponse: AWSDecodableShape {
+        /// The system-generated unique ID of the Dev Environment.
+        public let id: String
+        /// The name of the project in the space.
+        public let projectName: String
+        /// The system-generated unique ID of the Dev Environment session.
+        public let sessionId: String
+        /// The name of the space.
+        public let spaceName: String
+
+        public init(id: String, projectName: String, sessionId: String, spaceName: String) {
+            self.id = id
+            self.projectName = projectName
+            self.sessionId = sessionId
+            self.spaceName = spaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case projectName = "projectName"
+            case sessionId = "sessionId"
+            case spaceName = "spaceName"
         }
     }
 

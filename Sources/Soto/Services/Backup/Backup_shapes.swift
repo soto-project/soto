@@ -165,6 +165,8 @@ extension Backup {
         public let recoveryPointArn: String?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
+        /// This is the non-unique name of the resource that  belongs to the specified backup.
+        public let resourceName: String?
         /// The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public let resourceType: String?
         /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -174,7 +176,7 @@ extension Backup {
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
 
-        public init(accountId: String? = nil, backupJobId: String? = nil, backupOptions: [String: String]? = nil, backupSizeInBytes: Int64? = nil, backupType: String? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, expectedCompletionDate: Date? = nil, iamRoleArn: String? = nil, isParent: Bool? = nil, parentJobId: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: Date? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupJobId: String? = nil, backupOptions: [String: String]? = nil, backupSizeInBytes: Int64? = nil, backupType: String? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, expectedCompletionDate: Date? = nil, iamRoleArn: String? = nil, isParent: Bool? = nil, parentJobId: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, startBy: Date? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupJobId = backupJobId
             self.backupOptions = backupOptions
@@ -193,6 +195,7 @@ extension Backup {
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
+            self.resourceName = resourceName
             self.resourceType = resourceType
             self.startBy = startBy
             self.state = state
@@ -218,6 +221,7 @@ extension Backup {
             case percentDone = "PercentDone"
             case recoveryPointArn = "RecoveryPointArn"
             case resourceArn = "ResourceArn"
+            case resourceName = "ResourceName"
             case resourceType = "ResourceType"
             case startBy = "StartBy"
             case state = "State"
@@ -752,6 +756,8 @@ extension Backup {
         public let parentJobId: String?
         /// The Amazon Web Services resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceArn: String?
+        /// This is the non-unique name of the resource that  belongs to the specified backup.
+        public let resourceName: String?
         /// The type of Amazon Web Services resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceType: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a source copy vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
@@ -763,7 +769,7 @@ extension Backup {
         /// A detailed message explaining the status of the job to copy a resource.
         public let statusMessage: String?
 
-        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, childJobsInState: [CopyJobState: Int64]? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, copyJobId: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, destinationBackupVaultArn: String? = nil, destinationRecoveryPointArn: String? = nil, iamRoleArn: String? = nil, isParent: Bool? = nil, numberOfChildJobs: Int64? = nil, parentJobId: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, sourceRecoveryPointArn: String? = nil, state: CopyJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, childJobsInState: [CopyJobState: Int64]? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, copyJobId: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, destinationBackupVaultArn: String? = nil, destinationRecoveryPointArn: String? = nil, iamRoleArn: String? = nil, isParent: Bool? = nil, numberOfChildJobs: Int64? = nil, parentJobId: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, sourceRecoveryPointArn: String? = nil, state: CopyJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
             self.childJobsInState = childJobsInState
@@ -779,6 +785,7 @@ extension Backup {
             self.numberOfChildJobs = numberOfChildJobs
             self.parentJobId = parentJobId
             self.resourceArn = resourceArn
+            self.resourceName = resourceName
             self.resourceType = resourceType
             self.sourceBackupVaultArn = sourceBackupVaultArn
             self.sourceRecoveryPointArn = sourceRecoveryPointArn
@@ -802,6 +809,7 @@ extension Backup {
             case numberOfChildJobs = "NumberOfChildJobs"
             case parentJobId = "ParentJobId"
             case resourceArn = "ResourceArn"
+            case resourceName = "ResourceName"
             case resourceType = "ResourceType"
             case sourceBackupVaultArn = "SourceBackupVaultArn"
             case sourceRecoveryPointArn = "SourceRecoveryPointArn"
@@ -1420,6 +1428,8 @@ extension Backup {
         public let recoveryPointArn: String?
         /// An ARN that uniquely identifies a saved resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
+        /// This is the non-unique name of the resource that  belongs to the specified backup.
+        public let resourceName: String?
         /// The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceType: String?
         /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -1429,7 +1439,7 @@ extension Backup {
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
 
-        public init(accountId: String? = nil, backupJobId: String? = nil, backupOptions: [String: String]? = nil, backupSizeInBytes: Int64? = nil, backupType: String? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, childJobsInState: [BackupJobState: Int64]? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, expectedCompletionDate: Date? = nil, iamRoleArn: String? = nil, isParent: Bool? = nil, numberOfChildJobs: Int64? = nil, parentJobId: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: Date? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupJobId: String? = nil, backupOptions: [String: String]? = nil, backupSizeInBytes: Int64? = nil, backupType: String? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, childJobsInState: [BackupJobState: Int64]? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, expectedCompletionDate: Date? = nil, iamRoleArn: String? = nil, isParent: Bool? = nil, numberOfChildJobs: Int64? = nil, parentJobId: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, startBy: Date? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupJobId = backupJobId
             self.backupOptions = backupOptions
@@ -1450,6 +1460,7 @@ extension Backup {
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
+            self.resourceName = resourceName
             self.resourceType = resourceType
             self.startBy = startBy
             self.state = state
@@ -1477,6 +1488,7 @@ extension Backup {
             case percentDone = "PercentDone"
             case recoveryPointArn = "RecoveryPointArn"
             case resourceArn = "ResourceArn"
+            case resourceName = "ResourceName"
             case resourceType = "ResourceType"
             case startBy = "StartBy"
             case state = "State"
@@ -1679,18 +1691,22 @@ extension Backup {
         public let lastBackupTime: Date?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
+        /// This is the non-unique name of the resource that  belongs to the specified backup.
+        public let resourceName: String?
         /// The type of Amazon Web Services resource saved as a recovery point; for example, an Amazon EBS volume or an Amazon RDS database.
         public let resourceType: String?
 
-        public init(lastBackupTime: Date? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
+        public init(lastBackupTime: Date? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil) {
             self.lastBackupTime = lastBackupTime
             self.resourceArn = resourceArn
+            self.resourceName = resourceName
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case lastBackupTime = "LastBackupTime"
             case resourceArn = "ResourceArn"
+            case resourceName = "ResourceName"
             case resourceType = "ResourceType"
         }
     }
@@ -1753,6 +1769,8 @@ extension Backup {
         public let recoveryPointArn: String?
         /// An ARN that uniquely identifies a saved resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
+        /// This is the non-unique name of the resource that  belongs to the specified backup.
+        public let resourceName: String?
         /// The type of Amazon Web Services resource to save as a recovery point; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceType: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies the source vault where the resource was originally backed up in; for example, arn:aws:backup:us-east-1:123456789012:vault:BackupVault. If the recovery is restored to the same Amazon Web Services account or Region, this value will be null.
@@ -1764,7 +1782,7 @@ extension Backup {
         /// Specifies the storage class of the recovery point. Valid values are WARM or COLD.
         public let storageClass: StorageClass?
 
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, storageClass: StorageClass? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, storageClass: StorageClass? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -1782,6 +1800,7 @@ extension Backup {
             self.parentRecoveryPointArn = parentRecoveryPointArn
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
+            self.resourceName = resourceName
             self.resourceType = resourceType
             self.sourceBackupVaultArn = sourceBackupVaultArn
             self.status = status
@@ -1807,6 +1826,7 @@ extension Backup {
             case parentRecoveryPointArn = "ParentRecoveryPointArn"
             case recoveryPointArn = "RecoveryPointArn"
             case resourceArn = "ResourceArn"
+            case resourceName = "ResourceName"
             case resourceType = "ResourceType"
             case sourceBackupVaultArn = "SourceBackupVaultArn"
             case status = "Status"
@@ -3416,18 +3436,22 @@ extension Backup {
         public let lastBackupTime: Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
+        /// This is the non-unique name of the resource that  belongs to the specified backup.
+        public let resourceName: String?
         /// The type of Amazon Web Services resource; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public let resourceType: String?
 
-        public init(lastBackupTime: Date? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
+        public init(lastBackupTime: Date? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil) {
             self.lastBackupTime = lastBackupTime
             self.resourceArn = resourceArn
+            self.resourceName = resourceName
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case lastBackupTime = "LastBackupTime"
             case resourceArn = "ResourceArn"
+            case resourceName = "ResourceName"
             case resourceType = "ResourceType"
         }
     }
@@ -3551,6 +3575,8 @@ extension Backup {
         public let recoveryPointArn: String?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
+        /// This is the non-unique name of the resource that  belongs to the specified backup.
+        public let resourceName: String?
         /// The type of Amazon Web Services resource saved as a recovery point; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public let resourceType: String?
         /// The backup vault where the recovery point was originally copied from. If the recovery point is restored to the same account this value will be null.
@@ -3560,7 +3586,7 @@ extension Backup {
         /// A message explaining the reason of the recovery point deletion failure.
         public let statusMessage: String?
 
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -3578,6 +3604,7 @@ extension Backup {
             self.parentRecoveryPointArn = parentRecoveryPointArn
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
+            self.resourceName = resourceName
             self.resourceType = resourceType
             self.sourceBackupVaultArn = sourceBackupVaultArn
             self.status = status
@@ -3602,6 +3629,7 @@ extension Backup {
             case parentRecoveryPointArn = "ParentRecoveryPointArn"
             case recoveryPointArn = "RecoveryPointArn"
             case resourceArn = "ResourceArn"
+            case resourceName = "ResourceName"
             case resourceType = "ResourceType"
             case sourceBackupVaultArn = "SourceBackupVaultArn"
             case status = "Status"
@@ -3624,12 +3652,14 @@ extension Backup {
         public let parentRecoveryPointArn: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
+        /// This is the non-unique name of the resource that  belongs to the specified backup.
+        public let resourceName: String?
         /// A status code specifying the state of the recovery point.
         public let status: RecoveryPointStatus?
         /// A message explaining the reason of the recovery point deletion failure.
         public let statusMessage: String?
 
-        public init(backupSizeBytes: Int64? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, isParent: Bool? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil) {
+        public init(backupSizeBytes: Int64? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, isParent: Bool? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceName: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil) {
             self.backupSizeBytes = backupSizeBytes
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
@@ -3637,6 +3667,7 @@ extension Backup {
             self.isParent = isParent
             self.parentRecoveryPointArn = parentRecoveryPointArn
             self.recoveryPointArn = recoveryPointArn
+            self.resourceName = resourceName
             self.status = status
             self.statusMessage = statusMessage
         }
@@ -3649,6 +3680,7 @@ extension Backup {
             case isParent = "IsParent"
             case parentRecoveryPointArn = "ParentRecoveryPointArn"
             case recoveryPointArn = "RecoveryPointArn"
+            case resourceName = "ResourceName"
             case status = "Status"
             case statusMessage = "StatusMessage"
         }
@@ -3990,7 +4022,7 @@ extension Backup {
         public let creationDate: Date?
         /// This is a returned boolean value indicating this is a parent (composite)  backup job.
         public let isParent: Bool?
-        /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+        ///  Note: This field is only returned for Amazon EFS and Advanced DynamoDB  resources.  An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
 
         public init(backupJobId: String? = nil, creationDate: Date? = nil, isParent: Bool? = nil, recoveryPointArn: String? = nil) {

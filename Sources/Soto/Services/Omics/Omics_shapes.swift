@@ -67,6 +67,8 @@ extension Omics {
         case cancelled = "CANCELLED"
         /// The Job has completed
         case completed = "COMPLETED"
+        /// The Job completed with failed runs
+        case completedWithFailures = "COMPLETED_WITH_FAILURES"
         /// The Job failed
         case failed = "FAILED"
         /// The Job is executing
@@ -711,7 +713,7 @@ extension Omics {
         public let id: String
         /// The store's name.
         public let name: String
-        /// The store's genome reference.
+        /// The store's genome reference. Required for all stores except TSV format with generic annotations.
         public let reference: ReferenceItem?
         /// The store's status.
         public let status: StoreStatus
@@ -823,13 +825,13 @@ extension Omics {
     public struct CreateRunGroupRequest: AWSEncodableShape {
         /// The maximum number of CPUs to use in the group.
         public let maxCpus: Int?
-        /// A max duration for the group.
+        /// A maximum run time for the group in minutes.
         public let maxDuration: Int?
         /// The maximum number of concurrent runs for the group.
         public let maxRuns: Int?
         /// A name for the group.
         public let name: String?
-        /// A request ID for the group.
+        /// To ensure that requests don't run multiple times, specify a unique ID for each request.
         public let requestId: String
         /// Tags for the group.
         public let tags: [String: String]?
@@ -1051,9 +1053,9 @@ extension Omics {
         public let name: String?
         /// A parameter template for the workflow.
         public let parameterTemplate: [String: WorkflowParameter]?
-        /// A request ID for the workflow.
+        /// To ensure that requests don't run multiple times, specify a unique ID for each request.
         public let requestId: String
-        /// A storage capacity for the workflow.
+        /// A storage capacity for the workflow in gigabytes.
         public let storageCapacity: Int?
         /// Tags for the workflow.
         public let tags: [String: String]?
@@ -1658,7 +1660,7 @@ extension Omics {
         public let id: String
         /// The job's sequence store ID.
         public let sequenceStoreId: String
-        /// The job's sources.
+        /// The job's source files.
         public let sources: [ActivateReadSetSourceItem]?
         /// The job's status.
         public let status: ReadSetActivationJobStatus
@@ -1794,7 +1796,7 @@ extension Omics {
         public let roleArn: String
         /// The job's sequence store ID.
         public let sequenceStoreId: String
-        /// The job's sources.
+        /// The job's source files.
         public let sources: [ImportReadSetSourceItem]
         /// The job's status.
         public let status: ReadSetImportJobStatus
@@ -2004,7 +2006,7 @@ extension Omics {
         public let referenceStoreId: String
         /// The job's service role ARN.
         public let roleArn: String
-        /// The job's sources.
+        /// The job's source files.
         public let sources: [ImportReferenceSourceItem]
         /// The job's status.
         public let status: ReferenceImportJobStatus
@@ -2255,7 +2257,7 @@ extension Omics {
         public let id: String?
         /// The group's maximum number of CPUs to use.
         public let maxCpus: Int?
-        /// The group's maximum run duration.
+        /// The group's maximum run time in minutes.
         public let maxDuration: Int?
         /// The maximum number of concurrent runs for the group.
         public let maxRuns: Int?
@@ -2355,7 +2357,7 @@ extension Omics {
         /// The run's stop time.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var stopTime: Date?
-        /// The run's storage capacity.
+        /// The run's storage capacity in gigabytes.
         public let storageCapacity: Int?
         /// The run's tags.
         public let tags: [String: String]?
@@ -2453,7 +2455,7 @@ extension Omics {
         public var creationTime: Date?
         /// The task's log stream.
         public let logStream: String?
-        /// The task's memory setting.
+        /// The task's memory use in gigabytes.
         public let memory: Int?
         /// The task's name.
         public let name: String?
@@ -2752,7 +2754,7 @@ extension Omics {
         public let status: WorkflowStatus?
         /// The workflow's status message.
         public let statusMessage: String?
-        /// The workflow's storage capacity.
+        /// The workflow's storage capacity in gigabytes.
         public let storageCapacity: Int?
         /// The workflow's tags.
         public let tags: [String: String]?
@@ -4287,7 +4289,7 @@ extension Omics {
         public let id: String?
         /// The group's maximum CPU count setting.
         public let maxCpus: Int?
-        /// The group's maximum duration setting.
+        /// The group's maximum duration setting in minutes.
         public let maxDuration: Int?
         /// The group's maximum concurrent run setting.
         public let maxRuns: Int?
@@ -4519,7 +4521,6 @@ extension Omics {
             try self.items.forEach {
                 try $0.validate(name: "\(name).items[]")
             }
-            try self.validate(self.items, name: "items", parent: name, max: 1)
             try self.validate(self.items, name: "items", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
@@ -4557,7 +4558,7 @@ extension Omics {
         public let clientToken: String?
         /// The read set's sequence store ID.
         public let sequenceStoreId: String
-        /// The job's sources.
+        /// The job's source files.
         public let sources: [StartReadSetActivationJobSourceItem]
 
         public init(clientToken: String? = nil, sequenceStoreId: String, sources: [StartReadSetActivationJobSourceItem]) {
@@ -4641,7 +4642,7 @@ extension Omics {
         public let roleArn: String
         /// The read set's sequence store ID.
         public let sequenceStoreId: String
-        /// Sources for the job.
+        /// The job's source files.
         public let sources: [ExportReadSet]
 
         public init(clientToken: String? = nil, destination: String, roleArn: String, sequenceStoreId: String, sources: [ExportReadSet]) {
@@ -4716,7 +4717,7 @@ extension Omics {
         public let roleArn: String
         /// The read set's sequence store ID.
         public let sequenceStoreId: String
-        /// Source files to import.
+        /// The job's source files.
         public let sources: [StartReadSetImportJobSourceItem]
 
         public init(clientToken: String? = nil, roleArn: String, sequenceStoreId: String, sources: [StartReadSetImportJobSourceItem]) {
@@ -4860,7 +4861,7 @@ extension Omics {
         public let referenceStoreId: String
         /// A service role for the job.
         public let roleArn: String
-        /// Sources for the job.
+        /// The job's source files.
         public let sources: [StartReferenceImportJobSourceItem]
 
         public init(clientToken: String? = nil, referenceStoreId: String, roleArn: String, sources: [StartReferenceImportJobSourceItem]) {
@@ -4972,7 +4973,7 @@ extension Omics {
         public let parameters: String?
         /// A priority for the run.
         public let priority: Int?
-        /// A request ID for the run.
+        /// To ensure that requests don't run multiple times, specify a unique ID for each request.
         public let requestId: String
         /// A service role for the run.
         public let roleArn: String
@@ -4980,7 +4981,7 @@ extension Omics {
         public let runGroupId: String?
         /// The run's ID.
         public let runId: String?
-        /// A storage capacity for the run.
+        /// A storage capacity for the run in gigabytes.
         public let storageCapacity: Int?
         /// Tags for the run.
         public let tags: [String: String]?
@@ -5100,7 +5101,6 @@ extension Omics {
             try self.items.forEach {
                 try $0.validate(name: "\(name).items[]")
             }
-            try self.validate(self.items, name: "items", parent: name, max: 1)
             try self.validate(self.items, name: "items", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
@@ -5169,7 +5169,7 @@ extension Omics {
         /// When the task was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?
-        /// The task's memory.
+        /// The task's memory use in gigabyes.
         public let memory: Int?
         /// The task's name.
         public let name: String?
@@ -5366,7 +5366,7 @@ extension Omics {
         public let id: String
         /// The maximum number of CPUs to use.
         public let maxCpus: Int?
-        /// The maximum amount of time to run.
+        /// A maximum run time for the group in minutes.
         public let maxDuration: Int?
         /// The maximum number of concurrent runs for the group.
         public let maxRuns: Int?
@@ -5502,15 +5502,19 @@ extension Omics {
         public let jobStatus: JobStatus
         /// The source file's location in Amazon S3.
         public let source: String
+        ///  A message that provides additional context about a job
+        public let statusMessage: String?
 
-        public init(jobStatus: JobStatus, source: String) {
+        public init(jobStatus: JobStatus, source: String, statusMessage: String? = nil) {
             self.jobStatus = jobStatus
             self.source = source
+            self.statusMessage = statusMessage
         }
 
         private enum CodingKeys: String, CodingKey {
             case jobStatus = "jobStatus"
             case source = "source"
+            case statusMessage = "statusMessage"
         }
     }
 

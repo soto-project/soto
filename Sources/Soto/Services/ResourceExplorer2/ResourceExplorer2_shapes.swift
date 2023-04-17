@@ -869,7 +869,7 @@ public struct ResourceExplorer2ErrorType: AWSErrorType {
 
     /// The credentials that you used to call this operation don't have the minimum required permissions.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// You tried to create a new view or index when one already exists, and you either didn't specify or specified a different idempotency token as the original request.
+    /// The request failed because either you specified parameters that didn’t match the original request, or you attempted to create a view with a name that already exists in this Amazon Web Services Region.
     public static var conflictException: Self { .init(.conflictException) }
     /// The request failed because of internal service error. Try your request again later.
     public static var internalServerException: Self { .init(.internalServerException) }

@@ -248,11 +248,11 @@ extension IoTTwinMaker {
     }
 
     public enum SyncResourceFilter: AWSEncodableShape, Sendable {
-        /// The external Id.
+        /// The external ID.
         case externalId(String)
-        /// The sync resource filter resource Id.
+        /// The sync resource filter resource ID.
         case resourceId(String)
-        /// The sync resource filter resoucre type
+        /// The sync resource filter resource type
         case resourceType(SyncResourceType)
         /// The sync resource filter's state.
         case state(SyncResourceState)
@@ -335,7 +335,7 @@ extension IoTTwinMaker {
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
-        /// An object that maps strings to the property value entries to set. Each string  in the mapping must be unique to this object.
+        /// An object that maps strings to the property value entries to set. Each string in the mapping must be unique to this object.
         public let entries: [PropertyValueEntry]
         /// The ID of the workspace that contains the properties to set.
         public let workspaceId: String
@@ -463,7 +463,7 @@ extension IoTTwinMaker {
         public let componentTypeId: String?
         /// The description of the component request.
         public let description: String?
-        /// An object that maps strings to the properties to set in the component type. Each string  in the mapping must be unique to this object.
+        /// An object that maps strings to the properties to set in the component type. Each string in the mapping must be unique to this object.
         public let properties: [String: PropertyRequest]?
         /// The property groups.
         public let propertyGroups: [String: ComponentPropertyGroupRequest]?
@@ -512,7 +512,7 @@ extension IoTTwinMaker {
         public let definedIn: String?
         /// The description of the component type.
         public let description: String?
-        /// An object that maps strings to the properties to set in the component type. Each string  in the mapping must be unique to this object.
+        /// An object that maps strings to the properties to set in the component type. Each string in the mapping must be unique to this object.
         public let properties: [String: PropertyResponse]?
         /// The property groups.
         public let propertyGroups: [String: ComponentPropertyGroupResponse]?
@@ -588,7 +588,7 @@ extension IoTTwinMaker {
         public let description: String?
         /// The property group updates.
         public let propertyGroupUpdates: [String: ComponentPropertyGroupRequest]?
-        /// An object that maps strings to the properties to set in the component type update. Each string  in the mapping must be unique to this object.
+        /// An object that maps strings to the properties to set in the component type update. Each string in the mapping must be unique to this object.
         public let propertyUpdates: [String: PropertyRequest]?
         /// The update type of the component update request.
         public let updateType: ComponentUpdateType?
@@ -648,7 +648,7 @@ extension IoTTwinMaker {
         public let functions: [String: FunctionRequest]?
         /// A Boolean value that specifies whether an entity can have more than one component of this type.
         public let isSingleton: Bool?
-        /// An object that maps strings to the property definitions in the component type. Each string  in the mapping must be unique to this object.
+        /// An object that maps strings to the property definitions in the component type. Each string in the mapping must be unique to this object.
         public let propertyDefinitions: [String: PropertyDefinitionRequest]?
         public let propertyGroups: [String: PropertyGroupRequest]?
         /// Metadata that you can use to manage the component type.
@@ -752,7 +752,7 @@ extension IoTTwinMaker {
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
-        /// An object that maps strings to the components in the entity. Each string  in the mapping must be unique to this object.
+        /// An object that maps strings to the components in the entity. Each string in the mapping must be unique to this object.
         public let components: [String: ComponentRequest]?
         /// The description of the entity.
         public let description: String?
@@ -857,16 +857,19 @@ extension IoTTwinMaker {
         public let description: String?
         /// The ID of the scene.
         public let sceneId: String
+        /// The request metadata.
+        public let sceneMetadata: [String: String]?
         /// Metadata that you can use to manage the scene.
         public let tags: [String: String]?
         /// The ID of the workspace that contains the scene.
         public let workspaceId: String
 
-        public init(capabilities: [String]? = nil, contentLocation: String, description: String? = nil, sceneId: String, tags: [String: String]? = nil, workspaceId: String) {
+        public init(capabilities: [String]? = nil, contentLocation: String, description: String? = nil, sceneId: String, sceneMetadata: [String: String]? = nil, tags: [String: String]? = nil, workspaceId: String) {
             self.capabilities = capabilities
             self.contentLocation = contentLocation
             self.description = description
             self.sceneId = sceneId
+            self.sceneMetadata = sceneMetadata
             self.tags = tags
             self.workspaceId = workspaceId
         }
@@ -884,6 +887,14 @@ extension IoTTwinMaker {
             try self.validate(self.sceneId, name: "sceneId", parent: name, max: 128)
             try self.validate(self.sceneId, name: "sceneId", parent: name, min: 1)
             try self.validate(self.sceneId, name: "sceneId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+            try self.sceneMetadata?.forEach {
+                try validate($0.key, name: "sceneMetadata.key", parent: name, max: 256)
+                try validate($0.key, name: "sceneMetadata.key", parent: name, min: 1)
+                try validate($0.key, name: "sceneMetadata.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+                try validate($0.value, name: "sceneMetadata[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "sceneMetadata[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.sceneMetadata, name: "sceneMetadata", parent: name, max: 50)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -903,6 +914,7 @@ extension IoTTwinMaker {
             case contentLocation = "contentLocation"
             case description = "description"
             case sceneId = "sceneId"
+            case sceneMetadata = "sceneMetadata"
             case tags = "tags"
         }
     }
@@ -930,13 +942,13 @@ extension IoTTwinMaker {
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
-        /// The SyncJob IAM role. This IAM role is used by the sync job to read from the syncSource, and create,  update or delete the corresponding resources.
+        /// The SyncJob IAM role. This IAM role is used by the SyncJob to read from the syncSource, and create, update, or delete the corresponding resources.
         public let syncRole: String
-        /// The sync source.  Currently the only supported syncSoucre is SITEWISE .
+        /// The sync source.  Currently the only supported syncSoource is SITEWISE .
         public let syncSource: String
         /// The SyncJob tags.
         public let tags: [String: String]?
-        /// The workspace Id.
+        /// The workspace ID.
         public let workspaceId: String
 
         public init(syncRole: String, syncSource: String, tags: [String: String]? = nil, workspaceId: String) {
@@ -1315,9 +1327,9 @@ extension IoTTwinMaker {
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
-        /// The sync source.  Currently the only supported syncSoucre is SITEWISE .
+        /// The sync source.  Currently the only supported syncSource is SITEWISE .
         public let syncSource: String
-        /// The workspace Id.
+        /// The workspace ID.
         public let workspaceId: String
 
         public init(syncSource: String, workspaceId: String) {
@@ -1481,7 +1493,7 @@ extension IoTTwinMaker {
     }
 
     public struct ExecuteQueryRequest: AWSEncodableShape {
-        /// The maximum number of results to return at one time. The default is 25.  Valid Range: Minimum value of 1. Maximum value of 250.
+        /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
@@ -1635,21 +1647,21 @@ extension IoTTwinMaker {
         public let description: String?
         /// The name of the parent component type that this component type extends.
         public let extendsFrom: [String]?
-        /// An object that maps strings to the functions in the component type. Each string  in the mapping must be unique to this object.
+        /// An object that maps strings to the functions in the component type. Each string in the mapping must be unique to this object.
         public let functions: [String: FunctionResponse]?
         /// A Boolean value that specifies whether the component type is abstract.
         public let isAbstract: Bool?
-        /// A Boolean value that specifies whether the component type has a schema initializer and that the  schema initializer has run.
+        /// A Boolean value that specifies whether the component type has a schema initializer and that the schema initializer has run.
         public let isSchemaInitialized: Bool?
         /// A Boolean value that specifies whether an entity can have more than one component of this type.
         public let isSingleton: Bool?
-        /// An object that maps strings to the property definitions in the component type. Each string  in the mapping must be unique to this object.
+        /// An object that maps strings to the property definitions in the component type. Each string in the mapping must be unique to this object.
         public let propertyDefinitions: [String: PropertyDefinitionResponse]?
         /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
         public let propertyGroups: [String: PropertyGroupResponse]?
         /// The current status of the component type.
         public let status: Status?
-        /// The syncSource of the sync job, if this entity was created by a sync job.
+        /// The syncSource of the SyncJob, if this entity was created by a SyncJob.
         public let syncSource: String?
         /// The date and time when the component was last updated.
         public let updateDateTime: Date
@@ -1726,7 +1738,7 @@ extension IoTTwinMaker {
     public struct GetEntityResponse: AWSDecodableShape {
         /// The ARN of the entity.
         public let arn: String
-        /// An object that maps strings to the components in the entity. Each string  in the mapping must be unique to this object.
+        /// An object that maps strings to the components in the entity. Each string in the mapping must be unique to this object.
         public let components: [String: ComponentResponse]?
         /// The date and time when the entity was created.
         public let creationDateTime: Date
@@ -1818,7 +1830,7 @@ extension IoTTwinMaker {
         public let entityId: String?
         /// An object that specifies the interpolation type and the interval over which to interpolate data.
         public let interpolation: InterpolationParameters?
-        /// The maximum number of results to return at one time. The default is 25.  Valid Range: Minimum value of 1. Maximum value of 250.
+        /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
@@ -1925,7 +1937,7 @@ extension IoTTwinMaker {
     public struct GetPropertyValueHistoryResponse: AWSDecodableShape {
         /// The string that specifies the next page of results.
         public let nextToken: String?
-        /// An object that maps strings to the property definitions in the component type. Each string  in the mapping must be unique to this object.
+        /// An object that maps strings to the property definitions in the component type. Each string in the mapping must be unique to this object.
         public let propertyValues: [PropertyValueHistory]
 
         public init(nextToken: String? = nil, propertyValues: [PropertyValueHistory]) {
@@ -2020,7 +2032,7 @@ extension IoTTwinMaker {
     public struct GetPropertyValueResponse: AWSDecodableShape {
         /// The string that specifies the next page of results.
         public let nextToken: String?
-        /// An object that maps strings to the properties and latest property values in the response. Each string  in the mapping must be unique to this object.
+        /// An object that maps strings to the properties and latest property values in the response. Each string in the mapping must be unique to this object.
         public let propertyValues: [String: PropertyLatestValue]?
         /// A table of property values.
         public let tabularPropertyValues: [[[String: DataValue]]]?
@@ -2077,20 +2089,26 @@ extension IoTTwinMaker {
         public let creationDateTime: Date
         /// The description of the scene.
         public let description: String?
+        /// The generated scene metadata.
+        public let generatedSceneMetadata: [String: String]?
         /// The ID of the scene.
         public let sceneId: String
+        /// The response metadata.
+        public let sceneMetadata: [String: String]?
         /// The date and time when the scene was last updated.
         public let updateDateTime: Date
         /// The ID of the workspace that contains the scene.
         public let workspaceId: String
 
-        public init(arn: String, capabilities: [String]? = nil, contentLocation: String, creationDateTime: Date, description: String? = nil, sceneId: String, updateDateTime: Date, workspaceId: String) {
+        public init(arn: String, capabilities: [String]? = nil, contentLocation: String, creationDateTime: Date, description: String? = nil, generatedSceneMetadata: [String: String]? = nil, sceneId: String, sceneMetadata: [String: String]? = nil, updateDateTime: Date, workspaceId: String) {
             self.arn = arn
             self.capabilities = capabilities
             self.contentLocation = contentLocation
             self.creationDateTime = creationDateTime
             self.description = description
+            self.generatedSceneMetadata = generatedSceneMetadata
             self.sceneId = sceneId
+            self.sceneMetadata = sceneMetadata
             self.updateDateTime = updateDateTime
             self.workspaceId = workspaceId
         }
@@ -2101,7 +2119,9 @@ extension IoTTwinMaker {
             case contentLocation = "contentLocation"
             case creationDateTime = "creationDateTime"
             case description = "description"
+            case generatedSceneMetadata = "generatedSceneMetadata"
             case sceneId = "sceneId"
+            case sceneMetadata = "sceneMetadata"
             case updateDateTime = "updateDateTime"
             case workspaceId = "workspaceId"
         }
@@ -2113,9 +2133,9 @@ extension IoTTwinMaker {
             AWSMemberEncoding(label: "workspaceId", location: .querystring("workspace"))
         ]
 
-        /// The sync soucre.  Currently the only supported syncSoucre is SITEWISE .
+        /// The sync source.  Currently the only supported syncSource is SITEWISE .
         public let syncSource: String
-        /// The workspace Id.
+        /// The workspace ID.
         public let workspaceId: String?
 
         public init(syncSource: String, workspaceId: String? = nil) {
@@ -2142,7 +2162,7 @@ extension IoTTwinMaker {
         public let status: SyncJobStatus
         /// The sync IAM role.
         public let syncRole: String
-        /// The sync soucre.  Currently the only supported syncSoucre is SITEWISE .
+        /// The sync soucre.  Currently the only supported syncSource is SITEWISE .
         public let syncSource: String
         /// The update date and time.
         public let updateDateTime: Date
@@ -2271,7 +2291,7 @@ extension IoTTwinMaker {
 
         /// A list of objects that filter the request.
         public let filters: [ListComponentTypesFilter]?
-        /// The maximum number of results to return at one time. The default is 25.  Valid Range: Minimum value of 1. Maximum value of 250.
+        /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
@@ -2337,7 +2357,7 @@ extension IoTTwinMaker {
 
         /// A list of objects that filter the request.  Only one object is accepted as a valid input.
         public let filters: [ListEntitiesFilter]?
-        /// The maximum number of results to return at one time. The default is 25.  Valid Range: Minimum value of 1. Maximum value of 250.
+        /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
@@ -2444,7 +2464,7 @@ extension IoTTwinMaker {
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
-        /// The maximum number of results to return at one time. The default is 50.  Valid Range: Minimum value of 0. Maximum value of 200.
+        /// The maximum number of results to return at one time. The default is 50. Valid Range: Minimum value of 0. Maximum value of 200.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
@@ -2496,13 +2516,13 @@ extension IoTTwinMaker {
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
-        /// A list of objects that filter the request.
+        /// A list of objects that filter the request. The following filter combinations are supported:   Filter with state   Filter with ResourceType and ResourceId   Filter with ResourceType and ExternalId
         public let filters: [SyncResourceFilter]?
-        /// The maximum number of results to return at one time. The default is 50.  Valid Range: Minimum value of 0. Maximum value of 200.
+        /// The maximum number of results to return at one time. The default is 50. Valid Range: Minimum value of 0. Maximum value of 200.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
-        /// The sync soucre.  Currently the only supported syncSoucre is SITEWISE .
+        /// The sync source.  Currently the only supported syncSource is SITEWISE .
         public let syncSource: String
         /// The ID of the workspace that contains the sync job.
         public let workspaceId: String
@@ -2554,7 +2574,7 @@ extension IoTTwinMaker {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The maximum number of results to return at one time. The default is 25.  Valid Range: Minimum value of 1. Maximum value of 250.
+        /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
@@ -2602,7 +2622,7 @@ extension IoTTwinMaker {
     }
 
     public struct ListWorkspacesRequest: AWSEncodableShape {
-        /// The maximum number of results to return at one time. The default is 25.  Valid Range: Minimum value of 1. Maximum value of 250.
+        /// The maximum number of results to return at one time. The default is 25. Valid Range: Minimum value of 1. Maximum value of 250.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
         public let nextToken: String?
@@ -2699,7 +2719,7 @@ extension IoTTwinMaker {
         public let pricingMode: PricingMode
         /// The set date and time for updating a pricing plan.
         public let updateDateTime: Date
-        /// The update reason, for changing a pricing plan.
+        /// The update reason for changing a pricing plan.
         public let updateReason: UpdateReason
 
         public init(billableEntityCount: Int64? = nil, bundleInformation: BundleInformation? = nil, effectiveDateTime: Date, pricingMode: PricingMode, updateDateTime: Date, updateReason: UpdateReason) {
@@ -2906,7 +2926,7 @@ extension IoTTwinMaker {
     }
 
     public struct PropertyLatestValue: AWSDecodableShape {
-        /// An object that specifies information about a property.&gt;
+        /// An object that specifies information about a property.
         public let propertyReference: EntityPropertyReference
         /// The value of the property.
         public let propertyValue: DataValue?
@@ -2966,7 +2986,7 @@ extension IoTTwinMaker {
     }
 
     public struct PropertyValue: AWSEncodableShape & AWSDecodableShape {
-        /// ISO8601 DateTime of a value for a time series property. The time for when the property value was recorded in ISO 8601 format: YYYY-MM-DDThh:mm:ss[.SSSSSSSSS][Z/±HH:mm].     [YYYY]: year    [MM]: month    [DD]: day    [hh]: hour    [mm]: minute    [ss]: seconds    [.SSSSSSSSS]: additional precision, where precedence is maintained. For example: [.573123] is equal to 573123000 nanoseconds.    Z: default timezone UTC    ± HH:mm: time zone offset in Hours and Minutes.    Required sub-fields: YYYY-MM-DDThh:mm:ss and [Z/±HH:mm]
+        /// ISO8601 DateTime of a value for a time series property. The time for when the property value was recorded in ISO 8601 format: YYYY-MM-DDThh:mm:ss[.SSSSSSSSS][Z/±HH:mm].    [YYYY]: year    [MM]: month    [DD]: day    [hh]: hour    [mm]: minute    [ss]: seconds    [.SSSSSSSSS]: additional precision, where precedence is maintained. For example: [.573123] is equal to 573123000 nanoseconds.    Z: default timezone UTC    ± HH:mm: time zone offset in Hours and Minutes.    Required sub-fields: YYYY-MM-DDThh:mm:ss and [Z/±HH:mm]
         public let time: String?
         /// The timestamp of a value for a time series property.
         public let timestamp: Date?
@@ -3225,9 +3245,9 @@ extension IoTTwinMaker {
     }
 
     public struct SyncResourceSummary: AWSDecodableShape {
-        /// The external Id.
+        /// The external ID.
         public let externalId: String?
-        /// The resource Id.
+        /// The resource ID.
         public let resourceId: String?
         /// The resource type.
         public let resourceType: SyncResourceType?
@@ -3256,7 +3276,7 @@ extension IoTTwinMaker {
     public struct TabularConditions: AWSEncodableShape {
         /// Filter criteria that orders the output. It can be sorted in ascending or descending order.
         public let orderBy: [OrderBy]?
-        /// You can filter the request using various logical operators and a key-value format. For example:     {"key": "serverType", "value": "webServer"}
+        /// You can filter the request using various logical operators and a key-value format. For example:  {"key": "serverType", "value": "webServer"}
         public let propertyFilters: [PropertyFilter]?
 
         public init(orderBy: [OrderBy]? = nil, propertyFilters: [PropertyFilter]? = nil) {
@@ -3368,13 +3388,13 @@ extension IoTTwinMaker {
         public let description: String?
         /// Specifies the component type that this component type extends.
         public let extendsFrom: [String]?
-        /// An object that maps strings to the functions in the component type. Each string  in the mapping must be unique to this object.
+        /// An object that maps strings to the functions in the component type. Each string in the mapping must be unique to this object.
         public let functions: [String: FunctionRequest]?
         /// A Boolean value that specifies whether an entity can have more than one component of this type.
         public let isSingleton: Bool?
-        /// An object that maps strings to the property definitions in the component type. Each string  in the mapping must be unique to this object.
+        /// An object that maps strings to the property definitions in the component type. Each string in the mapping must be unique to this object.
         public let propertyDefinitions: [String: PropertyDefinitionRequest]?
-        /// The property groups
+        /// The property groups.
         public let propertyGroups: [String: PropertyGroupRequest]?
         /// The ID of the workspace.
         public let workspaceId: String
@@ -3469,7 +3489,7 @@ extension IoTTwinMaker {
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
-        /// An object that maps strings to the component updates in the request. Each string  in the mapping must be unique to this object.
+        /// An object that maps strings to the component updates in the request. Each string in the mapping must be unique to this object.
         public let componentUpdates: [String: ComponentUpdateRequest]?
         /// The description of the entity.
         public let description: String?
@@ -3595,14 +3615,17 @@ extension IoTTwinMaker {
         public let description: String?
         /// The ID of the scene.
         public let sceneId: String
+        /// The scene metadata.
+        public let sceneMetadata: [String: String]?
         /// The ID of the workspace that contains the scene.
         public let workspaceId: String
 
-        public init(capabilities: [String]? = nil, contentLocation: String? = nil, description: String? = nil, sceneId: String, workspaceId: String) {
+        public init(capabilities: [String]? = nil, contentLocation: String? = nil, description: String? = nil, sceneId: String, sceneMetadata: [String: String]? = nil, workspaceId: String) {
             self.capabilities = capabilities
             self.contentLocation = contentLocation
             self.description = description
             self.sceneId = sceneId
+            self.sceneMetadata = sceneMetadata
             self.workspaceId = workspaceId
         }
 
@@ -3619,6 +3642,14 @@ extension IoTTwinMaker {
             try self.validate(self.sceneId, name: "sceneId", parent: name, max: 128)
             try self.validate(self.sceneId, name: "sceneId", parent: name, min: 1)
             try self.validate(self.sceneId, name: "sceneId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+            try self.sceneMetadata?.forEach {
+                try validate($0.key, name: "sceneMetadata.key", parent: name, max: 256)
+                try validate($0.key, name: "sceneMetadata.key", parent: name, min: 1)
+                try validate($0.key, name: "sceneMetadata.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+                try validate($0.value, name: "sceneMetadata[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "sceneMetadata[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.sceneMetadata, name: "sceneMetadata", parent: name, max: 50)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 128)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
@@ -3628,6 +3659,7 @@ extension IoTTwinMaker {
             case capabilities = "capabilities"
             case contentLocation = "contentLocation"
             case description = "description"
+            case sceneMetadata = "sceneMetadata"
         }
     }
 

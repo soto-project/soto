@@ -21,9 +21,23 @@ import SotoCore
 extension GroundStation {
     // MARK: Enums
 
+    public enum AgentStatus: String, CustomStringConvertible, Codable, Sendable {
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case inactive = "INACTIVE"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AngleUnits: String, CustomStringConvertible, Codable, Sendable {
         case degreeAngle = "DEGREE_ANGLE"
         case radian = "RADIAN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuditResults: String, CustomStringConvertible, Codable, Sendable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
         public var description: String { return self.rawValue }
     }
 
@@ -31,6 +45,23 @@ extension GroundStation {
         case gHz = "GHz"
         case mHz = "MHz"
         case kHz = "kHz"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapabilityHealth: String, CustomStringConvertible, Codable, Sendable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapabilityHealthReason: String, CustomStringConvertible, Codable, Sendable {
+        case dataplaneFailure = "DATAPLANE_FAILURE"
+        case healthy = "HEALTHY"
+        case initializingDataplane = "INITIALIZING_DATAPLANE"
+        case invalidIpOwnership = "INVALID_IP_OWNERSHIP"
+        case notAuthorizedToCreateSlr = "NOT_AUTHORIZED_TO_CREATE_SLR"
+        case noRegisteredAgent = "NO_REGISTERED_AGENT"
+        case unverifiedIpOwnership = "UNVERIFIED_IP_OWNERSHIP"
         public var description: String { return self.rawValue }
     }
 
@@ -313,7 +344,128 @@ extension GroundStation {
         }
     }
 
+    public enum KmsKey: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// KMS Alias Arn.
+        case kmsAliasArn(String)
+        /// KMS Key Arn.
+        case kmsKeyArn(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .kmsAliasArn:
+                let value = try container.decode(String.self, forKey: .kmsAliasArn)
+                self = .kmsAliasArn(value)
+            case .kmsKeyArn:
+                let value = try container.decode(String.self, forKey: .kmsKeyArn)
+                self = .kmsKeyArn(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .kmsAliasArn(let value):
+                try container.encode(value, forKey: .kmsAliasArn)
+            case .kmsKeyArn(let value):
+                try container.encode(value, forKey: .kmsKeyArn)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .kmsAliasArn(let value):
+                try self.validate(value, name: "kmsAliasArn", parent: name, max: 512)
+                try self.validate(value, name: "kmsAliasArn", parent: name, min: 1)
+                try self.validate(value, name: "kmsAliasArn", parent: name, pattern: "^arn:aws[a-zA-Z-]{0,16}:kms:[a-z]{2}(-[a-z]{1,16}){1,3}-\\d{1}:\\d{12}:((alias/[a-zA-Z0-9:/_-]{1,256}))$")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsAliasArn = "kmsAliasArn"
+            case kmsKeyArn = "kmsKeyArn"
+        }
+    }
+
     // MARK: Shapes
+
+    public struct AgentDetails: AWSEncodableShape {
+        /// List of CPU cores reserved for the agent.
+        public let agentCpuCores: [Int]?
+        /// Current agent version.
+        public let agentVersion: String
+        /// List of versions being used by agent components.
+        public let componentVersions: [ComponentVersion]
+        /// ID of EC2 instance agent is running on.
+        public let instanceId: String
+        /// Type of EC2 instance agent is running on.
+        public let instanceType: String
+        ///  This field should not be used. Use agentCpuCores instead.  List of CPU cores reserved for processes other than the agent running on the EC2 instance.
+        public let reservedCpuCores: [Int]?
+
+        public init(agentCpuCores: [Int]? = nil, agentVersion: String, componentVersions: [ComponentVersion], instanceId: String, instanceType: String, reservedCpuCores: [Int]? = nil) {
+            self.agentCpuCores = agentCpuCores
+            self.agentVersion = agentVersion
+            self.componentVersions = componentVersions
+            self.instanceId = instanceId
+            self.instanceType = instanceType
+            self.reservedCpuCores = reservedCpuCores
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentCpuCores, name: "agentCpuCores", parent: name, max: 256)
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, max: 64)
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, min: 1)
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, pattern: "^(0|[1-9]\\d*)(\\.(0|[1-9]\\d*))*$")
+            try self.componentVersions.forEach {
+                try $0.validate(name: "\(name).componentVersions[]")
+            }
+            try self.validate(self.componentVersions, name: "componentVersions", parent: name, max: 20)
+            try self.validate(self.componentVersions, name: "componentVersions", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 64)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 10)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-z0-9-]{10,64}$")
+            try self.validate(self.instanceType, name: "instanceType", parent: name, max: 64)
+            try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
+            try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "^[a-z0-9.-]{1,64}$")
+            try self.validate(self.reservedCpuCores, name: "reservedCpuCores", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentCpuCores = "agentCpuCores"
+            case agentVersion = "agentVersion"
+            case componentVersions = "componentVersions"
+            case instanceId = "instanceId"
+            case instanceType = "instanceType"
+            case reservedCpuCores = "reservedCpuCores"
+        }
+    }
+
+    public struct AggregateStatus: AWSEncodableShape {
+        /// Sparse map of failure signatures.
+        public let signatureMap: [String: Bool]?
+        /// Aggregate status.
+        public let status: AgentStatus
+
+        public init(signatureMap: [String: Bool]? = nil, status: AgentStatus) {
+            self.signatureMap = signatureMap
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signatureMap = "signatureMap"
+            case status = "status"
+        }
+    }
 
     public struct AntennaDemodDecodeDetails: AWSDecodableShape {
         /// Name of an antenna demod decode output node used in a contact.
@@ -388,6 +540,42 @@ extension GroundStation {
         }
     }
 
+    public struct AwsGroundStationAgentEndpoint: AWSEncodableShape & AWSDecodableShape {
+        /// The status of AgentEndpoint.
+        public let agentStatus: AgentStatus?
+        /// The results of the audit.
+        public let auditResults: AuditResults?
+        /// The egress address of AgentEndpoint.
+        public let egressAddress: ConnectionDetails
+        /// The ingress address of AgentEndpoint.
+        public let ingressAddress: RangedConnectionDetails
+        /// Name string associated with AgentEndpoint. Used as a human-readable identifier for AgentEndpoint.
+        public let name: String
+
+        public init(agentStatus: AgentStatus? = nil, auditResults: AuditResults? = nil, egressAddress: ConnectionDetails, ingressAddress: RangedConnectionDetails, name: String) {
+            self.agentStatus = agentStatus
+            self.auditResults = auditResults
+            self.egressAddress = egressAddress
+            self.ingressAddress = ingressAddress
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.ingressAddress.validate(name: "\(name).ingressAddress")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentStatus = "agentStatus"
+            case auditResults = "auditResults"
+            case egressAddress = "egressAddress"
+            case ingressAddress = "ingressAddress"
+            case name = "name"
+        }
+    }
+
     public struct CancelContactRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "contactId", location: .uri("contactId"))
@@ -407,6 +595,78 @@ extension GroundStation {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ComponentStatusData: AWSEncodableShape {
+        /// Bytes received by the component.
+        public let bytesReceived: Int64?
+        /// Bytes sent by the component.
+        public let bytesSent: Int64?
+        /// Capability ARN of the component.
+        public let capabilityArn: String
+        /// The Component type.
+        public let componentType: String
+        /// Dataflow UUID associated with the component.
+        public let dataflowId: String
+        /// Packets dropped by component.
+        public let packetsDropped: Int64?
+        /// Component status.
+        public let status: AgentStatus
+
+        public init(bytesReceived: Int64? = nil, bytesSent: Int64? = nil, capabilityArn: String, componentType: String, dataflowId: String, packetsDropped: Int64? = nil, status: AgentStatus) {
+            self.bytesReceived = bytesReceived
+            self.bytesSent = bytesSent
+            self.capabilityArn = capabilityArn
+            self.componentType = componentType
+            self.dataflowId = dataflowId
+            self.packetsDropped = packetsDropped
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentType, name: "componentType", parent: name, pattern: "^[a-zA-Z0-9_]{1,64}$")
+            try self.validate(self.dataflowId, name: "dataflowId", parent: name, max: 128)
+            try self.validate(self.dataflowId, name: "dataflowId", parent: name, min: 1)
+            try self.validate(self.dataflowId, name: "dataflowId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesReceived = "bytesReceived"
+            case bytesSent = "bytesSent"
+            case capabilityArn = "capabilityArn"
+            case componentType = "componentType"
+            case dataflowId = "dataflowId"
+            case packetsDropped = "packetsDropped"
+            case status = "status"
+        }
+    }
+
+    public struct ComponentVersion: AWSEncodableShape {
+        /// Component type.
+        public let componentType: String
+        /// List of versions.
+        public let versions: [String]
+
+        public init(componentType: String, versions: [String]) {
+            self.componentType = componentType
+            self.versions = versions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentType, name: "componentType", parent: name, pattern: "^[a-zA-Z0-9_]{1,64}$")
+            try self.versions.forEach {
+                try validate($0, name: "versions[]", parent: name, max: 64)
+                try validate($0, name: "versions[]", parent: name, min: 1)
+                try validate($0, name: "versions[]", parent: name, pattern: "^(0|[1-9]\\d*)(\\.(0|[1-9]\\d*))*$")
+            }
+            try self.validate(self.versions, name: "versions", parent: name, max: 20)
+            try self.validate(self.versions, name: "versions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentType = "componentType"
+            case versions = "versions"
+        }
     }
 
     public struct ConfigIdResponse: AWSDecodableShape {
@@ -452,6 +712,23 @@ extension GroundStation {
             case configId = "configId"
             case configType = "configType"
             case name = "name"
+        }
+    }
+
+    public struct ConnectionDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
+        public let mtu: Int?
+        /// A socket address.
+        public let socketAddress: SocketAddress
+
+        public init(mtu: Int? = nil, socketAddress: SocketAddress) {
+            self.mtu = mtu
+            self.socketAddress = socketAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mtu = "mtu"
+            case socketAddress = "socketAddress"
         }
     }
 
@@ -558,9 +835,9 @@ extension GroundStation {
     }
 
     public struct CreateDataflowEndpointGroupRequest: AWSEncodableShape {
-        /// Amount of time, in seconds, after a contact ends for the contact to remain in a POSTPASS state. A CloudWatch event is emitted when the contact enters and exits the POSTPASS state.
+        /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
         public let contactPostPassDurationSeconds: Int?
-        /// Amount of time, in seconds, prior to contact start for the contact to remain in a PREPASS state. A CloudWatch event is emitted when the contact enters and exits the PREPASS state.
+        /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
         public let contactPrePassDurationSeconds: Int?
         /// Endpoint details of each endpoint in the dataflow endpoint group.
         public let endpointDetails: [EndpointDetails]
@@ -657,17 +934,23 @@ extension GroundStation {
         public let minimumViableContactDurationSeconds: Int
         /// Name of a mission profile.
         public let name: String
+        /// KMS key to use for encrypting streams.
+        public let streamsKmsKey: KmsKey?
+        /// Role to use for encrypting streams with KMS key.
+        public let streamsKmsRole: String?
         /// Tags assigned to a mission profile.
         public let tags: [String: String]?
         /// ARN of a tracking Config.
         public let trackingConfigArn: String
 
-        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]], minimumViableContactDurationSeconds: Int, name: String, tags: [String: String]? = nil, trackingConfigArn: String) {
+        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]], minimumViableContactDurationSeconds: Int, name: String, streamsKmsKey: KmsKey? = nil, streamsKmsRole: String? = nil, tags: [String: String]? = nil, trackingConfigArn: String) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
             self.dataflowEdges = dataflowEdges
             self.minimumViableContactDurationSeconds = minimumViableContactDurationSeconds
             self.name = name
+            self.streamsKmsKey = streamsKmsKey
+            self.streamsKmsRole = streamsKmsRole
             self.tags = tags
             self.trackingConfigArn = trackingConfigArn
         }
@@ -687,6 +970,7 @@ extension GroundStation {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
+            try self.streamsKmsKey?.validate(name: "\(name).streamsKmsKey")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -695,6 +979,8 @@ extension GroundStation {
             case dataflowEdges = "dataflowEdges"
             case minimumViableContactDurationSeconds = "minimumViableContactDurationSeconds"
             case name = "name"
+            case streamsKmsKey = "streamsKmsKey"
+            case streamsKmsRole = "streamsKmsRole"
             case tags = "tags"
             case trackingConfigArn = "trackingConfigArn"
         }
@@ -1104,6 +1390,46 @@ extension GroundStation {
         }
     }
 
+    public struct DiscoveryData: AWSEncodableShape {
+        /// List of capabilities to associate with agent.
+        public let capabilityArns: [String]
+        /// List of private IP addresses to associate with agent.
+        public let privateIpAddresses: [String]
+        /// List of public IP addresses to associate with agent.
+        public let publicIpAddresses: [String]
+
+        public init(capabilityArns: [String], privateIpAddresses: [String], publicIpAddresses: [String]) {
+            self.capabilityArns = capabilityArns
+            self.privateIpAddresses = privateIpAddresses
+            self.publicIpAddresses = publicIpAddresses
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.capabilityArns, name: "capabilityArns", parent: name, max: 20)
+            try self.validate(self.capabilityArns, name: "capabilityArns", parent: name, min: 1)
+            try self.privateIpAddresses.forEach {
+                try validate($0, name: "privateIpAddresses[]", parent: name, max: 16)
+                try validate($0, name: "privateIpAddresses[]", parent: name, min: 7)
+                try validate($0, name: "privateIpAddresses[]", parent: name, pattern: "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$")
+            }
+            try self.validate(self.privateIpAddresses, name: "privateIpAddresses", parent: name, max: 20)
+            try self.validate(self.privateIpAddresses, name: "privateIpAddresses", parent: name, min: 1)
+            try self.publicIpAddresses.forEach {
+                try validate($0, name: "publicIpAddresses[]", parent: name, max: 16)
+                try validate($0, name: "publicIpAddresses[]", parent: name, min: 7)
+                try validate($0, name: "publicIpAddresses[]", parent: name, pattern: "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$")
+            }
+            try self.validate(self.publicIpAddresses, name: "publicIpAddresses", parent: name, max: 20)
+            try self.validate(self.publicIpAddresses, name: "publicIpAddresses", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilityArns = "capabilityArns"
+            case privateIpAddresses = "privateIpAddresses"
+            case publicIpAddresses = "publicIpAddresses"
+        }
+    }
+
     public struct Eirp: AWSEncodableShape & AWSDecodableShape {
         /// Units of an EIRP.
         public let units: EirpUnits
@@ -1139,22 +1465,36 @@ extension GroundStation {
     }
 
     public struct EndpointDetails: AWSEncodableShape & AWSDecodableShape {
+        /// An agent endpoint.
+        public let awsGroundStationAgentEndpoint: AwsGroundStationAgentEndpoint?
         /// A dataflow endpoint.
         public let endpoint: DataflowEndpoint?
+        /// Health reasons for a dataflow endpoint. This field is ignored when calling CreateDataflowEndpointGroup.
+        public let healthReasons: [CapabilityHealthReason]?
+        /// A dataflow endpoint health status. This field is ignored when calling CreateDataflowEndpointGroup.
+        public let healthStatus: CapabilityHealth?
         /// Endpoint security details including a list of subnets, a list of security groups and a role to connect streams to instances.
         public let securityDetails: SecurityDetails?
 
-        public init(endpoint: DataflowEndpoint? = nil, securityDetails: SecurityDetails? = nil) {
+        public init(awsGroundStationAgentEndpoint: AwsGroundStationAgentEndpoint? = nil, endpoint: DataflowEndpoint? = nil, healthReasons: [CapabilityHealthReason]? = nil, healthStatus: CapabilityHealth? = nil, securityDetails: SecurityDetails? = nil) {
+            self.awsGroundStationAgentEndpoint = awsGroundStationAgentEndpoint
             self.endpoint = endpoint
+            self.healthReasons = healthReasons
+            self.healthStatus = healthStatus
             self.securityDetails = securityDetails
         }
 
         public func validate(name: String) throws {
+            try self.awsGroundStationAgentEndpoint?.validate(name: "\(name).awsGroundStationAgentEndpoint")
             try self.endpoint?.validate(name: "\(name).endpoint")
+            try self.validate(self.healthReasons, name: "healthReasons", parent: name, max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case awsGroundStationAgentEndpoint = "awsGroundStationAgentEndpoint"
             case endpoint = "endpoint"
+            case healthReasons = "healthReasons"
+            case healthStatus = "healthStatus"
             case securityDetails = "securityDetails"
         }
     }
@@ -1285,6 +1625,44 @@ extension GroundStation {
         }
     }
 
+    public struct GetAgentConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "agentId", location: .uri("agentId"))
+        ]
+
+        /// UUID of agent to get configuration information for.
+        public let agentId: String
+
+        public init(agentId: String) {
+            self.agentId = agentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentId, name: "agentId", parent: name, max: 128)
+            try self.validate(self.agentId, name: "agentId", parent: name, min: 1)
+            try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAgentConfigurationResponse: AWSDecodableShape {
+        /// UUID of agent.
+        public let agentId: String?
+        /// Tasking document for agent.
+        public let taskingDocument: String?
+
+        public init(agentId: String? = nil, taskingDocument: String? = nil) {
+            self.agentId = agentId
+            self.taskingDocument = taskingDocument
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "agentId"
+            case taskingDocument = "taskingDocument"
+        }
+    }
+
     public struct GetConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configId", location: .uri("configId")),
@@ -1365,9 +1743,9 @@ extension GroundStation {
     }
 
     public struct GetDataflowEndpointGroupResponse: AWSDecodableShape {
-        /// Amount of time, in seconds, after a contact ends for the contact to remain in a POSTPASS state. A CloudWatch event is emitted when the contact enters and exits the POSTPASS state.
+        /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
         public let contactPostPassDurationSeconds: Int?
-        /// Amount of time, in seconds, prior to contact start for the contact to remain in a PREPASS state. A CloudWatch event is emitted when the contact enters and exits the PREPASS state.
+        /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
         public let contactPrePassDurationSeconds: Int?
         /// ARN of a dataflow endpoint group.
         public let dataflowEndpointGroupArn: String?
@@ -1488,12 +1866,16 @@ extension GroundStation {
         public let name: String?
         /// Region of a mission profile.
         public let region: String?
+        /// KMS key to use for encrypting streams.
+        public let streamsKmsKey: KmsKey?
+        /// Role to use for encrypting streams with KMS key.
+        public let streamsKmsRole: String?
         /// Tags assigned to a mission profile.
         public let tags: [String: String]?
         /// ARN of a tracking Config.
         public let trackingConfigArn: String?
 
-        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int? = nil, missionProfileArn: String? = nil, missionProfileId: String? = nil, name: String? = nil, region: String? = nil, tags: [String: String]? = nil, trackingConfigArn: String? = nil) {
+        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int? = nil, missionProfileArn: String? = nil, missionProfileId: String? = nil, name: String? = nil, region: String? = nil, streamsKmsKey: KmsKey? = nil, streamsKmsRole: String? = nil, tags: [String: String]? = nil, trackingConfigArn: String? = nil) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
             self.dataflowEdges = dataflowEdges
@@ -1502,6 +1884,8 @@ extension GroundStation {
             self.missionProfileId = missionProfileId
             self.name = name
             self.region = region
+            self.streamsKmsKey = streamsKmsKey
+            self.streamsKmsRole = streamsKmsRole
             self.tags = tags
             self.trackingConfigArn = trackingConfigArn
         }
@@ -1515,6 +1899,8 @@ extension GroundStation {
             case missionProfileId = "missionProfileId"
             case name = "name"
             case region = "region"
+            case streamsKmsKey = "streamsKmsKey"
+            case streamsKmsRole = "streamsKmsRole"
             case tags = "tags"
             case trackingConfigArn = "trackingConfigArn"
         }
@@ -1588,6 +1974,23 @@ extension GroundStation {
             case groundStationId = "groundStationId"
             case groundStationName = "groundStationName"
             case region = "region"
+        }
+    }
+
+    public struct IntegerRange: AWSEncodableShape & AWSDecodableShape {
+        /// A maximum value.
+        public let maximum: Int
+        /// A minimum value.
+        public let minimum: Int
+
+        public init(maximum: Int, minimum: Int) {
+            self.maximum = maximum
+            self.minimum = minimum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximum = "maximum"
+            case minimum = "minimum"
         }
     }
 
@@ -2048,6 +2451,85 @@ extension GroundStation {
         }
     }
 
+    public struct RangedConnectionDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
+        public let mtu: Int?
+        /// A ranged socket address.
+        public let socketAddress: RangedSocketAddress
+
+        public init(mtu: Int? = nil, socketAddress: RangedSocketAddress) {
+            self.mtu = mtu
+            self.socketAddress = socketAddress
+        }
+
+        public func validate(name: String) throws {
+            try self.socketAddress.validate(name: "\(name).socketAddress")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mtu = "mtu"
+            case socketAddress = "socketAddress"
+        }
+    }
+
+    public struct RangedSocketAddress: AWSEncodableShape & AWSDecodableShape {
+        /// IPv4 socket address.
+        public let name: String
+        /// Port range of a socket address.
+        public let portRange: IntegerRange
+
+        public init(name: String, portRange: IntegerRange) {
+            self.name = name
+            self.portRange = portRange
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 16)
+            try self.validate(self.name, name: "name", parent: name, min: 7)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case portRange = "portRange"
+        }
+    }
+
+    public struct RegisterAgentRequest: AWSEncodableShape {
+        /// Detailed information about the agent being registered.
+        public let agentDetails: AgentDetails
+        /// Data for associating an agent with the capabilities it is managing.
+        public let discoveryData: DiscoveryData
+
+        public init(agentDetails: AgentDetails, discoveryData: DiscoveryData) {
+            self.agentDetails = agentDetails
+            self.discoveryData = discoveryData
+        }
+
+        public func validate(name: String) throws {
+            try self.agentDetails.validate(name: "\(name).agentDetails")
+            try self.discoveryData.validate(name: "\(name).discoveryData")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentDetails = "agentDetails"
+            case discoveryData = "discoveryData"
+        }
+    }
+
+    public struct RegisterAgentResponse: AWSDecodableShape {
+        /// UUID of registered agent.
+        public let agentId: String?
+
+        public init(agentId: String? = nil) {
+            self.agentId = agentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "agentId"
+        }
+    }
+
     public struct ReserveContactRequest: AWSEncodableShape {
         /// End time of a contact in UTC.
         public let endTime: Date
@@ -2427,6 +2909,60 @@ extension GroundStation {
         public init() {}
     }
 
+    public struct UpdateAgentStatusRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "agentId", location: .uri("agentId"))
+        ]
+
+        /// UUID of agent to update.
+        public let agentId: String
+        /// Aggregate status for agent.
+        public let aggregateStatus: AggregateStatus
+        /// List of component statuses for agent.
+        public let componentStatuses: [ComponentStatusData]
+        /// GUID of agent task.
+        public let taskId: String
+
+        public init(agentId: String, aggregateStatus: AggregateStatus, componentStatuses: [ComponentStatusData], taskId: String) {
+            self.agentId = agentId
+            self.aggregateStatus = aggregateStatus
+            self.componentStatuses = componentStatuses
+            self.taskId = taskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentId, name: "agentId", parent: name, max: 128)
+            try self.validate(self.agentId, name: "agentId", parent: name, min: 1)
+            try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.componentStatuses.forEach {
+                try $0.validate(name: "\(name).componentStatuses[]")
+            }
+            try self.validate(self.componentStatuses, name: "componentStatuses", parent: name, max: 20)
+            try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
+            try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregateStatus = "aggregateStatus"
+            case componentStatuses = "componentStatuses"
+            case taskId = "taskId"
+        }
+    }
+
+    public struct UpdateAgentStatusResponse: AWSDecodableShape {
+        /// UUID of updated agent.
+        public let agentId: String
+
+        public init(agentId: String) {
+            self.agentId = agentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "agentId"
+        }
+    }
+
     public struct UpdateConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "configId", location: .uri("configId")),
@@ -2521,16 +3057,22 @@ extension GroundStation {
         public let missionProfileId: String
         /// Name of a mission profile.
         public let name: String?
+        /// KMS key to use for encrypting streams.
+        public let streamsKmsKey: KmsKey?
+        /// Role to use for encrypting streams with KMS key.
+        public let streamsKmsRole: String?
         /// ARN of a tracking Config.
         public let trackingConfigArn: String?
 
-        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int? = nil, missionProfileId: String, name: String? = nil, trackingConfigArn: String? = nil) {
+        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int? = nil, missionProfileId: String, name: String? = nil, streamsKmsKey: KmsKey? = nil, streamsKmsRole: String? = nil, trackingConfigArn: String? = nil) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
             self.dataflowEdges = dataflowEdges
             self.minimumViableContactDurationSeconds = minimumViableContactDurationSeconds
             self.missionProfileId = missionProfileId
             self.name = name
+            self.streamsKmsKey = streamsKmsKey
+            self.streamsKmsRole = streamsKmsRole
             self.trackingConfigArn = trackingConfigArn
         }
 
@@ -2552,6 +3094,7 @@ extension GroundStation {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
+            try self.streamsKmsKey?.validate(name: "\(name).streamsKmsKey")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2560,6 +3103,8 @@ extension GroundStation {
             case dataflowEdges = "dataflowEdges"
             case minimumViableContactDurationSeconds = "minimumViableContactDurationSeconds"
             case name = "name"
+            case streamsKmsKey = "streamsKmsKey"
+            case streamsKmsRole = "streamsKmsRole"
             case trackingConfigArn = "trackingConfigArn"
         }
     }

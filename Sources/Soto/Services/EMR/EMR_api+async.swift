@@ -121,7 +121,7 @@ extension EMR {
         return try await self.client.execute(operation: "GetBlockPublicAccessConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides Temporary, basic HTTP credentials that are associated with a given runtime IAM role  and used by a cluster with fine-grained access control activated. You can use these credentials to connect to cluster endpoints that support username-based and password-based authentication.
+    /// Provides temporary, HTTP basic credentials that are associated with a given runtime IAM role  and used by a cluster with fine-grained access control activated. You can use these credentials to connect to cluster endpoints that support username and password authentication.
     public func getClusterSessionCredentials(_ input: GetClusterSessionCredentialsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetClusterSessionCredentialsOutput {
         return try await self.client.execute(operation: "GetClusterSessionCredentials", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

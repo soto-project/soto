@@ -174,7 +174,7 @@ extension DAX {
         /// A set of tags to associate with the DAX cluster.
         public let tags: [Tag]?
 
-        public init(availabilityZones: [String]? = nil, clusterEndpointEncryptionType: ClusterEndpointEncryptionType? = nil, clusterName: String, description: String? = nil, iamRoleArn: String, nodeType: String, notificationTopicArn: String? = nil, parameterGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, replicationFactor: Int, securityGroupIds: [String]? = nil, sseSpecification: SSESpecification? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil) {
+        public init(availabilityZones: [String]? = nil, clusterEndpointEncryptionType: ClusterEndpointEncryptionType? = nil, clusterName: String, description: String? = nil, iamRoleArn: String, nodeType: String, notificationTopicArn: String? = nil, parameterGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, replicationFactor: Int = 0, securityGroupIds: [String]? = nil, sseSpecification: SSESpecification? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterEndpointEncryptionType = clusterEndpointEncryptionType
             self.clusterName = clusterName
@@ -296,7 +296,7 @@ extension DAX {
         /// The unique identifiers of the nodes to be removed from the cluster.
         public let nodeIdsToRemove: [String]?
 
-        public init(availabilityZones: [String]? = nil, clusterName: String, newReplicationFactor: Int, nodeIdsToRemove: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, clusterName: String, newReplicationFactor: Int = 0, nodeIdsToRemove: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterName = clusterName
             self.newReplicationFactor = newReplicationFactor
@@ -700,7 +700,7 @@ extension DAX {
         /// The new number of nodes for the DAX cluster.
         public let newReplicationFactor: Int
 
-        public init(availabilityZones: [String]? = nil, clusterName: String, newReplicationFactor: Int) {
+        public init(availabilityZones: [String]? = nil, clusterName: String, newReplicationFactor: Int = 0) {
             self.availabilityZones = availabilityZones
             self.clusterName = clusterName
             self.newReplicationFactor = newReplicationFactor

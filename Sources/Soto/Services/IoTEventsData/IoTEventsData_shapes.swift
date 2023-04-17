@@ -1373,7 +1373,7 @@ extension IoTEventsData {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.timeInMillis, name: "timeInMillis", parent: name, max: 9223372036854775807)
+            try self.validate(self.timeInMillis, name: "timeInMillis", parent: name, max: -9223372036854775808)
             try self.validate(self.timeInMillis, name: "timeInMillis", parent: name, min: 1)
         }
 

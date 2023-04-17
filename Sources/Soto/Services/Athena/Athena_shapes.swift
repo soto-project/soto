@@ -131,7 +131,7 @@ extension Athena {
     }
 
     public struct ApplicationDPUSizes: AWSDecodableShape {
-        /// The name of the supported application runtime (for example, Jupyter 1.0).
+        /// The name of the supported application runtime (for example, Athena notebook version 1).
         public let applicationRuntimeId: String?
         /// A list of the supported DPU sizes that the application runtime supports.
         public let supportedDPUSizes: [Int]?
@@ -704,7 +704,7 @@ extension Athena {
     }
 
     public struct CreateWorkGroupInput: AWSEncodableShape {
-        /// Contains configuration information for creating an Athena SQL workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
+        /// Contains configuration information for creating an Athena SQL workgroup or Spark enabled Athena workgroup. Athena SQL workgroup configuration includes the location in Amazon S3 where query and calculation results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let configuration: WorkGroupConfiguration?
         /// The workgroup description.
         public let description: String?
@@ -934,7 +934,7 @@ extension Athena {
     }
 
     public struct DeleteWorkGroupInput: AWSEncodableShape {
-        /// The option to delete the workgroup and its contents even if the workgroup contains any named queries or query executions.
+        /// The option to delete the workgroup and its contents even if the workgroup contains any named queries, query executions, or notebooks.
         public let recursiveDeleteOption: Bool?
         /// The unique name of the workgroup to delete.
         public let workGroup: String
@@ -976,7 +976,7 @@ extension Athena {
     }
 
     public struct EngineConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Contains additional notebook engine MAP parameter mappings in the form of key-value pairs. To specify an Amazon S3 URI that the Jupyter server will download and serve, specify a value for the StartSessionRequest$NotebookVersion field, and then add a key named NotebookFileURI to AdditionalConfigs that has value of the Amazon S3 URI.
+        /// Contains additional notebook engine MAP parameter mappings in the form of key-value pairs. To specify an Athena notebook that the Jupyter server will download and serve, specify a value for the StartSessionRequest$NotebookVersion field, and then add a key named NotebookId to AdditionalConfigs that has the value of the Athena notebook ID.
         public let additionalConfigs: [String: String]?
         /// The number of DPUs to use for the coordinator. A coordinator is a special executor that orchestrates processing work and manages other executors in a notebook session.
         public let coordinatorDpuSize: Int?
@@ -999,9 +999,9 @@ extension Athena {
                 try validate($0.key, name: "additionalConfigs.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
                 try validate($0.value, name: "additionalConfigs[\"\($0.key)\"]", parent: name, max: 51200)
             }
-            try self.validate(self.coordinatorDpuSize, name: "coordinatorDpuSize", parent: name, max: 5000)
+            try self.validate(self.coordinatorDpuSize, name: "coordinatorDpuSize", parent: name, max: 1)
             try self.validate(self.coordinatorDpuSize, name: "coordinatorDpuSize", parent: name, min: 1)
-            try self.validate(self.defaultExecutorDpuSize, name: "defaultExecutorDpuSize", parent: name, max: 5000)
+            try self.validate(self.defaultExecutorDpuSize, name: "defaultExecutorDpuSize", parent: name, max: 1)
             try self.validate(self.defaultExecutorDpuSize, name: "defaultExecutorDpuSize", parent: name, min: 1)
             try self.validate(self.maxConcurrentDpus, name: "maxConcurrentDpus", parent: name, max: 5000)
             try self.validate(self.maxConcurrentDpus, name: "maxConcurrentDpus", parent: name, min: 2)
@@ -1018,7 +1018,7 @@ extension Athena {
     public struct EngineVersion: AWSEncodableShape & AWSDecodableShape {
         /// Read only. The engine version on which the query runs. If the user requests a valid engine version other than Auto, the effective engine version is the same as the engine version that the user requested. If the user requests Auto, the effective engine version is chosen by Athena. When a request to update the engine version is made by a CreateWorkGroup or UpdateWorkGroup operation, the EffectiveEngineVersion field is ignored.
         public let effectiveEngineVersion: String?
-        /// The engine version requested by the user. Possible values are determined by the output of ListEngineVersions, including Auto. The default is Auto.
+        /// The engine version requested by the user. Possible values are determined by the output of ListEngineVersions, including AUTO. The default is AUTO.
         public let selectedEngineVersion: String?
 
         public init(effectiveEngineVersion: String? = nil, selectedEngineVersion: String? = nil) {
@@ -1146,7 +1146,7 @@ extension Athena {
     }
 
     public struct GetCalculationExecutionCodeResponse: AWSDecodableShape {
-        /// A pre-signed URL to the code that executed the calculation.
+        /// The unencrypted code that was executed for the calculation.
         public let codeBlock: String?
 
         public init(codeBlock: String? = nil) {
@@ -1749,7 +1749,7 @@ extension Athena {
     }
 
     public struct ImportNotebookOutput: AWSDecodableShape {
-        /// The ID of the notebook to import.
+        /// The ID assigned to the imported notebook.
         public let notebookId: String?
 
         public init(notebookId: String? = nil) {
@@ -2608,7 +2608,7 @@ extension Athena {
         public let queryExecutionContext: QueryExecutionContext?
         /// The unique identifier for each query execution.
         public let queryExecutionId: String?
-        /// The location in Amazon S3 where query results were stored and the encryption option, if any, used for query results. These are known as "client-side settings". If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup.
+        /// The location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query results. These are known as "client-side settings". If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup.
         public let resultConfiguration: ResultConfiguration?
         /// Specifies the query result reuse behavior that was used for the query.
         public let resultReuseConfiguration: ResultReuseConfiguration?
@@ -2618,10 +2618,12 @@ extension Athena {
         public let statistics: QueryExecutionStatistics?
         /// The completion date, current state, submission time, and state change reason (if applicable) for the query execution.
         public let status: QueryExecutionStatus?
+        /// The kind of query statement that was run.
+        public let substatementType: String?
         /// The name of the workgroup in which the query ran.
         public let workGroup: String?
 
-        public init(engineVersion: EngineVersion? = nil, executionParameters: [String]? = nil, query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, resultConfiguration: ResultConfiguration? = nil, resultReuseConfiguration: ResultReuseConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil, workGroup: String? = nil) {
+        public init(engineVersion: EngineVersion? = nil, executionParameters: [String]? = nil, query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, resultConfiguration: ResultConfiguration? = nil, resultReuseConfiguration: ResultReuseConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil, substatementType: String? = nil, workGroup: String? = nil) {
             self.engineVersion = engineVersion
             self.executionParameters = executionParameters
             self.query = query
@@ -2632,6 +2634,7 @@ extension Athena {
             self.statementType = statementType
             self.statistics = statistics
             self.status = status
+            self.substatementType = substatementType
             self.workGroup = workGroup
         }
 
@@ -2646,6 +2649,7 @@ extension Athena {
             case statementType = "StatementType"
             case statistics = "Statistics"
             case status = "Status"
+            case substatementType = "SubstatementType"
             case workGroup = "WorkGroup"
         }
     }
@@ -2891,11 +2895,11 @@ extension Athena {
     public struct ResultConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Indicates that an Amazon S3 canned ACL should be set to control ownership of stored query results. Currently the only supported canned ACL is BUCKET_OWNER_FULL_CONTROL. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the ACL configuration that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. For more information, see WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
         public let aclConfiguration: AclConfiguration?
-        /// If query results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the encryption configuration that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
+        /// If query and calculation results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the encryption configuration that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The Amazon Web Services account ID that you expect to be the owner of the Amazon S3 bucket specified by ResultConfiguration$OutputLocation. If set, Athena uses the value for ExpectedBucketOwner when it makes Amazon S3 calls to your specified output location. If the ExpectedBucketOwner Amazon Web Services account ID does not match the actual owner of the Amazon S3 bucket, the call fails with a permissions error. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the ExpectedBucketOwner setting that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
         public let expectedBucketOwner: String?
-        /// The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/. To run the query, you must specify the query results location using one of the ways: either for individual queries using either this setting (client-side), or in the workgroup, using WorkGroupConfiguration. If none of them is set, Athena issues an error that no output location is provided. For more information, see Query Results. If workgroup settings override client-side settings, then the query uses the settings specified for the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
+        /// The location in Amazon S3 where your query and calculation results are stored, such as s3://path/to/query/bucket/. To run the query, you must specify the query results location using one of the ways: either for individual queries using either this setting (client-side), or in the workgroup, using WorkGroupConfiguration. If none of them is set, Athena issues an error that no output location is provided. For more information, see Working with query results, recent queries, and output files. If workgroup settings override client-side settings, then the query uses the settings specified for the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let outputLocation: String?
 
         public init(aclConfiguration: AclConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, expectedBucketOwner: String? = nil, outputLocation: String? = nil) {
@@ -2922,11 +2926,11 @@ extension Athena {
     public struct ResultConfigurationUpdates: AWSEncodableShape {
         /// The ACL configuration for the query results.
         public let aclConfiguration: AclConfiguration?
-        /// The encryption configuration for the query results.
+        /// The encryption configuration for query and calculation results.
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The Amazon Web Services account ID that you expect to be the owner of the Amazon S3 bucket specified by ResultConfiguration$OutputLocation. If set, Athena uses the value for ExpectedBucketOwner when it makes Amazon S3 calls to your specified output location. If the ExpectedBucketOwner Amazon Web Services account ID does not match the actual owner of the Amazon S3 bucket, the call fails with a permissions error. If workgroup settings override client-side settings, then the query uses the ExpectedBucketOwner setting that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
         public let expectedBucketOwner: String?
-        /// The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/. For more information, see Query Results If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup. The "workgroup settings override" is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
+        /// The location in Amazon S3 where your query and calculation results are stored, such as s3://path/to/query/bucket/. For more information, see Working with query results, recent queries, and output files. If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup. The "workgroup settings override" is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let outputLocation: String?
         /// If set to true, indicates that the previously-specified ACL configuration for queries in this workgroup should be ignored and set to null. If set to false or not set, and a value is present in the AclConfiguration of ResultConfigurationUpdates, the AclConfiguration in the workgroup's ResultConfiguration is updated with the new value. For more information, see Workgroup Settings Override Client-Side Settings.
         public let removeAclConfiguration: Bool?
@@ -3299,7 +3303,7 @@ extension Athena {
         public let description: String?
         /// Contains engine data processing unit (DPU) configuration settings and parameter mappings.
         public let engineConfiguration: EngineConfiguration
-        /// The notebook version. This value is required only when requesting that a notebook server be started for the session. The only valid notebook version is Jupyter1.0.
+        /// The notebook version. This value is supplied automatically for notebook sessions in the Athena console and is not required for programmatic session access. The only valid notebook version is Athena notebook version 1. If you specify a value for NotebookVersion, you must also specify a value for NotebookId. See EngineConfiguration$AdditionalConfigs.
         public let notebookVersion: String?
         /// The idle timeout in minutes for the session.
         public let sessionIdleTimeoutInMinutes: Int?
@@ -3712,7 +3716,7 @@ extension Athena {
         public let notebookId: String
         /// The updated content for the notebook.
         public let payload: String
-        /// The ID of the session in which the notebook will be updated.
+        /// The active notebook session ID. Required if the notebook has an active session.
         public let sessionId: String?
         /// The notebook content type. Currently, the only valid type is IPYNB.
         public let type: NotebookType
@@ -3864,7 +3868,7 @@ extension Athena {
     }
 
     public struct WorkGroup: AWSDecodableShape {
-        /// The configuration of the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for query results; whether the Amazon CloudWatch Metrics are enabled for the workgroup; whether workgroup settings override client-side settings; and the data usage limits for the amount of data scanned per query or per workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
+        /// The configuration of the workgroup, which includes the location in Amazon S3 where query and calculation results are stored, the encryption configuration, if any, used for query and calculation results; whether the Amazon CloudWatch Metrics are enabled for the workgroup; whether workgroup settings override client-side settings; and the data usage limits for the amount of data scanned per query or per workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let configuration: WorkGroupConfiguration?
         /// The date and time the workgroup was created.
         public let creationTime: Date?
@@ -3899,23 +3903,26 @@ extension Athena {
         public let bytesScannedCutoffPerQuery: Int64?
         /// Specifies the KMS key that is used to encrypt the user's data stores in Athena.
         public let customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration?
+        /// Enforces a minimal level of encryption for the workgroup for query and calculation results that are written to Amazon S3. When enabled, workgroup users can set encryption only to the minimum level set by the administrator or higher when they submit queries. The EnforceWorkGroupConfiguration setting takes precedence over the EnableMinimumEncryptionConfiguration flag. This means that if EnforceWorkGroupConfiguration is true, the EnableMinimumEncryptionConfiguration flag is ignored, and the workgroup configuration for encryption is used.
+        public let enableMinimumEncryptionConfiguration: Bool?
         /// If set to "true", the settings for the workgroup override client-side settings. If set to "false", client-side settings are used. For more information, see Workgroup Settings Override Client-Side Settings.
         public let enforceWorkGroupConfiguration: Bool?
         /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public let engineVersion: EngineVersion?
-        /// Role used in a notebook session for accessing the user's resources.
+        /// Role used in a session for accessing the user's resources.
         public let executionRole: String?
         /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
         public let publishCloudWatchMetricsEnabled: Bool?
         /// If set to true, allows members assigned to a workgroup to reference Amazon S3 Requester Pays buckets in queries. If set to false, workgroup members cannot query data from Requester Pays buckets, and queries that retrieve data from Requester Pays buckets cause an error. The default is false. For more information about Requester Pays buckets, see Requester Pays Buckets in the Amazon Simple Storage Service Developer Guide.
         public let requesterPaysEnabled: Bool?
-        /// The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored and the encryption option, if any, used for query results. To run the query, you must specify the query results location using one of the ways: either in the workgroup using this setting, or for individual queries (client-side), using ResultConfiguration$OutputLocation. If none of them is set, Athena issues an error that no output location is provided. For more information, see Query Results.
+        /// The configuration for the workgroup, which includes the location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query and calculation results. To run the query, you must specify the query results location using one of the ways: either in the workgroup using this setting, or for individual queries (client-side), using ResultConfiguration$OutputLocation. If none of them is set, Athena issues an error that no output location is provided. For more information, see Working with query results, recent queries, and output files.
         public let resultConfiguration: ResultConfiguration?
 
-        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil) {
+        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enableMinimumEncryptionConfiguration: Bool? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
+            self.enableMinimumEncryptionConfiguration = enableMinimumEncryptionConfiguration
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
             self.engineVersion = engineVersion
             self.executionRole = executionRole
@@ -3940,6 +3947,7 @@ extension Athena {
             case additionalConfiguration = "AdditionalConfiguration"
             case bytesScannedCutoffPerQuery = "BytesScannedCutoffPerQuery"
             case customerContentEncryptionConfiguration = "CustomerContentEncryptionConfiguration"
+            case enableMinimumEncryptionConfiguration = "EnableMinimumEncryptionConfiguration"
             case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
             case engineVersion = "EngineVersion"
             case executionRole = "ExecutionRole"
@@ -3955,6 +3963,8 @@ extension Athena {
         /// The upper limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
         public let bytesScannedCutoffPerQuery: Int64?
         public let customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration?
+        /// Enforces a minimal level of encryption for the workgroup for query and calculation results that are written to Amazon S3. When enabled, workgroup users can set encryption only to the minimum level set by the administrator or higher when they submit queries. This setting does not apply to Spark-enabled workgroups. The EnforceWorkGroupConfiguration setting takes precedence over the EnableMinimumEncryptionConfiguration flag. This means that if EnforceWorkGroupConfiguration is true, the EnableMinimumEncryptionConfiguration flag is ignored, and the workgroup configuration for encryption is used.
+        public let enableMinimumEncryptionConfiguration: Bool?
         /// If set to "true", the settings for the workgroup override client-side settings. If set to "false" client-side settings are used. For more information, see Workgroup Settings Override Client-Side Settings.
         public let enforceWorkGroupConfiguration: Bool?
         /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
@@ -3972,10 +3982,11 @@ extension Athena {
         /// The result configuration information about the queries in this workgroup that will be updated. Includes the updated results location and an updated option for encrypting query results.
         public let resultConfigurationUpdates: ResultConfigurationUpdates?
 
-        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, removeBytesScannedCutoffPerQuery: Bool? = nil, removeCustomerContentEncryptionConfiguration: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfigurationUpdates: ResultConfigurationUpdates? = nil) {
+        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enableMinimumEncryptionConfiguration: Bool? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, removeBytesScannedCutoffPerQuery: Bool? = nil, removeCustomerContentEncryptionConfiguration: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfigurationUpdates: ResultConfigurationUpdates? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
+            self.enableMinimumEncryptionConfiguration = enableMinimumEncryptionConfiguration
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
             self.engineVersion = engineVersion
             self.executionRole = executionRole
@@ -4002,6 +4013,7 @@ extension Athena {
             case additionalConfiguration = "AdditionalConfiguration"
             case bytesScannedCutoffPerQuery = "BytesScannedCutoffPerQuery"
             case customerContentEncryptionConfiguration = "CustomerContentEncryptionConfiguration"
+            case enableMinimumEncryptionConfiguration = "EnableMinimumEncryptionConfiguration"
             case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
             case engineVersion = "EngineVersion"
             case executionRole = "ExecutionRole"

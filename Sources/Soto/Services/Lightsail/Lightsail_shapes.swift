@@ -43,6 +43,7 @@ extension Lightsail {
 
     public enum AddOnType: String, CustomStringConvertible, Codable, Sendable {
         case autoSnapshot = "AutoSnapshot"
+        case stopInstanceOnIdle = "StopInstanceOnIdle"
         public var description: String { return self.rawValue }
     }
 
@@ -50,6 +51,19 @@ extension Lightsail {
         case alarm = "ALARM"
         case insufficientData = "INSUFFICIENT_DATA"
         case ok = "OK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppCategory: String, CustomStringConvertible, Codable, Sendable {
+        case lfR = "LfR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoMountStatus: String, CustomStringConvertible, Codable, Sendable {
+        case failed = "Failed"
+        case mounted = "Mounted"
+        case notMounted = "NotMounted"
+        case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
@@ -189,6 +203,11 @@ extension Lightsail {
         case provisioningCertificate = "PROVISIONING_CERTIFICATE"
         case provisioningService = "PROVISIONING_SERVICE"
         case unknownError = "UNKNOWN_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Currency: String, CustomStringConvertible, Codable, Sendable {
+        case usd = "USD"
         public var description: String { return self.rawValue }
     }
 
@@ -602,8 +621,10 @@ extension Lightsail {
         case sendContactMethodVerification = "SendContactMethodVerification"
         case setIpAddressType = "SetIpAddressType"
         case setResourceAccessForBucket = "SetResourceAccessForBucket"
+        case startGUISession = "StartGUISession"
         case startInstance = "StartInstance"
         case startRelationalDatabase = "StartRelationalDatabase"
+        case stopGUISession = "StopGUISession"
         case stopInstance = "StopInstance"
         case stopRelationalDatabase = "StopRelationalDatabase"
         case testAlarm = "TestAlarm"
@@ -643,6 +664,15 @@ extension Lightsail {
     public enum PortState: String, CustomStringConvertible, Codable, Sendable {
         case closed = "closed"
         case open = "open"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PricingUnit: String, CustomStringConvertible, Codable, Sendable {
+        case bundles = "Bundles"
+        case gb = "GB"
+        case gbMo = "GB-Mo"
+        case hrs = "Hrs"
+        case queries = "Queries"
         public var description: String { return self.rawValue }
     }
 
@@ -737,6 +767,20 @@ extension Lightsail {
         case relationalDatabase = "RelationalDatabase"
         case relationalDatabaseSnapshot = "RelationalDatabaseSnapshot"
         case staticIp = "StaticIp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+        case failedInstanceCreation = "failedInstanceCreation"
+        case failedStartingGUISession = "failedStartingGUISession"
+        case failedStoppingGUISession = "failedStoppingGUISession"
+        case notStarted = "notStarted"
+        case settingUpInstance = "settingUpInstance"
+        case startExpired = "startExpired"
+        case started = "started"
+        case starting = "starting"
+        case stopped = "stopped"
+        case stopping = "stopping"
         public var description: String { return self.rawValue }
     }
 
@@ -849,6 +893,8 @@ extension Lightsail {
     }
 
     public struct AddOn: AWSDecodableShape {
+        /// The amount of idle time in minutes after which your virtual computer will automatically stop.  This add-on only applies to Lightsail for Research resources.
+        public let duration: String?
         /// The name of the add-on.
         public let name: String?
         /// The next daily time an automatic snapshot will be created. The time shown is in HH:00 format, and in Coordinated Universal Time (UTC). The snapshot is automatically created between the time shown and up to 45 minutes after.
@@ -857,19 +903,25 @@ extension Lightsail {
         public let snapshotTimeOfDay: String?
         /// The status of the add-on.
         public let status: String?
+        /// The trigger threshold of the action.  This add-on only applies to Lightsail for Research resources.
+        public let threshold: String?
 
-        public init(name: String? = nil, nextSnapshotTimeOfDay: String? = nil, snapshotTimeOfDay: String? = nil, status: String? = nil) {
+        public init(duration: String? = nil, name: String? = nil, nextSnapshotTimeOfDay: String? = nil, snapshotTimeOfDay: String? = nil, status: String? = nil, threshold: String? = nil) {
+            self.duration = duration
             self.name = name
             self.nextSnapshotTimeOfDay = nextSnapshotTimeOfDay
             self.snapshotTimeOfDay = snapshotTimeOfDay
             self.status = status
+            self.threshold = threshold
         }
 
         private enum CodingKeys: String, CodingKey {
+            case duration = "duration"
             case name = "name"
             case nextSnapshotTimeOfDay = "nextSnapshotTimeOfDay"
             case snapshotTimeOfDay = "snapshotTimeOfDay"
             case status = "status"
+            case threshold = "threshold"
         }
     }
 
@@ -878,10 +930,13 @@ extension Lightsail {
         public let addOnType: AddOnType
         /// An object that represents additional parameters when enabling or modifying the automatic snapshot add-on.
         public let autoSnapshotAddOnRequest: AutoSnapshotAddOnRequest?
+        /// An object that represents additional parameters when enabling or modifying the StopInstanceOnIdle add-on.  This object only applies to Lightsail for Research resources.
+        public let stopInstanceOnIdleRequest: StopInstanceOnIdleRequest?
 
-        public init(addOnType: AddOnType, autoSnapshotAddOnRequest: AutoSnapshotAddOnRequest? = nil) {
+        public init(addOnType: AddOnType, autoSnapshotAddOnRequest: AutoSnapshotAddOnRequest? = nil, stopInstanceOnIdleRequest: StopInstanceOnIdleRequest? = nil) {
             self.addOnType = addOnType
             self.autoSnapshotAddOnRequest = autoSnapshotAddOnRequest
+            self.stopInstanceOnIdleRequest = stopInstanceOnIdleRequest
         }
 
         public func validate(name: String) throws {
@@ -891,6 +946,7 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case addOnType = "addOnType"
             case autoSnapshotAddOnRequest = "autoSnapshotAddOnRequest"
+            case stopInstanceOnIdleRequest = "stopInstanceOnIdleRequest"
         }
     }
 
@@ -1049,6 +1105,8 @@ extension Lightsail {
     }
 
     public struct AttachDiskRequest: AWSEncodableShape {
+        /// A Boolean value used to determine the automatic mounting of a storage volume to a virtual computer. The default value is False.  This value only applies to Lightsail for Research resources.
+        public let autoMounting: Bool?
         /// The unique Lightsail disk name (e.g., my-disk).
         public let diskName: String
         /// The disk path to expose to the instance (e.g., /dev/xvdf).
@@ -1056,7 +1114,8 @@ extension Lightsail {
         /// The name of the Lightsail instance where you want to utilize the storage disk.
         public let instanceName: String
 
-        public init(diskName: String, diskPath: String, instanceName: String) {
+        public init(autoMounting: Bool? = nil, diskName: String, diskPath: String, instanceName: String) {
+            self.autoMounting = autoMounting
             self.diskName = diskName
             self.diskPath = diskPath
             self.instanceName = instanceName
@@ -1069,6 +1128,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoMounting = "autoMounting"
             case diskName = "diskName"
             case diskPath = "diskPath"
             case instanceName = "instanceName"
@@ -1272,6 +1332,8 @@ extension Lightsail {
     }
 
     public struct Blueprint: AWSDecodableShape {
+        /// Virtual computer blueprints that are supported by Lightsail for Research.  This parameter only applies to Lightsail for Research resources.
+        public let appCategory: AppCategory?
         /// The ID for the virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0).
         public let blueprintId: String?
         /// The description of the blueprint.
@@ -1297,7 +1359,8 @@ extension Lightsail {
         /// The version code.
         public let versionCode: String?
 
-        public init(blueprintId: String? = nil, description: String? = nil, group: String? = nil, isActive: Bool? = nil, licenseUrl: String? = nil, minPower: Int? = nil, name: String? = nil, platform: InstancePlatform? = nil, productUrl: String? = nil, type: BlueprintType? = nil, version: String? = nil, versionCode: String? = nil) {
+        public init(appCategory: AppCategory? = nil, blueprintId: String? = nil, description: String? = nil, group: String? = nil, isActive: Bool? = nil, licenseUrl: String? = nil, minPower: Int? = nil, name: String? = nil, platform: InstancePlatform? = nil, productUrl: String? = nil, type: BlueprintType? = nil, version: String? = nil, versionCode: String? = nil) {
+            self.appCategory = appCategory
             self.blueprintId = blueprintId
             self.description = description
             self.group = group
@@ -1313,6 +1376,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appCategory = "appCategory"
             case blueprintId = "blueprintId"
             case description = "description"
             case group = "group"
@@ -1500,12 +1564,14 @@ extension Lightsail {
         public let price: Float?
         /// The amount of RAM in GB (e.g., 2.0).
         public let ramSizeInGb: Float?
+        /// Virtual computer blueprints that are supported by a Lightsail for Research bundle.  This parameter only applies to Lightsail for Research resources.
+        public let supportedAppCategories: [AppCategory]?
         /// The operating system platform (Linux/Unix-based or Windows Server-based) that the bundle supports. You can only launch a WINDOWS bundle on a blueprint that supports the WINDOWS platform. LINUX_UNIX blueprints require a LINUX_UNIX bundle.
         public let supportedPlatforms: [InstancePlatform]?
         /// The data transfer rate per month in GB (e.g., 2000).
         public let transferPerMonthInGb: Int?
 
-        public init(bundleId: String? = nil, cpuCount: Int? = nil, diskSizeInGb: Int? = nil, instanceType: String? = nil, isActive: Bool? = nil, name: String? = nil, power: Int? = nil, price: Float? = nil, ramSizeInGb: Float? = nil, supportedPlatforms: [InstancePlatform]? = nil, transferPerMonthInGb: Int? = nil) {
+        public init(bundleId: String? = nil, cpuCount: Int? = nil, diskSizeInGb: Int? = nil, instanceType: String? = nil, isActive: Bool? = nil, name: String? = nil, power: Int? = nil, price: Float? = nil, ramSizeInGb: Float? = nil, supportedAppCategories: [AppCategory]? = nil, supportedPlatforms: [InstancePlatform]? = nil, transferPerMonthInGb: Int? = nil) {
             self.bundleId = bundleId
             self.cpuCount = cpuCount
             self.diskSizeInGb = diskSizeInGb
@@ -1515,6 +1581,7 @@ extension Lightsail {
             self.power = power
             self.price = price
             self.ramSizeInGb = ramSizeInGb
+            self.supportedAppCategories = supportedAppCategories
             self.supportedPlatforms = supportedPlatforms
             self.transferPerMonthInGb = transferPerMonthInGb
         }
@@ -1529,6 +1596,7 @@ extension Lightsail {
             case power = "power"
             case price = "price"
             case ramSizeInGb = "ramSizeInGb"
+            case supportedAppCategories = "supportedAppCategories"
             case supportedPlatforms = "supportedPlatforms"
             case transferPerMonthInGb = "transferPerMonthInGb"
         }
@@ -2194,7 +2262,7 @@ extension Lightsail {
     }
 
     public struct ContainerServiceRegistryLogin: AWSDecodableShape {
-        /// The timestamp of when the container image registry username and password expire. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials using the CreateContainerServiceRegistryLogin action.
+        /// The timestamp of when the container image registry sign-in credentials expire. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials using the CreateContainerServiceRegistryLogin action.
         public let expiresAt: Date?
         /// The container service registry password to use to push container images to the container image registry of a Lightsail account
         public let password: String?
@@ -2313,6 +2381,23 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
+        }
+    }
+
+    public struct CostEstimate: AWSDecodableShape {
+        /// The cost estimate result that's associated with a time period.
+        public let resultsByTime: [EstimateByTime]?
+        /// The types of usage that are included in the estimate, such as costs, usage, or data transfer.
+        public let usageType: String?
+
+        public init(resultsByTime: [EstimateByTime]? = nil, usageType: String? = nil) {
+            self.resultsByTime = resultsByTime
+            self.usageType = usageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultsByTime = "resultsByTime"
+            case usageType = "usageType"
         }
     }
 
@@ -2920,6 +3005,52 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case operation = "operation"
+        }
+    }
+
+    public struct CreateGUISessionAccessDetailsRequest: AWSEncodableShape {
+        /// The resource name.
+        public let resourceName: String
+
+        public init(resourceName: String) {
+            self.resourceName = resourceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "^\\w[\\w\\-]*\\w$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "resourceName"
+        }
+    }
+
+    public struct CreateGUISessionAccessDetailsResult: AWSDecodableShape {
+        /// The reason the operation failed.
+        public let failureReason: String?
+        /// The percentage of completion for the operation.
+        public let percentageComplete: Int?
+        /// The resource name.
+        public let resourceName: String?
+        /// Returns information about the specified NICE DCV GUI session.
+        public let sessions: [Session]?
+        /// The status of the operation.
+        public let status: Status?
+
+        public init(failureReason: String? = nil, percentageComplete: Int? = nil, resourceName: String? = nil, sessions: [Session]? = nil, status: Status? = nil) {
+            self.failureReason = failureReason
+            self.percentageComplete = percentageComplete
+            self.resourceName = resourceName
+            self.sessions = sessions
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureReason = "failureReason"
+            case percentageComplete = "percentageComplete"
+            case resourceName = "resourceName"
+            case sessions = "sessions"
+            case status = "status"
         }
     }
 
@@ -4316,6 +4447,8 @@ extension Lightsail {
         public let attachedTo: String?
         /// (Deprecated) The attachment state of the disk.  In releases prior to November 14, 2017, this parameter returned attached for system disks in the API response. It is now deprecated, but still included in the response. Use isAttached instead.
         public let attachmentState: String?
+        /// The status of automatically mounting a storage disk to a virtual computer.  This parameter only applies to Lightsail for Research resources.
+        public let autoMountStatus: AutoMountStatus?
         /// The date when the disk was created.
         public let createdAt: Date?
         /// (Deprecated) The number of GB in use by the disk.  In releases prior to November 14, 2017, this parameter was not included in the API response. It is now deprecated.
@@ -4343,11 +4476,12 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
-        public init(addOns: [AddOn]? = nil, arn: String? = nil, attachedTo: String? = nil, createdAt: Date? = nil, iops: Int? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(addOns: [AddOn]? = nil, arn: String? = nil, attachedTo: String? = nil, autoMountStatus: AutoMountStatus? = nil, createdAt: Date? = nil, iops: Int? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.addOns = addOns
             self.arn = arn
             self.attachedTo = attachedTo
             self.attachmentState = nil
+            self.autoMountStatus = autoMountStatus
             self.createdAt = createdAt
             self.gbInUse = nil
             self.iops = iops
@@ -4364,11 +4498,12 @@ extension Lightsail {
         }
 
         @available(*, deprecated, message: "Members attachmentState, gbInUse have been deprecated")
-        public init(addOns: [AddOn]? = nil, arn: String? = nil, attachedTo: String? = nil, attachmentState: String? = nil, createdAt: Date? = nil, gbInUse: Int? = nil, iops: Int? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(addOns: [AddOn]? = nil, arn: String? = nil, attachedTo: String? = nil, attachmentState: String? = nil, autoMountStatus: AutoMountStatus? = nil, createdAt: Date? = nil, gbInUse: Int? = nil, iops: Int? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.addOns = addOns
             self.arn = arn
             self.attachedTo = attachedTo
             self.attachmentState = attachmentState
+            self.autoMountStatus = autoMountStatus
             self.createdAt = createdAt
             self.gbInUse = gbInUse
             self.iops = iops
@@ -4389,6 +4524,7 @@ extension Lightsail {
             case arn = "arn"
             case attachedTo = "attachedTo"
             case attachmentState = "attachmentState"
+            case autoMountStatus = "autoMountStatus"
             case createdAt = "createdAt"
             case gbInUse = "gbInUse"
             case iops = "iops"
@@ -4628,7 +4764,7 @@ extension Lightsail {
     public struct DomainEntry: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the domain recordset entry.
         public let id: String?
-        /// When true, specifies whether the domain entry is an alias used by the Lightsail load balancer. You can include an alias (A type) record in your request, which points to a load balancer DNS name and routes traffic to your load balancer.
+        /// When true, specifies whether the domain entry is an alias used by the Lightsail load balancer, Lightsail container service, Lightsail content delivery network (CDN) distribution, or another Amazon Web Services resource. You can include an alias (A type) record in your request, which points to the DNS name of a load balancer, container service, CDN distribution, or other Amazon Web Services resource and routes traffic to that resource.
         public let isAlias: Bool?
         /// The name of the domain.
         public let name: String?
@@ -4775,6 +4911,35 @@ extension Lightsail {
             case containerName = "containerName"
             case containerPort = "containerPort"
             case healthCheck = "healthCheck"
+        }
+    }
+
+    public struct EstimateByTime: AWSDecodableShape {
+        /// The currency of the estimate in USD.
+        public let currency: Currency?
+        /// The unit of measurement that's used for the cost estimate.
+        public let pricingUnit: PricingUnit?
+        /// The period of time, in days, that an estimate covers. The period has a start date and an end date. The start date must come before the end date.
+        public let timePeriod: TimePeriod?
+        /// The number of pricing units used to calculate the total number of hours. For example, 1 unit equals 1 hour.
+        public let unit: Double?
+        /// The amount of cost or usage that's measured for the cost estimate.
+        public let usageCost: Double?
+
+        public init(currency: Currency? = nil, pricingUnit: PricingUnit? = nil, timePeriod: TimePeriod? = nil, unit: Double? = nil, usageCost: Double? = nil) {
+            self.currency = currency
+            self.pricingUnit = pricingUnit
+            self.timePeriod = timePeriod
+            self.unit = unit
+            self.usageCost = usageCost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "currency"
+            case pricingUnit = "pricingUnit"
+            case timePeriod = "timePeriod"
+            case unit = "unit"
+            case usageCost = "usageCost"
         }
     }
 
@@ -5002,17 +5167,21 @@ extension Lightsail {
     }
 
     public struct GetBlueprintsRequest: AWSEncodableShape {
+        /// Returns a list of blueprints that are specific to Lightsail for Research.  You must use this parameter to view Lightsail for Research blueprints.
+        public let appCategory: AppCategory?
         /// A Boolean value that indicates whether to include inactive (unavailable) blueprints in the response of your request.
         public let includeInactive: Bool?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetBlueprints request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
-        public init(includeInactive: Bool? = nil, pageToken: String? = nil) {
+        public init(appCategory: AppCategory? = nil, includeInactive: Bool? = nil, pageToken: String? = nil) {
+            self.appCategory = appCategory
             self.includeInactive = includeInactive
             self.pageToken = pageToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appCategory = "appCategory"
             case includeInactive = "includeInactive"
             case pageToken = "pageToken"
         }
@@ -5204,17 +5373,21 @@ extension Lightsail {
     }
 
     public struct GetBundlesRequest: AWSEncodableShape {
+        /// Returns a list of bundles that are specific to Lightsail for Research.  You must use this parameter to view Lightsail for Research bundles.
+        public let appCategory: AppCategory?
         /// A Boolean value that indicates whether to include inactive (unavailable) bundles in the response of your request.
         public let includeInactive: Bool?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetBundles request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
-        public init(includeInactive: Bool? = nil, pageToken: String? = nil) {
+        public init(appCategory: AppCategory? = nil, includeInactive: Bool? = nil, pageToken: String? = nil) {
+            self.appCategory = appCategory
             self.includeInactive = includeInactive
             self.pageToken = pageToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appCategory = "appCategory"
             case includeInactive = "includeInactive"
             case pageToken = "pageToken"
         }
@@ -5566,6 +5739,44 @@ extension Lightsail {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCostEstimateRequest: AWSEncodableShape {
+        /// The cost estimate end time. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
+        public let endTime: Date
+        /// The resource name.
+        public let resourceName: String
+        /// The cost estimate start time. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
+        public let startTime: Date
+
+        public init(endTime: Date, resourceName: String, startTime: Date) {
+            self.endTime = endTime
+            self.resourceName = resourceName
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "^\\w[\\w\\-]*\\w$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case resourceName = "resourceName"
+            case startTime = "startTime"
+        }
+    }
+
+    public struct GetCostEstimateResult: AWSDecodableShape {
+        /// Returns the estimate's forecasted cost or usage.
+        public let resourcesBudgetEstimate: [ResourceBudgetEstimate]?
+
+        public init(resourcesBudgetEstimate: [ResourceBudgetEstimate]? = nil) {
+            self.resourcesBudgetEstimate = resourcesBudgetEstimate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcesBudgetEstimate = "resourcesBudgetEstimate"
+        }
     }
 
     public struct GetDiskRequest: AWSEncodableShape {
@@ -8787,6 +8998,7 @@ extension Lightsail {
     public struct RegisteredDomainDelegationInfo: AWSDecodableShape {
         /// An object that describes the state of the name server records that are automatically added to the Route 53 domain by Lightsail.
         public let nameServersUpdateState: NameServersUpdateState?
+        /// Describes the deletion state of an Amazon Route 53 hosted zone for a domain that is being automatically delegated to an Amazon Lightsail DNS zone.
         public let r53HostedZoneDeletionState: R53HostedZoneDeletionState?
 
         public init(nameServersUpdateState: NameServersUpdateState? = nil, r53HostedZoneDeletionState: R53HostedZoneDeletionState? = nil) {
@@ -9257,6 +9469,35 @@ extension Lightsail {
         }
     }
 
+    public struct ResourceBudgetEstimate: AWSDecodableShape {
+        /// The cost estimate for the specified budget.
+        public let costEstimates: [CostEstimate]?
+        /// The estimate end time.
+        public let endTime: Date?
+        /// The resource name.
+        public let resourceName: String?
+        /// The type of resource the budget will track.
+        public let resourceType: ResourceType?
+        /// The estimate start time.
+        public let startTime: Date?
+
+        public init(costEstimates: [CostEstimate]? = nil, endTime: Date? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil, startTime: Date? = nil) {
+            self.costEstimates = costEstimates
+            self.endTime = endTime
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costEstimates = "costEstimates"
+            case endTime = "endTime"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
+            case startTime = "startTime"
+        }
+    }
+
     public struct ResourceLocation: AWSDecodableShape {
         /// The Availability Zone. Follows the format us-east-2a (case-sensitive).
         public let availabilityZone: String?
@@ -9338,6 +9579,27 @@ extension Lightsail {
         }
     }
 
+    public struct Session: AWSDecodableShape {
+        /// When true, this Boolean value indicates the primary session for the specified resource.
+        public let isPrimary: Bool?
+        /// The session name.
+        public let name: String?
+        /// The session URL.
+        public let url: String?
+
+        public init(isPrimary: Bool? = nil, name: String? = nil, url: String? = nil) {
+            self.isPrimary = isPrimary
+            self.name = name
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isPrimary = "isPrimary"
+            case name = "name"
+            case url = "url"
+        }
+    }
+
     public struct SetIpAddressTypeRequest: AWSEncodableShape {
         /// The IP address type to set for the specified resource. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
         public let ipAddressType: IpAddressType
@@ -9406,6 +9668,36 @@ extension Lightsail {
 
     public struct SetResourceAccessForBucketResult: AWSDecodableShape {
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct StartGUISessionRequest: AWSEncodableShape {
+        /// The resource name.
+        public let resourceName: String
+
+        public init(resourceName: String) {
+            self.resourceName = resourceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "^\\w[\\w\\-]*\\w$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "resourceName"
+        }
+    }
+
+    public struct StartGUISessionResult: AWSDecodableShape {
+        /// The available API operations.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -9519,6 +9811,53 @@ extension Lightsail {
             case name = "name"
             case resourceType = "resourceType"
             case supportCode = "supportCode"
+        }
+    }
+
+    public struct StopGUISessionRequest: AWSEncodableShape {
+        /// The resource name.
+        public let resourceName: String
+
+        public init(resourceName: String) {
+            self.resourceName = resourceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "^\\w[\\w\\-]*\\w$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "resourceName"
+        }
+    }
+
+    public struct StopGUISessionResult: AWSDecodableShape {
+        /// The available API operations.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct StopInstanceOnIdleRequest: AWSEncodableShape {
+        /// The amount of idle time in minutes after which your virtual computer will automatically stop.
+        public let duration: String?
+        /// The value to compare with the duration.
+        public let threshold: String?
+
+        public init(duration: String? = nil, threshold: String? = nil) {
+            self.duration = duration
+            self.threshold = threshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "duration"
+            case threshold = "threshold"
         }
     }
 
@@ -9678,6 +10017,23 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
+        }
+    }
+
+    public struct TimePeriod: AWSDecodableShape {
+        /// The end of the time period. The end date is exclusive. For example, if end is 2017-05-01, Lightsail for Research retrieves cost and usage data from the start date up to, but not including, 2017-05-01.
+        public let end: Date?
+        /// The beginning of the time period. The start date is inclusive. For example, if start is 2017-01-01, Lightsail for Research retrieves cost and usage data starting at 2017-01-01 up to the end date. The start date must be equal to or no later than the current date to avoid a validation error.
+        public let start: Date?
+
+        public init(end: Date? = nil, start: Date? = nil) {
+            self.end = end
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end = "end"
+            case start = "start"
         }
     }
 
@@ -10043,6 +10399,7 @@ extension Lightsail {
     }
 
     public struct UpdateInstanceMetadataOptionsResult: AWSDecodableShape {
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {

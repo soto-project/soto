@@ -95,12 +95,12 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "CheckoutLicense", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a grant for the specified license. A grant shares the use of license entitlements with specific Amazon Web Services accounts.
+    /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see Granted licenses in License Manager in the License Manager User Guide.
     public func createGrant(_ input: CreateGrantRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGrantResponse> {
         return self.client.execute(operation: "CreateGrant", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new version of the specified grant.
+    /// Creates a new version of the specified grant. For more information, see Granted licenses in License Manager in the License Manager User Guide.
     public func createGrantVersion(_ input: CreateGrantVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGrantVersionResponse> {
         return self.client.execute(operation: "CreateGrantVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -110,7 +110,7 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "CreateLicense", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a license configuration.  A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy,  Dedicated Instance, Dedicated Host, or all of these), license affinity  to host (how long a  license must be associated with a host), and the number of licenses purchased and used.
+    /// Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy,  Dedicated Instance, Dedicated Host, or all of these), license affinity  to host (how long a  license must be associated with a host), and the number of licenses purchased and used.
     public func createLicenseConfiguration(_ input: CreateLicenseConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLicenseConfigurationResponse> {
         return self.client.execute(operation: "CreateLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -145,7 +145,7 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "DeleteLicense", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified license configuration.  You cannot delete a license configuration that is in use.
+    /// Deletes the specified license configuration. You cannot delete a license configuration that is in use.
     public func deleteLicenseConfiguration(_ input: DeleteLicenseConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLicenseConfigurationResponse> {
         return self.client.execute(operation: "DeleteLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -205,7 +205,7 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "GetServiceSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the resource associations for the specified license configuration.  Resource associations need not consume licenses from a license configuration.  For example, an AMI or a stopped instance might not consume a license (depending on  the license rules).
+    /// Lists the resource associations for the specified license configuration. Resource associations need not consume licenses from a license configuration.  For example, an AMI or a stopped instance might not consume a license (depending on  the license rules).
     public func listAssociationsForLicenseConfiguration(_ input: ListAssociationsForLicenseConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssociationsForLicenseConfigurationResponse> {
         return self.client.execute(operation: "ListAssociationsForLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -250,7 +250,7 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "ListLicenses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists grants that are received but not accepted.
+    /// Lists grants that are received. Received grants are grants created while specifying the recipient as this Amazon Web Services account, your organization, or an organizational unit (OU) to which this member account belongs.
     public func listReceivedGrants(_ input: ListReceivedGrantsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListReceivedGrantsResponse> {
         return self.client.execute(operation: "ListReceivedGrants", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -315,7 +315,7 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "UpdateLicenseManagerReportGenerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or removes the specified license configurations for the specified Amazon Web Services resource.  You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates,  as they send license configurations to the operation that creates the resource.
+    /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates,  as they send license configurations to the operation that creates the resource.
     public func updateLicenseSpecificationsForResource(_ input: UpdateLicenseSpecificationsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLicenseSpecificationsForResourceResponse> {
         return self.client.execute(operation: "UpdateLicenseSpecificationsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

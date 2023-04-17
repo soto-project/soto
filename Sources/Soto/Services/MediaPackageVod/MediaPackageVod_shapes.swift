@@ -217,6 +217,8 @@ extension MediaPackageVod {
         /// The ARN of the PackagingGroup.
         public let arn: String?
         public let authorization: Authorization?
+        /// The time the PackagingGroup was created.
+        public let createdAt: String?
         /// The fully qualified domain name for Assets in the PackagingGroup.
         public let domainName: String?
         public let egressAccessLogs: EgressAccessLogs?
@@ -224,9 +226,10 @@ extension MediaPackageVod {
         public let id: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, createdAt: String? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.authorization = authorization
+            self.createdAt = createdAt
             self.domainName = domainName
             self.egressAccessLogs = egressAccessLogs
             self.id = id
@@ -236,6 +239,7 @@ extension MediaPackageVod {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case authorization = "authorization"
+            case createdAt = "createdAt"
             case domainName = "domainName"
             case egressAccessLogs = "egressAccessLogs"
             case id = "id"
@@ -355,6 +359,8 @@ extension MediaPackageVod {
         /// The ARN of the PackagingConfiguration.
         public let arn: String?
         public let cmafPackage: CmafPackage?
+        /// The time the PackagingConfiguration was created.
+        public let createdAt: String?
         public let dashPackage: DashPackage?
         public let hlsPackage: HlsPackage?
         /// The ID of the PackagingConfiguration.
@@ -364,9 +370,10 @@ extension MediaPackageVod {
         public let packagingGroupId: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, createdAt: String? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.cmafPackage = cmafPackage
+            self.createdAt = createdAt
             self.dashPackage = dashPackage
             self.hlsPackage = hlsPackage
             self.id = id
@@ -378,6 +385,7 @@ extension MediaPackageVod {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case cmafPackage = "cmafPackage"
+            case createdAt = "createdAt"
             case dashPackage = "dashPackage"
             case hlsPackage = "hlsPackage"
             case id = "id"
@@ -413,6 +421,8 @@ extension MediaPackageVod {
         /// The ARN of the PackagingGroup.
         public let arn: String?
         public let authorization: Authorization?
+        /// The time the PackagingGroup was created.
+        public let createdAt: String?
         /// The fully qualified domain name for Assets in the PackagingGroup.
         public let domainName: String?
         public let egressAccessLogs: EgressAccessLogs?
@@ -420,9 +430,10 @@ extension MediaPackageVod {
         public let id: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, createdAt: String? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.authorization = authorization
+            self.createdAt = createdAt
             self.domainName = domainName
             self.egressAccessLogs = egressAccessLogs
             self.id = id
@@ -432,6 +443,7 @@ extension MediaPackageVod {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case authorization = "authorization"
+            case createdAt = "createdAt"
             case domainName = "domainName"
             case egressAccessLogs = "egressAccessLogs"
             case id = "id"
@@ -460,7 +472,7 @@ extension MediaPackageVod {
         public let minBufferTimeSeconds: Int?
         /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type.  When set to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
         public let profile: Profile?
-        /// The source of scte markers used. When set to SEGMENTS, the scte markers are sourced from the segments of the ingested content. When set to MANIFEST, the scte markers are sourced from the manifest of the ingested content. The MANIFEST value is compatible with source HLS playlists using the SCTE-35 Enhanced syntax (#EXT-OATCLS-SCTE35 tags). SCTE-35 Elemental and SCTE-35 Daterange syntaxes are not supported with this option.
+        /// The source of scte markers used. When set to SEGMENTS, the scte markers are sourced from the segments of the ingested content. When set to MANIFEST, the scte markers are sourced from the manifest of the ingested content.
         public let scteMarkersSource: ScteMarkersSource?
         public let streamSelection: StreamSelection?
 
@@ -658,6 +670,8 @@ extension MediaPackageVod {
         /// The ARN of the PackagingConfiguration.
         public let arn: String?
         public let cmafPackage: CmafPackage?
+        /// The time the PackagingConfiguration was created.
+        public let createdAt: String?
         public let dashPackage: DashPackage?
         public let hlsPackage: HlsPackage?
         /// The ID of the PackagingConfiguration.
@@ -667,9 +681,10 @@ extension MediaPackageVod {
         public let packagingGroupId: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, createdAt: String? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.cmafPackage = cmafPackage
+            self.createdAt = createdAt
             self.dashPackage = dashPackage
             self.hlsPackage = hlsPackage
             self.id = id
@@ -681,6 +696,7 @@ extension MediaPackageVod {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case cmafPackage = "cmafPackage"
+            case createdAt = "createdAt"
             case dashPackage = "dashPackage"
             case hlsPackage = "hlsPackage"
             case id = "id"
@@ -711,6 +727,8 @@ extension MediaPackageVod {
         /// The ARN of the PackagingGroup.
         public let arn: String?
         public let authorization: Authorization?
+        /// The time the PackagingGroup was created.
+        public let createdAt: String?
         /// The fully qualified domain name for Assets in the PackagingGroup.
         public let domainName: String?
         public let egressAccessLogs: EgressAccessLogs?
@@ -718,10 +736,11 @@ extension MediaPackageVod {
         public let id: String?
         public let tags: [String: String]?
 
-        public init(approximateAssetCount: Int? = nil, arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(approximateAssetCount: Int? = nil, arn: String? = nil, authorization: Authorization? = nil, createdAt: String? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.approximateAssetCount = approximateAssetCount
             self.arn = arn
             self.authorization = authorization
+            self.createdAt = createdAt
             self.domainName = domainName
             self.egressAccessLogs = egressAccessLogs
             self.id = id
@@ -732,6 +751,7 @@ extension MediaPackageVod {
             case approximateAssetCount = "approximateAssetCount"
             case arn = "arn"
             case authorization = "authorization"
+            case createdAt = "createdAt"
             case domainName = "domainName"
             case egressAccessLogs = "egressAccessLogs"
             case id = "id"
@@ -1096,6 +1116,8 @@ extension MediaPackageVod {
         /// The ARN of the PackagingConfiguration.
         public let arn: String?
         public let cmafPackage: CmafPackage?
+        /// The time the PackagingConfiguration was created.
+        public let createdAt: String?
         public let dashPackage: DashPackage?
         public let hlsPackage: HlsPackage?
         /// The ID of the PackagingConfiguration.
@@ -1105,9 +1127,10 @@ extension MediaPackageVod {
         public let packagingGroupId: String?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, cmafPackage: CmafPackage? = nil, createdAt: String? = nil, dashPackage: DashPackage? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, mssPackage: MssPackage? = nil, packagingGroupId: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.cmafPackage = cmafPackage
+            self.createdAt = createdAt
             self.dashPackage = dashPackage
             self.hlsPackage = hlsPackage
             self.id = id
@@ -1119,6 +1142,7 @@ extension MediaPackageVod {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case cmafPackage = "cmafPackage"
+            case createdAt = "createdAt"
             case dashPackage = "dashPackage"
             case hlsPackage = "hlsPackage"
             case id = "id"
@@ -1134,6 +1158,8 @@ extension MediaPackageVod {
         /// The ARN of the PackagingGroup.
         public let arn: String?
         public let authorization: Authorization?
+        /// The time the PackagingGroup was created.
+        public let createdAt: String?
         /// The fully qualified domain name for Assets in the PackagingGroup.
         public let domainName: String?
         public let egressAccessLogs: EgressAccessLogs?
@@ -1141,10 +1167,11 @@ extension MediaPackageVod {
         public let id: String?
         public let tags: [String: String]?
 
-        public init(approximateAssetCount: Int? = nil, arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(approximateAssetCount: Int? = nil, arn: String? = nil, authorization: Authorization? = nil, createdAt: String? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.approximateAssetCount = approximateAssetCount
             self.arn = arn
             self.authorization = authorization
+            self.createdAt = createdAt
             self.domainName = domainName
             self.egressAccessLogs = egressAccessLogs
             self.id = id
@@ -1155,6 +1182,7 @@ extension MediaPackageVod {
             case approximateAssetCount = "approximateAssetCount"
             case arn = "arn"
             case authorization = "authorization"
+            case createdAt = "createdAt"
             case domainName = "domainName"
             case egressAccessLogs = "egressAccessLogs"
             case id = "id"
@@ -1272,6 +1300,8 @@ extension MediaPackageVod {
         /// The ARN of the PackagingGroup.
         public let arn: String?
         public let authorization: Authorization?
+        /// The time the PackagingGroup was created.
+        public let createdAt: String?
         /// The fully qualified domain name for Assets in the PackagingGroup.
         public let domainName: String?
         public let egressAccessLogs: EgressAccessLogs?
@@ -1279,10 +1309,11 @@ extension MediaPackageVod {
         public let id: String?
         public let tags: [String: String]?
 
-        public init(approximateAssetCount: Int? = nil, arn: String? = nil, authorization: Authorization? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(approximateAssetCount: Int? = nil, arn: String? = nil, authorization: Authorization? = nil, createdAt: String? = nil, domainName: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.approximateAssetCount = approximateAssetCount
             self.arn = arn
             self.authorization = authorization
+            self.createdAt = createdAt
             self.domainName = domainName
             self.egressAccessLogs = egressAccessLogs
             self.id = id
@@ -1293,6 +1324,7 @@ extension MediaPackageVod {
             case approximateAssetCount = "approximateAssetCount"
             case arn = "arn"
             case authorization = "authorization"
+            case createdAt = "createdAt"
             case domainName = "domainName"
             case egressAccessLogs = "egressAccessLogs"
             case id = "id"

@@ -86,7 +86,7 @@ extension WorkDocs {
         return try await self.client.execute(operation: "DeleteDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a version of an Amazon WorkDocs document. Use the DeletePriorVersions parameter to delete prior versions.
+    /// Deletes a specific version of a document.
     public func deleteDocumentVersion(_ input: DeleteDocumentVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteDocumentVersion", path: "/api/v1/documentVersions/{DocumentId}/versions/{VersionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -111,7 +111,7 @@ extension WorkDocs {
         return try await self.client.execute(operation: "DeleteNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions/{SubscriptionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified user from a Simple AD or Microsoft AD directory.
+    /// Deletes the specified user from a Simple AD or Microsoft AD directory.  Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteUser", path: "/api/v1/users/{UserId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -216,6 +216,11 @@ extension WorkDocs {
         return try await self.client.execute(operation: "RestoreDocumentVersions", path: "/api/v1/documentVersions/restore/{DocumentId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Searches metadata and the content of folders, documents, document versions, and comments.
+    public func searchResources(_ input: SearchResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SearchResourcesResponse {
+        return try await self.client.execute(operation: "SearchResources", path: "/api/v1/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.
     public func updateDocument(_ input: UpdateDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "UpdateDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -241,6 +246,50 @@ extension WorkDocs {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension WorkDocs {
+    /// Describes the user activities in a specified time period.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeActivitiesPaginator(
+        _ input: DescribeActivitiesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeActivitiesRequest, DescribeActivitiesResponse> {
+        return .init(
+            input: input,
+            command: self.describeActivities,
+            inputKey: \DescribeActivitiesRequest.marker,
+            outputKey: \DescribeActivitiesResponse.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// List all the comments for the specified document version.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeCommentsPaginator(
+        _ input: DescribeCommentsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeCommentsRequest, DescribeCommentsResponse> {
+        return .init(
+            input: input,
+            command: self.describeComments,
+            inputKey: \DescribeCommentsRequest.marker,
+            outputKey: \DescribeCommentsResponse.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     /// Retrieves the document versions for the specified document. By default, only active versions are returned.
     /// Return PaginatorSequence for operation.
     ///
@@ -285,6 +334,94 @@ extension WorkDocs {
         )
     }
 
+    /// Describes the groups specified by the query. Groups are defined by the underlying Active Directory.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeGroupsPaginator(
+        _ input: DescribeGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeGroupsRequest, DescribeGroupsResponse> {
+        return .init(
+            input: input,
+            command: self.describeGroups,
+            inputKey: \DescribeGroupsRequest.marker,
+            outputKey: \DescribeGroupsResponse.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists the specified notification subscriptions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeNotificationSubscriptionsPaginator(
+        _ input: DescribeNotificationSubscriptionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeNotificationSubscriptionsRequest, DescribeNotificationSubscriptionsResponse> {
+        return .init(
+            input: input,
+            command: self.describeNotificationSubscriptions,
+            inputKey: \DescribeNotificationSubscriptionsRequest.marker,
+            outputKey: \DescribeNotificationSubscriptionsResponse.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Describes the permissions of a specified resource.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeResourcePermissionsPaginator(
+        _ input: DescribeResourcePermissionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeResourcePermissionsRequest, DescribeResourcePermissionsResponse> {
+        return .init(
+            input: input,
+            command: self.describeResourcePermissions,
+            inputKey: \DescribeResourcePermissionsRequest.marker,
+            outputKey: \DescribeResourcePermissionsResponse.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Describes the current user's special folders; the RootFolder and the RecycleBin. RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeRootFoldersPaginator(
+        _ input: DescribeRootFoldersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeRootFoldersRequest, DescribeRootFoldersResponse> {
+        return .init(
+            input: input,
+            command: self.describeRootFolders,
+            inputKey: \DescribeRootFoldersRequest.marker,
+            outputKey: \DescribeRootFoldersResponse.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     /// Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
     /// Return PaginatorSequence for operation.
     ///
@@ -302,6 +439,28 @@ extension WorkDocs {
             command: self.describeUsers,
             inputKey: \DescribeUsersRequest.marker,
             outputKey: \DescribeUsersResponse.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Searches metadata and the content of folders, documents, document versions, and comments.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchResourcesPaginator(
+        _ input: SearchResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchResourcesRequest, SearchResourcesResponse> {
+        return .init(
+            input: input,
+            command: self.searchResources,
+            inputKey: \SearchResourcesRequest.marker,
+            outputKey: \SearchResourcesResponse.marker,
             logger: logger,
             on: eventLoop
         )

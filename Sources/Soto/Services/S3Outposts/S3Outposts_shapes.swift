@@ -22,13 +22,15 @@ extension S3Outposts {
     // MARK: Enums
 
     public enum EndpointAccessType: String, CustomStringConvertible, Codable, Sendable {
-        case customerOwnedIp = "CustomerOwnedIp"
         case `private` = "Private"
+        case customerOwnedIp = "CustomerOwnedIp"
         public var description: String { return self.rawValue }
     }
 
     public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "Available"
+        case createFailed = "Create_Failed"
+        case deleteFailed = "Delete_Failed"
         case deleting = "Deleting"
         case pending = "Pending"
         public var description: String { return self.rawValue }
@@ -120,6 +122,8 @@ extension S3Outposts {
         public let customerOwnedIpv4Pool: String?
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String?
+        /// The failure reason, if any, for a create or delete endpoint operation.
+        public let failedReason: FailedReason?
         /// The network interface of the endpoint.
         public let networkInterfaces: [NetworkInterface]?
         /// The ID of the Outposts.
@@ -133,12 +137,13 @@ extension S3Outposts {
         /// The ID of the VPC used for the endpoint.
         public let vpcId: String?
 
-        public init(accessType: EndpointAccessType? = nil, cidrBlock: String? = nil, creationTime: Date? = nil, customerOwnedIpv4Pool: String? = nil, endpointArn: String? = nil, networkInterfaces: [NetworkInterface]? = nil, outpostsId: String? = nil, securityGroupId: String? = nil, status: EndpointStatus? = nil, subnetId: String? = nil, vpcId: String? = nil) {
+        public init(accessType: EndpointAccessType? = nil, cidrBlock: String? = nil, creationTime: Date? = nil, customerOwnedIpv4Pool: String? = nil, endpointArn: String? = nil, failedReason: FailedReason? = nil, networkInterfaces: [NetworkInterface]? = nil, outpostsId: String? = nil, securityGroupId: String? = nil, status: EndpointStatus? = nil, subnetId: String? = nil, vpcId: String? = nil) {
             self.accessType = accessType
             self.cidrBlock = cidrBlock
             self.creationTime = creationTime
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.endpointArn = endpointArn
+            self.failedReason = failedReason
             self.networkInterfaces = networkInterfaces
             self.outpostsId = outpostsId
             self.securityGroupId = securityGroupId
@@ -153,12 +158,30 @@ extension S3Outposts {
             case creationTime = "CreationTime"
             case customerOwnedIpv4Pool = "CustomerOwnedIpv4Pool"
             case endpointArn = "EndpointArn"
+            case failedReason = "FailedReason"
             case networkInterfaces = "NetworkInterfaces"
             case outpostsId = "OutpostsId"
             case securityGroupId = "SecurityGroupId"
             case status = "Status"
             case subnetId = "SubnetId"
             case vpcId = "VpcId"
+        }
+    }
+
+    public struct FailedReason: AWSDecodableShape {
+        /// The failure code, if any, for a create or delete endpoint operation.
+        public let errorCode: String?
+        /// Additional error details describing the endpoint failure and recommended action.
+        public let message: String?
+
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
         }
     }
 
@@ -203,6 +226,50 @@ extension S3Outposts {
         private enum CodingKeys: String, CodingKey {
             case endpoints = "Endpoints"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListOutpostsWithS3Request: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The maximum number of Outposts to return. The limit is 100.
+        public let maxResults: Int?
+        /// When you can get additional results from the ListOutpostsWithS3 call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional Outposts.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9\\+\\:\\/\\=\\?\\#-_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListOutpostsWithS3Result: AWSDecodableShape {
+        /// Returns a token that you can use to call ListOutpostsWithS3 again and receive additional results, if there are any.
+        public let nextToken: String?
+        /// Returns the list of Outposts that have the following characteristics:   outposts that have S3 provisioned   outposts that are Active (not pending any provisioning nor decommissioned)   outposts to which the the calling Amazon Web Services account has access
+        public let outposts: [Outpost]?
+
+        public init(nextToken: String? = nil, outposts: [Outpost]? = nil) {
+            self.nextToken = nextToken
+            self.outposts = outposts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case outposts = "Outposts"
         }
     }
 
@@ -267,6 +334,31 @@ extension S3Outposts {
             case networkInterfaceId = "NetworkInterfaceId"
         }
     }
+
+    public struct Outpost: AWSDecodableShape {
+        /// The Amazon S3 capacity of the outpost in bytes.
+        public let capacityInBytes: Int64?
+        /// Specifies the unique Amazon Resource Name (ARN) for the outpost.
+        public let outpostArn: String?
+        /// Specifies the unique identifier for the outpost.
+        public let outpostId: String?
+        /// Returns the Amazon Web Services account ID of the outpost owner. Useful for comparing owned versus shared outposts.
+        public let ownerId: String?
+
+        public init(capacityInBytes: Int64? = nil, outpostArn: String? = nil, outpostId: String? = nil, ownerId: String? = nil) {
+            self.capacityInBytes = capacityInBytes
+            self.outpostArn = outpostArn
+            self.outpostId = outpostId
+            self.ownerId = ownerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityInBytes = "CapacityInBytes"
+            case outpostArn = "OutpostArn"
+            case outpostId = "OutpostId"
+            case ownerId = "OwnerId"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -277,7 +369,9 @@ public struct S3OutpostsErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case outpostOfflineException = "OutpostOfflineException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
 
@@ -305,8 +399,12 @@ public struct S3OutpostsErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// There was an exception with the internal server.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The service link connection to your Outposts home Region is down. Check your connection and try again.
+    public static var outpostOfflineException: Self { .init(.outpostOfflineException) }
     /// The requested resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request was denied due to request throttling.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// There was an exception validating this data.
     public static var validationException: Self { .init(.validationException) }
 }

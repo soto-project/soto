@@ -47,9 +47,9 @@ extension SageMakerRuntime {
         public let inferenceId: String?
         /// The Amazon S3 URI where the inference request payload is stored.
         public let inputLocation: String
-        /// Maximum amount of time in seconds a request can be processed before it is marked as expired.
+        /// Maximum amount of time in seconds a request can be processed before it is marked as expired. The default is 15 minutes, or 900 seconds.
         public let invocationTimeoutSeconds: Int?
-        /// Maximum age in seconds a request can be in the queue before it is marked as expired.
+        /// Maximum age in seconds a request can be in the queue before it is marked as expired. The default is 6 hours, or 21,600 seconds.
         public let requestTTLSeconds: Int?
 
         public init(accept: String? = nil, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, inferenceId: String? = nil, inputLocation: String, invocationTimeoutSeconds: Int? = nil, requestTTLSeconds: Int? = nil) {
@@ -89,20 +89,25 @@ extension SageMakerRuntime {
 
     public struct InvokeEndpointAsyncOutput: AWSDecodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "failureLocation", location: .header("X-Amzn-SageMaker-FailureLocation")),
             AWSMemberEncoding(label: "outputLocation", location: .header("X-Amzn-SageMaker-OutputLocation"))
         ]
 
+        /// The Amazon S3 URI where the inference failure response payload is stored.
+        public let failureLocation: String?
         /// Identifier for an inference request. This will be the same as the InferenceId specified in the input. Amazon SageMaker will generate an identifier for you if you do not specify one.
         public let inferenceId: String?
         /// The Amazon S3 URI where the inference response payload is stored.
         public let outputLocation: String?
 
-        public init(inferenceId: String? = nil, outputLocation: String? = nil) {
+        public init(failureLocation: String? = nil, inferenceId: String? = nil, outputLocation: String? = nil) {
+            self.failureLocation = failureLocation
             self.inferenceId = inferenceId
             self.outputLocation = outputLocation
         }
 
         private enum CodingKeys: String, CodingKey {
+            case failureLocation = "X-Amzn-SageMaker-FailureLocation"
             case inferenceId = "InferenceId"
             case outputLocation = "X-Amzn-SageMaker-OutputLocation"
         }

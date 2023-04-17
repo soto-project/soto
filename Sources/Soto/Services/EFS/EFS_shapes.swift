@@ -102,7 +102,7 @@ extension EFS {
         public let lifeCycleState: LifeCycleState?
         /// The name of the access point. This is the value of the Name tag.
         public let name: String?
-        /// Identified the Amazon Web Services account that owns the access point resource.
+        /// Identifies the Amazon Web Services account that owns the access point resource.
         public let ownerId: String?
         /// The full POSIX identity, including the user ID, group ID, and secondary group IDs on the access point that is used for all file operations by NFS clients using the access point.
         public let posixUser: PosixUser?
@@ -1026,7 +1026,7 @@ extension EFS {
         public let name: String?
         /// The current number of mount targets that the file system has. For more information, see CreateMountTarget.
         public let numberOfMountTargets: Int
-        /// The Amazon Web Services account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
+        /// The Amazon Web Services account that created the file system.
         public let ownerId: String
         /// The performance mode of the file system.
         public let performanceMode: PerformanceMode

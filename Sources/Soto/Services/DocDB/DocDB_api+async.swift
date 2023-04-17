@@ -21,17 +21,17 @@ import SotoCore
 extension DocDB {
     // MARK: Async API Calls
 
-    /// Adds a source identifier to an existing event notification  subscription.
+    /// Adds a source identifier to an existing event notification subscription.
     public func addSourceIdentifierToSubscription(_ input: AddSourceIdentifierToSubscriptionMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AddSourceIdentifierToSubscriptionResult {
         return try await self.client.execute(operation: "AddSourceIdentifierToSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds metadata tags to an Amazon DocumentDB resource. You can use these tags  with cost allocation reporting to track costs that are associated  with Amazon DocumentDB resources or in a Condition statement in  an Identity and Access Management (IAM) policy for Amazon DocumentDB.
+    /// Adds metadata tags to an Amazon DocumentDB resource. You can use these tags with cost allocation reporting to track costs that are associated with Amazon DocumentDB resources or in a Condition statement in an Identity and Access Management (IAM) policy for Amazon DocumentDB.
     public func addTagsToResource(_ input: AddTagsToResourceMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "AddTagsToResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Applies a pending maintenance action to a resource (for example,  to an Amazon DocumentDB instance).
+    /// Applies a pending maintenance action to a resource (for example, to an Amazon DocumentDB instance).
     public func applyPendingMaintenanceAction(_ input: ApplyPendingMaintenanceActionMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ApplyPendingMaintenanceActionResult {
         return try await self.client.execute(operation: "ApplyPendingMaintenanceAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -41,7 +41,7 @@ extension DocDB {
         return try await self.client.execute(operation: "CopyDBClusterParameterGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Copies a snapshot of a cluster.  To copy a cluster snapshot from a shared manual cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon  Resource Name (ARN) of the shared cluster snapshot. You can only  copy a shared DB cluster snapshot, whether encrypted or not, in the  same Amazon Web Services Region.  To cancel the copy operation after it is in progress, delete the  target cluster snapshot identified by  TargetDBClusterSnapshotIdentifier while that cluster  snapshot is in the copying status.
+    /// Copies a snapshot of a cluster. To copy a cluster snapshot from a shared manual cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared cluster snapshot. You can only copy a shared DB cluster snapshot, whether encrypted or not, in the same Amazon Web Services Region. To cancel the copy operation after it is in progress, delete the target cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that cluster snapshot is in the copying status.
     public func copyDBClusterSnapshot(_ input: CopyDBClusterSnapshotMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CopyDBClusterSnapshotResult {
         return try await self.client.execute(operation: "CopyDBClusterSnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -51,7 +51,7 @@ extension DocDB {
         return try await self.client.execute(operation: "CreateDBCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new cluster parameter group. Parameters in a cluster parameter group apply to all of the  instances in a cluster. A cluster parameter group is initially created with the default  parameters for the database engine used by instances in the cluster. In Amazon DocumentDB, you cannot make modifications directly to the  default.docdb3.6 cluster parameter group. If your  Amazon DocumentDB cluster is using the default cluster parameter group and you want to modify a value in it, you must first  create a new parameter group or  copy an existing parameter group, modify it, and then apply the modified parameter group to your  cluster. For the new cluster parameter group and associated settings to take effect, you must then reboot the instances in the cluster  without failover. For more information, see  Modifying Amazon DocumentDB Cluster Parameter Groups.
+    /// Creates a new cluster parameter group. Parameters in a cluster parameter group apply to all of the instances in a cluster. A cluster parameter group is initially created with the default parameters for the database engine used by instances in the cluster. In Amazon DocumentDB, you cannot make modifications directly to the default.docdb3.6 cluster parameter group. If your Amazon DocumentDB cluster is using the default cluster parameter group and you want to modify a value in it, you must first  create a new parameter group or  copy an existing parameter group, modify it, and then apply the modified parameter group to your cluster. For the new cluster parameter group and associated settings to take effect, you must then reboot the instances in the cluster without failover. For more information, see  Modifying Amazon DocumentDB Cluster Parameter Groups.
     public func createDBClusterParameterGroup(_ input: CreateDBClusterParameterGroupMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDBClusterParameterGroupResult {
         return try await self.client.execute(operation: "CreateDBClusterParameterGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -141,7 +141,7 @@ extension DocDB {
         return try await self.client.execute(operation: "DescribeDBClusterSnapshots", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about provisioned Amazon DocumentDB clusters. This API  operation supports pagination. For certain management features such as cluster and instance lifecycle management, Amazon DocumentDB leverages operational technology that is shared with Amazon RDS and Amazon  Neptune. Use the filterName=engine,Values=docdb filter  parameter to return only Amazon DocumentDB clusters.
+    /// Returns information about provisioned Amazon DocumentDB clusters. This API operation supports pagination. For certain management features such as cluster and instance lifecycle management, Amazon DocumentDB leverages operational technology that is shared with Amazon RDS and Amazon Neptune. Use the filterName=engine,Values=docdb filter parameter to return only Amazon DocumentDB clusters.
     public func describeDBClusters(_ input: DescribeDBClustersMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DBClusterMessage {
         return try await self.client.execute(operation: "DescribeDBClusters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -379,7 +379,7 @@ extension DocDB {
         )
     }
 
-    /// Returns information about provisioned Amazon DocumentDB clusters. This API  operation supports pagination. For certain management features such as cluster and instance lifecycle management, Amazon DocumentDB leverages operational technology that is shared with Amazon RDS and Amazon  Neptune. Use the filterName=engine,Values=docdb filter  parameter to return only Amazon DocumentDB clusters.
+    /// Returns information about provisioned Amazon DocumentDB clusters. This API operation supports pagination. For certain management features such as cluster and instance lifecycle management, Amazon DocumentDB leverages operational technology that is shared with Amazon RDS and Amazon Neptune. Use the filterName=engine,Values=docdb filter parameter to return only Amazon DocumentDB clusters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

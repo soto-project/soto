@@ -3594,17 +3594,19 @@ extension EventBridge {
         /// The name or ARN of the secret that enables access to the database. Required when authenticating using Amazon Web Services Secrets Manager.
         public let secretManagerArn: String?
         /// The SQL statement text to run.
-        public let sql: String
+        public let sql: String?
+        public let sqls: [String]?
         /// The name of the SQL statement. You can name the SQL statement when you create it to identify the query.
         public let statementName: String?
         /// Indicates whether to send an event back to EventBridge after the SQL statement runs.
         public let withEvent: Bool?
 
-        public init(database: String, dbUser: String? = nil, secretManagerArn: String? = nil, sql: String, statementName: String? = nil, withEvent: Bool? = nil) {
+        public init(database: String, dbUser: String? = nil, secretManagerArn: String? = nil, sql: String? = nil, sqls: [String]? = nil, statementName: String? = nil, withEvent: Bool? = nil) {
             self.database = database
             self.dbUser = dbUser
             self.secretManagerArn = secretManagerArn
             self.sql = sql
+            self.sqls = sqls
             self.statementName = statementName
             self.withEvent = withEvent
         }
@@ -3619,6 +3621,11 @@ extension EventBridge {
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
             try self.validate(self.sql, name: "sql", parent: name, max: 100000)
             try self.validate(self.sql, name: "sql", parent: name, min: 1)
+            try self.sqls?.forEach {
+                try validate($0, name: "sqls[]", parent: name, max: 100000)
+                try validate($0, name: "sqls[]", parent: name, min: 1)
+            }
+            try self.validate(self.sqls, name: "sqls", parent: name, max: 40)
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
             try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
         }
@@ -3628,6 +3635,7 @@ extension EventBridge {
             case dbUser = "DbUser"
             case secretManagerArn = "SecretManagerArn"
             case sql = "Sql"
+            case sqls = "Sqls"
             case statementName = "StatementName"
             case withEvent = "WithEvent"
         }

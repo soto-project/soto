@@ -25,11 +25,9 @@
 /// 			resources are analyzed. When anomalous behavior is detected, DevOps Guru creates an
 /// 				insight that includes recommendations, related events, and
 /// 			related metrics that can help you improve your operational applications. For more
-/// 			information, see What is Amazon DevOps Guru.
-/// 		        You can specify 1 or 2 Amazon Simple Notification Service topics so you are notified every time a new insight
+/// 			information, see What is Amazon DevOps Guru.  You can specify 1 or 2 Amazon Simple Notification Service topics so you are notified every time a new insight
 /// 			is created. You can also enable DevOps Guru to generate an OpsItem in Amazon Web Services Systems Manager for each
-/// 			insight to help you manage and track your work addressing insights.
-/// 		        To learn about the DevOps Guru workflow, see How DevOps Guru works. To
+/// 			insight to help you manage and track your work addressing insights.  To learn about the DevOps Guru workflow, see How DevOps Guru works. To
 /// 			learn about DevOps Guru concepts, see Concepts in DevOps Guru.
 public struct DevOpsGuru: AWSService {
     // MARK: Member variables
@@ -82,13 +80,10 @@ public struct DevOpsGuru: AWSService {
     // MARK: API Calls
 
     ///  Adds a notification channel to DevOps Guru. A notification channel is used to notify you
-    /// 			about important DevOps Guru events, such as when an insight is generated.
-    /// 		       If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission
+    /// 			about important DevOps Guru events, such as when an insight is generated.  If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission
     /// 				to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics.
     /// 				For more information, see Permissions
-    /// 				for cross account Amazon SNS topics.
-    /// 				     If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. For more information, see Permissions for cross account Amazon SNS topics.
-    /// 				     If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions
+    /// 				for cross account Amazon SNS topics. If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. For more information, see Permissions for cross account Amazon SNS topics. If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions
     /// 				to the CMK. For more information, see Permissions for
     /// 				Amazon Web Services KMS–encrypted Amazon SNS topics.
     public func addNotificationChannel(_ input: AddNotificationChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddNotificationChannelResponse> {
@@ -249,8 +244,7 @@ public struct DevOpsGuru: AWSService {
     ///  Returns a list of insights in your Amazon Web Services account. You can specify which insights are
     /// 			returned by their start time, one or more statuses (ONGOING or CLOSED), one or more severities
     /// 				(LOW, MEDIUM, and HIGH), and type
-    /// 				(REACTIVE or PROACTIVE).
-    /// 		        Use the Filters parameter to specify status and severity search
+    /// 				(REACTIVE or PROACTIVE).  Use the Filters parameter to specify status and severity search
     /// 			parameters. Use the Type parameter to specify REACTIVE or
     /// 				PROACTIVE in your search.
     public func searchInsights(_ input: SearchInsightsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchInsightsResponse> {
@@ -261,8 +255,7 @@ public struct DevOpsGuru: AWSService {
     /// 			returned by their start time, one or more statuses (ONGOING,
     /// 				CLOSED, and CLOSED), one or more severities
     /// 				(LOW, MEDIUM, and HIGH), and type
-    /// 				(REACTIVE or PROACTIVE).
-    /// 		        Use the Filters parameter to specify status and severity search
+    /// 				(REACTIVE or PROACTIVE).  Use the Filters parameter to specify status and severity search
     /// 			parameters. Use the Type parameter to specify REACTIVE or
     /// 				PROACTIVE in your search.
     public func searchOrganizationInsights(_ input: SearchOrganizationInsightsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchOrganizationInsightsResponse> {
@@ -966,8 +959,7 @@ extension DevOpsGuru {
     ///  Returns a list of insights in your Amazon Web Services account. You can specify which insights are
     /// 			returned by their start time, one or more statuses (ONGOING or CLOSED), one or more severities
     /// 				(LOW, MEDIUM, and HIGH), and type
-    /// 				(REACTIVE or PROACTIVE).
-    /// 		        Use the Filters parameter to specify status and severity search
+    /// 				(REACTIVE or PROACTIVE).  Use the Filters parameter to specify status and severity search
     /// 			parameters. Use the Type parameter to specify REACTIVE or
     /// 				PROACTIVE in your search.
     ///
@@ -1026,8 +1018,7 @@ extension DevOpsGuru {
     /// 			returned by their start time, one or more statuses (ONGOING,
     /// 				CLOSED, and CLOSED), one or more severities
     /// 				(LOW, MEDIUM, and HIGH), and type
-    /// 				(REACTIVE or PROACTIVE).
-    /// 		        Use the Filters parameter to specify status and severity search
+    /// 				(REACTIVE or PROACTIVE).  Use the Filters parameter to specify status and severity search
     /// 			parameters. Use the Type parameter to specify REACTIVE or
     /// 				PROACTIVE in your search.
     ///
@@ -1125,6 +1116,7 @@ extension DevOpsGuru.ListAnomaliesForInsightRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DevOpsGuru.ListAnomaliesForInsightRequest {
         return .init(
             accountId: self.accountId,
+            filters: self.filters,
             insightId: self.insightId,
             maxResults: self.maxResults,
             nextToken: token,

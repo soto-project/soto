@@ -76,6 +76,7 @@ extension SageMaker {
         case mlG54Xlarge = "ml.g5.4xlarge"
         case mlG58Xlarge = "ml.g5.8xlarge"
         case mlG5Xlarge = "ml.g5.xlarge"
+        case mlGeospatialInteractive = "ml.geospatial.interactive"
         case mlM512Xlarge = "ml.m5.12xlarge"
         case mlM516Xlarge = "ml.m5.16xlarge"
         case mlM524Xlarge = "ml.m5.24xlarge"
@@ -171,6 +172,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum AsyncNotificationTopicTypes: String, CustomStringConvertible, Codable, Sendable {
+        case errorNotificationTopic = "ERROR_NOTIFICATION_TOPIC"
+        case successNotificationTopic = "SUCCESS_NOTIFICATION_TOPIC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AthenaResultCompressionType: String, CustomStringConvertible, Codable, Sendable {
         case gzip = "GZIP"
         case snappy = "SNAPPY"
@@ -190,6 +197,19 @@ extension SageMaker {
     public enum AuthMode: String, CustomStringConvertible, Codable, Sendable {
         case iam = "IAM"
         case sso = "SSO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoMLAlgorithm: String, CustomStringConvertible, Codable, Sendable {
+        case catboost = "catboost"
+        case extraTrees = "extra-trees"
+        case fastai = "fastai"
+        case lightgbm = "lightgbm"
+        case linearLearner = "linear-learner"
+        case mlp = "mlp"
+        case nnTorch = "nn-torch"
+        case randomforest = "randomforest"
+        case xgboost = "xgboost"
         public var description: String { return self.rawValue }
     }
 
@@ -223,6 +243,7 @@ extension SageMaker {
         case starting = "Starting"
         case stopped = "Stopped"
         case stopping = "Stopping"
+        case trainingModels = "TrainingModels"
         public var description: String { return self.rawValue }
     }
 
@@ -278,7 +299,14 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoMLProcessingUnit: String, CustomStringConvertible, Codable, Sendable {
+        case cpu = "CPU"
+        case gpu = "GPU"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AutoMLS3DataType: String, CustomStringConvertible, Codable, Sendable {
+        case augmentedManifestFile = "AugmentedManifestFile"
         case manifestFile = "ManifestFile"
         case s3Prefix = "S3Prefix"
         public var description: String { return self.rawValue }
@@ -454,6 +482,12 @@ extension SageMaker {
         case starting = "STARTING"
         case stopped = "STOPPED"
         case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CompleteOnConvergence: String, CustomStringConvertible, Codable, Sendable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
@@ -2190,6 +2224,56 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoMLProblemTypeConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Settings used to configure an AutoML job using the V2 API for the image classification problem type.
+        case imageClassificationJobConfig(ImageClassificationJobConfig)
+        /// Settings used to configure an AutoML job using the V2 API for the text classification problem type.
+        case textClassificationJobConfig(TextClassificationJobConfig)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .imageClassificationJobConfig:
+                let value = try container.decode(ImageClassificationJobConfig.self, forKey: .imageClassificationJobConfig)
+                self = .imageClassificationJobConfig(value)
+            case .textClassificationJobConfig:
+                let value = try container.decode(TextClassificationJobConfig.self, forKey: .textClassificationJobConfig)
+                self = .textClassificationJobConfig(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .imageClassificationJobConfig(let value):
+                try container.encode(value, forKey: .imageClassificationJobConfig)
+            case .textClassificationJobConfig(let value):
+                try container.encode(value, forKey: .textClassificationJobConfig)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .imageClassificationJobConfig(let value):
+                try value.validate(name: "\(name).imageClassificationJobConfig")
+            case .textClassificationJobConfig(let value):
+                try value.validate(name: "\(name).textClassificationJobConfig")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageClassificationJobConfig = "ImageClassificationJobConfig"
+            case textClassificationJobConfig = "TextClassificationJobConfig"
+        }
+    }
+
     public enum TrialComponentParameterValue: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The numeric value of a numeric hyperparameter. If you specify a value for this parameter, you can't specify the StringValue parameter.
         case numberValue(Double)
@@ -3005,23 +3089,28 @@ extension SageMaker {
     public struct AsyncInferenceNotificationConfig: AWSEncodableShape & AWSDecodableShape {
         /// Amazon SNS topic to post a notification to when inference fails. If no topic is provided, no notification is sent on failure.
         public let errorTopic: String?
+        /// The Amazon SNS topics where you want the inference response to be included.
+        public let includeInferenceResponseIn: [AsyncNotificationTopicTypes]?
         /// Amazon SNS topic to post a notification to when inference completes successfully. If no topic is provided, no notification is sent on success.
         public let successTopic: String?
 
-        public init(errorTopic: String? = nil, successTopic: String? = nil) {
+        public init(errorTopic: String? = nil, includeInferenceResponseIn: [AsyncNotificationTopicTypes]? = nil, successTopic: String? = nil) {
             self.errorTopic = errorTopic
+            self.includeInferenceResponseIn = includeInferenceResponseIn
             self.successTopic = successTopic
         }
 
         public func validate(name: String) throws {
             try self.validate(self.errorTopic, name: "errorTopic", parent: name, max: 2048)
             try self.validate(self.errorTopic, name: "errorTopic", parent: name, pattern: "^arn:aws[a-z\\-]*:sns:[a-z0-9\\-]*:[0-9]{12}:[a-zA-Z0-9_.-]+$")
+            try self.validate(self.includeInferenceResponseIn, name: "includeInferenceResponseIn", parent: name, max: 2)
             try self.validate(self.successTopic, name: "successTopic", parent: name, max: 2048)
             try self.validate(self.successTopic, name: "successTopic", parent: name, pattern: "^arn:aws[a-z\\-]*:sns:[a-z0-9\\-]*:[0-9]{12}:[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorTopic = "ErrorTopic"
+            case includeInferenceResponseIn = "IncludeInferenceResponseIn"
             case successTopic = "SuccessTopic"
         }
     }
@@ -3031,12 +3120,15 @@ extension SageMaker {
         public let kmsKeyId: String?
         /// Specifies the configuration for notifications of inference results for asynchronous inference.
         public let notificationConfig: AsyncInferenceNotificationConfig?
+        /// The Amazon S3 location to upload failure inference responses to.
+        public let s3FailurePath: String?
         /// The Amazon S3 location to upload inference responses to.
-        public let s3OutputPath: String
+        public let s3OutputPath: String?
 
-        public init(kmsKeyId: String? = nil, notificationConfig: AsyncInferenceNotificationConfig? = nil, s3OutputPath: String) {
+        public init(kmsKeyId: String? = nil, notificationConfig: AsyncInferenceNotificationConfig? = nil, s3FailurePath: String? = nil, s3OutputPath: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.notificationConfig = notificationConfig
+            self.s3FailurePath = s3FailurePath
             self.s3OutputPath = s3OutputPath
         }
 
@@ -3044,6 +3136,8 @@ extension SageMaker {
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
             try self.notificationConfig?.validate(name: "\(name).notificationConfig")
+            try self.validate(self.s3FailurePath, name: "s3FailurePath", parent: name, max: 512)
+            try self.validate(self.s3FailurePath, name: "s3FailurePath", parent: name, pattern: "^(https|s3)://([^/])/?(.*)$")
             try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, max: 512)
             try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, pattern: "^(https|s3)://([^/])/?(.*)$")
         }
@@ -3051,6 +3145,7 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
             case notificationConfig = "NotificationConfig"
+            case s3FailurePath = "S3FailurePath"
             case s3OutputPath = "S3OutputPath"
         }
     }
@@ -3109,6 +3204,23 @@ extension SageMaker {
         }
     }
 
+    public struct AutoMLAlgorithmConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The selection of algorithms run on a dataset to train the model candidates of an Autopilot job.   Selected algorithms must belong to the list corresponding to the training mode set in AutoMLJobConfig.Mode (ENSEMBLING or HYPERPARAMETER_TUNING). Choose a minimum of 1 algorithm.     In ENSEMBLING mode:   "catboost"   "extra-trees"   "fastai"   "lightgbm"   "linear-learner"   "nn-torch"   "randomforest"   "xgboost"     In HYPERPARAMETER_TUNING mode:   "linear-learner"   "mlp"   "xgboost"
+        public let autoMLAlgorithms: [AutoMLAlgorithm]
+
+        public init(autoMLAlgorithms: [AutoMLAlgorithm]) {
+            self.autoMLAlgorithms = autoMLAlgorithms
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoMLAlgorithms, name: "autoMLAlgorithms", parent: name, max: 11)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLAlgorithms = "AutoMLAlgorithms"
+        }
+    }
+
     public struct AutoMLCandidate: AWSDecodableShape {
         /// The name of the candidate.
         public let candidateName: String
@@ -3125,14 +3237,16 @@ extension SageMaker {
         /// The failure reason.
         public let failureReason: String?
         public let finalAutoMLJobObjectiveMetric: FinalAutoMLJobObjectiveMetric?
-        /// Information about the inference container definitions.
+        /// The mapping of all supported processing unit (CPU, GPU, etc...) to inference container definitions for the candidate. This field is populated for the V2 API only (for example, for jobs created by calling CreateAutoMLJobV2).
+        public let inferenceContainerDefinitions: [AutoMLProcessingUnit: [AutoMLContainerDefinition]]?
+        /// Information about the recommended inference container definitions.
         public let inferenceContainers: [AutoMLContainerDefinition]?
         /// The last modified time.
         public let lastModifiedTime: Date
         /// The objective's status.
         public let objectiveStatus: ObjectiveStatus
 
-        public init(candidateName: String, candidateProperties: CandidateProperties? = nil, candidateStatus: CandidateStatus, candidateSteps: [AutoMLCandidateStep], creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, finalAutoMLJobObjectiveMetric: FinalAutoMLJobObjectiveMetric? = nil, inferenceContainers: [AutoMLContainerDefinition]? = nil, lastModifiedTime: Date, objectiveStatus: ObjectiveStatus) {
+        public init(candidateName: String, candidateProperties: CandidateProperties? = nil, candidateStatus: CandidateStatus, candidateSteps: [AutoMLCandidateStep], creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, finalAutoMLJobObjectiveMetric: FinalAutoMLJobObjectiveMetric? = nil, inferenceContainerDefinitions: [AutoMLProcessingUnit: [AutoMLContainerDefinition]]? = nil, inferenceContainers: [AutoMLContainerDefinition]? = nil, lastModifiedTime: Date, objectiveStatus: ObjectiveStatus) {
             self.candidateName = candidateName
             self.candidateProperties = candidateProperties
             self.candidateStatus = candidateStatus
@@ -3141,6 +3255,7 @@ extension SageMaker {
             self.endTime = endTime
             self.failureReason = failureReason
             self.finalAutoMLJobObjectiveMetric = finalAutoMLJobObjectiveMetric
+            self.inferenceContainerDefinitions = inferenceContainerDefinitions
             self.inferenceContainers = inferenceContainers
             self.lastModifiedTime = lastModifiedTime
             self.objectiveStatus = objectiveStatus
@@ -3155,6 +3270,7 @@ extension SageMaker {
             case endTime = "EndTime"
             case failureReason = "FailureReason"
             case finalAutoMLJobObjectiveMetric = "FinalAutoMLJobObjectiveMetric"
+            case inferenceContainerDefinitions = "InferenceContainerDefinitions"
             case inferenceContainers = "InferenceContainers"
             case lastModifiedTime = "LastModifiedTime"
             case objectiveStatus = "ObjectiveStatus"
@@ -3162,19 +3278,27 @@ extension SageMaker {
     }
 
     public struct AutoMLCandidateGenerationConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A URL to the Amazon S3 data source containing selected features from the input data source to run an Autopilot job. You can input FeatureAttributeNames (optional) in JSON format as shown below:   { "FeatureAttributeNames":["col1", "col2", ...] }. You can also specify the data type of the feature (optional) in the format shown below:  { "FeatureDataTypes":{"col1":"numeric", "col2":"categorical" ... } }   These column keys may not include the target column.  In ensembling mode, Autopilot will only support the following data types: numeric, categorical, text and datetime. In HPO mode, Autopilot can support numeric, categorical, text, datetime and sequence. If only FeatureDataTypes is provided, the column keys (col1, col2,..) should be a subset of the column names in the input data.  If both FeatureDataTypes and FeatureAttributeNames are provided, then the column keys should be a subset of the column names provided in FeatureAttributeNames.  The key name FeatureAttributeNames is fixed. The values listed in ["col1", "col2", ...] is case sensitive and should be a list of strings containing unique values that are a subset of the column names in the input data. The list of columns provided must not include the target column.
+        /// Stores the configuration information for the selection of algorithms used to train the model candidates. The list of available algorithms to choose from depends on the training mode set in  AutoMLJobConfig.Mode .    AlgorithmsConfig should not be set in AUTO training mode.   When AlgorithmsConfig is provided, one AutoMLAlgorithms attribute must be set and one only. If the list of algorithms provided as values for AutoMLAlgorithms is empty, AutoMLCandidateGenerationConfig uses the full set of algorithms for the given training mode.   When AlgorithmsConfig is not provided, AutoMLCandidateGenerationConfig uses the full set of algorithms for the given training mode.   For the list of all algorithms per training mode, see  AutoMLAlgorithmConfig. For more information on each algorithm, see the Algorithm support section in Autopilot developer guide.
+        public let algorithmsConfig: [AutoMLAlgorithmConfig]?
+        /// A URL to the Amazon S3 data source containing selected features from the input data source to run an Autopilot job. You can input FeatureAttributeNames (optional) in JSON format as shown below:   { "FeatureAttributeNames":["col1", "col2", ...] }. You can also specify the data type of the feature (optional) in the format shown below:  { "FeatureDataTypes":{"col1":"numeric", "col2":"categorical" ... } }   These column keys may not include the target column.  In ensembling mode, Autopilot only supports the following data types: numeric, categorical, text, and datetime. In HPO mode, Autopilot can support numeric, categorical, text, datetime, and sequence. If only FeatureDataTypes is provided, the column keys (col1, col2,..) should be a subset of the column names in the input data.  If both FeatureDataTypes and FeatureAttributeNames are provided, then the column keys should be a subset of the column names provided in FeatureAttributeNames.  The key name FeatureAttributeNames is fixed. The values listed in ["col1", "col2", ...] are case sensitive and should be a list of strings containing unique values that are a subset of the column names in the input data. The list of columns provided must not include the target column.
         public let featureSpecificationS3Uri: String?
 
-        public init(featureSpecificationS3Uri: String? = nil) {
+        public init(algorithmsConfig: [AutoMLAlgorithmConfig]? = nil, featureSpecificationS3Uri: String? = nil) {
+            self.algorithmsConfig = algorithmsConfig
             self.featureSpecificationS3Uri = featureSpecificationS3Uri
         }
 
         public func validate(name: String) throws {
+            try self.algorithmsConfig?.forEach {
+                try $0.validate(name: "\(name).algorithmsConfig[]")
+            }
+            try self.validate(self.algorithmsConfig, name: "algorithmsConfig", parent: name, max: 1)
             try self.validate(self.featureSpecificationS3Uri, name: "featureSpecificationS3Uri", parent: name, max: 1024)
             try self.validate(self.featureSpecificationS3Uri, name: "featureSpecificationS3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case algorithmsConfig = "AlgorithmsConfig"
             case featureSpecificationS3Uri = "FeatureSpecificationS3Uri"
         }
     }
@@ -3201,7 +3325,7 @@ extension SageMaker {
     }
 
     public struct AutoMLChannel: AWSEncodableShape & AWSDecodableShape {
-        /// The channel type (optional) is an enum string. The default value is training. Channels for training and validation must share the same ContentType and TargetAttributeName. For information on specifying training and validation channel types, see  How to specify training and validation datasets .
+        /// The channel type (optional) is an enum string. The default value is training. Channels for training and validation must share the same ContentType and TargetAttributeName. For information on specifying training and validation channel types, see How to specify training and validation datasets.
         public let channelType: AutoMLChannelType?
         /// You can use Gzip or None. The default value is None.
         public let compressionType: CompressionType?
@@ -3237,11 +3361,11 @@ extension SageMaker {
     }
 
     public struct AutoMLContainerDefinition: AWSDecodableShape {
-        /// The environment variables to set in the container. For more information, see .
+        /// The environment variables to set in the container. For more information, see  ContainerDefinition.
         public let environment: [String: String]?
-        /// The Amazon Elastic Container Registry (Amazon ECR) path of the container. For more information, see .
+        /// The Amazon Elastic Container Registry (Amazon ECR) path of the container. For more information, see  ContainerDefinition.
         public let image: String
-        /// The location of the model artifacts. For more information, see .
+        /// The location of the model artifacts. For more information, see  ContainerDefinition.
         public let modelDataUrl: String
 
         public init(environment: [String: String]? = nil, image: String, modelDataUrl: String) {
@@ -3309,12 +3433,43 @@ extension SageMaker {
         }
     }
 
+    public struct AutoMLJobChannel: AWSEncodableShape & AWSDecodableShape {
+        /// The type of channel. Defines whether the data are used for training or validation. The default value is training. Channels for training and validation must share the same ContentType
+        public let channelType: AutoMLChannelType?
+        /// The allowed compression types depend on the input format. We allow the compression type Gzip for S3Prefix inputs only. For all other inputs, the compression type should be None. If no compression type is provided, we default to None.
+        public let compressionType: CompressionType?
+        /// The content type of the data from the input source. The following are the allowed content types for different problems:   ImageClassification: image/png, image/jpeg, image/*    TextClassification: text/csv;header=present
+        public let contentType: String?
+        /// The data source for an AutoML channel.
+        public let dataSource: AutoMLDataSource?
+
+        public init(channelType: AutoMLChannelType? = nil, compressionType: CompressionType? = nil, contentType: String? = nil, dataSource: AutoMLDataSource? = nil) {
+            self.channelType = channelType
+            self.compressionType = compressionType
+            self.contentType = contentType
+            self.dataSource = dataSource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contentType, name: "contentType", parent: name, max: 256)
+            try self.validate(self.contentType, name: "contentType", parent: name, pattern: ".*")
+            try self.dataSource?.validate(name: "\(name).dataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelType = "ChannelType"
+            case compressionType = "CompressionType"
+            case contentType = "ContentType"
+            case dataSource = "DataSource"
+        }
+    }
+
     public struct AutoMLJobCompletionCriteria: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum runtime, in seconds, an AutoML job has to complete. If an AutoML job exceeds the maximum runtime, the job is stopped automatically and its processing is ended gracefully. The AutoML job identifies the best model whose training was completed and marks it as the best-performing model. Any unfinished steps of the job, such as automatic one-click Autopilot model deployment, will not be completed.
+        /// The maximum runtime, in seconds, an AutoML job has to complete. If an AutoML job exceeds the maximum runtime, the job is stopped automatically and its processing is ended gracefully. The AutoML job identifies the best model whose training was completed and marks it as the best-performing model. Any unfinished steps of the job, such as automatic one-click Autopilot model deployment, are not completed.
         public let maxAutoMLJobRuntimeInSeconds: Int?
-        /// The maximum number of times a training job is allowed to run.
+        /// The maximum number of times a training job is allowed to run. For V2 jobs (jobs created by calling CreateAutoMLJobV2), the supported value is 1.
         public let maxCandidates: Int?
-        /// The maximum time, in seconds, that each training job executed inside hyperparameter tuning is allowed to run as part of a hyperparameter tuning job. For more information, see the  used by the  action.
+        /// The maximum time, in seconds, that each training job executed inside hyperparameter tuning is allowed to run as part of a hyperparameter tuning job. For more information, see the StoppingCondition used by the CreateHyperParameterTuningJob action. For V2 jobs (jobs created by calling CreateAutoMLJobV2), this field controls the runtime of the job candidate.
         public let maxRuntimePerTrainingJobInSeconds: Int?
 
         public init(maxAutoMLJobRuntimeInSeconds: Int? = nil, maxCandidates: Int? = nil, maxRuntimePerTrainingJobInSeconds: Int? = nil) {
@@ -3325,6 +3480,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.maxAutoMLJobRuntimeInSeconds, name: "maxAutoMLJobRuntimeInSeconds", parent: name, min: 1)
+            try self.validate(self.maxCandidates, name: "maxCandidates", parent: name, max: 750)
             try self.validate(self.maxCandidates, name: "maxCandidates", parent: name, min: 1)
             try self.validate(self.maxRuntimePerTrainingJobInSeconds, name: "maxRuntimePerTrainingJobInSeconds", parent: name, min: 1)
         }
@@ -3343,7 +3499,7 @@ extension SageMaker {
         public let completionCriteria: AutoMLJobCompletionCriteria?
         /// The configuration for splitting the input training dataset. Type: AutoMLDataSplitConfig
         public let dataSplitConfig: AutoMLDataSplitConfig?
-        /// The method that Autopilot uses to train the data. You can either specify the mode manually or let Autopilot choose for you based on the dataset size by selecting AUTO. In AUTO mode, Autopilot chooses ENSEMBLING for datasets smaller than 100 MB, and HYPERPARAMETER_TUNING for larger ones. The ENSEMBLING mode uses a multi-stack ensemble model to predict classification and regression tasks directly from your dataset. This machine learning mode combines several base models to produce an optimal predictive model. It then uses a stacking ensemble method to combine predictions from contributing members. A multi-stack ensemble model can provide better performance over a single model by combining the predictive capabilities of multiple models. See Autopilot algorithm support for a list of algorithms supported by ENSEMBLING mode. The HYPERPARAMETER_TUNING (HPO) mode uses the best hyperparameters to train the best version of a model. HPO will automatically select an algorithm for the type of problem you want to solve. Then HPO finds the best hyperparameters according to your objective metric. See Autopilot algorithm support for a list of algorithms supported by HYPERPARAMETER_TUNING mode.
+        /// The method that Autopilot uses to train the data. You can either specify the mode manually or let Autopilot choose for you based on the dataset size by selecting AUTO. In AUTO mode, Autopilot chooses ENSEMBLING for datasets smaller than 100 MB, and HYPERPARAMETER_TUNING for larger ones. The ENSEMBLING mode uses a multi-stack ensemble model to predict classification and regression tasks directly from your dataset. This machine learning mode combines several base models to produce an optimal predictive model. It then uses a stacking ensemble method to combine predictions from contributing members. A multi-stack ensemble model can provide better performance over a single model by combining the predictive capabilities of multiple models. See Autopilot algorithm support for a list of algorithms supported by ENSEMBLING mode. The HYPERPARAMETER_TUNING (HPO) mode uses the best hyperparameters to train the best version of a model. HPO automatically selects an algorithm for the type of problem you want to solve. Then HPO finds the best hyperparameters according to your objective metric. See Autopilot algorithm support for a list of algorithms supported by HYPERPARAMETER_TUNING mode.
         public let mode: AutoMLMode?
         /// The security configuration for traffic encryption or Amazon VPC settings.
         public let securityConfig: AutoMLSecurityConfig?
@@ -3373,7 +3529,7 @@ extension SageMaker {
     }
 
     public struct AutoMLJobObjective: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the objective metric used to measure the predictive quality of a machine learning system. This metric is optimized during training to provide the best estimate for model parameter values from data. Here are the options:  Accuracy  The ratio of the number of correctly classified items to the total number of (correctly and incorrectly) classified items. It is used for both binary and multiclass classification. Accuracy measures how close the predicted class values are to the actual values. Values for accuracy metrics vary between zero (0) and one (1). A value of 1 indicates perfect accuracy, and 0 indicates perfect inaccuracy.  AUC  The area under the curve (AUC) metric is used to compare and evaluate binary classification by algorithms that return probabilities, such as logistic regression. To map the probabilities into classifications, these are compared against a threshold value.  The relevant curve is the receiver operating characteristic curve (ROC curve). The ROC curve plots the true positive rate (TPR) of predictions (or recall) against the false positive rate (FPR) as a function of the threshold value, above which a prediction is considered positive. Increasing the threshold results in fewer false positives, but more false negatives.  AUC is the area under this ROC curve. Therefore, AUC provides an aggregated measure of the model performance across all possible classification thresholds. AUC scores vary between 0 and 1. A score of 1 indicates perfect accuracy, and a score of one half (0.5) indicates that the prediction is not better than a random classifier.   BalancedAccuracy   BalancedAccuracy is a metric that measures the ratio of accurate predictions to all predictions. This ratio is calculated after normalizing true positives (TP) and true negatives (TN) by the total number of positive (P) and negative (N) values. It is used in both binary and multiclass classification and is defined as follows: 0.5*((TP/P)+(TN/N)), with values ranging from 0 to 1. BalancedAccuracy gives a better measure of accuracy when the number of positives or negatives differ greatly from each other in an imbalanced dataset. For example, when only 1% of email is spam.   F1  The F1 score is the harmonic mean of the precision and recall, defined as follows: F1 = 2 * (precision * recall) / (precision + recall). It is used for binary classification into classes traditionally referred to as positive and negative. Predictions are said to be true when they match their actual (correct) class, and false when they do not.  Precision is the ratio of the true positive predictions to all positive predictions, and it includes the false positives in a dataset. Precision measures the quality of the prediction when it predicts the positive class.  Recall (or sensitivity) is the ratio of the true positive predictions to all actual positive instances. Recall measures how completely a model predicts the actual class members in a dataset.  F1 scores vary between 0 and 1. A score of 1 indicates the best possible performance, and 0 indicates the worst.  F1macro  The F1macro score applies F1 scoring to multiclass classification problems. It does this by calculating the precision and recall, and then taking their harmonic mean to calculate the F1 score for each class. Lastly, the F1macro averages the individual scores to obtain the F1macro score. F1macro scores vary between 0 and 1. A score of 1 indicates the best possible performance, and 0 indicates the worst.  MAE  The mean absolute error (MAE) is a measure of how different the predicted and actual values are, when they're averaged over all values. MAE is commonly used in regression analysis to understand model prediction error. If there is linear regression, MAE represents the average distance from a predicted line to the actual value. MAE is defined as the sum of absolute errors divided by the number of observations. Values range from 0 to infinity, with smaller numbers indicating a better model fit to the data.  MSE  The mean squared error (MSE) is the average of the squared differences between the predicted and actual values. It is used for regression. MSE values are always positive. The better a model is at predicting the actual values, the smaller the MSE value is  Precision  Precision measures how well an algorithm predicts the true positives (TP) out of all of the positives that it identifies. It is defined as follows: Precision = TP/(TP+FP), with values ranging from zero (0) to one (1), and is used in binary classification. Precision is an important metric when the cost of a false positive is high. For example, the cost of a false positive is very high if an airplane safety system is falsely deemed safe to fly. A false positive (FP) reflects a positive prediction that is actually negative in the data.  PrecisionMacro  The precision macro computes precision for multiclass classification problems. It does this by calculating precision for each class and averaging scores to obtain precision for several classes. PrecisionMacro scores range from zero (0) to one (1). Higher scores reflect the model's ability to predict true positives (TP) out of all of the positives that it identifies, averaged across multiple classes.  R2  R2, also known as the coefficient of determination, is used in regression to quantify how much a model can explain the variance of a dependent variable. Values range from one (1) to negative one (-1). Higher numbers indicate a higher fraction of explained variability. R2 values close to zero (0) indicate that very little of the dependent variable can be explained by the model. Negative values indicate a poor fit and that the model is outperformed by a constant function. For linear regression, this is a horizontal line.  Recall  Recall measures how well an algorithm correctly predicts all of the true positives (TP) in a dataset. A true positive is a positive prediction that is also an actual positive value in the data. Recall is defined as follows: Recall = TP/(TP+FN), with values ranging from 0 to 1. Higher scores reflect a better ability of the model to predict true positives (TP) in the data, and is used in binary classification.  Recall is important when testing for cancer because it's used to find all of the true positives. A false positive (FP) reflects a positive prediction that is actually negative in the data. It is often insufficient to measure only recall, because predicting every output as a true positive will yield a perfect recall score.  RecallMacro  The RecallMacro computes recall for multiclass classification problems by calculating recall for each class and averaging scores to obtain recall for several classes. RecallMacro scores range from 0 to 1. Higher scores reflect the model's ability to predict true positives (TP) in a dataset. Whereas, a true positive reflects a positive prediction that is also an actual positive value in the data. It is often insufficient to measure only recall, because predicting every output as a true positive will yield a perfect recall score.  RMSE  Root mean squared error (RMSE) measures the square root of the squared difference between predicted and actual values, and it's averaged over all values. It is used in regression analysis to understand model prediction error. It's an important metric to indicate the presence of large model errors and outliers. Values range from zero (0) to infinity, with smaller numbers indicating a better model fit to the data. RMSE is dependent on scale, and should not be used to compare datasets of different sizes.   If you do not specify a metric explicitly, the default behavior is to automatically use:    MSE: for regression.    F1: for binary classification    Accuracy: for multiclass classification.
+        /// The name of the objective metric used to measure the predictive quality of a machine learning system. This metric is optimized during training to provide the best estimate for model parameter values from data. Here are the options:  Accuracy  The ratio of the number of correctly classified items to the total number of (correctly and incorrectly) classified items. It is used for both binary and multiclass classification. Accuracy measures how close the predicted class values are to the actual values. Values for accuracy metrics vary between zero (0) and one (1). A value of 1 indicates perfect accuracy, and 0 indicates perfect inaccuracy.  AUC  The area under the curve (AUC) metric is used to compare and evaluate binary classification by algorithms that return probabilities, such as logistic regression. To map the probabilities into classifications, these are compared against a threshold value.  The relevant curve is the receiver operating characteristic curve (ROC curve). The ROC curve plots the true positive rate (TPR) of predictions (or recall) against the false positive rate (FPR) as a function of the threshold value, above which a prediction is considered positive. Increasing the threshold results in fewer false positives, but more false negatives.  AUC is the area under this ROC curve. Therefore, AUC provides an aggregated measure of the model performance across all possible classification thresholds. AUC scores vary between 0 and 1. A score of 1 indicates perfect accuracy, and a score of one half (0.5) indicates that the prediction is not better than a random classifier.   BalancedAccuracy   BalancedAccuracy is a metric that measures the ratio of accurate predictions to all predictions. This ratio is calculated after normalizing true positives (TP) and true negatives (TN) by the total number of positive (P) and negative (N) values. It is used in both binary and multiclass classification and is defined as follows: 0.5*((TP/P)+(TN/N)), with values ranging from 0 to 1. BalancedAccuracy gives a better measure of accuracy when the number of positives or negatives differ greatly from each other in an imbalanced dataset. For example, when only 1% of email is spam.   F1  The F1 score is the harmonic mean of the precision and recall, defined as follows: F1 = 2 * (precision * recall) / (precision + recall). It is used for binary classification into classes traditionally referred to as positive and negative. Predictions are said to be true when they match their actual (correct) class, and false when they do not.  Precision is the ratio of the true positive predictions to all positive predictions, and it includes the false positives in a dataset. Precision measures the quality of the prediction when it predicts the positive class.  Recall (or sensitivity) is the ratio of the true positive predictions to all actual positive instances. Recall measures how completely a model predicts the actual class members in a dataset.  F1 scores vary between 0 and 1. A score of 1 indicates the best possible performance, and 0 indicates the worst.  F1macro  The F1macro score applies F1 scoring to multiclass classification problems. It does this by calculating the precision and recall, and then taking their harmonic mean to calculate the F1 score for each class. Lastly, the F1macro averages the individual scores to obtain the F1macro score. F1macro scores vary between 0 and 1. A score of 1 indicates the best possible performance, and 0 indicates the worst.  MAE  The mean absolute error (MAE) is a measure of how different the predicted and actual values are, when they're averaged over all values. MAE is commonly used in regression analysis to understand model prediction error. If there is linear regression, MAE represents the average distance from a predicted line to the actual value. MAE is defined as the sum of absolute errors divided by the number of observations. Values range from 0 to infinity, with smaller numbers indicating a better model fit to the data.  MSE  The mean squared error (MSE) is the average of the squared differences between the predicted and actual values. It is used for regression. MSE values are always positive. The better a model is at predicting the actual values, the smaller the MSE value is  Precision  Precision measures how well an algorithm predicts the true positives (TP) out of all of the positives that it identifies. It is defined as follows: Precision = TP/(TP+FP), with values ranging from zero (0) to one (1), and is used in binary classification. Precision is an important metric when the cost of a false positive is high. For example, the cost of a false positive is very high if an airplane safety system is falsely deemed safe to fly. A false positive (FP) reflects a positive prediction that is actually negative in the data.  PrecisionMacro  The precision macro computes precision for multiclass classification problems. It does this by calculating precision for each class and averaging scores to obtain precision for several classes. PrecisionMacro scores range from zero (0) to one (1). Higher scores reflect the model's ability to predict true positives (TP) out of all of the positives that it identifies, averaged across multiple classes.  R2  R2, also known as the coefficient of determination, is used in regression to quantify how much a model can explain the variance of a dependent variable. Values range from one (1) to negative one (-1). Higher numbers indicate a higher fraction of explained variability. R2 values close to zero (0) indicate that very little of the dependent variable can be explained by the model. Negative values indicate a poor fit and that the model is outperformed by a constant function. For linear regression, this is a horizontal line.  Recall  Recall measures how well an algorithm correctly predicts all of the true positives (TP) in a dataset. A true positive is a positive prediction that is also an actual positive value in the data. Recall is defined as follows: Recall = TP/(TP+FN), with values ranging from 0 to 1. Higher scores reflect a better ability of the model to predict true positives (TP) in the data, and is used in binary classification.  Recall is important when testing for cancer because it's used to find all of the true positives. A false positive (FP) reflects a positive prediction that is actually negative in the data. It is often insufficient to measure only recall, because predicting every output as a true positive yield a perfect recall score.  RecallMacro  The RecallMacro computes recall for multiclass classification problems by calculating recall for each class and averaging scores to obtain recall for several classes. RecallMacro scores range from 0 to 1. Higher scores reflect the model's ability to predict true positives (TP) in a dataset. Whereas, a true positive reflects a positive prediction that is also an actual positive value in the data. It is often insufficient to measure only recall, because predicting every output as a true positive yields a perfect recall score.  RMSE  Root mean squared error (RMSE) measures the square root of the squared difference between predicted and actual values, and it's averaged over all values. It is used in regression analysis to understand model prediction error. It's an important metric to indicate the presence of large model errors and outliers. Values range from zero (0) to infinity, with smaller numbers indicating a better model fit to the data. RMSE is dependent on scale, and should not be used to compare datasets of different sizes.   If you do not specify a metric explicitly, the default behavior is to automatically use:    MSE: for regression.    F1: for binary classification    Accuracy: for multiclass classification.
         public let metricName: AutoMLMetricEnum
 
         public init(metricName: AutoMLMetricEnum) {
@@ -3481,9 +3637,9 @@ extension SageMaker {
     }
 
     public struct AutoMLS3DataSource: AWSEncodableShape & AWSDecodableShape {
-        /// The data type. A ManifestFile should have the format shown below:  [ {"prefix": "s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/DOC-EXAMPLE-PREFIX/"},    "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-1",   "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-2",   ... "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-N" ]  An S3Prefix should have the following format:   s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER-OR-FILE
+        /// The data type.    If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix for model training. The S3Prefix should have the following format:  s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER-OR-FILE    If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker to use for model training. A ManifestFile should have the format shown below:  [ {"prefix": "s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/DOC-EXAMPLE-PREFIX/"},    "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-1",   "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-2",   ... "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-N" ]    If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile is available for V2 API jobs only (for example, for jobs created by calling CreateAutoMLJobV2). Here is a minimal, single-record example of an AugmentedManifestFile:  {"source-ref": "s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/cats/cat.jpg",   "label-metadata": {"class-name": "cat" } For more information on AugmentedManifestFile, see Provide Dataset Metadata to Training Jobs with an Augmented Manifest File.
         public let s3DataType: AutoMLS3DataType
-        /// The URL to the Amazon S3 data source.
+        /// The URL to the Amazon S3 data source. The Uri refers to the Amazon S3 prefix or ManifestFile depending on the data type.
         public let s3Uri: String
 
         public init(s3DataType: AutoMLS3DataType, s3Uri: String) {
@@ -3736,6 +3892,23 @@ extension SageMaker {
             case s3DataDistributionType = "S3DataDistributionType"
             case s3InputMode = "S3InputMode"
             case startTimeOffset = "StartTimeOffset"
+        }
+    }
+
+    public struct BestObjectiveNotImproving: AWSEncodableShape & AWSDecodableShape {
+        /// The number of training jobs that have failed to improve model performance by 1% or greater over prior training jobs as evaluated against an objective function.
+        public let maxNumberOfTrainingJobsNotImproving: Int?
+
+        public init(maxNumberOfTrainingJobsNotImproving: Int? = nil) {
+            self.maxNumberOfTrainingJobsNotImproving = maxNumberOfTrainingJobsNotImproving
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxNumberOfTrainingJobsNotImproving, name: "maxNumberOfTrainingJobsNotImproving", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxNumberOfTrainingJobsNotImproving = "MaxNumberOfTrainingJobsNotImproving"
         }
     }
 
@@ -4589,15 +4762,15 @@ extension SageMaker {
         public let containerHostname: String?
         /// The environment variables to set in the Docker container. Each key and value in the Environment string to string map can have length of up to 1024. We support up to 16 entries in the map.
         public let environment: [String: String]?
-        /// The path where inference code is stored. This can be either in Amazon EC2 Container Registry or in a Docker registry that is accessible from the same VPC that you configure for your endpoint. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker
+        /// The path where inference code is stored. This can be either in Amazon EC2 Container Registry or in a Docker registry that is accessible from the same VPC that you configure for your endpoint. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker.   The model artifacts in an Amazon S3 bucket and the Docker image for inference container in Amazon EC2 Container Registry must be in the same region as the model or endpoint you are creating.
         public let image: String?
-        /// Specifies whether the model container is in Amazon ECR or a private Docker registry accessible from your Amazon Virtual Private Cloud (VPC). For information about storing containers in a private Docker registry, see Use a Private Docker Registry for Real-Time Inference Containers
+        /// Specifies whether the model container is in Amazon ECR or a private Docker registry accessible from your Amazon Virtual Private Cloud (VPC). For information about storing containers in a private Docker registry, see Use a Private Docker Registry for Real-Time Inference Containers.   The model artifacts in an Amazon S3 bucket and the Docker image for inference container in Amazon EC2 Container Registry must be in the same region as the model or endpoint you are creating.
         public let imageConfig: ImageConfig?
         /// The inference specification name in the model package version.
         public let inferenceSpecificationName: String?
         /// Whether the container hosts a single model or multiple models.
         public let mode: ContainerMode?
-        /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The S3 path is required for SageMaker built-in algorithms, but not if you use your own algorithms. For more information on built-in algorithms, see Common Parameters.   The model artifacts must be in an S3 bucket that is in the same region as the model or endpoint you are creating.  If you provide a value for this parameter, SageMaker uses Amazon Web Services Security Token Service to download model artifacts from the S3 path you provide. Amazon Web Services STS is activated in your IAM user account by default. If you previously deactivated Amazon Web Services STS for a region, you need to reactivate Amazon Web Services STS for that region. For more information, see Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region in the Amazon Web Services Identity and Access Management User Guide.  If you use a built-in algorithm to create a model, SageMaker requires that you provide a S3 path to the model artifacts in ModelDataUrl.
+        /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The S3 path is required for SageMaker built-in algorithms, but not if you use your own algorithms. For more information on built-in algorithms, see Common Parameters.   The model artifacts must be in an S3 bucket that is in the same region as the model or endpoint you are creating.  If you provide a value for this parameter, SageMaker uses Amazon Web Services Security Token Service to download model artifacts from the S3 path you provide. Amazon Web Services STS is activated in your Amazon Web Services account by default. If you previously deactivated Amazon Web Services STS for a region, you need to reactivate Amazon Web Services STS for that region. For more information, see Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region in the Amazon Web Services Identity and Access Management User Guide.  If you use a built-in algorithm to create a model, SageMaker requires that you provide a S3 path to the model artifacts in ModelDataUrl.
         public let modelDataUrl: String?
         /// The name or Amazon Resource Name (ARN) of the model package to use to create the model.
         public let modelPackageName: String?
@@ -4767,6 +4940,19 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case maxValue = "MaxValue"
             case minValue = "MinValue"
+        }
+    }
+
+    public struct ConvergenceDetected: AWSEncodableShape & AWSDecodableShape {
+        /// A flag to stop a tuning job once AMT has detected that the job has converged.
+        public let completeOnConvergence: CompleteOnConvergence?
+
+        public init(completeOnConvergence: CompleteOnConvergence? = nil) {
+            self.completeOnConvergence = completeOnConvergence
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completeOnConvergence = "CompleteOnConvergence"
         }
     }
 
@@ -5089,23 +5275,23 @@ extension SageMaker {
     public struct CreateAutoMLJobRequest: AWSEncodableShape {
         /// A collection of settings used to configure an AutoML job.
         public let autoMLJobConfig: AutoMLJobConfig?
-        /// Identifies an Autopilot job. The name must be unique to your account and is case-insensitive.
+        /// Identifies an Autopilot job. The name must be unique to your account and is case insensitive.
         public let autoMLJobName: String
-        /// Defines the objective metric used to measure the predictive quality of an AutoML job. You provide an AutoMLJobObjective$MetricName and Autopilot infers whether to minimize or maximize it.
+        /// Defines the objective metric used to measure the predictive quality of an AutoML job. You provide an AutoMLJobObjective$MetricName and Autopilot infers whether to minimize or maximize it. For CreateAutoMLJobV2, only Accuracy is supported.
         public let autoMLJobObjective: AutoMLJobObjective?
         /// Generates possible candidates without training the models. A candidate is a combination of data preprocessors, algorithms, and algorithm parameter settings.
         public let generateCandidateDefinitionsOnly: Bool?
-        /// An array of channel objects that describes the input data and its location. Each channel is a named input source. Similar to InputDataConfig supported by . Format(s) supported: CSV, Parquet. A minimum of 500 rows is required for the training dataset. There is not a minimum number of rows required for the validation dataset.
+        /// An array of channel objects that describes the input data and its location. Each channel is a named input source. Similar to InputDataConfig supported by HyperParameterTrainingJobDefinition. Format(s) supported: CSV, Parquet. A minimum of 500 rows is required for the training dataset. There is not a minimum number of rows required for the validation dataset.
         public let inputDataConfig: [AutoMLChannel]
         /// Specifies how to generate the endpoint name for an automatic one-click Autopilot model deployment.
         public let modelDeployConfig: ModelDeployConfig?
         /// Provides information about encryption and the Amazon S3 output path needed to store artifacts from an AutoML job. Format(s) supported: CSV.
         public let outputDataConfig: AutoMLOutputDataConfig
-        /// Defines the type of supervised learning available for the candidates. For more information, see  Amazon SageMaker Autopilot problem types and algorithm support.
+        /// Defines the type of supervised learning problem available for the candidates. For more information, see  Amazon SageMaker Autopilot problem types.
         public let problemType: ProblemType?
         /// The ARN of the role that is used to access the data.
         public let roleArn: String
-        /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web ServicesResources. Tag keys must be unique per resource.
         public let tags: [Tag]?
 
         public init(autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel], modelDeployConfig: ModelDeployConfig? = nil, outputDataConfig: AutoMLOutputDataConfig, problemType: ProblemType? = nil, roleArn: String, tags: [Tag]? = nil) {
@@ -5158,6 +5344,91 @@ extension SageMaker {
 
     public struct CreateAutoMLJobResponse: AWSDecodableShape {
         /// The unique ARN assigned to the AutoML job when it is created.
+        public let autoMLJobArn: String
+
+        public init(autoMLJobArn: String) {
+            self.autoMLJobArn = autoMLJobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLJobArn = "AutoMLJobArn"
+        }
+    }
+
+    public struct CreateAutoMLJobV2Request: AWSEncodableShape {
+        /// An array of channel objects describing the input data and their location. Each channel is a named input source. Similar to InputDataConfig supported by CreateAutoMLJob. The supported formats depend on the problem type:   ImageClassification: S3Prefix, ManifestFile, AugmentedManifestFile    TextClassification: S3Prefix
+        public let autoMLJobInputDataConfig: [AutoMLJobChannel]
+        /// Identifies an Autopilot job. The name must be unique to your account and is case insensitive.
+        public let autoMLJobName: String
+        /// Specifies a metric to minimize or maximize as the objective of a job. For CreateAutoMLJobV2, only Accuracy is supported.
+        public let autoMLJobObjective: AutoMLJobObjective?
+        /// Defines the configuration settings of one of the supported problem types.
+        public let autoMLProblemTypeConfig: AutoMLProblemTypeConfig
+        /// This structure specifies how to split the data into train and validation datasets. If you are using the V1 API (for example CreateAutoMLJob) or the V2 API for Natural Language Processing problems (for example CreateAutoMLJobV2 with a TextClassificationJobConfig problem type), the validation and training datasets must contain the same headers. Also, for V1 API jobs, the validation dataset must be less than 2 GB in size.
+        public let dataSplitConfig: AutoMLDataSplitConfig?
+        /// Specifies how to generate the endpoint name for an automatic one-click Autopilot model deployment.
+        public let modelDeployConfig: ModelDeployConfig?
+        /// Provides information about encryption and the Amazon S3 output path needed to store artifacts from an AutoML job.
+        public let outputDataConfig: AutoMLOutputDataConfig
+        /// The ARN of the role that is used to access the data.
+        public let roleArn: String
+        /// The security configuration for traffic encryption or Amazon VPC settings.
+        public let securityConfig: AutoMLSecurityConfig?
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, such as by purpose, owner, or environment. For more information, see Tagging Amazon Web ServicesResources. Tag keys must be unique per resource.
+        public let tags: [Tag]?
+
+        public init(autoMLJobInputDataConfig: [AutoMLJobChannel], autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLProblemTypeConfig: AutoMLProblemTypeConfig, dataSplitConfig: AutoMLDataSplitConfig? = nil, modelDeployConfig: ModelDeployConfig? = nil, outputDataConfig: AutoMLOutputDataConfig, roleArn: String, securityConfig: AutoMLSecurityConfig? = nil, tags: [Tag]? = nil) {
+            self.autoMLJobInputDataConfig = autoMLJobInputDataConfig
+            self.autoMLJobName = autoMLJobName
+            self.autoMLJobObjective = autoMLJobObjective
+            self.autoMLProblemTypeConfig = autoMLProblemTypeConfig
+            self.dataSplitConfig = dataSplitConfig
+            self.modelDeployConfig = modelDeployConfig
+            self.outputDataConfig = outputDataConfig
+            self.roleArn = roleArn
+            self.securityConfig = securityConfig
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.autoMLJobInputDataConfig.forEach {
+                try $0.validate(name: "\(name).autoMLJobInputDataConfig[]")
+            }
+            try self.validate(self.autoMLJobInputDataConfig, name: "autoMLJobInputDataConfig", parent: name, max: 2)
+            try self.validate(self.autoMLJobInputDataConfig, name: "autoMLJobInputDataConfig", parent: name, min: 1)
+            try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, max: 32)
+            try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, min: 1)
+            try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}$")
+            try self.autoMLProblemTypeConfig.validate(name: "\(name).autoMLProblemTypeConfig")
+            try self.dataSplitConfig?.validate(name: "\(name).dataSplitConfig")
+            try self.modelDeployConfig?.validate(name: "\(name).modelDeployConfig")
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.securityConfig?.validate(name: "\(name).securityConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLJobInputDataConfig = "AutoMLJobInputDataConfig"
+            case autoMLJobName = "AutoMLJobName"
+            case autoMLJobObjective = "AutoMLJobObjective"
+            case autoMLProblemTypeConfig = "AutoMLProblemTypeConfig"
+            case dataSplitConfig = "DataSplitConfig"
+            case modelDeployConfig = "ModelDeployConfig"
+            case outputDataConfig = "OutputDataConfig"
+            case roleArn = "RoleArn"
+            case securityConfig = "SecurityConfig"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAutoMLJobV2Response: AWSDecodableShape {
+        /// The unique ARN assigned to the AutoMLJob when it is created.
         public let autoMLJobArn: String
 
         public init(autoMLJobArn: String) {
@@ -5974,7 +6245,7 @@ extension SageMaker {
             try self.validate(self.featureDefinitions, name: "featureDefinitions", parent: name, min: 1)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63}$")
             try self.offlineStoreConfig?.validate(name: "\(name).offlineStoreConfig")
             try self.onlineStoreConfig?.validate(name: "\(name).onlineStoreConfig")
             try self.validate(self.recordIdentifierFeatureName, name: "recordIdentifierFeatureName", parent: name, max: 64)
@@ -7060,7 +7331,7 @@ extension SageMaker {
         public let modelPackageGroupName: String?
         /// The name of the model package. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen). This parameter is required for unversioned models. It is not applicable to versioned models.
         public let modelPackageName: String?
-        /// The Amazon Simple Storage Service (Amazon S3) path where the sample payload are stored. This path must point  to a single gzip compressed tar archive (.tar.gz suffix).
+        /// The Amazon Simple Storage Service (Amazon S3) path where the sample payload is stored. This path must point  to a single gzip compressed tar archive (.tar.gz suffix). This archive can hold multiple files that are all equally used in the load test. Each file in the archive must satisfy the size constraints of the InvokeEndpoint call.
         public let samplePayloadUrl: String?
         /// Details about the algorithm that was used to create the model package.
         public let sourceAlgorithmSpecification: SourceAlgorithmSpecification?
@@ -9399,7 +9670,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10603,7 +10874,7 @@ extension SageMaker {
         public let failureReason: String?
         /// Indicates whether the output for an AutoML job generates candidate definitions only.
         public let generateCandidateDefinitionsOnly: Bool?
-        /// Returns the input data configuration for the AutoML job..
+        /// Returns the input data configuration for the AutoML job.
         public let inputDataConfig: [AutoMLChannel]
         /// Returns the job's last modified time.
         public let lastModifiedTime: Date
@@ -10617,7 +10888,7 @@ extension SageMaker {
         public let partialFailureReasons: [AutoMLPartialFailureReason]?
         /// Returns the job's problem type.
         public let problemType: ProblemType?
-        /// This contains ProblemType, AutoMLJobObjective, and CompletionCriteria. If you do not provide these values, they are auto-inferred. If you do provide them, the values used are the ones you provide.
+        /// Contains ProblemType, AutoMLJobObjective, and CompletionCriteria. If you do not provide these values, they are auto-inferred. If you do provide them, the values used are the ones you provide.
         public let resolvedAttributes: ResolvedAttributes?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
         public let roleArn: String
@@ -10668,6 +10939,110 @@ extension SageMaker {
             case problemType = "ProblemType"
             case resolvedAttributes = "ResolvedAttributes"
             case roleArn = "RoleArn"
+        }
+    }
+
+    public struct DescribeAutoMLJobV2Request: AWSEncodableShape {
+        /// Requests information about an AutoML V2 job using its unique name.
+        public let autoMLJobName: String
+
+        public init(autoMLJobName: String) {
+            self.autoMLJobName = autoMLJobName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, max: 32)
+            try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, min: 1)
+            try self.validate(self.autoMLJobName, name: "autoMLJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,31}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLJobName = "AutoMLJobName"
+        }
+    }
+
+    public struct DescribeAutoMLJobV2Response: AWSDecodableShape {
+        /// Returns the Amazon Resource Name (ARN) of the AutoML V2 job.
+        public let autoMLJobArn: String
+        /// Returns an array of channel objects describing the input data and their location.
+        public let autoMLJobInputDataConfig: [AutoMLJobChannel]
+        /// Returns the name of the AutoML V2 job.
+        public let autoMLJobName: String
+        /// Returns the job's objective.
+        public let autoMLJobObjective: AutoMLJobObjective?
+        /// Returns the secondary status of the AutoML V2 job.
+        public let autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus
+        /// Returns the status of the AutoML V2 job.
+        public let autoMLJobStatus: AutoMLJobStatus
+        /// Returns the configuration settings of the problem type set for the AutoML V2 job.
+        public let autoMLProblemTypeConfig: AutoMLProblemTypeConfig?
+        /// Information about the candidate produced by an AutoML training job V2, including its status, steps, and other properties.
+        public let bestCandidate: AutoMLCandidate?
+        /// Returns the creation time of the AutoML V2 job.
+        public let creationTime: Date
+        /// Returns the configuration settings of how the data are split into train and validation datasets.
+        public let dataSplitConfig: AutoMLDataSplitConfig?
+        /// Returns the end time of the AutoML V2 job.
+        public let endTime: Date?
+        /// Returns the reason for the failure of the AutoML V2 job, when applicable.
+        public let failureReason: String?
+        /// Returns the job's last modified time.
+        public let lastModifiedTime: Date
+        /// Indicates whether the model was deployed automatically to an endpoint and the name of that endpoint if deployed automatically.
+        public let modelDeployConfig: ModelDeployConfig?
+        /// Provides information about endpoint for the model deployment.
+        public let modelDeployResult: ModelDeployResult?
+        /// Returns the job's output data config.
+        public let outputDataConfig: AutoMLOutputDataConfig
+        /// Returns a list of reasons for partial failures within an AutoML V2 job.
+        public let partialFailureReasons: [AutoMLPartialFailureReason]?
+        /// The ARN of the Identity and Access Management role that has read permission to the input data location and write permission to the output data location in Amazon S3.
+        public let roleArn: String
+        /// Returns the security configuration for traffic encryption or Amazon VPC settings.
+        public let securityConfig: AutoMLSecurityConfig?
+
+        public init(autoMLJobArn: String, autoMLJobInputDataConfig: [AutoMLJobChannel], autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, autoMLProblemTypeConfig: AutoMLProblemTypeConfig? = nil, bestCandidate: AutoMLCandidate? = nil, creationTime: Date, dataSplitConfig: AutoMLDataSplitConfig? = nil, endTime: Date? = nil, failureReason: String? = nil, lastModifiedTime: Date, modelDeployConfig: ModelDeployConfig? = nil, modelDeployResult: ModelDeployResult? = nil, outputDataConfig: AutoMLOutputDataConfig, partialFailureReasons: [AutoMLPartialFailureReason]? = nil, roleArn: String, securityConfig: AutoMLSecurityConfig? = nil) {
+            self.autoMLJobArn = autoMLJobArn
+            self.autoMLJobInputDataConfig = autoMLJobInputDataConfig
+            self.autoMLJobName = autoMLJobName
+            self.autoMLJobObjective = autoMLJobObjective
+            self.autoMLJobSecondaryStatus = autoMLJobSecondaryStatus
+            self.autoMLJobStatus = autoMLJobStatus
+            self.autoMLProblemTypeConfig = autoMLProblemTypeConfig
+            self.bestCandidate = bestCandidate
+            self.creationTime = creationTime
+            self.dataSplitConfig = dataSplitConfig
+            self.endTime = endTime
+            self.failureReason = failureReason
+            self.lastModifiedTime = lastModifiedTime
+            self.modelDeployConfig = modelDeployConfig
+            self.modelDeployResult = modelDeployResult
+            self.outputDataConfig = outputDataConfig
+            self.partialFailureReasons = partialFailureReasons
+            self.roleArn = roleArn
+            self.securityConfig = securityConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLJobArn = "AutoMLJobArn"
+            case autoMLJobInputDataConfig = "AutoMLJobInputDataConfig"
+            case autoMLJobName = "AutoMLJobName"
+            case autoMLJobObjective = "AutoMLJobObjective"
+            case autoMLJobSecondaryStatus = "AutoMLJobSecondaryStatus"
+            case autoMLJobStatus = "AutoMLJobStatus"
+            case autoMLProblemTypeConfig = "AutoMLProblemTypeConfig"
+            case bestCandidate = "BestCandidate"
+            case creationTime = "CreationTime"
+            case dataSplitConfig = "DataSplitConfig"
+            case endTime = "EndTime"
+            case failureReason = "FailureReason"
+            case lastModifiedTime = "LastModifiedTime"
+            case modelDeployConfig = "ModelDeployConfig"
+            case modelDeployResult = "ModelDeployResult"
+            case outputDataConfig = "OutputDataConfig"
+            case partialFailureReasons = "PartialFailureReasons"
+            case roleArn = "RoleArn"
+            case securityConfig = "SecurityConfig"
         }
     }
 
@@ -11627,7 +12002,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
@@ -11729,7 +12104,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63}$")
             try self.validate(self.featureName, name: "featureName", parent: name, max: 64)
             try self.validate(self.featureName, name: "featureName", parent: name, min: 1)
             try self.validate(self.featureName, name: "featureName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}$")
@@ -11904,7 +12279,7 @@ extension SageMaker {
         public let hubContentDisplayName: String?
         /// The hub content document that describes information about the hub content such as type, associated containers, scripts, and more.
         public let hubContentDocument: String
-        /// Markdown files associated with the hub content to import.
+        /// A string that provides a description of the hub content. This string can include links, tables, and standard markdown formating.
         public let hubContentMarkdown: String?
         /// The name of the hub content.
         public let hubContentName: String
@@ -12094,6 +12469,7 @@ extension SageMaker {
     public struct DescribeHyperParameterTuningJobResponse: AWSDecodableShape {
         /// A TrainingJobSummary object that describes the training job that completed with the best current HyperParameterTuningJobObjective.
         public let bestTrainingJob: HyperParameterTrainingJobSummary?
+        public let consumedResources: HyperParameterTuningJobConsumedResources?
         /// The date and time that the tuning job started.
         public let creationTime: Date
         /// If the tuning job failed, the reason it failed.
@@ -12120,11 +12496,14 @@ extension SageMaker {
         public let trainingJobDefinitions: [HyperParameterTrainingJobDefinition]?
         /// The TrainingJobStatusCounters object that specifies the number of training jobs, categorized by status, that this tuning job launched.
         public let trainingJobStatusCounters: TrainingJobStatusCounters
+        /// Tuning job completion information returned as the response from a hyperparameter tuning job. This information tells if your tuning job has or has not converged. It also includes the number of training jobs that have not improved model performance as evaluated against the objective function.
+        public let tuningJobCompletionDetails: HyperParameterTuningJobCompletionDetails?
         /// The configuration for starting the hyperparameter parameter tuning job using one or more previous tuning jobs as a starting point. The results of previous tuning jobs are used to inform which combinations of hyperparameters to search over in the new tuning job.
         public let warmStartConfig: HyperParameterTuningJobWarmStartConfig?
 
-        public init(bestTrainingJob: HyperParameterTrainingJobSummary? = nil, creationTime: Date, failureReason: String? = nil, hyperParameterTuningEndTime: Date? = nil, hyperParameterTuningJobArn: String, hyperParameterTuningJobConfig: HyperParameterTuningJobConfig, hyperParameterTuningJobName: String, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus, lastModifiedTime: Date? = nil, objectiveStatusCounters: ObjectiveStatusCounters, overallBestTrainingJob: HyperParameterTrainingJobSummary? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, trainingJobDefinitions: [HyperParameterTrainingJobDefinition]? = nil, trainingJobStatusCounters: TrainingJobStatusCounters, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
+        public init(bestTrainingJob: HyperParameterTrainingJobSummary? = nil, consumedResources: HyperParameterTuningJobConsumedResources? = nil, creationTime: Date, failureReason: String? = nil, hyperParameterTuningEndTime: Date? = nil, hyperParameterTuningJobArn: String, hyperParameterTuningJobConfig: HyperParameterTuningJobConfig, hyperParameterTuningJobName: String, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus, lastModifiedTime: Date? = nil, objectiveStatusCounters: ObjectiveStatusCounters, overallBestTrainingJob: HyperParameterTrainingJobSummary? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, trainingJobDefinitions: [HyperParameterTrainingJobDefinition]? = nil, trainingJobStatusCounters: TrainingJobStatusCounters, tuningJobCompletionDetails: HyperParameterTuningJobCompletionDetails? = nil, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
             self.bestTrainingJob = bestTrainingJob
+            self.consumedResources = consumedResources
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.hyperParameterTuningEndTime = hyperParameterTuningEndTime
@@ -12138,11 +12517,13 @@ extension SageMaker {
             self.trainingJobDefinition = trainingJobDefinition
             self.trainingJobDefinitions = trainingJobDefinitions
             self.trainingJobStatusCounters = trainingJobStatusCounters
+            self.tuningJobCompletionDetails = tuningJobCompletionDetails
             self.warmStartConfig = warmStartConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case bestTrainingJob = "BestTrainingJob"
+            case consumedResources = "ConsumedResources"
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
             case hyperParameterTuningEndTime = "HyperParameterTuningEndTime"
@@ -12156,6 +12537,7 @@ extension SageMaker {
             case trainingJobDefinition = "TrainingJobDefinition"
             case trainingJobDefinitions = "TrainingJobDefinitions"
             case trainingJobStatusCounters = "TrainingJobStatusCounters"
+            case tuningJobCompletionDetails = "TuningJobCompletionDetails"
             case warmStartConfig = "WarmStartConfig"
         }
     }
@@ -16272,28 +16654,32 @@ extension SageMaker {
     public struct FinalAutoMLJobObjectiveMetric: AWSDecodableShape {
         /// The name of the metric with the best result. For a description of the possible objective metrics, see AutoMLJobObjective$MetricName.
         public let metricName: AutoMLMetricEnum
+        /// The name of the standard metric. For a description of the standard metrics, see Autopilot candidate metrics.
+        public let standardMetricName: AutoMLMetricEnum?
         /// The type of metric with the best result.
         public let type: AutoMLJobObjectiveType?
         /// The value of the metric with the best result.
         public let value: Float
 
-        public init(metricName: AutoMLMetricEnum, type: AutoMLJobObjectiveType? = nil, value: Float) {
+        public init(metricName: AutoMLMetricEnum, standardMetricName: AutoMLMetricEnum? = nil, type: AutoMLJobObjectiveType? = nil, value: Float) {
             self.metricName = metricName
+            self.standardMetricName = standardMetricName
             self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case metricName = "MetricName"
+            case standardMetricName = "StandardMetricName"
             case type = "Type"
             case value = "Value"
         }
     }
 
     public struct FinalHyperParameterTuningJobObjectiveMetric: AWSDecodableShape {
-        /// The name of the objective metric.
+        /// The name of the objective metric. For SageMaker built-in algorithms, metrics are defined per algorithm. See the metrics for XGBoost as an example. You can also use a custom algorithm for training and define your own metrics. For more information, see Define metrics and environment variables.
         public let metricName: String
-        /// Whether to minimize or maximize the objective metric. Valid values are Minimize and Maximize.
+        /// Select if you want to minimize or maximize the objective metric during hyperparameter tuning.
         public let type: HyperParameterTuningJobObjectiveType?
         /// The value of the objective metric.
         public let value: Float
@@ -16510,7 +16896,7 @@ extension SageMaker {
     }
 
     public struct GetSearchSuggestionsRequest: AWSEncodableShape {
-        /// The name of the Amazon SageMaker resource to search for.
+        /// The name of the SageMaker resource to search for.
         public let resource: ResourceType
         /// Limits the property names that are included in the response.
         public let suggestionQuery: SuggestionQuery?
@@ -16701,7 +17087,7 @@ extension SageMaker {
     }
 
     public struct HubS3StorageConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon S3 output path for the hub.
+        /// The Amazon S3 bucket prefix for hosting hub content.
         public let s3OutputPath: String?
 
         public init(s3OutputPath: String? = nil) {
@@ -17225,6 +17611,23 @@ extension SageMaker {
         }
     }
 
+    public struct HyperParameterTuningJobCompletionDetails: AWSDecodableShape {
+        /// The time in timestamp format that AMT detected model convergence, as defined by a lack of significant improvement over time based on criteria developed over a wide range of diverse benchmarking tests.
+        public let convergenceDetectedTime: Date?
+        /// The number of training jobs launched by a tuning job that are not improving (1% or less) as measured by model performance evaluated against an objective function.
+        public let numberOfTrainingJobsObjectiveNotImproving: Int?
+
+        public init(convergenceDetectedTime: Date? = nil, numberOfTrainingJobsObjectiveNotImproving: Int? = nil) {
+            self.convergenceDetectedTime = convergenceDetectedTime
+            self.numberOfTrainingJobsObjectiveNotImproving = numberOfTrainingJobsObjectiveNotImproving
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case convergenceDetectedTime = "ConvergenceDetectedTime"
+            case numberOfTrainingJobsObjectiveNotImproving = "NumberOfTrainingJobsObjectiveNotImproving"
+        }
+    }
+
     public struct HyperParameterTuningJobConfig: AWSEncodableShape & AWSDecodableShape {
         /// The HyperParameterTuningJobObjective specifies the objective metric used to evaluate the performance of training jobs launched by this tuning job.
         public let hyperParameterTuningJobObjective: HyperParameterTuningJobObjective?
@@ -17260,6 +17663,7 @@ extension SageMaker {
             try self.validate(self.randomSeed, name: "randomSeed", parent: name, min: 0)
             try self.resourceLimits.validate(name: "\(name).resourceLimits")
             try self.strategyConfig?.validate(name: "\(name).strategyConfig")
+            try self.tuningJobCompletionCriteria?.validate(name: "\(name).tuningJobCompletionCriteria")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17271,6 +17675,19 @@ extension SageMaker {
             case strategyConfig = "StrategyConfig"
             case trainingJobEarlyStoppingType = "TrainingJobEarlyStoppingType"
             case tuningJobCompletionCriteria = "TuningJobCompletionCriteria"
+        }
+    }
+
+    public struct HyperParameterTuningJobConsumedResources: AWSDecodableShape {
+        /// The wall clock runtime in seconds used by your hyperparameter tuning job.
+        public let runtimeInSeconds: Int?
+
+        public init(runtimeInSeconds: Int? = nil) {
+            self.runtimeInSeconds = runtimeInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runtimeInSeconds = "RuntimeInSeconds"
         }
     }
 
@@ -17299,6 +17716,8 @@ extension SageMaker {
 
     public struct HyperParameterTuningJobSearchEntity: AWSDecodableShape {
         public let bestTrainingJob: HyperParameterTrainingJobSummary?
+        /// The total amount of resources consumed by a hyperparameter tuning job.
+        public let consumedResources: HyperParameterTuningJobConsumedResources?
         /// The time that a hyperparameter tuning job was created.
         public let creationTime: Date?
         /// The error that was created when a hyperparameter tuning job failed.
@@ -17322,10 +17741,13 @@ extension SageMaker {
         /// The job definitions included in a hyperparameter tuning job.
         public let trainingJobDefinitions: [HyperParameterTrainingJobDefinition]?
         public let trainingJobStatusCounters: TrainingJobStatusCounters?
+        /// Information about either a current or completed hyperparameter tuning job.
+        public let tuningJobCompletionDetails: HyperParameterTuningJobCompletionDetails?
         public let warmStartConfig: HyperParameterTuningJobWarmStartConfig?
 
-        public init(bestTrainingJob: HyperParameterTrainingJobSummary? = nil, creationTime: Date? = nil, failureReason: String? = nil, hyperParameterTuningEndTime: Date? = nil, hyperParameterTuningJobArn: String? = nil, hyperParameterTuningJobConfig: HyperParameterTuningJobConfig? = nil, hyperParameterTuningJobName: String? = nil, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus? = nil, lastModifiedTime: Date? = nil, objectiveStatusCounters: ObjectiveStatusCounters? = nil, overallBestTrainingJob: HyperParameterTrainingJobSummary? = nil, tags: [Tag]? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, trainingJobDefinitions: [HyperParameterTrainingJobDefinition]? = nil, trainingJobStatusCounters: TrainingJobStatusCounters? = nil, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
+        public init(bestTrainingJob: HyperParameterTrainingJobSummary? = nil, consumedResources: HyperParameterTuningJobConsumedResources? = nil, creationTime: Date? = nil, failureReason: String? = nil, hyperParameterTuningEndTime: Date? = nil, hyperParameterTuningJobArn: String? = nil, hyperParameterTuningJobConfig: HyperParameterTuningJobConfig? = nil, hyperParameterTuningJobName: String? = nil, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus? = nil, lastModifiedTime: Date? = nil, objectiveStatusCounters: ObjectiveStatusCounters? = nil, overallBestTrainingJob: HyperParameterTrainingJobSummary? = nil, tags: [Tag]? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, trainingJobDefinitions: [HyperParameterTrainingJobDefinition]? = nil, trainingJobStatusCounters: TrainingJobStatusCounters? = nil, tuningJobCompletionDetails: HyperParameterTuningJobCompletionDetails? = nil, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
             self.bestTrainingJob = bestTrainingJob
+            self.consumedResources = consumedResources
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.hyperParameterTuningEndTime = hyperParameterTuningEndTime
@@ -17340,11 +17762,13 @@ extension SageMaker {
             self.trainingJobDefinition = trainingJobDefinition
             self.trainingJobDefinitions = trainingJobDefinitions
             self.trainingJobStatusCounters = trainingJobStatusCounters
+            self.tuningJobCompletionDetails = tuningJobCompletionDetails
             self.warmStartConfig = warmStartConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case bestTrainingJob = "BestTrainingJob"
+            case consumedResources = "ConsumedResources"
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
             case hyperParameterTuningEndTime = "HyperParameterTuningEndTime"
@@ -17359,6 +17783,7 @@ extension SageMaker {
             case trainingJobDefinition = "TrainingJobDefinition"
             case trainingJobDefinitions = "TrainingJobDefinitions"
             case trainingJobStatusCounters = "TrainingJobStatusCounters"
+            case tuningJobCompletionDetails = "TuningJobCompletionDetails"
             case warmStartConfig = "WarmStartConfig"
         }
     }
@@ -17502,7 +17927,7 @@ extension SageMaker {
     public struct HyperbandStrategyConfig: AWSEncodableShape & AWSDecodableShape {
         /// The maximum number of resources (such as epochs) that can be used by a training job launched by a hyperparameter tuning job. Once a job reaches the MaxResource value, it is stopped. If a value for MaxResource is not provided, and Hyperband is selected as the hyperparameter tuning strategy, HyperbandTrainingJ attempts to infer MaxResource from the following keys (if present) in StaticsHyperParameters:    epochs     numepochs     n-epochs     n_epochs     num_epochs    If HyperbandStrategyConfig is unable to infer a value for MaxResource, it generates a validation error. The maximum value is 20,000 epochs. All metrics that correspond to an objective metric are used to derive early stopping decisions. For distributive training jobs, ensure that duplicate metrics are not printed in the logs across the individual nodes in a training job. If multiple nodes are publishing duplicate or incorrect metrics, training jobs may make an incorrect stopping decision and stop the job prematurely.
         public let maxResource: Int?
-        /// The minimum number of resources (such as epochs) that can be used by a training job launched by a hyperparameter tuning job. If the value for MinResource has not been reached, the training job will not be stopped by Hyperband.
+        /// The minimum number of resources (such as epochs) that can be used by a training job launched by a hyperparameter tuning job. If the value for MinResource has not been reached, the training job is not stopped by Hyperband.
         public let minResource: Int?
 
         public init(maxResource: Int? = nil, minResource: Int? = nil) {
@@ -17518,6 +17943,27 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case maxResource = "MaxResource"
             case minResource = "MinResource"
+        }
+    }
+
+    public struct IamIdentity: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM identity.
+        public let arn: String?
+        /// The ID of the principal that assumes the IAM identity.
+        public let principalId: String?
+        /// The person or application which assumes the IAM identity.
+        public let sourceIdentity: String?
+
+        public init(arn: String? = nil, principalId: String? = nil, sourceIdentity: String? = nil) {
+            self.arn = arn
+            self.principalId = principalId
+            self.sourceIdentity = sourceIdentity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case principalId = "PrincipalId"
+            case sourceIdentity = "SourceIdentity"
         }
     }
 
@@ -17559,6 +18005,23 @@ extension SageMaker {
             case imageName = "ImageName"
             case imageStatus = "ImageStatus"
             case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public struct ImageClassificationJobConfig: AWSEncodableShape & AWSDecodableShape {
+        /// How long a job is allowed to run, or how many candidates a job is allowed to generate.
+        public let completionCriteria: AutoMLJobCompletionCriteria?
+
+        public init(completionCriteria: AutoMLJobCompletionCriteria? = nil) {
+            self.completionCriteria = completionCriteria
+        }
+
+        public func validate(name: String) throws {
+            try self.completionCriteria?.validate(name: "\(name).completionCriteria")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionCriteria = "CompletionCriteria"
         }
     }
 
@@ -17629,7 +18092,7 @@ extension SageMaker {
         public let hubContentDisplayName: String?
         /// The hub content document that describes information about the hub content such as type, associated containers, scripts, and more.
         public let hubContentDocument: String
-        /// Markdown files associated with the hub content to import.
+        /// A string that provides a description of the hub content. This string can include links, tables, and standard markdown formating.
         public let hubContentMarkdown: String?
         /// The name of the hub content to import.
         public let hubContentName: String
@@ -23577,7 +24040,7 @@ extension SageMaker {
     public struct MetricDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The name of the metric.
         public let name: String
-        /// A regular expression that searches the output of a training job and gets the value of the metric. For more information about using regular expressions to define metrics, see Defining Objective Metrics.
+        /// A regular expression that searches the output of a training job and gets the value of the metric. For more information about using regular expressions to define metrics, see Defining metrics and environment variables.
         public let regex: String
 
         public init(name: String, regex: String) {
@@ -26253,7 +26716,7 @@ extension SageMaker {
     }
 
     public struct OnlineStoreSecurityConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) key that SageMaker Feature Store uses to encrypt the Amazon S3 objects at rest using Amazon S3 server-side encryption. The caller (either IAM user or IAM role) of CreateFeatureGroup must have below permissions to the OnlineStore KmsKeyId:    "kms:Encrypt"     "kms:Decrypt"     "kms:DescribeKey"     "kms:CreateGrant"     "kms:RetireGrant"     "kms:ReEncryptFrom"     "kms:ReEncryptTo"     "kms:GenerateDataKey"     "kms:ListAliases"     "kms:ListGrants"     "kms:RevokeGrant"    The caller (either IAM user or IAM role) to all DataPlane operations (PutRecord, GetRecord, DeleteRecord) must have the following permissions to the KmsKeyId:    "kms:Decrypt"
+        /// The Amazon Web Services Key Management Service (KMS) key ARN that SageMaker Feature Store uses to encrypt the Amazon S3 objects at rest using Amazon S3 server-side encryption. The caller (either user or IAM role) of CreateFeatureGroup must have below permissions to the OnlineStore KmsKeyId:    "kms:Encrypt"     "kms:Decrypt"     "kms:DescribeKey"     "kms:CreateGrant"     "kms:RetireGrant"     "kms:ReEncryptFrom"     "kms:ReEncryptTo"     "kms:GenerateDataKey"     "kms:ListAliases"     "kms:ListGrants"     "kms:RevokeGrant"    The caller (either user or IAM role) to all DataPlane operations (PutRecord, GetRecord, DeleteRecord) must have the following permissions to the KmsKeyId:    "kms:Decrypt"
         public let kmsKeyId: String?
 
         public init(kmsKeyId: String? = nil) {
@@ -27000,7 +27463,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -27349,6 +27812,8 @@ extension SageMaker {
         public let containerStartupHealthCheckTimeoutInSeconds: Int?
         /// Specifies configuration for a core dump from the model container when the process crashes.
         public let coreDumpConfig: ProductionVariantCoreDumpConfig?
+        ///  You can use this parameter to turn on native Amazon Web Services Systems Manager (SSM) access for a production variant behind an endpoint. By default, SSM access is disabled for all production variants behind an endpoint. You can turn on or turn off SSM access for a production variant behind an existing endpoint by creating a new endpoint configuration and calling UpdateEndpoint.
+        public let enableSSMAccess: Bool?
         /// Number of instances to launch initially.
         public let initialInstanceCount: Int?
         /// Determines initial traffic distribution among all of the models that you specify in the endpoint configuration. The traffic to a production variant is determined by the ratio of the VariantWeight to the sum of all VariantWeight values across all ProductionVariants. If unspecified, it defaults to 1.0.
@@ -27366,10 +27831,11 @@ extension SageMaker {
         /// The size, in GB, of the ML storage volume attached to individual inference instance associated with the production variant. Currently only Amazon EBS gp2 storage volumes are supported.
         public let volumeSizeInGB: Int?
 
-        public init(acceleratorType: ProductionVariantAcceleratorType? = nil, containerStartupHealthCheckTimeoutInSeconds: Int? = nil, coreDumpConfig: ProductionVariantCoreDumpConfig? = nil, initialInstanceCount: Int? = nil, initialVariantWeight: Float? = nil, instanceType: ProductionVariantInstanceType? = nil, modelDataDownloadTimeoutInSeconds: Int? = nil, modelName: String, serverlessConfig: ProductionVariantServerlessConfig? = nil, variantName: String, volumeSizeInGB: Int? = nil) {
+        public init(acceleratorType: ProductionVariantAcceleratorType? = nil, containerStartupHealthCheckTimeoutInSeconds: Int? = nil, coreDumpConfig: ProductionVariantCoreDumpConfig? = nil, enableSSMAccess: Bool? = nil, initialInstanceCount: Int? = nil, initialVariantWeight: Float? = nil, instanceType: ProductionVariantInstanceType? = nil, modelDataDownloadTimeoutInSeconds: Int? = nil, modelName: String, serverlessConfig: ProductionVariantServerlessConfig? = nil, variantName: String, volumeSizeInGB: Int? = nil) {
             self.acceleratorType = acceleratorType
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
             self.coreDumpConfig = coreDumpConfig
+            self.enableSSMAccess = enableSSMAccess
             self.initialInstanceCount = initialInstanceCount
             self.initialVariantWeight = initialVariantWeight
             self.instanceType = instanceType
@@ -27401,6 +27867,7 @@ extension SageMaker {
             case acceleratorType = "AcceleratorType"
             case containerStartupHealthCheckTimeoutInSeconds = "ContainerStartupHealthCheckTimeoutInSeconds"
             case coreDumpConfig = "CoreDumpConfig"
+            case enableSSMAccess = "EnableSSMAccess"
             case initialInstanceCount = "InitialInstanceCount"
             case initialVariantWeight = "InitialVariantWeight"
             case instanceType = "InstanceType"
@@ -27795,7 +28262,7 @@ extension SageMaker {
     }
 
     public struct PropertyNameSuggestion: AWSDecodableShape {
-        /// A suggested property name based on what you entered in the search textbox in the Amazon SageMaker console.
+        /// A suggested property name based on what you entered in the search textbox in the SageMaker console.
         public let propertyName: String?
 
         public init(propertyName: String? = nil) {
@@ -28248,13 +28715,15 @@ extension SageMaker {
 
     public struct RecommendationJobInferenceBenchmark: AWSDecodableShape {
         public let endpointConfiguration: EndpointOutputConfiguration?
+        public let endpointMetrics: InferenceMetrics?
         /// The reason why a benchmark failed.
         public let failureReason: String?
         public let metrics: RecommendationMetrics?
         public let modelConfiguration: ModelConfiguration
 
-        public init(endpointConfiguration: EndpointOutputConfiguration? = nil, failureReason: String? = nil, metrics: RecommendationMetrics? = nil, modelConfiguration: ModelConfiguration) {
+        public init(endpointConfiguration: EndpointOutputConfiguration? = nil, endpointMetrics: InferenceMetrics? = nil, failureReason: String? = nil, metrics: RecommendationMetrics? = nil, modelConfiguration: ModelConfiguration) {
             self.endpointConfiguration = endpointConfiguration
+            self.endpointMetrics = endpointMetrics
             self.failureReason = failureReason
             self.metrics = metrics
             self.modelConfiguration = modelConfiguration
@@ -28262,6 +28731,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case endpointConfiguration = "EndpointConfiguration"
+            case endpointMetrics = "EndpointMetrics"
             case failureReason = "FailureReason"
             case metrics = "Metrics"
             case modelConfiguration = "ModelConfiguration"
@@ -28796,20 +29266,26 @@ extension SageMaker {
         public let maxNumberOfTrainingJobs: Int?
         /// The maximum number of concurrent training jobs that a hyperparameter tuning job can launch.
         public let maxParallelTrainingJobs: Int
+        /// The maximum time in seconds that a hyperparameter tuning job can run.
+        public let maxRuntimeInSeconds: Int?
 
-        public init(maxNumberOfTrainingJobs: Int? = nil, maxParallelTrainingJobs: Int) {
+        public init(maxNumberOfTrainingJobs: Int? = nil, maxParallelTrainingJobs: Int, maxRuntimeInSeconds: Int? = nil) {
             self.maxNumberOfTrainingJobs = maxNumberOfTrainingJobs
             self.maxParallelTrainingJobs = maxParallelTrainingJobs
+            self.maxRuntimeInSeconds = maxRuntimeInSeconds
         }
 
         public func validate(name: String) throws {
             try self.validate(self.maxNumberOfTrainingJobs, name: "maxNumberOfTrainingJobs", parent: name, min: 1)
             try self.validate(self.maxParallelTrainingJobs, name: "maxParallelTrainingJobs", parent: name, min: 1)
+            try self.validate(self.maxRuntimeInSeconds, name: "maxRuntimeInSeconds", parent: name, max: 15768000)
+            try self.validate(self.maxRuntimeInSeconds, name: "maxRuntimeInSeconds", parent: name, min: 120)
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxNumberOfTrainingJobs = "MaxNumberOfTrainingJobs"
             case maxParallelTrainingJobs = "MaxParallelTrainingJobs"
+            case maxRuntimeInSeconds = "MaxRuntimeInSeconds"
         }
     }
 
@@ -28967,7 +29443,7 @@ extension SageMaker {
     }
 
     public struct S3StorageConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Web Services Key Management Service (KMS) key ID of the key used to encrypt any objects written into the OfflineStore S3 location. The IAM roleARN that is passed as a parameter to CreateFeatureGroup must have below permissions to the KmsKeyId:    "kms:GenerateDataKey"
+        /// The Amazon Web Services Key Management Service (KMS) key ARN of the key used to encrypt any objects written into the OfflineStore S3 location. The IAM roleARN that is passed as a parameter to CreateFeatureGroup must have below permissions to the KmsKeyId:    "kms:GenerateDataKey"
         public let kmsKeyId: String?
         /// The S3 path where offline records are written.
         public let resolvedOutputS3Uri: String?
@@ -29124,7 +29600,7 @@ extension SageMaker {
         public let maxResults: Int?
         /// If more than MaxResults resources match the specified SearchExpression, the response includes a NextToken. The NextToken can be passed to the next SearchRequest to continue retrieving results.
         public let nextToken: String?
-        /// The name of the Amazon SageMaker resource to search for.
+        /// The name of the SageMaker resource to search for.
         public let resource: ResourceType
         /// A Boolean conditional statement. Resources must satisfy this condition to be included in search results. You must provide at least one subexpression, filter, or nested filter. The maximum number of recursive SubExpressions, NestedFilters, and Filters that can be included in a SearchExpression object is 50.
         public let searchExpression: SearchExpression?
@@ -30256,6 +30732,35 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case localPath = "LocalPath"
             case s3OutputPath = "S3OutputPath"
+        }
+    }
+
+    public struct TextClassificationJobConfig: AWSEncodableShape & AWSDecodableShape {
+        /// How long a job is allowed to run, or how many candidates a job is allowed to generate.
+        public let completionCriteria: AutoMLJobCompletionCriteria?
+        /// The name of the column used to provide the sentences to be classified. It should not be the same as the target column.
+        public let contentColumn: String?
+        /// The name of the column used to provide the class labels. It should not be same as the content column.
+        public let targetLabelColumn: String?
+
+        public init(completionCriteria: AutoMLJobCompletionCriteria? = nil, contentColumn: String? = nil, targetLabelColumn: String? = nil) {
+            self.completionCriteria = completionCriteria
+            self.contentColumn = contentColumn
+            self.targetLabelColumn = targetLabelColumn
+        }
+
+        public func validate(name: String) throws {
+            try self.completionCriteria?.validate(name: "\(name).completionCriteria")
+            try self.validate(self.contentColumn, name: "contentColumn", parent: name, max: 256)
+            try self.validate(self.contentColumn, name: "contentColumn", parent: name, min: 1)
+            try self.validate(self.targetLabelColumn, name: "targetLabelColumn", parent: name, max: 256)
+            try self.validate(self.targetLabelColumn, name: "targetLabelColumn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionCriteria = "CompletionCriteria"
+            case contentColumn = "ContentColumn"
+            case targetLabelColumn = "TargetLabelColumn"
         }
     }
 
@@ -31452,14 +31957,26 @@ extension SageMaker {
     }
 
     public struct TuningJobCompletionCriteria: AWSEncodableShape & AWSDecodableShape {
+        /// A flag to stop your hyperparameter tuning job if model performance fails to improve as evaluated against an objective function.
+        public let bestObjectiveNotImproving: BestObjectiveNotImproving?
+        /// A flag to top your hyperparameter tuning job if automatic model tuning (AMT) has detected that your model has converged as evaluated against your objective function.
+        public let convergenceDetected: ConvergenceDetected?
         /// The value of the objective metric.
-        public let targetObjectiveMetricValue: Float
+        public let targetObjectiveMetricValue: Float?
 
-        public init(targetObjectiveMetricValue: Float) {
+        public init(bestObjectiveNotImproving: BestObjectiveNotImproving? = nil, convergenceDetected: ConvergenceDetected? = nil, targetObjectiveMetricValue: Float? = nil) {
+            self.bestObjectiveNotImproving = bestObjectiveNotImproving
+            self.convergenceDetected = convergenceDetected
             self.targetObjectiveMetricValue = targetObjectiveMetricValue
         }
 
+        public func validate(name: String) throws {
+            try self.bestObjectiveNotImproving?.validate(name: "\(name).bestObjectiveNotImproving")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case bestObjectiveNotImproving = "BestObjectiveNotImproving"
+            case convergenceDetected = "ConvergenceDetected"
             case targetObjectiveMetricValue = "TargetObjectiveMetricValue"
         }
     }
@@ -32090,7 +32607,7 @@ extension SageMaker {
             try self.validate(self.featureAdditions, name: "featureAdditions", parent: name, min: 1)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -32137,7 +32654,7 @@ extension SageMaker {
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63}$")
             try self.validate(self.featureName, name: "featureName", parent: name, max: 64)
             try self.validate(self.featureName, name: "featureName", parent: name, min: 1)
             try self.validate(self.featureName, name: "featureName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}$")
@@ -33039,15 +33556,15 @@ extension SageMaker {
         public let displayName: String?
         /// When the component ended.
         public let endTime: Date?
-        /// Replaces all of the component's input artifacts with the specified artifacts.
+        /// Replaces all of the component's input artifacts with the specified artifacts or adds new input artifacts. Existing input artifacts are replaced if the trial component is updated with an identical input artifact key.
         public let inputArtifacts: [String: TrialComponentArtifact]?
         /// The input artifacts to remove from the component.
         public let inputArtifactsToRemove: [String]?
-        /// Replaces all of the component's output artifacts with the specified artifacts.
+        /// Replaces all of the component's output artifacts with the specified artifacts or adds new output artifacts. Existing output artifacts are replaced if the trial component is updated with an identical output artifact key.
         public let outputArtifacts: [String: TrialComponentArtifact]?
         /// The output artifacts to remove from the component.
         public let outputArtifactsToRemove: [String]?
-        /// Replaces all of the component's hyperparameters with the specified hyperparameters.
+        /// Replaces all of the component's hyperparameters with the specified hyperparameters or add new hyperparameters. Existing hyperparameters are replaced if the trial component is updated with an identical hyperparameter key.
         public let parameters: [String: TrialComponentParameterValue]?
         /// The hyperparameters to remove from the component.
         public let parametersToRemove: [String]?
@@ -33323,19 +33840,23 @@ extension SageMaker {
     public struct UserContext: AWSDecodableShape {
         /// The domain associated with the user.
         public let domainId: String?
+        /// The IAM Identity details associated with the user. These details are associated with model package groups, model packages, and project entities only.
+        public let iamIdentity: IamIdentity?
         /// The Amazon Resource Name (ARN) of the user's profile.
         public let userProfileArn: String?
         /// The name of the user's profile.
         public let userProfileName: String?
 
-        public init(domainId: String? = nil, userProfileArn: String? = nil, userProfileName: String? = nil) {
+        public init(domainId: String? = nil, iamIdentity: IamIdentity? = nil, userProfileArn: String? = nil, userProfileName: String? = nil) {
             self.domainId = domainId
+            self.iamIdentity = iamIdentity
             self.userProfileArn = userProfileArn
             self.userProfileName = userProfileName
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainId = "DomainId"
+            case iamIdentity = "IamIdentity"
             case userProfileArn = "UserProfileArn"
             case userProfileName = "UserProfileName"
         }

@@ -21,6 +21,14 @@ import SotoCore
 extension MigrationHubStrategy {
     // MARK: Enums
 
+    public enum AnalysisType: String, CustomStringConvertible, Codable, Sendable {
+        case binaryAnalysis = "BINARY_ANALYSIS"
+        case databaseAnalysis = "DATABASE_ANALYSIS"
+        case runtimeAnalysis = "RUNTIME_ANALYSIS"
+        case sourceCodeAnalysis = "SOURCE_CODE_ANALYSIS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AntipatternReportStatus: String, CustomStringConvertible, Codable, Sendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -104,6 +112,12 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
+    public enum BinaryAnalyzerName: String, CustomStringConvertible, Codable, Sendable {
+        case bytecodeAnalyzer = "BYTECODE_ANALYZER"
+        case dllAnalyzer = "DLL_ANALYZER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CollectorHealth: String, CustomStringConvertible, Codable, Sendable {
         case collectorHealthy = "COLLECTOR_HEALTHY"
         case collectorUnhealthy = "COLLECTOR_UNHEALTHY"
@@ -120,6 +134,7 @@ extension MigrationHubStrategy {
 
     public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable {
         case applicationDiscoveryService = "ApplicationDiscoveryService"
+        case `import` = "Import"
         case mpa = "MPA"
         public var description: String { return self.rawValue }
     }
@@ -133,6 +148,7 @@ extension MigrationHubStrategy {
 
     public enum GroupName: String, CustomStringConvertible, Codable, Sendable {
         case externalId = "ExternalId"
+        case externalSourceType = "ExternalSourceType"
         public var description: String { return self.rawValue }
     }
 
@@ -214,6 +230,15 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
+    public enum RunTimeAnalyzerName: String, CustomStringConvertible, Codable, Sendable {
+        case a2cAnalyzer = "A2C_ANALYZER"
+        case databaseAnalyzer = "DATABASE_ANALYZER"
+        case empPaAnalyzer = "EMP_PA_ANALYZER"
+        case rehostAnalyzer = "REHOST_ANALYZER"
+        case sctAnalyzer = "SCT_ANALYZER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RunTimeAssessmentStatus: String, CustomStringConvertible, Codable, Sendable {
         case dataCollectionTaskFailed = "dataCollectionTaskFailed"
         case dataCollectionTaskPartialSuccess = "dataCollectionTaskPartialSuccess"
@@ -280,6 +305,14 @@ extension MigrationHubStrategy {
     public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceCodeAnalyzerName: String, CustomStringConvertible, Codable, Sendable {
+        case bytecodeAnalyzer = "BYTECODE_ANALYZER"
+        case csharpAnalyzer = "CSHARP_ANALYZER"
+        case javaAnalyzer = "JAVA_ANALYZER"
+        case portingAssistant = "PORTING_ASSISTANT"
         public var description: String { return self.rawValue }
     }
 
@@ -371,6 +404,74 @@ extension MigrationHubStrategy {
         case github = "GITHUB"
         case githubEnterprise = "GITHUB_ENTERPRISE"
         public var description: String { return self.rawValue }
+    }
+
+    public enum AnalysisStatusUnion: AWSDecodableShape, Sendable {
+        /// The status of the analysis.
+        case runtimeAnalysisStatus(RuntimeAnalysisStatus)
+        /// The status of the source code or database analysis.
+        case srcCodeOrDbAnalysisStatus(SrcCodeOrDbAnalysisStatus)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .runtimeAnalysisStatus:
+                let value = try container.decode(RuntimeAnalysisStatus.self, forKey: .runtimeAnalysisStatus)
+                self = .runtimeAnalysisStatus(value)
+            case .srcCodeOrDbAnalysisStatus:
+                let value = try container.decode(SrcCodeOrDbAnalysisStatus.self, forKey: .srcCodeOrDbAnalysisStatus)
+                self = .srcCodeOrDbAnalysisStatus(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runtimeAnalysisStatus = "runtimeAnalysisStatus"
+            case srcCodeOrDbAnalysisStatus = "srcCodeOrDbAnalysisStatus"
+        }
+    }
+
+    public enum AnalyzerNameUnion: AWSDecodableShape, Sendable {
+        /// The binary analyzer names.
+        case binaryAnalyzerName(BinaryAnalyzerName)
+        /// The assessment analyzer names.
+        case runTimeAnalyzerName(RunTimeAnalyzerName)
+        /// The source code analyzer names.
+        case sourceCodeAnalyzerName(SourceCodeAnalyzerName)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .binaryAnalyzerName:
+                let value = try container.decode(BinaryAnalyzerName.self, forKey: .binaryAnalyzerName)
+                self = .binaryAnalyzerName(value)
+            case .runTimeAnalyzerName:
+                let value = try container.decode(RunTimeAnalyzerName.self, forKey: .runTimeAnalyzerName)
+                self = .runTimeAnalyzerName(value)
+            case .sourceCodeAnalyzerName:
+                let value = try container.decode(SourceCodeAnalyzerName.self, forKey: .sourceCodeAnalyzerName)
+                self = .sourceCodeAnalyzerName(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case binaryAnalyzerName = "binaryAnalyzerName"
+            case runTimeAnalyzerName = "runTimeAnalyzerName"
+            case sourceCodeAnalyzerName = "sourceCodeAnalyzerName"
+        }
     }
 
     public enum DatabaseMigrationPreference: AWSEncodableShape & AWSDecodableShape, Sendable {
@@ -495,6 +596,30 @@ extension MigrationHubStrategy {
 
     // MARK: Shapes
 
+    public struct AntipatternReportResult: AWSDecodableShape {
+        /// The analyzer name.
+        public let analyzerName: AnalyzerNameUnion?
+        public let antiPatternReportS3Object: S3Object?
+        /// The status of the anti-pattern report generation.
+        public let antipatternReportStatus: AntipatternReportStatus?
+        /// The status message for the anti-pattern.
+        public let antipatternReportStatusMessage: String?
+
+        public init(analyzerName: AnalyzerNameUnion? = nil, antiPatternReportS3Object: S3Object? = nil, antipatternReportStatus: AntipatternReportStatus? = nil, antipatternReportStatusMessage: String? = nil) {
+            self.analyzerName = analyzerName
+            self.antiPatternReportS3Object = antiPatternReportS3Object
+            self.antipatternReportStatus = antipatternReportStatus
+            self.antipatternReportStatusMessage = antipatternReportStatusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyzerName = "analyzerName"
+            case antiPatternReportS3Object = "antiPatternReportS3Object"
+            case antipatternReportStatus = "antipatternReportStatus"
+            case antipatternReportStatusMessage = "antipatternReportStatusMessage"
+        }
+    }
+
     public struct AntipatternSeveritySummary: AWSDecodableShape {
         ///  Contains the count of anti-patterns.
         public let count: Int?
@@ -562,6 +687,8 @@ extension MigrationHubStrategy {
         public let recommendationSet: RecommendationSet?
         ///  The application component subtype.
         public let resourceSubType: ResourceSubType?
+        /// A list of the analysis results.
+        public let resultList: [Result]?
         /// The status of the application unit.
         public let runtimeStatus: RuntimeAnalysisStatus?
         /// The status message for the application unit.
@@ -571,7 +698,7 @@ extension MigrationHubStrategy {
         ///  A detailed description of the analysis status and any failure message.
         public let statusMessage: String?
 
-        public init(analysisStatus: SrcCodeOrDbAnalysisStatus? = nil, antipatternReportS3Object: S3Object? = nil, antipatternReportStatus: AntipatternReportStatus? = nil, antipatternReportStatusMessage: String? = nil, appType: AppType? = nil, appUnitError: AppUnitError? = nil, associatedServerId: String? = nil, databaseConfigDetail: DatabaseConfigDetail? = nil, id: String? = nil, inclusionStatus: InclusionStatus? = nil, lastAnalyzedTimestamp: Date? = nil, listAntipatternSeveritySummary: [AntipatternSeveritySummary]? = nil, moreServerAssociationExists: Bool? = nil, name: String? = nil, osDriver: String? = nil, osVersion: String? = nil, recommendationSet: RecommendationSet? = nil, resourceSubType: ResourceSubType? = nil, runtimeStatus: RuntimeAnalysisStatus? = nil, runtimeStatusMessage: String? = nil, sourceCodeRepositories: [SourceCodeRepository]? = nil, statusMessage: String? = nil) {
+        public init(analysisStatus: SrcCodeOrDbAnalysisStatus? = nil, antipatternReportS3Object: S3Object? = nil, antipatternReportStatus: AntipatternReportStatus? = nil, antipatternReportStatusMessage: String? = nil, appType: AppType? = nil, appUnitError: AppUnitError? = nil, associatedServerId: String? = nil, databaseConfigDetail: DatabaseConfigDetail? = nil, id: String? = nil, inclusionStatus: InclusionStatus? = nil, lastAnalyzedTimestamp: Date? = nil, listAntipatternSeveritySummary: [AntipatternSeveritySummary]? = nil, moreServerAssociationExists: Bool? = nil, name: String? = nil, osDriver: String? = nil, osVersion: String? = nil, recommendationSet: RecommendationSet? = nil, resourceSubType: ResourceSubType? = nil, resultList: [Result]? = nil, runtimeStatus: RuntimeAnalysisStatus? = nil, runtimeStatusMessage: String? = nil, sourceCodeRepositories: [SourceCodeRepository]? = nil, statusMessage: String? = nil) {
             self.analysisStatus = analysisStatus
             self.antipatternReportS3Object = antipatternReportS3Object
             self.antipatternReportStatus = antipatternReportStatus
@@ -590,6 +717,7 @@ extension MigrationHubStrategy {
             self.osVersion = osVersion
             self.recommendationSet = recommendationSet
             self.resourceSubType = resourceSubType
+            self.resultList = resultList
             self.runtimeStatus = runtimeStatus
             self.runtimeStatusMessage = runtimeStatusMessage
             self.sourceCodeRepositories = sourceCodeRepositories
@@ -615,6 +743,7 @@ extension MigrationHubStrategy {
             case osVersion = "osVersion"
             case recommendationSet = "recommendationSet"
             case resourceSubType = "resourceSubType"
+            case resultList = "resultList"
             case runtimeStatus = "runtimeStatus"
             case runtimeStatusMessage = "runtimeStatusMessage"
             case sourceCodeRepositories = "sourceCodeRepositories"
@@ -1923,6 +2052,31 @@ extension MigrationHubStrategy {
         }
     }
 
+    public struct Result: AWSDecodableShape {
+        /// The error in server analysis.
+        public let analysisStatus: AnalysisStatusUnion?
+        /// The error in server analysis.
+        public let analysisType: AnalysisType?
+        /// The error in server analysis.
+        public let antipatternReportResultList: [AntipatternReportResult]?
+        /// The error in server analysis.
+        public let statusMessage: String?
+
+        public init(analysisStatus: AnalysisStatusUnion? = nil, analysisType: AnalysisType? = nil, antipatternReportResultList: [AntipatternReportResult]? = nil, statusMessage: String? = nil) {
+            self.analysisStatus = analysisStatus
+            self.analysisType = analysisType
+            self.antipatternReportResultList = antipatternReportResultList
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisStatus = "analysisStatus"
+            case analysisType = "analysisType"
+            case antipatternReportResultList = "antipatternReportResultList"
+            case statusMessage = "statusMessage"
+        }
+    }
+
     public struct S3Object: AWSDecodableShape {
         ///  The S3 bucket name.
         public let s3Bucket: String?
@@ -2556,7 +2710,7 @@ public struct MigrationHubStrategyErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    ///  The AWS user account does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this account.
+    ///  The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     ///  Exception to indicate that there is an ongoing task when a new task is created. Return when once the existing tasks are complete.
     public static var conflictException: Self { .init(.conflictException) }

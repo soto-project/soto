@@ -111,6 +111,11 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
+    public enum MetricType: String, CustomStringConvertible, Codable, Sendable {
+        case workload = "WORKLOAD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NotificationType: String, CustomStringConvertible, Codable, Sendable {
         case lensVersionDeprecated = "LENS_VERSION_DEPRECATED"
         case lensVersionUpgraded = "LENS_VERSION_UPGRADED"
@@ -126,6 +131,12 @@ extension WellArchitected {
     public enum PermissionType: String, CustomStringConvertible, Codable, Sendable {
         case contributor = "CONTRIBUTOR"
         case readonly = "READONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportFormat: String, CustomStringConvertible, Codable, Sendable {
+        case json = "JSON"
+        case pdf = "PDF"
         public var description: String { return self.rawValue }
     }
 
@@ -186,9 +197,9 @@ extension WellArchitected {
     // MARK: Shapes
 
     public struct AdditionalResources: AWSDecodableShape {
-        /// The URLs for additional resources, either helpful resources or improvement plans. Up to five additional URLs can be specified.
+        /// The URLs for additional resources, either helpful resources or improvement plans, for a custom lens. Up to five additional URLs can be specified.
         public let content: [ChoiceContent]?
-        /// Type of additional resource.
+        /// Type of additional resource for a custom lens.
         public let type: AdditionalResourceType?
 
         public init(content: [ChoiceContent]? = nil, type: AdditionalResourceType? = nil) {
@@ -206,7 +217,7 @@ extension WellArchitected {
         /// A list of selected choices to a question in your workload.
         public let choiceAnswers: [ChoiceAnswer]?
         public let choices: [Choice]?
-        /// The helpful resource text to be displayed.
+        /// The helpful resource text to be displayed for a custom lens. This field does not apply to Amazon Web Services official lenses.
         public let helpfulResourceDisplayText: String?
         public let helpfulResourceUrl: String?
         public let improvementPlanUrl: String?
@@ -321,6 +332,21 @@ extension WellArchitected {
         }
     }
 
+    public struct BestPractice: AWSDecodableShape {
+        public let choiceId: String?
+        public let choiceTitle: String?
+
+        public init(choiceId: String? = nil, choiceTitle: String? = nil) {
+            self.choiceId = choiceId
+            self.choiceTitle = choiceTitle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case choiceId = "ChoiceId"
+            case choiceTitle = "ChoiceTitle"
+        }
+    }
+
     public struct CheckDetail: AWSDecodableShape {
         public let accountId: String?
         public let choiceId: String?
@@ -427,13 +453,13 @@ extension WellArchitected {
     }
 
     public struct Choice: AWSDecodableShape {
-        /// The additional resources for a choice. A choice can have up to two additional resources: one of type HELPFUL_RESOURCE,  one of type IMPROVEMENT_PLAN, or both.
+        /// The additional resources for a choice in a custom lens. A choice can have up to two additional resources: one of type HELPFUL_RESOURCE,  one of type IMPROVEMENT_PLAN, or both.
         public let additionalResources: [AdditionalResources]?
         public let choiceId: String?
         public let description: String?
-        /// The choice level helpful resource.
+        /// The helpful resource (both text and URL) for a particular choice. This field only applies to custom lenses. Each choice can have only one helpful resource.
         public let helpfulResource: ChoiceContent?
-        /// The choice level improvement plan.
+        /// The improvement plan (both text and URL) for a particular choice. This field only applies to custom lenses. Each choice can have only one improvement plan.
         public let improvementPlan: ChoiceContent?
         public let title: String?
 
@@ -558,6 +584,42 @@ extension WellArchitected {
             case notes = "Notes"
             case reason = "Reason"
             case status = "Status"
+        }
+    }
+
+    public struct ConsolidatedReportMetric: AWSDecodableShape {
+        /// The metrics for the lenses in the workload.
+        public let lenses: [LensMetric]?
+        /// The total number of lenses applied to the workload.
+        public let lensesAppliedCount: Int?
+        /// The metric type of a metric in the consolidated report. Currently only WORKLOAD metric types are supported.
+        public let metricType: MetricType?
+        public let riskCounts: [Risk: Int]?
+        public let updatedAt: Date?
+        public let workloadArn: String?
+        public let workloadId: String?
+        public let workloadName: String?
+
+        public init(lenses: [LensMetric]? = nil, lensesAppliedCount: Int? = nil, metricType: MetricType? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+            self.lenses = lenses
+            self.lensesAppliedCount = lensesAppliedCount
+            self.metricType = metricType
+            self.riskCounts = riskCounts
+            self.updatedAt = updatedAt
+            self.workloadArn = workloadArn
+            self.workloadId = workloadId
+            self.workloadName = workloadName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lenses = "Lenses"
+            case lensesAppliedCount = "LensesAppliedCount"
+            case metricType = "MetricType"
+            case riskCounts = "RiskCounts"
+            case updatedAt = "UpdatedAt"
+            case workloadArn = "WorkloadArn"
+            case workloadId = "WorkloadId"
+            case workloadName = "WorkloadName"
         }
     }
 
@@ -1014,7 +1076,7 @@ extension WellArchitected {
     }
 
     public struct ExportLensOutput: AWSDecodableShape {
-        /// The JSON for the lens.
+        /// The JSON representation of a lens.
         public let lensJSON: String?
 
         public init(lensJSON: String? = nil) {
@@ -1081,6 +1143,56 @@ extension WellArchitected {
             case lensArn = "LensArn"
             case milestoneNumber = "MilestoneNumber"
             case workloadId = "WorkloadId"
+        }
+    }
+
+    public struct GetConsolidatedReportInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "format", location: .querystring("Format")),
+            AWSMemberEncoding(label: "includeSharedResources", location: .querystring("IncludeSharedResources")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
+        ]
+
+        /// The format of the consolidated report. For PDF, Base64String is returned. For JSON,  Metrics is returned.
+        public let format: ReportFormat
+        /// Set to true to have shared resources included in the report.
+        public let includeSharedResources: Bool?
+        /// The maximum number of results to return for this request.
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(format: ReportFormat, includeSharedResources: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.format = format
+            self.includeSharedResources = includeSharedResources
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 15)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConsolidatedReportOutput: AWSDecodableShape {
+        public let base64String: String?
+        /// The metrics that make up the consolidated report. Only returned when JSON format is requested.
+        public let metrics: [ConsolidatedReportMetric]?
+        public let nextToken: String?
+
+        public init(base64String: String? = nil, metrics: [ConsolidatedReportMetric]? = nil, nextToken: String? = nil) {
+            self.base64String = base64String
+            self.metrics = metrics
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case base64String = "Base64String"
+            case metrics = "Metrics"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1382,7 +1494,7 @@ extension WellArchitected {
     }
 
     public struct ImportLensOutput: AWSDecodableShape {
-        /// The ARN for the lens.
+        /// The ARN for the lens that was created or updated.
         public let lensArn: String?
         /// The status of the imported lens.
         public let status: ImportLensStatus?
@@ -1458,6 +1570,26 @@ extension WellArchitected {
             case owner = "Owner"
             case shareInvitationId = "ShareInvitationId"
             case tags = "Tags"
+        }
+    }
+
+    public struct LensMetric: AWSDecodableShape {
+        /// The lens ARN.
+        public let lensArn: String?
+        /// The metrics for the pillars in a lens.
+        public let pillars: [PillarMetric]?
+        public let riskCounts: [Risk: Int]?
+
+        public init(lensArn: String? = nil, pillars: [PillarMetric]? = nil, riskCounts: [Risk: Int]? = nil) {
+            self.lensArn = lensArn
+            self.pillars = pillars
+            self.riskCounts = riskCounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lensArn = "LensArn"
+            case pillars = "Pillars"
+            case riskCounts = "RiskCounts"
         }
     }
 
@@ -2408,6 +2540,25 @@ extension WellArchitected {
         }
     }
 
+    public struct PillarMetric: AWSDecodableShape {
+        public let pillarId: String?
+        /// The questions that have been identified as risks in the pillar.
+        public let questions: [QuestionMetric]?
+        public let riskCounts: [Risk: Int]?
+
+        public init(pillarId: String? = nil, questions: [QuestionMetric]? = nil, riskCounts: [Risk: Int]? = nil) {
+            self.pillarId = pillarId
+            self.questions = questions
+            self.riskCounts = riskCounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pillarId = "PillarId"
+            case questions = "Questions"
+            case riskCounts = "RiskCounts"
+        }
+    }
+
     public struct PillarReviewSummary: AWSDecodableShape {
         public let notes: String?
         public let pillarId: String?
@@ -2445,6 +2596,25 @@ extension WellArchitected {
             case differenceStatus = "DifferenceStatus"
             case questionId = "QuestionId"
             case questionTitle = "QuestionTitle"
+        }
+    }
+
+    public struct QuestionMetric: AWSDecodableShape {
+        /// The best practices, or choices, that have been identified as contributing to risk in a question.
+        public let bestPractices: [BestPractice]?
+        public let questionId: String?
+        public let risk: Risk?
+
+        public init(bestPractices: [BestPractice]? = nil, questionId: String? = nil, risk: Risk? = nil) {
+            self.bestPractices = bestPractices
+            self.questionId = questionId
+            self.risk = risk
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bestPractices = "BestPractices"
+            case questionId = "QuestionId"
+            case risk = "Risk"
         }
     }
 
@@ -3182,7 +3352,7 @@ public struct WellArchitectedErrorType: AWSErrorType {
 
     /// User does not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The resource already exists.
+    /// The resource has already been processed, was deleted, or is too large.
     public static var conflictException: Self { .init(.conflictException) }
     /// There is a problem with the Well-Architected Tool API service.
     public static var internalServerException: Self { .init(.internalServerException) }

@@ -349,7 +349,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
-        public init(pattern: String, patternName: String, patternSetName: String, rank: Int, resourceGroupName: String) {
+        public init(pattern: String, patternName: String, patternSetName: String, rank: Int = 0, resourceGroupName: String) {
             self.pattern = pattern
             self.patternName = patternName
             self.patternSetName = patternSetName

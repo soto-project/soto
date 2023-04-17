@@ -769,6 +769,7 @@ extension CloudFormation {
                 .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_IN_PROGRESS")),
                 .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_FAILED")),
                 .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_COMPLETE")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_COMPLETE")),
             ],
             minDelayTime: .seconds(30),
             command: self.describeStacks

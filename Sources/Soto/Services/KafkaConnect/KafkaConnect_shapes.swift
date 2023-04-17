@@ -106,7 +106,7 @@ extension KafkaConnect {
         /// The sacle-out policy for the connector.
         public let scaleOutPolicy: ScaleOutPolicy?
 
-        public init(maxWorkerCount: Int, mcuCount: Int, minWorkerCount: Int, scaleInPolicy: ScaleInPolicy? = nil, scaleOutPolicy: ScaleOutPolicy? = nil) {
+        public init(maxWorkerCount: Int = 0, mcuCount: Int = 0, minWorkerCount: Int = 0, scaleInPolicy: ScaleInPolicy? = nil, scaleOutPolicy: ScaleOutPolicy? = nil) {
             self.maxWorkerCount = maxWorkerCount
             self.mcuCount = mcuCount
             self.minWorkerCount = minWorkerCount
@@ -175,7 +175,7 @@ extension KafkaConnect {
         /// The target sacle-out policy for the connector.
         public let scaleOutPolicy: ScaleOutPolicyUpdate
 
-        public init(maxWorkerCount: Int, mcuCount: Int, minWorkerCount: Int, scaleInPolicy: ScaleInPolicyUpdate, scaleOutPolicy: ScaleOutPolicyUpdate) {
+        public init(maxWorkerCount: Int = 0, mcuCount: Int = 0, minWorkerCount: Int = 0, scaleInPolicy: ScaleInPolicyUpdate, scaleOutPolicy: ScaleOutPolicyUpdate) {
             self.maxWorkerCount = maxWorkerCount
             self.mcuCount = mcuCount
             self.minWorkerCount = minWorkerCount
@@ -270,7 +270,7 @@ extension KafkaConnect {
         /// The name of the CloudWatch log group that is the destination for log delivery.
         public let logGroup: String?
 
-        public init(enabled: Bool, logGroup: String? = nil) {
+        public init(enabled: Bool = false, logGroup: String? = nil) {
             self.enabled = enabled
             self.logGroup = logGroup
         }
@@ -572,13 +572,13 @@ extension KafkaConnect {
         /// The revision of the custom plugin.
         public let revision: Int64
 
-        public init(customPluginArn: String, revision: Int64) {
+        public init(customPluginArn: String, revision: Int64 = 0) {
             self.customPluginArn = customPluginArn
             self.revision = revision
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.revision, name: "revision", parent: name, max: 9223372036854775807)
+            try self.validate(self.revision, name: "revision", parent: name, max: -9223372036854775808)
             try self.validate(self.revision, name: "revision", parent: name, min: 1)
         }
 
@@ -981,7 +981,7 @@ extension KafkaConnect {
         /// Specifies whether connector logs get delivered to Amazon Kinesis Data Firehose.
         public let enabled: Bool
 
-        public init(deliveryStream: String? = nil, enabled: Bool) {
+        public init(deliveryStream: String? = nil, enabled: Bool = false) {
             self.deliveryStream = deliveryStream
             self.enabled = enabled
         }
@@ -1276,7 +1276,7 @@ extension KafkaConnect {
         /// The number of workers that are allocated to the connector.
         public let workerCount: Int
 
-        public init(mcuCount: Int, workerCount: Int) {
+        public init(mcuCount: Int = 0, workerCount: Int = 0) {
             self.mcuCount = mcuCount
             self.workerCount = workerCount
         }
@@ -1317,7 +1317,7 @@ extension KafkaConnect {
         /// The number of workers that are allocated to the connector.
         public let workerCount: Int
 
-        public init(mcuCount: Int, workerCount: Int) {
+        public init(mcuCount: Int = 0, workerCount: Int = 0) {
             self.mcuCount = mcuCount
             self.workerCount = workerCount
         }
@@ -1385,7 +1385,7 @@ extension KafkaConnect {
         /// The S3 prefix that is the destination for log delivery.
         public let prefix: String?
 
-        public init(bucket: String? = nil, enabled: Bool, prefix: String? = nil) {
+        public init(bucket: String? = nil, enabled: Bool = false, prefix: String? = nil) {
             self.bucket = bucket
             self.enabled = enabled
             self.prefix = prefix
@@ -1423,7 +1423,7 @@ extension KafkaConnect {
         /// Specifies the CPU utilization percentage threshold at which you want connector scale in to be triggered.
         public let cpuUtilizationPercentage: Int
 
-        public init(cpuUtilizationPercentage: Int) {
+        public init(cpuUtilizationPercentage: Int = 0) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
 
@@ -1454,7 +1454,7 @@ extension KafkaConnect {
         /// The target CPU utilization percentage threshold at which you want connector scale in to be triggered.
         public let cpuUtilizationPercentage: Int
 
-        public init(cpuUtilizationPercentage: Int) {
+        public init(cpuUtilizationPercentage: Int = 0) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
 
@@ -1472,7 +1472,7 @@ extension KafkaConnect {
         /// The CPU utilization percentage threshold at which you want connector scale out to be triggered.
         public let cpuUtilizationPercentage: Int
 
-        public init(cpuUtilizationPercentage: Int) {
+        public init(cpuUtilizationPercentage: Int = 0) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
 
@@ -1503,7 +1503,7 @@ extension KafkaConnect {
         /// The target CPU utilization percentage threshold at which you want connector scale out to be triggered.
         public let cpuUtilizationPercentage: Int
 
-        public init(cpuUtilizationPercentage: Int) {
+        public init(cpuUtilizationPercentage: Int = 0) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
 
@@ -1619,13 +1619,13 @@ extension KafkaConnect {
         /// The Amazon Resource Name (ARN) of the worker configuration.
         public let workerConfigurationArn: String
 
-        public init(revision: Int64, workerConfigurationArn: String) {
+        public init(revision: Int64 = 0, workerConfigurationArn: String) {
             self.revision = revision
             self.workerConfigurationArn = workerConfigurationArn
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.revision, name: "revision", parent: name, max: 9223372036854775807)
+            try self.validate(self.revision, name: "revision", parent: name, max: -9223372036854775808)
             try self.validate(self.revision, name: "revision", parent: name, min: 1)
         }
 

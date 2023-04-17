@@ -62,6 +62,12 @@ extension ServiceCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum EngineWorkflowStatus: String, CustomStringConvertible, Codable, Sendable {
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EvaluationType: String, CustomStringConvertible, Codable, Sendable {
         case `static` = "STATIC"
         case dynamic = "DYNAMIC"
@@ -102,6 +108,7 @@ extension ServiceCatalog {
     public enum ProductType: String, CustomStringConvertible, Codable, Sendable {
         case cloudFormationTemplate = "CLOUD_FORMATION_TEMPLATE"
         case marketplace = "MARKETPLACE"
+        case terraformOpenSource = "TERRAFORM_OPEN_SOURCE"
         public var description: String { return self.rawValue }
     }
 
@@ -170,6 +177,7 @@ extension ServiceCatalog {
         case cloudFormationTemplate = "CLOUD_FORMATION_TEMPLATE"
         case marketplaceAmi = "MARKETPLACE_AMI"
         case marketplaceCar = "MARKETPLACE_CAR"
+        case terraformOpenSource = "TERRAFORM_OPEN_SOURCE"
         public var description: String { return self.rawValue }
     }
 
@@ -209,6 +217,7 @@ extension ServiceCatalog {
     public enum ServiceActionAssociationErrorCode: String, CustomStringConvertible, Codable, Sendable {
         case duplicateResourceException = "DUPLICATE_RESOURCE"
         case internalFailure = "INTERNAL_FAILURE"
+        case invalidParameterException = "INVALID_PARAMETER"
         case limitExceededException = "LIMIT_EXCEEDED"
         case resourceNotFoundException = "RESOURCE_NOT_FOUND"
         case throttlingException = "THROTTLING"
@@ -272,7 +281,7 @@ extension ServiceCatalog {
     // MARK: Shapes
 
     public struct AcceptPortfolioShareInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
@@ -350,11 +359,11 @@ extension ServiceCatalog {
     }
 
     public struct AssociatePrincipalWithPortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The ARN of the principal (IAM user, role, or group). This field allows an ARN with no accountID if  PrincipalType is IAM_PATTERN.  You can associate multiple IAM patterns even if the account has no principal with that name. This is useful in Principal Name Sharing if you want to share a principal without creating it in the  account that owns the portfolio.
+        /// The ARN of the principal (user, role, or group). This field allows an ARN with no accountID if  PrincipalType is IAM_PATTERN.  You can associate multiple IAM patterns even if the account has no principal with that name. This is useful in Principal Name Sharing if you want to share a principal without creating it in the  account that owns the portfolio.
         public let principalARN: String
         /// The principal type. The supported value is IAM if you use a fully defined ARN,  or IAM_PATTERN if you use an ARN with no accountID.
         public let principalType: PrincipalType
@@ -388,7 +397,7 @@ extension ServiceCatalog {
     }
 
     public struct AssociateProductWithPortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
@@ -430,7 +439,7 @@ extension ServiceCatalog {
     }
 
     public struct AssociateServiceActionWithProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The product identifier. For example, prod-abcdzk7xy33qa.
         public let productId: String
@@ -498,7 +507,7 @@ extension ServiceCatalog {
     }
 
     public struct BatchAssociateServiceActionWithProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID.
         public let serviceActionAssociations: [ServiceActionAssociation]
@@ -537,7 +546,7 @@ extension ServiceCatalog {
     }
 
     public struct BatchDisassociateServiceActionFromProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID.
         public let serviceActionAssociations: [ServiceActionAssociation]
@@ -689,7 +698,7 @@ extension ServiceCatalog {
     }
 
     public struct CopyProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The copy options. If the value is CopyTags, the tags from the source product are copied to the target product.
         public let copyOptions: [CopyOption]?
@@ -753,7 +762,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateConstraintInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The description of the constraint.
         public let description: String?
@@ -827,7 +836,7 @@ extension ServiceCatalog {
     }
 
     public struct CreatePortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The description of the portfolio.
         public let description: String?
@@ -893,7 +902,7 @@ extension ServiceCatalog {
     }
 
     public struct CreatePortfolioShareInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The Amazon Web Services account ID. For example, 123456789012.
         public let accountId: String?
@@ -948,7 +957,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The description of the product.
         public let description: String?
@@ -1050,7 +1059,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateProvisionedProductPlanInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
@@ -1164,7 +1173,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
@@ -1221,7 +1230,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateServiceActionInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The self-service action definition. Can be one of the following:  Name  The name of the Amazon Web Services Systems Manager document (SSM document). For example, AWS-RestartEC2Instance. If you are using a shared SSM document, you must provide the ARN instead of the name.  Version  The Amazon Web Services Systems Manager automation document version. For example, "Version": "1"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole". To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE".  Parameters  The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}].
         public let definition: [ServiceActionDefinitionKey: String]
@@ -1323,7 +1332,7 @@ extension ServiceCatalog {
     }
 
     public struct DeleteConstraintInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The identifier of the constraint.
         public let id: String
@@ -1351,7 +1360,7 @@ extension ServiceCatalog {
     }
 
     public struct DeletePortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let id: String
@@ -1379,7 +1388,7 @@ extension ServiceCatalog {
     }
 
     public struct DeletePortfolioShareInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The Amazon Web Services account ID.
         public let accountId: String?
@@ -1426,7 +1435,7 @@ extension ServiceCatalog {
     }
 
     public struct DeleteProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The product identifier.
         public let id: String
@@ -1454,7 +1463,7 @@ extension ServiceCatalog {
     }
 
     public struct DeleteProvisionedProductPlanInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// If set to true, Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
         public let ignoreErrors: Bool?
@@ -1486,7 +1495,7 @@ extension ServiceCatalog {
     }
 
     public struct DeleteProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The product identifier.
         public let productId: String
@@ -1521,7 +1530,7 @@ extension ServiceCatalog {
     }
 
     public struct DeleteServiceActionInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let id: String
@@ -1573,7 +1582,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeConstraintInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The identifier of the constraint.
         public let id: String
@@ -1618,7 +1627,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeCopyProductStatusInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The token for the copy product operation. This token is returned by CopyProduct.
         public let copyProductToken: String
@@ -1663,7 +1672,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribePortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let id: String
@@ -1812,7 +1821,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProductAsAdminInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The product identifier.
         public let id: String?
@@ -1877,7 +1886,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The product identifier.
         public let id: String?
@@ -1931,7 +1940,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProductViewInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The product view identifier.
         public let id: String
@@ -1972,7 +1981,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProvisionedProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The provisioned product identifier. You must provide the name or ID, but not both. If you do not provide a name or ID, or you provide both name and ID, an InvalidParametersException will occur.
         public let id: String?
@@ -2020,7 +2029,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProvisionedProductPlanInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -2077,7 +2086,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The product identifier.
         public let productId: String?
@@ -2143,7 +2152,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProvisioningParametersInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The path identifier of the product. This value is optional if the product  has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths. You must provide the name or ID, but not both.
         public let pathId: String?
@@ -2245,7 +2254,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeRecordInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The record identifier of the provisioned product. This identifier is returned by the request operation.
         public let id: String
@@ -2302,7 +2311,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeServiceActionExecutionParametersInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The identifier of the provisioned product.
         public let provisionedProductId: String
@@ -2346,7 +2355,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeServiceActionInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The self-service action identifier.
         public let id: String
@@ -2453,11 +2462,11 @@ extension ServiceCatalog {
     }
 
     public struct DisassociatePrincipalFromPortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The ARN of the principal (IAM user, role, or group). This field allows an ARN with no accountID if  PrincipalType is IAM_PATTERN.
+        /// The ARN of the principal (user, role, or group). This field allows an ARN with no accountID if  PrincipalType is IAM_PATTERN.
         public let principalARN: String
         /// The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you use no accountID.
         public let principalType: PrincipalType?
@@ -2491,7 +2500,7 @@ extension ServiceCatalog {
     }
 
     public struct DisassociateProductFromPortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
@@ -2526,7 +2535,7 @@ extension ServiceCatalog {
     }
 
     public struct DisassociateServiceActionFromProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The product identifier. For example, prod-abcdzk7xy33qa.
         public let productId: String
@@ -2603,8 +2612,25 @@ extension ServiceCatalog {
         public init() {}
     }
 
+    public struct EngineWorkflowResourceIdentifier: AWSEncodableShape {
+        ///  The unique key-value pair  for a tag  that identifies provisioned product resources.
+        public let uniqueTag: UniqueTagResourceIdentifier?
+
+        public init(uniqueTag: UniqueTagResourceIdentifier? = nil) {
+            self.uniqueTag = uniqueTag
+        }
+
+        public func validate(name: String) throws {
+            try self.uniqueTag?.validate(name: "\(name).uniqueTag")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uniqueTag = "UniqueTag"
+        }
+    }
+
     public struct ExecuteProvisionedProductPlanInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
@@ -2648,7 +2674,7 @@ extension ServiceCatalog {
     }
 
     public struct ExecuteProvisionedProductServiceActionInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// An idempotency token that uniquely identifies the execute request.
         public let executeToken: String
@@ -2777,7 +2803,7 @@ extension ServiceCatalog {
     }
 
     public struct GetProvisionedProductOutputsInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The list of keys that the API should return with their values. If none are provided, the API will return all outputs of the provisioned product.
         public let outputKeys: [String]?
@@ -2842,7 +2868,7 @@ extension ServiceCatalog {
     }
 
     public struct ImportAsProvisionedProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
@@ -2974,7 +3000,7 @@ extension ServiceCatalog {
     }
 
     public struct ListAcceptedPortfolioSharesInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3024,7 +3050,7 @@ extension ServiceCatalog {
     }
 
     public struct ListBudgetsForResourceInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3077,7 +3103,7 @@ extension ServiceCatalog {
     }
 
     public struct ListConstraintsForPortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3137,7 +3163,7 @@ extension ServiceCatalog {
     }
 
     public struct ListLaunchPathsInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3190,7 +3216,7 @@ extension ServiceCatalog {
     }
 
     public struct ListOrganizationPortfolioAccessInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The organization node type that will be returned in the output.    ORGANIZATION - Organization that has access to the portfolio.     ORGANIZATIONAL_UNIT - Organizational unit that has access to the portfolio within your organization.    ACCOUNT - Account that has access to the portfolio within your organization.
         public let organizationNodeType: OrganizationNodeType
@@ -3247,7 +3273,7 @@ extension ServiceCatalog {
     }
 
     public struct ListPortfolioAccessInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The ID of an organization node the portfolio is shared with. All children of this node with an inherited portfolio share will be returned.
         public let organizationParentId: String?
@@ -3307,7 +3333,7 @@ extension ServiceCatalog {
     }
 
     public struct ListPortfoliosForProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3360,7 +3386,7 @@ extension ServiceCatalog {
     }
 
     public struct ListPortfoliosInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3406,7 +3432,7 @@ extension ServiceCatalog {
     }
 
     public struct ListPrincipalsForPortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3459,7 +3485,7 @@ extension ServiceCatalog {
     }
 
     public struct ListProvisionedProductPlansInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
@@ -3516,7 +3542,7 @@ extension ServiceCatalog {
     }
 
     public struct ListProvisioningArtifactsForServiceActionInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3569,7 +3595,7 @@ extension ServiceCatalog {
     }
 
     public struct ListProvisioningArtifactsInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The product identifier.
         public let productId: String
@@ -3610,7 +3636,7 @@ extension ServiceCatalog {
     }
 
     public struct ListRecordHistoryInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
@@ -3734,7 +3760,7 @@ extension ServiceCatalog {
     }
 
     public struct ListServiceActionsForProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3794,7 +3820,7 @@ extension ServiceCatalog {
     }
 
     public struct ListServiceActionsInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3840,7 +3866,7 @@ extension ServiceCatalog {
     }
 
     public struct ListStackInstancesForProvisionedProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3968,6 +3994,163 @@ extension ServiceCatalog {
         }
     }
 
+    public struct NotifyProvisionProductEngineWorkflowResultInput: AWSEncodableShape {
+        ///  The reason  why the provisioning engine execution failed.
+        public let failureReason: String?
+        ///  The idempotency token  that identifies the provisioning engine execution.
+        public let idempotencyToken: String
+        ///  The output  of the provisioning engine execution.
+        public let outputs: [RecordOutput]?
+        ///  The identifier  of the record.
+        public let recordId: String
+        ///  The ID  for the provisioned product resources  that are part  of a resource group.
+        public let resourceIdentifier: EngineWorkflowResourceIdentifier?
+        ///  The status  of the provisioning engine execution.
+        public let status: EngineWorkflowStatus
+        ///  The encrypted contents  of the provisioning engine execution payload  that Service Catalog sends  after the Terraform product provisioning workflow starts.
+        public let workflowToken: String
+
+        public init(failureReason: String? = nil, idempotencyToken: String = NotifyProvisionProductEngineWorkflowResultInput.idempotencyToken(), outputs: [RecordOutput]? = nil, recordId: String, resourceIdentifier: EngineWorkflowResourceIdentifier? = nil, status: EngineWorkflowStatus, workflowToken: String) {
+            self.failureReason = failureReason
+            self.idempotencyToken = idempotencyToken
+            self.outputs = outputs
+            self.recordId = recordId
+            self.resourceIdentifier = resourceIdentifier
+            self.status = status
+            self.workflowToken = workflowToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.failureReason, name: "failureReason", parent: name, max: 2048)
+            try self.validate(self.failureReason, name: "failureReason", parent: name, min: 1)
+            try self.validate(self.failureReason, name: "failureReason", parent: name, pattern: "^[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*$")
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.recordId, name: "recordId", parent: name, max: 100)
+            try self.validate(self.recordId, name: "recordId", parent: name, min: 1)
+            try self.validate(self.recordId, name: "recordId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*$")
+            try self.resourceIdentifier?.validate(name: "\(name).resourceIdentifier")
+            try self.validate(self.workflowToken, name: "workflowToken", parent: name, max: 20000)
+            try self.validate(self.workflowToken, name: "workflowToken", parent: name, min: 1)
+            try self.validate(self.workflowToken, name: "workflowToken", parent: name, pattern: "^[0-9A-Za-z+\\/=]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureReason = "FailureReason"
+            case idempotencyToken = "IdempotencyToken"
+            case outputs = "Outputs"
+            case recordId = "RecordId"
+            case resourceIdentifier = "ResourceIdentifier"
+            case status = "Status"
+            case workflowToken = "WorkflowToken"
+        }
+    }
+
+    public struct NotifyProvisionProductEngineWorkflowResultOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct NotifyTerminateProvisionedProductEngineWorkflowResultInput: AWSEncodableShape {
+        ///  The reason  why the terminate engine execution failed.
+        public let failureReason: String?
+        ///  The idempotency token  that identifies the terminate engine execution.
+        public let idempotencyToken: String
+        ///  The identifier  of the record.
+        public let recordId: String
+        ///  The status  of the terminate engine execution.
+        public let status: EngineWorkflowStatus
+        ///  The encrypted contents  of the terminate engine execution payload  that Service Catalog sends  after the Terraform product terminate workflow starts.
+        public let workflowToken: String
+
+        public init(failureReason: String? = nil, idempotencyToken: String = NotifyTerminateProvisionedProductEngineWorkflowResultInput.idempotencyToken(), recordId: String, status: EngineWorkflowStatus, workflowToken: String) {
+            self.failureReason = failureReason
+            self.idempotencyToken = idempotencyToken
+            self.recordId = recordId
+            self.status = status
+            self.workflowToken = workflowToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.failureReason, name: "failureReason", parent: name, max: 2048)
+            try self.validate(self.failureReason, name: "failureReason", parent: name, min: 1)
+            try self.validate(self.failureReason, name: "failureReason", parent: name, pattern: "^[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*$")
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.recordId, name: "recordId", parent: name, max: 100)
+            try self.validate(self.recordId, name: "recordId", parent: name, min: 1)
+            try self.validate(self.recordId, name: "recordId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*$")
+            try self.validate(self.workflowToken, name: "workflowToken", parent: name, max: 20000)
+            try self.validate(self.workflowToken, name: "workflowToken", parent: name, min: 1)
+            try self.validate(self.workflowToken, name: "workflowToken", parent: name, pattern: "^[0-9A-Za-z+\\/=]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureReason = "FailureReason"
+            case idempotencyToken = "IdempotencyToken"
+            case recordId = "RecordId"
+            case status = "Status"
+            case workflowToken = "WorkflowToken"
+        }
+    }
+
+    public struct NotifyTerminateProvisionedProductEngineWorkflowResultOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct NotifyUpdateProvisionedProductEngineWorkflowResultInput: AWSEncodableShape {
+        ///  The reason  why the update engine execution failed.
+        public let failureReason: String?
+        ///  The idempotency token  that identifies the update engine execution.
+        public let idempotencyToken: String
+        ///  The output  of the update engine execution.
+        public let outputs: [RecordOutput]?
+        ///  The identifier  of the record.
+        public let recordId: String
+        ///  The status  of the update engine execution.
+        public let status: EngineWorkflowStatus
+        ///  The encrypted contents  of the update engine execution payload  that Service Catalog sends  after the Terraform product update workflow starts.
+        public let workflowToken: String
+
+        public init(failureReason: String? = nil, idempotencyToken: String = NotifyUpdateProvisionedProductEngineWorkflowResultInput.idempotencyToken(), outputs: [RecordOutput]? = nil, recordId: String, status: EngineWorkflowStatus, workflowToken: String) {
+            self.failureReason = failureReason
+            self.idempotencyToken = idempotencyToken
+            self.outputs = outputs
+            self.recordId = recordId
+            self.status = status
+            self.workflowToken = workflowToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.failureReason, name: "failureReason", parent: name, max: 2048)
+            try self.validate(self.failureReason, name: "failureReason", parent: name, min: 1)
+            try self.validate(self.failureReason, name: "failureReason", parent: name, pattern: "^[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*$")
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.recordId, name: "recordId", parent: name, max: 100)
+            try self.validate(self.recordId, name: "recordId", parent: name, min: 1)
+            try self.validate(self.recordId, name: "recordId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*$")
+            try self.validate(self.workflowToken, name: "workflowToken", parent: name, max: 20000)
+            try self.validate(self.workflowToken, name: "workflowToken", parent: name, min: 1)
+            try self.validate(self.workflowToken, name: "workflowToken", parent: name, pattern: "^[0-9A-Za-z+\\/=]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureReason = "FailureReason"
+            case idempotencyToken = "IdempotencyToken"
+            case outputs = "Outputs"
+            case recordId = "RecordId"
+            case status = "Status"
+            case workflowToken = "WorkflowToken"
+        }
+    }
+
+    public struct NotifyUpdateProvisionedProductEngineWorkflowResultOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct OrganizationNode: AWSEncodableShape & AWSDecodableShape {
         /// The organization node type.
         public let type: OrganizationNodeType?
@@ -3994,7 +4177,7 @@ extension ServiceCatalog {
         public let allowedPattern: String?
         /// The values that the administrator has allowed for the parameter.
         public let allowedValues: [String]?
-        /// A string that explains a constraint when the constraint is violated. For example, without a constraint description, a parameter that has an allowed pattern of [A-Za-z0-9]+ displays the following error message when the user specifies an invalid value:   Malformed input-Parameter MyParameter must match pattern [A-Za-z0-9]+   By adding a constraint description, such as must only contain letters (uppercase and lowercase) and numbers, you can display the following customized error message:   Malformed input-Parameter MyParameter must only contain uppercase and lowercase letters and numbers.
+        /// A string that explains a constraint when the constraint is violated. For example, without a constraint description, a parameter that has an allowed pattern of [A-Za-z0-9]+ displays the following error message when the user specifies an invalid value:  Malformed input-Parameter MyParameter must match pattern [A-Za-z0-9]+  By adding a constraint description, such as must only contain letters (uppercase and lowercase) and numbers, you can display the following customized error message:  Malformed input-Parameter MyParameter must only contain uppercase and lowercase letters and numbers.
         public let constraintDescription: String?
         /// An integer value that determines the largest number of characters you want to allow for String types.
         public let maxLength: String?
@@ -4089,7 +4272,7 @@ extension ServiceCatalog {
     }
 
     public struct Principal: AWSDecodableShape {
-        /// The ARN of the principal (IAM user, role, or group). This field allows for an ARN with no accountID if the PrincipalType is an IAM_PATTERN.
+        /// The ARN of the principal (user, role, or group). This field allows for an ARN with no accountID if the PrincipalType is an IAM_PATTERN.
         public let principalARN: String?
         /// The principal type. The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you use an ARN with no accountID.
         public let principalType: PrincipalType?
@@ -4205,7 +4388,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisionProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
         public let notificationArns: [String]?
@@ -4350,9 +4533,9 @@ extension ServiceCatalog {
         public let tags: [Tag]?
         /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
         public let type: String?
-        /// The Amazon Resource Name (ARN) of the IAM user.
+        /// The Amazon Resource Name (ARN) of the user.
         public let userArn: String?
-        /// The ARN of the IAM user in the session. This ARN might contain a session ID.
+        /// The ARN of the user in the session. This ARN might contain a session ID.
         public let userArnSession: String?
 
         public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, idempotencyToken: String? = nil, lastProvisioningRecordId: String? = nil, lastRecordId: String? = nil, lastSuccessfulProvisioningRecordId: String? = nil, name: String? = nil, physicalId: String? = nil, productId: String? = nil, productName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, type: String? = nil, userArn: String? = nil, userArnSession: String? = nil) {
@@ -4713,7 +4896,7 @@ extension ServiceCatalog {
         public let info: [String: String]?
         /// The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed.
         public let name: String?
-        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - CloudFormation template    MARKETPLACE_AMI - Amazon Web Services Marketplace AMI    MARKETPLACE_CAR - Amazon Web Services Marketplace Clusters and Amazon Web Services Resources
+        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - CloudFormation template    MARKETPLACE_AMI - Amazon Web Services Marketplace AMI    MARKETPLACE_CAR - Amazon Web Services Marketplace Clusters and Amazon Web Services Resources    TERRAFORM_OPEN_SOURCE - Terraform open source configuration file
         public let type: ProvisioningArtifactType?
 
         public init(description: String? = nil, disableTemplateValidation: Bool? = nil, info: [String: String]? = nil, name: String? = nil, type: ProvisioningArtifactType? = nil) {
@@ -4936,7 +5119,7 @@ extension ServiceCatalog {
         }
     }
 
-    public struct RecordOutput: AWSDecodableShape {
+    public struct RecordOutput: AWSEncodableShape & AWSDecodableShape {
         /// The description of the output.
         public let description: String?
         /// The output key.
@@ -4975,7 +5158,7 @@ extension ServiceCatalog {
     }
 
     public struct RejectPortfolioShareInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
@@ -5115,7 +5298,7 @@ extension ServiceCatalog {
     }
 
     public struct ScanProvisionedProductsInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
@@ -5165,7 +5348,7 @@ extension ServiceCatalog {
     }
 
     public struct SearchProductsAsAdminInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The search filters. If no search filters are specified, the output includes all products  to which the administrator has access.
         public let filters: [ProductViewFilterBy: [String]]?
@@ -5234,7 +5417,7 @@ extension ServiceCatalog {
     }
 
     public struct SearchProductsInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The search filters. If no search filters are specified, the output includes all products to which the caller has access.
         public let filters: [ProductViewFilterBy: [String]]?
@@ -5296,11 +5479,11 @@ extension ServiceCatalog {
     }
 
     public struct SearchProvisionedProductsInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
-        /// The search filters.  When the key is SearchQuery, the searchable fields are arn,  createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId,  provisioningArtifact, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId,  productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"]
+        /// The search filters. When the key is SearchQuery, the searchable fields are arn,  createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId,  provisioningArtifact, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId,  productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"]
         public let filters: [ProvisionedProductViewFilterBy: [String]]?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -5627,7 +5810,7 @@ extension ServiceCatalog {
     }
 
     public struct TerminateProvisionedProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// If set to true, Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
         public let ignoreErrors: Bool?
@@ -5685,8 +5868,34 @@ extension ServiceCatalog {
         }
     }
 
+    public struct UniqueTagResourceIdentifier: AWSEncodableShape {
+        ///  A unique key  that's attached  to a resource.
+        public let key: String?
+        ///  A unique value  that's attached  to a resource.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*)$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
     public struct UpdateConstraintInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The updated description of the constraint.
         public let description: String?
@@ -5740,7 +5949,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdatePortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The tags to add.
         public let addTags: [Tag]?
@@ -5815,7 +6024,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdatePortfolioShareInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The Amazon Web Services account Id of the recipient account. This field is required when updating an external account to account type share.
         public let accountId: String?
@@ -5873,7 +6082,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The tags to add to the product.
         public let addTags: [Tag]?
@@ -5971,7 +6180,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProvisionedProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The path identifier. This value is optional if the product  has a default path, and required if the product has more than one path. You must provide the name or ID, but not both.
         public let pathId: String?
@@ -6079,14 +6288,13 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProvisionedProductPropertiesInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// The idempotency token that uniquely identifies the provisioning product update request.
         public let idempotencyToken: String
         /// The identifier of the provisioned product.
         public let provisionedProductId: String
-        /// A map that contains the provisioned product properties to be updated. The LAUNCH_ROLE key accepts role ARNs. This key allows an administrator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end user calls a provisioning operation such as UpdateProvisionedProduct, TerminateProvisionedProduct, or ExecuteProvisionedProductServiceAction. Only a role ARN is valid. A user ARN is invalid.
-        ///  The OWNER key accepts IAM user ARNs, IAM role ARNs, and STS  assumed-role ARNs. The owner is the user that has permission to see, update, terminate, and  execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM or STS entity within the  same account. Both end user owners and administrators can see ownership history of the provisioned  product using the ListRecordHistory API. The new owner can describe all past records  for the provisioned product using the DescribeRecord API. The previous owner can no  longer use DescribeRecord, but can still see the product's history from when he was  an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or  Service Catalog console such as update, terminate, and execute service actions.  If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through  API or the Service Catalog console on that provisioned product.
+        /// A map that contains the provisioned product properties to be updated. The LAUNCH_ROLE key accepts role ARNs. This key allows an administrator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end user calls a provisioning operation such as UpdateProvisionedProduct, TerminateProvisionedProduct, or ExecuteProvisionedProductServiceAction. Only a role ARN is valid. A user ARN is invalid.  The OWNER key accepts user ARNs, IAM role ARNs, and STS  assumed-role ARNs. The owner is the user that has permission to see, update, terminate, and  execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM or STS entity within the  same account. Both end user owners and administrators can see ownership history of the provisioned  product using the ListRecordHistory API. The new owner can describe all past records  for the provisioned product using the DescribeRecord API. The previous owner can no  longer use DescribeRecord, but can still see the product's history from when he was  an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or  Service Catalog console such as update, terminate, and execute service actions.  If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through  API or the Service Catalog console on that provisioned product.
         public let provisionedProductProperties: [PropertyKey: String]
 
         public init(acceptLanguage: String? = nil, idempotencyToken: String = UpdateProvisionedProductPropertiesInput.idempotencyToken(), provisionedProductId: String, provisionedProductProperties: [PropertyKey: String]) {
@@ -6145,7 +6353,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// Indicates whether the product version is active. Inactive provisioning artifacts are invisible to end users. End users cannot launch or update a provisioned product from an inactive provisioning artifact.
         public let active: Bool?
@@ -6291,7 +6499,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateServiceActionInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+        /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
         /// A map that defines the self-service action.
         public let definition: [ServiceActionDefinitionKey: String]?

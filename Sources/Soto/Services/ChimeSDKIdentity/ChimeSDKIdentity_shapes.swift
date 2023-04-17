@@ -46,6 +46,16 @@ extension ChimeSDKIdentity {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExpirationCriterion: String, CustomStringConvertible, Codable, Sendable {
+        case createdTimestamp = "CREATED_TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RespondsTo: String, CustomStringConvertible, Codable, Sendable {
+        case standardMessages = "STANDARD_MESSAGES"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AppInstance: AWSDecodableShape {
@@ -111,6 +121,60 @@ extension ChimeSDKIdentity {
         }
     }
 
+    public struct AppInstanceBot: AWSDecodableShape {
+        /// The ARN of the AppInstanceBot.
+        public let appInstanceBotArn: String?
+        /// The data processing instructions for an AppInstanceBot.
+        public let configuration: Configuration?
+        /// The time at which the AppInstanceBot was created.
+        public let createdTimestamp: Date?
+        /// The time at which the AppInstanceBot was last updated.
+        public let lastUpdatedTimestamp: Date?
+        /// The metadata for an AppInstanceBot.
+        public let metadata: String?
+        /// The name of the AppInstanceBot.
+        public let name: String?
+
+        public init(appInstanceBotArn: String? = nil, configuration: Configuration? = nil, createdTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, name: String? = nil) {
+            self.appInstanceBotArn = appInstanceBotArn
+            self.configuration = configuration
+            self.createdTimestamp = createdTimestamp
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.metadata = metadata
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appInstanceBotArn = "AppInstanceBotArn"
+            case configuration = "Configuration"
+            case createdTimestamp = "CreatedTimestamp"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case metadata = "Metadata"
+            case name = "Name"
+        }
+    }
+
+    public struct AppInstanceBotSummary: AWSDecodableShape {
+        /// The ARN of the AppInstanceBot.
+        public let appInstanceBotArn: String?
+        /// The metadata of the AppInstanceBot.
+        public let metadata: String?
+        /// The name of the AppInstanceBox.
+        public let name: String?
+
+        public init(appInstanceBotArn: String? = nil, metadata: String? = nil, name: String? = nil) {
+            self.appInstanceBotArn = appInstanceBotArn
+            self.metadata = metadata
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appInstanceBotArn = "AppInstanceBotArn"
+            case metadata = "Metadata"
+            case name = "Name"
+        }
+    }
+
     public struct AppInstanceRetentionSettings: AWSEncodableShape & AWSDecodableShape {
         /// The length of time in days to retain the messages in a channel.
         public let channelRetentionSettings: ChannelRetentionSettings?
@@ -154,6 +218,8 @@ extension ChimeSDKIdentity {
         public let appInstanceUserArn: String?
         /// The time at which the AppInstanceUser was created.
         public let createdTimestamp: Date?
+        /// The interval after which an AppInstanceUser is automatically deleted.
+        public let expirationSettings: ExpirationSettings?
         /// The time at which the AppInstanceUser was last updated.
         public let lastUpdatedTimestamp: Date?
         /// The metadata of the AppInstanceUser.
@@ -161,9 +227,10 @@ extension ChimeSDKIdentity {
         /// The name of the AppInstanceUser.
         public let name: String?
 
-        public init(appInstanceUserArn: String? = nil, createdTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, name: String? = nil) {
+        public init(appInstanceUserArn: String? = nil, createdTimestamp: Date? = nil, expirationSettings: ExpirationSettings? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, name: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.createdTimestamp = createdTimestamp
+            self.expirationSettings = expirationSettings
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.metadata = metadata
             self.name = name
@@ -172,6 +239,7 @@ extension ChimeSDKIdentity {
         private enum CodingKeys: String, CodingKey {
             case appInstanceUserArn = "AppInstanceUserArn"
             case createdTimestamp = "CreatedTimestamp"
+            case expirationSettings = "ExpirationSettings"
             case lastUpdatedTimestamp = "LastUpdatedTimestamp"
             case metadata = "Metadata"
             case name = "Name"
@@ -299,6 +367,23 @@ extension ChimeSDKIdentity {
         }
     }
 
+    public struct Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for an Amazon Lex V2 bot.
+        public let lex: LexConfiguration
+
+        public init(lex: LexConfiguration) {
+            self.lex = lex
+        }
+
+        public func validate(name: String) throws {
+            try self.lex.validate(name: "\(name).lex")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lex = "Lex"
+        }
+    }
+
     public struct CreateAppInstanceAdminRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
@@ -329,7 +414,7 @@ extension ChimeSDKIdentity {
     }
 
     public struct CreateAppInstanceAdminResponse: AWSDecodableShape {
-        /// The name and ARN of the admin for the AppInstance.
+        /// The ARN and name of the administrator, the ARN of the AppInstance, and the created and  last-updated timestamps. All timestamps use epoch milliseconds.
         public let appInstanceAdmin: Identity?
         /// The ARN of the of the admin for the AppInstance.
         public let appInstanceArn: String?
@@ -345,14 +430,79 @@ extension ChimeSDKIdentity {
         }
     }
 
+    public struct CreateAppInstanceBotRequest: AWSEncodableShape {
+        /// The ARN of the AppInstance request.
+        public let appInstanceArn: String
+        /// The unique ID for the client making the request. Use different tokens for different AppInstanceBots.
+        public let clientRequestToken: String
+        /// Configuration information about the Amazon Lex V2 V2 bot.
+        public let configuration: Configuration
+        /// The request metadata. Limited to a 1KB string in UTF-8.
+        public let metadata: String?
+        /// The user's name.
+        public let name: String?
+        /// The tags assigned to the AppInstanceBot.
+        public let tags: [Tag]?
+
+        public init(appInstanceArn: String, clientRequestToken: String = CreateAppInstanceBotRequest.idempotencyToken(), configuration: Configuration, metadata: String? = nil, name: String? = nil, tags: [Tag]? = nil) {
+            self.appInstanceArn = appInstanceArn
+            self.clientRequestToken = clientRequestToken
+            self.configuration = configuration
+            self.metadata = metadata
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
+            try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
+            try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
+            try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appInstanceArn = "AppInstanceArn"
+            case clientRequestToken = "ClientRequestToken"
+            case configuration = "Configuration"
+            case metadata = "Metadata"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAppInstanceBotResponse: AWSDecodableShape {
+        /// The ARN of the AppinstanceBot.
+        public let appInstanceBotArn: String?
+
+        public init(appInstanceBotArn: String? = nil) {
+            self.appInstanceBotArn = appInstanceBotArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appInstanceBotArn = "AppInstanceBotArn"
+        }
+    }
+
     public struct CreateAppInstanceRequest: AWSEncodableShape {
-        /// The ClientRequestToken of the AppInstance.
+        /// The unique ID of the request. Use different tokens to create different AppInstances.
         public let clientRequestToken: String
         /// The metadata of the AppInstance. Limited to a 1KB string in UTF-8.
         public let metadata: String?
         /// The name of the AppInstance.
         public let name: String
-        /// Tags assigned to the AppInstanceUser.
+        /// Tags assigned to the AppInstance.
         public let tags: [Tag]?
 
         public init(clientRequestToken: String = CreateAppInstanceRequest.idempotencyToken(), metadata: String? = nil, name: String, tags: [Tag]? = nil) {
@@ -404,8 +554,10 @@ extension ChimeSDKIdentity {
         public let appInstanceArn: String
         /// The user ID of the AppInstance.
         public let appInstanceUserId: String
-        /// The token assigned to the user requesting an AppInstance.
+        /// The unique ID of the request. Use different tokens to request additional AppInstances.
         public let clientRequestToken: String
+        /// Settings that control the interval after which the AppInstanceUser is automatically deleted.
+        public let expirationSettings: ExpirationSettings?
         /// The request's metadata. Limited to a 1KB string in UTF-8.
         public let metadata: String?
         /// The user's name.
@@ -413,10 +565,11 @@ extension ChimeSDKIdentity {
         /// Tags assigned to the AppInstanceUser.
         public let tags: [Tag]?
 
-        public init(appInstanceArn: String, appInstanceUserId: String, clientRequestToken: String = CreateAppInstanceUserRequest.idempotencyToken(), metadata: String? = nil, name: String, tags: [Tag]? = nil) {
+        public init(appInstanceArn: String, appInstanceUserId: String, clientRequestToken: String = CreateAppInstanceUserRequest.idempotencyToken(), expirationSettings: ExpirationSettings? = nil, metadata: String? = nil, name: String, tags: [Tag]? = nil) {
             self.appInstanceArn = appInstanceArn
             self.appInstanceUserId = appInstanceUserId
             self.clientRequestToken = clientRequestToken
+            self.expirationSettings = expirationSettings
             self.metadata = metadata
             self.name = name
             self.tags = tags
@@ -432,6 +585,7 @@ extension ChimeSDKIdentity {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.expirationSettings?.validate(name: "\(name).expirationSettings")
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
             try self.validate(self.name, name: "name", parent: name, max: 100)
@@ -448,6 +602,7 @@ extension ChimeSDKIdentity {
             case appInstanceArn = "AppInstanceArn"
             case appInstanceUserId = "AppInstanceUserId"
             case clientRequestToken = "ClientRequestToken"
+            case expirationSettings = "ExpirationSettings"
             case metadata = "Metadata"
             case name = "Name"
             case tags = "Tags"
@@ -490,6 +645,27 @@ extension ChimeSDKIdentity {
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAppInstanceBotRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appInstanceBotArn", location: .uri("AppInstanceBotArn"))
+        ]
+
+        /// The ARN of the AppInstanceBot being deleted.
+        public let appInstanceBotArn: String
+
+        public init(appInstanceBotArn: String) {
+            self.appInstanceBotArn = appInstanceBotArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appInstanceBotArn, name: "appInstanceBotArn", parent: name, max: 1600)
+            try self.validate(self.appInstanceBotArn, name: "appInstanceBotArn", parent: name, min: 5)
+            try self.validate(self.appInstanceBotArn, name: "appInstanceBotArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -602,6 +778,40 @@ extension ChimeSDKIdentity {
 
         private enum CodingKeys: String, CodingKey {
             case appInstanceAdmin = "AppInstanceAdmin"
+        }
+    }
+
+    public struct DescribeAppInstanceBotRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appInstanceBotArn", location: .uri("AppInstanceBotArn"))
+        ]
+
+        /// The ARN of the AppInstanceBot.
+        public let appInstanceBotArn: String
+
+        public init(appInstanceBotArn: String) {
+            self.appInstanceBotArn = appInstanceBotArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appInstanceBotArn, name: "appInstanceBotArn", parent: name, max: 1600)
+            try self.validate(self.appInstanceBotArn, name: "appInstanceBotArn", parent: name, min: 5)
+            try self.validate(self.appInstanceBotArn, name: "appInstanceBotArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAppInstanceBotResponse: AWSDecodableShape {
+        /// The detials of the AppInstanceBot.
+        public let appInstanceBot: AppInstanceBot?
+
+        public init(appInstanceBot: AppInstanceBot? = nil) {
+            self.appInstanceBot = appInstanceBot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appInstanceBot = "AppInstanceBot"
         }
     }
 
@@ -755,6 +965,28 @@ extension ChimeSDKIdentity {
         }
     }
 
+    public struct ExpirationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the conditions under which an AppInstanceUser will expire.
+        public let expirationCriterion: ExpirationCriterion
+        /// The period in days after which an AppInstanceUser will be automatically deleted.
+        public let expirationDays: Int
+
+        public init(expirationCriterion: ExpirationCriterion, expirationDays: Int) {
+            self.expirationCriterion = expirationCriterion
+            self.expirationDays = expirationDays
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expirationDays, name: "expirationDays", parent: name, max: 5475)
+            try self.validate(self.expirationDays, name: "expirationDays", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expirationCriterion = "ExpirationCriterion"
+            case expirationDays = "ExpirationDays"
+        }
+    }
+
     public struct GetAppInstanceRetentionSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
@@ -810,6 +1042,40 @@ extension ChimeSDKIdentity {
         }
     }
 
+    public struct LexConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the Amazon Lex V2 bot's alias. The ARN uses this format:  arn:aws:lex:REGION:ACCOUNT:bot-alias/MYBOTID/MYBOTALIAS
+        public let lexBotAliasArn: String
+        /// Identifies the Amazon Lex V2 bot's language and locale. The string must match one of the  supported locales in Amazon Lex V2. All of the intents, slot types, and slots used in the bot must have the same  locale. For more information, see Supported languages in the Amazon Lex V2 Developer Guide.
+        public let localeId: String
+        /// Determines whether the Amazon Lex V2 bot responds to all standard messages. Control messages are not supported.
+        public let respondsTo: RespondsTo
+        /// The name of the welcome intent configured in the Amazon Lex V2 bot.
+        public let welcomeIntent: String?
+
+        public init(lexBotAliasArn: String, localeId: String, respondsTo: RespondsTo, welcomeIntent: String? = nil) {
+            self.lexBotAliasArn = lexBotAliasArn
+            self.localeId = localeId
+            self.respondsTo = respondsTo
+            self.welcomeIntent = welcomeIntent
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lexBotAliasArn, name: "lexBotAliasArn", parent: name, max: 2048)
+            try self.validate(self.lexBotAliasArn, name: "lexBotAliasArn", parent: name, min: 15)
+            try self.validate(self.lexBotAliasArn, name: "lexBotAliasArn", parent: name, pattern: "^arn:aws:lex:[a-z]{2}-[a-z]+-\\d{1}:\\d{12}:bot-alias/[A-Z0-9]{10}/[A-Z0-9]{10}$")
+            try self.validate(self.welcomeIntent, name: "welcomeIntent", parent: name, max: 100)
+            try self.validate(self.welcomeIntent, name: "welcomeIntent", parent: name, min: 1)
+            try self.validate(self.welcomeIntent, name: "welcomeIntent", parent: name, pattern: "^([A-Za-z]_?)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lexBotAliasArn = "LexBotAliasArn"
+            case localeId = "LocaleId"
+            case respondsTo = "RespondsTo"
+            case welcomeIntent = "WelcomeIntent"
+        }
+    }
+
     public struct ListAppInstanceAdminsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn")),
@@ -860,6 +1126,60 @@ extension ChimeSDKIdentity {
         private enum CodingKeys: String, CodingKey {
             case appInstanceAdmins = "AppInstanceAdmins"
             case appInstanceArn = "AppInstanceArn"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAppInstanceBotsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appInstanceArn", location: .querystring("app-instance-arn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
+        ]
+
+        /// The ARN of the AppInstance.
+        public let appInstanceArn: String
+        /// The maximum number of requests to return.
+        public let maxResults: Int?
+        /// The token passed by previous API calls until all requested bots are returned.
+        public let nextToken: String?
+
+        public init(appInstanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.appInstanceArn = appInstanceArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
+            try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
+            try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAppInstanceBotsResponse: AWSDecodableShape {
+        /// The ARN of the AppInstance.
+        public let appInstanceArn: String?
+        /// The information for each requested AppInstanceBot.
+        public let appInstanceBots: [AppInstanceBotSummary]?
+        /// The token passed by previous API calls until all requested bots are returned.
+        public let nextToken: String?
+
+        public init(appInstanceArn: String? = nil, appInstanceBots: [AppInstanceBotSummary]? = nil, nextToken: String? = nil) {
+            self.appInstanceArn = appInstanceArn
+            self.appInstanceBots = appInstanceBots
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appInstanceArn = "AppInstanceArn"
+            case appInstanceBots = "AppInstanceBots"
             case nextToken = "NextToken"
         }
     }
@@ -1089,6 +1409,50 @@ extension ChimeSDKIdentity {
         }
     }
 
+    public struct PutAppInstanceUserExpirationSettingsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri("AppInstanceUserArn"))
+        ]
+
+        /// The ARN of the AppInstanceUser.
+        public let appInstanceUserArn: String
+        /// Settings that control the interval after which an AppInstanceUser is automatically deleted.
+        public let expirationSettings: ExpirationSettings?
+
+        public init(appInstanceUserArn: String, expirationSettings: ExpirationSettings? = nil) {
+            self.appInstanceUserArn = appInstanceUserArn
+            self.expirationSettings = expirationSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 5)
+            try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.expirationSettings?.validate(name: "\(name).expirationSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expirationSettings = "ExpirationSettings"
+        }
+    }
+
+    public struct PutAppInstanceUserExpirationSettingsResponse: AWSDecodableShape {
+        /// The ARN of the AppInstanceUser.
+        public let appInstanceUserArn: String?
+        /// Settings that control the interval after which an AppInstanceUser is automatically deleted.
+        public let expirationSettings: ExpirationSettings?
+
+        public init(appInstanceUserArn: String? = nil, expirationSettings: ExpirationSettings? = nil) {
+            self.appInstanceUserArn = appInstanceUserArn
+            self.expirationSettings = expirationSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appInstanceUserArn = "AppInstanceUserArn"
+            case expirationSettings = "ExpirationSettings"
+        }
+    }
+
     public struct RegisterAppInstanceUserEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appInstanceUserArn", location: .uri("AppInstanceUserArn"))
@@ -1098,7 +1462,7 @@ extension ChimeSDKIdentity {
         public let allowMessages: AllowMessages?
         /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String
-        /// The idempotency token for each client request.
+        /// The unique ID assigned to the request. Use different tokens to register other endpoints.
         public let clientRequestToken: String
         /// The attributes of an Endpoint.
         public let endpointAttributes: EndpointAttributes
@@ -1239,6 +1603,53 @@ extension ChimeSDKIdentity {
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
             case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UpdateAppInstanceBotRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appInstanceBotArn", location: .uri("AppInstanceBotArn"))
+        ]
+
+        /// The ARN of the AppInstanceBot.
+        public let appInstanceBotArn: String
+        /// The metadata of the AppInstanceBot.
+        public let metadata: String
+        /// The name of the AppInstanceBot.
+        public let name: String
+
+        public init(appInstanceBotArn: String, metadata: String, name: String) {
+            self.appInstanceBotArn = appInstanceBotArn
+            self.metadata = metadata
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appInstanceBotArn, name: "appInstanceBotArn", parent: name, max: 1600)
+            try self.validate(self.appInstanceBotArn, name: "appInstanceBotArn", parent: name, min: 5)
+            try self.validate(self.appInstanceBotArn, name: "appInstanceBotArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
+            try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateAppInstanceBotResponse: AWSDecodableShape {
+        /// The ARN of the AppInstanceBot.
+        public let appInstanceBotArn: String?
+
+        public init(appInstanceBotArn: String? = nil) {
+            self.appInstanceBotArn = appInstanceBotArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appInstanceBotArn = "AppInstanceBotArn"
         }
     }
 
@@ -1402,6 +1813,7 @@ public struct ChimeSDKIdentityErrorType: AWSErrorType {
         case badRequestException = "BadRequestException"
         case conflictException = "ConflictException"
         case forbiddenException = "ForbiddenException"
+        case notFoundException = "NotFoundException"
         case resourceLimitExceededException = "ResourceLimitExceededException"
         case serviceFailureException = "ServiceFailureException"
         case serviceUnavailableException = "ServiceUnavailableException"
@@ -1433,6 +1845,8 @@ public struct ChimeSDKIdentityErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// The client is permanently forbidden from making the request.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// One or more of the resources in the request does not exist in the system.
+    public static var notFoundException: Self { .init(.notFoundException) }
     /// The request exceeds the resource limit.
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
     /// The service encountered an unexpected error.

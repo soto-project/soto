@@ -821,19 +821,21 @@ extension LexRuntimeV2 {
         public let eventId: String?
         /// Indicates whether the input to the operation was text or speech.
         public let inputMode: InputMode?
-        /// A list of intents that Amazon Lex V2 determined might satisfy the user's utterance.
-        ///  Each interpretation includes the intent, a score that indicates how confident Amazon Lex V2 is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
+        /// A list of intents that Amazon Lex V2 determined might satisfy the user's utterance. Each interpretation includes the intent, a score that indicates how confident Amazon Lex V2 is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
         public let interpretations: [Interpretation]?
+        /// The bot member that is processing the intent.
+        public let recognizedBotMember: RecognizedBotMember?
         /// The attributes sent in the request.
         public let requestAttributes: [String: String]?
         /// The identifier of the session in use.
         public let sessionId: String?
         public let sessionState: SessionState?
 
-        public init(eventId: String? = nil, inputMode: InputMode? = nil, interpretations: [Interpretation]? = nil, requestAttributes: [String: String]? = nil, sessionId: String? = nil, sessionState: SessionState? = nil) {
+        public init(eventId: String? = nil, inputMode: InputMode? = nil, interpretations: [Interpretation]? = nil, recognizedBotMember: RecognizedBotMember? = nil, requestAttributes: [String: String]? = nil, sessionId: String? = nil, sessionState: SessionState? = nil) {
             self.eventId = eventId
             self.inputMode = inputMode
             self.interpretations = interpretations
+            self.recognizedBotMember = recognizedBotMember
             self.requestAttributes = requestAttributes
             self.sessionId = sessionId
             self.sessionState = sessionState
@@ -843,6 +845,7 @@ extension LexRuntimeV2 {
             case eventId = "eventId"
             case inputMode = "inputMode"
             case interpretations = "interpretations"
+            case recognizedBotMember = "recognizedBotMember"
             case requestAttributes = "requestAttributes"
             case sessionId = "sessionId"
             case sessionState = "sessionState"
@@ -1120,6 +1123,8 @@ extension LexRuntimeV2 {
         public let interpretations: [Interpretation]?
         /// A list of messages last sent to the user. The messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot.
         public let messages: [Message]?
+        /// The bot member that recognized the text.
+        public let recognizedBotMember: RecognizedBotMember?
         /// The attributes sent in the request.
         public let requestAttributes: [String: String]?
         /// The identifier of the session in use.
@@ -1127,9 +1132,10 @@ extension LexRuntimeV2 {
         /// Represents the current state of the dialog between the user and the bot.  Use this to determine the progress of the conversation and what the next action may be.
         public let sessionState: SessionState?
 
-        public init(interpretations: [Interpretation]? = nil, messages: [Message]? = nil, requestAttributes: [String: String]? = nil, sessionId: String? = nil, sessionState: SessionState? = nil) {
+        public init(interpretations: [Interpretation]? = nil, messages: [Message]? = nil, recognizedBotMember: RecognizedBotMember? = nil, requestAttributes: [String: String]? = nil, sessionId: String? = nil, sessionState: SessionState? = nil) {
             self.interpretations = interpretations
             self.messages = messages
+            self.recognizedBotMember = recognizedBotMember
             self.requestAttributes = requestAttributes
             self.sessionId = sessionId
             self.sessionState = sessionState
@@ -1138,6 +1144,7 @@ extension LexRuntimeV2 {
         private enum CodingKeys: String, CodingKey {
             case interpretations = "interpretations"
             case messages = "messages"
+            case recognizedBotMember = "recognizedBotMember"
             case requestAttributes = "requestAttributes"
             case sessionId = "sessionId"
             case sessionState = "sessionState"
@@ -1171,7 +1178,7 @@ extension LexRuntimeV2 {
         public let requestAttributes: String?
         /// Indicates the format for audio input or that the content is text. The header must start with one of the following prefixes:   PCM format, audio data must be in little-endian byte order.   audio/l16; rate=16000; channels=1   audio/x-l16; sample-rate=16000; channel-count=1   audio/lpcm; sample-rate=8000; sample-size-bits=16; channel-count=1; is-big-endian=false     Opus format   audio/x-cbr-opus-with-preamble;preamble-size=0;bit-rate=256000;frame-size-milliseconds=4     Text format   text/plain; charset=utf-8
         public let requestContentType: String
-        /// The message that Amazon Lex V2 returns in the response can be either text or speech based on the responseContentType value.   If the value is text/plain;charset=utf-8, Amazon Lex V2 returns text in the response.   If the value begins with audio/, Amazon Lex V2 returns speech in the response. Amazon Lex V2 uses Amazon Polly to generate the speech using the configuration that you specified in the requestContentType parameter. For example, if you specify audio/mpeg as the value, Amazon Lex V2 returns speech in the MPEG format.   If the value is audio/pcm, the speech returned is audio/pcm at 16 KHz in 16-bit, little-endian format.   The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm (16 KHz)   audio/* (defaults to mpeg)   text/plain; charset=utf-8
+        /// The message that Amazon Lex V2 returns in the response can be either text or speech based on the responseContentType value.   If the value is text/plain;charset=utf-8, Amazon Lex V2 returns text in the response.   If the value begins with audio/, Amazon Lex V2 returns speech in the response. Amazon Lex V2 uses Amazon Polly to generate the speech using the configuration that you specified in the responseContentType parameter. For example, if you specify audio/mpeg as the value, Amazon Lex V2 returns speech in the MPEG format.   If the value is audio/pcm, the speech returned is audio/pcm at 16 KHz in 16-bit, little-endian format.   The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm (16 KHz)   audio/* (defaults to mpeg)   text/plain; charset=utf-8
         public let responseContentType: String?
         /// The identifier of the session in use.
         public let sessionId: String
@@ -1215,6 +1222,7 @@ extension LexRuntimeV2 {
             AWSMemberEncoding(label: "inputTranscript", location: .header("x-amz-lex-input-transcript")),
             AWSMemberEncoding(label: "interpretations", location: .header("x-amz-lex-interpretations")),
             AWSMemberEncoding(label: "messages", location: .header("x-amz-lex-messages")),
+            AWSMemberEncoding(label: "recognizedBotMember", location: .header("x-amz-lex-recognized-bot-member")),
             AWSMemberEncoding(label: "requestAttributes", location: .header("x-amz-lex-request-attributes")),
             AWSMemberEncoding(label: "sessionId", location: .header("x-amz-lex-session-id")),
             AWSMemberEncoding(label: "sessionState", location: .header("x-amz-lex-session-state"))
@@ -1232,6 +1240,8 @@ extension LexRuntimeV2 {
         public let interpretations: String?
         /// A list of messages that were last sent to the user. The messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot. The messages field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents. See the example for a simple function to decode and decompress the contents.
         public let messages: String?
+        /// The bot member that recognized the utterance.
+        public let recognizedBotMember: String?
         /// The attributes sent in the request. The requestAttributes field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents.
         public let requestAttributes: String?
         /// The identifier of the session in use.
@@ -1239,13 +1249,14 @@ extension LexRuntimeV2 {
         /// Represents the current state of the dialog between the user and the bot. Use this to determine the progress of the conversation and what the next action might be. The sessionState field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents. See the example for a simple function to decode and decompress the contents.
         public let sessionState: String?
 
-        public init(audioStream: AWSPayload? = nil, contentType: String? = nil, inputMode: String? = nil, inputTranscript: String? = nil, interpretations: String? = nil, messages: String? = nil, requestAttributes: String? = nil, sessionId: String? = nil, sessionState: String? = nil) {
+        public init(audioStream: AWSPayload? = nil, contentType: String? = nil, inputMode: String? = nil, inputTranscript: String? = nil, interpretations: String? = nil, messages: String? = nil, recognizedBotMember: String? = nil, requestAttributes: String? = nil, sessionId: String? = nil, sessionState: String? = nil) {
             self.audioStream = audioStream
             self.contentType = contentType
             self.inputMode = inputMode
             self.inputTranscript = inputTranscript
             self.interpretations = interpretations
             self.messages = messages
+            self.recognizedBotMember = recognizedBotMember
             self.requestAttributes = requestAttributes
             self.sessionId = sessionId
             self.sessionState = sessionState
@@ -1258,9 +1269,27 @@ extension LexRuntimeV2 {
             case inputTranscript = "x-amz-lex-input-transcript"
             case interpretations = "x-amz-lex-interpretations"
             case messages = "x-amz-lex-messages"
+            case recognizedBotMember = "x-amz-lex-recognized-bot-member"
             case requestAttributes = "x-amz-lex-request-attributes"
             case sessionId = "x-amz-lex-session-id"
             case sessionState = "x-amz-lex-session-state"
+        }
+    }
+
+    public struct RecognizedBotMember: AWSDecodableShape {
+        /// The identifier of the bot member that processes the request.
+        public let botId: String
+        /// The name of the bot member that processes the request.
+        public let botName: String?
+
+        public init(botId: String, botName: String? = nil) {
+            self.botId = botId
+            self.botName = botName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId = "botId"
+            case botName = "botName"
         }
     }
 

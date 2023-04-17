@@ -27,6 +27,44 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoEnableMembers: String, CustomStringConvertible, Codable, Sendable {
+        case all = "ALL"
+        case new = "NEW"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CoverageFilterCriterionKey: String, CustomStringConvertible, Codable, Sendable {
+        case accountId = "ACCOUNT_ID"
+        case addonVersion = "ADDON_VERSION"
+        case clusterName = "CLUSTER_NAME"
+        case coverageStatus = "COVERAGE_STATUS"
+        case resourceType = "RESOURCE_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CoverageSortKey: String, CustomStringConvertible, Codable, Sendable {
+        case accountId = "ACCOUNT_ID"
+        case addonVersion = "ADDON_VERSION"
+        case clusterName = "CLUSTER_NAME"
+        case coverageStatus = "COVERAGE_STATUS"
+        case issue = "ISSUE"
+        case updatedAt = "UPDATED_AT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CoverageStatisticsType: String, CustomStringConvertible, Codable, Sendable {
+        case countByCoverageStatus = "COUNT_BY_COVERAGE_STATUS"
+        case countByResourceType = "COUNT_BY_RESOURCE_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CoverageStatus: String, CustomStringConvertible, Codable, Sendable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CriterionKey: String, CustomStringConvertible, Codable, Sendable {
         case accountId = "ACCOUNT_ID"
         case ec2InstanceArn = "EC2_INSTANCE_ARN"
@@ -58,6 +96,27 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum DetectorFeature: String, CustomStringConvertible, Codable, Sendable {
+        case ebsMalwareProtection = "EBS_MALWARE_PROTECTION"
+        case eksAuditLogs = "EKS_AUDIT_LOGS"
+        case eksRuntimeMonitoring = "EKS_RUNTIME_MONITORING"
+        case rdsLoginEvents = "RDS_LOGIN_EVENTS"
+        case s3DataEvents = "S3_DATA_EVENTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DetectorFeatureResult: String, CustomStringConvertible, Codable, Sendable {
+        case cloudTrail = "CLOUD_TRAIL"
+        case dnsLogs = "DNS_LOGS"
+        case ebsMalwareProtection = "EBS_MALWARE_PROTECTION"
+        case eksAuditLogs = "EKS_AUDIT_LOGS"
+        case eksRuntimeMonitoring = "EKS_RUNTIME_MONITORING"
+        case flowLogs = "FLOW_LOGS"
+        case rdsLoginEvents = "RDS_LOGIN_EVENTS"
+        case s3DataEvents = "S3_DATA_EVENTS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DetectorStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -67,6 +126,17 @@ extension GuardDuty {
     public enum EbsSnapshotPreservation: String, CustomStringConvertible, Codable, Sendable {
         case noRetention = "NO_RETENTION"
         case retentionWithFinding = "RETENTION_WITH_FINDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeatureAdditionalConfiguration: String, CustomStringConvertible, Codable, Sendable {
+        case eksAddonManagement = "EKS_ADDON_MANAGEMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeatureStatus: String, CustomStringConvertible, Codable, Sendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -91,6 +161,18 @@ extension GuardDuty {
 
     public enum FindingStatisticType: String, CustomStringConvertible, Codable, Sendable {
         case countBySeverity = "COUNT_BY_SEVERITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FreeTrialFeatureResult: String, CustomStringConvertible, Codable, Sendable {
+        case cloudTrail = "CLOUD_TRAIL"
+        case dnsLogs = "DNS_LOGS"
+        case ebsMalwareProtection = "EBS_MALWARE_PROTECTION"
+        case eksAuditLogs = "EKS_AUDIT_LOGS"
+        case eksRuntimeMonitoring = "EKS_RUNTIME_MONITORING"
+        case flowLogs = "FLOW_LOGS"
+        case rdsLoginEvents = "RDS_LOGIN_EVENTS"
+        case s3DataEvents = "S3_DATA_EVENTS"
         public var description: String { return self.rawValue }
     }
 
@@ -121,11 +203,36 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum OrgFeature: String, CustomStringConvertible, Codable, Sendable {
+        case ebsMalwareProtection = "EBS_MALWARE_PROTECTION"
+        case eksAuditLogs = "EKS_AUDIT_LOGS"
+        case eksRuntimeMonitoring = "EKS_RUNTIME_MONITORING"
+        case rdsLoginEvents = "RDS_LOGIN_EVENTS"
+        case s3DataEvents = "S3_DATA_EVENTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrgFeatureAdditionalConfiguration: String, CustomStringConvertible, Codable, Sendable {
+        case eksAddonManagement = "EKS_ADDON_MANAGEMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrgFeatureStatus: String, CustomStringConvertible, Codable, Sendable {
+        case new = "NEW"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PublishingStatus: String, CustomStringConvertible, Codable, Sendable {
         case pendingVerification = "PENDING_VERIFICATION"
         case publishing = "PUBLISHING"
         case stopped = "STOPPED"
         case unableToPublishFixDestinationProperty = "UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable {
+        case eks = "EKS"
         public var description: String { return self.rawValue }
     }
 
@@ -168,9 +275,23 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum UsageFeature: String, CustomStringConvertible, Codable, Sendable {
+        case cloudTrail = "CLOUD_TRAIL"
+        case dnsLogs = "DNS_LOGS"
+        case ebsMalwareProtection = "EBS_MALWARE_PROTECTION"
+        case eksAuditLogs = "EKS_AUDIT_LOGS"
+        case eksRuntimeMonitoring = "EKS_RUNTIME_MONITORING"
+        case flowLogs = "FLOW_LOGS"
+        case lambdaNetworkLogs = "LAMBDA_NETWORK_LOGS"
+        case rdsLoginEvents = "RDS_LOGIN_EVENTS"
+        case s3DataEvents = "S3_DATA_EVENTS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum UsageStatisticType: String, CustomStringConvertible, Codable, Sendable {
         case sumByAccount = "SUM_BY_ACCOUNT"
         case sumByDataSource = "SUM_BY_DATA_SOURCE"
+        case sumByFeatures = "SUM_BY_FEATURES"
         case sumByResource = "SUM_BY_RESOURCE"
         case topResources = "TOP_RESOURCES"
         public var description: String { return self.rawValue }
@@ -315,15 +436,26 @@ extension GuardDuty {
         public let accountId: String?
         /// Describes the data source enabled for the GuardDuty member account.
         public let dataSources: DataSourcesFreeTrial?
+        /// A list of features enabled for the GuardDuty account.
+        public let features: [FreeTrialFeatureConfigurationResult]?
 
-        public init(accountId: String? = nil, dataSources: DataSourcesFreeTrial? = nil) {
+        public init(accountId: String? = nil, features: [FreeTrialFeatureConfigurationResult]? = nil) {
+            self.accountId = accountId
+            self.dataSources = nil
+            self.features = features
+        }
+
+        @available(*, deprecated, message: "Members dataSources have been deprecated")
+        public init(accountId: String? = nil, dataSources: DataSourcesFreeTrial? = nil, features: [FreeTrialFeatureConfigurationResult]? = nil) {
             self.accountId = accountId
             self.dataSources = dataSources
+            self.features = features
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case dataSources = "dataSources"
+            case features = "features"
         }
     }
 
@@ -353,14 +485,17 @@ extension GuardDuty {
         public let networkConnectionAction: NetworkConnectionAction?
         /// Information about the PORT_PROBE action described in this finding.
         public let portProbeAction: PortProbeAction?
+        /// Information about RDS_LOGIN_ATTEMPT action described in this finding.
+        public let rdsLoginAttemptAction: RdsLoginAttemptAction?
 
-        public init(actionType: String? = nil, awsApiCallAction: AwsApiCallAction? = nil, dnsRequestAction: DnsRequestAction? = nil, kubernetesApiCallAction: KubernetesApiCallAction? = nil, networkConnectionAction: NetworkConnectionAction? = nil, portProbeAction: PortProbeAction? = nil) {
+        public init(actionType: String? = nil, awsApiCallAction: AwsApiCallAction? = nil, dnsRequestAction: DnsRequestAction? = nil, kubernetesApiCallAction: KubernetesApiCallAction? = nil, networkConnectionAction: NetworkConnectionAction? = nil, portProbeAction: PortProbeAction? = nil, rdsLoginAttemptAction: RdsLoginAttemptAction? = nil) {
             self.actionType = actionType
             self.awsApiCallAction = awsApiCallAction
             self.dnsRequestAction = dnsRequestAction
             self.kubernetesApiCallAction = kubernetesApiCallAction
             self.networkConnectionAction = networkConnectionAction
             self.portProbeAction = portProbeAction
+            self.rdsLoginAttemptAction = rdsLoginAttemptAction
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -370,6 +505,24 @@ extension GuardDuty {
             case kubernetesApiCallAction = "kubernetesApiCallAction"
             case networkConnectionAction = "networkConnectionAction"
             case portProbeAction = "portProbeAction"
+            case rdsLoginAttemptAction = "rdsLoginAttemptAction"
+        }
+    }
+
+    public struct AddonDetails: AWSDecodableShape {
+        /// Status of the installed EKS add-on.
+        public let addonStatus: String?
+        /// Version of the installed EKS add-on.
+        public let addonVersion: String?
+
+        public init(addonStatus: String? = nil, addonVersion: String? = nil) {
+            self.addonStatus = addonStatus
+            self.addonVersion = addonVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addonStatus = "addonStatus"
+            case addonVersion = "addonVersion"
         }
     }
 
@@ -710,22 +863,199 @@ extension GuardDuty {
         }
     }
 
+    public struct CoverageEksClusterDetails: AWSDecodableShape {
+        /// Information about the installed EKS add-on.
+        public let addonDetails: AddonDetails?
+        /// Name of the EKS cluster.
+        public let clusterName: String?
+        /// Represents all the nodes within the EKS cluster in your account.
+        public let compatibleNodes: Int64?
+        /// Represents the nodes within the EKS cluster that have a HEALTHY coverage status.
+        public let coveredNodes: Int64?
+
+        public init(addonDetails: AddonDetails? = nil, clusterName: String? = nil, compatibleNodes: Int64? = nil, coveredNodes: Int64? = nil) {
+            self.addonDetails = addonDetails
+            self.clusterName = clusterName
+            self.compatibleNodes = compatibleNodes
+            self.coveredNodes = coveredNodes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addonDetails = "addonDetails"
+            case clusterName = "clusterName"
+            case compatibleNodes = "compatibleNodes"
+            case coveredNodes = "coveredNodes"
+        }
+    }
+
+    public struct CoverageFilterCondition: AWSEncodableShape {
+        /// Represents an equal condition that is applied to a single field while retrieving the coverage details.
+        public let equals: [String]?
+        /// Represents a not equal condition that is applied to a single field while retrieving the coverage details.
+        public let notEquals: [String]?
+
+        public init(equals: [String]? = nil, notEquals: [String]? = nil) {
+            self.equals = equals
+            self.notEquals = notEquals
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case equals = "equals"
+            case notEquals = "notEquals"
+        }
+    }
+
+    public struct CoverageFilterCriteria: AWSEncodableShape {
+        /// Represents a condition that when matched will be added to the response of the operation.
+        public let filterCriterion: [CoverageFilterCriterion]?
+
+        public init(filterCriterion: [CoverageFilterCriterion]? = nil) {
+            self.filterCriterion = filterCriterion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filterCriterion, name: "filterCriterion", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterCriterion = "filterCriterion"
+        }
+    }
+
+    public struct CoverageFilterCriterion: AWSEncodableShape {
+        /// An enum value representing possible filter fields.
+        public let criterionKey: CoverageFilterCriterionKey?
+        /// Contains information about the condition.
+        public let filterCondition: CoverageFilterCondition?
+
+        public init(criterionKey: CoverageFilterCriterionKey? = nil, filterCondition: CoverageFilterCondition? = nil) {
+            self.criterionKey = criterionKey
+            self.filterCondition = filterCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case criterionKey = "criterionKey"
+            case filterCondition = "filterCondition"
+        }
+    }
+
+    public struct CoverageResource: AWSDecodableShape {
+        /// The unique ID of the Amazon Web Services account.
+        public let accountId: String?
+        /// Represents the status of the EKS cluster coverage.
+        public let coverageStatus: CoverageStatus?
+        /// The unique ID of the GuardDuty detector associated with the resource.
+        public let detectorId: String?
+        /// Represents the reason why a coverage status was UNHEALTHY for the EKS cluster.
+        public let issue: String?
+        /// Information about the resource for which the coverage statistics are retrieved.
+        public let resourceDetails: CoverageResourceDetails?
+        /// The unique ID of the resource.
+        public let resourceId: String?
+        /// The timestamp at which the coverage details for the resource were last updated. This is in UTC format.
+        public let updatedAt: Date?
+
+        public init(accountId: String? = nil, coverageStatus: CoverageStatus? = nil, detectorId: String? = nil, issue: String? = nil, resourceDetails: CoverageResourceDetails? = nil, resourceId: String? = nil, updatedAt: Date? = nil) {
+            self.accountId = accountId
+            self.coverageStatus = coverageStatus
+            self.detectorId = detectorId
+            self.issue = issue
+            self.resourceDetails = resourceDetails
+            self.resourceId = resourceId
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case coverageStatus = "coverageStatus"
+            case detectorId = "detectorId"
+            case issue = "issue"
+            case resourceDetails = "resourceDetails"
+            case resourceId = "resourceId"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct CoverageResourceDetails: AWSDecodableShape {
+        /// EKS cluster details involved in the coverage statistics.
+        public let eksClusterDetails: CoverageEksClusterDetails?
+        /// The type of Amazon Web Services resource.
+        public let resourceType: ResourceType?
+
+        public init(eksClusterDetails: CoverageEksClusterDetails? = nil, resourceType: ResourceType? = nil) {
+            self.eksClusterDetails = eksClusterDetails
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eksClusterDetails = "eksClusterDetails"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct CoverageSortCriteria: AWSEncodableShape {
+        /// Represents the field name used to sort the coverage details.
+        public let attributeName: CoverageSortKey?
+        /// The order in which the sorted findings are to be displayed.
+        public let orderBy: OrderBy?
+
+        public init(attributeName: CoverageSortKey? = nil, orderBy: OrderBy? = nil) {
+            self.attributeName = attributeName
+            self.orderBy = orderBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
+        }
+    }
+
+    public struct CoverageStatistics: AWSDecodableShape {
+        /// Represents coverage statistics for EKS clusters aggregated by coverage status.
+        public let countByCoverageStatus: [CoverageStatus: Int64]?
+        /// Represents coverage statistics for EKS clusters aggregated by resource type.
+        public let countByResourceType: [ResourceType: Int64]?
+
+        public init(countByCoverageStatus: [CoverageStatus: Int64]? = nil, countByResourceType: [ResourceType: Int64]? = nil) {
+            self.countByCoverageStatus = countByCoverageStatus
+            self.countByResourceType = countByResourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case countByCoverageStatus = "countByCoverageStatus"
+            case countByResourceType = "countByResourceType"
+        }
+    }
+
     public struct CreateDetectorRequest: AWSEncodableShape {
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// Describes which data sources will be enabled for the detector.
+        /// Describes which data sources will be enabled for the detector. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
         public let dataSources: DataSourceConfigurations?
         /// A Boolean value that specifies whether the detector is to be enabled.
         public let enable: Bool
+        /// A list of features that will be configured for the detector.
+        public let features: [DetectorFeatureConfiguration]?
         /// A value that specifies how frequently updated findings are exported.
         public let findingPublishingFrequency: FindingPublishingFrequency?
         /// The tags to be added to a new detector resource.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateDetectorRequest.idempotencyToken(), dataSources: DataSourceConfigurations? = nil, enable: Bool = false, findingPublishingFrequency: FindingPublishingFrequency? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateDetectorRequest.idempotencyToken(), enable: Bool = false, features: [DetectorFeatureConfiguration]? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.dataSources = nil
+            self.enable = enable
+            self.features = features
+            self.findingPublishingFrequency = findingPublishingFrequency
+            self.tags = tags
+        }
+
+        @available(*, deprecated, message: "Members dataSources have been deprecated")
+        public init(clientToken: String? = CreateDetectorRequest.idempotencyToken(), dataSources: DataSourceConfigurations? = nil, enable: Bool = false, features: [DetectorFeatureConfiguration]? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.dataSources = dataSources
             self.enable = enable
+            self.features = features
             self.findingPublishingFrequency = findingPublishingFrequency
             self.tags = tags
         }
@@ -746,6 +1076,7 @@ extension GuardDuty {
             case clientToken = "clientToken"
             case dataSources = "dataSources"
             case enable = "enable"
+            case features = "features"
             case findingPublishingFrequency = "findingPublishingFrequency"
             case tags = "tags"
         }
@@ -754,7 +1085,7 @@ extension GuardDuty {
     public struct CreateDetectorResponse: AWSDecodableShape {
         /// The unique ID of the created detector.
         public let detectorId: String?
-        /// Specifies the data sources that couldn't be enabled when GuardDuty was enabled for the  first time.
+        /// Specifies the data sources that couldn't be enabled when GuardDuty was enabled for the first time.
         public let unprocessedDataSources: UnprocessedDataSourcesResult?
 
         public init(detectorId: String? = nil, unprocessedDataSources: UnprocessedDataSourcesResult? = nil) {
@@ -777,13 +1108,13 @@ extension GuardDuty {
         public let action: FilterAction?
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// The description of the filter. Valid special characters include period (.), underscore (_), dash (-),  and whitespace. The new line character is considered to be an invalid input for description.
+        /// The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
         public let description: String?
         /// The ID of the detector belonging to the GuardDuty account that you want to create a filter for.
         public let detectorId: String
-        /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.userAgent   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   resource.s3BucketDetails.publicAccess.effectivePermissions   resource.s3BucketDetails.name   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   service.archived When this attribute is set to TRUE, only archived findings are listed. When it's set to FALSE, only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
+        /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   region   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.userAgent   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   resource.s3BucketDetails.publicAccess.effectivePermissions   resource.s3BucketDetails.name   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   service.resourceRole   severity   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
         public let findingCriteria: FindingCriteria
-        /// The name of the filter. Valid characters include period (.), underscore (_),  dash (-), and alphanumeric characters. A whitespace is considered to be an invalid character.
+        /// The name of the filter. Valid characters include period (.), underscore (_), dash (-), and alphanumeric characters. A whitespace is considered to be an invalid character.
         public let name: String
         /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
         public let rank: Int?
@@ -859,7 +1190,7 @@ extension GuardDuty {
         public let format: IpSetFormat
         /// The URI of the file that contains the IPSet.
         public let location: String
-        /// The user-friendly name to identify the IPSet. Allowed characters are alphanumerics, spaces, hyphens (-), and underscores (_).
+        /// The user-friendly name to identify the IPSet. Allowed characters are alphanumeric, whitespace, dash (-), and underscores (_).
         public let name: String
         /// The tags to be added to a new IP set resource.
         public let tags: [String: String]?
@@ -1503,7 +1834,7 @@ extension GuardDuty {
         public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
-        /// Represents the criteria used for sorting scan entries.
+        /// Represents the criteria used for sorting scan entries. The  attributeName is required and it must be scanStartTime.
         public let sortCriteria: SortCriteria?
 
         public init(detectorId: String, filterCriteria: FilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: SortCriteria? = nil) {
@@ -1549,42 +1880,74 @@ extension GuardDuty {
 
     public struct DescribeOrganizationConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The ID of the detector to retrieve information about the delegated administrator from.
         public let detectorId: String
+        /// You can use this parameter to indicate the maximum number of items that you want in the response.
+        public let maxResults: Int?
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        public let nextToken: String?
 
-        public init(detectorId: String) {
+        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.detectorId = detectorId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeOrganizationConfigurationResponse: AWSDecodableShape {
-        /// Indicates whether GuardDuty is automatically enabled for accounts added to the organization.
-        public let autoEnable: Bool
+        /// Indicates whether GuardDuty is automatically enabled for accounts added to the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results.
+        public let autoEnable: Bool?
+        /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization.    NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.     ALL: Indicates that all accounts in the Amazon Web Services Organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.    NONE: Indicates that GuardDuty will not be automatically enabled for any accounts in the organization. GuardDuty must be managed for each account individually by the administrator.
+        public let autoEnableOrganizationMembers: AutoEnableMembers?
         /// Describes which data sources are enabled automatically for member accounts.
         public let dataSources: OrganizationDataSourceConfigurationsResult?
+        /// A list of features that are configured for this organization.
+        public let features: [OrganizationFeatureConfigurationResult]?
         /// Indicates whether the maximum number of allowed member accounts are already associated with the delegated administrator account for your organization.
         public let memberAccountLimitReached: Bool
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
+        public let nextToken: String?
 
-        public init(autoEnable: Bool, dataSources: OrganizationDataSourceConfigurationsResult? = nil, memberAccountLimitReached: Bool) {
-            self.autoEnable = autoEnable
-            self.dataSources = dataSources
+        public init(autoEnableOrganizationMembers: AutoEnableMembers? = nil, features: [OrganizationFeatureConfigurationResult]? = nil, memberAccountLimitReached: Bool, nextToken: String? = nil) {
+            self.autoEnable = nil
+            self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
+            self.dataSources = nil
+            self.features = features
             self.memberAccountLimitReached = memberAccountLimitReached
+            self.nextToken = nextToken
+        }
+
+        @available(*, deprecated, message: "Members autoEnable, dataSources have been deprecated")
+        public init(autoEnable: Bool? = nil, autoEnableOrganizationMembers: AutoEnableMembers? = nil, dataSources: OrganizationDataSourceConfigurationsResult? = nil, features: [OrganizationFeatureConfigurationResult]? = nil, memberAccountLimitReached: Bool, nextToken: String? = nil) {
+            self.autoEnable = autoEnable
+            self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
+            self.dataSources = dataSources
+            self.features = features
+            self.memberAccountLimitReached = memberAccountLimitReached
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoEnable = "autoEnable"
+            case autoEnableOrganizationMembers = "autoEnableOrganizationMembers"
             case dataSources = "dataSources"
+            case features = "features"
             case memberAccountLimitReached = "memberAccountLimitReached"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1676,6 +2039,90 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case destinationArn = "destinationArn"
             case kmsKeyArn = "kmsKeyArn"
+        }
+    }
+
+    public struct DetectorAdditionalConfiguration: AWSEncodableShape {
+        /// Name of the additional configuration.
+        public let name: FeatureAdditionalConfiguration?
+        /// Status of the additional configuration.
+        public let status: FeatureStatus?
+
+        public init(name: FeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil) {
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct DetectorAdditionalConfigurationResult: AWSDecodableShape {
+        /// Name of the additional configuration.
+        public let name: FeatureAdditionalConfiguration?
+        /// Status of the additional configuration.
+        public let status: FeatureStatus?
+        /// The timestamp at which the additional configuration was last updated. This is in UTC format.
+        public let updatedAt: Date?
+
+        public init(name: FeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct DetectorFeatureConfiguration: AWSEncodableShape {
+        /// Additional configuration for a resource.
+        public let additionalConfiguration: [DetectorAdditionalConfiguration]?
+        /// The name of the feature.
+        public let name: DetectorFeature?
+        /// The status of the feature.
+        public let status: FeatureStatus?
+
+        public init(additionalConfiguration: [DetectorAdditionalConfiguration]? = nil, name: DetectorFeature? = nil, status: FeatureStatus? = nil) {
+            self.additionalConfiguration = additionalConfiguration
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalConfiguration = "additionalConfiguration"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct DetectorFeatureConfigurationResult: AWSDecodableShape {
+        /// Additional configuration for a resource.
+        public let additionalConfiguration: [DetectorAdditionalConfigurationResult]?
+        /// Indicates the name of the feature that can be enabled for the detector.
+        public let name: DetectorFeatureResult?
+        /// Indicates the status of the feature that is enabled for the detector.
+        public let status: FeatureStatus?
+        /// The timestamp at which the feature object was updated.
+        public let updatedAt: Date?
+
+        public init(additionalConfiguration: [DetectorAdditionalConfigurationResult]? = nil, name: DetectorFeatureResult? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+            self.additionalConfiguration = additionalConfiguration
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalConfiguration = "additionalConfiguration"
+            case name = "name"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -2215,6 +2662,23 @@ extension GuardDuty {
         }
     }
 
+    public struct FreeTrialFeatureConfigurationResult: AWSDecodableShape {
+        /// The number of the remaining free trial days for the feature.
+        public let freeTrialDaysRemaining: Int?
+        /// The name of the feature for which the free trial is configured.
+        public let name: FreeTrialFeatureResult?
+
+        public init(freeTrialDaysRemaining: Int? = nil, name: FreeTrialFeatureResult? = nil) {
+            self.freeTrialDaysRemaining = freeTrialDaysRemaining
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case freeTrialDaysRemaining = "freeTrialDaysRemaining"
+            case name = "name"
+        }
+    }
+
     public struct GeoLocation: AWSDecodableShape {
         /// The latitude information of the remote IP address.
         public let lat: Double?
@@ -2265,6 +2729,49 @@ extension GuardDuty {
         }
     }
 
+    public struct GetCoverageStatisticsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
+        ]
+
+        /// The unique ID of the GuardDuty detector associated to the coverage statistics.
+        public let detectorId: String
+        /// Represents the criteria used to filter the coverage statistics
+        public let filterCriteria: CoverageFilterCriteria?
+        /// Represents the statistics type used to aggregate the coverage details.
+        public let statisticsType: [CoverageStatisticsType]
+
+        public init(detectorId: String, filterCriteria: CoverageFilterCriteria? = nil, statisticsType: [CoverageStatisticsType]) {
+            self.detectorId = detectorId
+            self.filterCriteria = filterCriteria
+            self.statisticsType = statisticsType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.filterCriteria?.validate(name: "\(name).filterCriteria")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterCriteria = "filterCriteria"
+            case statisticsType = "statisticsType"
+        }
+    }
+
+    public struct GetCoverageStatisticsResponse: AWSDecodableShape {
+        /// Represents the count aggregated by the statusCode and resourceType.
+        public let coverageStatistics: CoverageStatistics?
+
+        public init(coverageStatistics: CoverageStatistics? = nil) {
+            self.coverageStatistics = coverageStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coverageStatistics = "coverageStatistics"
+        }
+    }
+
     public struct GetDetectorRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
@@ -2290,6 +2797,8 @@ extension GuardDuty {
         public let createdAt: String?
         /// Describes which data sources are enabled for the detector.
         public let dataSources: DataSourceConfigurationsResult?
+        /// Describes the features that have been enabled for the detector.
+        public let features: [DetectorFeatureConfigurationResult]?
         /// The publishing frequency of the finding.
         public let findingPublishingFrequency: FindingPublishingFrequency?
         /// The GuardDuty service role.
@@ -2301,9 +2810,22 @@ extension GuardDuty {
         /// The last-updated timestamp for the detector.
         public let updatedAt: String?
 
-        public init(createdAt: String? = nil, dataSources: DataSourceConfigurationsResult? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, serviceRole: String, status: DetectorStatus, tags: [String: String]? = nil, updatedAt: String? = nil) {
+        public init(createdAt: String? = nil, features: [DetectorFeatureConfigurationResult]? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, serviceRole: String, status: DetectorStatus, tags: [String: String]? = nil, updatedAt: String? = nil) {
+            self.createdAt = createdAt
+            self.dataSources = nil
+            self.features = features
+            self.findingPublishingFrequency = findingPublishingFrequency
+            self.serviceRole = serviceRole
+            self.status = status
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        @available(*, deprecated, message: "Members dataSources have been deprecated")
+        public init(createdAt: String? = nil, dataSources: DataSourceConfigurationsResult? = nil, features: [DetectorFeatureConfigurationResult]? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil, serviceRole: String, status: DetectorStatus, tags: [String: String]? = nil, updatedAt: String? = nil) {
             self.createdAt = createdAt
             self.dataSources = dataSources
+            self.features = features
             self.findingPublishingFrequency = findingPublishingFrequency
             self.serviceRole = serviceRole
             self.status = status
@@ -2314,6 +2836,7 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case dataSources = "dataSources"
+            case features = "features"
             case findingPublishingFrequency = "findingPublishingFrequency"
             case serviceRole = "serviceRole"
             case status = "status"
@@ -3062,7 +3585,7 @@ extension GuardDuty {
         public let remoteIpDetails: RemoteIpDetails?
         /// The Kubernetes API request URI.
         public let requestUri: String?
-        /// The IP of the  Kubernetes API caller and the IPs of any proxies or load balancers between the caller and the API endpoint.
+        /// The IP of the Kubernetes API caller and the IPs of any proxies or load balancers between the caller and the API endpoint.
         public let sourceIps: [String]?
         /// The resulting HTTP response code of the Kubernetes API call action.
         public let statusCode: Int?
@@ -3229,6 +3752,108 @@ extension GuardDuty {
             case type = "type"
             case uid = "uid"
             case volumes = "volumes"
+        }
+    }
+
+    public struct LineageObject: AWSDecodableShape {
+        /// The effective user ID that was used to execute the process.
+        public let euid: Int?
+        /// The absolute path of the process executable file.
+        public let executablePath: String?
+        /// The name of the process.
+        public let name: String?
+        /// The process ID of the child process.
+        public let namespacePid: Int?
+        /// The unique ID of the parent process. This ID is assigned to the parent process by GuardDuty.
+        public let parentUuid: String?
+        /// The ID of the process.
+        public let pid: Int?
+        /// The time when the process started. This is in UTC format.
+        public let startTime: Date?
+        /// The user ID of the user that executed the process.
+        public let userId: Int?
+        /// The unique ID assigned to the process by GuardDuty.
+        public let uuid: String?
+
+        public init(euid: Int? = nil, executablePath: String? = nil, name: String? = nil, namespacePid: Int? = nil, parentUuid: String? = nil, pid: Int? = nil, startTime: Date? = nil, userId: Int? = nil, uuid: String? = nil) {
+            self.euid = euid
+            self.executablePath = executablePath
+            self.name = name
+            self.namespacePid = namespacePid
+            self.parentUuid = parentUuid
+            self.pid = pid
+            self.startTime = startTime
+            self.userId = userId
+            self.uuid = uuid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case euid = "euid"
+            case executablePath = "executablePath"
+            case name = "name"
+            case namespacePid = "namespacePid"
+            case parentUuid = "parentUuid"
+            case pid = "pid"
+            case startTime = "startTime"
+            case userId = "userId"
+            case uuid = "uuid"
+        }
+    }
+
+    public struct ListCoverageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
+        ]
+
+        /// The unique ID of the detector whose coverage details you want to retrieve.
+        public let detectorId: String
+        /// Represents the criteria used to filter the coverage details.
+        public let filterCriteria: CoverageFilterCriteria?
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+        public let nextToken: String?
+        /// Represents the criteria used to sort the coverage details.
+        public let sortCriteria: CoverageSortCriteria?
+
+        public init(detectorId: String, filterCriteria: CoverageFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: CoverageSortCriteria? = nil) {
+            self.detectorId = detectorId
+            self.filterCriteria = filterCriteria
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.filterCriteria?.validate(name: "\(name).filterCriteria")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterCriteria = "filterCriteria"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortCriteria = "sortCriteria"
+        }
+    }
+
+    public struct ListCoverageResponse: AWSDecodableShape {
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
+        public let nextToken: String?
+        /// A list of resources and their attributes providing cluster details.
+        public let resources: [CoverageResource]
+
+        public init(nextToken: String? = nil, resources: [CoverageResource]) {
+            self.nextToken = nextToken
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resources = "resources"
         }
     }
 
@@ -3712,6 +4337,31 @@ extension GuardDuty {
         }
     }
 
+    public struct LoginAttribute: AWSDecodableShape {
+        /// Indicates the application name used to attempt log in.
+        public let application: String?
+        /// Represents the sum of failed (unsuccessful) login attempts made to establish a connection to the database instance.
+        public let failedLoginAttempts: Int?
+        /// Represents the sum of successful connections (a correct combination of login attributes) made to the database instance by the actor.
+        public let successfulLoginAttempts: Int?
+        /// Indicates the user name which attempted to log in.
+        public let user: String?
+
+        public init(application: String? = nil, failedLoginAttempts: Int? = nil, successfulLoginAttempts: Int? = nil, user: String? = nil) {
+            self.application = application
+            self.failedLoginAttempts = failedLoginAttempts
+            self.successfulLoginAttempts = successfulLoginAttempts
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "application"
+            case failedLoginAttempts = "failedLoginAttempts"
+            case successfulLoginAttempts = "successfulLoginAttempts"
+            case user = "user"
+        }
+    }
+
     public struct MalwareProtectionConfiguration: AWSEncodableShape {
         /// Describes the configuration of Malware Protection for EC2 instances with findings.
         public let scanEc2InstanceWithFindings: ScanEc2InstanceWithFindings?
@@ -3821,20 +4471,115 @@ extension GuardDuty {
         }
     }
 
+    public struct MemberAdditionalConfiguration: AWSEncodableShape {
+        /// Name of the additional configuration.
+        public let name: OrgFeatureAdditionalConfiguration?
+        /// Status of the additional configuration.
+        public let status: FeatureStatus?
+
+        public init(name: OrgFeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil) {
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct MemberAdditionalConfigurationResult: AWSDecodableShape {
+        /// Indicates the name of the additional configuration that is set for the member account.
+        public let name: OrgFeatureAdditionalConfiguration?
+        /// Indicates the status of the additional configuration that is set for the member account.
+        public let status: FeatureStatus?
+        /// The timestamp at which the additional configuration was set for the member account. This is in UTC format.
+        public let updatedAt: Date?
+
+        public init(name: OrgFeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct MemberDataSourceConfiguration: AWSDecodableShape {
         /// The account ID for the member account.
         public let accountId: String
         /// Contains information on the status of data sources for the account.
-        public let dataSources: DataSourceConfigurationsResult
+        public let dataSources: DataSourceConfigurationsResult?
+        /// Contains information about the status of the features for the member account.
+        public let features: [MemberFeaturesConfigurationResult]?
 
-        public init(accountId: String, dataSources: DataSourceConfigurationsResult) {
+        public init(accountId: String, features: [MemberFeaturesConfigurationResult]? = nil) {
+            self.accountId = accountId
+            self.dataSources = nil
+            self.features = features
+        }
+
+        @available(*, deprecated, message: "Members dataSources have been deprecated")
+        public init(accountId: String, dataSources: DataSourceConfigurationsResult? = nil, features: [MemberFeaturesConfigurationResult]? = nil) {
             self.accountId = accountId
             self.dataSources = dataSources
+            self.features = features
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case dataSources = "dataSources"
+            case features = "features"
+        }
+    }
+
+    public struct MemberFeaturesConfiguration: AWSEncodableShape {
+        /// Additional configuration of the feature for the member account.
+        public let additionalConfiguration: [MemberAdditionalConfiguration]?
+        /// The name of the feature.
+        public let name: OrgFeature?
+        /// The status of the feature.
+        public let status: FeatureStatus?
+
+        public init(additionalConfiguration: [MemberAdditionalConfiguration]? = nil, name: OrgFeature? = nil, status: FeatureStatus? = nil) {
+            self.additionalConfiguration = additionalConfiguration
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalConfiguration = "additionalConfiguration"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct MemberFeaturesConfigurationResult: AWSDecodableShape {
+        /// Indicates the additional configuration of the feature that is configured for the member account.
+        public let additionalConfiguration: [MemberAdditionalConfigurationResult]?
+        /// Indicates the name of the feature that is enabled for the detector.
+        public let name: OrgFeature?
+        /// Indicates the status of the feature that is enabled for the detector.
+        public let status: FeatureStatus?
+        /// The timestamp at which the feature object was updated.
+        public let updatedAt: Date?
+
+        public init(additionalConfiguration: [MemberAdditionalConfigurationResult]? = nil, name: OrgFeature? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+            self.additionalConfiguration = additionalConfiguration
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalConfiguration = "additionalConfiguration"
+            case name = "name"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -3949,6 +4694,40 @@ extension GuardDuty {
         }
     }
 
+    public struct OrganizationAdditionalConfiguration: AWSEncodableShape {
+        /// The status of the additional configuration that will be configured for the organization.
+        public let autoEnable: OrgFeatureStatus?
+        /// The name of the additional configuration that will be configured for the organization.
+        public let name: OrgFeatureAdditionalConfiguration?
+
+        public init(autoEnable: OrgFeatureStatus? = nil, name: OrgFeatureAdditionalConfiguration? = nil) {
+            self.autoEnable = autoEnable
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoEnable = "autoEnable"
+            case name = "name"
+        }
+    }
+
+    public struct OrganizationAdditionalConfigurationResult: AWSDecodableShape {
+        /// Describes how The status of the additional configuration that are configured for the member accounts within the organization. If you set AutoEnable to NEW, a feature will be configured for only the new accounts when they join the organization. If you set AutoEnable to NONE, no feature will be configured for the accounts when they join the organization.
+        public let autoEnable: OrgFeatureStatus?
+        /// The name of the additional configuration that is configured for the member accounts within the organization.
+        public let name: OrgFeatureAdditionalConfiguration?
+
+        public init(autoEnable: OrgFeatureStatus? = nil, name: OrgFeatureAdditionalConfiguration? = nil) {
+            self.autoEnable = autoEnable
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoEnable = "autoEnable"
+            case name = "name"
+        }
+    }
+
     public struct OrganizationDataSourceConfigurations: AWSEncodableShape {
         /// Describes the configuration of Kubernetes data sources for new members of the organization.
         public let kubernetes: OrganizationKubernetesConfiguration?
@@ -4014,6 +4793,48 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case autoEnable = "autoEnable"
+        }
+    }
+
+    public struct OrganizationFeatureConfiguration: AWSEncodableShape {
+        /// The additional information that will be configured for the organization.
+        public let additionalConfiguration: [OrganizationAdditionalConfiguration]?
+        /// The status of the feature that will be configured for the organization.
+        public let autoEnable: OrgFeatureStatus?
+        /// The name of the feature that will be configured for the organization.
+        public let name: OrgFeature?
+
+        public init(additionalConfiguration: [OrganizationAdditionalConfiguration]? = nil, autoEnable: OrgFeatureStatus? = nil, name: OrgFeature? = nil) {
+            self.additionalConfiguration = additionalConfiguration
+            self.autoEnable = autoEnable
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalConfiguration = "additionalConfiguration"
+            case autoEnable = "autoEnable"
+            case name = "name"
+        }
+    }
+
+    public struct OrganizationFeatureConfigurationResult: AWSDecodableShape {
+        /// The additional configuration that is configured for the member accounts within the organization.
+        public let additionalConfiguration: [OrganizationAdditionalConfigurationResult]?
+        /// Describes how The status of the feature that are configured for the member accounts within the organization. If you set AutoEnable to NEW, a feature will be configured for only the new accounts when they join the organization. If you set AutoEnable to NONE, no feature will be configured for the accounts when they join the organization.
+        public let autoEnable: OrgFeatureStatus?
+        /// The name of the feature that is configured for the member accounts within the organization.
+        public let name: OrgFeature?
+
+        public init(additionalConfiguration: [OrganizationAdditionalConfigurationResult]? = nil, autoEnable: OrgFeatureStatus? = nil, name: OrgFeature? = nil) {
+            self.additionalConfiguration = additionalConfiguration
+            self.autoEnable = autoEnable
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalConfiguration = "additionalConfiguration"
+            case autoEnable = "autoEnable"
+            case name = "name"
         }
     }
 
@@ -4232,6 +5053,67 @@ extension GuardDuty {
         }
     }
 
+    public struct ProcessDetails: AWSDecodableShape {
+        /// The effective user ID of the user that executed the process.
+        public let euid: Int?
+        /// The absolute path of the process executable file.
+        public let executablePath: String?
+        /// The SHA256 hash of the process executable.
+        public let executableSha256: String?
+        /// Information about the process's lineage.
+        public let lineage: [LineageObject]?
+        /// The name of the process.
+        public let name: String?
+        /// The ID of the child process.
+        public let namespacePid: Int?
+        /// The unique ID of the parent process. This ID is assigned to the parent process by GuardDuty.
+        public let parentUuid: String?
+        /// The ID of the process.
+        public let pid: Int?
+        /// The present working directory of the process.
+        public let pwd: String?
+        /// The time when the process started. This is in UTC format.
+        public let startTime: Date?
+        /// The user that executed the process.
+        public let user: String?
+        /// The unique ID of the user that executed the process.
+        public let userId: Int?
+        /// The unique ID assigned to the process by GuardDuty.
+        public let uuid: String?
+
+        public init(euid: Int? = nil, executablePath: String? = nil, executableSha256: String? = nil, lineage: [LineageObject]? = nil, name: String? = nil, namespacePid: Int? = nil, parentUuid: String? = nil, pid: Int? = nil, pwd: String? = nil, startTime: Date? = nil, user: String? = nil, userId: Int? = nil, uuid: String? = nil) {
+            self.euid = euid
+            self.executablePath = executablePath
+            self.executableSha256 = executableSha256
+            self.lineage = lineage
+            self.name = name
+            self.namespacePid = namespacePid
+            self.parentUuid = parentUuid
+            self.pid = pid
+            self.pwd = pwd
+            self.startTime = startTime
+            self.user = user
+            self.userId = userId
+            self.uuid = uuid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case euid = "euid"
+            case executablePath = "executablePath"
+            case executableSha256 = "executableSha256"
+            case lineage = "lineage"
+            case name = "name"
+            case namespacePid = "namespacePid"
+            case parentUuid = "parentUuid"
+            case pid = "pid"
+            case pwd = "pwd"
+            case startTime = "startTime"
+            case user = "user"
+            case userId = "userId"
+            case uuid = "uuid"
+        }
+    }
+
     public struct ProductCode: AWSDecodableShape {
         /// The product code information.
         public let code: String?
@@ -4263,6 +5145,84 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case effectivePermission = "effectivePermission"
             case permissionConfiguration = "permissionConfiguration"
+        }
+    }
+
+    public struct RdsDbInstanceDetails: AWSDecodableShape {
+        /// The identifier of the database cluster that contains the database instance ID involved in the finding.
+        public let dbClusterIdentifier: String?
+        /// The Amazon Resource Name (ARN) that identifies the database instance involved in the finding.
+        public let dbInstanceArn: String?
+        /// The identifier associated to the database instance that was involved in the finding.
+        public let dbInstanceIdentifier: String?
+        /// The database engine of the database instance involved in the finding.
+        public let engine: String?
+        /// The version of the database engine that was involved in the finding.
+        public let engineVersion: String?
+        /// Instance tag key-value pairs associated with the database instance ID.
+        public let tags: [Tag]?
+
+        public init(dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, tags: [Tag]? = nil) {
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbInstanceArn = dbInstanceArn
+            self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbClusterIdentifier = "dbClusterIdentifier"
+            case dbInstanceArn = "dbInstanceArn"
+            case dbInstanceIdentifier = "dbInstanceIdentifier"
+            case engine = "engine"
+            case engineVersion = "engineVersion"
+            case tags = "tags"
+        }
+    }
+
+    public struct RdsDbUserDetails: AWSDecodableShape {
+        /// The application name used in the anomalous login attempt.
+        public let application: String?
+        /// The authentication method used by the user involved in the finding.
+        public let authMethod: String?
+        /// The name of the database instance involved in the anomalous login attempt.
+        public let database: String?
+        /// The version of the Secure Socket Layer (SSL) used for the network.
+        public let ssl: String?
+        /// The user name used in the anomalous login attempt.
+        public let user: String?
+
+        public init(application: String? = nil, authMethod: String? = nil, database: String? = nil, ssl: String? = nil, user: String? = nil) {
+            self.application = application
+            self.authMethod = authMethod
+            self.database = database
+            self.ssl = ssl
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "application"
+            case authMethod = "authMethod"
+            case database = "database"
+            case ssl = "ssl"
+            case user = "user"
+        }
+    }
+
+    public struct RdsLoginAttemptAction: AWSDecodableShape {
+        /// Indicates the login attributes used in the login attempt.
+        public let loginAttributes: [LoginAttribute]?
+        public let remoteIpDetails: RemoteIpDetails?
+
+        public init(loginAttributes: [LoginAttribute]? = nil, remoteIpDetails: RemoteIpDetails? = nil) {
+            self.loginAttributes = loginAttributes
+            self.remoteIpDetails = remoteIpDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loginAttributes = "LoginAttributes"
+            case remoteIpDetails = "remoteIpDetails"
         }
     }
 
@@ -4330,7 +5290,7 @@ extension GuardDuty {
     }
 
     public struct Resource: AWSDecodableShape {
-        /// The IAM access key details (IAM user information) of a user that engaged in the activity that prompted GuardDuty to generate a finding.
+        /// The IAM access key details (user information) of a user that engaged in the activity that prompted GuardDuty to generate a finding.
         public let accessKeyDetails: AccessKeyDetails?
         public let containerDetails: Container?
         /// Contains list of scanned and skipped EBS volumes with details.
@@ -4343,12 +5303,16 @@ extension GuardDuty {
         public let instanceDetails: InstanceDetails?
         /// Details about the Kubernetes user and workload involved in a Kubernetes finding.
         public let kubernetesDetails: KubernetesDetails?
+        /// Contains information about the database instance to which an anomalous login attempt was made.
+        public let rdsDbInstanceDetails: RdsDbInstanceDetails?
+        /// Contains information about the user details through which anomalous login attempt was made.
+        public let rdsDbUserDetails: RdsDbUserDetails?
         /// The type of Amazon Web Services resource.
         public let resourceType: String?
         /// Contains information on the S3 bucket.
         public let s3BucketDetails: [S3BucketDetail]?
 
-        public init(accessKeyDetails: AccessKeyDetails? = nil, containerDetails: Container? = nil, ebsVolumeDetails: EbsVolumeDetails? = nil, ecsClusterDetails: EcsClusterDetails? = nil, eksClusterDetails: EksClusterDetails? = nil, instanceDetails: InstanceDetails? = nil, kubernetesDetails: KubernetesDetails? = nil, resourceType: String? = nil, s3BucketDetails: [S3BucketDetail]? = nil) {
+        public init(accessKeyDetails: AccessKeyDetails? = nil, containerDetails: Container? = nil, ebsVolumeDetails: EbsVolumeDetails? = nil, ecsClusterDetails: EcsClusterDetails? = nil, eksClusterDetails: EksClusterDetails? = nil, instanceDetails: InstanceDetails? = nil, kubernetesDetails: KubernetesDetails? = nil, rdsDbInstanceDetails: RdsDbInstanceDetails? = nil, rdsDbUserDetails: RdsDbUserDetails? = nil, resourceType: String? = nil, s3BucketDetails: [S3BucketDetail]? = nil) {
             self.accessKeyDetails = accessKeyDetails
             self.containerDetails = containerDetails
             self.ebsVolumeDetails = ebsVolumeDetails
@@ -4356,6 +5320,8 @@ extension GuardDuty {
             self.eksClusterDetails = eksClusterDetails
             self.instanceDetails = instanceDetails
             self.kubernetesDetails = kubernetesDetails
+            self.rdsDbInstanceDetails = rdsDbInstanceDetails
+            self.rdsDbUserDetails = rdsDbUserDetails
             self.resourceType = resourceType
             self.s3BucketDetails = s3BucketDetails
         }
@@ -4368,6 +5334,8 @@ extension GuardDuty {
             case eksClusterDetails = "eksClusterDetails"
             case instanceDetails = "instanceDetails"
             case kubernetesDetails = "kubernetesDetails"
+            case rdsDbInstanceDetails = "rdsDbInstanceDetails"
+            case rdsDbUserDetails = "rdsDbUserDetails"
             case resourceType = "resourceType"
             case s3BucketDetails = "s3BucketDetails"
         }
@@ -4383,6 +5351,112 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case instanceArn = "instanceArn"
+        }
+    }
+
+    public struct RuntimeContext: AWSDecodableShape {
+        /// Represents the communication protocol associated with the address. For example, the address family AF_INET is used for IP version of 4 protocol.
+        public let addressFamily: String?
+        /// Represents the type of mounted fileSystem.
+        public let fileSystemType: String?
+        /// Represents options that control the behavior of a runtime operation or action. For example, a filesystem mount operation may contain a read-only flag.
+        public let flags: [String]?
+        /// Specifies a particular protocol within the address family. Usually there is a single protocol in address families. For example, the address family AF_INET only has the IP protocol.
+        public let ianaProtocolNumber: Int?
+        /// The value of the LD_PRELOAD environment variable.
+        public let ldPreloadValue: String?
+        /// The path to the new library that was loaded.
+        public let libraryPath: String?
+        /// Specifies the Region of a process's address space such as stack and heap.
+        public let memoryRegions: [String]?
+        /// The timestamp at which the process modified the current process. The timestamp is in UTC date string format.
+        public let modifiedAt: Date?
+        /// Information about the process that modified the current process. This is available for multiple finding types.
+        public let modifyingProcess: ProcessDetails?
+        /// The path to the module loaded into the kernel.
+        public let moduleFilePath: String?
+        /// The name of the module loaded into the kernel.
+        public let moduleName: String?
+        /// The SHA256 hash of the module.
+        public let moduleSha256: String?
+        /// The path on the host that is mounted by the container.
+        public let mountSource: String?
+        /// The path in the container that is mapped to the host directory.
+        public let mountTarget: String?
+        /// The path in the container that modified the release agent file.
+        public let releaseAgentPath: String?
+        /// The path to the leveraged runc implementation.
+        public let runcBinaryPath: String?
+        /// The path to the script that was executed.
+        public let scriptPath: String?
+        /// The path to the modified shell history file.
+        public let shellHistoryFilePath: String?
+        /// The path to the docket socket that was accessed.
+        public let socketPath: String?
+        /// Information about the process that had its memory overwritten by the current process.
+        public let targetProcess: ProcessDetails?
+
+        public init(addressFamily: String? = nil, fileSystemType: String? = nil, flags: [String]? = nil, ianaProtocolNumber: Int? = nil, ldPreloadValue: String? = nil, libraryPath: String? = nil, memoryRegions: [String]? = nil, modifiedAt: Date? = nil, modifyingProcess: ProcessDetails? = nil, moduleFilePath: String? = nil, moduleName: String? = nil, moduleSha256: String? = nil, mountSource: String? = nil, mountTarget: String? = nil, releaseAgentPath: String? = nil, runcBinaryPath: String? = nil, scriptPath: String? = nil, shellHistoryFilePath: String? = nil, socketPath: String? = nil, targetProcess: ProcessDetails? = nil) {
+            self.addressFamily = addressFamily
+            self.fileSystemType = fileSystemType
+            self.flags = flags
+            self.ianaProtocolNumber = ianaProtocolNumber
+            self.ldPreloadValue = ldPreloadValue
+            self.libraryPath = libraryPath
+            self.memoryRegions = memoryRegions
+            self.modifiedAt = modifiedAt
+            self.modifyingProcess = modifyingProcess
+            self.moduleFilePath = moduleFilePath
+            self.moduleName = moduleName
+            self.moduleSha256 = moduleSha256
+            self.mountSource = mountSource
+            self.mountTarget = mountTarget
+            self.releaseAgentPath = releaseAgentPath
+            self.runcBinaryPath = runcBinaryPath
+            self.scriptPath = scriptPath
+            self.shellHistoryFilePath = shellHistoryFilePath
+            self.socketPath = socketPath
+            self.targetProcess = targetProcess
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressFamily = "addressFamily"
+            case fileSystemType = "fileSystemType"
+            case flags = "flags"
+            case ianaProtocolNumber = "ianaProtocolNumber"
+            case ldPreloadValue = "ldPreloadValue"
+            case libraryPath = "libraryPath"
+            case memoryRegions = "memoryRegions"
+            case modifiedAt = "modifiedAt"
+            case modifyingProcess = "modifyingProcess"
+            case moduleFilePath = "moduleFilePath"
+            case moduleName = "moduleName"
+            case moduleSha256 = "moduleSha256"
+            case mountSource = "mountSource"
+            case mountTarget = "mountTarget"
+            case releaseAgentPath = "releaseAgentPath"
+            case runcBinaryPath = "runcBinaryPath"
+            case scriptPath = "scriptPath"
+            case shellHistoryFilePath = "shellHistoryFilePath"
+            case socketPath = "socketPath"
+            case targetProcess = "targetProcess"
+        }
+    }
+
+    public struct RuntimeDetails: AWSDecodableShape {
+        /// Additional information about the suspicious activity.
+        public let context: RuntimeContext?
+        /// Information about the observed process.
+        public let process: ProcessDetails?
+
+        public init(context: RuntimeContext? = nil, process: ProcessDetails? = nil) {
+            self.context = context
+            self.process = process
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case context = "context"
+            case process = "process"
         }
     }
 
@@ -4775,12 +5849,14 @@ extension GuardDuty {
         public let featureName: String?
         /// The resource role information for this finding.
         public let resourceRole: String?
+        /// Information about the process and any required context values for a specific finding
+        public let runtimeDetails: RuntimeDetails?
         /// The name of the Amazon Web Services service (GuardDuty) that generated a finding.
         public let serviceName: String?
         /// Feedback that was submitted about the finding.
         public let userFeedback: String?
 
-        public init(action: Action? = nil, additionalInfo: ServiceAdditionalInfo? = nil, archived: Bool? = nil, count: Int? = nil, detectorId: String? = nil, ebsVolumeScanDetails: EbsVolumeScanDetails? = nil, eventFirstSeen: String? = nil, eventLastSeen: String? = nil, evidence: Evidence? = nil, featureName: String? = nil, resourceRole: String? = nil, serviceName: String? = nil, userFeedback: String? = nil) {
+        public init(action: Action? = nil, additionalInfo: ServiceAdditionalInfo? = nil, archived: Bool? = nil, count: Int? = nil, detectorId: String? = nil, ebsVolumeScanDetails: EbsVolumeScanDetails? = nil, eventFirstSeen: String? = nil, eventLastSeen: String? = nil, evidence: Evidence? = nil, featureName: String? = nil, resourceRole: String? = nil, runtimeDetails: RuntimeDetails? = nil, serviceName: String? = nil, userFeedback: String? = nil) {
             self.action = action
             self.additionalInfo = additionalInfo
             self.archived = archived
@@ -4792,6 +5868,7 @@ extension GuardDuty {
             self.evidence = evidence
             self.featureName = featureName
             self.resourceRole = resourceRole
+            self.runtimeDetails = runtimeDetails
             self.serviceName = serviceName
             self.userFeedback = userFeedback
         }
@@ -4808,6 +5885,7 @@ extension GuardDuty {
             case evidence = "evidence"
             case featureName = "featureName"
             case resourceRole = "resourceRole"
+            case runtimeDetails = "runtimeDetails"
             case serviceName = "serviceName"
             case userFeedback = "userFeedback"
         }
@@ -4831,7 +5909,7 @@ extension GuardDuty {
     }
 
     public struct SortCriteria: AWSEncodableShape {
-        /// Represents the finding attribute (for example, accountId) to sort findings by.
+        /// Represents the finding attribute, such as accountId, that sorts the findings.
         public let attributeName: String?
         /// The order by which the sorted findings are to be displayed.
         public let orderBy: OrderBy?
@@ -5063,7 +6141,7 @@ extension GuardDuty {
     public struct TriggerDetails: AWSDecodableShape {
         /// The description of the scan trigger.
         public let description: String?
-        /// The ID of the GuardDuty finding that triggered the BirdDog scan.
+        /// The ID of the GuardDuty finding that triggered the malware scan.
         public let guardDutyFindingId: String?
 
         public init(description: String? = nil, guardDutyFindingId: String? = nil) {
@@ -5179,19 +6257,31 @@ extension GuardDuty {
             AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
-        /// Describes which data sources will be updated.
+        /// Describes which data sources will be updated. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
         public let dataSources: DataSourceConfigurations?
         /// The unique ID of the detector to update.
         public let detectorId: String
         /// Specifies whether the detector is enabled or not enabled.
         public let enable: Bool?
+        /// Provides the features that will be updated for the detector.
+        public let features: [DetectorFeatureConfiguration]?
         /// An enum value that specifies how frequently findings are exported, such as to CloudWatch Events.
         public let findingPublishingFrequency: FindingPublishingFrequency?
 
-        public init(dataSources: DataSourceConfigurations? = nil, detectorId: String, enable: Bool? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil) {
+        public init(detectorId: String, enable: Bool? = nil, features: [DetectorFeatureConfiguration]? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil) {
+            self.dataSources = nil
+            self.detectorId = detectorId
+            self.enable = enable
+            self.features = features
+            self.findingPublishingFrequency = findingPublishingFrequency
+        }
+
+        @available(*, deprecated, message: "Members dataSources have been deprecated")
+        public init(dataSources: DataSourceConfigurations? = nil, detectorId: String, enable: Bool? = nil, features: [DetectorFeatureConfiguration]? = nil, findingPublishingFrequency: FindingPublishingFrequency? = nil) {
             self.dataSources = dataSources
             self.detectorId = detectorId
             self.enable = enable
+            self.features = features
             self.findingPublishingFrequency = findingPublishingFrequency
         }
 
@@ -5203,6 +6293,7 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case dataSources = "dataSources"
             case enable = "enable"
+            case features = "features"
             case findingPublishingFrequency = "findingPublishingFrequency"
         }
     }
@@ -5219,7 +6310,7 @@ extension GuardDuty {
 
         /// Specifies the action that is to be applied to the findings that match the filter.
         public let action: FilterAction?
-        /// The description of the filter. Valid special characters include period (.), underscore (_), dash (-),  and whitespace. The new line character is considered to be an invalid input for description.
+        /// The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
         public let description: String?
         /// The unique ID of the detector that specifies the GuardDuty service where you want to update a filter.
         public let detectorId: String
@@ -5400,11 +6491,22 @@ extension GuardDuty {
         public let dataSources: DataSourceConfigurations?
         /// The detector ID of the administrator account.
         public let detectorId: String
+        /// A list of features that will be updated for the specified member accounts.
+        public let features: [MemberFeaturesConfiguration]?
 
-        public init(accountIds: [String], dataSources: DataSourceConfigurations? = nil, detectorId: String) {
+        public init(accountIds: [String], detectorId: String, features: [MemberFeaturesConfiguration]? = nil) {
+            self.accountIds = accountIds
+            self.dataSources = nil
+            self.detectorId = detectorId
+            self.features = features
+        }
+
+        @available(*, deprecated, message: "Members dataSources have been deprecated")
+        public init(accountIds: [String], dataSources: DataSourceConfigurations? = nil, detectorId: String, features: [MemberFeaturesConfiguration]? = nil) {
             self.accountIds = accountIds
             self.dataSources = dataSources
             self.detectorId = detectorId
+            self.features = features
         }
 
         public func validate(name: String) throws {
@@ -5421,6 +6523,7 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case accountIds = "accountIds"
             case dataSources = "dataSources"
+            case features = "features"
         }
     }
 
@@ -5442,17 +6545,32 @@ extension GuardDuty {
             AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
         ]
 
-        /// Indicates whether to automatically enable member accounts in the organization.
-        public let autoEnable: Bool
+        /// Indicates whether to automatically enable member accounts in the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results.
+        public let autoEnable: Bool?
+        /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization.     NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.     ALL: Indicates that all accounts in the Amazon Web Services Organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.    NONE: Indicates that GuardDuty will not be automatically enabled for any accounts in the organization. GuardDuty must be managed for each account individually by the administrator.
+        public let autoEnableOrganizationMembers: AutoEnableMembers?
         /// Describes which data sources will be updated.
         public let dataSources: OrganizationDataSourceConfigurations?
-        /// The ID of the detector to update the delegated administrator for.
+        /// The ID of the detector that configures the delegated administrator.
         public let detectorId: String
+        /// A list of features that will be configured for the organization.
+        public let features: [OrganizationFeatureConfiguration]?
 
-        public init(autoEnable: Bool = false, dataSources: OrganizationDataSourceConfigurations? = nil, detectorId: String) {
+        public init(autoEnableOrganizationMembers: AutoEnableMembers? = nil, detectorId: String, features: [OrganizationFeatureConfiguration]? = nil) {
+            self.autoEnable = nil
+            self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
+            self.dataSources = nil
+            self.detectorId = detectorId
+            self.features = features
+        }
+
+        @available(*, deprecated, message: "Members autoEnable, dataSources have been deprecated")
+        public init(autoEnable: Bool? = nil, autoEnableOrganizationMembers: AutoEnableMembers? = nil, dataSources: OrganizationDataSourceConfigurations? = nil, detectorId: String, features: [OrganizationFeatureConfiguration]? = nil) {
             self.autoEnable = autoEnable
+            self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
             self.dataSources = dataSources
             self.detectorId = detectorId
+            self.features = features
         }
 
         public func validate(name: String) throws {
@@ -5462,7 +6580,9 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case autoEnable = "autoEnable"
+            case autoEnableOrganizationMembers = "autoEnableOrganizationMembers"
             case dataSources = "dataSources"
+            case features = "features"
         }
     }
 
@@ -5569,13 +6689,24 @@ extension GuardDuty {
         /// The account IDs to aggregate usage statistics from.
         public let accountIds: [String]?
         /// The data sources to aggregate usage statistics from.
-        public let dataSources: [DataSource]
+        public let dataSources: [DataSource]?
+        /// The features to aggregate usage statistics from.
+        public let features: [UsageFeature]?
         /// The resources to aggregate usage statistics from. Only accepts exact resource names.
         public let resources: [String]?
 
-        public init(accountIds: [String]? = nil, dataSources: [DataSource], resources: [String]? = nil) {
+        public init(accountIds: [String]? = nil, features: [UsageFeature]? = nil, resources: [String]? = nil) {
+            self.accountIds = accountIds
+            self.dataSources = nil
+            self.features = features
+            self.resources = resources
+        }
+
+        @available(*, deprecated, message: "Members dataSources have been deprecated")
+        public init(accountIds: [String]? = nil, dataSources: [DataSource]? = nil, features: [UsageFeature]? = nil, resources: [String]? = nil) {
             self.accountIds = accountIds
             self.dataSources = dataSources
+            self.features = features
             self.resources = resources
         }
 
@@ -5591,6 +6722,7 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case accountIds = "accountIds"
             case dataSources = "dataSources"
+            case features = "features"
             case resources = "resources"
         }
     }
@@ -5608,6 +6740,22 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case dataSource = "dataSource"
+            case total = "total"
+        }
+    }
+
+    public struct UsageFeatureResult: AWSDecodableShape {
+        /// The feature that generated the usage cost.
+        public let feature: UsageFeature?
+        public let total: Total?
+
+        public init(feature: UsageFeature? = nil, total: Total? = nil) {
+            self.feature = feature
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case feature = "feature"
             case total = "total"
         }
     }
@@ -5634,14 +6782,17 @@ extension GuardDuty {
         public let sumByAccount: [UsageAccountResult]?
         /// The usage statistic sum organized by on data source.
         public let sumByDataSource: [UsageDataSourceResult]?
+        /// The usage statistic sum organized by feature.
+        public let sumByFeature: [UsageFeatureResult]?
         /// The usage statistic sum organized by resource.
         public let sumByResource: [UsageResourceResult]?
         /// Lists the top 50 resources that have generated the most GuardDuty usage, in order from most to least expensive.
         public let topResources: [UsageResourceResult]?
 
-        public init(sumByAccount: [UsageAccountResult]? = nil, sumByDataSource: [UsageDataSourceResult]? = nil, sumByResource: [UsageResourceResult]? = nil, topResources: [UsageResourceResult]? = nil) {
+        public init(sumByAccount: [UsageAccountResult]? = nil, sumByDataSource: [UsageDataSourceResult]? = nil, sumByFeature: [UsageFeatureResult]? = nil, sumByResource: [UsageResourceResult]? = nil, topResources: [UsageResourceResult]? = nil) {
             self.sumByAccount = sumByAccount
             self.sumByDataSource = sumByDataSource
+            self.sumByFeature = sumByFeature
             self.sumByResource = sumByResource
             self.topResources = topResources
         }
@@ -5649,6 +6800,7 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case sumByAccount = "sumByAccount"
             case sumByDataSource = "sumByDataSource"
+            case sumByFeature = "sumByFeature"
             case sumByResource = "sumByResource"
             case topResources = "topResources"
         }

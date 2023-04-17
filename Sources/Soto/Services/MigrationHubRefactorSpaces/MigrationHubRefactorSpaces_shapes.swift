@@ -95,6 +95,7 @@ extension MigrationHubRefactorSpaces {
     }
 
     public enum NetworkFabricType: String, CustomStringConvertible, Codable, Sendable {
+        case none = "NONE"
         case transitGateway = "TRANSIT_GATEWAY"
         public var description: String { return self.rawValue }
     }
@@ -1096,7 +1097,7 @@ extension MigrationHubRefactorSpaces {
         public let state: EnvironmentState?
         /// The tags assigned to the environment.
         public let tags: [String: String]?
-        /// The ID of the transit gateway set up by the environment.
+        /// The ID of the Transit Gateway set up by the environment.
         public let transitGatewayId: String?
 
         public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, environmentId: String? = nil, error: ErrorResponse? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, networkFabricType: NetworkFabricType? = nil, ownerAccountId: String? = nil, state: EnvironmentState? = nil, tags: [String: String]? = nil, transitGatewayId: String? = nil) {
@@ -1337,7 +1338,7 @@ extension MigrationHubRefactorSpaces {
         public let state: EnvironmentState?
         /// The tags to assign to the environment. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair.
         public let tags: [String: String]?
-        /// The ID of the transit gateway set up by the environment.
+        /// The ID of the Transit Gateway set up by the environment, if applicable.
         public let transitGatewayId: String?
 
         public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, environmentId: String? = nil, error: ErrorResponse? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, networkFabricType: NetworkFabricType? = nil, ownerAccountId: String? = nil, state: EnvironmentState? = nil, tags: [String: String]? = nil, transitGatewayId: String? = nil) {

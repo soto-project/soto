@@ -66,7 +66,7 @@ extension SESv2 {
         return try await self.client.execute(operation: "CreateEmailIdentity", path: "/v2/email/identities", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates the specified sending authorization policy for the given identity (an email address or a domain).  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide.  You can execute this operation no more than once per second.
+    /// Creates the specified sending authorization policy for the given identity (an email address or a domain).  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func createEmailIdentityPolicy(_ input: CreateEmailIdentityPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateEmailIdentityPolicyResponse {
         return try await self.client.execute(operation: "CreateEmailIdentityPolicy", path: "/v2/email/identities/{EmailIdentity}/policies/{PolicyName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -116,14 +116,12 @@ extension SESv2 {
         return try await self.client.execute(operation: "DeleteEmailIdentity", path: "/v2/email/identities/{EmailIdentity}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide.
-    ///  You can execute this operation no more than once per second.
+    /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func deleteEmailIdentityPolicy(_ input: DeleteEmailIdentityPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteEmailIdentityPolicyResponse {
         return try await self.client.execute(operation: "DeleteEmailIdentityPolicy", path: "/v2/email/identities/{EmailIdentity}/policies/{PolicyName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an email template.
-    ///  You can execute this operation no more than once per second.
+    /// Deletes an email template. You can execute this operation no more than once per second.
     public func deleteEmailTemplate(_ input: DeleteEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteEmailTemplateResponse {
         return try await self.client.execute(operation: "DeleteEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -183,7 +181,7 @@ extension SESv2 {
         return try await self.client.execute(operation: "GetDedicatedIps", path: "/v2/email/dedicated-ips", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests.  When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
+    /// Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
     public func getDeliverabilityDashboardOptions(_ input: GetDeliverabilityDashboardOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetDeliverabilityDashboardOptionsResponse {
         return try await self.client.execute(operation: "GetDeliverabilityDashboardOptions", path: "/v2/email/deliverability-dashboard", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -213,8 +211,7 @@ extension SESv2 {
         return try await self.client.execute(operation: "GetEmailIdentityPolicies", path: "/v2/email/identities/{EmailIdentity}/policies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify.
-    ///  You can execute this operation no more than once per second.
+    /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
     public func getEmailTemplate(_ input: GetEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEmailTemplateResponse {
         return try await self.client.execute(operation: "GetEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -269,8 +266,7 @@ extension SESv2 {
         return try await self.client.execute(operation: "ListEmailIdentities", path: "/v2/email/identities", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region.
-    ///  You can execute this operation no more than once per second.
+    /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     public func listEmailTemplates(_ input: ListEmailTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEmailTemplatesResponse {
         return try await self.client.execute(operation: "ListEmailTemplates", path: "/v2/email/templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -351,7 +347,6 @@ extension SESv2 {
     }
 
     /// Move a dedicated IP address to an existing dedicated IP pool.  The dedicated IP address that you specify must already exist, and must be associated with your Amazon Web Services account.   The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation.
-    ///
     public func putDedicatedIpInPool(_ input: PutDedicatedIpInPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutDedicatedIpInPoolResponse {
         return try await self.client.execute(operation: "PutDedicatedIpInPool", path: "/v2/email/dedicated-ips/{Ip}/pool", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -360,7 +355,7 @@ extension SESv2 {
         return try await self.client.execute(operation: "PutDedicatedIpWarmupAttributes", path: "/v2/email/dedicated-ips/{Ip}/warmup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests.  When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
+    /// Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
     public func putDeliverabilityDashboardOption(_ input: PutDeliverabilityDashboardOptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutDeliverabilityDashboardOptionResponse {
         return try await self.client.execute(operation: "PutDeliverabilityDashboardOption", path: "/v2/email/deliverability-dashboard", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -415,8 +410,7 @@ extension SESv2 {
         return try await self.client.execute(operation: "TagResource", path: "/v2/email/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a preview of the MIME content of an email when provided with a template and a set of replacement data.
-    ///  You can execute this operation no more than once per second.
+    /// Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second.
     public func testRenderEmailTemplate(_ input: TestRenderEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TestRenderEmailTemplateResponse {
         return try await self.client.execute(operation: "TestRenderEmailTemplate", path: "/v2/email/templates/{TemplateName}/render", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -446,8 +440,7 @@ extension SESv2 {
         return try await self.client.execute(operation: "UpdateCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates/{TemplateName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide.
-    ///  You can execute this operation no more than once per second.
+    /// Updates the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     public func updateEmailIdentityPolicy(_ input: UpdateEmailIdentityPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateEmailIdentityPolicyResponse {
         return try await self.client.execute(operation: "UpdateEmailIdentityPolicy", path: "/v2/email/identities/{EmailIdentity}/policies/{PolicyName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -660,8 +653,7 @@ extension SESv2 {
         )
     }
 
-    /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region.
-    ///  You can execute this operation no more than once per second.
+    /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

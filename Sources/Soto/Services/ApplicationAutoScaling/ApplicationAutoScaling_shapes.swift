@@ -149,26 +149,36 @@ extension ApplicationAutoScaling {
     public struct CustomizedMetricSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The dimensions of the metric.  Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
         public let dimensions: [MetricDimension]?
-        /// The name of the metric. To get the exact metric name, namespace, and dimensions, inspect the Metric object that is returned by a call to ListMetrics.
-        public let metricName: String
+        /// The name of the metric. To get the exact metric name, namespace, and dimensions, inspect the Metric object that's returned by a call to ListMetrics.
+        public let metricName: String?
+        /// The metrics to include in the target tracking scaling policy, as a metric data query. This can include both raw metric and metric math expressions.
+        public let metrics: [TargetTrackingMetricDataQuery]?
         /// The namespace of the metric.
-        public let namespace: String
+        public let namespace: String?
         /// The statistic of the metric.
-        public let statistic: MetricStatistic
+        public let statistic: MetricStatistic?
         /// The unit of the metric. For a complete list of the units that CloudWatch supports, see the MetricDatum data type in the Amazon CloudWatch API Reference.
         public let unit: String?
 
-        public init(dimensions: [MetricDimension]? = nil, metricName: String, namespace: String, statistic: MetricStatistic, unit: String? = nil) {
+        public init(dimensions: [MetricDimension]? = nil, metricName: String? = nil, metrics: [TargetTrackingMetricDataQuery]? = nil, namespace: String? = nil, statistic: MetricStatistic? = nil, unit: String? = nil) {
             self.dimensions = dimensions
             self.metricName = metricName
+            self.metrics = metrics
             self.namespace = namespace
             self.statistic = statistic
             self.unit = unit
         }
 
+        public func validate(name: String) throws {
+            try self.metrics?.forEach {
+                try $0.validate(name: "\(name).metrics[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dimensions = "Dimensions"
             case metricName = "MetricName"
+            case metrics = "Metrics"
             case namespace = "Namespace"
             case statistic = "Statistic"
             case unit = "Unit"
@@ -521,6 +531,38 @@ extension ApplicationAutoScaling {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// Specify the ARN of the scalable target. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123  To get the ARN for a scalable target, use DescribeScalableTargets.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:.+:application-autoscaling:.+:[0-9]+:scalable-target\\/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// A list of tags. Each tag consists of a tag key and a tag value.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct MetricDimension: AWSEncodableShape & AWSDecodableShape {
         /// The name of the dimension.
         public let name: String
@@ -714,7 +756,7 @@ extension ApplicationAutoScaling {
     }
 
     public struct RegisterScalableTargetRequest: AWSEncodableShape {
-        /// The maximum value that you plan to scale out to. When a scaling policy is in effect, Application Auto Scaling can scale out (expand) as needed to the maximum capacity limit in response to changing demand. This property is required when registering a new scalable target. Although you can specify a large maximum capacity, note that service quotas may impose lower limits. Each service has its own default quotas for the maximum capacity of the resource. If you want to specify a higher limit, you can request an increase. For more information, consult the documentation for that service. For information about the default quotas for each service, see Service endpoints and quotas in the Amazon Web Services General Reference.
+        /// The maximum value that you plan to scale out to. When a scaling policy is in effect, Application Auto Scaling can scale out (expand) as needed to the maximum capacity limit in response to changing demand. This property is required when registering a new scalable target. Although you can specify a large maximum capacity, note that service quotas might impose lower limits. Each service has its own default quotas for the maximum capacity of the resource. If you want to specify a higher limit, you can request an increase. For more information, consult the documentation for that service. For information about the default quotas for each service, see Service endpoints and quotas in the Amazon Web Services General Reference.
         public let maxCapacity: Int?
         /// The minimum value that you plan to scale in to. When a scaling policy is in effect, Application Auto Scaling can scale in (contract) as needed to the minimum capacity limit in response to changing demand. This property is required when registering a new scalable target. For the following resources, the minimum value allowed is 0.   AppStream 2.0 fleets   Aurora DB clusters   ECS services   EMR clusters   Lambda provisioned concurrency   SageMaker endpoint variants   Spot Fleets   custom resources   It's strongly recommended that you specify a value greater than 0. A value greater than 0 means that data points are continuously reported to CloudWatch that scaling policies can use to scale on a metric like average CPU utilization. For all other resources, the minimum allowed value depends on the type of resource that you are using. If you provide a value that is lower than what a resource can accept, an error occurs. In which case, the error message will provide the minimum value that the resource can accept.
         public let minCapacity: Int?
@@ -728,8 +770,10 @@ extension ApplicationAutoScaling {
         public let serviceNamespace: ServiceNamespace
         /// An embedded object that contains attributes and attribute values that are used to suspend and resume automatic scaling. Setting the value of an attribute to true suspends the specified scaling activities. Setting it to false (default) resumes the specified scaling activities.   Suspension Outcomes    For DynamicScalingInSuspended, while a suspension is in effect, all scale-in activities that are triggered by a scaling policy are suspended.   For DynamicScalingOutSuspended, while a suspension is in effect, all scale-out activities that are triggered by a scaling policy are suspended.   For ScheduledScalingSuspended, while a suspension is in effect, all scaling activities that involve scheduled actions are suspended.    For more information, see Suspending and resuming scaling in the Application Auto Scaling User Guide.
         public let suspendedState: SuspendedState?
+        /// Assigns one or more tags to the scalable target. Use this parameter to tag the scalable target when it is created. To tag an existing scalable target, use the TagResource operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required. You cannot have more than one tag on a scalable target with the same tag key. Use tags to control access to a scalable target. For more information, see Tagging support for Application Auto Scaling in the Application Auto Scaling User Guide.
+        public let tags: [String: String]?
 
-        public init(maxCapacity: Int? = nil, minCapacity: Int? = nil, resourceId: String, roleARN: String? = nil, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, suspendedState: SuspendedState? = nil) {
+        public init(maxCapacity: Int? = nil, minCapacity: Int? = nil, resourceId: String, roleARN: String? = nil, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, suspendedState: SuspendedState? = nil, tags: [String: String]? = nil) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
             self.resourceId = resourceId
@@ -737,6 +781,7 @@ extension ApplicationAutoScaling {
             self.scalableDimension = scalableDimension
             self.serviceNamespace = serviceNamespace
             self.suspendedState = suspendedState
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -746,6 +791,11 @@ extension ApplicationAutoScaling {
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 1600)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -756,11 +806,21 @@ extension ApplicationAutoScaling {
             case scalableDimension = "ScalableDimension"
             case serviceNamespace = "ServiceNamespace"
             case suspendedState = "SuspendedState"
+            case tags = "Tags"
         }
     }
 
     public struct RegisterScalableTargetResponse: AWSDecodableShape {
-        public init() {}
+        /// The ARN of the scalable target.
+        public let scalableTargetARN: String?
+
+        public init(scalableTargetARN: String? = nil) {
+            self.scalableTargetARN = scalableTargetARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scalableTargetARN = "ScalableTargetARN"
+        }
     }
 
     public struct ScalableTarget: AWSDecodableShape {
@@ -776,17 +836,21 @@ extension ApplicationAutoScaling {
         public let roleARN: String
         /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.    comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference units for an Amazon Comprehend document classification endpoint.    comprehend:entity-recognizer-endpoint:DesiredInferenceUnits - The number of inference units for an Amazon Comprehend entity recognizer endpoint.    lambda:function:ProvisionedConcurrency - The provisioned concurrency for a Lambda function.    cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.    elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
         public let scalableDimension: ScalableDimension
+        /// The ARN of the scalable target.
+        public let scalableTargetARN: String?
         /// The namespace of the Amazon Web Services service that provides the resource, or a custom-resource.
         public let serviceNamespace: ServiceNamespace
+        /// Specifies whether the scaling activities for a scalable target are in a suspended state.
         public let suspendedState: SuspendedState?
 
-        public init(creationTime: Date, maxCapacity: Int, minCapacity: Int, resourceId: String, roleARN: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, suspendedState: SuspendedState? = nil) {
+        public init(creationTime: Date, maxCapacity: Int, minCapacity: Int, resourceId: String, roleARN: String, scalableDimension: ScalableDimension, scalableTargetARN: String? = nil, serviceNamespace: ServiceNamespace, suspendedState: SuspendedState? = nil) {
             self.creationTime = creationTime
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
             self.resourceId = resourceId
             self.roleARN = roleARN
             self.scalableDimension = scalableDimension
+            self.scalableTargetARN = scalableTargetARN
             self.serviceNamespace = serviceNamespace
             self.suspendedState = suspendedState
         }
@@ -798,6 +862,7 @@ extension ApplicationAutoScaling {
             case resourceId = "ResourceId"
             case roleARN = "RoleARN"
             case scalableDimension = "ScalableDimension"
+            case scalableTargetARN = "ScalableTargetARN"
             case serviceNamespace = "ServiceNamespace"
             case suspendedState = "SuspendedState"
         }
@@ -980,9 +1045,9 @@ extension ApplicationAutoScaling {
     }
 
     public struct StepAdjustment: AWSEncodableShape & AWSDecodableShape {
-        /// The lower bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the lower bound is inclusive (the metric must be greater than or equal to the threshold plus the lower bound). Otherwise, it is exclusive (the metric must be greater than the threshold plus the lower bound). A null value indicates negative infinity.
+        /// The lower bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the lower bound is inclusive (the metric must be greater than or equal to the threshold plus the lower bound). Otherwise, it's exclusive (the metric must be greater than the threshold plus the lower bound). A null value indicates negative infinity.
         public let metricIntervalLowerBound: Double?
-        /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it is inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
+        /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it's inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
         public let metricIntervalUpperBound: Double?
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. For exact capacity, you must specify a positive value.
         public let scalingAdjustment: Int
@@ -1050,6 +1115,166 @@ extension ApplicationAutoScaling {
         }
     }
 
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// Identifies the Application Auto Scaling scalable target that you want to apply tags to. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123  To get the ARN for a scalable target, use DescribeScalableTargets.
+        public let resourceARN: String
+        /// The tags assigned to the resource. A tag is a label that you assign to an AWS resource. Each tag consists of a tag key and a tag value. You cannot have more than one tag on an Application Auto Scaling scalable target with the same tag key. If you specify an existing tag key with a different tag value, Application Auto Scaling replaces the current tag value with the specified one. For information about the rules that apply to tag keys and tag values, see User-defined tag restrictions in the Amazon Web Services Billing and Cost Management User Guide.
+        public let tags: [String: String]
+
+        public init(resourceARN: String, tags: [String: String]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:.+:application-autoscaling:.+:[0-9]+:scalable-target\\/[a-zA-Z0-9-]+$")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct TargetTrackingMetric: AWSEncodableShape & AWSDecodableShape {
+        /// The dimensions for the metric. For the list of available dimensions, see the Amazon Web Services documentation available from the table in Amazon Web Services services that publish CloudWatch metrics  in the Amazon CloudWatch User Guide.  Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
+        public let dimensions: [TargetTrackingMetricDimension]?
+        /// The name of the metric.
+        public let metricName: String?
+        /// The namespace of the metric. For more information, see the table in Amazon Web Services services that publish CloudWatch metrics  in the Amazon CloudWatch User Guide.
+        public let namespace: String?
+
+        public init(dimensions: [TargetTrackingMetricDimension]? = nil, metricName: String? = nil, namespace: String? = nil) {
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensions?.forEach {
+                try $0.validate(name: "\(name).dimensions[]")
+            }
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+        }
+    }
+
+    public struct TargetTrackingMetricDataQuery: AWSEncodableShape & AWSDecodableShape {
+        /// The math expression to perform on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions.  Conditional: Within each TargetTrackingMetricDataQuery object, you must specify either Expression or MetricStat, but not both.
+        public let expression: String?
+        /// A short name that identifies the object's results in the response. This name must be unique among all MetricDataQuery objects specified for a single scaling policy. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscores. The first character must be a lowercase letter.
+        public let id: String
+        /// A human-readable label for this metric or expression. This is especially useful if this is a math expression, so that you know what the value represents.
+        public let label: String?
+        /// Information about the metric data to return. Conditional: Within each MetricDataQuery object, you must specify either Expression or MetricStat, but not both.
+        public let metricStat: TargetTrackingMetricStat?
+        /// Indicates whether to return the timestamps and raw data values of this metric.  If you use any math expressions, specify true for this value for only the final math expression that the metric specification is based on. You must specify false for ReturnData for all the other metrics and expressions used in the metric specification. If you are only retrieving metrics and not performing any math expressions, do not specify anything for ReturnData. This sets it to its default (true).
+        public let returnData: Bool?
+
+        public init(expression: String? = nil, id: String, label: String? = nil, metricStat: TargetTrackingMetricStat? = nil, returnData: Bool? = nil) {
+            self.expression = expression
+            self.id = id
+            self.label = label
+            self.metricStat = metricStat
+            self.returnData = returnData
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 2048)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.validate(self.expression, name: "expression", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.id, name: "id", parent: name, max: 255)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.label, name: "label", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.metricStat?.validate(name: "\(name).metricStat")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
+            case id = "Id"
+            case label = "Label"
+            case metricStat = "MetricStat"
+            case returnData = "ReturnData"
+        }
+    }
+
+    public struct TargetTrackingMetricDimension: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the dimension.
+        public let name: String
+        /// The value of the dimension.
+        public let value: String
+
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct TargetTrackingMetricStat: AWSEncodableShape & AWSDecodableShape {
+        /// The CloudWatch metric to return, including the metric name, namespace, and dimensions. To get the exact metric name, namespace, and dimensions, inspect the Metric object that is returned by a call to ListMetrics.
+        public let metric: TargetTrackingMetric
+        /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in Statistics in the Amazon CloudWatch User Guide. The most commonly used metric for scaling is Average.
+        public let stat: String
+        /// The unit to use for the returned data points. For a complete list of the units that CloudWatch supports, see the MetricDatum data type in the Amazon CloudWatch API Reference.
+        public let unit: String?
+
+        public init(metric: TargetTrackingMetric, stat: String, unit: String? = nil) {
+            self.metric = metric
+            self.stat = stat
+            self.unit = unit
+        }
+
+        public func validate(name: String) throws {
+            try self.metric.validate(name: "\(name).metric")
+            try self.validate(self.stat, name: "stat", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.unit, name: "unit", parent: name, max: 1023)
+            try self.validate(self.unit, name: "unit", parent: name, min: 1)
+            try self.validate(self.unit, name: "unit", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metric = "Metric"
+            case stat = "Stat"
+            case unit = "Unit"
+        }
+    }
+
     public struct TargetTrackingScalingPolicyConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// A customized metric. You can specify either a predefined metric or a customized metric.
         public let customizedMetricSpecification: CustomizedMetricSpecification?
@@ -1074,6 +1299,7 @@ extension ApplicationAutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.customizedMetricSpecification?.validate(name: "\(name).customizedMetricSpecification")
             try self.predefinedMetricSpecification?.validate(name: "\(name).predefinedMetricSpecification")
         }
 
@@ -1085,6 +1311,38 @@ extension ApplicationAutoScaling {
             case scaleOutCooldown = "ScaleOutCooldown"
             case targetValue = "TargetValue"
         }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// Identifies the Application Auto Scaling scalable target from which to remove tags. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123  To get the ARN for a scalable target, use DescribeScalableTargets.
+        public let resourceARN: String
+        /// One or more tag keys. Specify only the tag keys, not the tag values.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:.+:application-autoscaling:.+:[0-9]+:scalable-target\\/[a-zA-Z0-9-]+$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 }
 
@@ -1099,6 +1357,8 @@ public struct ApplicationAutoScalingErrorType: AWSErrorType {
         case invalidNextTokenException = "InvalidNextTokenException"
         case limitExceededException = "LimitExceededException"
         case objectNotFoundException = "ObjectNotFoundException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case tooManyTagsException = "TooManyTagsException"
         case validationException = "ValidationException"
     }
 
@@ -1132,6 +1392,10 @@ public struct ApplicationAutoScalingErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The specified object could not be found. For any operation that depends on the existence of a scalable target, this exception is thrown if the scalable target with the specified service namespace, resource ID, and scalable dimension does not exist. For any operation that deletes or deregisters a resource, this exception is thrown if the resource cannot be found.
     public static var objectNotFoundException: Self { .init(.objectNotFoundException) }
+    /// The specified resource doesn't exist.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request contains too many tags. Try the request again with fewer tags.
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// An exception was thrown for a validation issue. Review the available parameters for the API request.
     public static var validationException: Self { .init(.validationException) }
 }

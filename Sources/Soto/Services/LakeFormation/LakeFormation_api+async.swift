@@ -76,8 +76,7 @@ extension LakeFormation {
         return try await self.client.execute(operation: "DeleteObjectsOnCancel", path: "/DeleteObjectsOnCancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deregisters the resource as managed by the Data Catalog.
-    /// 	 When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
+    /// Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
     public func deregisterResource(_ input: DeregisterResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeregisterResourceResponse {
         return try await self.client.execute(operation: "DeregisterResource", path: "/DeregisterResource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -92,11 +91,14 @@ extension LakeFormation {
         return try await self.client.execute(operation: "DescribeTransaction", path: "/DescribeTransaction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Indicates to the service that the specified transaction is still active and should not be treated as idle and aborted.
-    ///
-    /// 	        Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
+    /// Indicates to the service that the specified transaction is still active and should not be treated as idle and aborted. Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
     public func extendTransaction(_ input: ExtendTransactionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ExtendTransactionResponse {
         return try await self.client.execute(operation: "ExtendTransaction", path: "/ExtendTransaction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a data cells filter.
+    public func getDataCellsFilter(_ input: GetDataCellsFilterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetDataCellsFilterResponse {
+        return try await self.client.execute(operation: "GetDataCellsFilter", path: "/GetDataCellsFilter", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
@@ -154,8 +156,7 @@ extension LakeFormation {
         return try await self.client.execute(operation: "GetWorkUnits", path: "/GetWorkUnits", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "query-", logger: logger, on: eventLoop)
     }
 
-    /// Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
-    /// 	        For information about permissions, see Security and Access Control to Metadata and Data.
+    /// Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. For information about permissions, see Security and Access Control to Metadata and Data.
     public func grantPermissions(_ input: GrantPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GrantPermissionsResponse {
         return try await self.client.execute(operation: "GrantPermissions", path: "/GrantPermissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -170,9 +171,7 @@ extension LakeFormation {
         return try await self.client.execute(operation: "ListLFTags", path: "/ListLFTags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER.
-    /// 	        This operation returns only those permissions that have been explicitly granted.
-    /// 	        For information about permissions, see Security and Access Control to Metadata and Data.
+    /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see Security and Access Control to Metadata and Data.
     public func listPermissions(_ input: ListPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPermissionsResponse {
         return try await self.client.execute(operation: "ListPermissions", path: "/ListPermissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -187,27 +186,18 @@ extension LakeFormation {
         return try await self.client.execute(operation: "ListTableStorageOptimizers", path: "/ListTableStorageOptimizers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned.
-    /// 	        This operation can help you identify uncommitted transactions or to get information about transactions.
+    /// Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned. This operation can help you identify uncommitted transactions or to get information about transactions.
     public func listTransactions(_ input: ListTransactionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTransactionsResponse {
         return try await self.client.execute(operation: "ListTransactions", path: "/ListTransactions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see Granting Lake Formation Permissions.
-    ///
-    /// 	        This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
+    /// Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see Granting Lake Formation Permissions. This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
     public func putDataLakeSettings(_ input: PutDataLakeSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutDataLakeSettingsResponse {
         return try await self.client.execute(operation: "PutDataLakeSettings", path: "/PutDataLakeSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Registers the resource as managed by the Data Catalog.
-    /// 	 To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy.
-    ///  The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location.
-    ///   ResourceArn = arn:aws:s3:::my-bucket
-    /// UseServiceLinkedRole = true
-    ///
-    /// 	        If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn:
-    /// 	  arn:aws:iam::12345:role/my-data-access-role
+    /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location.  ResourceArn = arn:aws:s3:::my-bucket
+    /// UseServiceLinkedRole = true  If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn:  arn:aws:iam::12345:role/my-data-access-role
     public func registerResource(_ input: RegisterResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RegisterResourceResponse {
         return try await self.client.execute(operation: "RegisterResource", path: "/RegisterResource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -232,9 +222,7 @@ extension LakeFormation {
         return try await self.client.execute(operation: "SearchTablesByLFTags", path: "/SearchTablesByLFTags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Submits a request to process a query statement.
-    ///
-    /// 	        This operation generates work units that can be retrieved with the GetWorkUnits operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
+    /// Submits a request to process a query statement. This operation generates work units that can be retrieved with the GetWorkUnits operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
     public func startQueryPlanning(_ input: StartQueryPlanningRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartQueryPlanningResponse {
         return try await self.client.execute(operation: "StartQueryPlanning", path: "/StartQueryPlanning", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "query-", logger: logger, on: eventLoop)
     }
@@ -242,6 +230,11 @@ extension LakeFormation {
     /// Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction.
     public func startTransaction(_ input: StartTransactionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartTransactionResponse {
         return try await self.client.execute(operation: "StartTransaction", path: "/StartTransaction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a data cell filter.
+    public func updateDataCellsFilter(_ input: UpdateDataCellsFilterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateDataCellsFilterResponse {
+        return try await self.client.execute(operation: "UpdateDataCellsFilter", path: "/UpdateDataCellsFilter", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
@@ -386,9 +379,7 @@ extension LakeFormation {
         )
     }
 
-    /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER.
-    /// 	        This operation returns only those permissions that have been explicitly granted.
-    /// 	        For information about permissions, see Security and Access Control to Metadata and Data.
+    /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see Security and Access Control to Metadata and Data.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -454,8 +445,7 @@ extension LakeFormation {
         )
     }
 
-    /// Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned.
-    /// 	        This operation can help you identify uncommitted transactions or to get information about transactions.
+    /// Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned. This operation can help you identify uncommitted transactions or to get information about transactions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

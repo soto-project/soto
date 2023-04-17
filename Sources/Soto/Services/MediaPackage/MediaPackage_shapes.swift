@@ -167,6 +167,8 @@ extension MediaPackage {
     public struct Channel: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) assigned to the Channel.
         public let arn: String?
+        /// The date and time the Channel was created.
+        public let createdAt: String?
         /// A short text description of the Channel.
         public let description: String?
         public let egressAccessLogs: EgressAccessLogs?
@@ -176,8 +178,9 @@ extension MediaPackage {
         public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.createdAt = createdAt
             self.description = description
             self.egressAccessLogs = egressAccessLogs
             self.hlsIngest = hlsIngest
@@ -188,6 +191,7 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case createdAt = "createdAt"
             case description = "description"
             case egressAccessLogs = "egressAccessLogs"
             case hlsIngest = "hlsIngest"
@@ -301,6 +305,8 @@ extension MediaPackage {
     public struct ConfigureLogsResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) assigned to the Channel.
         public let arn: String?
+        /// The date and time the Channel was created.
+        public let createdAt: String?
         /// A short text description of the Channel.
         public let description: String?
         public let egressAccessLogs: EgressAccessLogs?
@@ -310,8 +316,9 @@ extension MediaPackage {
         public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.createdAt = createdAt
             self.description = description
             self.egressAccessLogs = egressAccessLogs
             self.hlsIngest = hlsIngest
@@ -322,6 +329,7 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case createdAt = "createdAt"
             case description = "description"
             case egressAccessLogs = "egressAccessLogs"
             case hlsIngest = "hlsIngest"
@@ -355,6 +363,8 @@ extension MediaPackage {
     public struct CreateChannelResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) assigned to the Channel.
         public let arn: String?
+        /// The date and time the Channel was created.
+        public let createdAt: String?
         /// A short text description of the Channel.
         public let description: String?
         public let egressAccessLogs: EgressAccessLogs?
@@ -364,8 +374,9 @@ extension MediaPackage {
         public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.createdAt = createdAt
             self.description = description
             self.egressAccessLogs = egressAccessLogs
             self.hlsIngest = hlsIngest
@@ -376,6 +387,7 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case createdAt = "createdAt"
             case description = "description"
             case egressAccessLogs = "egressAccessLogs"
             case hlsIngest = "hlsIngest"
@@ -420,7 +432,7 @@ extension MediaPackage {
         public let arn: String?
         /// The ID of the Channel that the HarvestJob will harvest from.
         public let channelId: String?
-        /// The time the HarvestJob was submitted
+        /// The date and time the HarvestJob was submitted.
         public let createdAt: String?
         /// The end of the time-window which will be harvested.
         public let endTime: String?
@@ -535,6 +547,8 @@ extension MediaPackage {
         /// The ID of the Channel the OriginEndpoint is associated with.
         public let channelId: String?
         public let cmafPackage: CmafPackage?
+        /// The date and time the OriginEndpoint was created.
+        public let createdAt: String?
         public let dashPackage: DashPackage?
         /// A short text description of the OriginEndpoint.
         public let description: String?
@@ -560,11 +574,12 @@ extension MediaPackage {
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, createdAt: String? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.authorization = authorization
             self.channelId = channelId
             self.cmafPackage = cmafPackage
+            self.createdAt = createdAt
             self.dashPackage = dashPackage
             self.description = description
             self.hlsPackage = hlsPackage
@@ -584,6 +599,7 @@ extension MediaPackage {
             case authorization = "authorization"
             case channelId = "channelId"
             case cmafPackage = "cmafPackage"
+            case createdAt = "createdAt"
             case dashPackage = "dashPackage"
             case description = "description"
             case hlsPackage = "hlsPackage"
@@ -744,6 +760,8 @@ extension MediaPackage {
     public struct DescribeChannelResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) assigned to the Channel.
         public let arn: String?
+        /// The date and time the Channel was created.
+        public let createdAt: String?
         /// A short text description of the Channel.
         public let description: String?
         public let egressAccessLogs: EgressAccessLogs?
@@ -753,8 +771,9 @@ extension MediaPackage {
         public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.createdAt = createdAt
             self.description = description
             self.egressAccessLogs = egressAccessLogs
             self.hlsIngest = hlsIngest
@@ -765,6 +784,7 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case createdAt = "createdAt"
             case description = "description"
             case egressAccessLogs = "egressAccessLogs"
             case hlsIngest = "hlsIngest"
@@ -794,7 +814,7 @@ extension MediaPackage {
         public let arn: String?
         /// The ID of the Channel that the HarvestJob will harvest from.
         public let channelId: String?
-        /// The time the HarvestJob was submitted
+        /// The date and time the HarvestJob was submitted.
         public let createdAt: String?
         /// The end of the time-window which will be harvested.
         public let endTime: String?
@@ -859,6 +879,8 @@ extension MediaPackage {
         /// The ID of the Channel the OriginEndpoint is associated with.
         public let channelId: String?
         public let cmafPackage: CmafPackage?
+        /// The date and time the OriginEndpoint was created.
+        public let createdAt: String?
         public let dashPackage: DashPackage?
         /// A short text description of the OriginEndpoint.
         public let description: String?
@@ -884,11 +906,12 @@ extension MediaPackage {
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, createdAt: String? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.authorization = authorization
             self.channelId = channelId
             self.cmafPackage = cmafPackage
+            self.createdAt = createdAt
             self.dashPackage = dashPackage
             self.description = description
             self.hlsPackage = hlsPackage
@@ -908,6 +931,7 @@ extension MediaPackage {
             case authorization = "authorization"
             case channelId = "channelId"
             case cmafPackage = "cmafPackage"
+            case createdAt = "createdAt"
             case dashPackage = "dashPackage"
             case description = "description"
             case hlsPackage = "hlsPackage"
@@ -958,7 +982,7 @@ extension MediaPackage {
         public let arn: String?
         /// The ID of the Channel that the HarvestJob will harvest from.
         public let channelId: String?
-        /// The time the HarvestJob was submitted
+        /// The date and time the HarvestJob was submitted.
         public let createdAt: String?
         /// The end of the time-window which will be harvested.
         public let endTime: String?
@@ -1482,6 +1506,8 @@ extension MediaPackage {
         /// The ID of the Channel the OriginEndpoint is associated with.
         public let channelId: String?
         public let cmafPackage: CmafPackage?
+        /// The date and time the OriginEndpoint was created.
+        public let createdAt: String?
         public let dashPackage: DashPackage?
         /// A short text description of the OriginEndpoint.
         public let description: String?
@@ -1507,11 +1533,12 @@ extension MediaPackage {
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, createdAt: String? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.authorization = authorization
             self.channelId = channelId
             self.cmafPackage = cmafPackage
+            self.createdAt = createdAt
             self.dashPackage = dashPackage
             self.description = description
             self.hlsPackage = hlsPackage
@@ -1531,6 +1558,7 @@ extension MediaPackage {
             case authorization = "authorization"
             case channelId = "channelId"
             case cmafPackage = "cmafPackage"
+            case createdAt = "createdAt"
             case dashPackage = "dashPackage"
             case description = "description"
             case hlsPackage = "hlsPackage"
@@ -1564,6 +1592,8 @@ extension MediaPackage {
     public struct RotateChannelCredentialsResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) assigned to the Channel.
         public let arn: String?
+        /// The date and time the Channel was created.
+        public let createdAt: String?
         /// A short text description of the Channel.
         public let description: String?
         public let egressAccessLogs: EgressAccessLogs?
@@ -1573,8 +1603,9 @@ extension MediaPackage {
         public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.createdAt = createdAt
             self.description = description
             self.egressAccessLogs = egressAccessLogs
             self.hlsIngest = hlsIngest
@@ -1585,6 +1616,7 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case createdAt = "createdAt"
             case description = "description"
             case egressAccessLogs = "egressAccessLogs"
             case hlsIngest = "hlsIngest"
@@ -1616,6 +1648,8 @@ extension MediaPackage {
     public struct RotateIngestEndpointCredentialsResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) assigned to the Channel.
         public let arn: String?
+        /// The date and time the Channel was created.
+        public let createdAt: String?
         /// A short text description of the Channel.
         public let description: String?
         public let egressAccessLogs: EgressAccessLogs?
@@ -1625,8 +1659,9 @@ extension MediaPackage {
         public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.createdAt = createdAt
             self.description = description
             self.egressAccessLogs = egressAccessLogs
             self.hlsIngest = hlsIngest
@@ -1637,6 +1672,7 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case createdAt = "createdAt"
             case description = "description"
             case egressAccessLogs = "egressAccessLogs"
             case hlsIngest = "hlsIngest"
@@ -1782,6 +1818,8 @@ extension MediaPackage {
     public struct UpdateChannelResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) assigned to the Channel.
         public let arn: String?
+        /// The date and time the Channel was created.
+        public let createdAt: String?
         /// A short text description of the Channel.
         public let description: String?
         public let egressAccessLogs: EgressAccessLogs?
@@ -1791,8 +1829,9 @@ extension MediaPackage {
         public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.createdAt = createdAt
             self.description = description
             self.egressAccessLogs = egressAccessLogs
             self.hlsIngest = hlsIngest
@@ -1803,6 +1842,7 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case createdAt = "createdAt"
             case description = "description"
             case egressAccessLogs = "egressAccessLogs"
             case hlsIngest = "hlsIngest"
@@ -1878,6 +1918,8 @@ extension MediaPackage {
         /// The ID of the Channel the OriginEndpoint is associated with.
         public let channelId: String?
         public let cmafPackage: CmafPackage?
+        /// The date and time the OriginEndpoint was created.
+        public let createdAt: String?
         public let dashPackage: DashPackage?
         /// A short text description of the OriginEndpoint.
         public let description: String?
@@ -1903,11 +1945,12 @@ extension MediaPackage {
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, createdAt: String? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.authorization = authorization
             self.channelId = channelId
             self.cmafPackage = cmafPackage
+            self.createdAt = createdAt
             self.dashPackage = dashPackage
             self.description = description
             self.hlsPackage = hlsPackage
@@ -1927,6 +1970,7 @@ extension MediaPackage {
             case authorization = "authorization"
             case channelId = "channelId"
             case cmafPackage = "cmafPackage"
+            case createdAt = "createdAt"
             case dashPackage = "dashPackage"
             case description = "description"
             case hlsPackage = "hlsPackage"

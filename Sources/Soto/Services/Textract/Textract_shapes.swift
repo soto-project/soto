@@ -32,6 +32,8 @@ extension Textract {
         case selectionElement = "SELECTION_ELEMENT"
         case signature = "SIGNATURE"
         case table = "TABLE"
+        case tableFooter = "TABLE_FOOTER"
+        case tableTitle = "TABLE_TITLE"
         case title = "TITLE"
         case word = "WORD"
         public var description: String { return self.rawValue }
@@ -46,6 +48,12 @@ extension Textract {
     public enum EntityType: String, CustomStringConvertible, Codable, Sendable {
         case columnHeader = "COLUMN_HEADER"
         case key = "KEY"
+        case semiStructuredTable = "SEMI_STRUCTURED_TABLE"
+        case structuredTable = "STRUCTURED_TABLE"
+        case tableFooter = "TABLE_FOOTER"
+        case tableSectionTitle = "TABLE_SECTION_TITLE"
+        case tableSummary = "TABLE_SUMMARY"
+        case tableTitle = "TABLE_TITLE"
         case value = "VALUE"
         public var description: String { return self.rawValue }
     }
@@ -71,6 +79,9 @@ extension Textract {
         case child = "CHILD"
         case complexFeatures = "COMPLEX_FEATURES"
         case mergedCell = "MERGED_CELL"
+        case table = "TABLE"
+        case tableFooter = "TABLE_FOOTER"
+        case tableTitle = "TABLE_TITLE"
         case title = "TITLE"
         case value = "VALUE"
         public var description: String { return self.rawValue }
@@ -246,28 +257,28 @@ extension Textract {
     }
 
     public struct Block: AWSDecodableShape {
-        /// The type of text item that's recognized. In operations for text detection, the following types are returned:    PAGE - Contains a list of the LINE Block objects that are detected on a document page.    WORD - A word detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.   In text analysis operations, the following types are returned:    PAGE - Contains a list of child Block objects that are detected on a document page.    KEY_VALUE_SET - Stores the KEY and VALUE Block objects for linked text that's detected on a document page. Use the EntityType field to determine if a KEY_VALUE_SET object is a KEY Block object or a VALUE Block object.     WORD - A word that's detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.    TABLE - A table that's detected on a document page. A table is grid-based information with two or more rows or columns, with a cell span of one row and one column each.     CELL - A cell within a detected table. The cell is the parent of the block that contains the text in the cell.    SELECTION_ELEMENT - A selection element such as an option button (radio button) or a check box that's detected on a document page. Use the value of SelectionStatus to determine the status of the selection element.    SIGNATURE - The location and confidene score of a signature detected on a document page. Can be returned as part of a Key-Value pair or a detected cell.    QUERY - A question asked during the call of AnalyzeDocument. Contains an alias and an ID that attaches it to its answer.    QUERY_RESULT - A response to a question asked during the call of analyze document. Comes with an alias and ID for ease of locating in a  response. Also contains location and confidence score.
+        /// The type of text item that's recognized. In operations for text detection, the following types are returned:    PAGE - Contains a list of the LINE Block objects that are detected on a document page.    WORD - A word detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.   In text analysis operations, the following types are returned:    PAGE - Contains a list of child Block objects that are detected on a document page.    KEY_VALUE_SET - Stores the KEY and VALUE Block objects for linked text that's detected on a document page. Use the EntityType field to determine if a KEY_VALUE_SET object is a KEY Block object or a VALUE Block object.     WORD - A word that's detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.    TABLE - A table that's detected on a document page. A table is grid-based information with two or more rows or columns, with a cell span of one row and one column each.     TABLE_TITLE - The title of a table. A title is typically a line of text above or below a table, or embedded as the first row of a table.     TABLE_FOOTER - The footer associated with a table. A footer is typically a line or lines of text below a table or embedded as the last row of a table.     CELL - A cell within a detected table. The cell is the parent of the block that contains the text in the cell.    MERGED_CELL  - A cell in a table whose content spans more than one row or column. The Relationships array for this cell contain data from individual cells.    SELECTION_ELEMENT - A selection element such as an option button (radio button) or a check box that's detected on a document page. Use the value of SelectionStatus to determine the status of the selection element.    SIGNATURE - The location and confidene score of a signature detected on a document page. Can be returned as part of a Key-Value pair or a detected cell.    QUERY - A question asked during the call of AnalyzeDocument. Contains an alias and an ID that attaches it to its answer.    QUERY_RESULT - A response to a question asked during the call of analyze document. Comes with an alias and ID for ease of locating in a  response. Also contains location and confidence score.
         public let blockType: BlockType?
         /// The column in which a table cell appears. The first column position is 1. ColumnIndex isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public let columnIndex: Int?
-        /// The number of columns that a table cell spans. Currently this value is always 1, even if the number of columns spanned is greater than 1. ColumnSpan isn't returned by DetectDocumentText and GetDocumentTextDetection.
+        /// The number of columns that a table cell spans. ColumnSpan isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public let columnSpan: Int?
         /// The confidence score that Amazon Textract has in the accuracy of the recognized text and the accuracy of the geometry points around the recognized text.
         public let confidence: Float?
-        /// The type of entity. The following can be returned:    KEY - An identifier for a field on the document.    VALUE - The field text.    EntityTypes isn't returned by DetectDocumentText and GetDocumentTextDetection.
+        /// The type of entity.  The following entity types can be returned by FORMS analysis:    KEY - An identifier for a field on the document.    VALUE - The field text.   The following entity types can be returned by TABLES analysis:    COLUMN_HEADER - Identifies a cell that is a header of a column.     TABLE_TITLE - Identifies a cell that is a title within the table.     TABLE_SECTION_TITLE - Identifies a cell that is a title of a section within a table. A section title is a cell that typically spans an entire row above a section.     TABLE_FOOTER - Identifies a cell that is a footer of a table.     TABLE_SUMMARY - Identifies a summary cell of a table. A summary cell can be a row of a table or an additional, smaller table that contains summary information for another table.     STRUCTURED_TABLE  - Identifies a table with column headers where the content of each row corresponds to the headers.     SEMI_STRUCTURED_TABLE - Identifies a non-structured table.     EntityTypes isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public let entityTypes: [EntityType]?
         /// The location of the recognized text on the image. It includes an axis-aligned, coarse bounding box that surrounds the text, and a finer-grain polygon for more accurate spatial information.
         public let geometry: Geometry?
         /// The identifier for the recognized text. The identifier is only unique for a single operation.
         public let id: String?
-        /// The page on which a block was detected. Page is returned by synchronous and asynchronous operations. Page values greater than 1 are only returned for multipage documents that are in PDF or TIFF format. A scanned image (JPEG/PNG) provided to an asynchronous operation, even if it contains multiple document pages, is considered a single-page document. This means that for scanned images the value of Page is always 1. Synchronous operations operations will also return a Page value of 1 because every input document is considered to be a single-page document.
+        /// The page on which a block was detected. Page is returned by synchronous and asynchronous operations. Page values greater than 1 are only returned for multipage documents that are in PDF or TIFF format. A scanned image (JPEG/PNG) provided to an asynchronous operation, even if it contains multiple document pages, is considered a single-page document. This means that for scanned images the value of Page is always 1. Synchronous operations will also return a Page value of 1 because every input document is considered to be a single-page document.
         public let page: Int?
         public let query: Query?
-        /// A list of child blocks of the current block. For example, a LINE object has child blocks for each WORD block that's part of the line of text. There aren't Relationship objects in the list for relationships that don't exist, such as when the current block has no child blocks. The list size can be the following:   0 - The block has no child blocks.   1 - The block has child blocks.
+        /// A list of relationship objects that describe how blocks are related to each other. For example, a LINE block object contains a CHILD relationship type with the WORD blocks that make up the line of text. There aren't Relationship objects in the list for relationships that don't exist, such as when the current block has no child blocks.
         public let relationships: [Relationship]?
         /// The row in which a table cell is located. The first row position is 1. RowIndex isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public let rowIndex: Int?
-        /// The number of rows that a table cell spans. Currently this value is always 1, even if the number of rows spanned is greater than 1. RowSpan isn't returned by DetectDocumentText and GetDocumentTextDetection.
+        /// The number of rows that a table cell spans. RowSpan isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public let rowSpan: Int?
         /// The selection status of a selection element, such as an option button or check box.
         public let selectionStatus: SelectionStatus?
@@ -416,7 +427,7 @@ extension Textract {
         public let detectedSignatures: [DetectedSignature]?
         /// An array that contains information about the pages of a document, defined by logical boundary.
         public let splitDocuments: [SplitDocument]?
-        /// The type of document that Amazon Textract has detected. See LINK for a list of all types returned by Textract.
+        /// The type of document that Amazon Textract has detected. See Analyze Lending Response Objects for a list of all types returned by Textract.
         public let type: String?
         /// A list of any expected signatures not found in a document group.
         public let undetectedSignatures: [UndetectedSignature]?
@@ -1361,7 +1372,7 @@ extension Textract {
     public struct Relationship: AWSDecodableShape {
         /// An array of IDs for related blocks. You can get the type of the relationship from the Type element.
         public let ids: [String]?
-        /// The type of relationship that the blocks in the IDs array have with the current block. The relationship can be VALUE or CHILD. A relationship of type VALUE is a list that contains the ID of the VALUE block that's associated with the KEY of a key-value pair. A relationship of type CHILD is a list of IDs that identify WORD blocks in the case of lines Cell blocks in the case of Tables, and WORD blocks in the case of Selection Elements.
+        /// The type of relationship between the blocks in the IDs array and the current block. The following list describes the relationship types that can be returned.     VALUE - A list that contains the ID of the VALUE block that's associated with the KEY of a key-value pair.    CHILD - A list of IDs that identify blocks found within the current block object. For example, WORD blocks have a CHILD relationship to the LINE block type.    MERGED_CELL - A list of IDs that identify each of the MERGED_CELL block types in a table.    ANSWER - A list that contains the ID of the QUERY_RESULT block that’s associated with the corresponding QUERY block.     TABLE - A list of IDs that identify associated TABLE block types.     TABLE_TITLE - A list that contains the ID for the TABLE_TITLE block type in a table.     TABLE_FOOTER - A list of IDs that identify the TABLE_FOOTER block types in a table.
         public let type: RelationshipType?
 
         public init(ids: [String]? = nil, type: RelationshipType? = nil) {

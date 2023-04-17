@@ -72,6 +72,12 @@ extension Snowball {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceName: String, CustomStringConvertible, Codable, Sendable {
+        case eksAnywhere = "EKS_ANYWHERE"
+        case kubernetes = "KUBERNETES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ShipmentState: String, CustomStringConvertible, Codable, Sendable {
         case received = "RECEIVED"
         case returned = "RETURNED"
@@ -336,8 +342,7 @@ extension Snowball {
         public let resources: JobResource?
         /// The role ARN associated with this cluster. This ARN was created using the CreateRole API action in Identity and Access Management (IAM).
         public let roleARN: String?
-        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:
-        ///    In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
+        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption?
         /// The type of Snowcone device to use for this cluster.   For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.
         public let snowballType: SnowballType?
@@ -435,7 +440,7 @@ extension Snowball {
         public let description: String?
         /// The forwarding address ID for a cluster. This field is not supported in most regions.
         public let forwardingAddressId: String?
-        /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+        /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let jobType: JobType
         /// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the CreateKey API action in Key Management Service (KMS).
         public let kmsKeyARN: String?
@@ -449,10 +454,9 @@ extension Snowball {
         public let resources: JobResource
         /// The RoleARN that you want to associate with this cluster. RoleArn values are created by using the CreateRole API action in Identity and Access Management (IAM).
         public let roleARN: String
-        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:    In Australia, you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.
-        ///    In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
+        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:    In Australia, you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.     In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption
-        /// The type of Snow Family devices to use for this cluster.   For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.   For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+        /// The type of Snow Family devices to use for this cluster.   For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballType: SnowballType
         /// The tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
@@ -530,7 +534,7 @@ extension Snowball {
         public let clusterId: String?
         /// Defines an optional description of this specific job, for example Important Photos 2016-08-11.
         public let description: String?
-        /// Defines the device configuration for an Snowcone job.  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+        /// Defines the device configuration for an Snowcone job. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let deviceConfiguration: DeviceConfiguration?
         /// The forwarding address ID for a job. This field is not supported in most Regions.
         public let forwardingAddressId: String?
@@ -546,18 +550,15 @@ extension Snowball {
         public let onDeviceServiceConfiguration: OnDeviceServiceConfiguration?
         /// Allows you to securely operate and manage Snowcone devices remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management will automatically be available when the device arrives at your location. Otherwise, you need to use the Snowball Client to manage the device.
         public let remoteManagement: RemoteManagement?
-        /// Defines the Amazon S3 buckets associated with this job.
-        ///  With IMPORT jobs, you specify the bucket or buckets that your transferred data will be imported into.
-        ///  With EXPORT jobs, you specify the bucket or buckets that your transferred data will be exported from. Optionally, you can also specify a KeyRange value. If you choose to export a range, you define the length of the range by providing either an inclusive BeginMarker value, an inclusive EndMarker value, or both. Ranges are UTF-8 binary sorted.
+        /// Defines the Amazon S3 buckets associated with this job. With IMPORT jobs, you specify the bucket or buckets that your transferred data will be imported into. With EXPORT jobs, you specify the bucket or buckets that your transferred data will be exported from. Optionally, you can also specify a KeyRange value. If you choose to export a range, you define the length of the range by providing either an inclusive BeginMarker value, an inclusive EndMarker value, or both. Ranges are UTF-8 binary sorted.
         public let resources: JobResource?
         /// The RoleARN that you want to associate with this job. RoleArns are created using the CreateRole Identity and Access Management (IAM) API action.
         public let roleARN: String?
-        /// The shipping speed for this job. This speed doesn't dictate how soon you'll get the Snow device, rather it represents how quickly the Snow device moves to its destination while in transit. Regional shipping speeds are as follows:
-        ///    In Australia, you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
+        /// The shipping speed for this job. This speed doesn't dictate how soon you'll get the Snow device, rather it represents how quickly the Snow device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption?
-        /// If your job is being created in one of the US regions, you have the option of specifying what size Snow device you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity.  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+        /// If your job is being created in one of the US regions, you have the option of specifying what size Snow device you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballCapacityPreference: SnowballCapacity?
-        /// The type of Snow Family devices to use for this job.   For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.  The type of Amazon Web Services Snow device to use for this job. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide.  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+        /// The type of Snow Family devices to use for this job.   For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.  The type of Amazon Web Services Snow device to use for this job. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballType: SnowballType?
         /// The tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
@@ -643,7 +644,7 @@ extension Snowball {
     }
 
     public struct CreateLongTermPricingRequest: AWSEncodableShape {
-        /// snowballty Specifies whether the current long-term pricing type for the device should be renewed.
+        /// Specifies whether the current long-term pricing type for the device should be renewed.
         public let isLongTermPricingAutoRenew: Bool?
         /// The type of long-term pricing option you want for the device, either 1-year or 3-year long-term pricing.
         public let longTermPricingType: LongTermPricingType
@@ -734,6 +735,27 @@ extension Snowball {
             case objectsTransferred = "ObjectsTransferred"
             case totalBytes = "TotalBytes"
             case totalObjects = "TotalObjects"
+        }
+    }
+
+    public struct DependentService: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the dependent service.
+        public let serviceName: ServiceName?
+        /// The version of the dependent service.
+        public let serviceVersion: ServiceVersion?
+
+        public init(serviceName: ServiceName? = nil, serviceVersion: ServiceVersion? = nil) {
+            self.serviceName = serviceName
+            self.serviceVersion = serviceVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.serviceVersion?.validate(name: "\(name).serviceVersion")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceName = "ServiceName"
+            case serviceVersion = "ServiceVersion"
         }
     }
 
@@ -929,6 +951,32 @@ extension Snowball {
 
         private enum CodingKeys: String, CodingKey {
             case snowconeDeviceConfiguration = "SnowconeDeviceConfiguration"
+        }
+    }
+
+    public struct EKSOnDeviceServiceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The version of EKS Anywhere on the Snow Family device.
+        public let eksAnywhereVersion: String?
+        /// The Kubernetes version for EKS Anywhere on the Snow Family device.
+        public let kubernetesVersion: String?
+
+        public init(eksAnywhereVersion: String? = nil, kubernetesVersion: String? = nil) {
+            self.eksAnywhereVersion = eksAnywhereVersion
+            self.kubernetesVersion = kubernetesVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eksAnywhereVersion, name: "eksAnywhereVersion", parent: name, max: 1024)
+            try self.validate(self.eksAnywhereVersion, name: "eksAnywhereVersion", parent: name, min: 1)
+            try self.validate(self.eksAnywhereVersion, name: "eksAnywhereVersion", parent: name, pattern: ".*")
+            try self.validate(self.kubernetesVersion, name: "kubernetesVersion", parent: name, max: 1024)
+            try self.validate(self.kubernetesVersion, name: "kubernetesVersion", parent: name, min: 1)
+            try self.validate(self.kubernetesVersion, name: "kubernetesVersion", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eksAnywhereVersion = "EKSAnywhereVersion"
+            case kubernetesVersion = "KubernetesVersion"
         }
     }
 
@@ -1208,7 +1256,7 @@ extension Snowball {
         public let roleARN: String?
         /// A job's shipping information, including inbound and outbound tracking numbers and shipping speed options.
         public let shippingDetails: ShippingDetails?
-        /// The Snow device capacity preference for this job, specified at job creation. In US regions, you can choose between 50 TB and 80 TB Snowballs. All other regions use 80 TB capacity Snowballs.  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+        /// The Snow device capacity preference for this job, specified at job creation. In US regions, you can choose between 50 TB and 80 TB Snowballs. All other regions use 80 TB capacity Snowballs. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballCapacityPreference: SnowballCapacity?
         /// The type of device used with this job.
         public let snowballType: SnowballType?
@@ -1567,6 +1615,67 @@ extension Snowball {
         }
     }
 
+    public struct ListServiceVersionsRequest: AWSEncodableShape {
+        /// A list of names and versions of dependant services of the requested service.
+        public let dependentServices: [DependentService]?
+        /// The maximum number of ListServiceVersions objects to return.
+        public let maxResults: Int?
+        /// Because HTTP requests are stateless, this is the starting point for the next list of returned  ListServiceVersionsRequest versions.
+        public let nextToken: String?
+        /// The name of the service for which you're requesting supported versions.
+        public let serviceName: ServiceName
+
+        public init(dependentServices: [DependentService]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceName: ServiceName) {
+            self.dependentServices = dependentServices
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.dependentServices?.forEach {
+                try $0.validate(name: "\(name).dependentServices[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dependentServices = "DependentServices"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case serviceName = "ServiceName"
+        }
+    }
+
+    public struct ListServiceVersionsResult: AWSDecodableShape {
+        /// A list of names and versions of dependant services of the service for which the system provided supported versions.
+        public let dependentServices: [DependentService]?
+        /// Because HTTP requests are stateless, this is the starting point of the next list of returned  ListServiceVersionsResult results.
+        public let nextToken: String?
+        /// The name of the service for which the system provided supported versions.
+        public let serviceName: ServiceName
+        /// A list of supported versions.
+        public let serviceVersions: [ServiceVersion]
+
+        public init(dependentServices: [DependentService]? = nil, nextToken: String? = nil, serviceName: ServiceName, serviceVersions: [ServiceVersion]) {
+            self.dependentServices = dependentServices
+            self.nextToken = nextToken
+            self.serviceName = serviceName
+            self.serviceVersions = serviceVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dependentServices = "DependentServices"
+            case nextToken = "NextToken"
+            case serviceName = "ServiceName"
+            case serviceVersions = "ServiceVersions"
+        }
+    }
+
     public struct LongTermPricingListEntry: AWSDecodableShape {
         /// The current active jobs on the device the long-term pricing type.
         public let currentActiveJob: String?
@@ -1642,8 +1751,7 @@ extension Snowball {
         public let jobStatesToNotify: [JobState]?
         /// Any change in job state will trigger a notification for this job.
         public let notifyAll: Bool?
-        /// The new SNS TopicArn that you want to associate with this job. You can create Amazon Resource Names (ARNs) for topics by using the CreateTopic Amazon SNS API action.
-        ///  You can subscribe email addresses to an Amazon SNS topic through the Amazon Web Services Management Console, or by using the Subscribe Amazon Simple Notification Service (Amazon SNS) API action.
+        /// The new SNS TopicArn that you want to associate with this job. You can create Amazon Resource Names (ARNs) for topics by using the CreateTopic Amazon SNS API action. You can subscribe email addresses to an Amazon SNS topic through the Amazon Web Services Management Console, or by using the Subscribe Amazon Simple Notification Service (Amazon SNS) API action.
         public let snsTopicARN: String?
 
         public init(jobStatesToNotify: [JobState]? = nil, notifyAll: Bool? = nil, snsTopicARN: String? = nil) {
@@ -1665,22 +1773,27 @@ extension Snowball {
     }
 
     public struct OnDeviceServiceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of EKS Anywhere on the Snow Family device.
+        public let eksOnDeviceService: EKSOnDeviceServiceConfiguration?
         /// Represents the NFS (Network File System) service on a Snow Family device.
         public let nfsOnDeviceService: NFSOnDeviceServiceConfiguration?
         /// Represents the Storage Gateway service Tape Gateway type on a Snow Family device.
         public let tgwOnDeviceService: TGWOnDeviceServiceConfiguration?
 
-        public init(nfsOnDeviceService: NFSOnDeviceServiceConfiguration? = nil, tgwOnDeviceService: TGWOnDeviceServiceConfiguration? = nil) {
+        public init(eksOnDeviceService: EKSOnDeviceServiceConfiguration? = nil, nfsOnDeviceService: NFSOnDeviceServiceConfiguration? = nil, tgwOnDeviceService: TGWOnDeviceServiceConfiguration? = nil) {
+            self.eksOnDeviceService = eksOnDeviceService
             self.nfsOnDeviceService = nfsOnDeviceService
             self.tgwOnDeviceService = tgwOnDeviceService
         }
 
         public func validate(name: String) throws {
+            try self.eksOnDeviceService?.validate(name: "\(name).eksOnDeviceService")
             try self.nfsOnDeviceService?.validate(name: "\(name).nfsOnDeviceService")
             try self.tgwOnDeviceService?.validate(name: "\(name).tgwOnDeviceService")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eksOnDeviceService = "EKSOnDeviceService"
             case nfsOnDeviceService = "NFSOnDeviceService"
             case tgwOnDeviceService = "TGWOnDeviceService"
         }
@@ -1713,6 +1826,25 @@ extension Snowball {
         }
     }
 
+    public struct ServiceVersion: AWSEncodableShape & AWSDecodableShape {
+        /// The version number of the requested service.
+        public let version: String?
+
+        public init(version: String? = nil) {
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.version, name: "version", parent: name, max: 1024)
+            try self.validate(self.version, name: "version", parent: name, min: 1)
+            try self.validate(self.version, name: "version", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+        }
+    }
+
     public struct Shipment: AWSDecodableShape {
         /// Status information for a shipment.
         public let status: String?
@@ -1735,8 +1867,7 @@ extension Snowball {
         public let inboundShipment: Shipment?
         /// The Status and TrackingNumber values for a Snow device being delivered to the address that you specified for a particular job.
         public let outboundShipment: Shipment?
-        /// The shipping speed for a particular job. This speed doesn't dictate how soon you'll get the Snow device from the job's creation date. This speed represents how quickly it moves to its destination while in transit. Regional shipping speeds are as follows:
-        ///    In Australia, you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.
+        /// The shipping speed for a particular job. This speed doesn't dictate how soon you'll get the Snow device from the job's creation date. This speed represents how quickly it moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption?
 
         public init(inboundShipment: Shipment? = nil, outboundShipment: Shipment? = nil, shippingOption: ShippingOption? = nil) {
@@ -1907,7 +2038,7 @@ extension Snowball {
         public let roleARN: String?
         /// The updated shipping option value of this job's ShippingDetails object.
         public let shippingOption: ShippingOption?
-        /// The updated SnowballCapacityPreference of this job's JobMetadata object. The 50 TB Snowballs are only available in the US regions.  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+        /// The updated SnowballCapacityPreference of this job's JobMetadata object. The 50 TB Snowballs are only available in the US regions. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballCapacityPreference: SnowballCapacity?
 
         public init(addressId: String? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobId: String, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil) {

@@ -51,6 +51,11 @@ extension CodeArtifact {
         return try await self.client.execute(operation: "DeleteDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a package and all associated package versions. A deleted package cannot be restored. To delete one or more package versions, use the DeletePackageVersions API.
+    public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeletePackageResult {
+        return try await self.client.execute(operation: "DeletePackage", path: "/v1/package", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Deletes one or more versions of a package. A deleted package version cannot be restored in your repository. If you want to remove a package version from your repository and be able to restore it later, set its status to Archived. Archived packages cannot be downloaded from a repository and don't show up with list package APIs (for example, ListPackageVersions), but you can restore them using UpdatePackageVersionsStatus.
     public func deletePackageVersions(_ input: DeletePackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeletePackageVersionsResult {
         return try await self.client.execute(operation: "DeletePackageVersions", path: "/v1/package/versions/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -141,7 +146,7 @@ extension CodeArtifact {
         return try await self.client.execute(operation: "ListPackageVersionDependencies", path: "/v1/package/version/dependencies", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of  PackageVersionSummary  objects for package versions in a repository that match the request parameters.
+    ///  Returns a list of  PackageVersionSummary  objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling list-package-versions with no  --status parameter.
     public func listPackageVersions(_ input: ListPackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPackageVersionsResult {
         return try await self.client.execute(operation: "ListPackageVersions", path: "/v1/package/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -164,6 +169,11 @@ extension CodeArtifact {
     /// Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResult {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/v1/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new package version containing one or more assets (or files). The unfinished flag can be used to keep the package version in the Unfinished state until all of its assets have been uploaded (see Package version status in the CodeArtifact user guide). To set the package version’s status to Published, omit the unfinished flag when uploading the final asset, or set the status using UpdatePackageVersionStatus. Once a package version’s status is set to Published, it cannot change back to Unfinished.  Only generic packages can be published using this API. For more information, see Using generic packages in the CodeArtifact User Guide.
+    public func publishPackageVersion(_ input: PublishPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PublishPackageVersionResult {
+        return try await self.client.execute(operation: "PublishPackageVersion", path: "/v1/package/version/publish", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Sets a resource policy on a domain that specifies permissions to access it.   When you call PutDomainPermissionsPolicy, the resource policy on the domain is ignored when evaluting permissions.  This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being  able to update the resource policy.
@@ -257,7 +267,7 @@ extension CodeArtifact {
         )
     }
 
-    ///  Returns a list of  PackageVersionSummary  objects for package versions in a repository that match the request parameters.
+    ///  Returns a list of  PackageVersionSummary  objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling list-package-versions with no  --status parameter.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -11169,7 +11169,7 @@ extension Pinpoint {
         /// A custom name for the treatment.
         public let treatmentName: String?
 
-        public init(customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
+        public init(customDeliveryConfiguration: CustomDeliveryConfiguration? = nil, messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int = 0, templateConfiguration: TemplateConfiguration? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
             self.customDeliveryConfiguration = customDeliveryConfiguration
             self.messageConfiguration = messageConfiguration
             self.schedule = schedule

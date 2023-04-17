@@ -21,6 +21,17 @@ import SotoCore
 extension Proton {
     // MARK: Enums
 
+    public enum BlockerStatus: String, CustomStringConvertible, Codable, Sendable {
+        case active = "ACTIVE"
+        case resolved = "RESOLVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BlockerType: String, CustomStringConvertible, Codable, Sendable {
+        case automated = "AUTOMATED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComponentDeploymentUpdateType: String, CustomStringConvertible, Codable, Sendable {
         case currentVersion = "CURRENT_VERSION"
         case none = "NONE"
@@ -166,6 +177,9 @@ extension Proton {
     }
 
     public enum SyncType: String, CustomStringConvertible, Codable, Sendable {
+        ///     Syncs services and service instances to Proton.
+        case serviceSync = "SERVICE_SYNC"
+        ///     Syncs environment and service templates to Proton.
         case templateSync = "TEMPLATE_SYNC"
         public var description: String { return self.rawValue }
     }
@@ -428,6 +442,8 @@ extension Proton {
         public let description: String?
         /// The name of the Proton environment that this component is associated with.
         public let environmentName: String
+        /// The last token the client requested.
+        public let lastClientRequestToken: String?
         /// The time when a deployment of the component was last attempted.
         public let lastDeploymentAttemptedAt: Date?
         /// The time when the component was last deployed successfully.
@@ -443,13 +459,14 @@ extension Proton {
         /// The service spec that the component uses to access service inputs. Provided when a component is attached to a service instance.
         public let serviceSpec: String?
 
-        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentName: String, lastDeploymentAttemptedAt: Date? = nil, lastDeploymentSucceededAt: Date? = nil, lastModifiedAt: Date, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil) {
+        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentName: String, lastClientRequestToken: String? = nil, lastDeploymentAttemptedAt: Date? = nil, lastDeploymentSucceededAt: Date? = nil, lastModifiedAt: Date, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
             self.deploymentStatusMessage = deploymentStatusMessage
             self.description = description
             self.environmentName = environmentName
+            self.lastClientRequestToken = lastClientRequestToken
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
             self.lastModifiedAt = lastModifiedAt
@@ -466,6 +483,7 @@ extension Proton {
             case deploymentStatusMessage = "deploymentStatusMessage"
             case description = "description"
             case environmentName = "environmentName"
+            case lastClientRequestToken = "lastClientRequestToken"
             case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
             case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
             case lastModifiedAt = "lastModifiedAt"
@@ -529,7 +547,46 @@ extension Proton {
         }
     }
 
+    public struct CountsSummary: AWSDecodableShape {
+        /// The total number of components in the Amazon Web Services account. The semantics of the components field are different from the semantics of results for other infrastructure-provisioning resources. That's because at this time components don't have associated templates, therefore they don't have the concept of staleness. The components object will only contain total and failed members.
+        public let components: ResourceCountsSummary?
+        /// The staleness counts for Proton environments in the Amazon Web Services account. The environments object will only contain total members.
+        public let environments: ResourceCountsSummary?
+        /// The total number of environment templates in the Amazon Web Services account. The environmentTemplates object will only contain total members.
+        public let environmentTemplates: ResourceCountsSummary?
+        /// The staleness counts for Proton pipelines in the Amazon Web Services account.
+        public let pipelines: ResourceCountsSummary?
+        /// The staleness counts for Proton service instances in the Amazon Web Services account.
+        public let serviceInstances: ResourceCountsSummary?
+        /// The staleness counts for Proton services in the Amazon Web Services account.
+        public let services: ResourceCountsSummary?
+        /// The total number of service templates in the Amazon Web Services account. The serviceTemplates object will only contain total members.
+        public let serviceTemplates: ResourceCountsSummary?
+
+        public init(components: ResourceCountsSummary? = nil, environments: ResourceCountsSummary? = nil, environmentTemplates: ResourceCountsSummary? = nil, pipelines: ResourceCountsSummary? = nil, serviceInstances: ResourceCountsSummary? = nil, services: ResourceCountsSummary? = nil, serviceTemplates: ResourceCountsSummary? = nil) {
+            self.components = components
+            self.environments = environments
+            self.environmentTemplates = environmentTemplates
+            self.pipelines = pipelines
+            self.serviceInstances = serviceInstances
+            self.services = services
+            self.serviceTemplates = serviceTemplates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case components = "components"
+            case environments = "environments"
+            case environmentTemplates = "environmentTemplates"
+            case pipelines = "pipelines"
+            case serviceInstances = "serviceInstances"
+            case services = "services"
+            case serviceTemplates = "serviceTemplates"
+        }
+    }
+
     public struct CreateComponentInput: AWSEncodableShape {
+        /// The client token for the created component.
+        public let clientToken: String?
         /// An optional customer-provided description of the component.
         public let description: String?
         /// The name of the Proton environment that you want to associate this component with. You must specify this when you don't specify serviceInstanceName and serviceName.
@@ -549,7 +606,8 @@ extension Proton {
         /// A path to the Infrastructure as Code (IaC) file describing infrastructure that a custom component provisions.  Components support a single IaC file, even if you use Terraform as your template language.
         public let templateFile: String
 
-        public init(description: String? = nil, environmentName: String? = nil, manifest: String, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil, tags: [Tag]? = nil, templateFile: String) {
+        public init(clientToken: String? = CreateComponentInput.idempotencyToken(), description: String? = nil, environmentName: String? = nil, manifest: String, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil, tags: [Tag]? = nil, templateFile: String) {
+            self.clientToken = clientToken
             self.description = description
             self.environmentName = environmentName
             self.manifest = manifest
@@ -562,6 +620,8 @@ extension Proton {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]*$")
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 100)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
@@ -588,6 +648,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
             case description = "description"
             case environmentName = "environmentName"
             case manifest = "manifest"
@@ -1049,6 +1110,79 @@ extension Proton {
         }
     }
 
+    public struct CreateServiceInstanceInput: AWSEncodableShape {
+        /// The client token of the service instance to create.
+        public let clientToken: String?
+        /// The name of the service instance to create.
+        public let name: String
+        /// The name of the service the service instance is added to.
+        public let serviceName: String
+        /// The spec for the service instance you want to create.
+        public let spec: String
+        /// An optional list of metadata items that you can associate with the Proton service instance. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
+        public let tags: [Tag]?
+        /// To create a new major and minor version of the service template, exclude major Version.
+        public let templateMajorVersion: String?
+        /// To create a new minor version of the service template, include a major Version.
+        public let templateMinorVersion: String?
+
+        public init(clientToken: String? = CreateServiceInstanceInput.idempotencyToken(), name: String, serviceName: String, spec: String, tags: [Tag]? = nil, templateMajorVersion: String? = nil, templateMinorVersion: String? = nil) {
+            self.clientToken = clientToken
+            self.name = name
+            self.serviceName = serviceName
+            self.spec = spec
+            self.tags = tags
+            self.templateMajorVersion = templateMajorVersion
+            self.templateMinorVersion = templateMinorVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.spec, name: "spec", parent: name, max: 51200)
+            try self.validate(self.spec, name: "spec", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.templateMajorVersion, name: "templateMajorVersion", parent: name, max: 20)
+            try self.validate(self.templateMajorVersion, name: "templateMajorVersion", parent: name, min: 1)
+            try self.validate(self.templateMajorVersion, name: "templateMajorVersion", parent: name, pattern: "^(0|([1-9]{1}\\d*))$")
+            try self.validate(self.templateMinorVersion, name: "templateMinorVersion", parent: name, max: 20)
+            try self.validate(self.templateMinorVersion, name: "templateMinorVersion", parent: name, min: 1)
+            try self.validate(self.templateMinorVersion, name: "templateMinorVersion", parent: name, pattern: "^(0|([1-9]{1}\\d*))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case name = "name"
+            case serviceName = "serviceName"
+            case spec = "spec"
+            case tags = "tags"
+            case templateMajorVersion = "templateMajorVersion"
+            case templateMinorVersion = "templateMinorVersion"
+        }
+    }
+
+    public struct CreateServiceInstanceOutput: AWSDecodableShape {
+        /// The detailed data of the service instance being created.
+        public let serviceInstance: ServiceInstance
+
+        public init(serviceInstance: ServiceInstance) {
+            self.serviceInstance = serviceInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceInstance = "serviceInstance"
+        }
+    }
+
     public struct CreateServiceOutput: AWSDecodableShape {
         /// The service detail data that's returned by Proton.
         public let service: Service
@@ -1059,6 +1193,61 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case service = "service"
+        }
+    }
+
+    public struct CreateServiceSyncConfigInput: AWSEncodableShape {
+        /// The repository branch for your Proton Ops file.
+        public let branch: String
+        /// The path to the Proton Ops file.
+        public let filePath: String
+        /// The repository name.
+        public let repositoryName: String
+        /// The provider type for your repository.
+        public let repositoryProvider: RepositoryProvider
+        /// The name of the service the Proton Ops file is for.
+        public let serviceName: String
+
+        public init(branch: String, filePath: String, repositoryName: String, repositoryProvider: RepositoryProvider, serviceName: String) {
+            self.branch = branch
+            self.filePath = filePath
+            self.repositoryName = repositoryName
+            self.repositoryProvider = repositoryProvider
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.branch, name: "branch", parent: name, max: 200)
+            try self.validate(self.branch, name: "branch", parent: name, min: 1)
+            try self.validate(self.filePath, name: "filePath", parent: name, max: 4096)
+            try self.validate(self.filePath, name: "filePath", parent: name, min: 1)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[A-Za-z0-9_.-].*/[A-Za-z0-9_.-].*")
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch = "branch"
+            case filePath = "filePath"
+            case repositoryName = "repositoryName"
+            case repositoryProvider = "repositoryProvider"
+            case serviceName = "serviceName"
+        }
+    }
+
+    public struct CreateServiceSyncConfigOutput: AWSDecodableShape {
+        /// The detailed data of the Proton Ops file.
+        public let serviceSyncConfig: ServiceSyncConfig?
+
+        public init(serviceSyncConfig: ServiceSyncConfig? = nil) {
+            self.serviceSyncConfig = serviceSyncConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceSyncConfig = "serviceSyncConfig"
         }
     }
 
@@ -1496,6 +1685,38 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case service = "service"
+        }
+    }
+
+    public struct DeleteServiceSyncConfigInput: AWSEncodableShape {
+        /// The name of the service that you want to delete the service sync configuration for.
+        public let serviceName: String
+
+        public init(serviceName: String) {
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceName = "serviceName"
+        }
+    }
+
+    public struct DeleteServiceSyncConfigOutput: AWSDecodableShape {
+        /// The detailed data for the service sync config.
+        public let serviceSyncConfig: ServiceSyncConfig?
+
+        public init(serviceSyncConfig: ServiceSyncConfig? = nil) {
+            self.serviceSyncConfig = serviceSyncConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceSyncConfig = "serviceSyncConfig"
         }
     }
 
@@ -2358,6 +2579,23 @@ extension Proton {
         }
     }
 
+    public struct GetResourcesSummaryInput: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetResourcesSummaryOutput: AWSDecodableShape {
+        /// Summary counts of each Proton resource type.
+        public let counts: CountsSummary
+
+        public init(counts: CountsSummary) {
+            self.counts = counts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case counts = "counts"
+        }
+    }
+
     public struct GetServiceInput: AWSEncodableShape {
         /// The name of the service that you want to get the detailed data for.
         public let name: String
@@ -2380,7 +2618,7 @@ extension Proton {
     public struct GetServiceInstanceInput: AWSEncodableShape {
         /// The name of a service instance that you want to get the detailed data for.
         public let name: String
-        /// The name of the service that the service instance belongs to.
+        /// The name of the service that you want the service instance input for.
         public let serviceName: String
 
         public init(name: String, serviceName: String) {
@@ -2416,6 +2654,53 @@ extension Proton {
         }
     }
 
+    public struct GetServiceInstanceSyncStatusInput: AWSEncodableShape {
+        /// The name of the service instance that you want the sync status input for.
+        public let serviceInstanceName: String
+        /// The name of the service that the service instance belongs to.
+        public let serviceName: String
+
+        public init(serviceInstanceName: String, serviceName: String) {
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, max: 100)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, min: 1)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
+        }
+    }
+
+    public struct GetServiceInstanceSyncStatusOutput: AWSDecodableShape {
+        /// The service instance sync desired state that's returned by Proton
+        public let desiredState: Revision?
+        /// The detailed data of the latest successful sync with the service instance.
+        public let latestSuccessfulSync: ResourceSyncAttempt?
+        /// The detailed data of the latest sync with the service instance.
+        public let latestSync: ResourceSyncAttempt?
+
+        public init(desiredState: Revision? = nil, latestSuccessfulSync: ResourceSyncAttempt? = nil, latestSync: ResourceSyncAttempt? = nil) {
+            self.desiredState = desiredState
+            self.latestSuccessfulSync = latestSuccessfulSync
+            self.latestSync = latestSync
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredState = "desiredState"
+            case latestSuccessfulSync = "latestSuccessfulSync"
+            case latestSync = "latestSync"
+        }
+    }
+
     public struct GetServiceOutput: AWSDecodableShape {
         /// The detailed data of the requested service.
         public let service: Service?
@@ -2426,6 +2711,77 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case service = "service"
+        }
+    }
+
+    public struct GetServiceSyncBlockerSummaryInput: AWSEncodableShape {
+        /// The name of the service instance that you want to get the service sync blocker summary for. If given bothe the instance name and the service name, only the instance is blocked.
+        public let serviceInstanceName: String?
+        /// The name of the service that you want to get the service sync blocker summary for. If given only the service name, all instances are blocked.
+        public let serviceName: String
+
+        public init(serviceInstanceName: String? = nil, serviceName: String) {
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, max: 100)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, min: 1)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
+        }
+    }
+
+    public struct GetServiceSyncBlockerSummaryOutput: AWSDecodableShape {
+        /// The detailed data of the requested service sync blocker summary.
+        public let serviceSyncBlockerSummary: ServiceSyncBlockerSummary?
+
+        public init(serviceSyncBlockerSummary: ServiceSyncBlockerSummary? = nil) {
+            self.serviceSyncBlockerSummary = serviceSyncBlockerSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceSyncBlockerSummary = "serviceSyncBlockerSummary"
+        }
+    }
+
+    public struct GetServiceSyncConfigInput: AWSEncodableShape {
+        /// The name of the service that you want to get the service sync configuration for.
+        public let serviceName: String
+
+        public init(serviceName: String) {
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceName = "serviceName"
+        }
+    }
+
+    public struct GetServiceSyncConfigOutput: AWSDecodableShape {
+        /// The detailed data of the requested service sync configuration.
+        public let serviceSyncConfig: ServiceSyncConfig?
+
+        public init(serviceSyncConfig: ServiceSyncConfig? = nil) {
+            self.serviceSyncConfig = serviceSyncConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceSyncConfig = "serviceSyncConfig"
         }
     }
 
@@ -3744,19 +4100,23 @@ extension Proton {
     public struct RepositorySummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the linked repository.
         public let arn: String
+        /// The Amazon Resource Name (ARN) of the of your connection that connects Proton to your repository.
+        public let connectionArn: String
         /// The repository name.
         public let name: String
         /// The repository provider.
         public let provider: RepositoryProvider
 
-        public init(arn: String, name: String, provider: RepositoryProvider) {
+        public init(arn: String, connectionArn: String, name: String, provider: RepositoryProvider) {
             self.arn = arn
+            self.connectionArn = connectionArn
             self.name = name
             self.provider = provider
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case connectionArn = "connectionArn"
             case name = "name"
             case provider = "provider"
         }
@@ -3830,6 +4190,35 @@ extension Proton {
             case externalId = "externalId"
             case time = "time"
             case type = "type"
+        }
+    }
+
+    public struct ResourceCountsSummary: AWSDecodableShape {
+        /// The number of resources of this type in the Amazon Web Services account that need a major template version update.
+        public let behindMajor: Int?
+        /// The number of resources of this type in the Amazon Web Services account that need a minor template version update.
+        public let behindMinor: Int?
+        /// The number of resources of this type in the Amazon Web Services account that failed to deploy.
+        public let failed: Int?
+        /// The total number of resources of this type in the Amazon Web Services account.
+        public let total: Int
+        /// The number of resources of this type in the Amazon Web Services account that are up-to-date with their template.
+        public let upToDate: Int?
+
+        public init(behindMajor: Int? = nil, behindMinor: Int? = nil, failed: Int? = nil, total: Int, upToDate: Int? = nil) {
+            self.behindMajor = behindMajor
+            self.behindMinor = behindMinor
+            self.failed = failed
+            self.total = total
+            self.upToDate = upToDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behindMajor = "behindMajor"
+            case behindMinor = "behindMinor"
+            case failed = "failed"
+            case total = "total"
+            case upToDate = "upToDate"
         }
     }
 
@@ -4017,6 +4406,8 @@ extension Proton {
         public let deploymentStatusMessage: String?
         /// The name of the environment that the service instance was deployed into.
         public let environmentName: String
+        /// The last client request token received.
+        public let lastClientRequestToken: String?
         /// The time when a deployment of the service instance was last attempted.
         public let lastDeploymentAttemptedAt: Date
         /// The time when the service instance was last deployed successfully.
@@ -4034,12 +4425,13 @@ extension Proton {
         /// The name of the service template that was used to create the service instance.
         public let templateName: String
 
-        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, environmentName: String, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, serviceName: String, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
+        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, environmentName: String, lastClientRequestToken: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, serviceName: String, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
             self.deploymentStatusMessage = deploymentStatusMessage
             self.environmentName = environmentName
+            self.lastClientRequestToken = lastClientRequestToken
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
             self.name = name
@@ -4056,6 +4448,7 @@ extension Proton {
             case deploymentStatus = "deploymentStatus"
             case deploymentStatusMessage = "deploymentStatusMessage"
             case environmentName = "environmentName"
+            case lastClientRequestToken = "lastClientRequestToken"
             case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
             case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
             case name = "name"
@@ -4211,6 +4604,56 @@ extension Proton {
             case status = "status"
             case statusMessage = "statusMessage"
             case templateName = "templateName"
+        }
+    }
+
+    public struct ServiceSyncBlockerSummary: AWSDecodableShape {
+        /// The latest active blockers for the synced service.
+        public let latestBlockers: [SyncBlocker]?
+        /// The name of the service instance that you want sync your service configuration with.
+        public let serviceInstanceName: String?
+        /// The name of the service that you want to get the sync blocker summary for. If given a service instance name and a service name, it will return the blockers only applying to the instance that is blocked. If given only a service name, it will return the blockers that apply to all of the instances. In order to get the blockers for a single instance, you will need to make two distinct calls, one to get the sync blocker summary for the service and the other to get the sync blocker for the service instance.
+        public let serviceName: String
+
+        public init(latestBlockers: [SyncBlocker]? = nil, serviceInstanceName: String? = nil, serviceName: String) {
+            self.latestBlockers = latestBlockers
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latestBlockers = "latestBlockers"
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
+        }
+    }
+
+    public struct ServiceSyncConfig: AWSDecodableShape {
+        /// The name of the code repository branch that holds the service code Proton will sync with.
+        public let branch: String
+        /// The file path to the service sync configuration file.
+        public let filePath: String
+        /// The name of the code repository that holds the service code Proton will sync with.
+        public let repositoryName: String
+        /// The name of the repository provider that holds the repository Proton will sync with.
+        public let repositoryProvider: RepositoryProvider
+        /// The name of the service that the service instance is added to.
+        public let serviceName: String
+
+        public init(branch: String, filePath: String, repositoryName: String, repositoryProvider: RepositoryProvider, serviceName: String) {
+            self.branch = branch
+            self.filePath = filePath
+            self.repositoryName = repositoryName
+            self.repositoryProvider = repositoryProvider
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch = "branch"
+            case filePath = "filePath"
+            case repositoryName = "repositoryName"
+            case repositoryProvider = "repositoryProvider"
+            case serviceName = "serviceName"
         }
     }
 
@@ -4410,6 +4853,64 @@ extension Proton {
         }
     }
 
+    public struct SyncBlocker: AWSDecodableShape {
+        /// The contexts for the sync blocker.
+        public let contexts: [SyncBlockerContext]?
+        /// The time when the sync blocker was created.
+        public let createdAt: Date
+        /// The reason why the sync blocker was created.
+        public let createdReason: String
+        /// The ID of the sync blocker.
+        public let id: String
+        /// The time the sync blocker was resolved.
+        public let resolvedAt: Date?
+        /// The reason the sync blocker was resolved.
+        public let resolvedReason: String?
+        /// The status of the sync blocker.
+        public let status: BlockerStatus
+        /// The type of the sync blocker.
+        public let type: BlockerType
+
+        public init(contexts: [SyncBlockerContext]? = nil, createdAt: Date, createdReason: String, id: String, resolvedAt: Date? = nil, resolvedReason: String? = nil, status: BlockerStatus, type: BlockerType) {
+            self.contexts = contexts
+            self.createdAt = createdAt
+            self.createdReason = createdReason
+            self.id = id
+            self.resolvedAt = resolvedAt
+            self.resolvedReason = resolvedReason
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contexts = "contexts"
+            case createdAt = "createdAt"
+            case createdReason = "createdReason"
+            case id = "id"
+            case resolvedAt = "resolvedAt"
+            case resolvedReason = "resolvedReason"
+            case status = "status"
+            case type = "type"
+        }
+    }
+
+    public struct SyncBlockerContext: AWSDecodableShape {
+        /// The key for the sync blocker context.
+        public let key: String
+        /// The value of the sync blocker context.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key of the resource tag.
         public let key: String
@@ -4582,6 +5083,8 @@ extension Proton {
     }
 
     public struct UpdateComponentInput: AWSEncodableShape {
+        /// The client token for the updated component.
+        public let clientToken: String?
         /// The deployment type. It defines the mode for updating a component, as follows:     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. You can only specify description in this mode.     CURRENT_VERSION  In this mode, the component is deployed and updated with the new serviceSpec, templateSource, and/or type that you provide. Only requested parameters are updated.
         public let deploymentType: ComponentDeploymentUpdateType
         /// An optional customer-provided description of the component.
@@ -4597,7 +5100,8 @@ extension Proton {
         /// A path to the Infrastructure as Code (IaC) file describing infrastructure that a custom component provisions.  Components support a single IaC file, even if you use Terraform as your template language.
         public let templateFile: String?
 
-        public init(deploymentType: ComponentDeploymentUpdateType, description: String? = nil, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil, templateFile: String? = nil) {
+        public init(clientToken: String? = UpdateComponentInput.idempotencyToken(), deploymentType: ComponentDeploymentUpdateType, description: String? = nil, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil, templateFile: String? = nil) {
+            self.clientToken = clientToken
             self.deploymentType = deploymentType
             self.description = description
             self.name = name
@@ -4608,6 +5112,8 @@ extension Proton {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]*$")
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -4623,6 +5129,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
             case deploymentType = "deploymentType"
             case description = "description"
             case name = "name"
@@ -4918,6 +5425,8 @@ extension Proton {
     }
 
     public struct UpdateServiceInstanceInput: AWSEncodableShape {
+        /// The client token of the service instance to update.
+        public let clientToken: String?
         /// The deployment type. It defines the mode for updating a service instance, as follows:     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the service instance is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment type.     MINOR_VERSION  In this mode, the service instance is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the service instance is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can specify a different major version that's higher than the major version in use and a minor version.
         public let deploymentType: DeploymentUpdateType
         /// The name of the service instance to update.
@@ -4931,7 +5440,8 @@ extension Proton {
         /// The minor version of the service template to update.
         public let templateMinorVersion: String?
 
-        public init(deploymentType: DeploymentUpdateType, name: String, serviceName: String, spec: String? = nil, templateMajorVersion: String? = nil, templateMinorVersion: String? = nil) {
+        public init(clientToken: String? = UpdateServiceInstanceInput.idempotencyToken(), deploymentType: DeploymentUpdateType, name: String, serviceName: String, spec: String? = nil, templateMajorVersion: String? = nil, templateMinorVersion: String? = nil) {
+            self.clientToken = clientToken
             self.deploymentType = deploymentType
             self.name = name
             self.serviceName = serviceName
@@ -4941,6 +5451,8 @@ extension Proton {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]*$")
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
@@ -4958,6 +5470,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
             case deploymentType = "deploymentType"
             case name = "name"
             case serviceName = "serviceName"
@@ -5046,6 +5559,99 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case pipeline = "pipeline"
+        }
+    }
+
+    public struct UpdateServiceSyncBlockerInput: AWSEncodableShape {
+        /// The ID of the service sync blocker.
+        public let id: String
+        /// The reason the service sync blocker was resolved.
+        public let resolvedReason: String
+
+        public init(id: String, resolvedReason: String) {
+            self.id = id
+            self.resolvedReason = resolvedReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case resolvedReason = "resolvedReason"
+        }
+    }
+
+    public struct UpdateServiceSyncBlockerOutput: AWSDecodableShape {
+        /// The name of the service instance that you want to update the service sync blocker for.
+        public let serviceInstanceName: String?
+        /// The name of the service that you want to update the service sync blocker for.
+        public let serviceName: String
+        /// The detailed data on the service sync blocker that was updated.
+        public let serviceSyncBlocker: SyncBlocker
+
+        public init(serviceInstanceName: String? = nil, serviceName: String, serviceSyncBlocker: SyncBlocker) {
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+            self.serviceSyncBlocker = serviceSyncBlocker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
+            case serviceSyncBlocker = "serviceSyncBlocker"
+        }
+    }
+
+    public struct UpdateServiceSyncConfigInput: AWSEncodableShape {
+        /// The name of the code repository branch where the Proton Ops file is found.
+        public let branch: String
+        /// The path to the Proton Ops file.
+        public let filePath: String
+        /// The name of the repository where the Proton Ops file is found.
+        public let repositoryName: String
+        /// The name of the repository provider where the Proton Ops file is found.
+        public let repositoryProvider: RepositoryProvider
+        /// The name of the service the Proton Ops file is for.
+        public let serviceName: String
+
+        public init(branch: String, filePath: String, repositoryName: String, repositoryProvider: RepositoryProvider, serviceName: String) {
+            self.branch = branch
+            self.filePath = filePath
+            self.repositoryName = repositoryName
+            self.repositoryProvider = repositoryProvider
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.branch, name: "branch", parent: name, max: 200)
+            try self.validate(self.branch, name: "branch", parent: name, min: 1)
+            try self.validate(self.filePath, name: "filePath", parent: name, max: 4096)
+            try self.validate(self.filePath, name: "filePath", parent: name, min: 1)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[A-Za-z0-9_.-].*/[A-Za-z0-9_.-].*")
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch = "branch"
+            case filePath = "filePath"
+            case repositoryName = "repositoryName"
+            case repositoryProvider = "repositoryProvider"
+            case serviceName = "serviceName"
+        }
+    }
+
+    public struct UpdateServiceSyncConfigOutput: AWSDecodableShape {
+        /// The detailed data of the Proton Ops file.
+        public let serviceSyncConfig: ServiceSyncConfig?
+
+        public init(serviceSyncConfig: ServiceSyncConfig? = nil) {
+            self.serviceSyncConfig = serviceSyncConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceSyncConfig = "serviceSyncConfig"
         }
     }
 

@@ -651,6 +651,10 @@ extension DataExchange {
             self.revisionId = revisionId
         }
 
+        public func validate(name: String) throws {
+            try self.assetSource.validate(name: "\(name).assetSource")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assetSource = "AssetSource"
             case dataSetId = "DataSetId"
@@ -1812,6 +1816,24 @@ extension DataExchange {
         }
     }
 
+    public struct KmsKeyToGrant: AWSEncodableShape & AWSDecodableShape {
+        /// The AWS KMS CMK (Key Management System Customer Managed Key) used to encrypt S3 objects in the shared S3 Bucket. AWS Data exchange will create a KMS grant for each subscriber to allow them to access and decrypt their entitled data that is encrypted using this KMS key specified.
+        public let kmsKeyArn: String
+
+        public init(kmsKeyArn: String) {
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
+        }
+    }
+
     public struct LFResourceDetails: AWSDecodableShape {
         /// Details about the database resource included in the AWS Lake Formation data permission.
         public let database: DatabaseLFTagPolicy?
@@ -1926,7 +1948,7 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -1971,7 +1993,7 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -2016,7 +2038,7 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -2065,7 +2087,7 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -2114,7 +2136,7 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -2238,6 +2260,7 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
+            try self.createS3DataAccessFromS3Bucket?.validate(name: "\(name).createS3DataAccessFromS3Bucket")
             try self.importAssetFromApiGatewayApi?.validate(name: "\(name).importAssetFromApiGatewayApi")
             try self.importAssetFromSignedUrl?.validate(name: "\(name).importAssetFromSignedUrl")
             try self.importAssetsFromLakeFormationTagPolicy?.validate(name: "\(name).importAssetsFromLakeFormationTagPolicy")
@@ -2483,15 +2506,18 @@ extension DataExchange {
         public let keyPrefixes: [String]?
         /// S3 keys made available using this asset.
         public let keys: [String]?
+        ///  List of AWS KMS CMKs (Key Management System Customer Managed Keys) and ARNs used to encrypt S3 objects being shared in this S3 Data Access asset. Providers must include all AWS KMS keys used to encrypt these shared S3 objects.
+        public let kmsKeysToGrant: [KmsKeyToGrant]?
         /// The automatically-generated bucket-style alias for your Amazon S3 Access Point. Customers can access their entitled data using the S3 Access Point alias.
         public let s3AccessPointAlias: String?
         /// The ARN for your Amazon S3 Access Point. Customers can also access their entitled data using the S3 Access Point ARN.
         public let s3AccessPointArn: String?
 
-        public init(bucket: String, keyPrefixes: [String]? = nil, keys: [String]? = nil, s3AccessPointAlias: String? = nil, s3AccessPointArn: String? = nil) {
+        public init(bucket: String, keyPrefixes: [String]? = nil, keys: [String]? = nil, kmsKeysToGrant: [KmsKeyToGrant]? = nil, s3AccessPointAlias: String? = nil, s3AccessPointArn: String? = nil) {
             self.bucket = bucket
             self.keyPrefixes = keyPrefixes
             self.keys = keys
+            self.kmsKeysToGrant = kmsKeysToGrant
             self.s3AccessPointAlias = s3AccessPointAlias
             self.s3AccessPointArn = s3AccessPointArn
         }
@@ -2500,6 +2526,7 @@ extension DataExchange {
             case bucket = "Bucket"
             case keyPrefixes = "KeyPrefixes"
             case keys = "Keys"
+            case kmsKeysToGrant = "KmsKeysToGrant"
             case s3AccessPointAlias = "S3AccessPointAlias"
             case s3AccessPointArn = "S3AccessPointArn"
         }
@@ -2512,17 +2539,29 @@ extension DataExchange {
         public let keyPrefixes: [String]?
         /// The keys used to create the Amazon S3 data access.
         public let keys: [String]?
+        /// List of AWS KMS CMKs (Key Management System Customer Managed Keys) and ARNs used to encrypt S3 objects being shared in this S3 Data Access asset.
+        public let kmsKeysToGrant: [KmsKeyToGrant]?
 
-        public init(bucket: String, keyPrefixes: [String]? = nil, keys: [String]? = nil) {
+        public init(bucket: String, keyPrefixes: [String]? = nil, keys: [String]? = nil, kmsKeysToGrant: [KmsKeyToGrant]? = nil) {
             self.bucket = bucket
             self.keyPrefixes = keyPrefixes
             self.keys = keys
+            self.kmsKeysToGrant = kmsKeysToGrant
+        }
+
+        public func validate(name: String) throws {
+            try self.kmsKeysToGrant?.forEach {
+                try $0.validate(name: "\(name).kmsKeysToGrant[]")
+            }
+            try self.validate(self.kmsKeysToGrant, name: "kmsKeysToGrant", parent: name, max: 10)
+            try self.validate(self.kmsKeysToGrant, name: "kmsKeysToGrant", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case keyPrefixes = "KeyPrefixes"
             case keys = "Keys"
+            case kmsKeysToGrant = "KmsKeysToGrant"
         }
     }
 

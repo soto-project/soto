@@ -330,6 +330,7 @@ extension ECS {
         case awsvpcTrunking = "awsvpcTrunking"
         case containerInsights = "containerInsights"
         case containerInstanceLongArnFormat = "containerInstanceLongArnFormat"
+        case fargateFipsMode = "fargateFIPSMode"
         case serviceLongArnFormat = "serviceLongArnFormat"
         case taskLongArnFormat = "taskLongArnFormat"
         public var description: String { return self.rawValue }
@@ -371,6 +372,7 @@ extension ECS {
 
     public enum TaskDefinitionStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
@@ -507,12 +509,12 @@ extension ECS {
         public let managedScaling: ManagedScaling?
         /// The managed termination protection setting to use for the Auto Scaling group capacity
         /// 			provider. This determines whether the Auto Scaling group has managed termination
-        /// 			protection. The default is disabled.  When using managed termination protection, managed scaling must also be used
-        /// 				otherwise managed termination protection doesn't work.  When managed termination protection is enabled, Amazon ECS prevents the Amazon EC2 instances in
-        /// 			an Auto Scaling group that contain tasks from being terminated during a scale-in action.
-        /// 			The Auto Scaling group and each instance in the Auto Scaling group must have instance
-        /// 			protection from scale-in actions enabled as well. For more information, see Instance Protection in the Auto Scaling User Guide. When managed termination protection is disabled, your Amazon EC2 instances aren't protected
-        /// 			from termination when the Auto Scaling group scales in.
+        /// 			protection. The default is off.  When using managed termination protection, managed scaling must also be used
+        /// 				otherwise managed termination protection doesn't work.  When managed termination protection is on, Amazon ECS prevents the Amazon EC2 instances in an Auto
+        /// 			Scaling group that contain tasks from being terminated during a scale-in action. The
+        /// 			Auto Scaling group and each instance in the Auto Scaling group must have instance
+        /// 			protection from scale-in actions on as well. For more information, see Instance Protection in the Auto Scaling User Guide. When managed termination protection is off, your Amazon EC2 instances aren't protected from
+        /// 			termination when the Auto Scaling group scales in.
         public let managedTerminationProtection: ManagedTerminationProtection?
 
         public init(autoScalingGroupArn: String, managedScaling: ManagedScaling? = nil, managedTerminationProtection: ManagedTerminationProtection? = nil) {
@@ -538,11 +540,11 @@ extension ECS {
         /// The managed termination protection setting to use for the Auto Scaling group capacity
         /// 			provider. This determines whether the Auto Scaling group has managed termination
         /// 			protection.  When using managed termination protection, managed scaling must also be used
-        /// 				otherwise managed termination protection doesn't work.  When managed termination protection is enabled, Amazon ECS prevents the Amazon EC2 instances in
-        /// 			an Auto Scaling group that contain tasks from being terminated during a scale-in action.
-        /// 			The Auto Scaling group and each instance in the Auto Scaling group must have instance
-        /// 			protection from scale-in actions enabled. For more information, see Instance Protection in the Auto Scaling User Guide. When managed termination protection is disabled, your Amazon EC2 instances aren't protected
-        /// 			from termination when the Auto Scaling group scales in.
+        /// 				otherwise managed termination protection doesn't work.  When managed termination protection is on, Amazon ECS prevents the Amazon EC2 instances in an Auto
+        /// 			Scaling group that contain tasks from being terminated during a scale-in action. The
+        /// 			Auto Scaling group and each instance in the Auto Scaling group must have instance
+        /// 			protection from scale-in actions on. For more information, see Instance Protection in the Auto Scaling User Guide. When managed termination protection is off, your Amazon EC2 instances aren't protected from
+        /// 			termination when the Auto Scaling group scales in.
         public let managedTerminationProtection: ManagedTerminationProtection?
 
         public init(managedScaling: ManagedScaling? = nil, managedTerminationProtection: ManagedTerminationProtection? = nil) {
@@ -720,8 +722,8 @@ extension ECS {
         /// 	Only the tasks that Amazon ECS services create are supported with Service Connect.
         /// 	For more information, see Service Connect in the Amazon Elastic Container Service Developer Guide.
         public let serviceConnectDefaults: ClusterServiceConnectDefaults?
-        /// The settings for the cluster. This parameter indicates whether CloudWatch Container Insights
-        /// 			is enabled or disabled for a cluster.
+        /// The settings for the cluster. This parameter indicates whether CloudWatch Container Insights is on
+        /// 			or off for a cluster.
         public let settings: [ClusterSetting]?
         /// Additional information about your clusters that are separated by launch type. They
         /// 			include the following:   runningEC2TasksCount   RunningFargateTasksCount   pendingEC2TasksCount   pendingFargateTasksCount   activeEC2ServiceCount   activeFargateServiceCount   drainingEC2ServiceCount   drainingFargateServiceCount
@@ -831,15 +833,14 @@ extension ECS {
     }
 
     public struct ClusterSetting: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the cluster setting. The only supported value is
-        /// 				containerInsights.
+        /// The name of the cluster setting. The value is containerInsights .
         public let name: ClusterSettingName?
-        /// The value to set for the cluster setting. The supported values are
-        /// 				enabled and disabled. If enabled is
-        /// 			specified, CloudWatch Container Insights will be enabled for the cluster, otherwise it will be
-        /// 			disabled unless the containerInsights account setting is enabled. If a
-        /// 			cluster value is specified, it will override the containerInsights value
-        /// 			set with PutAccountSetting or PutAccountSettingDefault.
+        /// The value to set for the cluster setting. The supported values are enabled and
+        /// 				disabled.  If you set name to  containerInsights and value
+        /// 			to enabled, CloudWatch Container Insights will be on for the cluster, otherwise
+        /// 			it will be off unless the containerInsights account setting is turned on.
+        /// 			If a cluster value is specified, it will override the containerInsights
+        /// 			value set with PutAccountSetting or PutAccountSettingDefault.
         public let value: String?
 
         public init(name: ClusterSettingName? = nil, value: String? = nil) {
@@ -987,9 +988,9 @@ extension ECS {
         /// 			in the Amazon Elastic Container Service Developer Guide. For tasks using the Fargate launch type, the task or service requires
         /// 			the following platforms:   Linux platform version 1.3.0 or later.   Windows platform version 1.0.0 or later.
         public let dependsOn: [ContainerDependency]?
-        /// When this parameter is true, networking is disabled within the container. This
-        /// 			parameter maps to NetworkDisabled in the Create a container
-        /// 			section of the Docker Remote API.  This parameter is not supported for Windows containers.
+        /// When this parameter is true, networking is off within the container. This parameter maps to
+        /// 				NetworkDisabled in the Create a container section of
+        /// 			the Docker Remote API.  This parameter is not supported for Windows containers.
         public let disableNetworking: Bool?
         /// A list of DNS search domains that are presented to the container. This parameter maps
         /// 			to DnsSearch in the Create a container section of the
@@ -1003,12 +1004,16 @@ extension ECS {
         /// 				Labels in the Create a container section of the
         /// 			Docker Remote API and the --label option to docker run. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
         public let dockerLabels: [String: String]?
-        /// A list of strings to provide custom labels for SELinux and AppArmor multi-level
-        /// 			security systems. This field isn't valid for containers in tasks using the
-        /// 			Fargate launch type. With Windows containers, this parameter can be used to reference a credential spec
-        /// 			file when configuring a container for Active Directory authentication. For more
+        /// A list of strings to provide custom configuration for multiple
+        /// 			security systems. For more information about valid values, see Docker Run Security Configuration. This field isn't valid
+        /// 			for containers in tasks using the Fargate launch
+        /// 			type. For Linux tasks on EC2, this parameter can be used to reference custom
+        /// 			labels for SELinux and AppArmor multi-level security systems. For any tasks on EC2, this parameter can be used to reference a
+        /// 			credential spec file that configures a container for Active Directory
+        /// 			authentication. For more
         /// 			information, see Using gMSAs for Windows
-        /// 				Containers in the Amazon Elastic Container Service Developer Guide. This parameter maps to SecurityOpt in the
+        /// 				Containers and Using gMSAs for Linux
+        /// 					Containers in the Amazon Elastic Container Service Developer Guide. This parameter maps to SecurityOpt in the
         /// 			Create a container section of the Docker Remote API and the
         /// 				--security-opt option to docker
         /// 				run.  The Amazon ECS container agent running on a container instance must register with the
@@ -1282,7 +1287,7 @@ extension ECS {
         /// 							the nofile resource limit parameter which Fargate
         /// 							overrides. The nofile resource limit sets a restriction on
         /// 							the number of open files that a container can use. The default
-        /// 								nofile soft limit is 1024 and hard limit
+        /// 								nofile soft limit is 1024 and the default hard limit
         /// 							is 4096. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'   This parameter is not supported for Windows containers.
         public let ulimits: [Ulimit]?
         /// The user to use inside the container. This parameter maps to User in the
@@ -1706,7 +1711,7 @@ extension ECS {
         /// 			operation. To use a Fargate capacity provider, specify either the FARGATE or
         /// 				FARGATE_SPOT capacity providers. The Fargate capacity providers are
         /// 			available to all accounts and only need to be associated with a cluster to be
-        /// 			used. The PutClusterCapacityProviders API operation is used to update the
+        /// 			used. The PutCapacityProvider API operation is used to update the
         /// 			list of available capacity providers for a cluster after the cluster is created.
         public let capacityProviders: [String]?
         /// The name of your cluster. If you don't specify a name for your cluster, you create a
@@ -1715,7 +1720,7 @@ extension ECS {
         /// The execute command configuration for the cluster.
         public let configuration: ClusterConfiguration?
         /// The capacity provider strategy to set as the default for the cluster. After a default
-        /// 			capacity provider strategy is set for a cluster, when you call the RunTask or CreateService APIs with no capacity
+        /// 			capacity provider strategy is set for a cluster, when you call the CreateService or RunTask APIs with no capacity
         /// 			provider strategy or launch type specified, the default capacity provider strategy for
         /// 			the cluster is used. If a default capacity provider strategy isn't defined for a cluster when it was
         /// 			created, it can be defined later with the PutClusterCapacityProviders
@@ -1813,7 +1818,7 @@ extension ECS {
         /// 			more information, see Tagging your Amazon ECS
         /// 				resources in the Amazon Elastic Container Service Developer Guide.
         public let enableECSManagedTags: Bool?
-        /// Determines whether the execute command functionality is enabled for the service. If
+        /// Determines whether the execute command functionality is turned on for the service. If
         /// 				true, this enables execute command functionality on all containers in
         /// 			the service tasks.
         public let enableExecuteCommand: Bool?
@@ -1949,7 +1954,7 @@ extension ECS {
         /// The family and revision (family:revision) or
         /// 			full ARN of the task definition to run in your service. If a revision
         /// 			isn't specified, the latest ACTIVE revision is used. A task definition must be specified if the service uses either the ECS or
-        /// 				CODE_DEPLOY deployment controllers.
+        /// 				CODE_DEPLOY deployment controllers. For more information about deployment types, see Amazon ECS deployment types.
         public let taskDefinition: String?
 
         public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clientToken: String? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, role: String? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceName: String, serviceRegistries: [ServiceRegistry]? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil) {
@@ -2160,9 +2165,8 @@ extension ECS {
         /// 				awsvpcTrunking is specified, the ENI limit for your Amazon ECS container
         /// 			instances is affected.
         public let name: SettingName
-        /// The Amazon Resource Name (ARN) of the principal. It can be an IAM user, IAM role, or
-        /// 			the root user. If you specify the root user, it disables the account setting for all IAM
-        /// 			users, IAM roles, and the root user of the account unless an IAM user or role explicitly
+        /// The Amazon Resource Name (ARN) of the principal. It can be an user, role, or
+        /// 			the root user. If you specify the root user, it disables the account setting for all users, roles, and the root user of the account unless a user or role explicitly
         /// 			overrides these settings. If this field is omitted, the setting is changed only for the
         /// 			authenticated user.
         public let principalArn: String?
@@ -2314,6 +2318,38 @@ extension ECS {
         }
     }
 
+    public struct DeleteTaskDefinitionsRequest: AWSEncodableShape {
+        /// The family and revision (family:revision) or
+        /// 			full Amazon Resource Name (ARN) of the task definition to delete. You must specify a
+        /// 				revision. You can specify up to 10 task definitions as a comma separated list.
+        public let taskDefinitions: [String]
+
+        public init(taskDefinitions: [String]) {
+            self.taskDefinitions = taskDefinitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskDefinitions = "taskDefinitions"
+        }
+    }
+
+    public struct DeleteTaskDefinitionsResponse: AWSDecodableShape {
+        /// Any failures associated with the call.
+        public let failures: [Failure]?
+        /// The list of deleted task definitions.
+        public let taskDefinitions: [TaskDefinition]?
+
+        public init(failures: [Failure]? = nil, taskDefinitions: [TaskDefinition]? = nil) {
+            self.failures = failures
+            self.taskDefinitions = taskDefinitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failures = "failures"
+            case taskDefinitions = "taskDefinitions"
+        }
+    }
+
     public struct DeleteTaskSetRequest: AWSEncodableShape {
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task
         /// 			set found in to delete.
@@ -2393,7 +2429,7 @@ extension ECS {
         /// 				Classic Load Balancer.  The rollout state of the deployment. When a service deployment is started, it begins
         /// 			in an IN_PROGRESS state. When the service reaches a steady state, the
         /// 			deployment transitions to a COMPLETED state. If the service fails to reach
-        /// 			a steady state and circuit breaker is enabled, the deployment transitions to a
+        /// 			a steady state and circuit breaker is turned on, the deployment transitions to a
         /// 				FAILED state. A deployment in FAILED state doesn't launch
         /// 			any new tasks. For more information, see DeploymentCircuitBreaker.
         public let rolloutState: DeploymentRolloutState?
@@ -2514,10 +2550,12 @@ extension ECS {
         public let alarms: DeploymentAlarms?
         ///  The deployment circuit breaker can only be used for services using the rolling
         /// 				update (ECS) deployment type.  The deployment circuit breaker determines whether a
-        /// 			service deployment will fail if the service can't reach a steady state. If deployment
-        /// 			circuit breaker is enabled, a service deployment will transition to a failed state and
-        /// 			stop launching new tasks. If rollback is enabled, when a service deployment fails, the
-        /// 			service is rolled back to the last deployment that completed successfully.
+        /// 			service deployment will fail if the service can't reach a steady state. If you use the deployment
+        /// 			circuit breaker, a service deployment will transition to a failed state and
+        /// 			stop launching new tasks. If  you use the rollback option, when a service deployment fails, the
+        /// 			service is rolled back to the last deployment that completed successfully. For more information, see Rolling
+        /// 				update in the Amazon Elastic Container Service Developer
+        /// 					Guide
         public let deploymentCircuitBreaker: DeploymentCircuitBreaker?
         /// If a service is using the rolling update (ECS) deployment type, the
         /// 				maximumPercent parameter represents an upper limit on the number of
@@ -3120,12 +3158,12 @@ extension ECS {
         /// The Amazon EFS access point ID to use. If an access point is specified, the root directory
         /// 			value specified in the EFSVolumeConfiguration must either be omitted or set
         /// 			to / which will enforce the path set on the EFS access point. If an access
-        /// 			point is used, transit encryption must be enabled in the
+        /// 			point is used, transit encryption must be on in the
         /// 				EFSVolumeConfiguration. For more information, see Working with Amazon
         /// 				EFS access points in the Amazon Elastic File System User Guide.
         public let accessPointId: String?
-        /// Determines whether to use the Amazon ECS task IAM role defined in a task definition when
-        /// 			mounting the Amazon EFS file system. If enabled, transit encryption must be enabled in the
+        /// Determines whether to use the Amazon ECS task role defined in a task definition when
+        /// 			mounting the Amazon EFS file system. If it is turned on, transit encryption must be turned on in the
         /// 				EFSVolumeConfiguration. If this parameter is omitted, the default value
         /// 			of DISABLED is used. For more information, see Using
         /// 				Amazon EFS access points in the Amazon Elastic Container Service Developer Guide.
@@ -3154,7 +3192,7 @@ extension ECS {
         /// 				enforce the path set on the EFS access point.
         public let rootDirectory: String?
         /// Determines whether to use encryption for Amazon EFS data in transit between the Amazon ECS host
-        /// 			and the Amazon EFS server. Transit encryption must be enabled if Amazon EFS IAM authorization is
+        /// 			and the Amazon EFS server. Transit encryption must be turned on if Amazon EFS IAM authorization is
         /// 			used. If this parameter is omitted, the default value of DISABLED is used.
         /// 			For more information, see Encrypting data in transit in
         /// 			the Amazon Elastic File System User Guide.
@@ -3246,8 +3284,8 @@ extension ECS {
     }
 
     public struct ExecuteCommandLogConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Determines whether to use encryption on the CloudWatch logs. If not specified,
-        /// 			encryption will be disabled.
+        /// Determines whether to use encryption on the CloudWatch logs. If not specified, encryption
+        /// 			will be off.
         public let cloudWatchEncryptionEnabled: Bool?
         /// The name of the CloudWatch log group to send logs to.  The CloudWatch log group must already be created.
         public let cloudWatchLogGroupName: String?
@@ -3454,7 +3492,7 @@ extension ECS {
         /// Any failures associated with the call.
         public let failures: [Failure]?
         /// A list of tasks with the following information.    taskArn: The task ARN.    protectionEnabled: The protection status of the task. If scale-in
-        /// 					protection is enabled for a task, the value is true. Otherwise, it
+        /// 					protection is turned on for a task, the value is true. Otherwise, it
         /// 					is false.    expirationDate: The epoch time when protection for the task will
         /// 					expire.
         public let protectedTasks: [ProtectedTask]?
@@ -3474,8 +3512,8 @@ extension ECS {
         /// A string array representing the command that the container runs to determine if it is
         /// 			healthy. The string array must start with CMD to run the command arguments
         /// 			directly, or CMD-SHELL to run the command with the container's default
-        /// 			shell.  When you use the Amazon Web Services Management Console JSON panel, the Command Line Interface, or the APIs, enclose the list
-        /// 			of commands in brackets.  [ "CMD-SHELL", "curl -f http://localhost/ || exit 1" ]  You don't need to include the brackets when you use the Amazon Web Services Management Console.  "CMD-SHELL", "curl -f http://localhost/ || exit 1"   An exit code of 0 indicates success, and non-zero exit code indicates failure. For
+        /// 			shell.  When you use the Amazon Web Services Management Console JSON panel, the Command Line Interface, or the APIs, enclose the list of
+        /// 			commands in double quotes and brackets.  [ "CMD-SHELL", "curl -f http://localhost/ || exit 1" ]  You don't include the double quotes and brackets when you use the Amazon Web Services Management Console.  CMD-SHELL, curl -f http://localhost/ || exit 1  An exit code of 0 indicates success, and non-zero exit code indicates failure. For
         /// 			more information, see HealthCheck in the Create a container
         /// 			section of the Docker Remote API.
         public let command: [String]
@@ -3487,7 +3525,7 @@ extension ECS {
         public let retries: Int?
         /// The optional grace period to provide containers time to bootstrap before failed health
         /// 			checks count towards the maximum number of retries. You can specify between 0 and 300
-        /// 			seconds. By default, the startPeriod is disabled.  If a health check succeeds within the startPeriod, then the container
+        /// 			seconds. By default, the startPeriod is off.  If a health check succeeds within the startPeriod, then the container
         /// 				is considered healthy and any subsequent failures count toward the maximum number of
         /// 				retries.
         public let startPeriod: Int?
@@ -3761,7 +3799,7 @@ extension ECS {
         /// 			calls will be needed. If maxResults was provided, it's possible the number
         /// 			of results to be fewer than maxResults.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
-        /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. If
+        /// The ARN of the principal, which can be a user, role, or the root user. If
         /// 			this field is omitted, the account settings are listed only for the authenticated
         /// 			user.  Federated users assume the account setting of the root user and can't have
         /// 				explicit account settings set for them.
@@ -4467,7 +4505,7 @@ extension ECS {
         public let lastStartedAt: Date?
         /// The last known status of the managed agent.
         public let lastStatus: String?
-        /// The name of the managed agent. When the execute command feature is enabled, the
+        /// The name of the managed agent. When the execute command feature is turned on, the
         /// 			managed agent name is ExecuteCommandAgent.
         public let name: ManagedAgentName?
         /// The reason for why the managed agent is in the state it is in.
@@ -4532,9 +4570,12 @@ extension ECS {
         public let minimumScalingStepSize: Int?
         /// Determines whether to use managed scaling for the capacity provider.
         public let status: ManagedScalingStatus?
-        /// The target capacity value for the capacity provider. The specified value must be
-        /// 			greater than 0 and less than or equal to 100. A value of
-        /// 				100 results in the Amazon EC2 instances in your Auto Scaling group being
+        /// The target capacity utilization as a percentage for the capacity provider. The
+        /// 			specified value must be greater than 0 and less than or equal to
+        /// 				100. For example, if you want the capacity provider to maintain 10%
+        /// 			spare capacity, then that means the utilization is 90%, so use a
+        /// 				targetCapacity of 90. The default value of
+        /// 				100 percent results in the Amazon EC2 instances in your Auto Scaling group being
         /// 			completely used.
         public let targetCapacity: Int?
 
@@ -4595,7 +4636,8 @@ extension ECS {
         public let bindIP: String?
         /// The port number on the container that's used with the network binding.
         public let containerPort: Int?
-        /// The port number range on the container that's bound to the dynamically mapped host port range. The following rules apply when you specify a containerPortRange:   You must use either the bridge network mode or the awsvpc
+        /// The port number range on the container that's bound to the dynamically mapped host port
+        /// 			range. The following rules apply when you specify a containerPortRange:   You must use either the bridge network mode or the awsvpc
         /// 					network mode.   This parameter is available for both the EC2 and Fargate launch types.   This parameter is available for both the Linux and Windows operating systems.   The container instance must have at least version 1.67.0 of the container agent
         /// 					and at least version 1.67.0-1 of the ecs-init package    You can specify a maximum of 100 port ranges per container.   You do not specify a hostPortRange. The value of the hostPortRange is set
         /// 					as follows:   For containers in a task with the awsvpc network mode,
@@ -4758,7 +4800,8 @@ extension ECS {
         /// 			Port mappings that are automatically assigned in this way do not count toward the 100
         /// 			reserved ports limit of a container instance.
         public let containerPort: Int?
-        /// The port number range on the container that's bound to the dynamically mapped host port range. The following rules apply when you specify a containerPortRange:   You must use either the bridge network mode or the awsvpc
+        /// The port number range on the container that's bound to the dynamically mapped host port
+        /// 			range.  The following rules apply when you specify a containerPortRange:   You must use either the bridge network mode or the awsvpc
         /// 					network mode.   This parameter is available for both the EC2 and Fargate launch types.   This parameter is available for both the Linux and Windows operating systems.   The container instance must have at least version 1.67.0 of the container agent
         /// 					and at least version 1.67.0-1 of the ecs-init package    You can specify a maximum of 100 port ranges per container.   You do not specify a hostPortRange. The value of the hostPortRange is set
         /// 					as follows:   For containers in a task with the awsvpc network mode,
@@ -4771,9 +4814,9 @@ extension ECS {
         /// The port number on the container instance to reserve for your container. If you specify a containerPortRange, leave this field empty and the value of
         /// 			the hostPort is set as follows:   For containers in a task with the awsvpc network mode, the
         /// 						hostPort is set to the same value as the
-        /// 						containerPort. This is a static mapping strategy.   For containers in a task with the bridge network mode, the Amazon ECS
-        /// 					agent finds open ports on the host and automaticaly binds them to the container
-        /// 					ports. This is a dynamic mapping strategy.   If you use containers in a task with the awsvpc or host
+        /// 						containerPort. This is a static mapping strategy.   For containers in a task with the bridge network mode, the Amazon ECS agent finds
+        /// 					open ports on the host and automatically binds them to the container ports. This
+        /// 					is a dynamic mapping strategy.   If you use containers in a task with the awsvpc or host
         /// 			network mode, the hostPort can either be left blank or set to the same
         /// 			value as the containerPort. If you use containers in a task with the bridge network mode, you can
         /// 			specify a non-reserved host port for your container port mapping, or you can omit the
@@ -4789,7 +4832,7 @@ extension ECS {
         /// 			Amazon ECS container agent ports 51678-51680. Any host port that was previously specified in
         /// 			a running task is also reserved while the task is running. That is, after a task stops,
         /// 			the host port is released. The current reserved ports are displayed in the
-        /// 				remainingResources of DescribeContainerInstances
+        /// 			remainingResources of DescribeContainerInstances
         /// 			output. A container instance can have up to 100 reserved ports at a time. This number
         /// 			includes the default reserved ports. Automatically assigned ports aren't included in the
         /// 			100 reserved ports quota.
@@ -4826,7 +4869,7 @@ extension ECS {
     public struct ProtectedTask: AWSDecodableShape {
         /// The epoch time when protection for the task will expire.
         public let expirationDate: Date?
-        /// The protection status of the task. If scale-in protection is enabled for a task, the
+        /// The protection status of the task. If scale-in protection is on for a task, the
         /// 			value is true. Otherwise, it is false.
         public let protectionEnabled: Bool?
         /// The task ARN.
@@ -4889,10 +4932,11 @@ extension ECS {
         /// 			specified, the ARN and resource ID for your Amazon ECS container instances is affected. If
         /// 				awsvpcTrunking is specified, the ENI limit for your Amazon ECS container
         /// 			instances is affected. If containerInsights is specified, the default
-        /// 			setting for CloudWatch Container Insights for your clusters is affected. Fargate is transitioning from task count-based quotas to vCPU-based quotas. You can
-        /// 			set the name to fargateVCPULimit to opt in or opt out of the vCPU-based
-        /// 			quotas. For information about the opt in timeline, see Fargate vCPU-based quotas timeline in the
-        /// 				Amazon ECS Developer Guide.
+        /// 			setting for Amazon Web Services CloudWatch Container Insights for your clusters is affected.  When you specify fargateFIPSMode for the name and
+        /// 				enabled for the value, Fargate uses FIPS-140 compliant
+        /// 			cryptographic algorithms on your tasks. For more information about FIPS-140 compliance
+        /// 			with Fargate, see  Amazon Web Services Fargate Federal Information Processing Standard (FIPS) 140-2
+        /// 				compliance in the Amazon Elastic Container Service Developer Guide.
         public let name: SettingName
         /// The account setting value for the specified principal ARN. Accepted values are
         /// 				enabled and disabled.
@@ -4930,12 +4974,13 @@ extension ECS {
         /// 			specified, the ARN and resource ID for your Amazon ECS container instances is affected. If
         /// 				awsvpcTrunking is specified, the elastic network interface (ENI) limit
         /// 			for your Amazon ECS container instances is affected. If containerInsights is
-        /// 			specified, the default setting for CloudWatch Container Insights for your clusters is
+        /// 			specified, the default setting for Amazon Web Services CloudWatch Container Insights for your clusters is
+        /// 			affected. If fargateFIPSMode is specified, Fargate FIPS 140 compliance is
         /// 			affected.
         public let name: SettingName
-        /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. If
-        /// 			you specify the root user, it modifies the account setting for all IAM users, IAM roles,
-        /// 			and the root user of the account unless an IAM user or role explicitly overrides these
+        /// The ARN of the principal, which can be a user, role, or the root user. If
+        /// 			you specify the root user, it modifies the account setting for all users, roles,
+        /// 			and the root user of the account unless a user or role explicitly overrides these
         /// 			settings. If this field is omitted, the setting is changed only for the authenticated
         /// 			user.  Federated users assume the account setting of the root user and can't have
         /// 				explicit account settings set for them.
@@ -5151,8 +5196,8 @@ extension ECS {
         /// The amount of ephemeral storage to allocate for the task. This parameter is used to
         /// 			expand the total amount of ephemeral storage available, beyond the default amount, for
         /// 			tasks hosted on Fargate. For more information, see Fargate task
-        /// 				storage in the Amazon ECS User Guide for Fargate.  This parameter is only supported for tasks hosted on Fargate using
-        /// 				the following platform versions:   Linux platform version 1.4.0 or later.
+        /// 				storage in the Amazon ECS User Guide for Fargate.  For tasks using the Fargate launch type, the task requires
+        /// 				the following platforms:   Linux platform version 1.4.0 or later.
         public let ephemeralStorage: EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. The task execution IAM role is required depending on the requirements of your task. For more information, see Amazon ECS task execution IAM role in the Amazon Elastic Container Service Developer Guide.
         public let executionRoleArn: String?
@@ -5437,9 +5482,9 @@ extension ECS {
         public let tags: [Tag]?
         /// The family and revision (family:revision) or
         /// 			full ARN of the task definition to run. If a revision isn't specified,
-        /// 			the latest ACTIVE revision is used. When you create an IAM policy for run-task, you can set the resource to be the latest
+        /// 			the latest ACTIVE revision is used. When you create a policy for run-task, you can set the resource to be the latest
         /// 			task definition revision, or a specific revision. The full ARN value must match the value that you specified as the
-        /// 				Resource of the IAM principal's permissions policy. When you specify the policy resource as the latest task definition version (by setting
+        /// 				Resource of the principal's permissions policy. When you specify the policy resource as the latest task definition version (by setting
         /// 			the Resource in the policy to
         /// 				arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName),
         /// 			then set this value to
@@ -5604,8 +5649,8 @@ extension ECS {
         /// 			information, see Tagging Your Amazon ECS
         /// 				Resources in the Amazon Elastic Container Service Developer Guide.
         public let enableECSManagedTags: Bool?
-        /// Determines whether the execute command functionality is enabled for the service. If
-        /// 				true, the execute command functionality is enabled for all containers
+        /// Determines whether the execute command functionality is turned on for the service. If
+        /// 				true, the execute command functionality is turned on for all containers
         /// 			in tasks as part of the service.
         public let enableExecuteCommand: Bool?
         /// The event stream for your service. A maximum of 100 of the latest events are
@@ -5834,7 +5879,7 @@ extension ECS {
         public let clientAliases: [ServiceConnectClientAlias]?
         /// The discoveryName is the name of the new Cloud Map service that Amazon ECS creates
         /// 			for this Amazon ECS service. This must be unique within the Cloud Map namespace. The name can contain up to 64 characters. The name can include lowercase letters,
-        /// 			numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If this parameter isn't specified, the default value of discoveryName.namespace is used. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
+        /// 			numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
         public let discoveryName: String?
         /// The port number for the Service Connect proxy to listen on. Use the value of this field to bypass the proxy for traffic on the port number
         /// 			specified in the named portMapping in the task definition of this
@@ -5878,7 +5923,7 @@ extension ECS {
         public let discoveryArn: String?
         /// The discovery name of this Service Connect resource. The discoveryName is the name of the new Cloud Map service that Amazon ECS creates
         /// 			for this Amazon ECS service. This must be unique within the Cloud Map namespace. The name can contain up to 64 characters. The name can include lowercase letters,
-        /// 			numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If this parameter isn't specified, the default value of discoveryName.namespace is used. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
+        /// 			numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
         public let discoveryName: String?
 
         public init(discoveryArn: String? = nil, discoveryName: String? = nil) {
@@ -5981,11 +6026,10 @@ extension ECS {
     public struct Setting: AWSDecodableShape {
         /// The Amazon ECS resource name.
         public let name: SettingName?
-        /// The ARN of the principal. It can be an IAM user, IAM role, or the root user. If this
+        /// The ARN of the principal. It can be a user, role, or the root user. If this
         /// 			field is omitted, the authenticated user is assumed.
         public let principalArn: String?
-        /// Determines whether the account setting is enabled or disabled for the specified
-        /// 			resource.
+        /// Determines whether the account setting is on or off for the specified resource.
         public let value: String?
 
         public init(name: SettingName? = nil, principalArn: String? = nil, value: String? = nil) {
@@ -6012,7 +6056,7 @@ extension ECS {
         /// 				Tagging Your Amazon ECS
         /// 				Resources in the Amazon Elastic Container Service Developer Guide.
         public let enableECSManagedTags: Bool?
-        /// Whether or not the execute command functionality is enabled for the task. If
+        /// Whether or not the execute command functionality is turned on for the task. If
         /// 				true, this enables execute command functionality on all containers in
         /// 			the task.
         public let enableExecuteCommand: Bool?
@@ -6115,7 +6159,7 @@ extension ECS {
         /// 			here, and the message appears in subsequent DescribeTasks API
         /// 			operations on this task. Up to 255 characters are allowed in this message.
         public let reason: String?
-        /// The task ID or full Amazon Resource Name (ARN) of the task to stop.
+        /// The task ID of the task to stop.
         public let task: String
 
         public init(cluster: String? = nil, reason: String? = nil, task: String) {
@@ -6404,8 +6448,8 @@ extension ECS {
         /// The desired status of the task. For more information, see Task
         /// 			Lifecycle.
         public let desiredStatus: String?
-        /// Determines whether execute command functionality is enabled for this task. If
-        /// 				true, execute command functionality is enabled on all the containers in
+        /// Determines whether execute command functionality is turned on for this task. If
+        /// 				true, execute command functionality is turned on all the containers in
         /// 			the task.
         public let enableExecuteCommand: Bool?
         /// The ephemeral storage settings for the task.
@@ -6634,8 +6678,8 @@ extension ECS {
         /// 			used when determining task placement for tasks hosted on Amazon EC2 instances. For more
         /// 			information, see Attributes in the Amazon Elastic Container Service Developer Guide.  This parameter isn't supported for tasks run on Fargate.
         public let requiresAttributes: [Attribute]?
-        /// The task launch types the task definition was validated against. To determine which
-        /// 			task launch types the task definition is validated for, see the TaskDefinition$compatibilities parameter.
+        /// The task launch types the task definition was validated against.  For more information, see Amazon ECS launch types
+        /// 			in the Amazon Elastic Container Service Developer Guide.
         public let requiresCompatibilities: [Compatibility]?
         /// The revision of the task in a particular family. The revision is a version number of a
         /// 			task definition in a family. When you register a task definition for the first time, the
@@ -6744,7 +6788,7 @@ extension ECS {
         /// The ephemeral storage setting override for the task.  This parameter is only supported for tasks hosted on Fargate that
         /// 				use the following platform versions:   Linux platform version 1.4.0 or later.   Windows platform version 1.0.0 or later.
         public let ephemeralStorage: EphemeralStorage?
-        /// The Amazon Resource Name (ARN) of the task execution IAM role override for the task. For more
+        /// The Amazon Resource Name (ARN) of the task execution role override for the task. For more
         /// 			information, see Amazon ECS task
         /// 				execution IAM role in the Amazon Elastic Container Service Developer Guide.
         public let executionRoleArn: String?
@@ -6752,7 +6796,7 @@ extension ECS {
         public let inferenceAcceleratorOverrides: [InferenceAcceleratorOverride]?
         /// The memory override for the task.
         public let memory: String?
-        /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers
+        /// The Amazon Resource Name (ARN) of the role that containers in this task can assume. All containers
         /// 			in this task are granted the permissions that are specified in this role. For more
         /// 			information, see IAM Role for Tasks
         /// 			in the Amazon Elastic Container Service Developer Guide.
@@ -7438,7 +7482,7 @@ extension ECS {
         /// Any failures associated with the call.
         public let failures: [Failure]?
         /// A list of tasks with the following information.    taskArn: The task ARN.    protectionEnabled: The protection status of the task. If scale-in
-        /// 					protection is enabled for a task, the value is true. Otherwise, it
+        /// 					protection is turned on for a task, the value is true. Otherwise, it
         /// 					is false.    expirationDate: The epoch time when protection for the task will
         /// 					expire.
         public let protectedTasks: [ProtectedTask]?
@@ -7689,8 +7733,8 @@ public struct ECSErrorType: AWSErrorType {
     /// 			specific.
     public static var serviceNotFoundException: Self { .init(.serviceNotFoundException) }
     /// The execute command cannot run. This error can be caused by any of the following
-    /// 			configuration issues:   Incorrect IAM permissions   The SSM agent is not installed or is not running   There is an interface Amazon VPC endpoint for Amazon ECS, but there is not one for
-    /// 					for Systems Manager Session Manager   For information about how to troubleshoot the issues, see Troubleshooting issues with ECS
+    /// 			configuration issues:   Incorrect IAM permissions   The SSM agent is not installed or is not running   There is an interface Amazon VPC endpoint for Amazon ECS, but there is not one for Systems
+    /// 					Manager Session Manager   For information about how to troubleshoot the issues, see Troubleshooting issues with ECS
     /// 				Exec in the Amazon Elastic Container Service Developer Guide.
     public static var targetNotConnectedException: Self { .init(.targetNotConnectedException) }
     /// The specified target wasn't found. You can view your available container instances

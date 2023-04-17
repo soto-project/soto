@@ -3,7 +3,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -72,6 +72,7 @@ let package = Package(
         .library(name: "SotoCloudSearch", targets: ["SotoCloudSearch"]),
         .library(name: "SotoCloudSearchDomain", targets: ["SotoCloudSearchDomain"]),
         .library(name: "SotoCloudTrail", targets: ["SotoCloudTrail"]),
+        .library(name: "SotoCloudTrailData", targets: ["SotoCloudTrailData"]),
         .library(name: "SotoCloudWatch", targets: ["SotoCloudWatch"]),
         .library(name: "SotoCloudWatchEvents", targets: ["SotoCloudWatchEvents"]),
         .library(name: "SotoCloudWatchLogs", targets: ["SotoCloudWatchLogs"]),
@@ -163,10 +164,12 @@ let package = Package(
         .library(name: "SotoHoneycode", targets: ["SotoHoneycode"]),
         .library(name: "SotoIAM", targets: ["SotoIAM"]),
         .library(name: "SotoIVS", targets: ["SotoIVS"]),
+        .library(name: "SotoIVSRealTime", targets: ["SotoIVSRealTime"]),
         .library(name: "SotoIdentityStore", targets: ["SotoIdentityStore"]),
         .library(name: "SotoImagebuilder", targets: ["SotoImagebuilder"]),
         .library(name: "SotoInspector", targets: ["SotoInspector"]),
         .library(name: "SotoInspector2", targets: ["SotoInspector2"]),
+        .library(name: "SotoInternetMonitor", targets: ["SotoInternetMonitor"]),
         .library(name: "SotoIoT", targets: ["SotoIoT"]),
         .library(name: "SotoIoT1ClickDevicesService", targets: ["SotoIoT1ClickDevicesService"]),
         .library(name: "SotoIoT1ClickProjects", targets: ["SotoIoT1ClickProjects"]),
@@ -339,10 +342,12 @@ let package = Package(
         .library(name: "SotoTextract", targets: ["SotoTextract"]),
         .library(name: "SotoTimestreamQuery", targets: ["SotoTimestreamQuery"]),
         .library(name: "SotoTimestreamWrite", targets: ["SotoTimestreamWrite"]),
+        .library(name: "SotoTnb", targets: ["SotoTnb"]),
         .library(name: "SotoTranscribe", targets: ["SotoTranscribe"]),
         .library(name: "SotoTranscribeStreaming", targets: ["SotoTranscribeStreaming"]),
         .library(name: "SotoTransfer", targets: ["SotoTransfer"]),
         .library(name: "SotoTranslate", targets: ["SotoTranslate"]),
+        .library(name: "SotoVPCLattice", targets: ["SotoVPCLattice"]),
         .library(name: "SotoVoiceID", targets: ["SotoVoiceID"]),
         .library(name: "SotoWAF", targets: ["SotoWAF"]),
         .library(name: "SotoWAFRegional", targets: ["SotoWAFRegional"]),
@@ -414,6 +419,7 @@ let package = Package(
         .target(name: "SotoCloudSearch", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/CloudSearch"),
         .target(name: "SotoCloudSearchDomain", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/CloudSearchDomain"),
         .target(name: "SotoCloudTrail", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/CloudTrail"),
+        .target(name: "SotoCloudTrailData", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/CloudTrailData"),
         .target(name: "SotoCloudWatch", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/CloudWatch"),
         .target(name: "SotoCloudWatchEvents", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/CloudWatchEvents"),
         .target(name: "SotoCloudWatchLogs", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/CloudWatchLogs"),
@@ -505,10 +511,12 @@ let package = Package(
         .target(name: "SotoHoneycode", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Honeycode"),
         .target(name: "SotoIAM", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/IAM"),
         .target(name: "SotoIVS", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/IVS"),
+        .target(name: "SotoIVSRealTime", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/IVSRealTime"),
         .target(name: "SotoIdentityStore", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/IdentityStore"),
         .target(name: "SotoImagebuilder", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Imagebuilder"),
         .target(name: "SotoInspector", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Inspector"),
         .target(name: "SotoInspector2", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Inspector2"),
+        .target(name: "SotoInternetMonitor", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/InternetMonitor"),
         .target(name: "SotoIoT", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/IoT"),
         .target(name: "SotoIoT1ClickDevicesService", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/IoT1ClickDevicesService"),
         .target(name: "SotoIoT1ClickProjects", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/IoT1ClickProjects"),
@@ -681,10 +689,12 @@ let package = Package(
         .target(name: "SotoTextract", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Textract"),
         .target(name: "SotoTimestreamQuery", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/TimestreamQuery"),
         .target(name: "SotoTimestreamWrite", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/TimestreamWrite"),
+        .target(name: "SotoTnb", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Tnb"),
         .target(name: "SotoTranscribe", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Transcribe"),
         .target(name: "SotoTranscribeStreaming", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/TranscribeStreaming"),
         .target(name: "SotoTransfer", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Transfer"),
         .target(name: "SotoTranslate", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Translate"),
+        .target(name: "SotoVPCLattice", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/VPCLattice"),
         .target(name: "SotoVoiceID", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/VoiceID"),
         .target(name: "SotoWAF", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/WAF"),
         .target(name: "SotoWAFRegional", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/WAFRegional"),

@@ -871,6 +871,30 @@ extension ConnectCases {
         }
     }
 
+    public struct DeleteDomainRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
+        ]
+
+        /// The unique identifier of the Cases domain.
+        public let domainId: String
+
+        public init(domainId: String) {
+            self.domainId = domainId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDomainResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DomainSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the domain.
         public let domainArn: String

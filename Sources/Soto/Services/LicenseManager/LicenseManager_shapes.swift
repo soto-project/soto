@@ -21,6 +21,12 @@ import SotoCore
 extension LicenseManager {
     // MARK: Enums
 
+    public enum ActivationOverrideBehavior: String, CustomStringConvertible, Codable, Sendable {
+        case allGrantsPermittedByIssuer = "ALL_GRANTS_PERMITTED_BY_ISSUER"
+        case distributedGrantsOnly = "DISTRIBUTED_GRANTS_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AllowedOperation: String, CustomStringConvertible, Codable, Sendable {
         case checkInLicense = "CheckInLicense"
         case checkoutBorrowLicense = "CheckoutBorrowLicense"
@@ -515,7 +521,7 @@ extension LicenseManager {
         public let homeRegion: String
         /// Amazon Resource Name (ARN) of the license.
         public let licenseArn: String
-        /// The grant principals. This value should be specified as an Amazon Resource Name (ARN).
+        /// The grant principals. You can specify one of the following as an Amazon Resource Name (ARN):   An Amazon Web Services account, which includes only the account specified.     An organizational unit (OU), which includes all accounts in the OU.     An organization, which will include all accounts across your organization.
         public let principals: [String]
 
         public init(allowedOperations: [AllowedOperation], clientToken: String, grantName: String, homeRegion: String, licenseArn: String, principals: [String]) {
@@ -582,6 +588,8 @@ extension LicenseManager {
         public let grantArn: String
         /// Grant name.
         public let grantName: String?
+        /// The options specified for the grant.
+        public let options: Options?
         /// Current version of the grant.
         public let sourceVersion: String?
         /// Grant status.
@@ -589,11 +597,12 @@ extension LicenseManager {
         /// Grant status reason.
         public let statusReason: String?
 
-        public init(allowedOperations: [AllowedOperation]? = nil, clientToken: String, grantArn: String, grantName: String? = nil, sourceVersion: String? = nil, status: GrantStatus? = nil, statusReason: String? = nil) {
+        public init(allowedOperations: [AllowedOperation]? = nil, clientToken: String, grantArn: String, grantName: String? = nil, options: Options? = nil, sourceVersion: String? = nil, status: GrantStatus? = nil, statusReason: String? = nil) {
             self.allowedOperations = allowedOperations
             self.clientToken = clientToken
             self.grantArn = grantArn
             self.grantName = grantName
+            self.options = options
             self.sourceVersion = sourceVersion
             self.status = status
             self.statusReason = statusReason
@@ -615,6 +624,7 @@ extension LicenseManager {
             case clientToken = "ClientToken"
             case grantArn = "GrantArn"
             case grantName = "GrantName"
+            case options = "Options"
             case sourceVersion = "SourceVersion"
             case status = "Status"
             case statusReason = "StatusReason"
@@ -701,12 +711,12 @@ extension LicenseManager {
     }
 
     public struct CreateLicenseConversionTaskForResourceRequest: AWSEncodableShape {
-        /// Information that identifies the license type you are converting to. For the structure of the destination license, see Convert a license type using the Amazon Web Services CLI in the License Manager User Guide.
+        /// Information that identifies the license type you are converting to. For the structure of the destination license, see Convert a license type using the CLI  in the License Manager User Guide.
         public let destinationLicenseContext: LicenseConversionContext
         /// Amazon Resource Name (ARN) of the resource you are converting the license type for.
         public let resourceArn: String
         /// Information that identifies the license type you are converting from.
-        ///  For the structure of the source license, see Convert a license type using the Amazon Web Services CLI in the License Manager User Guide.
+        ///  For the structure of the source license, see Convert a license type using the CLI  in the License Manager User Guide.
         public let sourceLicenseContext: LicenseConversionContext
 
         public init(destinationLicenseContext: LicenseConversionContext, resourceArn: String, sourceLicenseContext: LicenseConversionContext) {
@@ -1307,7 +1317,7 @@ extension LicenseManager {
     public struct Filter: AWSEncodableShape {
         /// Name of the filter. Filter names are case-sensitive.
         public let name: String?
-        /// Filter values. Filter values are case-sensitive.
+        /// The value of the filter, which is case-sensitive. You can only specify one value for the filter.
         public let values: [String]?
 
         public init(name: String? = nil, values: [String]? = nil) {
@@ -1685,6 +1695,8 @@ extension LicenseManager {
         public let homeRegion: String
         /// License ARN.
         public let licenseArn: String
+        /// The options specified for the grant.
+        public let options: Options?
         /// Parent ARN.
         public let parentArn: String
         /// Grant status reason.
@@ -1692,7 +1704,7 @@ extension LicenseManager {
         /// Grant version.
         public let version: String
 
-        public init(grantArn: String, grantedOperations: [AllowedOperation], granteePrincipalArn: String, grantName: String, grantStatus: GrantStatus, homeRegion: String, licenseArn: String, parentArn: String, statusReason: String? = nil, version: String) {
+        public init(grantArn: String, grantedOperations: [AllowedOperation], granteePrincipalArn: String, grantName: String, grantStatus: GrantStatus, homeRegion: String, licenseArn: String, options: Options? = nil, parentArn: String, statusReason: String? = nil, version: String) {
             self.grantArn = grantArn
             self.grantedOperations = grantedOperations
             self.granteePrincipalArn = granteePrincipalArn
@@ -1700,6 +1712,7 @@ extension LicenseManager {
             self.grantStatus = grantStatus
             self.homeRegion = homeRegion
             self.licenseArn = licenseArn
+            self.options = options
             self.parentArn = parentArn
             self.statusReason = statusReason
             self.version = version
@@ -1713,6 +1726,7 @@ extension LicenseManager {
             case grantStatus = "GrantStatus"
             case homeRegion = "HomeRegion"
             case licenseArn = "LicenseArn"
+            case options = "Options"
             case parentArn = "ParentArn"
             case statusReason = "StatusReason"
             case version = "Version"
@@ -2945,6 +2959,19 @@ extension LicenseManager {
         }
     }
 
+    public struct Options: AWSEncodableShape & AWSDecodableShape {
+        /// An activation option for your grant that determines the behavior of activating a grant. Activation options can only be used with granted licenses sourced from the Amazon Web Services Marketplace. Additionally, the operation must specify the value of ACTIVE for the Status parameter.   As a license administrator, you can optionally specify an ActivationOverrideBehavior when activating a grant.   As a grantor, you can optionally specify an ActivationOverrideBehavior when you activate a grant for a grantee account in your organization.   As a grantee, if the grantor creating the distributed grant doesn’t specify an ActivationOverrideBehavior, you can optionally specify one when you are activating the grant.    DISTRIBUTED_GRANTS_ONLY  Use this value to activate a grant without replacing any member account’s active grants for the same product.  ALL_GRANTS_PERMITTED_BY_ISSUER  Use this value to activate a grant and disable other active grants in any member accounts for the same product. This action will also replace their previously activated grants with this activated grant.
+        public let activationOverrideBehavior: ActivationOverrideBehavior?
+
+        public init(activationOverrideBehavior: ActivationOverrideBehavior? = nil) {
+            self.activationOverrideBehavior = activationOverrideBehavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activationOverrideBehavior = "ActivationOverrideBehavior"
+        }
+    }
+
     public struct OrganizationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Enables Organizations integration.
         public let enableIntegration: Bool
@@ -2959,7 +2986,7 @@ extension LicenseManager {
     }
 
     public struct ProductInformation: AWSEncodableShape & AWSDecodableShape {
-        /// A Product information filter consists of a ProductInformationFilterComparator which is a logical operator, a ProductInformationFilterName which specifies the type of filter being declared, and a ProductInformationFilterValue that specifies the value to filter on.  Accepted values for ProductInformationFilterName are listed here along with descriptions and valid options for ProductInformationFilterComparator.   The following filters and are supported when the resource type  is SSM_MANAGED:    Application Name - The name of the application. Logical operator is EQUALS.    Application Publisher - The publisher of the application. Logical operator is EQUALS.    Application Version - The version of the application. Logical operator is EQUALS.    Platform Name - The name of the platform. Logical operator is EQUALS.    Platform Type - The platform type. Logical operator is EQUALS.    Tag:key - The key of a tag attached to an Amazon Web Services resource you wish to exclude from automated discovery. Logical operator is NOT_EQUALS.  The key for your tag must be appended to Tag: following the example: Tag:name-of-your-key. ProductInformationFilterValue is optional if you are not using values for the key.     AccountId - The 12-digit ID of an Amazon Web Services account you wish to exclude from automated discovery. Logical operator is NOT_EQUALS.    License Included - The type of license included. Logical operators are EQUALS and NOT_EQUALS. Possible values are: sql-server-enterprise |  sql-server-standard |  sql-server-web |   windows-server-datacenter.   The following filters and logical operators are supported when the resource type is RDS:    Engine Edition - The edition of the database engine. Logical operator is EQUALS. Possible values are: oracle-ee | oracle-se | oracle-se1 | oracle-se2.    License Pack - The license pack. Logical operator is EQUALS. Possible values are: data guard |  diagnostic pack sqlt |  tuning pack sqlt |  ols |  olap.
+        /// A Product information filter consists of a ProductInformationFilterComparator which is a logical operator, a ProductInformationFilterName which specifies the type of filter being declared, and a ProductInformationFilterValue that specifies the value to filter on.  Accepted values for ProductInformationFilterName are listed here along with descriptions and valid options for ProductInformationFilterComparator.  The following filters and are supported when the resource type  is SSM_MANAGED:    Application Name - The name of the application. Logical operator is EQUALS.    Application Publisher - The publisher of the application. Logical operator is EQUALS.    Application Version - The version of the application. Logical operator is EQUALS.    Platform Name - The name of the platform. Logical operator is EQUALS.    Platform Type - The platform type. Logical operator is EQUALS.    Tag:key - The key of a tag attached to an Amazon Web Services resource you wish to exclude from automated discovery. Logical operator is NOT_EQUALS.  The key for your tag must be appended to Tag: following the example: Tag:name-of-your-key. ProductInformationFilterValue is optional if you are not using values for the key.     AccountId - The 12-digit ID of an Amazon Web Services account you wish to exclude from automated discovery. Logical operator is NOT_EQUALS.    License Included - The type of license included. Logical operators are EQUALS and NOT_EQUALS. Possible values are: sql-server-enterprise |  sql-server-standard |  sql-server-web |   windows-server-datacenter.   The following filters and logical operators are supported when the resource type is RDS:    Engine Edition - The edition of the database engine. Logical operator is EQUALS. Possible values are: oracle-ee | oracle-se | oracle-se1 | oracle-se2.    License Pack - The license pack. Logical operator is EQUALS. Possible values are: data guard |  diagnostic pack sqlt |  tuning pack sqlt |  ols |  olap.
         public let productInformationFilterList: [ProductInformationFilter]
         /// Resource type. The possible values are SSM_MANAGED | RDS.
         public let resourceType: String

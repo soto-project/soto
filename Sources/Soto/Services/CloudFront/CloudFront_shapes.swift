@@ -144,6 +144,7 @@ extension CloudFront {
     }
 
     public enum OriginAccessControlOriginTypes: String, CustomStringConvertible, Codable, Sendable {
+        case mediastore = "mediastore"
         case s3 = "s3"
         public var description: String { return self.rawValue }
     }
@@ -169,12 +170,14 @@ extension CloudFront {
 
     public enum OriginRequestPolicyCookieBehavior: String, CustomStringConvertible, Codable, Sendable {
         case all = "all"
+        case allExcept = "allExcept"
         case none = "none"
         case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
     public enum OriginRequestPolicyHeaderBehavior: String, CustomStringConvertible, Codable, Sendable {
+        case allExcept = "allExcept"
         case allViewer = "allViewer"
         case allViewerAndWhitelistCloudFront = "allViewerAndWhitelistCloudFront"
         case none = "none"
@@ -184,6 +187,7 @@ extension CloudFront {
 
     public enum OriginRequestPolicyQueryStringBehavior: String, CustomStringConvertible, Codable, Sendable {
         case all = "all"
+        case allExcept = "allExcept"
         case none = "none"
         case whitelist = "whitelist"
         public var description: String { return self.rawValue }
@@ -690,9 +694,9 @@ extension CloudFront {
         public let minTTL: Int64
         /// A unique name to identify the cache policy.
         public let name: String
-        /// The HTTP headers, cookies, and URL query strings to include in the cache key. The
-        /// 			values included in the cache key are automatically included in requests that CloudFront sends
-        /// 			to the origin.
+        /// The HTTP headers, cookies, and URL query strings to include in the cache key. The values
+        /// 			included in the cache key are also included in requests that CloudFront sends to the
+        /// 			origin.
         public let parametersInCacheKeyAndForwardedToOrigin: ParametersInCacheKeyAndForwardedToOrigin?
 
         public init(comment: String? = nil, defaultTTL: Int64? = nil, maxTTL: Int64? = nil, minTTL: Int64, name: String, parametersInCacheKeyAndForwardedToOrigin: ParametersInCacheKeyAndForwardedToOrigin? = nil) {
@@ -715,19 +719,17 @@ extension CloudFront {
     }
 
     public struct CachePolicyCookiesConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Determines whether any cookies in viewer requests are included in the cache key and
-        /// 			automatically included in requests that CloudFront sends to the origin. Valid values
-        /// 			are:    none – Cookies in viewer requests are not included in the cache
-        /// 					key and are not automatically included in requests that CloudFront sends to the
-        /// 					origin. Even when this field is set to none, any cookies that are
-        /// 					listed in an OriginRequestPolicy are included in origin requests.    whitelist – The cookies in viewer requests that are listed in the
-        /// 						CookieNames type are included in the cache key and
-        /// 					automatically included in requests that CloudFront sends to the origin.    allExcept – All cookies in viewer requests that are
-        /// 							 not listed in the
-        /// 						CookieNames type are included in the cache key and
-        /// 					automatically included in requests that CloudFront sends to the origin.    all – All cookies in viewer requests are included in the cache
-        /// 					key and are automatically included in requests that CloudFront sends to the
-        /// 					origin.
+        /// Determines whether any cookies in viewer requests are included in the cache key and in
+        /// 			requests that CloudFront sends to the origin. Valid values are:    none – No cookies in viewer requests are included in the cache key or in
+        /// 					requests that CloudFront sends to the origin. Even when this field is set to
+        /// 					none, any cookies that are listed in an
+        /// 					OriginRequestPolicy are included in origin
+        /// 					requests.    whitelist – Only the cookies in viewer requests that are listed in the
+        /// 					CookieNames type are included in the cache key and in requests that
+        /// 					CloudFront sends to the origin.    allExcept – All cookies in viewer requests are included in the cache key and
+        /// 					in requests that CloudFront sends to the origin,  except for those that are listed in the
+        /// 					CookieNames type, which are not included.    all – All cookies in viewer requests are included in the cache key and in
+        /// 					requests that CloudFront sends to the origin.
         public let cookieBehavior: CachePolicyCookieBehavior
         public let cookies: CookieNames?
 
@@ -743,13 +745,12 @@ extension CloudFront {
     }
 
     public struct CachePolicyHeadersConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Determines whether any HTTP headers are included in the cache key and automatically
-        /// 			included in requests that CloudFront sends to the origin. Valid values are:    none – HTTP headers are not included in the cache key and are not
-        /// 					automatically included in requests that CloudFront sends to the origin. Even when this
-        /// 					field is set to none, any headers that are listed in an
-        /// 						OriginRequestPolicy are included in origin requests.    whitelist – The HTTP headers that are listed in the
-        /// 						Headers type are included in the cache key and are
-        /// 					automatically included in requests that CloudFront sends to the origin.
+        /// Determines whether any HTTP headers are included in the cache key and in requests that CloudFront
+        /// 			sends to the origin. Valid values are:    none – No HTTP headers are included in the cache key or in requests that CloudFront
+        /// 					sends to the origin. Even when this field is set to none, any
+        /// 					headers that are listed in an OriginRequestPolicy are included in origin requests.    whitelist – Only the HTTP headers that are listed in the Headers
+        /// 					type are included in the cache key and in requests that CloudFront sends to the
+        /// 					origin.
         public let headerBehavior: CachePolicyHeaderBehavior
         public let headers: Headers?
 
@@ -795,25 +796,22 @@ extension CloudFront {
     }
 
     public struct CachePolicyQueryStringsConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Determines whether any URL query strings in viewer requests are included in the cache
-        /// 			key and automatically included in requests that CloudFront sends to the origin. Valid values
-        /// 			are:    none – Query strings in viewer requests are not included in the
-        /// 					cache key and are not automatically included in requests that CloudFront sends to the
-        /// 					origin. Even when this field is set to none, any query strings that
-        /// 					are listed in an OriginRequestPolicy are included in origin requests.    whitelist – The query strings in viewer requests that are listed
-        /// 					in the QueryStringNames type are included in the cache key and
-        /// 					automatically included in requests that CloudFront sends to the origin.    allExcept – All query strings in viewer requests that are
-        /// 							 not listed in the
-        /// 						QueryStringNames type are included in the cache key and
-        /// 					automatically included in requests that CloudFront sends to the origin.    all – All query strings in viewer requests are included in the
-        /// 					cache key and are automatically included in requests that CloudFront sends to the
-        /// 					origin.
+        /// Determines whether any URL query strings in viewer requests are included in the cache key
+        /// 			and in requests that CloudFront sends to the origin. Valid values are:    none – No query strings in viewer requests are included in the cache key or
+        /// 					in requests that CloudFront sends to the origin. Even when this field is set to
+        /// 					none, any query strings that are listed in an
+        /// 					OriginRequestPolicy are included in origin
+        /// 					requests.    whitelist – Only the query strings in viewer requests that are listed in the
+        /// 					QueryStringNames type are included in the cache key and in requests
+        /// 					that CloudFront sends to the origin.    allExcept – All query strings in viewer requests are included in the cache
+        /// 					key and in requests that CloudFront sends to the origin,  except those that are listed in the
+        /// 					QueryStringNames type, which are not included.    all – All query strings in viewer requests are included in the cache key and
+        /// 					in requests that CloudFront sends to the origin.
         public let queryStringBehavior: CachePolicyQueryStringBehavior
         /// Contains the specific query strings in viewer requests that either  are or  are
-        /// 					not included in the cache key and automatically included
-        /// 			in requests that CloudFront sends to the origin. The behavior depends on whether the
-        /// 				QueryStringBehavior field in the
-        /// 				CachePolicyQueryStringsConfig type is set to whitelist
+        /// 			not included in the cache key and in requests that CloudFront sends to
+        /// 			the origin. The behavior depends on whether the QueryStringBehavior field
+        /// 			in the CachePolicyQueryStringsConfig type is set to whitelist
         /// 			(the listed query strings  are
         /// 			included) or allExcept (the listed query strings  are not included, but all other query strings
         /// 			are).
@@ -6601,8 +6599,7 @@ extension CloudFront {
         public let description: String?
         /// A name to identify the origin access control.
         public let name: String
-        /// The type of origin that this origin access control is for. The only valid value is
-        /// 				s3.
+        /// The type of origin that this origin access control is for.
         public let originAccessControlOriginType: OriginAccessControlOriginTypes
         /// Specifies which requests CloudFront signs (adds authentication information to). Specify
         /// 				always for the most common use case. For more information, see origin access control advanced settings in the
@@ -6686,8 +6683,7 @@ extension CloudFront {
         public let id: String
         /// A unique name that identifies the origin access control.
         public let name: String
-        /// The type of origin that this origin access control is for. The only valid value is
-        /// 				s3.
+        /// The type of origin that this origin access control is for.
         public let originAccessControlOriginType: OriginAccessControlOriginTypes
         /// A value that specifies which requests CloudFront signs (adds authentication information to).
         /// 			This field can have one of the following values:    never – CloudFront doesn't sign any origin requests.    always – CloudFront signs all origin requests, overwriting the
@@ -6905,12 +6901,15 @@ extension CloudFront {
 
     public struct OriginRequestPolicyCookiesConfig: AWSEncodableShape & AWSDecodableShape {
         /// Determines whether cookies in viewer requests are included in requests that CloudFront sends
-        /// 			to the origin. Valid values are:    none – Cookies in viewer requests are not included in requests
-        /// 					that CloudFront sends to the origin. Even when this field is set to none,
-        /// 					any cookies that are listed in a CachePolicy are included in origin requests.    whitelist – The cookies in viewer requests that are listed in the
-        /// 						CookieNames type are included in requests that CloudFront sends to
-        /// 					the origin.    all – All cookies in viewer requests are included in requests
-        /// 					that CloudFront sends to the origin.
+        /// 			to the origin. Valid values are:    none – No cookies in viewer requests are included in requests that CloudFront sends
+        /// 					to the origin. Even when this field is set to none, any cookies
+        /// 					that are listed in a CachePolicy are included
+        /// 					in origin requests.    whitelist – Only the cookies in viewer requests that are listed in the
+        /// 					CookieNames type are included in requests that CloudFront sends to the
+        /// 					origin.    all – All cookies in viewer requests are included in requests
+        /// 					that CloudFront sends to the origin.    allExcept – All cookies in viewer requests are included in
+        /// 					requests that CloudFront sends to the origin,  except for those listed in the CookieNames
+        /// 					type, which are not included.
         public let cookieBehavior: OriginRequestPolicyCookieBehavior
         public let cookies: CookieNames?
 
@@ -6927,15 +6926,17 @@ extension CloudFront {
 
     public struct OriginRequestPolicyHeadersConfig: AWSEncodableShape & AWSDecodableShape {
         /// Determines whether any HTTP headers are included in requests that CloudFront sends to the
-        /// 			origin. Valid values are:    none – HTTP headers are not included in requests that CloudFront sends
-        /// 					to the origin. Even when this field is set to none, any headers
-        /// 					that are listed in a CachePolicy are included in origin requests.    whitelist – The HTTP headers that are listed in the
-        /// 						Headers type are included in requests that CloudFront sends to the
-        /// 					origin.    allViewer – All HTTP headers in viewer requests are included in
+        /// 			origin. Valid values are:    none – No HTTP headers in viewer requests are included in requests that CloudFront
+        /// 					sends to the origin. Even when this field is set to none, any
+        /// 					headers that are listed in a CachePolicy are
+        /// 					included in origin requests.    whitelist – Only the HTTP headers that are listed in the Headers
+        /// 					type are included in requests that CloudFront sends to the origin.    allViewer – All HTTP headers in viewer requests are included in
         /// 					requests that CloudFront sends to the origin.    allViewerAndWhitelistCloudFront – All HTTP headers in viewer
         /// 					requests and the additional CloudFront headers that are listed in the
         /// 						Headers type are included in requests that CloudFront sends to the
-        /// 					origin. The additional headers are added by CloudFront.
+        /// 					origin. The additional headers are added by CloudFront.    allExcept – All HTTP headers in viewer requests are included in
+        /// 					requests that CloudFront sends to the origin,  except for those listed in the Headers type,
+        /// 					which are not included.
         public let headerBehavior: OriginRequestPolicyHeaderBehavior
         public let headers: Headers?
 
@@ -6983,16 +6984,23 @@ extension CloudFront {
 
     public struct OriginRequestPolicyQueryStringsConfig: AWSEncodableShape & AWSDecodableShape {
         /// Determines whether any URL query strings in viewer requests are included in requests
-        /// 			that CloudFront sends to the origin. Valid values are:    none – Query strings in viewer requests are not included in
-        /// 					requests that CloudFront sends to the origin. Even when this field is set to
-        /// 						none, any query strings that are listed in a
-        /// 						CachePolicy are included in origin requests.    whitelist – The query strings in viewer requests that are listed
-        /// 					in the QueryStringNames type are included in requests that CloudFront
-        /// 					sends to the origin.    all – All query strings in viewer requests are included in
-        /// 					requests that CloudFront sends to the origin.
+        /// 			that CloudFront sends to the origin. Valid values are:    none – No query strings in viewer requests are included in requests that CloudFront
+        /// 					sends to the origin. Even when this field is set to none, any query
+        /// 					strings that are listed in a CachePolicy are
+        /// 					included in origin requests.    whitelist – Only the query strings in viewer requests that are listed in the
+        /// 					QueryStringNames type are included in requests that CloudFront sends to
+        /// 					the origin.    all – All query strings in viewer requests are included in requests that CloudFront
+        /// 					sends to the origin.    allExcept – All query strings in viewer requests are included in
+        /// 					requests that CloudFront sends to the origin,  except for those listed in the
+        /// 					QueryStringNames type, which are not included.
         public let queryStringBehavior: OriginRequestPolicyQueryStringBehavior
-        /// Contains a list of the query strings in viewer requests that are included in requests
-        /// 			that CloudFront sends to the origin.
+        /// Contains the specific query strings in viewer requests that either  are or  are
+        /// 			not included in requests that CloudFront sends to the origin. The
+        /// 			behavior depends on whether the QueryStringBehavior field in the
+        /// 			OriginRequestPolicyQueryStringsConfig type is set to whitelist
+        /// 			(the listed query strings  are
+        /// 			included) or allExcept (the listed query strings  are not included, but all other query strings
+        /// 			are).
         public let queryStrings: QueryStringNames?
 
         public init(queryStringBehavior: OriginRequestPolicyQueryStringBehavior, queryStrings: QueryStringNames? = nil) {
@@ -7103,9 +7111,8 @@ extension CloudFront {
     }
 
     public struct ParametersInCacheKeyAndForwardedToOrigin: AWSEncodableShape & AWSDecodableShape {
-        /// An object that determines whether any cookies in viewer requests (and if so, which
-        /// 			cookies) are included in the cache key and automatically included in requests that CloudFront
-        /// 			sends to the origin.
+        /// An object that determines whether any cookies in viewer requests (and if so, which cookies)
+        /// 			are included in the cache key and in requests that CloudFront sends to the origin.
         public let cookiesConfig: CachePolicyCookiesConfig
         /// A flag that can affect whether the Accept-Encoding HTTP header is
         /// 			included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingGzip field. If one or
@@ -7139,13 +7146,12 @@ extension CloudFront {
         /// 			requests. In this case, you can manually add Accept-Encoding to the headers
         /// 			whitelist like any other HTTP header.
         public let enableAcceptEncodingGzip: Bool
-        /// An object that determines whether any HTTP headers (and if so, which headers) are
-        /// 			included in the cache key and automatically included in requests that CloudFront sends to the
-        /// 			origin.
+        /// An object that determines whether any HTTP headers (and if so, which headers) are included
+        /// 			in the cache key and in requests that CloudFront sends to the origin.
         public let headersConfig: CachePolicyHeadersConfig
-        /// An object that determines whether any URL query strings in viewer requests (and if so,
-        /// 			which query strings) are included in the cache key and automatically included in
-        /// 			requests that CloudFront sends to the origin.
+        /// An object that determines whether any URL query strings in viewer requests (and if so, which
+        /// 			query strings) are included in the cache key and in requests that CloudFront sends to the
+        /// 			origin.
         public let queryStringsConfig: CachePolicyQueryStringsConfig
 
         public init(cookiesConfig: CachePolicyCookiesConfig, enableAcceptEncodingBrotli: Bool? = nil, enableAcceptEncodingGzip: Bool, headersConfig: CachePolicyHeadersConfig, queryStringsConfig: CachePolicyQueryStringsConfig) {

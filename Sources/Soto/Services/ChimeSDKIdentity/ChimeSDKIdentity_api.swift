@@ -74,11 +74,14 @@ public struct ChimeSDKIdentity: AWSService {
         return self.client.execute(operation: "CreateAppInstance", path: "/app-instances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perform the following actions.
-    ///     ChannelModerator actions across all channels in the AppInstance.    DeleteChannelMessage actions.
-    ///  Only an AppInstanceUser can be promoted to an AppInstanceAdmin role.
+    /// Promotes an AppInstanceUser or AppInstanceBot to an  AppInstanceAdmin. The promoted entity can perform the following actions.     ChannelModerator actions across all channels in the AppInstance.    DeleteChannelMessage actions.   Only an AppInstanceUser and AppInstanceBot can be promoted to an AppInstanceAdmin role.
     public func createAppInstanceAdmin(_ input: CreateAppInstanceAdminRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppInstanceAdminResponse> {
         return self.client.execute(operation: "CreateAppInstanceAdmin", path: "/app-instances/{AppInstanceArn}/admins", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a bot under an Amazon Chime AppInstance. The request consists of a  unique Configuration and Name for that bot.
+    public func createAppInstanceBot(_ input: CreateAppInstanceBotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppInstanceBotResponse> {
+        return self.client.execute(operation: "CreateAppInstanceBot", path: "/app-instance-bots", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user.
@@ -91,9 +94,14 @@ public struct ChimeSDKIdentity: AWSService {
         return self.client.execute(operation: "DeleteAppInstance", path: "/app-instances/{AppInstanceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Demotes an AppInstanceAdmin to an AppInstanceUser. This action does not delete the user.
+    /// Demotes an AppInstanceAdmin to an AppInstanceUser or  AppInstanceBot. This action does not delete the user.
     @discardableResult public func deleteAppInstanceAdmin(_ input: DeleteAppInstanceAdminRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteAppInstanceAdmin", path: "/app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an AppInstanceBot.
+    @discardableResult public func deleteAppInstanceBot(_ input: DeleteAppInstanceBotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteAppInstanceBot", path: "/app-instance-bots/{AppInstanceBotArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes an AppInstanceUser.
@@ -116,6 +124,11 @@ public struct ChimeSDKIdentity: AWSService {
         return self.client.execute(operation: "DescribeAppInstanceAdmin", path: "/app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// The AppInstanceBot's information.
+    public func describeAppInstanceBot(_ input: DescribeAppInstanceBotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppInstanceBotResponse> {
+        return self.client.execute(operation: "DescribeAppInstanceBot", path: "/app-instance-bots/{AppInstanceBotArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns the full details of an AppInstanceUser.
     public func describeAppInstanceUser(_ input: DescribeAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppInstanceUserResponse> {
         return self.client.execute(operation: "DescribeAppInstanceUser", path: "/app-instance-users/{AppInstanceUserArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -134,6 +147,11 @@ public struct ChimeSDKIdentity: AWSService {
     /// Returns a list of the administrators in the AppInstance.
     public func listAppInstanceAdmins(_ input: ListAppInstanceAdminsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppInstanceAdminsResponse> {
         return self.client.execute(operation: "ListAppInstanceAdmins", path: "/app-instances/{AppInstanceArn}/admins", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all AppInstanceBots created under a single AppInstance.
+    public func listAppInstanceBots(_ input: ListAppInstanceBotsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppInstanceBotsResponse> {
+        return self.client.execute(operation: "ListAppInstanceBots", path: "/app-instance-bots", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser.
@@ -161,6 +179,11 @@ public struct ChimeSDKIdentity: AWSService {
         return self.client.execute(operation: "PutAppInstanceRetentionSettings", path: "/app-instances/{AppInstanceArn}/retention-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Sets the number of days before the AppInstanceUser is automatically deleted.  A background process deletes expired AppInstanceUsers within 6 hours of expiration.  Actual deletion times may vary. Expired AppInstanceUsers that have not yet been deleted appear as active, and you can update  their expiration settings. The system honors the new settings.
+    public func putAppInstanceUserExpirationSettings(_ input: PutAppInstanceUserExpirationSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAppInstanceUserExpirationSettingsResponse> {
+        return self.client.execute(operation: "PutAppInstanceUserExpirationSettings", path: "/app-instance-users/{AppInstanceUserArn}/expiration-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Registers an endpoint under an Amazon Chime AppInstanceUser. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
     public func registerAppInstanceUserEndpoint(_ input: RegisterAppInstanceUserEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterAppInstanceUserEndpointResponse> {
         return self.client.execute(operation: "RegisterAppInstanceUserEndpoint", path: "/app-instance-users/{AppInstanceUserArn}/endpoints", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -179,6 +202,11 @@ public struct ChimeSDKIdentity: AWSService {
     /// Updates AppInstance metadata.
     public func updateAppInstance(_ input: UpdateAppInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppInstanceResponse> {
         return self.client.execute(operation: "UpdateAppInstance", path: "/app-instances/{AppInstanceArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the name and metadata of an AppInstanceBot.
+    public func updateAppInstanceBot(_ input: UpdateAppInstanceBotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppInstanceBotResponse> {
+        return self.client.execute(operation: "UpdateAppInstanceBot", path: "/app-instance-bots/{AppInstanceBotArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the details of an AppInstanceUser. You can update names and metadata.
@@ -252,6 +280,59 @@ extension ChimeSDKIdentity {
             command: self.listAppInstanceAdmins,
             inputKey: \ListAppInstanceAdminsRequest.nextToken,
             outputKey: \ListAppInstanceAdminsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists all AppInstanceBots created under a single AppInstance.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAppInstanceBotsPaginator<Result>(
+        _ input: ListAppInstanceBotsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAppInstanceBotsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listAppInstanceBots,
+            inputKey: \ListAppInstanceBotsRequest.nextToken,
+            outputKey: \ListAppInstanceBotsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAppInstanceBotsPaginator(
+        _ input: ListAppInstanceBotsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAppInstanceBotsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listAppInstanceBots,
+            inputKey: \ListAppInstanceBotsRequest.nextToken,
+            outputKey: \ListAppInstanceBotsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -419,6 +500,16 @@ extension ChimeSDKIdentity {
 
 extension ChimeSDKIdentity.ListAppInstanceAdminsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ChimeSDKIdentity.ListAppInstanceAdminsRequest {
+        return .init(
+            appInstanceArn: self.appInstanceArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ChimeSDKIdentity.ListAppInstanceBotsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ChimeSDKIdentity.ListAppInstanceBotsRequest {
         return .init(
             appInstanceArn: self.appInstanceArn,
             maxResults: self.maxResults,

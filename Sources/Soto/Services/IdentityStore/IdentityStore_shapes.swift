@@ -193,7 +193,7 @@ extension IdentityStore {
     public struct CreateGroupRequest: AWSEncodableShape {
         /// A string containing the description of the group.
         public let description: String?
-        /// A string containing the name of the group. This value is commonly displayed when the group is referenced.
+        /// A string containing the name of the group. This value is commonly displayed when the group is referenced. "Administrator" and "AWSAdministrators" are reserved names and can't be used for users or groups.
         public let displayName: String?
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
@@ -243,15 +243,15 @@ extension IdentityStore {
     public struct CreateUserRequest: AWSEncodableShape {
         /// A list of Address objects containing addresses associated with the user.
         public let addresses: [Address]?
-        /// A string containing the user's name. This value is typically formatted for display when the user is referenced. For example, "John Doe."
+        /// A string containing the name of the user. This value is typically formatted for display when the user is referenced. For example, "John Doe."
         public let displayName: String?
         /// A list of Email objects containing email addresses associated with the user.
         public let emails: [Email]?
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
-        /// A string containing the user's geographical region or location.
+        /// A string containing the geographical region or location of the user.
         public let locale: String?
-        /// An object containing the user's name.
+        /// An object containing the name of the user.
         public let name: Name?
         /// A string containing an alternate name for the user.
         public let nickName: String?
@@ -259,15 +259,15 @@ extension IdentityStore {
         public let phoneNumbers: [PhoneNumber]?
         /// A string containing the preferred language of the user. For example, "American English" or "en-us."
         public let preferredLanguage: String?
-        /// A string containing a URL that may be associated with the user.
+        /// A string containing a URL that might be associated with the user.
         public let profileUrl: String?
-        /// A string containing the user's time zone.
+        /// A string containing the time zone of the user.
         public let timezone: String?
-        /// A string containing the user's title. Possible values are left unspecified given that they depend on each customer's specific needs.
+        /// A string containing the title of the user. Possible values are left unspecified. The value can vary based on your specific use case.
         public let title: String?
-        /// A unique string used to identify the user. The length limit is 128 characters.  This value can consist of letters, accented characters, symbols, numbers, and punctuation.  This value is specified at the time the user is created and stored as an attribute of the user object in the identity store.
+        /// A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store. "Administrator" and "AWSAdministrators" are reserved names and can't be used for users or groups.
         public let userName: String?
-        /// A string indicating the user's type. Possible values depend on each customer's specific needs, so they are left unspecified.
+        /// A string indicating the type of user. Possible values are left unspecified. The value can vary based on your specific use case.
         public let userType: String?
 
         public init(addresses: [Address]? = nil, displayName: String? = nil, emails: [Email]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, timezone: String? = nil, title: String? = nil, userName: String? = nil, userType: String? = nil) {
@@ -593,17 +593,17 @@ extension IdentityStore {
     }
 
     public struct DescribeUserResponse: AWSDecodableShape {
-        /// The user's physical address.
+        /// The physical address of the user.
         public let addresses: [Address]?
-        /// The user's name value for display.
+        /// The display name of the user.
         public let displayName: String?
-        /// The user's email value.
+        /// The email address of the user.
         public let emails: [Email]?
         /// A list of ExternalId objects that contains the identifiers issued to this resource by an external identity provider.
         public let externalIds: [ExternalId]?
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
-        /// A string containing the user's geographical region or location.
+        /// A string containing the geographical region or location of the user.
         public let locale: String?
         /// The name of the user.
         public let name: Name?
@@ -617,13 +617,13 @@ extension IdentityStore {
         public let profileUrl: String?
         /// The time zone for a user.
         public let timezone: String?
-        /// A string containing the user's title.
+        /// A string containing the title of the user.
         public let title: String?
         /// The identifier for a user in the identity store.
         public let userId: String
         /// A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store.
         public let userName: String?
-        /// A string indicating the user's type.
+        /// A string indicating the type of user.
         public let userType: String?
 
         public init(addresses: [Address]? = nil, displayName: String? = nil, emails: [Email]? = nil, externalIds: [ExternalId]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, timezone: String? = nil, title: String? = nil, userId: String, userName: String? = nil, userType: String? = nil) {
@@ -748,7 +748,7 @@ extension IdentityStore {
     }
 
     public struct GetGroupIdRequest: AWSEncodableShape {
-        /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For example, a unique GroupDisplayName.
+        /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid path is displayName.
         public let alternateIdentifier: AlternateIdentifier
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
@@ -837,7 +837,7 @@ extension IdentityStore {
     }
 
     public struct GetUserIdRequest: AWSEncodableShape {
-        /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For example, a unique UserDisplayName.
+        /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid paths are userName and emails.value.
         public let alternateIdentifier: AlternateIdentifier
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
@@ -880,7 +880,7 @@ extension IdentityStore {
     public struct Group: AWSDecodableShape {
         /// A string containing a description of the specified group.
         public let description: String?
-        /// The group’s display name value. The length limit is 1,024 characters. This value can consist of letters, accented characters, symbols, numbers, punctuation, tab, new line, carriage return, space, and nonbreaking space in this attribute. This value is specified at the time the group is created and stored as an attribute of the group object in the identity store.
+        /// The display name value for the group. The length limit is 1,024 characters. This value can consist of letters, accented characters, symbols, numbers, punctuation, tab, new line, carriage return, space, and nonbreaking space in this attribute. This value is specified at the time the group is created and stored as an attribute of the group object in the identity store.
         public let displayName: String?
         /// A list of ExternalId objects that contains the identifiers issued to this resource by an external identity provider.
         public let externalIds: [ExternalId]?
@@ -1428,7 +1428,7 @@ extension IdentityStore {
     public struct User: AWSDecodableShape {
         /// A list of Address objects containing addresses associated with the user.
         public let addresses: [Address]?
-        /// A string containing the user's name that's formatted for display when the user is referenced. For example, "John Doe."
+        /// A string containing the  name of the user that is formatted for display when the user is referenced. For example, "John Doe."
         public let displayName: String?
         /// A list of Email objects containing email addresses associated with the user.
         public let emails: [Email]?
@@ -1436,9 +1436,9 @@ extension IdentityStore {
         public let externalIds: [ExternalId]?
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
-        /// A string containing the user's geographical region or location.
+        /// A string containing the geographical region or location of the user.
         public let locale: String?
-        /// An object containing the user's name.
+        /// An object containing the name of the user.
         public let name: Name?
         /// A string containing an alternate name for the user.
         public let nickName: String?
@@ -1446,17 +1446,17 @@ extension IdentityStore {
         public let phoneNumbers: [PhoneNumber]?
         /// A string containing the preferred language of the user. For example, "American English" or "en-us."
         public let preferredLanguage: String?
-        /// A string containing a URL that may be associated with the user.
+        /// A string containing a URL that might be associated with the user.
         public let profileUrl: String?
-        /// A string containing the user's time zone.
+        /// A string containing the time zone of the user.
         public let timezone: String?
-        /// A string containing the user's title. Possible values depend on each customer's specific needs, so they are left unspecified.
+        /// A string containing the title of the user. Possible values are left unspecified. The value can vary based on your specific use case.
         public let title: String?
         /// The identifier for a user in the identity store.
         public let userId: String
         /// A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store.
         public let userName: String?
-        /// A string indicating the user's type. Possible values depend on each customer's specific needs, so they are left unspecified.
+        /// A string indicating the type of user. Possible values are left unspecified. The value can vary based on your specific use case.
         public let userType: String?
 
         public init(addresses: [Address]? = nil, displayName: String? = nil, emails: [Email]? = nil, externalIds: [ExternalId]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, timezone: String? = nil, title: String? = nil, userId: String, userName: String? = nil, userType: String? = nil) {

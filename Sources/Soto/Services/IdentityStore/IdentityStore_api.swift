@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS IdentityStore service.
 ///
-/// The Identity Store service used by AWS IAM Identity Center (successor to AWS Single Sign-On) provides a single place to retrieve all of your identities (users and groups). For more information, see the IAM Identity Center User Guide.   Although AWS Single Sign-On was renamed, the sso and identitystore API namespaces will continue to retain their original name for backward compatibility purposes. For more information, see IAM Identity Center rename.   This reference guide describes the identity store operations that you can call programatically and includes detailed information on data types and errors.
+/// The Identity Store service used by AWS IAM Identity Center (successor to AWS Single Sign-On) provides a single place to retrieve all of your identities (users and groups). For more information, see the IAM Identity Center User Guide.   Although AWS Single Sign-On was renamed, the sso and identitystore API namespaces will continue to retain their original name for backward compatibility purposes. For more information, see IAM Identity Center rename.   This reference guide describes the identity store operations that you can call programatically and includes detailed information about data types and errors.
 public struct IdentityStore: AWSService {
     // MARK: Member variables
 
@@ -80,7 +80,7 @@ public struct IdentityStore: AWSService {
         return self.client.execute(operation: "CreateGroupMembership", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new user within the specified identity store.
+    /// Creates a user within the specified identity store.
     public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserResponse> {
         return self.client.execute(operation: "CreateUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

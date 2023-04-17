@@ -4945,6 +4945,8 @@ extension CloudFormation {
         public var parameters: [Parameter]?
         /// Describes how the IAM roles required for stack set operations are created.   With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see Grant Self-Managed Stack Set Permissions.   With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see Grant Service-Managed Stack Set Permissions.
         public let permissionModel: PermissionModels?
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var regions: [String]?
         /// The Amazon Resource Name (ARN) of the stack set.
         public let stackSetARN: String?
         /// Detailed information about the drift status of the stack set. For stack sets, contains information about the last completed drift operation performed on the stack set. Information about drift operations currently in progress isn't included.
@@ -4961,7 +4963,7 @@ extension CloudFormation {
         /// The structure that contains the body of the template that was used to create or update the stack set.
         public let templateBody: String?
 
-        public init(administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, capabilities: [Capability]? = nil, description: String? = nil, executionRoleName: String? = nil, managedExecution: ManagedExecution? = nil, organizationalUnitIds: [String]? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, stackSetARN: String? = nil, stackSetDriftDetectionDetails: StackSetDriftDetectionDetails? = nil, stackSetId: String? = nil, stackSetName: String? = nil, status: StackSetStatus? = nil, tags: [Tag]? = nil, templateBody: String? = nil) {
+        public init(administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, capabilities: [Capability]? = nil, description: String? = nil, executionRoleName: String? = nil, managedExecution: ManagedExecution? = nil, organizationalUnitIds: [String]? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, regions: [String]? = nil, stackSetARN: String? = nil, stackSetDriftDetectionDetails: StackSetDriftDetectionDetails? = nil, stackSetId: String? = nil, stackSetName: String? = nil, status: StackSetStatus? = nil, tags: [Tag]? = nil, templateBody: String? = nil) {
             self.administrationRoleARN = administrationRoleARN
             self.autoDeployment = autoDeployment
             self.capabilities = capabilities
@@ -4971,6 +4973,7 @@ extension CloudFormation {
             self.organizationalUnitIds = organizationalUnitIds
             self.parameters = parameters
             self.permissionModel = permissionModel
+            self.regions = regions
             self.stackSetARN = stackSetARN
             self.stackSetDriftDetectionDetails = stackSetDriftDetectionDetails
             self.stackSetId = stackSetId
@@ -4990,6 +4993,7 @@ extension CloudFormation {
             case organizationalUnitIds = "OrganizationalUnitIds"
             case parameters = "Parameters"
             case permissionModel = "PermissionModel"
+            case regions = "Regions"
             case stackSetARN = "StackSetARN"
             case stackSetDriftDetectionDetails = "StackSetDriftDetectionDetails"
             case stackSetId = "StackSetId"

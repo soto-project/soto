@@ -112,6 +112,51 @@ extension VoiceID {
 
     // MARK: Shapes
 
+    public struct AssociateFraudsterRequest: AWSEncodableShape {
+        /// The identifier of the domain that contains the fraudster.
+        public let domainId: String
+        /// The identifier of the fraudster to be associated with the watchlist.
+        public let fraudsterId: String
+        /// The identifier of the watchlist you want to associate with the fraudster.
+        public let watchlistId: String
+
+        public init(domainId: String, fraudsterId: String, watchlistId: String) {
+            self.domainId = domainId
+            self.fraudsterId = fraudsterId
+            self.watchlistId = watchlistId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+            try self.validate(self.fraudsterId, name: "fraudsterId", parent: name, max: 25)
+            try self.validate(self.fraudsterId, name: "fraudsterId", parent: name, min: 25)
+            try self.validate(self.fraudsterId, name: "fraudsterId", parent: name, pattern: "^id#[a-zA-Z0-9]{22}$")
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, max: 22)
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, min: 22)
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case fraudsterId = "FraudsterId"
+            case watchlistId = "WatchlistId"
+        }
+    }
+
+    public struct AssociateFraudsterResponse: AWSDecodableShape {
+        public let fraudster: Fraudster?
+
+        public init(fraudster: Fraudster? = nil) {
+            self.fraudster = fraudster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fraudster = "Fraudster"
+        }
+    }
+
     public struct AuthenticationConfiguration: AWSDecodableShape {
         /// The minimum threshold needed to successfully authenticate a speaker.
         public let acceptanceThreshold: Int
@@ -126,9 +171,9 @@ extension VoiceID {
     }
 
     public struct AuthenticationResult: AWSDecodableShape {
-        /// A timestamp indicating when audio aggregation ended for this authentication result.
+        /// A timestamp of when audio aggregation ended for this authentication result.
         public let audioAggregationEndedAt: Date?
-        /// A timestamp indicating when audio aggregation started for this authentication result.
+        /// A timestamp of when audio aggregation started for this authentication result.
         public let audioAggregationStartedAt: Date?
         /// The unique identifier for this authentication result. Because there can be multiple authentications for a given session, this field helps to identify if the returned result is from a previous streaming activity or a new result. Note that in absence of any new streaming activity, AcceptanceThreshold changes, or SpeakerId changes, Voice ID always returns cached Authentication Result for this API.
         public let authenticationResultId: String?
@@ -167,9 +212,9 @@ extension VoiceID {
     }
 
     public struct CreateDomainRequest: AWSEncodableShape {
-        /// The idempotency token for creating a new domain. If not provided, Amazon Web Services SDK populates this field.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// A brief description of the domain.
+        /// A brief description of this domain.
         public let description: String?
         /// The name of the domain.
         public let name: String
@@ -225,6 +270,59 @@ extension VoiceID {
         }
     }
 
+    public struct CreateWatchlistRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// A brief description of this watchlist.
+        public let description: String?
+        /// The identifier of the domain that contains the watchlist.
+        public let domainId: String
+        /// The name of the watchlist.
+        public let name: String
+
+        public init(clientToken: String? = CreateWatchlistRequest.idempotencyToken(), description: String? = nil, domainId: String, name: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.domainId = domainId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case domainId = "DomainId"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateWatchlistResponse: AWSDecodableShape {
+        /// Information about the newly created watchlist.
+        public let watchlist: Watchlist?
+
+        public init(watchlist: Watchlist? = nil) {
+            self.watchlist = watchlist
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case watchlist = "Watchlist"
+        }
+    }
+
     public struct DeleteDomainRequest: AWSEncodableShape {
         /// The identifier of the domain you want to delete.
         public let domainId: String
@@ -245,7 +343,7 @@ extension VoiceID {
     }
 
     public struct DeleteFraudsterRequest: AWSEncodableShape {
-        /// The identifier of the domain containing the fraudster.
+        /// The identifier of the domain that contains the fraudster.
         public let domainId: String
         /// The identifier of the fraudster you want to delete.
         public let fraudsterId: String
@@ -271,7 +369,7 @@ extension VoiceID {
     }
 
     public struct DeleteSpeakerRequest: AWSEncodableShape {
-        /// The identifier of the domain containing the speaker.
+        /// The identifier of the domain that contains the speaker.
         public let domainId: String
         /// The identifier of the speaker you want to delete.
         public let speakerId: String
@@ -296,8 +394,34 @@ extension VoiceID {
         }
     }
 
+    public struct DeleteWatchlistRequest: AWSEncodableShape {
+        /// The identifier of the domain that contains the watchlist.
+        public let domainId: String
+        /// The identifier of the watchlist to be deleted.
+        public let watchlistId: String
+
+        public init(domainId: String, watchlistId: String) {
+            self.domainId = domainId
+            self.watchlistId = watchlistId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, max: 22)
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, min: 22)
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case watchlistId = "WatchlistId"
+        }
+    }
+
     public struct DescribeDomainRequest: AWSEncodableShape {
-        /// The identifier of the domain you are describing.
+        /// The identifier of the domain that you are describing.
         public let domainId: String
 
         public init(domainId: String) {
@@ -329,9 +453,9 @@ extension VoiceID {
     }
 
     public struct DescribeFraudsterRegistrationJobRequest: AWSEncodableShape {
-        /// The identifier for the domain containing the fraudster registration job.
+        /// The identifier of the domain that contains the fraudster registration job.
         public let domainId: String
-        /// The identifier for the fraudster registration job you are describing.
+        /// The identifier of the fraudster registration job you are describing.
         public let jobId: String
 
         public init(domainId: String, jobId: String) {
@@ -368,7 +492,7 @@ extension VoiceID {
     }
 
     public struct DescribeFraudsterRequest: AWSEncodableShape {
-        /// The identifier of the domain containing the fraudster.
+        /// The identifier of the domain that contains the fraudster.
         public let domainId: String
         /// The identifier of the fraudster you are describing.
         public let fraudsterId: String
@@ -407,7 +531,7 @@ extension VoiceID {
     }
 
     public struct DescribeSpeakerEnrollmentJobRequest: AWSEncodableShape {
-        /// The identifier of the domain containing the speaker enrollment job.
+        /// The identifier of the domain that contains the speaker enrollment job.
         public let domainId: String
         /// The identifier of the speaker enrollment job you are describing.
         public let jobId: String
@@ -484,27 +608,113 @@ extension VoiceID {
         }
     }
 
+    public struct DescribeWatchlistRequest: AWSEncodableShape {
+        /// The identifier of the domain that contains the watchlist.
+        public let domainId: String
+        /// The identifier of the watchlist that you are describing.
+        public let watchlistId: String
+
+        public init(domainId: String, watchlistId: String) {
+            self.domainId = domainId
+            self.watchlistId = watchlistId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, max: 22)
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, min: 22)
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case watchlistId = "WatchlistId"
+        }
+    }
+
+    public struct DescribeWatchlistResponse: AWSDecodableShape {
+        /// Information about the specified watchlist.
+        public let watchlist: Watchlist?
+
+        public init(watchlist: Watchlist? = nil) {
+            self.watchlist = watchlist
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case watchlist = "Watchlist"
+        }
+    }
+
+    public struct DisassociateFraudsterRequest: AWSEncodableShape {
+        /// The identifier of the domain that contains the fraudster.
+        public let domainId: String
+        /// The identifier of the fraudster to be disassociated from the watchlist.
+        public let fraudsterId: String
+        /// The identifier of the watchlist that you want to disassociate from the fraudster.
+        public let watchlistId: String
+
+        public init(domainId: String, fraudsterId: String, watchlistId: String) {
+            self.domainId = domainId
+            self.fraudsterId = fraudsterId
+            self.watchlistId = watchlistId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+            try self.validate(self.fraudsterId, name: "fraudsterId", parent: name, max: 25)
+            try self.validate(self.fraudsterId, name: "fraudsterId", parent: name, min: 25)
+            try self.validate(self.fraudsterId, name: "fraudsterId", parent: name, pattern: "^id#[a-zA-Z0-9]{22}$")
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, max: 22)
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, min: 22)
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case fraudsterId = "FraudsterId"
+            case watchlistId = "WatchlistId"
+        }
+    }
+
+    public struct DisassociateFraudsterResponse: AWSDecodableShape {
+        public let fraudster: Fraudster?
+
+        public init(fraudster: Fraudster? = nil) {
+            self.fraudster = fraudster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fraudster = "Fraudster"
+        }
+    }
+
     public struct Domain: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the domain.
         public let arn: String?
-        /// The timestamp at which the domain is created.
+        /// The timestamp of when the domain was created.
         public let createdAt: Date?
-        /// The client-provided description of the domain.
+        /// The description of the domain.
         public let description: String?
-        /// The service-generated identifier for the domain.
+        /// The identifier of the domain.
         public let domainId: String?
         /// The current status of the domain.
         public let domainStatus: DomainStatus?
-        /// The client-provided name for the domain.
+        /// The name for the domain.
         public let name: String?
         /// The server-side encryption configuration containing the KMS key identifier you want Voice ID to use to encrypt your data.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// Details about the most recent server-side encryption configuration update. When the server-side encryption configuration is changed, dependency on the old KMS key is removed through an asynchronous process. When this update is complete, the domain's data can only be accessed using the new KMS key.
         public let serverSideEncryptionUpdateDetails: ServerSideEncryptionUpdateDetails?
-        /// The timestamp showing the domain's last update.
+        /// The timestamp of when the domain was last update.
         public let updatedAt: Date?
+        /// The watchlist details of a domain. Contains the default watchlist ID of the domain.
+        public let watchlistDetails: WatchlistDetails?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String? = nil, domainStatus: DomainStatus? = nil, name: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, serverSideEncryptionUpdateDetails: ServerSideEncryptionUpdateDetails? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String? = nil, domainStatus: DomainStatus? = nil, name: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, serverSideEncryptionUpdateDetails: ServerSideEncryptionUpdateDetails? = nil, updatedAt: Date? = nil, watchlistDetails: WatchlistDetails? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -514,6 +724,7 @@ extension VoiceID {
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
             self.serverSideEncryptionUpdateDetails = serverSideEncryptionUpdateDetails
             self.updatedAt = updatedAt
+            self.watchlistDetails = watchlistDetails
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -526,17 +737,18 @@ extension VoiceID {
             case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
             case serverSideEncryptionUpdateDetails = "ServerSideEncryptionUpdateDetails"
             case updatedAt = "UpdatedAt"
+            case watchlistDetails = "WatchlistDetails"
         }
     }
 
     public struct DomainSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the domain.
         public let arn: String?
-        /// The timestamp showing when the domain is created.
+        /// The timestamp of when the domain was created.
         public let createdAt: Date?
-        /// The client-provided description of the domain.
+        /// The description of the domain.
         public let description: String?
-        /// The service-generated identifier for the domain.
+        /// The identifier of the domain.
         public let domainId: String?
         /// The current status of the domain.
         public let domainStatus: DomainStatus?
@@ -546,10 +758,12 @@ extension VoiceID {
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// Details about the most recent server-side encryption configuration update. When the server-side encryption configuration is changed, dependency on the old KMS key is removed through an asynchronous process. When this update is complete, the domain's data can only be accessed using the new KMS key.
         public let serverSideEncryptionUpdateDetails: ServerSideEncryptionUpdateDetails?
-        /// The timestamp showing the domain's last update.
+        /// The timestamp of when the domain was last updated.
         public let updatedAt: Date?
+        /// Provides information about watchlistDetails and DefaultWatchlistID.
+        public let watchlistDetails: WatchlistDetails?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String? = nil, domainStatus: DomainStatus? = nil, name: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, serverSideEncryptionUpdateDetails: ServerSideEncryptionUpdateDetails? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String? = nil, domainStatus: DomainStatus? = nil, name: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, serverSideEncryptionUpdateDetails: ServerSideEncryptionUpdateDetails? = nil, updatedAt: Date? = nil, watchlistDetails: WatchlistDetails? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -559,6 +773,7 @@ extension VoiceID {
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
             self.serverSideEncryptionUpdateDetails = serverSideEncryptionUpdateDetails
             self.updatedAt = updatedAt
+            self.watchlistDetails = watchlistDetails
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -571,6 +786,7 @@ extension VoiceID {
             case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
             case serverSideEncryptionUpdateDetails = "ServerSideEncryptionUpdateDetails"
             case updatedAt = "UpdatedAt"
+            case watchlistDetails = "WatchlistDetails"
         }
     }
 
@@ -600,20 +816,31 @@ extension VoiceID {
         public let fraudDetectionAction: FraudDetectionAction?
         /// Threshold value for determining whether the speaker is a high risk to be fraudulent. If the detected risk score calculated by Voice ID is greater than or equal to the threshold, the speaker is considered a fraudster.
         public let riskThreshold: Int?
+        /// The identifier of watchlists against which fraud detection is performed.
+        public let watchlistIds: [String]?
 
-        public init(fraudDetectionAction: FraudDetectionAction? = nil, riskThreshold: Int? = nil) {
+        public init(fraudDetectionAction: FraudDetectionAction? = nil, riskThreshold: Int? = nil, watchlistIds: [String]? = nil) {
             self.fraudDetectionAction = fraudDetectionAction
             self.riskThreshold = riskThreshold
+            self.watchlistIds = watchlistIds
         }
 
         public func validate(name: String) throws {
             try self.validate(self.riskThreshold, name: "riskThreshold", parent: name, max: 100)
             try self.validate(self.riskThreshold, name: "riskThreshold", parent: name, min: 0)
+            try self.watchlistIds?.forEach {
+                try validate($0, name: "watchlistIds[]", parent: name, max: 22)
+                try validate($0, name: "watchlistIds[]", parent: name, min: 22)
+                try validate($0, name: "watchlistIds[]", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+            }
+            try self.validate(self.watchlistIds, name: "watchlistIds", parent: name, max: 1)
+            try self.validate(self.watchlistIds, name: "watchlistIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case fraudDetectionAction = "FraudDetectionAction"
             case riskThreshold = "RiskThreshold"
+            case watchlistIds = "WatchlistIds"
         }
     }
 
@@ -646,7 +873,7 @@ extension VoiceID {
     public struct EvaluateSessionResponse: AWSDecodableShape {
         /// Details resulting from the authentication process, such as authentication decision and authentication score.
         public let authenticationResult: AuthenticationResult?
-        /// The identifier of the domain containing the session.
+        /// The identifier of the domain that contains the session.
         public let domainId: String?
         /// Details resulting from the fraud detection process, such as fraud detection decision and risk score.
         public let fraudDetectionResult: FraudDetectionResult?
@@ -695,21 +922,25 @@ extension VoiceID {
 
     public struct FraudDetectionConfiguration: AWSDecodableShape {
         /// Threshold value for determining whether the speaker is a fraudster. If the detected risk score calculated by Voice ID is higher than the threshold, the speaker is considered a fraudster.
-        public let riskThreshold: Int
+        public let riskThreshold: Int?
+        /// The identifier of the watchlist against which fraud detection is performed.
+        public let watchlistId: String?
 
-        public init(riskThreshold: Int) {
+        public init(riskThreshold: Int? = nil, watchlistId: String? = nil) {
             self.riskThreshold = riskThreshold
+            self.watchlistId = watchlistId
         }
 
         private enum CodingKeys: String, CodingKey {
             case riskThreshold = "RiskThreshold"
+            case watchlistId = "WatchlistId"
         }
     }
 
     public struct FraudDetectionResult: AWSDecodableShape {
-        /// A timestamp indicating when audio aggregation ended for this fraud detection result.
+        /// A timestamp of when audio aggregation ended for this fraud detection result.
         public let audioAggregationEndedAt: Date?
-        /// A timestamp indicating when audio aggregation started for this fraud detection result.
+        /// A timestamp of when audio aggregation started for this fraud detection result.
         public let audioAggregationStartedAt: Date?
         /// The FraudDetectionConfiguration used to generate this fraud detection result.
         public let configuration: FraudDetectionConfiguration?
@@ -761,34 +992,38 @@ extension VoiceID {
     }
 
     public struct Fraudster: AWSDecodableShape {
-        /// The timestamp when Voice ID identified the fraudster.
+        /// The timestamp of when Voice ID identified the fraudster.
         public let createdAt: Date?
-        /// The identifier for the domain containing the fraudster.
+        /// The identifier of the domain that contains the fraudster.
         public let domainId: String?
         /// The service-generated identifier for the fraudster.
         public let generatedFraudsterId: String?
+        /// The identifier of the watchlists the fraudster is a part of.
+        public let watchlistIds: [String]?
 
-        public init(createdAt: Date? = nil, domainId: String? = nil, generatedFraudsterId: String? = nil) {
+        public init(createdAt: Date? = nil, domainId: String? = nil, generatedFraudsterId: String? = nil, watchlistIds: [String]? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.generatedFraudsterId = generatedFraudsterId
+            self.watchlistIds = watchlistIds
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
             case domainId = "DomainId"
             case generatedFraudsterId = "GeneratedFraudsterId"
+            case watchlistIds = "WatchlistIds"
         }
     }
 
     public struct FraudsterRegistrationJob: AWSDecodableShape {
-        /// A timestamp showing the creation time of the fraudster registration job.
+        /// A timestamp of when the fraudster registration job was created.
         public let createdAt: Date?
         /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the job output file.
         public let dataAccessRoleArn: String?
-        /// The identifier of the domain containing the fraudster registration job.
+        /// The identifier of the domain that contains the fraudster registration job.
         public let domainId: String?
-        /// A timestamp showing when the fraudster registration job ended.
+        /// A timestamp of when the fraudster registration job ended.
         public let endedAt: Date?
         /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual registration requests that failed.
         public let failureDetails: FailureDetails?
@@ -839,11 +1074,11 @@ extension VoiceID {
     }
 
     public struct FraudsterRegistrationJobSummary: AWSDecodableShape {
-        /// A timestamp showing when the fraudster registration job is created.
+        /// A timestamp of when the fraudster registration job was created.
         public let createdAt: Date?
-        /// The identifier of the domain containing the fraudster registration job.
+        /// The identifier of the domain that contains the fraudster registration job.
         public let domainId: String?
-        /// A timestamp showing when the fraudster registration job ended.
+        /// A timestamp of when the fraudster registration job ended.
         public let endedAt: Date?
         /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual registration requests that failed.
         public let failureDetails: FailureDetails?
@@ -876,6 +1111,31 @@ extension VoiceID {
             case jobName = "JobName"
             case jobProgress = "JobProgress"
             case jobStatus = "JobStatus"
+        }
+    }
+
+    public struct FraudsterSummary: AWSDecodableShape {
+        /// The timestamp of when the fraudster summary was created.
+        public let createdAt: Date?
+        /// The identifier of the domain that contains the fraudster summary.
+        public let domainId: String?
+        /// The service-generated identifier for the fraudster.
+        public let generatedFraudsterId: String?
+        /// The identifier of the watchlists the fraudster is a part of.
+        public let watchlistIds: [String]?
+
+        public init(createdAt: Date? = nil, domainId: String? = nil, generatedFraudsterId: String? = nil, watchlistIds: [String]? = nil) {
+            self.createdAt = createdAt
+            self.domainId = domainId
+            self.generatedFraudsterId = generatedFraudsterId
+            self.watchlistIds = watchlistIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case domainId = "DomainId"
+            case generatedFraudsterId = "GeneratedFraudsterId"
+            case watchlistIds = "WatchlistIds"
         }
     }
 
@@ -928,7 +1188,7 @@ extension VoiceID {
     }
 
     public struct ListDomainsRequest: AWSEncodableShape {
-        /// The maximum number of domains to list per API call.
+        /// The maximum number of results that are returned per call. You can use NextToken to obtain more pages of results. The default is 100; the maximum allowed page size is also 100.
         public let maxResults: Int?
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
@@ -969,11 +1229,11 @@ extension VoiceID {
     }
 
     public struct ListFraudsterRegistrationJobsRequest: AWSEncodableShape {
-        /// The identifier of the domain containing the fraudster registration Jobs.
+        /// The identifier of the domain that contains the fraudster registration Jobs.
         public let domainId: String
         /// Provides the status of your fraudster registration job.
         public let jobStatus: FraudsterRegistrationJobStatus?
-        /// The maximum number of results that are returned per call. You can use NextToken to obtain further pages of results. The default is 100; the maximum allowed page size is also 100.
+        /// The maximum number of results that are returned per call. You can use NextToken to obtain more pages of results. The default is 100; the maximum allowed page size is also 100.
         public let maxResults: Int?
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
@@ -1020,12 +1280,67 @@ extension VoiceID {
         }
     }
 
+    public struct ListFraudstersRequest: AWSEncodableShape {
+        /// The identifier of the domain.
+        public let domainId: String
+        /// The maximum number of results that are returned per call. You can use NextToken to obtain more pages of results. The default is 100; the maximum allowed page size is also 100.
+        public let maxResults: Int?
+        /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+        public let nextToken: String?
+        /// The identifier of the watchlist. If provided, all fraudsters in the watchlist are listed. If not provided, all fraudsters in the domain are listed.
+        public let watchlistId: String?
+
+        public init(domainId: String, maxResults: Int? = nil, nextToken: String? = nil, watchlistId: String? = nil) {
+            self.domainId = domainId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.watchlistId = watchlistId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,8192}$")
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, max: 22)
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, min: 22)
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case watchlistId = "WatchlistId"
+        }
+    }
+
+    public struct ListFraudstersResponse: AWSDecodableShape {
+        /// A list that contains details about each fraudster in the Amazon Web Services account.
+        public let fraudsterSummaries: [FraudsterSummary]?
+        /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+        public let nextToken: String?
+
+        public init(fraudsterSummaries: [FraudsterSummary]? = nil, nextToken: String? = nil) {
+            self.fraudsterSummaries = fraudsterSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fraudsterSummaries = "FraudsterSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListSpeakerEnrollmentJobsRequest: AWSEncodableShape {
-        /// The identifier of the domain containing the speaker enrollment jobs.
+        /// The identifier of the domain that contains the speaker enrollment jobs.
         public let domainId: String
         /// Provides the status of your speaker enrollment Job.
         public let jobStatus: SpeakerEnrollmentJobStatus?
-        /// The maximum number of results that are returned per call. You can use NextToken to obtain further pages of results. The default is 100; the maximum allowed page size is also 100.
+        /// The maximum number of results that are returned per call. You can use NextToken to obtain more pages of results. The default is 100; the maximum allowed page size is also 100.
         public let maxResults: Int?
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
@@ -1075,7 +1390,7 @@ extension VoiceID {
     public struct ListSpeakersRequest: AWSEncodableShape {
         /// The identifier of the domain.
         public let domainId: String
-        /// The maximum number of results that are returned per call. You can use NextToken to obtain further pages of results. The default is 100; the maximum allowed page size is also 100.
+        /// The maximum number of results that are returned per call. You can use NextToken to obtain more pages of results. The default is 100; the maximum allowed page size is also 100.
         public let maxResults: Int?
         /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
@@ -1152,8 +1467,56 @@ extension VoiceID {
         }
     }
 
+    public struct ListWatchlistsRequest: AWSEncodableShape {
+        /// The identifier of the domain.
+        public let domainId: String
+        /// The maximum number of results that are returned per call. You can use NextToken to obtain more pages of results. The default is 100; the maximum allowed page size is also 100.
+        public let maxResults: Int?
+        /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+        public let nextToken: String?
+
+        public init(domainId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainId = domainId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,8192}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListWatchlistsResponse: AWSDecodableShape {
+        /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+        public let nextToken: String?
+        /// A list that contains details about each watchlist in the Amazon Web Services account.
+        public let watchlistSummaries: [WatchlistSummary]?
+
+        public init(nextToken: String? = nil, watchlistSummaries: [WatchlistSummary]? = nil) {
+            self.nextToken = nextToken
+            self.watchlistSummaries = watchlistSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case watchlistSummaries = "WatchlistSummaries"
+        }
+    }
+
     public struct OptOutSpeakerRequest: AWSEncodableShape {
-        /// The identifier of the domain containing the speaker.
+        /// The identifier of the domain that contains the speaker.
         public let domainId: String
         /// The identifier of the speaker you want opted-out.
         public let speakerId: String
@@ -1220,20 +1583,31 @@ extension VoiceID {
         public let duplicateRegistrationAction: DuplicateRegistrationAction?
         /// The minimum similarity score between the new and old fraudsters in order to consider the new fraudster a duplicate.
         public let fraudsterSimilarityThreshold: Int?
+        /// The identifiers of watchlists that a fraudster is registered to. If a watchlist isn't provided, the fraudsters are registered to the default watchlist.
+        public let watchlistIds: [String]?
 
-        public init(duplicateRegistrationAction: DuplicateRegistrationAction? = nil, fraudsterSimilarityThreshold: Int? = nil) {
+        public init(duplicateRegistrationAction: DuplicateRegistrationAction? = nil, fraudsterSimilarityThreshold: Int? = nil, watchlistIds: [String]? = nil) {
             self.duplicateRegistrationAction = duplicateRegistrationAction
             self.fraudsterSimilarityThreshold = fraudsterSimilarityThreshold
+            self.watchlistIds = watchlistIds
         }
 
         public func validate(name: String) throws {
             try self.validate(self.fraudsterSimilarityThreshold, name: "fraudsterSimilarityThreshold", parent: name, max: 100)
             try self.validate(self.fraudsterSimilarityThreshold, name: "fraudsterSimilarityThreshold", parent: name, min: 0)
+            try self.watchlistIds?.forEach {
+                try validate($0, name: "watchlistIds[]", parent: name, max: 22)
+                try validate($0, name: "watchlistIds[]", parent: name, min: 22)
+                try validate($0, name: "watchlistIds[]", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+            }
+            try self.validate(self.watchlistIds, name: "watchlistIds", parent: name, max: 1)
+            try self.validate(self.watchlistIds, name: "watchlistIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case duplicateRegistrationAction = "DuplicateRegistrationAction"
             case fraudsterSimilarityThreshold = "FraudsterSimilarityThreshold"
+            case watchlistIds = "WatchlistIds"
         }
     }
 
@@ -1277,7 +1651,7 @@ extension VoiceID {
     }
 
     public struct Speaker: AWSDecodableShape {
-        /// A timestamp showing when the speaker is created.
+        /// A timestamp of when the speaker was created.
         public let createdAt: Date?
         /// The client-provided identifier for the speaker.
         public let customerSpeakerId: String?
@@ -1285,11 +1659,11 @@ extension VoiceID {
         public let domainId: String?
         /// The service-generated identifier for the speaker.
         public let generatedSpeakerId: String?
-        /// The timestamp when the speaker was last accessed for enrollment, re-enrollment or a successful authentication. This timestamp is accurate to one hour.
+        /// The timestamp of when the speaker was last accessed for enrollment, re-enrollment or a successful authentication. This timestamp is accurate to one hour.
         public let lastAccessedAt: Date?
         /// The current status of the speaker.
         public let status: SpeakerStatus?
-        /// A timestamp showing the speaker's last update.
+        /// A timestamp of the speaker's last update.
         public let updatedAt: Date?
 
         public init(createdAt: Date? = nil, customerSpeakerId: String? = nil, domainId: String? = nil, generatedSpeakerId: String? = nil, lastAccessedAt: Date? = nil, status: SpeakerStatus? = nil, updatedAt: Date? = nil) {
@@ -1314,13 +1688,13 @@ extension VoiceID {
     }
 
     public struct SpeakerEnrollmentJob: AWSDecodableShape {
-        /// A timestamp showing the creation of the speaker enrollment job.
+        /// A timestamp of when the speaker enrollment job was created.
         public let createdAt: Date?
         /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the job output file.
         public let dataAccessRoleArn: String?
         /// The identifier of the domain that contains the speaker enrollment job.
         public let domainId: String?
-        /// A timestamp showing when the speaker enrollment job ended.
+        /// A timestamp of when the speaker enrollment job ended.
         public let endedAt: Date?
         /// The configuration that defines the action to take when the speaker is already enrolled in Voice ID, and the FraudDetectionConfig to use.
         public let enrollmentConfig: EnrollmentConfig?
@@ -1371,11 +1745,11 @@ extension VoiceID {
     }
 
     public struct SpeakerEnrollmentJobSummary: AWSDecodableShape {
-        /// A timestamp showing the creation time of the speaker enrollment job.
+        /// A timestamp of when of the speaker enrollment job was created.
         public let createdAt: Date?
         /// The identifier of the domain that contains the speaker enrollment job.
         public let domainId: String?
-        /// A timestamp showing when the speaker enrollment job ended.
+        /// A timestamp of when the speaker enrollment job ended.
         public let endedAt: Date?
         /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual registration requests that failed.
         public let failureDetails: FailureDetails?
@@ -1449,11 +1823,11 @@ extension VoiceID {
     }
 
     public struct StartFraudsterRegistrationJobRequest: AWSEncodableShape {
-        /// The idempotency token for starting a new fraudster registration job. If not provided, Amazon Web Services SDK populates this field.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the Job output file. Refer to the Create and edit a fraudster watchlist documentation for the permissions needed in this role.
         public let dataAccessRoleArn: String
-        /// The identifier of the domain containing the fraudster registration job and in which the fraudsters are registered.
+        /// The identifier of the domain that contains the fraudster registration job and in which the fraudsters are registered.
         public let domainId: String
         /// The input data config containing an S3 URI for the input manifest file that contains the list of fraudster registration requests.
         public let inputDataConfig: InputDataConfig
@@ -1517,7 +1891,7 @@ extension VoiceID {
     }
 
     public struct StartSpeakerEnrollmentJobRequest: AWSEncodableShape {
-        /// The idempotency token for starting a new speaker enrollment Job. If not provided, Amazon Web Services SDK populates this field.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the job output file. Refer to Batch enrollment using audio data from prior calls for the permissions needed in this role.
         public let dataAccessRoleArn: String
@@ -1674,7 +2048,7 @@ extension VoiceID {
     }
 
     public struct UpdateDomainRequest: AWSEncodableShape {
-        /// A brief description of the domain.
+        /// A brief description about this domain.
         public let description: String?
         /// The identifier of the domain to be updated.
         public let domainId: String
@@ -1724,6 +2098,59 @@ extension VoiceID {
         }
     }
 
+    public struct UpdateWatchlistRequest: AWSEncodableShape {
+        /// A brief description about this watchlist.
+        public let description: String?
+        /// The identifier of the domain that contains the watchlist.
+        public let domainId: String
+        /// The name of the watchlist.
+        public let name: String?
+        /// The identifier of the watchlist to be updated.
+        public let watchlistId: String
+
+        public init(description: String? = nil, domainId: String, name: String? = nil, watchlistId: String) {
+            self.description = description
+            self.domainId = domainId
+            self.name = name
+            self.watchlistId = watchlistId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 22)
+            try self.validate(self.domainId, name: "domainId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, max: 22)
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, min: 22)
+            try self.validate(self.watchlistId, name: "watchlistId", parent: name, pattern: "^[a-zA-Z0-9]{22}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case domainId = "DomainId"
+            case name = "Name"
+            case watchlistId = "WatchlistId"
+        }
+    }
+
+    public struct UpdateWatchlistResponse: AWSDecodableShape {
+        /// Details about the updated watchlist.
+        public let watchlist: Watchlist?
+
+        public init(watchlist: Watchlist? = nil) {
+            self.watchlist = watchlist
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case watchlist = "Watchlist"
+        }
+    }
+
     public struct VoiceSpoofingRisk: AWSDecodableShape {
         /// The score indicating the likelihood of speaker’s voice being spoofed.
         public let riskScore: Int
@@ -1734,6 +2161,93 @@ extension VoiceID {
 
         private enum CodingKeys: String, CodingKey {
             case riskScore = "RiskScore"
+        }
+    }
+
+    public struct Watchlist: AWSDecodableShape {
+        /// The timestamp of when the watchlist was created.
+        public let createdAt: Date?
+        /// Whether the specified watchlist is the default watchlist of a domain.
+        public let defaultWatchlist: Bool?
+        /// The description of the watchlist.
+        public let description: String?
+        /// The identifier of the domain that contains the watchlist.
+        public let domainId: String?
+        /// The name for the watchlist.
+        public let name: String?
+        /// The timestamp of when the watchlist was updated.
+        public let updatedAt: Date?
+        /// The identifier of the watchlist.
+        public let watchlistId: String?
+
+        public init(createdAt: Date? = nil, defaultWatchlist: Bool? = nil, description: String? = nil, domainId: String? = nil, name: String? = nil, updatedAt: Date? = nil, watchlistId: String? = nil) {
+            self.createdAt = createdAt
+            self.defaultWatchlist = defaultWatchlist
+            self.description = description
+            self.domainId = domainId
+            self.name = name
+            self.updatedAt = updatedAt
+            self.watchlistId = watchlistId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case defaultWatchlist = "DefaultWatchlist"
+            case description = "Description"
+            case domainId = "DomainId"
+            case name = "Name"
+            case updatedAt = "UpdatedAt"
+            case watchlistId = "WatchlistId"
+        }
+    }
+
+    public struct WatchlistDetails: AWSDecodableShape {
+        /// The identifier of the default watchlist.
+        public let defaultWatchlistId: String
+
+        public init(defaultWatchlistId: String) {
+            self.defaultWatchlistId = defaultWatchlistId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultWatchlistId = "DefaultWatchlistId"
+        }
+    }
+
+    public struct WatchlistSummary: AWSDecodableShape {
+        /// The timestamp of when the watchlist was created.
+        public let createdAt: Date?
+        /// Whether the specified watchlist is the default watchlist of a domain.
+        public let defaultWatchlist: Bool?
+        /// The description of the watchlist.
+        public let description: String?
+        /// The identifier of the domain that contains the watchlist.
+        public let domainId: String?
+        /// The name for the watchlist.
+        public let name: String?
+        /// The timestamp of when the watchlist was last updated.
+        public let updatedAt: Date?
+        /// The identifier of the watchlist.
+        public let watchlistId: String?
+
+        public init(createdAt: Date? = nil, defaultWatchlist: Bool? = nil, description: String? = nil, domainId: String? = nil, name: String? = nil, updatedAt: Date? = nil, watchlistId: String? = nil) {
+            self.createdAt = createdAt
+            self.defaultWatchlist = defaultWatchlist
+            self.description = description
+            self.domainId = domainId
+            self.name = name
+            self.updatedAt = updatedAt
+            self.watchlistId = watchlistId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case defaultWatchlist = "DefaultWatchlist"
+            case description = "Description"
+            case domainId = "DomainId"
+            case name = "Name"
+            case updatedAt = "UpdatedAt"
+            case watchlistId = "WatchlistId"
         }
     }
 }

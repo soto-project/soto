@@ -97,12 +97,15 @@ extension IoTDataPlane {
         public let qos: Int?
         /// The topic name to which the retained message was published.
         public let topic: String?
+        /// A base64-encoded JSON string that includes an array of JSON objects, or null if the retained message doesn't include any user properties. The following example userProperties parameter is a JSON string that represents two user properties. Note that it will be base64-encoded:  [{"deviceName": "alpha"}, {"deviceCnt": "45"}]
+        public let userProperties: AWSBase64Data?
 
-        public init(lastModifiedTime: Int64? = nil, payload: AWSBase64Data? = nil, qos: Int? = nil, topic: String? = nil) {
+        public init(lastModifiedTime: Int64? = nil, payload: AWSBase64Data? = nil, qos: Int? = nil, topic: String? = nil, userProperties: AWSBase64Data? = nil) {
             self.lastModifiedTime = lastModifiedTime
             self.payload = payload
             self.qos = qos
             self.topic = topic
+            self.userProperties = userProperties
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -110,6 +113,7 @@ extension IoTDataPlane {
             case payload = "payload"
             case qos = "qos"
             case topic = "topic"
+            case userProperties = "userProperties"
         }
     }
 

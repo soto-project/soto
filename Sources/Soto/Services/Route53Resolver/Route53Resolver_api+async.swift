@@ -27,8 +27,7 @@ extension Route53Resolver {
     }
 
     /// Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more than one IP address,
-    /// 			submit one AssociateResolverEndpointIpAddress request for each IP address.
-    /// 		       To remove an IP address from an endpoint, see
+    /// 			submit one AssociateResolverEndpointIpAddress request for each IP address. To remove an IP address from an endpoint, see
     /// 			DisassociateResolverEndpointIpAddress.
     ///
     public func associateResolverEndpointIpAddress(_ input: AssociateResolverEndpointIpAddressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateResolverEndpointIpAddressResponse {
@@ -37,11 +36,7 @@ extension Route53Resolver {
 
     /// Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs
     /// 			that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one AssociateResolverQueryLogConfig
-    /// 			request for each VPC.
-    ///
-    /// 		        The VPCs that you associate with a query logging configuration must be in the same Region as the configuration.
-    ///
-    /// 		       To remove a VPC from a query logging configuration, see
+    /// 			request for each VPC.  The VPCs that you associate with a query logging configuration must be in the same Region as the configuration.  To remove a VPC from a query logging configuration, see
     /// 			DisassociateResolverQueryLogConfig.
     ///
     public func associateResolverQueryLogConfig(_ input: AssociateResolverQueryLogConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateResolverQueryLogConfigResponse {
@@ -71,8 +66,7 @@ extension Route53Resolver {
         return try await self.client.execute(operation: "CreateFirewallRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound:
-    /// 		         An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC
+    /// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound:   An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC
     /// 				from your network.   An outbound Resolver endpoint forwards DNS queries from the DNS service for a VPC
     /// 				to your network.
     public func createResolverEndpoint(_ input: CreateResolverEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateResolverEndpointResponse {
@@ -80,12 +74,8 @@ extension Route53Resolver {
     }
 
     /// Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs.
-    /// 			Resolver can log queries only for VPCs that are in the same Region as the query logging configuration.
-    ///
-    /// 		       To specify which VPCs you want to log queries for, you use AssociateResolverQueryLogConfig. For more information, see
-    /// 			AssociateResolverQueryLogConfig.
-    ///
-    /// 		       You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other Amazon Web Services accounts. The other accounts
+    /// 			Resolver can log queries only for VPCs that are in the same Region as the query logging configuration. To specify which VPCs you want to log queries for, you use AssociateResolverQueryLogConfig. For more information, see
+    /// 			AssociateResolverQueryLogConfig.  You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other Amazon Web Services accounts. The other accounts
     /// 			can then associate VPCs with the configuration. The query logs that Resolver creates for a configuration include all DNS queries that originate in all
     /// 			VPCs that are associated with the configuration.
     public func createResolverQueryLogConfig(_ input: CreateResolverQueryLogConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateResolverQueryLogConfigResponse {
@@ -114,8 +104,7 @@ extension Route53Resolver {
     }
 
     /// Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound
-    /// 			Resolver endpoint:
-    /// 		          Inbound: DNS queries from your network are no longer routed
+    /// 			Resolver endpoint:    Inbound: DNS queries from your network are no longer routed
     /// 				to the DNS service for the specified VPC.    Outbound: DNS queries from a VPC are no longer routed to your network.
     public func deleteResolverEndpoint(_ input: DeleteResolverEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteResolverEndpointResponse {
         return try await self.client.execute(operation: "DeleteResolverEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -123,12 +112,8 @@ extension Route53Resolver {
 
     /// Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are
     /// 			associated with the configuration. This also applies if the query logging configuration is shared with other Amazon Web Services accounts, and
-    /// 			the other accounts have associated VPCs with the shared configuration.
-    ///
-    /// 		       Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See
-    /// 			DisassociateResolverQueryLogConfig.
-    ///
-    /// 		       If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, you must stop sharing
+    /// 			the other accounts have associated VPCs with the shared configuration. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See
+    /// 			DisassociateResolverQueryLogConfig. If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, you must stop sharing
     /// 			the configuration before you can delete a configuration. The accounts that you shared the configuration with can first disassociate VPCs
     /// 			that they associated with the configuration, but that's not necessary. If you stop sharing the configuration, those VPCs are automatically
     /// 			disassociated from the configuration.
@@ -149,32 +134,23 @@ extension Route53Resolver {
     }
 
     /// Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to remove more than one IP address,
-    /// 			submit one DisassociateResolverEndpointIpAddress request for each IP address.
-    /// 		       To add an IP address to an endpoint, see
+    /// 			submit one DisassociateResolverEndpointIpAddress request for each IP address. To add an IP address to an endpoint, see
     /// 			AssociateResolverEndpointIpAddress.
     ///
     public func disassociateResolverEndpointIpAddress(_ input: DisassociateResolverEndpointIpAddressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateResolverEndpointIpAddressResponse {
         return try await self.client.execute(operation: "DisassociateResolverEndpointIpAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates a VPC from a query logging configuration.
-    ///
-    ///
-    /// 			         Before you can delete a query logging configuration, you must first disassociate all VPCs
+    /// Disassociates a VPC from a query logging configuration.  Before you can delete a query logging configuration, you must first disassociate all VPCs
     /// 				from the configuration. If you used Resource Access Manager (RAM) to share a
     /// 				query logging configuration with other accounts, VPCs can be disassociated from the
-    /// 				configuration in the following ways:
-    /// 			           The accounts that you shared the configuration with can disassociate VPCs from the configuration.   You can stop sharing the configuration.
-    ///
+    /// 				configuration in the following ways:   The accounts that you shared the configuration with can disassociate VPCs from the configuration.   You can stop sharing the configuration.
     public func disassociateResolverQueryLogConfig(_ input: DisassociateResolverQueryLogConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateResolverQueryLogConfigResponse {
         return try await self.client.execute(operation: "DisassociateResolverQueryLogConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the association between a specified Resolver rule and a specified VPC.
-    ///
-    /// 			         If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the
+    /// Removes the association between a specified Resolver rule and a specified VPC.  If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the
     /// 				domain name that you specified in the Resolver rule.
-    ///
     public func disassociateResolverRule(_ input: DisassociateResolverRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateResolverRuleResponse {
         return try await self.client.execute(operation: "DisassociateResolverRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -205,7 +181,7 @@ extension Route53Resolver {
         return try await self.client.execute(operation: "GetFirewallRuleGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from
+    /// Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from
     /// 				Amazon Virtual Private Cloud.
     public func getResolverConfig(_ input: GetResolverConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetResolverConfigResponse {
         return try await self.client.execute(operation: "GetResolverConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -259,7 +235,7 @@ extension Route53Resolver {
     }
 
     /// Imports domain names from a file into a domain list, for use in a DNS firewall rule group.  Each domain specification in your domain list must satisfy the following
-    /// 	requirements:    	        It can optionally start with * (asterisk). 	       	        With the exception of the optional starting asterisk, it must only contain 	   the following characters: A-Z, a-z, 	   0-9, - (hyphen). 	       	        It must be from 1-255 characters in length.
+    /// 	requirements:    It can optionally start with * (asterisk).   With the exception of the optional starting asterisk, it must only contain 	   the following characters: A-Z, a-z, 	   0-9, - (hyphen).   It must be from 1-255 characters in length.
     public func importFirewallDomains(_ input: ImportFirewallDomainsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ImportFirewallDomainsResponse {
         return try await self.client.execute(operation: "ImportFirewallDomains", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -295,7 +271,7 @@ extension Route53Resolver {
     }
 
     /// Retrieves the Resolver configurations that you have defined.
-    /// 			Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
+    /// 			Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
     public func listResolverConfigs(_ input: ListResolverConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListResolverConfigsResponse {
         return try await self.client.execute(operation: "ListResolverConfigs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -391,7 +367,7 @@ extension Route53Resolver {
         return try await self.client.execute(operation: "UpdateFirewallRuleGroupAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from
+    /// Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from
     /// 				Amazon Virtual Private Cloud.
     public func updateResolverConfig(_ input: UpdateResolverConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateResolverConfigResponse {
         return try await self.client.execute(operation: "UpdateResolverConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -402,7 +378,8 @@ extension Route53Resolver {
         return try await self.client.execute(operation: "UpdateResolverDnssecConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the name of an inbound or an outbound Resolver endpoint.
+    /// Updates the name, or enpoint type for an inbound or an outbound Resolver endpoint.
+    /// 			You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
     public func updateResolverEndpoint(_ input: UpdateResolverEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateResolverEndpointResponse {
         return try await self.client.execute(operation: "UpdateResolverEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -551,7 +528,7 @@ extension Route53Resolver {
     }
 
     /// Retrieves the Resolver configurations that you have defined.
-    /// 			Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
+    /// 			Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -1131,7 +1131,7 @@ extension RoboMaker {
         /// If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID.
         public let vpcConfig: VPCConfig?
 
-        public init(clientRequestToken: String? = CreateSimulationJobRequest.idempotencyToken(), compute: Compute? = nil, dataSources: [DataSourceConfig]? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfig? = nil) {
+        public init(clientRequestToken: String? = CreateSimulationJobRequest.idempotencyToken(), compute: Compute? = nil, dataSources: [DataSourceConfig]? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64 = 0, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.compute = compute
             self.dataSources = dataSources

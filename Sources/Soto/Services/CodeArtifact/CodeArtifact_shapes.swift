@@ -53,6 +53,7 @@ extension CodeArtifact {
     }
 
     public enum PackageFormat: String, CustomStringConvertible, Codable, Sendable {
+        case generic = "generic"
         case maven = "maven"
         case npm = "npm"
         case nuget = "nuget"
@@ -127,7 +128,7 @@ extension CodeArtifact {
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
         public let domainOwner: String?
-        ///  The name of the external connection to add to the repository. The following values are supported:     public:npmjs - for the npm public repository.     public:nuget-org - for the NuGet Gallery.     public:pypi - for the Python Package Index.     public:maven-central - for Maven Central.     public:maven-googleandroid - for the Google Android repository.     public:maven-gradleplugins - for the Gradle plugins repository.     public:maven-commonsware - for the CommonsWare Android repository.
+        ///  The name of the external connection to add to the repository. The following values are supported:     public:npmjs - for the npm public repository.     public:nuget-org - for the NuGet Gallery.     public:pypi - for the Python Package Index.     public:maven-central - for Maven Central.     public:maven-googleandroid - for the Google Android repository.     public:maven-gradleplugins - for the Gradle plugins repository.     public:maven-commonsware - for the CommonsWare Android repository.     public:maven-clojars - for the Clojars repository.
         public let externalConnection: String
         ///  The name of the repository to which the external connection is added.
         public let repository: String
@@ -193,7 +194,7 @@ extension CodeArtifact {
         public let format: PackageFormat
         ///  Set to true to copy packages from repositories that are upstream from the source repository to the destination repository. The default setting is false. For more information, see Working with upstream repositories.
         public let includeFromUpstream: Bool?
-        /// The namespace of the package versions to be copied. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId. The namespace is required when copying Maven package versions.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package versions to be copied. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId. The namespace is required when copying Maven package versions.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         ///  The name of the package that contains the versions to be copied.
         public let package: String
@@ -487,6 +488,71 @@ extension CodeArtifact {
         }
     }
 
+    public struct DeletePackageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "package", location: .querystring("package")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository"))
+        ]
+
+        /// The name of the domain that contains the package to delete.
+        public let domain: String
+        ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
+        public let domainOwner: String?
+        /// The format of the requested package to delete.
+        public let format: PackageFormat
+        /// The namespace of the package to delete. The package component that specifies its namespace depends on its type. For example:    The namespace of a Maven package is its groupId. The namespace is required when deleting Maven package versions.    The namespace of an npm package is its scope.    Python and NuGet packages do not contain corresponding components, packages of those formats do not have a namespace.    The namespace of a generic package is its namespace.
+        public let namespace: String?
+        /// The name of the package to delete.
+        public let package: String
+        /// The name of the repository that contains the package to delete.
+        public let repository: String
+
+        public init(domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, repository: String) {
+            self.domain = domain
+            self.domainOwner = domainOwner
+            self.format = format
+            self.namespace = namespace
+            self.package = package
+            self.repository = repository
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domain, name: "domain", parent: name, max: 50)
+            try self.validate(self.domain, name: "domain", parent: name, min: 2)
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^[a-z][a-z0-9\\-]{0,48}[a-z0-9]$")
+            try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
+            try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
+            try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
+            try self.validate(self.package, name: "package", parent: name, max: 255)
+            try self.validate(self.package, name: "package", parent: name, min: 1)
+            try self.validate(self.package, name: "package", parent: name, pattern: "^[^#/\\s]+$")
+            try self.validate(self.repository, name: "repository", parent: name, max: 100)
+            try self.validate(self.repository, name: "repository", parent: name, min: 2)
+            try self.validate(self.repository, name: "repository", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePackageResult: AWSDecodableShape {
+        public let deletedPackage: PackageSummary?
+
+        public init(deletedPackage: PackageSummary? = nil) {
+            self.deletedPackage = deletedPackage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletedPackage = "deletedPackage"
+        }
+    }
+
     public struct DeletePackageVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domain", location: .querystring("domain")),
@@ -505,7 +571,7 @@ extension CodeArtifact {
         public let expectedStatus: PackageVersionStatus?
         ///  The format of the package versions to delete.
         public let format: PackageFormat
-        /// The namespace of the package versions to be deleted. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId. The namespace is required when deleting Maven package versions.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package versions to be deleted. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId. The namespace is required when deleting Maven package versions.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         ///  The name of the package with the versions to delete.
         public let package: String
@@ -731,7 +797,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         /// A format that specifies the type of the requested package.
         public let format: PackageFormat
-        /// The namespace of the requested package. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package is its groupId. The namespace is required when requesting Maven packages.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.
+        /// The namespace of the requested package. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package is its groupId. The namespace is required when requesting Maven packages.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         /// The name of the requested package.
         public let package: String
@@ -798,7 +864,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         ///  A format that specifies the type of the requested package version.
         public let format: PackageFormat
-        /// The namespace of the requested package version. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the requested package version. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         ///  The name of the requested package version.
         public let package: String
@@ -975,7 +1041,7 @@ extension CodeArtifact {
         public let expectedStatus: PackageVersionStatus?
         ///  A format that specifies the type of package versions you want to dispose.
         public let format: PackageFormat
-        /// The namespace of the package versions to be disposed. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package versions to be disposed. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         ///  The name of the package with the versions you want to dispose.
         public let package: String
@@ -1262,7 +1328,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         ///  A format that specifies the type of the package version with the requested asset file.
         public let format: PackageFormat
-        /// The namespace of the package version with the requested asset file. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version with the requested asset file. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         ///  The name of the package that contains the requested asset.
         public let package: String
@@ -1364,9 +1430,9 @@ extension CodeArtifact {
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
         public let domainOwner: String?
-        ///  A format that specifies the type of the package version with the requested readme file.   Although maven is  listed as a valid value, CodeArtifact does not support displaying readme files for Maven packages.
+        ///  A format that specifies the type of the package version with the requested readme file.
         public let format: PackageFormat
-        /// The namespace of the package version with the requested readme file. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version with the requested readme file. The package version component that specifies its  namespace depends on its type. For example:   The namespace of an npm package version is its scope.    Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package version that contains the requested readme file.
         public let package: String
@@ -1622,7 +1688,7 @@ extension CodeArtifact {
         public let format: PackageFormat
         ///  The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The namespace of the package version that contains the requested package version assets. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version that contains the requested package version assets. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -1729,7 +1795,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         ///  The format of the package with the requested dependencies.
         public let format: PackageFormat
-        /// The namespace of the package version with the requested dependencies. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version with the requested dependencies. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -1834,11 +1900,11 @@ extension CodeArtifact {
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
         public let domainOwner: String?
-        ///  The format of the returned package versions.
+        ///  The format of the package versions you want to list.
         public let format: PackageFormat
         ///  The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The namespace of the package that contains the requested package versions. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.
+        /// The namespace of the package that contains the requested package versions. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -1948,7 +2014,7 @@ extension CodeArtifact {
         public let format: PackageFormat?
         ///  The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The namespace prefix used to filter requested packages. Only packages with a namespace that starts with the provided string value are returned. Note that although this option is called --namespace and not --namespace-prefix, it has prefix-matching behavior. Each package format uses namespace as follows:    The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.
+        /// The namespace prefix used to filter requested packages. Only packages with a namespace that starts with the provided string value are returned. Note that although this option is called --namespace and not --namespace-prefix, it has prefix-matching behavior. Each package format uses namespace as follows:    The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -2204,7 +2270,7 @@ extension CodeArtifact {
         public let format: PackageFormat?
         /// The name of the package.
         public let name: String?
-        /// The namespace of the package. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.
+        /// The namespace of the package. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         /// The package origin configuration for the package.
         public let originConfiguration: PackageOriginConfiguration?
@@ -2257,7 +2323,7 @@ extension CodeArtifact {
     public struct PackageSummary: AWSDecodableShape {
         ///  The format of the package.
         public let format: PackageFormat?
-        /// The namespace of the package. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.
+        /// The namespace of the package. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         /// A PackageOriginConfiguration  object that contains a PackageOriginRestrictions object  that contains information about the upstream and publish package origin restrictions.
         public let originConfiguration: PackageOriginConfiguration?
@@ -2288,7 +2354,7 @@ extension CodeArtifact {
         public let homePage: String?
         ///  Information about licenses associated with the package version.
         public let licenses: [LicenseInfo]?
-        /// The namespace of the package version. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         /// A PackageVersionOrigin object that contains  information about how the package version was added to the repository.
         public let origin: PackageVersionOrigin?
@@ -2399,6 +2465,127 @@ extension CodeArtifact {
         }
     }
 
+    public struct PublishPackageVersionRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "assetContent"
+        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static var _encoding = [
+            AWSMemberEncoding(label: "assetName", location: .querystring("asset")),
+            AWSMemberEncoding(label: "assetSHA256", location: .header("x-amz-content-sha256")),
+            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
+            AWSMemberEncoding(label: "domainOwner", location: .querystring("domain-owner")),
+            AWSMemberEncoding(label: "format", location: .querystring("format")),
+            AWSMemberEncoding(label: "namespace", location: .querystring("namespace")),
+            AWSMemberEncoding(label: "package", location: .querystring("package")),
+            AWSMemberEncoding(label: "packageVersion", location: .querystring("version")),
+            AWSMemberEncoding(label: "repository", location: .querystring("repository")),
+            AWSMemberEncoding(label: "unfinished", location: .querystring("unfinished"))
+        ]
+
+        /// The content of the asset to publish.
+        public let assetContent: AWSPayload
+        /// The name of the asset to publish. Asset names can include Unicode letters and numbers, and the following special characters: ~ ! @ ^ & ( ) - ` _ + [ ] { } ; , . `
+        public let assetName: String
+        /// The SHA256 hash of the assetContent to publish. This value must be calculated by the caller and provided with the request (see Publishing a generic package in the CodeArtifact User Guide). This value is used as an integrity check to verify that the assetContent has not changed after it was originally sent.
+        public let assetSHA256: String
+        /// The name of the domain that contains the repository that contains the package version to publish.
+        public let domain: String
+        /// The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        public let domainOwner: String?
+        /// A format that specifies the type of the package version with the requested asset file.
+        public let format: PackageFormat
+        /// The namespace of the package version to publish.
+        public let namespace: String?
+        /// The name of the package version to publish.
+        public let package: String
+        /// The package version to publish (for example, 3.5.2).
+        public let packageVersion: String
+        /// The name of the repository that the package version will be published to.
+        public let repository: String
+        /// Specifies whether the package version should remain in the unfinished state. If omitted, the package version status will be set to Published (see Package version status in the CodeArtifact User Guide). Valid values: unfinished
+        public let unfinished: Bool?
+
+        public init(assetContent: AWSPayload, assetName: String, assetSHA256: String, domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, packageVersion: String, repository: String, unfinished: Bool? = nil) {
+            self.assetContent = assetContent
+            self.assetName = assetName
+            self.assetSHA256 = assetSHA256
+            self.domain = domain
+            self.domainOwner = domainOwner
+            self.format = format
+            self.namespace = namespace
+            self.package = package
+            self.packageVersion = packageVersion
+            self.repository = repository
+            self.unfinished = unfinished
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetName, name: "assetName", parent: name, max: 255)
+            try self.validate(self.assetName, name: "assetName", parent: name, min: 1)
+            try self.validate(self.assetName, name: "assetName", parent: name, pattern: "^\\P{C}+$")
+            try self.validate(self.assetSHA256, name: "assetSHA256", parent: name, max: 64)
+            try self.validate(self.assetSHA256, name: "assetSHA256", parent: name, min: 64)
+            try self.validate(self.assetSHA256, name: "assetSHA256", parent: name, pattern: "^[0-9a-f]+$")
+            try self.validate(self.domain, name: "domain", parent: name, max: 50)
+            try self.validate(self.domain, name: "domain", parent: name, min: 2)
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^[a-z][a-z0-9\\-]{0,48}[a-z0-9]$")
+            try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
+            try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
+            try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^#/\\s]+$")
+            try self.validate(self.package, name: "package", parent: name, max: 255)
+            try self.validate(self.package, name: "package", parent: name, min: 1)
+            try self.validate(self.package, name: "package", parent: name, pattern: "^[^#/\\s]+$")
+            try self.validate(self.packageVersion, name: "packageVersion", parent: name, max: 255)
+            try self.validate(self.packageVersion, name: "packageVersion", parent: name, min: 1)
+            try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "^[^#/\\s]+$")
+            try self.validate(self.repository, name: "repository", parent: name, max: 100)
+            try self.validate(self.repository, name: "repository", parent: name, min: 2)
+            try self.validate(self.repository, name: "repository", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct PublishPackageVersionResult: AWSDecodableShape {
+        /// An AssetSummary for the published asset.
+        public let asset: AssetSummary?
+        /// The format of the package version.
+        public let format: PackageFormat?
+        /// The namespace of the package version.
+        public let namespace: String?
+        /// The name of the package.
+        public let package: String?
+        /// A string that contains the status of the package version. For more information, see Package version status in the CodeArtifact User Guide.
+        public let status: PackageVersionStatus?
+        /// The version of the package.
+        public let version: String?
+        /// The revision of the package version.
+        public let versionRevision: String?
+
+        public init(asset: AssetSummary? = nil, format: PackageFormat? = nil, namespace: String? = nil, package: String? = nil, status: PackageVersionStatus? = nil, version: String? = nil, versionRevision: String? = nil) {
+            self.asset = asset
+            self.format = format
+            self.namespace = namespace
+            self.package = package
+            self.status = status
+            self.version = version
+            self.versionRevision = versionRevision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asset = "asset"
+            case format = "format"
+            case namespace = "namespace"
+            case package = "package"
+            case status = "status"
+            case version = "version"
+            case versionRevision = "versionRevision"
+        }
+    }
+
     public struct PutDomainPermissionsPolicyRequest: AWSEncodableShape {
         ///  The name of the domain on which to set the resource policy.
         public let domain: String
@@ -2468,7 +2655,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         /// A format that specifies the type of the package to be updated.
         public let format: PackageFormat
-        /// The namespace of the package to be updated. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.
+        /// The namespace of the package to be updated. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     Python and NuGet packages do not contain a corresponding component, packages  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         /// The name of the package to be updated.
         public let package: String
@@ -2591,6 +2778,8 @@ extension CodeArtifact {
         public let administratorAccount: String?
         ///  The Amazon Resource Name (ARN) of the repository.
         public let arn: String?
+        /// A timestamp that represents the date and time the repository was created.
+        public let createdTime: Date?
         ///  A text description of the repository.
         public let description: String?
         ///  The name of the domain that contains the repository.
@@ -2604,9 +2793,10 @@ extension CodeArtifact {
         ///  A list of upstream repositories to associate with the repository. The order of the upstream repositories  in the list determines their priority order when CodeArtifact looks for a requested package version. For more  information, see Working with upstream repositories.
         public let upstreams: [UpstreamRepositoryInfo]?
 
-        public init(administratorAccount: String? = nil, arn: String? = nil, description: String? = nil, domainName: String? = nil, domainOwner: String? = nil, externalConnections: [RepositoryExternalConnectionInfo]? = nil, name: String? = nil, upstreams: [UpstreamRepositoryInfo]? = nil) {
+        public init(administratorAccount: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, domainName: String? = nil, domainOwner: String? = nil, externalConnections: [RepositoryExternalConnectionInfo]? = nil, name: String? = nil, upstreams: [UpstreamRepositoryInfo]? = nil) {
             self.administratorAccount = administratorAccount
             self.arn = arn
+            self.createdTime = createdTime
             self.description = description
             self.domainName = domainName
             self.domainOwner = domainOwner
@@ -2618,6 +2808,7 @@ extension CodeArtifact {
         private enum CodingKeys: String, CodingKey {
             case administratorAccount = "administratorAccount"
             case arn = "arn"
+            case createdTime = "createdTime"
             case description = "description"
             case domainName = "domainName"
             case domainOwner = "domainOwner"
@@ -2653,6 +2844,8 @@ extension CodeArtifact {
         public let administratorAccount: String?
         ///  The ARN of the repository.
         public let arn: String?
+        /// A timestamp that represents the date and time the repository was created.
+        public let createdTime: Date?
         ///  The description of the repository.
         public let description: String?
         ///  The name of the domain that contains the repository.
@@ -2662,9 +2855,10 @@ extension CodeArtifact {
         ///  The name of the repository.
         public let name: String?
 
-        public init(administratorAccount: String? = nil, arn: String? = nil, description: String? = nil, domainName: String? = nil, domainOwner: String? = nil, name: String? = nil) {
+        public init(administratorAccount: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, domainName: String? = nil, domainOwner: String? = nil, name: String? = nil) {
             self.administratorAccount = administratorAccount
             self.arn = arn
+            self.createdTime = createdTime
             self.description = description
             self.domainName = domainName
             self.domainOwner = domainOwner
@@ -2674,6 +2868,7 @@ extension CodeArtifact {
         private enum CodingKeys: String, CodingKey {
             case administratorAccount = "administratorAccount"
             case arn = "arn"
+            case createdTime = "createdTime"
             case description = "description"
             case domainName = "domainName"
             case domainOwner = "domainOwner"
@@ -2832,7 +3027,7 @@ extension CodeArtifact {
         public let expectedStatus: PackageVersionStatus?
         ///  A format that specifies the type of the package with the statuses to update.
         public let format: PackageFormat
-        /// The namespace of the package version to be updated. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version to be updated. The package version component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.    The namespace of a generic package is its namespace.
         public let namespace: String?
         ///  The name of the package with the version statuses to update.
         public let package: String

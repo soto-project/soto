@@ -821,8 +821,10 @@ extension CleanRooms {
         public let name: String
         /// An indicator as to whether query logging has been enabled or disabled for the collaboration.
         public let queryLogStatus: CollaborationQueryLogStatus
+        /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+        public let tags: [String: String]?
 
-        public init(creatorDisplayName: String, creatorMemberAbilities: [MemberAbility], dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String, members: [MemberSpecification], name: String, queryLogStatus: CollaborationQueryLogStatus) {
+        public init(creatorDisplayName: String, creatorMemberAbilities: [MemberAbility], dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String, members: [MemberSpecification], name: String, queryLogStatus: CollaborationQueryLogStatus, tags: [String: String]? = nil) {
             self.creatorDisplayName = creatorDisplayName
             self.creatorMemberAbilities = creatorMemberAbilities
             self.dataEncryptionMetadata = dataEncryptionMetadata
@@ -830,6 +832,7 @@ extension CleanRooms {
             self.members = members
             self.name = name
             self.queryLogStatus = queryLogStatus
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -846,6 +849,13 @@ extension CleanRooms {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:).{1,128}$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -856,6 +866,7 @@ extension CleanRooms {
             case members = "members"
             case name = "name"
             case queryLogStatus = "queryLogStatus"
+            case tags = "tags"
         }
     }
 
@@ -931,13 +942,16 @@ extension CleanRooms {
         public let name: String
         /// The service will assume this role to access catalog metadata and query the table.
         public let roleArn: String
+        /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+        public let tags: [String: String]?
 
-        public init(configuredTableIdentifier: String, description: String? = nil, membershipIdentifier: String, name: String, roleArn: String) {
+        public init(configuredTableIdentifier: String, description: String? = nil, membershipIdentifier: String, name: String, roleArn: String, tags: [String: String]? = nil) {
             self.configuredTableIdentifier = configuredTableIdentifier
             self.description = description
             self.membershipIdentifier = membershipIdentifier
             self.name = name
             self.roleArn = roleArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -954,6 +968,13 @@ extension CleanRooms {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::[\\w]+:role/[\\w+=,./@-]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:).{1,128}$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -961,6 +982,7 @@ extension CleanRooms {
             case description = "description"
             case name = "name"
             case roleArn = "roleArn"
+            case tags = "tags"
         }
     }
 
@@ -988,13 +1010,16 @@ extension CleanRooms {
         public let name: String
         /// A reference to the AWS Glue table being configured.
         public let tableReference: TableReference
+        /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+        public let tags: [String: String]?
 
-        public init(allowedColumns: [String], analysisMethod: AnalysisMethod, description: String? = nil, name: String, tableReference: TableReference) {
+        public init(allowedColumns: [String], analysisMethod: AnalysisMethod, description: String? = nil, name: String, tableReference: TableReference, tags: [String: String]? = nil) {
             self.allowedColumns = allowedColumns
             self.analysisMethod = analysisMethod
             self.description = description
             self.name = name
             self.tableReference = tableReference
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1002,7 +1027,7 @@ extension CleanRooms {
                 try validate($0, name: "allowedColumns[]", parent: name, max: 128)
                 try validate($0, name: "allowedColumns[]", parent: name, pattern: "^[a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))?$")
             }
-            try self.validate(self.allowedColumns, name: "allowedColumns", parent: name, max: 250)
+            try self.validate(self.allowedColumns, name: "allowedColumns", parent: name, max: 100)
             try self.validate(self.allowedColumns, name: "allowedColumns", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
@@ -1010,6 +1035,13 @@ extension CleanRooms {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
             try self.tableReference.validate(name: "\(name).tableReference")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:).{1,128}$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1018,6 +1050,7 @@ extension CleanRooms {
             case description = "description"
             case name = "name"
             case tableReference = "tableReference"
+            case tags = "tags"
         }
     }
 
@@ -1039,21 +1072,32 @@ extension CleanRooms {
         public let collaborationIdentifier: String
         /// An indicator as to whether query logging has been enabled or disabled for the collaboration.
         public let queryLogStatus: MembershipQueryLogStatus
+        /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+        public let tags: [String: String]?
 
-        public init(collaborationIdentifier: String, queryLogStatus: MembershipQueryLogStatus) {
+        public init(collaborationIdentifier: String, queryLogStatus: MembershipQueryLogStatus, tags: [String: String]? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.queryLogStatus = queryLogStatus
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
             try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
             try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:).{1,128}$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
             case collaborationIdentifier = "collaborationIdentifier"
             case queryLogStatus = "queryLogStatus"
+            case tags = "tags"
         }
     }
 
@@ -1931,6 +1975,39 @@ extension CleanRooms {
         }
     }
 
+    public struct ListTagsForResourceInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) associated with the resource you want to list tags on.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 100)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:[\\d\\w/-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
+        /// A map of objects specifying each key name and value.
+        public let tags: [String: String]
+
+        public init(tags: [String: String]) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct MemberSpecification: AWSEncodableShape {
         /// The identifier used to reference members of the collaboration. Currently only supports AWS Account ID.
         public let accountId: String
@@ -2320,7 +2397,7 @@ extension CleanRooms {
         public let description: String
         /// A name for the schema. The schema relation is referred to by this name when queried by a protected query.
         public let name: String
-        /// The partition keys for the data set underlying this schema.
+        /// The partition keys for the dataset underlying this schema.
         public let partitionKeys: [Column]
         /// The type of schema. The only valid value is currently `TABLE`.
         public let type: SchemaType
@@ -2449,6 +2526,75 @@ extension CleanRooms {
         private enum CodingKeys: String, CodingKey {
             case protectedQuery = "protectedQuery"
         }
+    }
+
+    public struct TagResourceInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) associated with the resource you want to tag.
+        public let resourceArn: String
+        /// A map of objects specifying each key name and value.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 100)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:[\\d\\w/-]+$")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:).{1,128}$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
+        ]
+
+        /// The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from.
+        public let resourceArn: String
+        /// A list of key names of tags to be removed.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 100)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:[\\d\\w/-]+$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:).{1,128}$")
+            }
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateCollaborationInput: AWSEncodableShape {

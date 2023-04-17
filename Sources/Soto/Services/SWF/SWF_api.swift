@@ -66,6 +66,8 @@ public struct SWF: AWSService {
                 [.fips]: .init(endpoints: [
                     "us-east-1": "swf-fips.us-east-1.amazonaws.com",
                     "us-east-2": "swf-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "swf.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "swf.us-gov-west-1.amazonaws.com",
                     "us-west-1": "swf-fips.us-west-1.amazonaws.com",
                     "us-west-2": "swf-fips.us-west-2.amazonaws.com"
                 ])

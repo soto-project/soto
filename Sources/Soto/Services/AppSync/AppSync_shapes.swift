@@ -93,6 +93,7 @@ extension AppSync {
     public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable {
         case amazonDynamodb = "AMAZON_DYNAMODB"
         case amazonElasticsearch = "AMAZON_ELASTICSEARCH"
+        case amazonEventbridge = "AMAZON_EVENTBRIDGE"
         case amazonOpensearchService = "AMAZON_OPENSEARCH_SERVICE"
         case awsLambda = "AWS_LAMBDA"
         case http = "HTTP"
@@ -535,6 +536,8 @@ extension AppSync {
         public let dynamodbConfig: DynamodbDataSourceConfig?
         /// Amazon OpenSearch Service settings. As of September 2021, Amazon Elasticsearch service is Amazon OpenSearch Service. This configuration is deprecated. For new data sources, use CreateDataSourceRequest$openSearchServiceConfig to create an OpenSearch data source.
         public let elasticsearchConfig: ElasticsearchDataSourceConfig?
+        /// Amazon EventBridge settings.
+        public let eventBridgeConfig: EventBridgeDataSourceConfig?
         /// HTTP endpoint settings.
         public let httpConfig: HttpDataSourceConfig?
         /// Lambda settings.
@@ -550,11 +553,12 @@ extension AppSync {
         /// The type of the DataSource.
         public let type: DataSourceType
 
-        public init(apiId: String, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String, openSearchServiceConfig: OpenSearchServiceDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType) {
+        public init(apiId: String, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, eventBridgeConfig: EventBridgeDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String, openSearchServiceConfig: OpenSearchServiceDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType) {
             self.apiId = apiId
             self.description = description
             self.dynamodbConfig = dynamodbConfig
             self.elasticsearchConfig = elasticsearchConfig
+            self.eventBridgeConfig = eventBridgeConfig
             self.httpConfig = httpConfig
             self.lambdaConfig = lambdaConfig
             self.name = name
@@ -574,6 +578,7 @@ extension AppSync {
             case description = "description"
             case dynamodbConfig = "dynamodbConfig"
             case elasticsearchConfig = "elasticsearchConfig"
+            case eventBridgeConfig = "eventBridgeConfig"
             case httpConfig = "httpConfig"
             case lambdaConfig = "lambdaConfig"
             case name = "name"
@@ -946,6 +951,8 @@ extension AppSync {
         public let dynamodbConfig: DynamodbDataSourceConfig?
         /// Amazon OpenSearch Service settings.
         public let elasticsearchConfig: ElasticsearchDataSourceConfig?
+        /// Amazon EventBridge settings.
+        public let eventBridgeConfig: EventBridgeDataSourceConfig?
         /// HTTP endpoint settings.
         public let httpConfig: HttpDataSourceConfig?
         /// Lambda settings.
@@ -958,14 +965,15 @@ extension AppSync {
         public let relationalDatabaseConfig: RelationalDatabaseDataSourceConfig?
         /// The Identity and Access Management (IAM) service role Amazon Resource Name (ARN) for the data source. The system assumes this role when accessing the data source.
         public let serviceRoleArn: String?
-        /// The type of the data source.    AWS_LAMBDA: The data source is an Lambda function.    AMAZON_DYNAMODB: The data source is an Amazon DynamoDB table.    AMAZON_ELASTICSEARCH: The data source is an Amazon OpenSearch Service domain.    AMAZON_OPENSEARCH_SERVICE: The data source is an Amazon OpenSearch Service domain.    NONE: There is no data source. Use this type when you want to invoke a GraphQL operation without connecting to a data source, such as when you're performing data transformation with resolvers or invoking a subscription from a mutation.    HTTP: The data source is an HTTP endpoint.    RELATIONAL_DATABASE: The data source is a relational database.
+        /// The type of the data source.    AWS_LAMBDA: The data source is an Lambda function.    AMAZON_DYNAMODB: The data source is an Amazon DynamoDB table.    AMAZON_ELASTICSEARCH: The data source is an Amazon OpenSearch Service domain.    AMAZON_OPENSEARCH_SERVICE: The data source is an Amazon OpenSearch Service domain.    AMAZON_EVENTBRIDGE: The data source is an Amazon EventBridge configuration.    NONE: There is no data source. Use this type when you want to invoke a GraphQL operation without connecting to a data source, such as when you're performing data transformation with resolvers or invoking a subscription from a mutation.    HTTP: The data source is an HTTP endpoint.    RELATIONAL_DATABASE: The data source is a relational database.
         public let type: DataSourceType?
 
-        public init(dataSourceArn: String? = nil, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String? = nil, openSearchServiceConfig: OpenSearchServiceDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType? = nil) {
+        public init(dataSourceArn: String? = nil, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, eventBridgeConfig: EventBridgeDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String? = nil, openSearchServiceConfig: OpenSearchServiceDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType? = nil) {
             self.dataSourceArn = dataSourceArn
             self.description = description
             self.dynamodbConfig = dynamodbConfig
             self.elasticsearchConfig = elasticsearchConfig
+            self.eventBridgeConfig = eventBridgeConfig
             self.httpConfig = httpConfig
             self.lambdaConfig = lambdaConfig
             self.name = name
@@ -980,6 +988,7 @@ extension AppSync {
             case description = "description"
             case dynamodbConfig = "dynamodbConfig"
             case elasticsearchConfig = "elasticsearchConfig"
+            case eventBridgeConfig = "eventBridgeConfig"
             case httpConfig = "httpConfig"
             case lambdaConfig = "lambdaConfig"
             case name = "name"
@@ -1448,6 +1457,19 @@ extension AppSync {
             case error = "error"
             case evaluationResult = "evaluationResult"
             case logs = "logs"
+        }
+    }
+
+    public struct EventBridgeDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the event bus. For more information about event buses, see Amazon EventBridge event buses.
+        public let eventBusArn: String
+
+        public init(eventBusArn: String) {
+            self.eventBusArn = eventBusArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventBusArn = "eventBusArn"
         }
     }
 
@@ -2871,6 +2893,8 @@ extension AppSync {
         public let dynamodbConfig: DynamodbDataSourceConfig?
         /// The new OpenSearch configuration. As of September 2021, Amazon Elasticsearch service is Amazon OpenSearch Service. This configuration is deprecated. Instead, use UpdateDataSourceRequest$openSearchServiceConfig to update an OpenSearch data source.
         public let elasticsearchConfig: ElasticsearchDataSourceConfig?
+        /// The new Amazon EventBridge settings.
+        public let eventBridgeConfig: EventBridgeDataSourceConfig?
         /// The new HTTP endpoint configuration.
         public let httpConfig: HttpDataSourceConfig?
         /// The new Lambda configuration.
@@ -2886,11 +2910,12 @@ extension AppSync {
         /// The new data source type.
         public let type: DataSourceType
 
-        public init(apiId: String, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String, openSearchServiceConfig: OpenSearchServiceDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType) {
+        public init(apiId: String, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, eventBridgeConfig: EventBridgeDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String, openSearchServiceConfig: OpenSearchServiceDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType) {
             self.apiId = apiId
             self.description = description
             self.dynamodbConfig = dynamodbConfig
             self.elasticsearchConfig = elasticsearchConfig
+            self.eventBridgeConfig = eventBridgeConfig
             self.httpConfig = httpConfig
             self.lambdaConfig = lambdaConfig
             self.name = name
@@ -2910,6 +2935,7 @@ extension AppSync {
             case description = "description"
             case dynamodbConfig = "dynamodbConfig"
             case elasticsearchConfig = "elasticsearchConfig"
+            case eventBridgeConfig = "eventBridgeConfig"
             case httpConfig = "httpConfig"
             case lambdaConfig = "lambdaConfig"
             case openSearchServiceConfig = "openSearchServiceConfig"

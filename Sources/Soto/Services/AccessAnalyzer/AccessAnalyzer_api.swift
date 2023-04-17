@@ -63,6 +63,8 @@ public struct AccessAnalyzer: AWSService {
                     "ca-central-1": "access-analyzer-fips.ca-central-1.amazonaws.com",
                     "us-east-1": "access-analyzer-fips.us-east-1.amazonaws.com",
                     "us-east-2": "access-analyzer-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "access-analyzer.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "access-analyzer.us-gov-west-1.amazonaws.com",
                     "us-west-1": "access-analyzer-fips.us-west-1.amazonaws.com",
                     "us-west-2": "access-analyzer-fips.us-west-2.amazonaws.com"
                 ])

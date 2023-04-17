@@ -22,8 +22,8 @@ extension DirectConnect {
     // MARK: Enums
 
     public enum AddressFamily: String, CustomStringConvertible, Codable, Sendable {
-        case ipv4 = "ipv4"
-        case ipv6 = "ipv6"
+        case iPv4 = "ipv4"
+        case iPv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
@@ -130,7 +130,7 @@ extension DirectConnect {
     }
 
     public enum LoaContentType: String, CustomStringConvertible, Codable, Sendable {
-        case applicationPdf = "application/pdf"
+        case pdf = "application/pdf"
         public var description: String { return self.rawValue }
     }
 
@@ -205,7 +205,7 @@ extension DirectConnect {
         /// The dedicated VLAN provisioned to the connection.
         public let vlan: Int
 
-        public init(bandwidth: String, connectionName: String, interconnectId: String, ownerAccount: String, vlan: Int) {
+        public init(bandwidth: String, connectionName: String, interconnectId: String, ownerAccount: String, vlan: Int = 0) {
             self.bandwidth = bandwidth
             self.connectionName = connectionName
             self.interconnectId = interconnectId
@@ -236,7 +236,7 @@ extension DirectConnect {
         /// The dedicated VLAN provisioned to the hosted connection.
         public let vlan: Int
 
-        public init(bandwidth: String, connectionId: String, connectionName: String, ownerAccount: String, tags: [Tag]? = nil, vlan: Int) {
+        public init(bandwidth: String, connectionId: String, connectionName: String, ownerAccount: String, tags: [Tag]? = nil, vlan: Int = 0) {
             self.bandwidth = bandwidth
             self.connectionId = connectionId
             self.connectionName = connectionName
@@ -1017,7 +1017,7 @@ extension DirectConnect {
         /// The tags to associate with the LAG.
         public let tags: [Tag]?
 
-        public init(childConnectionTags: [Tag]? = nil, connectionId: String? = nil, connectionsBandwidth: String, lagName: String, location: String, numberOfConnections: Int, providerName: String? = nil, requestMACSec: Bool? = nil, tags: [Tag]? = nil) {
+        public init(childConnectionTags: [Tag]? = nil, connectionId: String? = nil, connectionsBandwidth: String, lagName: String, location: String, numberOfConnections: Int = 0, providerName: String? = nil, requestMACSec: Bool? = nil, tags: [Tag]? = nil) {
             self.childConnectionTags = childConnectionTags
             self.connectionId = connectionId
             self.connectionsBandwidth = connectionsBandwidth
@@ -1430,8 +1430,7 @@ extension DirectConnect {
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
-        /// 	        If MaxResults is given a value larger than 100, only 100 results are returned.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
         public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
@@ -1480,8 +1479,7 @@ extension DirectConnect {
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
-        /// 	        If MaxResults is given a value larger than 100, only 100 results are returned.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
         public let maxResults: Int?
         /// The token provided in the previous call to retrieve the next page.
         public let nextToken: String?
@@ -1528,8 +1526,7 @@ extension DirectConnect {
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
-        /// 	        If MaxResults is given a value larger than 100, only 100 results are returned.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
         public let maxResults: Int?
         /// The token provided in the previous call to retrieve the next page.
         public let nextToken: String?
@@ -1572,8 +1569,7 @@ extension DirectConnect {
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
-        /// 	        If MaxResults is given a value larger than 100, only 100 results are returned.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
         public let maxResults: Int?
         /// The token provided in the previous call to retrieve the next page.
         public let nextToken: String?
@@ -1827,7 +1823,7 @@ extension DirectConnect {
         public let associatedGateway: AssociatedGateway?
         /// The ID of the Direct Connect gateway association.
         public let associationId: String?
-        /// The state of the association. The following are the possible values:    associating: The initial state after calling CreateDirectConnectGatewayAssociation.    associated: The Direct Connect gateway and virtual private gateway or transit gateway are successfully associated and ready to pass traffic.    disassociating: The initial state after calling DeleteDirectConnectGatewayAssociation.    disassociated: The virtual private gateway or transit gateway is disassociated from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual private gateway or transit gateway is stopped.
+        /// The state of the association. The following are the possible values:    associating: The initial state after calling CreateDirectConnectGatewayAssociation.    associated: The Direct Connect gateway and virtual private gateway or transit gateway are successfully associated and ready to pass traffic.    disassociating: The initial state after calling DeleteDirectConnectGatewayAssociation.    disassociated: The virtual private gateway or transit gateway is disassociated from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual private gateway or transit gateway is stopped.    updating: The CIDR blocks for the virtual private gateway or transit gateway are currently being updated. This could be new CIDR blocks added or current CIDR blocks removed.
         public let associationState: DirectConnectGatewayAssociationState?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
@@ -2186,8 +2182,7 @@ extension DirectConnect {
         /// The BGP peers that were placed in the DOWN state during the virtual interface failover test.
         public let bgpPeers: [String]?
         /// The maximum number of results to return with a single call.
-        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
-        /// 	        If MaxResults is given a value larger than 100, only 100 results are returned.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
         public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
@@ -2377,7 +2372,7 @@ extension DirectConnect {
         /// The ID of the VLAN.
         public let vlan: Int
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int = 0, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int = 0) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2435,7 +2430,7 @@ extension DirectConnect {
         /// The ID of the VLAN.
         public let vlan: Int
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int, authKey: String? = nil, customerAddress: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int = 0, authKey: String? = nil, customerAddress: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2487,7 +2482,7 @@ extension DirectConnect {
         /// The ID of the VLAN.
         public let vlan: Int
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int = 0, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2539,7 +2534,7 @@ extension DirectConnect {
         /// The ID of the VLAN.
         public let vlan: Int
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int = 0, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2749,7 +2744,7 @@ extension DirectConnect {
     public struct StartBgpFailoverTestRequest: AWSEncodableShape {
         /// The BGP peers to place in the DOWN state.
         public let bgpPeers: [String]?
-        /// The time in minutes that the virtual interface failover test will last. Maximum value: 180 minutes (3 hours). Default: 180 minutes (3 hours).
+        /// The time in minutes that the virtual interface failover test will last. Maximum value: 4,320 minutes (72 hours). Default: 180 minutes (3 hours).
         public let testDurationInMinutes: Int?
         /// The ID of the virtual interface you want to test.
         public let virtualInterfaceId: String

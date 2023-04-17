@@ -620,8 +620,7 @@ extension DevOpsGuru {
         /// 			used to create a monthly estimate for DevOps Guru.
         public let cloudFormation: CloudFormationCostEstimationResourceCollectionFilter?
         /// The Amazon Web Services tags used to filter the resource collection that is used for a cost
-        /// 			estimate.  Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
-        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// 			estimate. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  Each Amazon Web Services tag has two parts.    A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive.   An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive.   Together these are known as key-value pairs.  The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
         /// 			DevOps-Guru-deployment-application or
         /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
@@ -630,7 +629,6 @@ extension DevOpsGuru {
         /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
-        ///
         public let tags: [TagCostEstimationResourceCollectionFilter]?
 
         public init(cloudFormation: CloudFormationCostEstimationResourceCollectionFilter? = nil, tags: [TagCostEstimationResourceCollectionFilter]? = nil) {
@@ -1098,8 +1096,7 @@ extension DevOpsGuru {
         /// An array of ServiceHealth objects that describes the health of the Amazon Web Services
         /// 			services associated with the resources in the collection.
         public let service: [ServiceHealth]?
-        /// Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
-        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  Each Amazon Web Services tag has two parts.    A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive.   An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive.   Together these are known as key-value pairs.  The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
         /// 			DevOps-Guru-deployment-application or
         /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
@@ -1108,7 +1105,6 @@ extension DevOpsGuru {
         /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
-        ///
         public let tags: [TagHealth]?
 
         public init(account: [AccountHealth]? = nil, cloudFormation: [CloudFormationHealth]? = nil, nextToken: String? = nil, service: [ServiceHealth]? = nil, tags: [TagHealth]? = nil) {
@@ -1164,9 +1160,7 @@ extension DevOpsGuru {
         /// An array of ServiceHealth objects that describes the health of the Amazon Web Services
         /// 			services associated with the resources in the collection.
         public let service: [ServiceHealth]?
-        /// The Amazon Web Services tags that are used by resources in the resource collection.
-        /// 		       Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
-        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// The Amazon Web Services tags that are used by resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  Each Amazon Web Services tag has two parts.    A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive.   An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive.   Together these are known as key-value pairs.  The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
         /// 			DevOps-Guru-deployment-application or
         /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
@@ -1175,7 +1169,6 @@ extension DevOpsGuru {
         /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
-        ///
         public let tags: [TagHealth]?
 
         public init(cloudFormation: [CloudFormationHealth]? = nil, nextToken: String? = nil, service: [ServiceHealth]? = nil, tags: [TagHealth]? = nil) {
@@ -1486,6 +1479,18 @@ extension DevOpsGuru {
         }
     }
 
+    public struct ListAnomaliesForInsightFilters: AWSEncodableShape {
+        public let serviceCollection: ServiceCollection?
+
+        public init(serviceCollection: ServiceCollection? = nil) {
+            self.serviceCollection = serviceCollection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceCollection = "ServiceCollection"
+        }
+    }
+
     public struct ListAnomaliesForInsightRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "insightId", location: .uri("InsightId"))
@@ -1493,6 +1498,9 @@ extension DevOpsGuru {
 
         /// The ID of the Amazon Web Services account.
         public let accountId: String?
+        /// 			Specifies one or more service names that are used to list anomalies.
+        ///
+        public let filters: ListAnomaliesForInsightFilters?
         ///  The ID of the insight. The returned anomalies belong to this insight.
         public let insightId: String
         /// The maximum number of results to return with a single call.
@@ -1504,8 +1512,9 @@ extension DevOpsGuru {
         /// 			anomalies started during this time range.
         public let startTimeRange: StartTimeRange?
 
-        public init(accountId: String? = nil, insightId: String, maxResults: Int? = nil, nextToken: String? = nil, startTimeRange: StartTimeRange? = nil) {
+        public init(accountId: String? = nil, filters: ListAnomaliesForInsightFilters? = nil, insightId: String, maxResults: Int? = nil, nextToken: String? = nil, startTimeRange: StartTimeRange? = nil) {
             self.accountId = accountId
+            self.filters = filters
             self.insightId = insightId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1528,6 +1537,7 @@ extension DevOpsGuru {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
+            case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case startTimeRange = "StartTimeRange"
@@ -2211,12 +2221,10 @@ extension DevOpsGuru {
         ///
         public let filters: NotificationFilterConfig?
         ///  Information about a notification channel configured in DevOps Guru to send notifications
-        /// 			when insights are created.   If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission
+        /// 			when insights are created.  If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission
         /// 				to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics.
         /// 				For more information, see Permissions
-        /// 				for cross account Amazon SNS topics.
-        /// 				     If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. For more information, see Permissions for cross account Amazon SNS topics.
-        /// 				     If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions
+        /// 				for cross account Amazon SNS topics. If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. For more information, see Permissions for cross account Amazon SNS topics. If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions
         /// 				to the CMK. For more information, see Permissions for
         /// 				Amazon Web Services KMS–encrypted Amazon SNS topics.
         public let sns: SnsChannelConfig
@@ -2293,112 +2301,30 @@ extension DevOpsGuru {
     public struct PerformanceInsightsMetricDimensionGroup: AWSDecodableShape {
         /// A list of specific dimensions from a dimension group. If this parameter is not
         /// 			present, then it signifies that all of the dimensions in the group were requested or are
-        /// 			present in the response.
-        /// 		       Valid values for elements in the Dimensions array are:
-        ///
-        ///
-        /// 					             db.application.name - The name of the application that is connected
-        /// 					to the database (only Aurora PostgreSQL and RDS PostgreSQL)
-        ///
-        ///
-        /// 					             db.host.id - The host ID of the connected client (all
-        /// 					engines)
-        ///
-        ///
-        /// 					             db.host.name - The host name of the connected client (all
-        /// 					engines)
-        ///
-        ///
-        /// 					             db.name - The name of the database to which the client is connected
-        /// 					(only Aurora PostgreSQL, Amazon RDS PostgreSQL, Aurora MySQL, Amazon RDS MySQL, and MariaDB)
-        ///
-        ///
-        /// 					             db.session_type.name - The type of the current session (only Aurora
-        /// 					PostgreSQL and RDS PostgreSQL)
-        ///
-        ///
-        /// 					             db.sql.id - The SQL ID generated by Performance Insights (all engines)
-        ///
-        ///
-        /// 					             db.sql.db_id - The SQL ID generated by the database (all
-        /// 					engines)
-        ///
-        ///
-        /// 					             db.sql.statement - The SQL text that is being executed (all
-        /// 					engines)
-        ///
-        ///
-        /// 					             db.sql.tokenized_id
-        ///
-        ///
-        ///
-        /// 					             db.sql_tokenized.id - The SQL digest ID generated by Performance Insights (all
-        /// 					engines)
-        ///
-        ///
-        /// 					             db.sql_tokenized.db_id - SQL digest ID generated by the database
-        /// 					(all engines)
-        ///
-        ///
-        /// 					             db.sql_tokenized.statement - The SQL digest text (all
-        /// 					engines)
-        ///
-        ///
-        /// 					             db.user.id - The ID of the user logged in to the database (all
-        /// 					engines)
-        ///
-        ///
-        /// 					             db.user.name - The name of the user logged in to the database (all
-        /// 					engines)
-        ///
-        ///
-        /// 					             db.wait_event.name - The event for which the backend is waiting
-        /// 					(all engines)
-        ///
-        ///
-        /// 					             db.wait_event.type - The type of event for which the backend is
-        /// 					waiting (all engines)
-        ///
-        ///
-        /// 					             db.wait_event_type.name - The name of the event type for which the
+        /// 			present in the response. Valid values for elements in the Dimensions array are:    db.application.name - The name of the application that is connected
+        /// 					to the database (only Aurora PostgreSQL and RDS PostgreSQL)    db.host.id - The host ID of the connected client (all
+        /// 					engines)    db.host.name - The host name of the connected client (all
+        /// 					engines)    db.name - The name of the database to which the client is connected
+        /// 					(only Aurora PostgreSQL, Amazon RDS PostgreSQL, Aurora MySQL, Amazon RDS MySQL, and MariaDB)    db.session_type.name - The type of the current session (only Aurora
+        /// 					PostgreSQL and RDS PostgreSQL)    db.sql.id - The SQL ID generated by Performance Insights (all engines)    db.sql.db_id - The SQL ID generated by the database (all
+        /// 					engines)    db.sql.statement - The SQL text that is being executed (all
+        /// 					engines)    db.sql.tokenized_id     db.sql_tokenized.id - The SQL digest ID generated by Performance Insights (all
+        /// 					engines)    db.sql_tokenized.db_id - SQL digest ID generated by the database
+        /// 					(all engines)    db.sql_tokenized.statement - The SQL digest text (all
+        /// 					engines)    db.user.id - The ID of the user logged in to the database (all
+        /// 					engines)    db.user.name - The name of the user logged in to the database (all
+        /// 					engines)    db.wait_event.name - The event for which the backend is waiting
+        /// 					(all engines)    db.wait_event.type - The type of event for which the backend is
+        /// 					waiting (all engines)    db.wait_event_type.name - The name of the event type for which the
         /// 					backend is waiting (all engines)
-        ///
         public let dimensions: [String]?
-        /// The name of the dimension group. Its valid values are:
-        ///
-        ///
-        /// 					             db - The name of the database to which the client is connected
-        /// 					(only Aurora PostgreSQL, Amazon RDS PostgreSQL, Aurora MySQL, Amazon RDS MySQL, and MariaDB)
-        ///
-        ///
-        /// 					             db.application - The name of the application that is connected to
-        /// 					the database (only Aurora PostgreSQL and RDS PostgreSQL)
-        ///
-        ///
-        /// 					             db.host - The host name of the connected client (all
-        /// 					engines)
-        ///
-        ///
-        /// 					             db.session_type - The type of the current session (only Aurora PostgreSQL
-        /// 					and RDS PostgreSQL)
-        ///
-        ///
-        /// 					             db.sql - The SQL that is currently executing (all engines)
-        ///
-        ///
-        /// 					             db.sql_tokenized - The SQL digest (all engines)
-        ///
-        ///
-        /// 					             db.wait_event - The event for which the database backend is waiting
-        /// 					(all engines)
-        ///
-        ///
-        /// 					             db.wait_event_type - The type of event for which the database
-        /// 					backend is waiting (all engines)
-        ///
-        ///
-        /// 					             db.user - The user logged in to the database (all engines)
-        ///
+        /// The name of the dimension group. Its valid values are:    db - The name of the database to which the client is connected
+        /// 					(only Aurora PostgreSQL, Amazon RDS PostgreSQL, Aurora MySQL, Amazon RDS MySQL, and MariaDB)    db.application - The name of the application that is connected to
+        /// 					the database (only Aurora PostgreSQL and RDS PostgreSQL)    db.host - The host name of the connected client (all
+        /// 					engines)    db.session_type - The type of the current session (only Aurora PostgreSQL
+        /// 					and RDS PostgreSQL)    db.sql - The SQL that is currently executing (all engines)    db.sql_tokenized - The SQL digest (all engines)    db.wait_event - The event for which the database backend is waiting
+        /// 					(all engines)    db.wait_event_type - The type of event for which the database
+        /// 					backend is waiting (all engines)    db.user - The user logged in to the database (all engines)
         public let group: String?
         /// The maximum number of items to fetch for this dimension group.
         public let limit: Int?
@@ -2418,13 +2344,8 @@ extension DevOpsGuru {
 
     public struct PerformanceInsightsMetricQuery: AWSDecodableShape {
         /// One or more filters to apply to a Performance Insights GetResourceMetrics API query.
-        /// 			Restrictions:
-        ///
-        /// 				           Any number of filters by the same dimension, as specified in the
-        /// 						GroupBy parameter.
-        ///
-        /// 				           A single filter for any other dimension in this dimension group.
-        ///
+        /// 			Restrictions:   Any number of filters by the same dimension, as specified in the
+        /// 						GroupBy parameter.   A single filter for any other dimension in this dimension group.
         public let filter: [String: String]?
         /// The specification for how to aggregate the data points from a Performance Insights
         /// 				GetResourceMetrics API query. The Performance Insights query returns all of the
@@ -2433,18 +2354,9 @@ extension DevOpsGuru {
         /// 			dimension.
         public let groupBy: PerformanceInsightsMetricDimensionGroup?
         /// The name of the meteric used used when querying an Performance Insights
-        /// 				GetResourceMetrics API for anomaly metrics.
-        /// 		       Valid values for Metric are:
-        ///
-        ///
-        /// 					             db.load.avg - a scaled representation of the number of active sessions for the
-        /// 					database engine.
-        ///
-        ///
-        /// 					             db.sampledload.avg - the raw number of active sessions for the database
-        /// 					engine.
-        ///
-        /// 		       If the number of active sessions is less than an internal Performance Insights threshold,
+        /// 				GetResourceMetrics API for anomaly metrics. Valid values for Metric are:    db.load.avg - a scaled representation of the number of active sessions for the
+        /// 					database engine.    db.sampledload.avg - the raw number of active sessions for the database
+        /// 					engine.   If the number of active sessions is less than an internal Performance Insights threshold,
         /// 				db.load.avg and db.sampledload.avg are the same value. If
         /// 			the number of active sessions is greater than the internal threshold, Performance Insights samples the active sessions, with
         /// 				db.load.avg showing the scaled values, db.sampledload.avg
@@ -2610,6 +2522,9 @@ extension DevOpsGuru {
         ///  The ID of the insight that contains this anomaly. An insight is composed of related
         /// 			anomalies.
         public let associatedInsightId: String?
+        /// 			A description of the proactive anomaly.
+        ///
+        public let description: String?
         ///  The ID of a proactive anomaly.
         public let id: String?
         ///  A threshold that was exceeded by behavior in analyzed resources. Exceeding this
@@ -2632,11 +2547,12 @@ extension DevOpsGuru {
         ///  The time of the anomaly's most recent update.
         public let updateTime: Date?
 
-        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyResources: [AnomalyResource]? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, limit: Double? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, sourceMetadata: AnomalySourceMetadata? = nil, status: AnomalyStatus? = nil, updateTime: Date? = nil) {
+        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyResources: [AnomalyResource]? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, description: String? = nil, id: String? = nil, limit: Double? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, sourceMetadata: AnomalySourceMetadata? = nil, status: AnomalyStatus? = nil, updateTime: Date? = nil) {
             self.anomalyReportedTimeRange = anomalyReportedTimeRange
             self.anomalyResources = anomalyResources
             self.anomalyTimeRange = anomalyTimeRange
             self.associatedInsightId = associatedInsightId
+            self.description = description
             self.id = id
             self.limit = limit
             self.predictionTimeRange = predictionTimeRange
@@ -2653,6 +2569,7 @@ extension DevOpsGuru {
             case anomalyResources = "AnomalyResources"
             case anomalyTimeRange = "AnomalyTimeRange"
             case associatedInsightId = "AssociatedInsightId"
+            case description = "Description"
             case id = "Id"
             case limit = "Limit"
             case predictionTimeRange = "PredictionTimeRange"
@@ -2675,6 +2592,9 @@ extension DevOpsGuru {
         ///  The ID of the insight that contains this anomaly. An insight is composed of related
         /// 			anomalies.
         public let associatedInsightId: String?
+        /// 			A description of the proactive anomaly.
+        ///
+        public let description: String?
         /// The ID of the anomaly.
         public let id: String?
         ///  A threshold that was exceeded by behavior in analyzed resources. Exceeding this
@@ -2697,11 +2617,12 @@ extension DevOpsGuru {
         ///  The time of the anomaly's most recent update.
         public let updateTime: Date?
 
-        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyResources: [AnomalyResource]? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, limit: Double? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, sourceMetadata: AnomalySourceMetadata? = nil, status: AnomalyStatus? = nil, updateTime: Date? = nil) {
+        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyResources: [AnomalyResource]? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, description: String? = nil, id: String? = nil, limit: Double? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, sourceMetadata: AnomalySourceMetadata? = nil, status: AnomalyStatus? = nil, updateTime: Date? = nil) {
             self.anomalyReportedTimeRange = anomalyReportedTimeRange
             self.anomalyResources = anomalyResources
             self.anomalyTimeRange = anomalyTimeRange
             self.associatedInsightId = associatedInsightId
+            self.description = description
             self.id = id
             self.limit = limit
             self.predictionTimeRange = predictionTimeRange
@@ -2718,6 +2639,7 @@ extension DevOpsGuru {
             case anomalyResources = "AnomalyResources"
             case anomalyTimeRange = "AnomalyTimeRange"
             case associatedInsightId = "AssociatedInsightId"
+            case description = "Description"
             case id = "Id"
             case limit = "Limit"
             case predictionTimeRange = "PredictionTimeRange"
@@ -2918,14 +2840,7 @@ extension DevOpsGuru {
         public let sourceDetails: AnomalySourceDetails?
         ///  The status of the anomaly.
         public let status: AnomalyStatus?
-        /// The type of the reactive anomaly. It can be one of the following types.
-        ///
-        ///
-        /// 	   		            CAUSAL - the anomaly can cause a new insight.
-        ///
-        ///
-        /// 	   		            CONTEXTUAL - the anomaly contains additional information about an insight or its causal anomaly.
-        ///
+        /// The type of the reactive anomaly. It can be one of the following types.    CAUSAL - the anomaly can cause a new insight.    CONTEXTUAL - the anomaly contains additional information about an insight or its causal anomaly.
         public let type: AnomalyType?
 
         public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyResources: [AnomalyResource]? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, causalAnomalyId: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil, type: AnomalyType? = nil) {
@@ -2990,14 +2905,7 @@ extension DevOpsGuru {
         public let sourceDetails: AnomalySourceDetails?
         ///  The status of the reactive anomaly.
         public let status: AnomalyStatus?
-        /// The type of the reactive anomaly. It can be one of the following types.
-        ///
-        ///
-        /// 	   		            CAUSAL - the anomaly can cause a new insight.
-        ///
-        ///
-        /// 	   		            CONTEXTUAL - the anomaly contains additional information about an insight or its causal anomaly.
-        ///
+        /// The type of the reactive anomaly. It can be one of the following types.    CAUSAL - the anomaly can cause a new insight.    CONTEXTUAL - the anomaly contains additional information about an insight or its causal anomaly.
         public let type: AnomalyType?
 
         public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyResources: [AnomalyResource]? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, causalAnomalyId: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil, type: AnomalyType? = nil) {
@@ -3343,9 +3251,7 @@ extension DevOpsGuru {
         ///  An array of the names of Amazon Web Services CloudFormation stacks. The stacks define Amazon Web Services resources that
         /// 			DevOps Guru analyzes. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let cloudFormation: CloudFormationCollection?
-        /// The Amazon Web Services tags that are used by resources in the resource collection.
-        /// 		       Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
-        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// The Amazon Web Services tags that are used by resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  Each Amazon Web Services tag has two parts.    A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive.   An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive.   Together these are known as key-value pairs.  The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
         /// 			DevOps-Guru-deployment-application or
         /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
@@ -3354,7 +3260,6 @@ extension DevOpsGuru {
         /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
-        ///
         public let tags: [TagCollection]?
 
         public init(cloudFormation: CloudFormationCollection? = nil, tags: [TagCollection]? = nil) {
@@ -3381,9 +3286,7 @@ extension DevOpsGuru {
         /// 			information, see Stacks in the
         /// 				Amazon Web Services CloudFormation User Guide.
         public let cloudFormation: CloudFormationCollectionFilter?
-        /// The Amazon Web Services tags used to filter the resources in the resource collection.
-        /// 		       Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
-        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// The Amazon Web Services tags used to filter the resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  Each Amazon Web Services tag has two parts.    A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive.   An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive.   Together these are known as key-value pairs.  The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
         /// 			DevOps-Guru-deployment-application or
         /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
@@ -3392,7 +3295,6 @@ extension DevOpsGuru {
         /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
-        ///
         public let tags: [TagCollectionFilter]?
 
         public init(cloudFormation: CloudFormationCollectionFilter? = nil, tags: [TagCollectionFilter]? = nil) {
@@ -3778,8 +3680,7 @@ extension DevOpsGuru {
     }
 
     public struct TagCollection: AWSEncodableShape & AWSDecodableShape {
-        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
-        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.  The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
         /// 			DevOps-Guru-deployment-application or
         /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
@@ -3788,9 +3689,8 @@ extension DevOpsGuru {
         /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
-        ///
         public let appBoundaryKey: String
-        /// The values in an Amazon Web Services tag collection.  The tag's value is an optional field used to associate a string with
+        /// The values in an Amazon Web Services tag collection. The tag's value is an optional field used to associate a string with
         /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
         public let tagValues: [String]
 
@@ -3816,8 +3716,7 @@ extension DevOpsGuru {
     }
 
     public struct TagCollectionFilter: AWSDecodableShape {
-        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
-        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.  The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
         /// 			DevOps-Guru-deployment-application or
         /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
@@ -3826,9 +3725,8 @@ extension DevOpsGuru {
         /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
-        ///
         public let appBoundaryKey: String
-        /// The values in an Amazon Web Services tag collection.  The tag's value is an optional field used to associate a string with
+        /// The values in an Amazon Web Services tag collection. The tag's value is an optional field used to associate a string with
         /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
         public let tagValues: [String]
 
@@ -3844,8 +3742,7 @@ extension DevOpsGuru {
     }
 
     public struct TagCostEstimationResourceCollectionFilter: AWSEncodableShape & AWSDecodableShape {
-        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
-        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.  The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
         /// 			DevOps-Guru-deployment-application or
         /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
@@ -3854,9 +3751,8 @@ extension DevOpsGuru {
         /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
-        ///
         public let appBoundaryKey: String
-        /// The values in an Amazon Web Services tag collection.  The tag's value is an optional field used to associate a string with
+        /// The values in an Amazon Web Services tag collection. The tag's value is an optional field used to associate a string with
         /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
         public let tagValues: [String]
 
@@ -3887,8 +3783,7 @@ extension DevOpsGuru {
         /// 			Number of resources that DevOps Guru is monitoring in your account that are specified by an Amazon Web Services tag.
         ///
         public let analyzedResourceCount: Int64?
-        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
-        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.  The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
         /// 			DevOps-Guru-deployment-application or
         /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
@@ -3897,13 +3792,12 @@ extension DevOpsGuru {
         /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
-        ///
         public let appBoundaryKey: String?
         /// Information about the health of the Amazon Web Services resources in your account that are specified
         /// 			by an Amazon Web Services tag, including the number of open proactive, open reactive insights, and the
         /// 			Mean Time to Recover (MTTR) of closed insights.
         public let insight: InsightHealth?
-        /// The value in an Amazon Web Services tag.  The tag's value is an optional field used to associate a string with
+        /// The value in an Amazon Web Services tag. The tag's value is an optional field used to associate a string with
         /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
         public let tagValue: String?
 
@@ -3983,9 +3877,7 @@ extension DevOpsGuru {
     public struct UpdateResourceCollectionFilter: AWSEncodableShape {
         ///  A collection of Amazon Web Services CloudFormation stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let cloudFormation: UpdateCloudFormationCollectionFilter?
-        /// The updated Amazon Web Services tags used to filter the resources in the resource collection.
-        /// 		       Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
-        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// The updated Amazon Web Services tags used to filter the resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  Each Amazon Web Services tag has two parts.    A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive.   An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive.   Together these are known as key-value pairs.  The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
         /// 			DevOps-Guru-deployment-application or
         /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
@@ -3994,7 +3886,6 @@ extension DevOpsGuru {
         /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
-        ///
         public let tags: [UpdateTagCollectionFilter]?
 
         public init(cloudFormation: UpdateCloudFormationCollectionFilter? = nil, tags: [UpdateTagCollectionFilter]? = nil) {
@@ -4076,8 +3967,7 @@ extension DevOpsGuru {
     }
 
     public struct UpdateTagCollectionFilter: AWSEncodableShape {
-        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
-        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.  The string used for a key in a tag that you use to define your resource coverage must begin with the
         /// 			prefix Devops-guru-. The tag key might be
         /// 			DevOps-Guru-deployment-application or
         /// 			devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive.
@@ -4086,9 +3976,8 @@ extension DevOpsGuru {
         /// 			DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your
         /// 			application might be Devops-Guru-production-application/RDS or
         /// 			Devops-Guru-production-application/containers.
-        ///
         public let appBoundaryKey: String
-        /// The values in an Amazon Web Services tag collection.  The tag's value is an optional field used to associate a string with
+        /// The values in an Amazon Web Services tag collection. The tag's value is an optional field used to associate a string with
         /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
         public let tagValues: [String]
 

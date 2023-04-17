@@ -36,7 +36,7 @@ extension Organizations {
         return try await self.client.execute(operation: "CancelHandshake", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Closes an Amazon Web Services member account within an organization. You can't close the management account with this API. This is an asynchronous request that Amazon Web Services performs in the background. Because CloseAccount operates asynchronously, it can return a successful completion message even though account closure might still be in progress. You need to wait a few minutes before the account is fully closed. To check the status of the request, do one of the following:   Use the AccountId that you sent in the CloseAccount request to provide as a parameter to the DescribeAccount operation.  While the close account request is in progress, Account status will indicate PENDING_CLOSURE. When the close account request completes, the status will change to SUSPENDED.    Check the CloudTrail log for the CloseAccountResult event that gets published after the account closes successfully. For information on using CloudTrail with Organizations, see Logging and monitoring in Organizations in the Organizations User Guide.       You can only close 10% of active member accounts within a rolling 30 day period. This quota is not bound by a calendar month, but starts when you close an account. Within 30 days of that initial account closure, you can't exceed the 10% account closure limit.   To reinstate a closed account, contact Amazon Web Services Support within the 90-day grace period while the account is in SUSPENDED status.    If the Amazon Web Services account you attempt to close is linked to an Amazon Web Services GovCloud (US) account, the CloseAccount request will close both accounts. To learn important pre-closure details, see  Closing an Amazon Web Services GovCloud (US) account in the  Amazon Web Services GovCloud User Guide.    For more information about closing accounts, see Closing an Amazon Web Services account in the Organizations User Guide.
+    /// Closes an Amazon Web Services member account within an organization. You can close an account when all features are enabled . You can't close the management account with this API. This is an asynchronous request that Amazon Web Services performs in the background. Because CloseAccount operates asynchronously, it can return a successful completion message even though account closure might still be in progress. You need to wait a few minutes before the account is fully closed. To check the status of the request, do one of the following:   Use the AccountId that you sent in the CloseAccount request to provide as a parameter to the DescribeAccount operation.  While the close account request is in progress, Account status will indicate PENDING_CLOSURE. When the close account request completes, the status will change to SUSPENDED.    Check the CloudTrail log for the CloseAccountResult event that gets published after the account closes successfully. For information on using CloudTrail with Organizations, see Logging and monitoring in Organizations in the Organizations User Guide.       You can close only 10% of member accounts, between 10 and 200, within a rolling 30 day period. This quota is not bound by a calendar month, but starts when you close an account. After you reach this limit, you can close additional accounts in the Billing console. For more information, see Closing an account in the Amazon Web Services Billing and Cost Management User Guide.   To reinstate a closed account, contact Amazon Web Services Support within the 90-day grace period while the account is in SUSPENDED status.    If the Amazon Web Services account you attempt to close is linked to an Amazon Web Services GovCloud (US) account, the CloseAccount request will close both accounts. To learn important pre-closure details, see  Closing an Amazon Web Services GovCloud (US) account in the  Amazon Web Services GovCloud User Guide.    For more information about closing accounts, see Closing an Amazon Web Services account in the Organizations User Guide.
     public func closeAccount(_ input: CloseAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "CloseAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -46,7 +46,7 @@ extension Organizations {
         return try await self.client.execute(operation: "CreateAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This action is available if all of the following are true:   You're authorized to create accounts in the Amazon Web Services GovCloud (US) Region. For more information on the Amazon Web Services GovCloud (US) Region, see the  Amazon Web Services GovCloud User Guide.    You already have an account in the Amazon Web Services GovCloud (US) Region that is paired with a management account of an organization in the commercial Region.   You call this action from the management account of your organization in the commercial Region.   You have the organizations:CreateGovCloudAccount permission.    Organizations automatically creates the required service-linked role named AWSServiceRoleForOrganizations. For more information, see Organizations and Service-Linked Roles in the Organizations User Guide.  Amazon Web Services automatically enables CloudTrail for Amazon Web Services GovCloud (US) accounts, but you should also do the following:   Verify that CloudTrail is enabled to store logs.   Create an Amazon S3 bucket for CloudTrail log storage. For more information, see Verifying CloudTrail Is Enabled in the Amazon Web Services GovCloud User Guide.    If the request includes tags, then the requester must have the organizations:TagResource permission. The tags are attached to the commercial account associated with the GovCloud account, rather than the GovCloud account itself. To add tags to the GovCloud account, call the TagResource operation in the GovCloud Region after the new GovCloud account exists. You call this action from the management account of your organization in the commercial Region to create a standalone Amazon Web Services account in the Amazon Web Services GovCloud (US) Region. After the account is created, the management account of an organization in the Amazon Web Services GovCloud (US) Region can invite it to that organization. For more information on inviting standalone accounts in the Amazon Web Services GovCloud (US) to join an organization, see Organizations in the Amazon Web Services GovCloud User Guide.  Calling CreateGovCloudAccount is an asynchronous request that Amazon Web Services performs in the background. Because CreateGovCloudAccount operates asynchronously, it can return a successful completion message even though account initialization might still be in progress. You might need to wait a few minutes before you can successfully access the account. To check the status of the request, do one of the following:   Use the OperationId response element from this operation to provide as a parameter to the DescribeCreateAccountStatus operation.   Check the CloudTrail log for the CreateAccountResult event. For information on using CloudTrail with Organizations, see Monitoring the Activity in Your Organization in the Organizations User Guide.     When you call the CreateGovCloudAccount action, you create two accounts: a standalone account in the Amazon Web Services GovCloud (US) Region and an associated account in the commercial Region for billing and support purposes. The account in the commercial Region is automatically a member of the organization whose credentials made the request. Both accounts are associated with the same email address. A role is created in the new account in the commercial Region that allows the management account in the organization in the commercial Region to assume it. An Amazon Web Services GovCloud (US) account is then created and associated with the commercial account that you just created. A role is also created in the new Amazon Web Services GovCloud (US) account that can be assumed by the Amazon Web Services GovCloud (US) account that is associated with the management account of the commercial organization. For more information and to view a diagram that explains how account access works, see Organizations in the Amazon Web Services GovCloud User Guide.    For more information about creating accounts, see Creating an Amazon Web Services account in Your Organization in the Organizations User Guide.     When you create an account in an organization using the Organizations console, API, or CLI commands, the information required for the account to operate as a standalone account is not automatically collected. This includes a payment method and signing the end user license agreement (EULA). If you must remove an account from your organization later, you can do so only after you provide the missing information. Follow the steps at To leave an organization as a member account in the Organizations User Guide.    If you get an exception that indicates that you exceeded your account limits for the organization, contact Amazon Web Services Support.   If you get an exception that indicates that the operation failed because your organization is still initializing, wait one hour and then try again. If the error persists, contact Amazon Web Services Support.   Using CreateGovCloudAccount to create multiple temporary accounts isn't recommended. You can only close an account from the Amazon Web Services Billing and Cost Management console, and you must be signed in as the root user. For information on the requirements and process for closing an account, see Closing an Amazon Web Services account in the Organizations User Guide.     When you create a member account with this operation, you can choose whether to create the account with the IAM User and Role Access to Billing Information switch enabled. If you enable it, IAM users and roles that have appropriate permissions can view billing information for the account. If you disable it, only the account root user can access billing information. For information about how to disable this switch for an account, see Granting Access to Your Billing Information and Tools.
+    /// This action is available if all of the following are true:   You're authorized to create accounts in the Amazon Web Services GovCloud (US) Region. For more information on the Amazon Web Services GovCloud (US) Region, see the  Amazon Web Services GovCloud User Guide.    You already have an account in the Amazon Web Services GovCloud (US) Region that is paired with a management account of an organization in the commercial Region.   You call this action from the management account of your organization in the commercial Region.   You have the organizations:CreateGovCloudAccount permission.    Organizations automatically creates the required service-linked role named AWSServiceRoleForOrganizations. For more information, see Organizations and Service-Linked Roles in the Organizations User Guide.  Amazon Web Services automatically enables CloudTrail for Amazon Web Services GovCloud (US) accounts, but you should also do the following:   Verify that CloudTrail is enabled to store logs.   Create an Amazon S3 bucket for CloudTrail log storage. For more information, see Verifying CloudTrail Is Enabled in the Amazon Web Services GovCloud User Guide.    If the request includes tags, then the requester must have the organizations:TagResource permission. The tags are attached to the commercial account associated with the GovCloud account, rather than the GovCloud account itself. To add tags to the GovCloud account, call the TagResource operation in the GovCloud Region after the new GovCloud account exists. You call this action from the management account of your organization in the commercial Region to create a standalone Amazon Web Services account in the Amazon Web Services GovCloud (US) Region. After the account is created, the management account of an organization in the Amazon Web Services GovCloud (US) Region can invite it to that organization. For more information on inviting standalone accounts in the Amazon Web Services GovCloud (US) to join an organization, see Organizations in the Amazon Web Services GovCloud User Guide.  Calling CreateGovCloudAccount is an asynchronous request that Amazon Web Services performs in the background. Because CreateGovCloudAccount operates asynchronously, it can return a successful completion message even though account initialization might still be in progress. You might need to wait a few minutes before you can successfully access the account. To check the status of the request, do one of the following:   Use the OperationId response element from this operation to provide as a parameter to the DescribeCreateAccountStatus operation.   Check the CloudTrail log for the CreateAccountResult event. For information on using CloudTrail with Organizations, see Monitoring the Activity in Your Organization in the Organizations User Guide.     When you call the CreateGovCloudAccount action, you create two accounts: a standalone account in the Amazon Web Services GovCloud (US) Region and an associated account in the commercial Region for billing and support purposes. The account in the commercial Region is automatically a member of the organization whose credentials made the request. Both accounts are associated with the same email address. A role is created in the new account in the commercial Region that allows the management account in the organization in the commercial Region to assume it. An Amazon Web Services GovCloud (US) account is then created and associated with the commercial account that you just created. A role is also created in the new Amazon Web Services GovCloud (US) account that can be assumed by the Amazon Web Services GovCloud (US) account that is associated with the management account of the commercial organization. For more information and to view a diagram that explains how account access works, see Organizations in the Amazon Web Services GovCloud User Guide.  For more information about creating accounts, see Creating an Amazon Web Services account in Your Organization in the Organizations User Guide.     When you create an account in an organization using the Organizations console, API, or CLI commands, the information required for the account to operate as a standalone account is not automatically collected. This includes a payment method and signing the end user license agreement (EULA). If you must remove an account from your organization later, you can do so only after you provide the missing information. Follow the steps at To leave an organization as a member account in the Organizations User Guide.    If you get an exception that indicates that you exceeded your account limits for the organization, contact Amazon Web Services Support.   If you get an exception that indicates that the operation failed because your organization is still initializing, wait one hour and then try again. If the error persists, contact Amazon Web Services Support.   Using CreateGovCloudAccount to create multiple temporary accounts isn't recommended. You can only close an account from the Amazon Web Services Billing and Cost Management console, and you must be signed in as the root user. For information on the requirements and process for closing an account, see Closing an Amazon Web Services account in the Organizations User Guide.     When you create a member account with this operation, you can choose whether to create the account with the IAM User and Role Access to Billing Information switch enabled. If you enable it, IAM users and roles that have appropriate permissions can view billing information for the account. If you disable it, only the account root user can access billing information. For information about how to disable this switch for an account, see Granting Access to Your Billing Information and Tools.
     public func createGovCloudAccount(_ input: CreateGovCloudAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateGovCloudAccountResponse {
         return try await self.client.execute(operation: "CreateGovCloudAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -136,7 +136,7 @@ extension Organizations {
         return try await self.client.execute(operation: "DescribePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about a resource policy. You can only call this operation from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    /// Retrieves information about a resource policy. You can only call this operation from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     public func describeResourcePolicy(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeResourcePolicyResponse {
         return try await self.client.execute(operation: "DescribeResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, logger: logger, on: eventLoop)
     }
@@ -190,7 +190,7 @@ extension Organizations {
     /// Lists all the accounts in the organization. To request only the accounts in a specified root or organizational unit (OU), use the ListAccountsForParent operation instead.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     public func listAccounts(_ input: ListAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAccountsResponse {
@@ -200,7 +200,7 @@ extension Organizations {
     /// Lists the accounts in an organization that are contained by the specified target root or organizational unit (OU). If you specify the root, you get a list of all the accounts that aren't in any OU. If you specify an OU, you get a list of all the accounts in only that OU and not in any child OUs. To get a list of all accounts in the organization, use the ListAccounts operation.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     public func listAccountsForParent(_ input: ListAccountsForParentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAccountsForParentResponse {
@@ -210,7 +210,7 @@ extension Organizations {
     /// Lists all of the organizational units (OUs) or accounts that are contained in the specified parent OU or root. This operation, along with ListParents enables you to traverse the tree structure that makes up this root.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     public func listChildren(_ input: ListChildrenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListChildrenResponse {
@@ -220,7 +220,7 @@ extension Organizations {
     /// Lists the account creation requests that match the specified status that is currently being tracked for the organization.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     public func listCreateAccountStatus(_ input: ListCreateAccountStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListCreateAccountStatusResponse {
@@ -242,7 +242,7 @@ extension Organizations {
     /// Lists the current handshakes that are associated with the account of the requesting user. Handshakes that are ACCEPTED, DECLINED, CANCELED, or EXPIRED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called from any account in the organization.
     public func listHandshakesForAccount(_ input: ListHandshakesForAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListHandshakesForAccountResponse {
         return try await self.client.execute(operation: "ListHandshakesForAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -251,7 +251,7 @@ extension Organizations {
     /// Lists the handshakes that are associated with the organization that the requesting user is part of. The ListHandshakesForOrganization operation returns a list of handshake structures. Each structure contains details and status about a handshake. Handshakes that are ACCEPTED, DECLINED, CANCELED, or EXPIRED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     public func listHandshakesForOrganization(_ input: ListHandshakesForOrganizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListHandshakesForOrganizationResponse {
@@ -261,7 +261,7 @@ extension Organizations {
     /// Lists the organizational units (OUs) in a parent organizational unit or root.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     public func listOrganizationalUnitsForParent(_ input: ListOrganizationalUnitsForParentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListOrganizationalUnitsForParentResponse {
@@ -271,7 +271,7 @@ extension Organizations {
     /// Lists the root or organizational units (OUs) that serve as the immediate parent of the specified child OU or account. This operation, along with ListChildren enables you to traverse the tree structure that makes up this root.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.  In the current release, a child can have only a single parent.
     public func listParents(_ input: ListParentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListParentsResponse {
@@ -281,7 +281,7 @@ extension Organizations {
     /// Retrieves the list of all policies in an organization of a specified type.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     public func listPolicies(_ input: ListPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPoliciesResponse {
@@ -291,7 +291,7 @@ extension Organizations {
     /// Lists the policies that are directly attached to the specified target root, organizational unit (OU), or account. You must specify the policy type that you want included in the returned list.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     public func listPoliciesForTarget(_ input: ListPoliciesForTargetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPoliciesForTargetResponse {
@@ -301,7 +301,7 @@ extension Organizations {
     /// Lists the roots that are defined in the current organization.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.  Policy types can be enabled and disabled in roots. This is distinct from whether they're available in the organization. When you enable all features, you make policy types available for use in that organization. Individual policy types can then be enabled and disabled in a root. To see the availability of a policy type in an organization, use DescribeOrganization.
     public func listRoots(_ input: ListRootsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListRootsResponse {
@@ -317,7 +317,7 @@ extension Organizations {
     /// Lists all the roots, organizational units (OUs), and accounts that the specified policy is attached to.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     public func listTargetsForPolicy(_ input: ListTargetsForPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTargetsForPolicyResponse {
@@ -395,7 +395,7 @@ extension Organizations {
     /// Lists all the accounts in the organization. To request only the accounts in a specified root or organizational unit (OU), use the ListAccountsForParent operation instead.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
@@ -422,7 +422,7 @@ extension Organizations {
     /// Lists the accounts in an organization that are contained by the specified target root or organizational unit (OU). If you specify the root, you get a list of all the accounts that aren't in any OU. If you specify an OU, you get a list of all the accounts in only that OU and not in any child OUs. To get a list of all accounts in the organization, use the ListAccounts operation.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
@@ -449,7 +449,7 @@ extension Organizations {
     /// Lists all of the organizational units (OUs) or accounts that are contained in the specified parent OU or root. This operation, along with ListParents enables you to traverse the tree structure that makes up this root.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
@@ -476,7 +476,7 @@ extension Organizations {
     /// Lists the account creation requests that match the specified status that is currently being tracked for the organization.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
@@ -549,7 +549,7 @@ extension Organizations {
     /// Lists the current handshakes that are associated with the account of the requesting user. Handshakes that are ACCEPTED, DECLINED, CANCELED, or EXPIRED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called from any account in the organization.
     /// Return PaginatorSequence for operation.
     ///
@@ -575,7 +575,7 @@ extension Organizations {
     /// Lists the handshakes that are associated with the organization that the requesting user is part of. The ListHandshakesForOrganization operation returns a list of handshake structures. Each structure contains details and status about a handshake. Handshakes that are ACCEPTED, DECLINED, CANCELED, or EXPIRED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
@@ -602,7 +602,7 @@ extension Organizations {
     /// Lists the organizational units (OUs) in a parent organizational unit or root.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
@@ -629,7 +629,7 @@ extension Organizations {
     /// Lists the root or organizational units (OUs) that serve as the immediate parent of the specified child OU or account. This operation, along with ListChildren enables you to traverse the tree structure that makes up this root.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.  In the current release, a child can have only a single parent.
     /// Return PaginatorSequence for operation.
@@ -656,7 +656,7 @@ extension Organizations {
     /// Retrieves the list of all policies in an organization of a specified type.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
@@ -683,7 +683,7 @@ extension Organizations {
     /// Lists the policies that are directly attached to the specified target root, organizational unit (OU), or account. You must specify the policy type that you want included in the returned list.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
@@ -710,7 +710,7 @@ extension Organizations {
     /// Lists the roots that are defined in the current organization.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.  Policy types can be enabled and disabled in roots. This is distinct from whether they're available in the organization. When you enable all features, you make policy types available for use in that organization. Individual policy types can then be enabled and disabled in a root. To see the availability of a policy type in an organization, use DescribeOrganization.
     /// Return PaginatorSequence for operation.
@@ -760,7 +760,7 @@ extension Organizations {
     /// Lists all the roots, organizational units (OUs), and accounts that the specified policy is attached to.  Always check the NextToken response parameter
     /// for a null value when calling a List* operation. These operations can
     /// occasionally return an empty set of results even when there are more results available. The
-    /// NextToken response parameter value is null  only
+    /// NextToken response parameter value is null only
     /// when there are no more results to display.  This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.

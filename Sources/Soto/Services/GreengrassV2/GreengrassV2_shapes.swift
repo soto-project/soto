@@ -82,6 +82,7 @@ extension GreengrassV2 {
         case inProgress = "IN_PROGRESS"
         case queued = "QUEUED"
         case rejected = "REJECTED"
+        case succeeded = "SUCCEEDED"
         case timedOut = "TIMED_OUT"
         public var description: String { return self.rawValue }
     }
@@ -1118,7 +1119,7 @@ extension GreengrassV2 {
     }
 
     public struct EffectiveDeployment: AWSDecodableShape {
-        /// The status of the deployment job on the Greengrass core device.
+        /// The status of the deployment job on the Greengrass core device.    IN_PROGRESS – The deployment job is running.    QUEUED – The deployment job is in the job queue and waiting to run.    FAILED – The deployment failed. For more information, see the statusDetails field.    COMPLETED – The deployment to an IoT thing was completed successfully.    TIMED_OUT – The deployment didn't complete in the allotted time.     CANCELED – The deployment was canceled by the user.    REJECTED – The deployment was rejected. For more information, see the statusDetails field.    SUCCEEDED – The deployment to an IoT thing group was completed successfully.
         public let coreDeviceExecutionStatus: EffectiveDeploymentExecutionStatus
         /// The time at which the deployment was created, expressed in ISO 8601 format.
         public let creationTimestamp: Date
@@ -1474,9 +1475,9 @@ extension GreengrassV2 {
         public let componentVersion: String?
         /// Whether or not the component is a root component.
         public let isRoot: Bool?
-        /// The most recent deployment source that brought the component to the Greengrass core device. For a thing group deployment or thing deployment, the source will be the The ID of the deployment. and for local deployments it will be LOCAL.
+        /// The most recent deployment source that brought the component to the Greengrass core device. For a thing group deployment or thing deployment, the source will be the The ID of the deployment. and for local deployments it will be LOCAL.  Any deployment will attempt to reinstall currently broken components on the device, which will update the last installation source.
         public let lastInstallationSource: String?
-        /// The last time the Greengrass core device sent a message containing a certain component to the Amazon Web Services Cloud. A component does not need to see a state change for this field to update.
+        /// The last time the Greengrass core device sent a message containing a component's state to the Amazon Web Services Cloud. A component does not need to see a state change for this field to update.
         public let lastReportedTimestamp: Date?
         /// The status of how current the data is. This response is based off of component state changes. The status reflects component disruptions and deployments. If a component only sees a configuration update during a deployment, it might not undergo a state change and this status would not be updated.
         public let lastStatusChangeTimestamp: Date?

@@ -226,6 +226,11 @@ extension MediaTailor {
         return try await self.client.execute(operation: "UpdateLiveSource", path: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates a program within a channel.
+    public func updateProgram(_ input: UpdateProgramRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateProgramResponse {
+        return try await self.client.execute(operation: "UpdateProgram", path: "/channel/{ChannelName}/program/{ProgramName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the MediaTailor User Guide.
     public func updateSourceLocation(_ input: UpdateSourceLocationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateSourceLocationResponse {
         return try await self.client.execute(operation: "UpdateSourceLocation", path: "/sourceLocation/{SourceLocationName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

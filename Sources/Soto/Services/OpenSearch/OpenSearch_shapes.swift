@@ -21,6 +21,30 @@ import SotoCore
 extension OpenSearch {
     // MARK: Enums
 
+    public enum ActionSeverity: String, CustomStringConvertible, Codable, Sendable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActionStatus: String, CustomStringConvertible, Codable, Sendable {
+        case completed = "COMPLETED"
+        case eligible = "ELIGIBLE"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case notEligible = "NOT_ELIGIBLE"
+        case pendingUpdate = "PENDING_UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActionType: String, CustomStringConvertible, Codable, Sendable {
+        case jvmHeapSizeTuning = "JVM_HEAP_SIZE_TUNING"
+        case jvmYoungGenTuning = "JVM_YOUNG_GEN_TUNING"
+        case serviceSoftwareUpdate = "SERVICE_SOFTWARE_UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AutoTuneDesiredState: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -42,6 +66,12 @@ extension OpenSearch {
 
     public enum AutoTuneType: String, CustomStringConvertible, Codable, Sendable {
         case scheduledAction = "SCHEDULED_ACTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionMode: String, CustomStringConvertible, Codable, Sendable {
+        case direct = "DIRECT"
+        case vpcEndpoint = "VPC_ENDPOINT"
         public var description: String { return self.rawValue }
     }
 
@@ -273,6 +303,13 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScheduleAt: String, CustomStringConvertible, Codable, Sendable {
+        case now = "NOW"
+        case offPeakWindow = "OFF_PEAK_WINDOW"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ScheduledAutoTuneActionType: String, CustomStringConvertible, Codable, Sendable {
         case jvmHeapSizeTuning = "JVM_HEAP_SIZE_TUNING"
         case jvmYoungGenTuning = "JVM_YOUNG_GEN_TUNING"
@@ -283,6 +320,12 @@ extension OpenSearch {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduledBy: String, CustomStringConvertible, Codable, Sendable {
+        case customer = "CUSTOMER"
+        case system = "SYSTEM"
         public var description: String { return self.rawValue }
     }
 
@@ -716,15 +759,18 @@ extension OpenSearch {
     public struct AutoTuneOptions: AWSEncodableShape & AWSDecodableShape {
         /// Whether Auto-Tune is enabled or disabled.
         public let desiredState: AutoTuneDesiredState?
-        /// A list of maintenance schedules during which Auto-Tune can deploy changes.
+        /// DEPRECATED. Use off-peak window instead. A list of maintenance schedules during which Auto-Tune can deploy changes.
         public let maintenanceSchedules: [AutoTuneMaintenanceSchedule]?
         /// When disabling Auto-Tune, specify NO_ROLLBACK to retain all prior Auto-Tune settings or DEFAULT_ROLLBACK to revert to the OpenSearch Service defaults. If you specify DEFAULT_ROLLBACK, you must include a MaintenanceSchedule in the request. Otherwise, OpenSearch Service is unable to perform the rollback.
         public let rollbackOnDisable: RollbackOnDisable?
+        /// Whether to use the domain's off-peak window to deploy configuration changes on the domain rather than a maintenance schedule.
+        public let useOffPeakWindow: Bool?
 
-        public init(desiredState: AutoTuneDesiredState? = nil, maintenanceSchedules: [AutoTuneMaintenanceSchedule]? = nil, rollbackOnDisable: RollbackOnDisable? = nil) {
+        public init(desiredState: AutoTuneDesiredState? = nil, maintenanceSchedules: [AutoTuneMaintenanceSchedule]? = nil, rollbackOnDisable: RollbackOnDisable? = nil, useOffPeakWindow: Bool? = nil) {
             self.desiredState = desiredState
             self.maintenanceSchedules = maintenanceSchedules
             self.rollbackOnDisable = rollbackOnDisable
+            self.useOffPeakWindow = useOffPeakWindow
         }
 
         public func validate(name: String) throws {
@@ -738,18 +784,22 @@ extension OpenSearch {
             case desiredState = "DesiredState"
             case maintenanceSchedules = "MaintenanceSchedules"
             case rollbackOnDisable = "RollbackOnDisable"
+            case useOffPeakWindow = "UseOffPeakWindow"
         }
     }
 
     public struct AutoTuneOptionsInput: AWSEncodableShape {
         /// Whether Auto-Tune is enabled or disabled.
         public let desiredState: AutoTuneDesiredState?
-        /// A list of maintenance schedules during which Auto-Tune can deploy changes. Maintenance schedules are overwrite, not append. If your request includes no schedules, the request deletes all existing schedules. To preserve existing schedules, make a call to DescribeDomainConfig first and use the MaintenanceSchedules portion of the response as the basis for this section.
+        /// A list of maintenance schedules during which Auto-Tune can deploy changes. Maintenance windows are deprecated and have been replaced with off-peak windows.
         public let maintenanceSchedules: [AutoTuneMaintenanceSchedule]?
+        /// Whether to schedule Auto-Tune optimizations that require blue/green deployments during the domain's configured daily off-peak window.
+        public let useOffPeakWindow: Bool?
 
-        public init(desiredState: AutoTuneDesiredState? = nil, maintenanceSchedules: [AutoTuneMaintenanceSchedule]? = nil) {
+        public init(desiredState: AutoTuneDesiredState? = nil, maintenanceSchedules: [AutoTuneMaintenanceSchedule]? = nil, useOffPeakWindow: Bool? = nil) {
             self.desiredState = desiredState
             self.maintenanceSchedules = maintenanceSchedules
+            self.useOffPeakWindow = useOffPeakWindow
         }
 
         public func validate(name: String) throws {
@@ -762,6 +812,7 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case desiredState = "DesiredState"
             case maintenanceSchedules = "MaintenanceSchedules"
+            case useOffPeakWindow = "UseOffPeakWindow"
         }
     }
 
@@ -770,15 +821,19 @@ extension OpenSearch {
         public let errorMessage: String?
         /// The current state of Auto-Tune on the domain.
         public let state: AutoTuneState?
+        /// Whether the domain's off-peak window will be used to deploy Auto-Tune changes rather than a maintenance schedule.
+        public let useOffPeakWindow: Bool?
 
-        public init(errorMessage: String? = nil, state: AutoTuneState? = nil) {
+        public init(errorMessage: String? = nil, state: AutoTuneState? = nil, useOffPeakWindow: Bool? = nil) {
             self.errorMessage = errorMessage
             self.state = state
+            self.useOffPeakWindow = useOffPeakWindow
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorMessage = "ErrorMessage"
             case state = "State"
+            case useOffPeakWindow = "UseOffPeakWindow"
         }
     }
 
@@ -1097,6 +1152,19 @@ extension OpenSearch {
         }
     }
 
+    public struct ConnectionProperties: AWSDecodableShape {
+        /// The endpoint of the remote domain.
+        public let endpoint: String?
+
+        public init(endpoint: String? = nil) {
+            self.endpoint = endpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+        }
+    }
+
     public struct CreateDomainRequest: AWSEncodableShape {
         /// Identity and Access Management (IAM) policy document specifying the access policies for the new domain.
         public let accessPolicies: String?
@@ -1124,14 +1192,18 @@ extension OpenSearch {
         public let logPublishingOptions: [LogType: LogPublishingOption]?
         /// Enables node-to-node encryption.
         public let nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions?
+        /// Specifies a daily 10-hour time block during which OpenSearch Service can perform configuration changes on the domain, including service software updates and Auto-Tune enhancements that require a blue/green deployment. If no options are specified, the default start time of 10:00 P.M. local time (for the Region that the domain is created in) is used.
+        public let offPeakWindowOptions: OffPeakWindowOptions?
         /// DEPRECATED. Container for the parameters required to configure automated snapshots of domain indexes.
         public let snapshotOptions: SnapshotOptions?
+        /// Software update options for the domain.
+        public let softwareUpdateOptions: SoftwareUpdateOptions?
         /// List of tags to add to the domain upon creation.
         public let tagList: [Tag]?
         /// Container for the values required to configure VPC access domains. If you don't specify these values, OpenSearch Service creates the domain with a public endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
         public let vpcOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineVersion: String? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineVersion: String? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -1145,7 +1217,9 @@ extension OpenSearch {
             self.engineVersion = engineVersion
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
+            self.offPeakWindowOptions = offPeakWindowOptions
             self.snapshotOptions = snapshotOptions
+            self.softwareUpdateOptions = softwareUpdateOptions
             self.tagList = tagList
             self.vpcOptions = vpcOptions
         }
@@ -1167,6 +1241,7 @@ extension OpenSearch {
             try self.logPublishingOptions?.forEach {
                 try $0.value.validate(name: "\(name).logPublishingOptions[\"\($0.key)\"]")
             }
+            try self.offPeakWindowOptions?.validate(name: "\(name).offPeakWindowOptions")
             try self.tagList?.forEach {
                 try $0.validate(name: "\(name).tagList[]")
             }
@@ -1186,7 +1261,9 @@ extension OpenSearch {
             case engineVersion = "EngineVersion"
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
+            case offPeakWindowOptions = "OffPeakWindowOptions"
             case snapshotOptions = "SnapshotOptions"
+            case softwareUpdateOptions = "SoftwareUpdateOptions"
             case tagList = "TagList"
             case vpcOptions = "VPCOptions"
         }
@@ -1208,13 +1285,16 @@ extension OpenSearch {
     public struct CreateOutboundConnectionRequest: AWSEncodableShape {
         /// Name of the connection.
         public let connectionAlias: String
+        /// The connection mode.
+        public let connectionMode: ConnectionMode?
         /// Name and Region of the source (local) domain.
         public let localDomainInfo: DomainInformationContainer
         /// Name and Region of the destination (remote) domain.
         public let remoteDomainInfo: DomainInformationContainer
 
-        public init(connectionAlias: String, localDomainInfo: DomainInformationContainer, remoteDomainInfo: DomainInformationContainer) {
+        public init(connectionAlias: String, connectionMode: ConnectionMode? = nil, localDomainInfo: DomainInformationContainer, remoteDomainInfo: DomainInformationContainer) {
             self.connectionAlias = connectionAlias
+            self.connectionMode = connectionMode
             self.localDomainInfo = localDomainInfo
             self.remoteDomainInfo = remoteDomainInfo
         }
@@ -1229,6 +1309,7 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case connectionAlias = "ConnectionAlias"
+            case connectionMode = "ConnectionMode"
             case localDomainInfo = "LocalDomainInfo"
             case remoteDomainInfo = "RemoteDomainInfo"
         }
@@ -1239,6 +1320,10 @@ extension OpenSearch {
         public let connectionAlias: String?
         /// The unique identifier for the created outbound connection, which is used for subsequent operations on the connection.
         public let connectionId: String?
+        /// The connection mode.
+        public let connectionMode: ConnectionMode?
+        /// The ConnectionProperties for the newly created connection.
+        public let connectionProperties: ConnectionProperties?
         /// The status of the connection.
         public let connectionStatus: OutboundConnectionStatus?
         /// Information about the source (local) domain.
@@ -1246,9 +1331,11 @@ extension OpenSearch {
         /// Information about the destination (remote) domain.
         public let remoteDomainInfo: DomainInformationContainer?
 
-        public init(connectionAlias: String? = nil, connectionId: String? = nil, connectionStatus: OutboundConnectionStatus? = nil, localDomainInfo: DomainInformationContainer? = nil, remoteDomainInfo: DomainInformationContainer? = nil) {
+        public init(connectionAlias: String? = nil, connectionId: String? = nil, connectionMode: ConnectionMode? = nil, connectionProperties: ConnectionProperties? = nil, connectionStatus: OutboundConnectionStatus? = nil, localDomainInfo: DomainInformationContainer? = nil, remoteDomainInfo: DomainInformationContainer? = nil) {
             self.connectionAlias = connectionAlias
             self.connectionId = connectionId
+            self.connectionMode = connectionMode
+            self.connectionProperties = connectionProperties
             self.connectionStatus = connectionStatus
             self.localDomainInfo = localDomainInfo
             self.remoteDomainInfo = remoteDomainInfo
@@ -1257,6 +1344,8 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case connectionAlias = "ConnectionAlias"
             case connectionId = "ConnectionId"
+            case connectionMode = "ConnectionMode"
+            case connectionProperties = "ConnectionProperties"
             case connectionStatus = "ConnectionStatus"
             case localDomainInfo = "LocalDomainInfo"
             case remoteDomainInfo = "RemoteDomainInfo"
@@ -2149,7 +2238,7 @@ extension OpenSearch {
         public let cognitoOptions: CognitoOptionsStatus?
         /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public let domainEndpointOptions: DomainEndpointOptionsStatus?
-        /// Container for EBS options configured for an OpenSearch Service domain.
+        /// Container for EBS options configured for the domain.
         public let ebsOptions: EBSOptionsStatus?
         /// Key-value pairs to enable encryption at rest.
         public let encryptionAtRestOptions: EncryptionAtRestOptionsStatus?
@@ -2159,12 +2248,16 @@ extension OpenSearch {
         public let logPublishingOptions: LogPublishingOptionsStatus?
         /// Whether node-to-node encryption is enabled or disabled.
         public let nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus?
+        /// Container for off-peak window options for the domain.
+        public let offPeakWindowOptions: OffPeakWindowOptionsStatus?
         /// DEPRECATED. Container for parameters required to configure automated snapshots of domain indexes.
         public let snapshotOptions: SnapshotOptionsStatus?
+        /// Software update options for the domain.
+        public let softwareUpdateOptions: SoftwareUpdateOptionsStatus?
         /// The current VPC options for the domain and the status of any updates to their configuration.
         public let vpcOptions: VPCDerivedInfoStatus?
 
-        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
+        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, offPeakWindowOptions: OffPeakWindowOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, softwareUpdateOptions: SoftwareUpdateOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -2178,7 +2271,9 @@ extension OpenSearch {
             self.engineVersion = engineVersion
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
+            self.offPeakWindowOptions = offPeakWindowOptions
             self.snapshotOptions = snapshotOptions
+            self.softwareUpdateOptions = softwareUpdateOptions
             self.vpcOptions = vpcOptions
         }
 
@@ -2196,7 +2291,9 @@ extension OpenSearch {
             case engineVersion = "EngineVersion"
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
+            case offPeakWindowOptions = "OffPeakWindowOptions"
             case snapshotOptions = "SnapshotOptions"
+            case softwareUpdateOptions = "SoftwareUpdateOptions"
             case vpcOptions = "VPCOptions"
         }
     }
@@ -2376,18 +2473,22 @@ extension OpenSearch {
         public let logPublishingOptions: [LogType: LogPublishingOption]?
         /// Whether node-to-node encryption is enabled or disabled.
         public let nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions?
+        /// Options that specify a custom 10-hour window during which OpenSearch Service can perform configuration changes on the domain.
+        public let offPeakWindowOptions: OffPeakWindowOptions?
         /// The status of the domain configuration. True if OpenSearch Service is processing configuration changes. False if the configuration is active.
         public let processing: Bool?
         /// The current status of the domain's service software.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
         /// DEPRECATED. Container for parameters required to configure automated snapshots of domain indexes.
         public let snapshotOptions: SnapshotOptions?
+        /// Service software update options for the domain.
+        public let softwareUpdateOptions: SoftwareUpdateOptions?
         /// The status of a domain version upgrade to a new version of OpenSearch or Elasticsearch. True if OpenSearch Service is in the process of a version upgrade. False if the configuration is active.
         public let upgradeProcessing: Bool?
         /// The VPC configuration for the domain.
         public let vpcOptions: VPCDerivedInfo?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, engineVersion: String? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, engineVersion: String? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -2408,9 +2509,11 @@ extension OpenSearch {
             self.engineVersion = engineVersion
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
+            self.offPeakWindowOptions = offPeakWindowOptions
             self.processing = processing
             self.serviceSoftwareOptions = serviceSoftwareOptions
             self.snapshotOptions = snapshotOptions
+            self.softwareUpdateOptions = softwareUpdateOptions
             self.upgradeProcessing = upgradeProcessing
             self.vpcOptions = vpcOptions
         }
@@ -2436,9 +2539,11 @@ extension OpenSearch {
             case engineVersion = "EngineVersion"
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
+            case offPeakWindowOptions = "OffPeakWindowOptions"
             case processing = "Processing"
             case serviceSoftwareOptions = "ServiceSoftwareOptions"
             case snapshotOptions = "SnapshotOptions"
+            case softwareUpdateOptions = "SoftwareUpdateOptions"
             case upgradeProcessing = "UpgradeProcessing"
             case vpcOptions = "VPCOptions"
         }
@@ -2818,6 +2923,8 @@ extension OpenSearch {
     public struct InboundConnection: AWSDecodableShape {
         /// The unique identifier of the connection.
         public let connectionId: String?
+        /// The connection mode.
+        public let connectionMode: ConnectionMode?
         /// The current status of the connection.
         public let connectionStatus: InboundConnectionStatus?
         /// Information about the source (local) domain.
@@ -2825,8 +2932,9 @@ extension OpenSearch {
         /// Information about the destination (remote) domain.
         public let remoteDomainInfo: DomainInformationContainer?
 
-        public init(connectionId: String? = nil, connectionStatus: InboundConnectionStatus? = nil, localDomainInfo: DomainInformationContainer? = nil, remoteDomainInfo: DomainInformationContainer? = nil) {
+        public init(connectionId: String? = nil, connectionMode: ConnectionMode? = nil, connectionStatus: InboundConnectionStatus? = nil, localDomainInfo: DomainInformationContainer? = nil, remoteDomainInfo: DomainInformationContainer? = nil) {
             self.connectionId = connectionId
+            self.connectionMode = connectionMode
             self.connectionStatus = connectionStatus
             self.localDomainInfo = localDomainInfo
             self.remoteDomainInfo = remoteDomainInfo
@@ -2834,6 +2942,7 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case connectionId = "ConnectionId"
+            case connectionMode = "ConnectionMode"
             case connectionStatus = "ConnectionStatus"
             case localDomainInfo = "LocalDomainInfo"
             case remoteDomainInfo = "RemoteDomainInfo"
@@ -3115,6 +3224,53 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case domainPackageDetailsList = "DomainPackageDetailsList"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListScheduledActionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The name of the domain.
+        public let domainName: String
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
+        public let maxResults: Int?
+        /// If your initial ListScheduledActions operation returns a nextToken, you can include the returned nextToken in subsequent ListScheduledActions operations, which returns results in the next page.
+        public let nextToken: String?
+
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListScheduledActionsResponse: AWSDecodableShape {
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+        /// A list of actions that are scheduled for the domain.
+        public let scheduledActions: [ScheduledAction]?
+
+        public init(nextToken: String? = nil, scheduledActions: [ScheduledAction]? = nil) {
+            self.nextToken = nextToken
+            self.scheduledActions = scheduledActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scheduledActions = "ScheduledActions"
         }
     }
 
@@ -3411,6 +3567,61 @@ extension OpenSearch {
         }
     }
 
+    public struct OffPeakWindow: AWSEncodableShape & AWSDecodableShape {
+        /// A custom start time for the off-peak window, in Coordinated Universal Time (UTC). The window length will always be 10 hours, so you can't specify an end time. For example, if you specify 11:00 P.M. UTC as a start time, the end time will automatically be set to 9:00 A.M.
+        public let windowStartTime: WindowStartTime?
+
+        public init(windowStartTime: WindowStartTime? = nil) {
+            self.windowStartTime = windowStartTime
+        }
+
+        public func validate(name: String) throws {
+            try self.windowStartTime?.validate(name: "\(name).windowStartTime")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case windowStartTime = "WindowStartTime"
+        }
+    }
+
+    public struct OffPeakWindowOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to enable an off-peak window. This option is only available when modifying a domain created prior to February 13, 2023, not when creating a new domain. All domains created after this date have the off-peak window enabled by default. You can't disable the off-peak window after it's enabled for a domain.
+        public let enabled: Bool?
+        /// Off-peak window settings for the domain.
+        public let offPeakWindow: OffPeakWindow?
+
+        public init(enabled: Bool? = nil, offPeakWindow: OffPeakWindow? = nil) {
+            self.enabled = enabled
+            self.offPeakWindow = offPeakWindow
+        }
+
+        public func validate(name: String) throws {
+            try self.offPeakWindow?.validate(name: "\(name).offPeakWindow")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case offPeakWindow = "OffPeakWindow"
+        }
+    }
+
+    public struct OffPeakWindowOptionsStatus: AWSDecodableShape {
+        /// The domain's off-peak window configuration.
+        public let options: OffPeakWindowOptions?
+        /// The current status of off-peak window options.
+        public let status: OptionStatus?
+
+        public init(options: OffPeakWindowOptions? = nil, status: OptionStatus? = nil) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
     public struct OptionStatus: AWSDecodableShape {
         /// The timestamp when the entity was created.
         public let creationDate: Date
@@ -3445,6 +3656,10 @@ extension OpenSearch {
         public let connectionAlias: String?
         /// Unique identifier of the connection.
         public let connectionId: String?
+        /// The connection mode.
+        public let connectionMode: ConnectionMode?
+        /// Properties for the outbound connection.
+        public let connectionProperties: ConnectionProperties?
         /// Status of the connection.
         public let connectionStatus: OutboundConnectionStatus?
         /// Information about the source (local) domain.
@@ -3452,9 +3667,11 @@ extension OpenSearch {
         /// Information about the destination (remote) domain.
         public let remoteDomainInfo: DomainInformationContainer?
 
-        public init(connectionAlias: String? = nil, connectionId: String? = nil, connectionStatus: OutboundConnectionStatus? = nil, localDomainInfo: DomainInformationContainer? = nil, remoteDomainInfo: DomainInformationContainer? = nil) {
+        public init(connectionAlias: String? = nil, connectionId: String? = nil, connectionMode: ConnectionMode? = nil, connectionProperties: ConnectionProperties? = nil, connectionStatus: OutboundConnectionStatus? = nil, localDomainInfo: DomainInformationContainer? = nil, remoteDomainInfo: DomainInformationContainer? = nil) {
             self.connectionAlias = connectionAlias
             self.connectionId = connectionId
+            self.connectionMode = connectionMode
+            self.connectionProperties = connectionProperties
             self.connectionStatus = connectionStatus
             self.localDomainInfo = localDomainInfo
             self.remoteDomainInfo = remoteDomainInfo
@@ -3463,6 +3680,8 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case connectionAlias = "ConnectionAlias"
             case connectionId = "ConnectionId"
+            case connectionMode = "ConnectionMode"
+            case connectionProperties = "ConnectionProperties"
             case connectionStatus = "ConnectionStatus"
             case localDomainInfo = "LocalDomainInfo"
             case remoteDomainInfo = "RemoteDomainInfo"
@@ -3934,6 +4153,51 @@ extension OpenSearch {
         }
     }
 
+    public struct ScheduledAction: AWSDecodableShape {
+        /// Whether or not the scheduled action is cancellable.
+        public let cancellable: Bool?
+        /// A description of the action to be taken.
+        public let description: String?
+        /// The unique identifier of the scheduled action.
+        public let id: String
+        /// Whether the action is required or optional.
+        public let mandatory: Bool?
+        /// Whether the action was scheduled manually (CUSTOMER, or by OpenSearch Service automatically (SYSTEM).
+        public let scheduledBy: ScheduledBy?
+        /// The time when the change is scheduled to happen.
+        public let scheduledTime: Int64
+        /// The severity of the action.
+        public let severity: ActionSeverity
+        /// The current status of the scheduled action.
+        public let status: ActionStatus?
+        /// The type of action that will be taken on the domain.
+        public let type: ActionType
+
+        public init(cancellable: Bool? = nil, description: String? = nil, id: String, mandatory: Bool? = nil, scheduledBy: ScheduledBy? = nil, scheduledTime: Int64, severity: ActionSeverity, status: ActionStatus? = nil, type: ActionType) {
+            self.cancellable = cancellable
+            self.description = description
+            self.id = id
+            self.mandatory = mandatory
+            self.scheduledBy = scheduledBy
+            self.scheduledTime = scheduledTime
+            self.severity = severity
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cancellable = "Cancellable"
+            case description = "Description"
+            case id = "Id"
+            case mandatory = "Mandatory"
+            case scheduledBy = "ScheduledBy"
+            case scheduledTime = "ScheduledTime"
+            case severity = "Severity"
+            case status = "Status"
+            case type = "Type"
+        }
+    }
+
     public struct ScheduledAutoTuneDetails: AWSDecodableShape {
         /// A description of the Auto-Tune action.
         public let action: String?
@@ -4030,12 +4294,48 @@ extension OpenSearch {
         }
     }
 
+    public struct SoftwareUpdateOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Whether automatic service software updates are enabled for the domain.
+        public let autoSoftwareUpdateEnabled: Bool?
+
+        public init(autoSoftwareUpdateEnabled: Bool? = nil) {
+            self.autoSoftwareUpdateEnabled = autoSoftwareUpdateEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoSoftwareUpdateEnabled = "AutoSoftwareUpdateEnabled"
+        }
+    }
+
+    public struct SoftwareUpdateOptionsStatus: AWSDecodableShape {
+        /// The service software update options for a domain.
+        public let options: SoftwareUpdateOptions?
+        /// The status of service software update options, including creation date and last updated date.
+        public let status: OptionStatus?
+
+        public init(options: SoftwareUpdateOptions? = nil, status: OptionStatus? = nil) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
     public struct StartServiceSoftwareUpdateRequest: AWSEncodableShape {
+        /// The Epoch timestamp when you want the service software update to start. You only need to specify this parameter if you set ScheduleAt to TIMESTAMP.
+        public let desiredStartTime: Int64?
         /// The name of the domain that you want to update to the latest service software.
         public let domainName: String
+        /// When to start the service software update.    NOW - Immediately schedules the update to happen in the current hour if there's capacity available.    TIMESTAMP - Lets you specify a custom date and time to apply the update. If you specify this value, you must also provide a value for DesiredStartTime.    OFF_PEAK_WINDOW - Marks the update to be picked up during an upcoming off-peak window. There's no guarantee that the update will happen during the next immediate window. Depending on capacity, it might happen in subsequent days.   Default: NOW if you don't specify a value for DesiredStartTime, and TIMESTAMP if you do.
+        public let scheduleAt: ScheduleAt?
 
-        public init(domainName: String) {
+        public init(desiredStartTime: Int64? = nil, domainName: String, scheduleAt: ScheduleAt? = nil) {
+            self.desiredStartTime = desiredStartTime
             self.domainName = domainName
+            self.scheduleAt = scheduleAt
         }
 
         public func validate(name: String) throws {
@@ -4045,7 +4345,9 @@ extension OpenSearch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case desiredStartTime = "DesiredStartTime"
             case domainName = "DomainName"
+            case scheduleAt = "ScheduleAt"
         }
     }
 
@@ -4154,16 +4456,20 @@ extension OpenSearch {
         public let ebsOptions: EBSOptions?
         /// Encryption at rest options for the domain.
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
-        /// Options to publish OpenSearch lots to Amazon CloudWatch Logs.
+        /// Options to publish OpenSearch logs to Amazon CloudWatch Logs.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
-        /// Node-To-Node Encryption options for the domain.
+        /// Node-to-node encryption options for the domain.
         public let nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions?
+        /// Off-peak window options for the domain.
+        public let offPeakWindowOptions: OffPeakWindowOptions?
         /// Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours.
         public let snapshotOptions: SnapshotOptions?
+        /// Service software update options for the domain.
+        public let softwareUpdateOptions: SoftwareUpdateOptions?
         /// Options to specify the subnets and security groups for a VPC endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
         public let vpcOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -4178,7 +4484,9 @@ extension OpenSearch {
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
+            self.offPeakWindowOptions = offPeakWindowOptions
             self.snapshotOptions = snapshotOptions
+            self.softwareUpdateOptions = softwareUpdateOptions
             self.vpcOptions = vpcOptions
         }
 
@@ -4196,6 +4504,7 @@ extension OpenSearch {
             try self.logPublishingOptions?.forEach {
                 try $0.value.validate(name: "\(name).logPublishingOptions[\"\($0.key)\"]")
             }
+            try self.offPeakWindowOptions?.validate(name: "\(name).offPeakWindowOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4212,7 +4521,9 @@ extension OpenSearch {
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
+            case offPeakWindowOptions = "OffPeakWindowOptions"
             case snapshotOptions = "SnapshotOptions"
+            case softwareUpdateOptions = "SoftwareUpdateOptions"
             case vpcOptions = "VPCOptions"
         }
     }
@@ -4279,6 +4590,57 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case packageDetails = "PackageDetails"
+        }
+    }
+
+    public struct UpdateScheduledActionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
+        ]
+
+        /// The unique identifier of the action to reschedule. To retrieve this ID, send a ListScheduledActions request.
+        public let actionID: String
+        /// The type of action to reschedule. Can be one of SERVICE_SOFTWARE_UPDATE, JVM_HEAP_SIZE_TUNING, or JVM_YOUNG_GEN_TUNING. To retrieve this value, send a ListScheduledActions request.
+        public let actionType: ActionType
+        /// The time to implement the change, in Coordinated Universal Time (UTC). Only specify this parameter if you set ScheduleAt to TIMESTAMP.
+        public let desiredStartTime: Int64?
+        /// The name of the domain to reschedule an action for.
+        public let domainName: String
+        /// When to schedule the action.    NOW - Immediately schedules the update to happen in the current hour if there's capacity available.    TIMESTAMP - Lets you specify a custom date and time to apply the update. If you specify this value, you must also provide a value for DesiredStartTime.    OFF_PEAK_WINDOW - Marks the action to be picked up during an upcoming off-peak window. There's no guarantee that the change will be implemented during the next immediate window. Depending on capacity, it might happen in subsequent days.
+        public let scheduleAt: ScheduleAt
+
+        public init(actionID: String, actionType: ActionType, desiredStartTime: Int64? = nil, domainName: String, scheduleAt: ScheduleAt) {
+            self.actionID = actionID
+            self.actionType = actionType
+            self.desiredStartTime = desiredStartTime
+            self.domainName = domainName
+            self.scheduleAt = scheduleAt
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionID = "ActionID"
+            case actionType = "ActionType"
+            case desiredStartTime = "DesiredStartTime"
+            case scheduleAt = "ScheduleAt"
+        }
+    }
+
+    public struct UpdateScheduledActionResponse: AWSDecodableShape {
+        /// Information about the rescheduled action.
+        public let scheduledAction: ScheduledAction?
+
+        public init(scheduledAction: ScheduledAction? = nil) {
+            self.scheduledAction = scheduledAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledAction = "ScheduledAction"
         }
     }
 
@@ -4607,6 +4969,30 @@ extension OpenSearch {
         }
     }
 
+    public struct WindowStartTime: AWSEncodableShape & AWSDecodableShape {
+        /// The start hour of the window in Coordinated Universal Time (UTC), using 24-hour time. For example, 17 refers to 5:00 P.M. UTC.
+        public let hours: Int64
+        /// The start minute of the window, in UTC.
+        public let minutes: Int64
+
+        public init(hours: Int64, minutes: Int64) {
+            self.hours = hours
+            self.minutes = minutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hours, name: "hours", parent: name, max: 23)
+            try self.validate(self.hours, name: "hours", parent: name, min: 0)
+            try self.validate(self.minutes, name: "minutes", parent: name, max: 59)
+            try self.validate(self.minutes, name: "minutes", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hours = "Hours"
+            case minutes = "Minutes"
+        }
+    }
+
     public struct ZoneAwarenessConfig: AWSEncodableShape & AWSDecodableShape {
         /// If you enabled multiple Availability Zones, this value is the number of zones that you want the domain to use. Valid values are 2 and 3. If your domain is provisioned within a VPC, this value be equal to number of subnets.
         public let availabilityZoneCount: Int?
@@ -4636,6 +5022,7 @@ public struct OpenSearchErrorType: AWSErrorType {
         case limitExceededException = "LimitExceededException"
         case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case slotNotAvailableException = "SlotNotAvailableException"
         case validationException = "ValidationException"
     }
 
@@ -4657,27 +5044,29 @@ public struct OpenSearchErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// An error occurred because user does not have permissions to access the resource. Returns HTTP status code 403.
+    /// An error occurred because you don't have permissions to access the resource.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// An error occurred while processing the request.
     public static var baseException: Self { .init(.baseException) }
-    /// An error occurred because the client attempts to remove a resource that is currently in use. Returns HTTP status code 409.
+    /// An error occurred because the client attempts to remove a resource that is currently in use.
     public static var conflictException: Self { .init(.conflictException) }
-    /// An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// An error occured because the client wanted to access a not supported operation.
     public static var disabledOperationException: Self { .init(.disabledOperationException) }
-    /// The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// Request processing failed because of an unknown error, exception, or internal failure.
     public static var internalException: Self { .init(.internalException) }
-    /// The request processing has failed because of invalid pagination token provided by customer. Returns an HTTP status code of 400.
+    /// The request processing has failed because you provided an invalid pagination token.
     public static var invalidPaginationTokenException: Self { .init(.invalidPaginationTokenException) }
-    /// An exception for trying to create or access sub-resource that is either invalid or not supported. Gives http status code of 409.
+    /// An exception for trying to create or access a sub-resource that's either invalid or not supported.
     public static var invalidTypeException: Self { .init(.invalidTypeException) }
-    /// An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
+    /// An exception for trying to create more than the allowed number of resources or sub-resources.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// An exception for creating a resource that already exists. Gives http status code of 400.
+    /// An exception for creating a resource that already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
-    /// An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// An exception for accessing or deleting a resource that does not exist..
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// An exception for missing / invalid input fields. Gives http status code of 400.
+    /// An exception for attempting to schedule a domain action during an unavailable time slot.
+    public static var slotNotAvailableException: Self { .init(.slotNotAvailableException) }
+    /// An exception for accessing or deleting a resource that doesn't exist.
     public static var validationException: Self { .init(.validationException) }
 }
 

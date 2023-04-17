@@ -142,9 +142,9 @@ extension ServiceCatalogAppRegistry {
             AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
         ]
 
-        /// The name or ID of the application.
+        ///  The name, ID, or ARN  of the application.
         public let application: String
-        /// The name or ID of the attribute group that holds the attributes to describe the application.
+        ///  The name, ID, or ARN  of the attribute group  that holds the attributes  to describe the application.
         public let attributeGroup: String
 
         public init(application: String, attributeGroup: String) {
@@ -155,10 +155,10 @@ extension ServiceCatalogAppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "^[-.\\w]+$")
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
+            try self.validate(self.application, name: "application", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/applications/[-.\\w]+)$")
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 512)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "^[-.\\w]+$")
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/attribute-groups/[-.\\w]+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -188,7 +188,7 @@ extension ServiceCatalogAppRegistry {
             AWSMemberEncoding(label: "resourceType", location: .uri("resourceType"))
         ]
 
-        /// The name or ID of the application.
+        ///  The name, ID, or ARN  of the application.
         public let application: String
         /// The name or ID of the resource of which the application will be associated.
         public let resource: String
@@ -204,7 +204,7 @@ extension ServiceCatalogAppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "^[-.\\w]+$")
+            try self.validate(self.application, name: "application", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/applications/[-.\\w]+)$")
             try self.validate(self.resource, name: "resource", parent: name, max: 256)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
             try self.validate(self.resource, name: "resource", parent: name, pattern: "^\\S+$")
@@ -272,26 +272,31 @@ extension ServiceCatalogAppRegistry {
     public struct AttributeGroupDetails: AWSDecodableShape {
         /// The Amazon resource name (ARN) that specifies the attribute group.
         public let arn: String?
+        /// The service principal that created the attribute group.
+        public let createdBy: String?
         /// The unique identifier of the attribute group.
         public let id: String?
         ///   This field is no longer supported. We recommend you don't use the field when using ListAttributeGroupsForApplication.    The name of the attribute group.
         public let name: String?
 
-        public init(arn: String? = nil, id: String? = nil) {
+        public init(arn: String? = nil, createdBy: String? = nil, id: String? = nil) {
             self.arn = arn
+            self.createdBy = createdBy
             self.id = id
             self.name = nil
         }
 
         @available(*, deprecated, message: "Members name have been deprecated")
-        public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, createdBy: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
+            self.createdBy = createdBy
             self.id = id
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case createdBy = "createdBy"
             case id = "id"
             case name = "name"
         }
@@ -300,6 +305,8 @@ extension ServiceCatalogAppRegistry {
     public struct AttributeGroupSummary: AWSDecodableShape {
         /// The Amazon resource name (ARN) that specifies the attribute group across services.
         public let arn: String?
+        /// The service principal that created the attribute group.
+        public let createdBy: String?
         /// The ISO-8601 formatted timestamp of the moment the attribute group was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?
@@ -313,8 +320,9 @@ extension ServiceCatalogAppRegistry {
         /// The name of the attribute group.
         public let name: String?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String? = nil) {
+        public init(arn: String? = nil, createdBy: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String? = nil) {
             self.arn = arn
+            self.createdBy = createdBy
             self.creationTime = creationTime
             self.description = description
             self.id = id
@@ -324,6 +332,7 @@ extension ServiceCatalogAppRegistry {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case createdBy = "createdBy"
             case creationTime = "creationTime"
             case description = "description"
             case id = "id"
@@ -456,7 +465,7 @@ extension ServiceCatalogAppRegistry {
             AWSMemberEncoding(label: "application", location: .uri("application"))
         ]
 
-        /// The name or ID of the application.
+        ///  The name, ID, or ARN  of the application.
         public let application: String
 
         public init(application: String) {
@@ -466,7 +475,7 @@ extension ServiceCatalogAppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "^[-.\\w]+$")
+            try self.validate(self.application, name: "application", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/applications/[-.\\w]+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -490,7 +499,7 @@ extension ServiceCatalogAppRegistry {
             AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
         ]
 
-        /// The name or ID of the attribute group that holds the attributes to describe the application.
+        ///  The name, ID, or ARN  of the attribute group  that holds the attributes  to describe the application.
         public let attributeGroup: String
 
         public init(attributeGroup: String) {
@@ -498,9 +507,9 @@ extension ServiceCatalogAppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 512)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "^[-.\\w]+$")
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/attribute-groups/[-.\\w]+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -525,9 +534,9 @@ extension ServiceCatalogAppRegistry {
             AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
         ]
 
-        /// The name or ID of the application.
+        ///  The name, ID, or ARN  of the application.
         public let application: String
-        /// The name or ID of the attribute group that holds the attributes to describe the application.
+        ///  The name, ID, or ARN  of the attribute group  that holds the attributes  to describe the application.
         public let attributeGroup: String
 
         public init(application: String, attributeGroup: String) {
@@ -538,10 +547,10 @@ extension ServiceCatalogAppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "^[-.\\w]+$")
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
+            try self.validate(self.application, name: "application", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/applications/[-.\\w]+)$")
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 512)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "^[-.\\w]+$")
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/attribute-groups/[-.\\w]+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -587,7 +596,7 @@ extension ServiceCatalogAppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "^[-.\\w]+$")
+            try self.validate(self.application, name: "application", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/applications/[-.\\w]+)$")
             try self.validate(self.resource, name: "resource", parent: name, max: 256)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
             try self.validate(self.resource, name: "resource", parent: name, pattern: "^\\S+$")
@@ -618,7 +627,7 @@ extension ServiceCatalogAppRegistry {
             AWSMemberEncoding(label: "application", location: .uri("application"))
         ]
 
-        /// The name or ID of the application.
+        ///  The name, ID, or ARN  of the application.
         public let application: String
 
         public init(application: String) {
@@ -628,7 +637,7 @@ extension ServiceCatalogAppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "^[-.\\w]+$")
+            try self.validate(self.application, name: "application", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/applications/[-.\\w]+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -688,7 +697,7 @@ extension ServiceCatalogAppRegistry {
             AWSMemberEncoding(label: "resourceType", location: .uri("resourceType"))
         ]
 
-        /// The name or ID of the application.
+        ///  The name, ID, or ARN  of the application.
         public let application: String
         /// The name or ID of the resource associated with the application.
         public let resource: String
@@ -704,7 +713,7 @@ extension ServiceCatalogAppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "^[-.\\w]+$")
+            try self.validate(self.application, name: "application", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/applications/[-.\\w]+)$")
             try self.validate(self.resource, name: "resource", parent: name, max: 256)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
             try self.validate(self.resource, name: "resource", parent: name, pattern: "^\\S+$")
@@ -731,7 +740,7 @@ extension ServiceCatalogAppRegistry {
             AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
         ]
 
-        /// The name or ID of the attribute group that holds the attributes to describe the application.
+        ///  The name, ID, or ARN  of the attribute group  that holds the attributes  to describe the application.
         public let attributeGroup: String
 
         public init(attributeGroup: String) {
@@ -739,9 +748,9 @@ extension ServiceCatalogAppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 512)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "^[-.\\w]+$")
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/attribute-groups/[-.\\w]+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -752,6 +761,8 @@ extension ServiceCatalogAppRegistry {
         public let arn: String?
         /// A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components.
         public let attributes: String?
+        /// The service principal that created the attribute group.
+        public let createdBy: String?
         /// The ISO-8601 formatted timestamp of the moment the attribute group was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?
@@ -767,9 +778,10 @@ extension ServiceCatalogAppRegistry {
         /// Key-value pairs associated with the attribute group.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, attributes: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, attributes: String? = nil, createdBy: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.attributes = attributes
+            self.createdBy = createdBy
             self.creationTime = creationTime
             self.description = description
             self.id = id
@@ -781,6 +793,7 @@ extension ServiceCatalogAppRegistry {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case attributes = "attributes"
+            case createdBy = "createdBy"
             case creationTime = "creationTime"
             case description = "description"
             case id = "id"
@@ -883,7 +896,7 @@ extension ServiceCatalogAppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "^[-.\\w]+$")
+            try self.validate(self.application, name: "application", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/applications/[-.\\w]+)$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
@@ -918,7 +931,7 @@ extension ServiceCatalogAppRegistry {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// The name or ID of the application.
+        ///  The name, ID, or ARN  of the application.
         public let application: String
         /// The upper bound of the number of results to return (cannot exceed 25). If this parameter is omitted, it defaults to 25. This value is optional.
         public let maxResults: Int?
@@ -934,7 +947,7 @@ extension ServiceCatalogAppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "^[-.\\w]+$")
+            try self.validate(self.application, name: "application", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/applications/[-.\\w]+)$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
@@ -985,7 +998,7 @@ extension ServiceCatalogAppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "^[-.\\w]+$")
+            try self.validate(self.application, name: "application", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/applications/[-.\\w]+)$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
@@ -1348,7 +1361,7 @@ extension ServiceCatalogAppRegistry {
             AWSMemberEncoding(label: "application", location: .uri("application"))
         ]
 
-        /// The name or ID of the application that will be updated.
+        ///  The name, ID, or ARN  of the application  that will be updated.
         public let application: String
         /// The new description of the application.
         public let description: String?
@@ -1371,7 +1384,7 @@ extension ServiceCatalogAppRegistry {
         public func validate(name: String) throws {
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
-            try self.validate(self.application, name: "application", parent: name, pattern: "^[-.\\w]+$")
+            try self.validate(self.application, name: "application", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/applications/[-.\\w]+)$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -1402,7 +1415,7 @@ extension ServiceCatalogAppRegistry {
             AWSMemberEncoding(label: "attributeGroup", location: .uri("attributeGroup"))
         ]
 
-        /// The name or ID of the attribute group that holds the attributes to describe the application.
+        ///  The name, ID, or ARN  of the attribute group  that holds the attributes  to describe the application.
         public let attributeGroup: String
         /// A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components.
         public let attributes: String?
@@ -1427,9 +1440,9 @@ extension ServiceCatalogAppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 512)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
-            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "^[-.\\w]+$")
+            try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "^([-.\\w]+)|(arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:/attribute-groups/[-.\\w]+)$")
             try self.validate(self.attributes, name: "attributes", parent: name, max: 8000)
             try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
             try self.validate(self.attributes, name: "attributes", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
@@ -1469,6 +1482,7 @@ public struct ServiceCatalogAppRegistryErrorType: AWSErrorType {
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
 
@@ -1496,8 +1510,10 @@ public struct ServiceCatalogAppRegistryErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The specified resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The maximum number of resources per account has been reached.
+    ///  The maximum number  of resources per account  has been reached.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    ///  The maximum number  of API requests  has been exceeded.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// The request has invalid or missing parameters.
     public static var validationException: Self { .init(.validationException) }
 }

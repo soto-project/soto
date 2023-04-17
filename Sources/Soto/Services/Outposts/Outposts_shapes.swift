@@ -71,6 +71,7 @@ extension Outposts {
         case installed = "INSTALLED"
         case installing = "INSTALLING"
         case preparing = "PREPARING"
+        case replaced = "REPLACED"
         case shipped = "SHIPPED"
         public var description: String { return self.rawValue }
     }
@@ -370,7 +371,7 @@ extension Outposts {
         public let powerKva: Float?
         ///  The supported storage options for the catalog item.
         public let supportedStorage: [SupportedStorageEnum]?
-        ///  The uplink speed this catalog item requires for the  connection to the Region.
+        ///  The uplink speed this catalog item requires for the connection to the Region.
         public let supportedUplinkGbps: [Int]?
         ///  The weight of the item in pounds.
         public let weightLbs: Int?
@@ -571,11 +572,11 @@ extension Outposts {
         public let name: String
         /// Additional information that you provide about site access requirements, electrician scheduling, personal protective equipment, or regulation of equipment materials that could affect your installation process.
         public let notes: String?
-        ///  The location to install and power on the hardware. This address might be  different from the shipping address.
+        ///  The location to install and power on the hardware. This address might be different from the shipping address.
         public let operatingAddress: Address?
         ///  Information about the physical and logistical details for the rack at this site. For more information about hardware requirements for racks, see Network  readiness checklist in the Amazon Web Services Outposts User Guide.
         public let rackPhysicalProperties: RackPhysicalProperties?
-        ///  The location to ship the hardware. This address might be different  from the operating address.
+        ///  The location to ship the hardware. This address might be different from the operating address.
         public let shippingAddress: Address?
         ///  The tags to apply to a site.
         public let tags: [String: String]?
@@ -854,7 +855,7 @@ extension Outposts {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
             try self.validate(self.outpostId, name: "outpostId", parent: name, max: 180)
@@ -996,6 +997,10 @@ extension Outposts {
         public let catalogItemId: String?
         /// The ID of the line item.
         public let lineItemId: String?
+        /// The ID of the previous line item.
+        public let previousLineItemId: String?
+        /// The ID of the previous order.
+        public let previousOrderId: String?
         /// The quantity of the line item.
         public let quantity: Int?
         ///  Information about a line item shipment.
@@ -1003,10 +1008,12 @@ extension Outposts {
         /// The status of the line item.
         public let status: LineItemStatus?
 
-        public init(assetInformationList: [LineItemAssetInformation]? = nil, catalogItemId: String? = nil, lineItemId: String? = nil, quantity: Int? = nil, shipmentInformation: ShipmentInformation? = nil, status: LineItemStatus? = nil) {
+        public init(assetInformationList: [LineItemAssetInformation]? = nil, catalogItemId: String? = nil, lineItemId: String? = nil, previousLineItemId: String? = nil, previousOrderId: String? = nil, quantity: Int? = nil, shipmentInformation: ShipmentInformation? = nil, status: LineItemStatus? = nil) {
             self.assetInformationList = assetInformationList
             self.catalogItemId = catalogItemId
             self.lineItemId = lineItemId
+            self.previousLineItemId = previousLineItemId
+            self.previousOrderId = previousOrderId
             self.quantity = quantity
             self.shipmentInformation = shipmentInformation
             self.status = status
@@ -1016,6 +1023,8 @@ extension Outposts {
             case assetInformationList = "AssetInformationList"
             case catalogItemId = "CatalogItemId"
             case lineItemId = "LineItemId"
+            case previousLineItemId = "PreviousLineItemId"
+            case previousOrderId = "PreviousOrderId"
             case quantity = "Quantity"
             case shipmentInformation = "ShipmentInformation"
             case status = "Status"
@@ -1098,7 +1107,7 @@ extension Outposts {
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
@@ -1161,7 +1170,7 @@ extension Outposts {
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
         }
@@ -1206,7 +1215,7 @@ extension Outposts {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
             try self.validate(self.outpostIdentifierFilter, name: "outpostIdentifierFilter", parent: name, max: 180)
@@ -1283,7 +1292,7 @@ extension Outposts {
             try self.validate(self.lifeCycleStatusFilter, name: "lifeCycleStatusFilter", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
         }
@@ -1335,7 +1344,7 @@ extension Outposts {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
             try self.operatingAddressCityFilter?.forEach {
@@ -1415,6 +1424,8 @@ extension Outposts {
         public let orderId: String?
         /// The submission date for the order.
         public let orderSubmissionDate: Date?
+        /// The type of order.
+        public let orderType: OrderType?
         ///  The ID of the Outpost in the order.
         public let outpostId: String?
         /// The payment option for the order.
@@ -1424,11 +1435,12 @@ extension Outposts {
         /// The status of the order.    PREPARING - Order is received and being prepared.    IN_PROGRESS - Order is either being built, shipped, or installed. To get more details, see the line item status.    COMPLETED - Order is complete.    CANCELLED - Order is cancelled.    ERROR - Customer should contact support.    The following status are deprecated: RECEIVED, PENDING, PROCESSING, INSTALLING, and FULFILLED.
         public let status: OrderStatus?
 
-        public init(lineItems: [LineItem]? = nil, orderFulfilledDate: Date? = nil, orderId: String? = nil, orderSubmissionDate: Date? = nil, outpostId: String? = nil, paymentOption: PaymentOption? = nil, paymentTerm: PaymentTerm? = nil, status: OrderStatus? = nil) {
+        public init(lineItems: [LineItem]? = nil, orderFulfilledDate: Date? = nil, orderId: String? = nil, orderSubmissionDate: Date? = nil, orderType: OrderType? = nil, outpostId: String? = nil, paymentOption: PaymentOption? = nil, paymentTerm: PaymentTerm? = nil, status: OrderStatus? = nil) {
             self.lineItems = lineItems
             self.orderFulfilledDate = orderFulfilledDate
             self.orderId = orderId
             self.orderSubmissionDate = orderSubmissionDate
+            self.orderType = orderType
             self.outpostId = outpostId
             self.paymentOption = paymentOption
             self.paymentTerm = paymentTerm
@@ -1440,6 +1452,7 @@ extension Outposts {
             case orderFulfilledDate = "OrderFulfilledDate"
             case orderId = "OrderId"
             case orderSubmissionDate = "OrderSubmissionDate"
+            case orderType = "OrderType"
             case outpostId = "OutpostId"
             case paymentOption = "PaymentOption"
             case paymentTerm = "PaymentTerm"
@@ -1456,7 +1469,7 @@ extension Outposts {
         public let orderId: String?
         ///  The submission date for the order.
         public let orderSubmissionDate: Date?
-        ///  The type of order.
+        /// The type of order.
         public let orderType: OrderType?
         ///  The ID of the Outpost.
         public let outpostId: String?
@@ -1643,7 +1656,7 @@ extension Outposts {
     }
 
     public struct StartConnectionRequest: AWSEncodableShape {
-        ///   The ID of the Outpost server.
+        ///  The ID of the Outpost server.
         public let assetId: String
         ///  The public key of the client.
         public let clientPublicKey: String

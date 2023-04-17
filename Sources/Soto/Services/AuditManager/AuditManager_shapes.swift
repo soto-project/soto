@@ -1183,7 +1183,7 @@ extension AuditManager {
         public let action: ActionEnum?
         ///  The time when the action was performed and the changelog record was created.
         public let createdAt: Date?
-        ///  The IAM user or role that performed the action.
+        ///  The user or role that performed the action.
         public let createdBy: String?
         ///  The name of the object that changed. This could be the name of an assessment, control, or control set.
         public let objectName: String?
@@ -1220,7 +1220,7 @@ extension AuditManager {
         public let controlSources: String?
         ///  The time when the control was created.
         public let createdAt: Date?
-        ///  The IAM user or role that created the control.
+        ///  The user or role that created the control.
         public let createdBy: String?
         ///  The description of the control.
         public let description: String?
@@ -1228,7 +1228,7 @@ extension AuditManager {
         public let id: String?
         ///  The time when the control was most recently updated.
         public let lastUpdatedAt: Date?
-        ///  The IAM user or role that most recently updated the control.
+        ///  The user or role that most recently updated the control.
         public let lastUpdatedBy: String?
         ///  The name of the control.
         public let name: String?
@@ -1896,7 +1896,7 @@ extension AuditManager {
         public let comment: String?
         ///  The identifier for the control set that's associated with the delegation.
         public let controlSetId: String?
-        ///  The IAM user or role that created the delegation.
+        ///  The user or role that created the delegation.
         public let createdBy: String?
         ///  Specifies when the delegation was created.
         public let creationTime: Date?
@@ -2222,7 +2222,7 @@ extension AuditManager {
         public let evidenceByType: String?
         ///  The identifier for the folder that the evidence is stored in.
         public let evidenceFolderId: String?
-        ///  The unique identifier for the IAM user or role that's associated with the evidence.
+        ///  The unique identifier for the user or role that's associated with the evidence.
         public let iamId: String?
         ///  The identifier for the evidence.
         public let id: String?
@@ -2325,7 +2325,7 @@ extension AuditManager {
         public let controlSources: String?
         ///  The time when the framework was created.
         public let createdAt: Date?
-        ///  The IAM user or role that created the framework.
+        ///  The user or role that created the framework.
         public let createdBy: String?
         ///  The description of the framework.
         public let description: String?
@@ -2333,7 +2333,7 @@ extension AuditManager {
         public let id: String?
         ///  The time when the framework was most recently updated.
         public let lastUpdatedAt: Date?
-        ///  The IAM user or role that most recently updated the framework.
+        ///  The user or role that most recently updated the framework.
         public let lastUpdatedBy: String?
         ///  The logo that's associated with the framework.
         public let logo: String?

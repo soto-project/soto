@@ -770,7 +770,7 @@ extension WAFRegional {
         public let rateLimit: Int64
         public let tags: [Tag]?
 
-        public init(changeToken: String, metricName: String, name: String, rateKey: RateKey, rateLimit: Int64, tags: [Tag]? = nil) {
+        public init(changeToken: String, metricName: String, name: String, rateKey: RateKey, rateLimit: Int64 = 0, tags: [Tag]? = nil) {
             self.changeToken = changeToken
             self.metricName = metricName
             self.name = name
@@ -2409,7 +2409,7 @@ extension WAFRegional {
         /// The WebACLId of the WebACL for which you want GetSampledRequests to return a sample of requests.
         public let webAclId: String
 
-        public init(maxItems: Int64, ruleId: String, timeWindow: TimeWindow, webAclId: String) {
+        public init(maxItems: Int64 = 0, ruleId: String, timeWindow: TimeWindow, webAclId: String) {
             self.maxItems = maxItems
             self.ruleId = ruleId
             self.timeWindow = timeWindow
@@ -4649,7 +4649,7 @@ extension WAFRegional {
         /// An array of RuleUpdate objects that you want to insert into or delete from a RateBasedRule.
         public let updates: [RuleUpdate]
 
-        public init(changeToken: String, rateLimit: Int64, ruleId: String, updates: [RuleUpdate]) {
+        public init(changeToken: String, rateLimit: Int64 = 0, ruleId: String, updates: [RuleUpdate]) {
             self.changeToken = changeToken
             self.rateLimit = rateLimit
             self.ruleId = ruleId
