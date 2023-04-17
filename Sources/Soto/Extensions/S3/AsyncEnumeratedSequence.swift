@@ -21,7 +21,7 @@
 /// To create an instance of `EnumeratedSequence`, call `enumerated()` on an
 /// AsyncSequence.
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-public struct AsyncEnumeratedSequence<Base: AsyncSequence> {
+struct AsyncEnumeratedSequence<Base: AsyncSequence> {
     @usableFromInline
     let base: Base
 
@@ -33,9 +33,9 @@ public struct AsyncEnumeratedSequence<Base: AsyncSequence> {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension AsyncEnumeratedSequence: AsyncSequence {
-    public typealias Element = (Int, Base.Element)
+    typealias Element = (Int, Base.Element)
 
-    public struct AsyncIterator: AsyncIteratorProtocol {
+    struct AsyncIterator: AsyncIteratorProtocol {
         @usableFromInline
         var baseIterator: Base.AsyncIterator
         @usableFromInline
@@ -48,7 +48,7 @@ extension AsyncEnumeratedSequence: AsyncSequence {
         }
 
         @inlinable
-        public mutating func next() async rethrows -> AsyncEnumeratedSequence.Element? {
+        mutating func next() async rethrows -> AsyncEnumeratedSequence.Element? {
             let value = try await self.baseIterator.next().map { (self.index, $0) }
             self.index += 1
             return value
@@ -56,7 +56,7 @@ extension AsyncEnumeratedSequence: AsyncSequence {
     }
 
     @inlinable
-    public __consuming func makeAsyncIterator() -> AsyncIterator {
+    __consuming func makeAsyncIterator() -> AsyncIterator {
         return .init(baseIterator: self.base.makeAsyncIterator())
     }
 }
@@ -67,5 +67,5 @@ extension AsyncEnumeratedSequence: Sendable where Base: Sendable {}
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension AsyncSequence {
     /// Return an enumaterated AsyncSequence
-    public func enumerated() -> AsyncEnumeratedSequence<Self> { return AsyncEnumeratedSequence(self) }
+    func enumerated() -> AsyncEnumeratedSequence<Self> { return AsyncEnumeratedSequence(self) }
 }
