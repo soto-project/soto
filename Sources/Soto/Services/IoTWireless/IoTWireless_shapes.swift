@@ -39,6 +39,12 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeviceProfileType: String, CustomStringConvertible, Codable, Sendable {
+        case loRaWAN = "LoRaWAN"
+        case sidewalk = "Sidewalk"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeviceState: String, CustomStringConvertible, Codable, Sendable {
         case provisioned = "Provisioned"
         case registerednotseen = "RegisteredNotSeen"
@@ -126,6 +132,16 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImportTaskStatus: String, CustomStringConvertible, Codable, Sendable {
+        case complete = "COMPLETE"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case initialized = "INITIALIZED"
+        case initializing = "INITIALIZING"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogLevel: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case error = "ERROR"
@@ -138,6 +154,14 @@ extension IoTWireless {
         case customCommandIdNotify = "CUSTOM_COMMAND_ID_NOTIFY"
         case customCommandIdResp = "CUSTOM_COMMAND_ID_RESP"
         case customCommandIdSet = "CUSTOM_COMMAND_ID_SET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OnboardStatus: String, CustomStringConvertible, Codable, Sendable {
+        case failed = "FAILED"
+        case initialized = "INITIALIZED"
+        case onboarded = "ONBOARDED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -188,8 +212,17 @@ extension IoTWireless {
 
     public enum SupportedRfRegion: String, CustomStringConvertible, Codable, Sendable {
         case as9231 = "AS923-1"
+        case as9232 = "AS923-2"
+        case as9233 = "AS923-3"
+        case as9234 = "AS923-4"
         case au915 = "AU915"
+        case cn470 = "CN470"
+        case cn779 = "CN779"
+        case eu433 = "EU433"
         case eu868 = "EU868"
+        case in865 = "IN865"
+        case kr920 = "KR920"
+        case ru864 = "RU864"
         case us915 = "US915"
         public var description: String { return self.rawValue }
     }
@@ -214,6 +247,14 @@ extension IoTWireless {
         case sidewalkManufacturingSn = "SidewalkManufacturingSn"
         case thingName = "ThingName"
         case wirelessDeviceId = "WirelessDeviceId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WirelessDeviceSidewalkStatus: String, CustomStringConvertible, Codable, Sendable {
+        case activated = "ACTIVATED"
+        case provisioned = "PROVISIONED"
+        case registered = "REGISTERED"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
@@ -701,7 +742,7 @@ extension IoTWireless {
     public struct CdmaObj: AWSEncodableShape {
         /// CDMA base station latitude in degrees.
         public let baseLat: Float?
-        /// CDMA base station longtitude in degrees.
+        /// CDMA base station longitude in degrees.
         public let baseLng: Float?
         /// CDMA base station ID (BSID).
         public let baseStationId: Int
@@ -947,13 +988,16 @@ extension IoTWireless {
         public let loRaWAN: LoRaWANDeviceProfile?
         /// The name of the new resource.
         public let name: String?
+        /// The Sidewalk-related information for creating the Sidewalk device profile.
+        public let sidewalk: SidewalkCreateDeviceProfile?
         /// The tags to attach to the new device profile. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
 
-        public init(clientRequestToken: String? = CreateDeviceProfileRequest.idempotencyToken(), loRaWAN: LoRaWANDeviceProfile? = nil, name: String? = nil, tags: [Tag]? = nil) {
+        public init(clientRequestToken: String? = CreateDeviceProfileRequest.idempotencyToken(), loRaWAN: LoRaWANDeviceProfile? = nil, name: String? = nil, sidewalk: SidewalkCreateDeviceProfile? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.loRaWAN = loRaWAN
             self.name = name
+            self.sidewalk = sidewalk
             self.tags = tags
         }
 
@@ -973,6 +1017,7 @@ extension IoTWireless {
             case clientRequestToken = "ClientRequestToken"
             case loRaWAN = "LoRaWAN"
             case name = "Name"
+            case sidewalk = "Sidewalk"
             case tags = "Tags"
         }
     }
@@ -999,17 +1044,23 @@ extension IoTWireless {
         public let description: String?
         public let firmwareUpdateImage: String
         public let firmwareUpdateRole: String
+        public let fragmentIntervalMS: Int?
+        public let fragmentSizeBytes: Int?
         public let loRaWAN: LoRaWANFuotaTask?
         public let name: String?
+        public let redundancyPercent: Int?
         public let tags: [Tag]?
 
-        public init(clientRequestToken: String? = CreateFuotaTaskRequest.idempotencyToken(), description: String? = nil, firmwareUpdateImage: String, firmwareUpdateRole: String, loRaWAN: LoRaWANFuotaTask? = nil, name: String? = nil, tags: [Tag]? = nil) {
+        public init(clientRequestToken: String? = CreateFuotaTaskRequest.idempotencyToken(), description: String? = nil, firmwareUpdateImage: String, firmwareUpdateRole: String, fragmentIntervalMS: Int? = nil, fragmentSizeBytes: Int? = nil, loRaWAN: LoRaWANFuotaTask? = nil, name: String? = nil, redundancyPercent: Int? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.firmwareUpdateImage = firmwareUpdateImage
             self.firmwareUpdateRole = firmwareUpdateRole
+            self.fragmentIntervalMS = fragmentIntervalMS
+            self.fragmentSizeBytes = fragmentSizeBytes
             self.loRaWAN = loRaWAN
             self.name = name
+            self.redundancyPercent = redundancyPercent
             self.tags = tags
         }
 
@@ -1022,7 +1073,11 @@ extension IoTWireless {
             try self.validate(self.firmwareUpdateImage, name: "firmwareUpdateImage", parent: name, min: 1)
             try self.validate(self.firmwareUpdateRole, name: "firmwareUpdateRole", parent: name, max: 2048)
             try self.validate(self.firmwareUpdateRole, name: "firmwareUpdateRole", parent: name, min: 1)
+            try self.validate(self.fragmentIntervalMS, name: "fragmentIntervalMS", parent: name, min: 1)
+            try self.validate(self.fragmentSizeBytes, name: "fragmentSizeBytes", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.redundancyPercent, name: "redundancyPercent", parent: name, max: 100)
+            try self.validate(self.redundancyPercent, name: "redundancyPercent", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1034,8 +1089,11 @@ extension IoTWireless {
             case description = "Description"
             case firmwareUpdateImage = "FirmwareUpdateImage"
             case firmwareUpdateRole = "FirmwareUpdateRole"
+            case fragmentIntervalMS = "FragmentIntervalMS"
+            case fragmentSizeBytes = "FragmentSizeBytes"
             case loRaWAN = "LoRaWAN"
             case name = "Name"
+            case redundancyPercent = "RedundancyPercent"
             case tags = "Tags"
         }
     }
@@ -1244,18 +1302,21 @@ extension IoTWireless {
         public let name: String?
         /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
         public let positioning: PositioningConfigStatus?
+        /// The device configuration information to use to create the Sidewalk device.
+        public let sidewalk: SidewalkCreateWirelessDevice?
         /// The tags to attach to the new wireless device. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
         /// The wireless device type.
         public let type: WirelessDeviceType
 
-        public init(clientRequestToken: String? = CreateWirelessDeviceRequest.idempotencyToken(), description: String? = nil, destinationName: String, loRaWAN: LoRaWANDevice? = nil, name: String? = nil, positioning: PositioningConfigStatus? = nil, tags: [Tag]? = nil, type: WirelessDeviceType) {
+        public init(clientRequestToken: String? = CreateWirelessDeviceRequest.idempotencyToken(), description: String? = nil, destinationName: String, loRaWAN: LoRaWANDevice? = nil, name: String? = nil, positioning: PositioningConfigStatus? = nil, sidewalk: SidewalkCreateWirelessDevice? = nil, tags: [Tag]? = nil, type: WirelessDeviceType) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.destinationName = destinationName
             self.loRaWAN = loRaWAN
             self.name = name
             self.positioning = positioning
+            self.sidewalk = sidewalk
             self.tags = tags
             self.type = type
         }
@@ -1269,6 +1330,7 @@ extension IoTWireless {
             try self.validate(self.destinationName, name: "destinationName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.loRaWAN?.validate(name: "\(name).loRaWAN")
             try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.sidewalk?.validate(name: "\(name).sidewalk")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1282,6 +1344,7 @@ extension IoTWireless {
             case loRaWAN = "LoRaWAN"
             case name = "Name"
             case positioning = "Positioning"
+            case sidewalk = "Sidewalk"
             case tags = "Tags"
             case type = "Type"
         }
@@ -1465,6 +1528,35 @@ extension IoTWireless {
         }
     }
 
+    public struct DakCertificateMetadata: AWSDecodableShape {
+        /// The advertised product ID (APID) that's used for pre-production and production applications.
+        public let apId: String?
+        /// The certificate ID for the DAK.
+        public let certificateId: String
+        /// The device type ID that's used for prototyping applications.
+        public let deviceTypeId: String?
+        /// Whether factory support has been enabled.
+        public let factorySupport: Bool?
+        /// The maximum number of signatures that the DAK can sign. A value of -1 indicates that there's no device limit.
+        public let maxAllowedSignature: Int?
+
+        public init(apId: String? = nil, certificateId: String, deviceTypeId: String? = nil, factorySupport: Bool? = nil, maxAllowedSignature: Int? = nil) {
+            self.apId = apId
+            self.certificateId = certificateId
+            self.deviceTypeId = deviceTypeId
+            self.factorySupport = factorySupport
+            self.maxAllowedSignature = maxAllowedSignature
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apId = "ApId"
+            case certificateId = "CertificateId"
+            case deviceTypeId = "DeviceTypeId"
+            case factorySupport = "FactorySupport"
+            case maxAllowedSignature = "MaxAllowedSignature"
+        }
+    }
+
     public struct DeleteDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri("Name"))
@@ -1634,6 +1726,29 @@ extension IoTWireless {
         public init() {}
     }
 
+    public struct DeleteWirelessDeviceImportTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        /// The unique identifier of the import task to be deleted.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteWirelessDeviceImportTaskResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteWirelessDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("Id"))
@@ -1724,6 +1839,33 @@ extension IoTWireless {
     }
 
     public struct DeleteWirelessGatewayTaskResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeregisterWirelessDeviceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
+            AWSMemberEncoding(label: "wirelessDeviceType", location: .querystring("WirelessDeviceType"))
+        ]
+
+        /// The identifier of the wireless device to deregister from AWS IoT Wireless.
+        public let identifier: String
+        /// The type of wireless device to deregister from AWS IoT Wireless, which can be LoRaWAN  or Sidewalk.
+        public let wirelessDeviceType: WirelessDeviceType?
+
+        public init(identifier: String, wirelessDeviceType: WirelessDeviceType? = nil) {
+            self.identifier = identifier
+            self.wirelessDeviceType = wirelessDeviceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeregisterWirelessDeviceResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -2223,12 +2365,15 @@ extension IoTWireless {
         public let loRaWAN: LoRaWANDeviceProfile?
         /// The name of the resource.
         public let name: String?
+        /// Information about the Sidewalk parameters in the device profile.
+        public let sidewalk: SidewalkGetDeviceProfile?
 
-        public init(arn: String? = nil, id: String? = nil, loRaWAN: LoRaWANDeviceProfile? = nil, name: String? = nil) {
+        public init(arn: String? = nil, id: String? = nil, loRaWAN: LoRaWANDeviceProfile? = nil, name: String? = nil, sidewalk: SidewalkGetDeviceProfile? = nil) {
             self.arn = arn
             self.id = id
             self.loRaWAN = loRaWAN
             self.name = name
+            self.sidewalk = sidewalk
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2236,6 +2381,7 @@ extension IoTWireless {
             case id = "Id"
             case loRaWAN = "LoRaWAN"
             case name = "Name"
+            case sidewalk = "Sidewalk"
         }
     }
 
@@ -2296,20 +2442,26 @@ extension IoTWireless {
         public let description: String?
         public let firmwareUpdateImage: String?
         public let firmwareUpdateRole: String?
+        public let fragmentIntervalMS: Int?
+        public let fragmentSizeBytes: Int?
         public let id: String?
         public let loRaWAN: LoRaWANFuotaTaskGetInfo?
         public let name: String?
+        public let redundancyPercent: Int?
         public let status: FuotaTaskStatus?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, firmwareUpdateImage: String? = nil, firmwareUpdateRole: String? = nil, id: String? = nil, loRaWAN: LoRaWANFuotaTaskGetInfo? = nil, name: String? = nil, status: FuotaTaskStatus? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, firmwareUpdateImage: String? = nil, firmwareUpdateRole: String? = nil, fragmentIntervalMS: Int? = nil, fragmentSizeBytes: Int? = nil, id: String? = nil, loRaWAN: LoRaWANFuotaTaskGetInfo? = nil, name: String? = nil, redundancyPercent: Int? = nil, status: FuotaTaskStatus? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
             self.firmwareUpdateImage = firmwareUpdateImage
             self.firmwareUpdateRole = firmwareUpdateRole
+            self.fragmentIntervalMS = fragmentIntervalMS
+            self.fragmentSizeBytes = fragmentSizeBytes
             self.id = id
             self.loRaWAN = loRaWAN
             self.name = name
+            self.redundancyPercent = redundancyPercent
             self.status = status
         }
 
@@ -2319,9 +2471,12 @@ extension IoTWireless {
             case description = "Description"
             case firmwareUpdateImage = "FirmwareUpdateImage"
             case firmwareUpdateRole = "FirmwareUpdateRole"
+            case fragmentIntervalMS = "FragmentIntervalMS"
+            case fragmentSizeBytes = "FragmentSizeBytes"
             case id = "Id"
             case loRaWAN = "LoRaWAN"
             case name = "Name"
+            case redundancyPercent = "RedundancyPercent"
             case status = "Status"
         }
     }
@@ -2563,7 +2718,7 @@ extension IoTWireless {
         public let gnss: Gnss?
         /// Retrieves an estimated device position by resolving the IP address information from the device. The position is resolved using MaxMind's IP-based solver.
         public let ip: Ip?
-        /// Optional information that specifies the time when the position information will be resolved. It uses the UNIX timestamp format. If not specified, the time at which the request was received will be used.
+        /// Optional information that specifies the time when the position information will be resolved. It uses the Unix timestamp format. If not specified, the time at which the request was received will be used.
         public let timestamp: Date?
         /// Retrieves an estimated device position by resolving WLAN measurement data. The position is resolved using HERE's Wi-Fi based solver.
         public let wiFiAccessPoints: [WiFiAccessPoint]?
@@ -2765,7 +2920,7 @@ extension IoTWireless {
             AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
         ]
 
-        /// The identifier of the resource for which position information is retrieved. It can be the wireless device ID or the wireless gateway ID depending on the resource type.
+        /// The identifier of the resource for which position information is retrieved. It can be the wireless device ID or the wireless gateway ID, depending on the resource type.
         public let resourceIdentifier: String
         /// The type of resource for which position information is retrieved, which can be a wireless device or a wireless gateway.
         public let resourceType: PositionResourceType
@@ -2879,6 +3034,79 @@ extension IoTWireless {
             case id = "Id"
             case loRaWAN = "LoRaWAN"
             case name = "Name"
+        }
+    }
+
+    public struct GetWirelessDeviceImportTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        /// The identifier of the import task for which information is requested.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetWirelessDeviceImportTaskResponse: AWSDecodableShape {
+        /// The ARN (Amazon Resource Name) of the import task.
+        public let arn: String?
+        /// The time at which the import task was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The name of the destination that's assigned to the wireless devices in the import task.
+        public let destinationName: String?
+        /// The number of devices in the import task that failed to onboard to the import task.
+        public let failedImportedDeviceCount: Int64?
+        /// The identifier of the import task for which information is retrieved.
+        public let id: String?
+        /// The number of devices in the import task that are waiting for the control log to start processing.
+        public let initializedImportedDeviceCount: Int64?
+        /// The number of devices in the import task that have been onboarded to the import task.
+        public let onboardedImportedDeviceCount: Int64?
+        /// The number of devices in the import task that are waiting in the import task queue to be onboarded.
+        public let pendingImportedDeviceCount: Int64?
+        /// The Sidewalk-related information about an import task.
+        public let sidewalk: SidewalkGetStartImportInfo?
+        /// The import task status.
+        public let status: ImportTaskStatus?
+        /// The reason for the provided status information, such as a validation error that causes the import task to fail.
+        public let statusReason: String?
+
+        public init(arn: String? = nil, creationTime: Date? = nil, destinationName: String? = nil, failedImportedDeviceCount: Int64? = nil, id: String? = nil, initializedImportedDeviceCount: Int64? = nil, onboardedImportedDeviceCount: Int64? = nil, pendingImportedDeviceCount: Int64? = nil, sidewalk: SidewalkGetStartImportInfo? = nil, status: ImportTaskStatus? = nil, statusReason: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.destinationName = destinationName
+            self.failedImportedDeviceCount = failedImportedDeviceCount
+            self.id = id
+            self.initializedImportedDeviceCount = initializedImportedDeviceCount
+            self.onboardedImportedDeviceCount = onboardedImportedDeviceCount
+            self.pendingImportedDeviceCount = pendingImportedDeviceCount
+            self.sidewalk = sidewalk
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case destinationName = "DestinationName"
+            case failedImportedDeviceCount = "FailedImportedDeviceCount"
+            case id = "Id"
+            case initializedImportedDeviceCount = "InitializedImportedDeviceCount"
+            case onboardedImportedDeviceCount = "OnboardedImportedDeviceCount"
+            case pendingImportedDeviceCount = "PendingImportedDeviceCount"
+            case sidewalk = "Sidewalk"
+            case status = "Status"
+            case statusReason = "StatusReason"
         }
     }
 
@@ -3290,7 +3518,7 @@ extension IoTWireless {
     public struct Gnss: AWSEncodableShape {
         /// Optional assistance altitude, which is the altitude of the device at capture time, specified in meters above  the WGS84 reference ellipsoid.
         public let assistAltitude: Float?
-        /// Optional assistance position information, specified using latitude and longitude values in degrees. The co-ordinates are inside the WGS84 reference frame.
+        /// Optional assistance position information, specified using latitude and longitude values in degrees. The coordinates are inside the WGS84 reference frame.
         public let assistPosition: [Float]?
         /// Optional parameter that gives an estimate of the time when the GNSS scan information is  taken, in seconds GPS time (GPST). If capture time is not specified, the local server time is used.
         public let captureTime: Float?
@@ -3447,6 +3675,45 @@ extension IoTWireless {
         }
     }
 
+    public struct ImportedSidewalkDevice: AWSDecodableShape {
+        /// The time at which the status information was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdateTime: Date?
+        /// The onboarding status of the Sidewalk device in the import task.
+        public let onboardingStatus: OnboardStatus?
+        /// The reason for the onboarding status information for the Sidewalk device.
+        public let onboardingStatusReason: String?
+        /// The Sidewalk manufacturing serial number (SMSN) of the Sidewalk device.
+        public let sidewalkManufacturingSn: String?
+
+        public init(lastUpdateTime: Date? = nil, onboardingStatus: OnboardStatus? = nil, onboardingStatusReason: String? = nil, sidewalkManufacturingSn: String? = nil) {
+            self.lastUpdateTime = lastUpdateTime
+            self.onboardingStatus = onboardingStatus
+            self.onboardingStatusReason = onboardingStatusReason
+            self.sidewalkManufacturingSn = sidewalkManufacturingSn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdateTime = "LastUpdateTime"
+            case onboardingStatus = "OnboardingStatus"
+            case onboardingStatusReason = "OnboardingStatusReason"
+            case sidewalkManufacturingSn = "SidewalkManufacturingSn"
+        }
+    }
+
+    public struct ImportedWirelessDevice: AWSDecodableShape {
+        /// The Sidewalk-related information about a device that has been added to an import task.
+        public let sidewalk: ImportedSidewalkDevice?
+
+        public init(sidewalk: ImportedSidewalkDevice? = nil) {
+            self.sidewalk = sidewalk
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sidewalk = "Sidewalk"
+        }
+    }
+
     public struct Ip: AWSEncodableShape {
         /// IP address information.
         public let ipAddress: String
@@ -3534,16 +3801,20 @@ extension IoTWireless {
 
     public struct ListDeviceProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "deviceProfileType", location: .querystring("deviceProfileType")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
+        /// A filter to list only device profiles that use this type, which can be LoRaWAN or Sidewalk.
+        public let deviceProfileType: DeviceProfileType?
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(deviceProfileType: DeviceProfileType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.deviceProfileType = deviceProfileType
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3570,6 +3841,60 @@ extension IoTWireless {
 
         private enum CodingKeys: String, CodingKey {
             case deviceProfileList = "DeviceProfileList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDevicesForWirelessDeviceImportTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .querystring("id")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("status"))
+        ]
+
+        /// The identifier of the import task for which wireless devices are listed.
+        public let id: String
+        public let maxResults: Int?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+        /// The status of the devices in the import task.
+        public let status: OnboardStatus?
+
+        public init(id: String, maxResults: Int? = nil, nextToken: String? = nil, status: OnboardStatus? = nil) {
+            self.id = id
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDevicesForWirelessDeviceImportTaskResponse: AWSDecodableShape {
+        /// The name of the Sidewalk destination that describes the IoT rule to route messages received from devices in an import task that are onboarded to AWS IoT Wireless.
+        public let destinationName: String?
+        /// List of wireless devices in an import task and their onboarding status.
+        public let importedWirelessDeviceList: [ImportedWirelessDevice]?
+        /// The token to use to get the next set of results, or null if there are no additional  results.
+        public let nextToken: String?
+
+        public init(destinationName: String? = nil, importedWirelessDeviceList: [ImportedWirelessDevice]? = nil, nextToken: String? = nil) {
+            self.destinationName = destinationName
+            self.importedWirelessDeviceList = importedWirelessDeviceList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationName = "DestinationName"
+            case importedWirelessDeviceList = "ImportedWirelessDeviceList"
             case nextToken = "NextToken"
         }
     }
@@ -3994,6 +4319,47 @@ extension IoTWireless {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct ListWirelessDeviceImportTasksRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        public let maxResults: Int?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListWirelessDeviceImportTasksResponse: AWSDecodableShape {
+        /// The token to use to get the next set of results, or null if there are no additional  results.
+        public let nextToken: String?
+        /// List of import tasks and summary information of onboarding status of devices in each import task.
+        public let wirelessDeviceImportTaskList: [WirelessDeviceImportTask]?
+
+        public init(nextToken: String? = nil, wirelessDeviceImportTaskList: [WirelessDeviceImportTask]? = nil) {
+            self.nextToken = nextToken
+            self.wirelessDeviceImportTaskList = wirelessDeviceImportTaskList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case wirelessDeviceImportTaskList = "WirelessDeviceImportTaskList"
         }
     }
 
@@ -5656,27 +6022,64 @@ extension IoTWireless {
         }
     }
 
+    public struct SidewalkCreateDeviceProfile: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct SidewalkCreateWirelessDevice: AWSEncodableShape {
+        /// The ID of the Sidewalk device profile.
+        public let deviceProfileId: String?
+
+        public init(deviceProfileId: String? = nil) {
+            self.deviceProfileId = deviceProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceProfileId, name: "deviceProfileId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceProfileId = "DeviceProfileId"
+        }
+    }
+
     public struct SidewalkDevice: AWSDecodableShape {
         public let amazonId: String?
+        /// The ID of the Sidewalk device profile.
+        public let certificateId: String?
         /// The sidewalk device certificates for Ed25519 and P256r1.
         public let deviceCertificates: [CertificateList]?
+        /// The ID of the Sidewalk device profile.
+        public let deviceProfileId: String?
+        /// The Sidewalk device private keys that will be used for onboarding the device.
+        public let privateKeys: [CertificateList]?
         /// The sidewalk device identification.
         public let sidewalkId: String?
         /// The Sidewalk manufacturing series number.
         public let sidewalkManufacturingSn: String?
+        /// The Sidewalk device status, such as provisioned or registered.
+        public let status: WirelessDeviceSidewalkStatus?
 
-        public init(amazonId: String? = nil, deviceCertificates: [CertificateList]? = nil, sidewalkId: String? = nil, sidewalkManufacturingSn: String? = nil) {
+        public init(amazonId: String? = nil, certificateId: String? = nil, deviceCertificates: [CertificateList]? = nil, deviceProfileId: String? = nil, privateKeys: [CertificateList]? = nil, sidewalkId: String? = nil, sidewalkManufacturingSn: String? = nil, status: WirelessDeviceSidewalkStatus? = nil) {
             self.amazonId = amazonId
+            self.certificateId = certificateId
             self.deviceCertificates = deviceCertificates
+            self.deviceProfileId = deviceProfileId
+            self.privateKeys = privateKeys
             self.sidewalkId = sidewalkId
             self.sidewalkManufacturingSn = sidewalkManufacturingSn
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case amazonId = "AmazonId"
+            case certificateId = "CertificateId"
             case deviceCertificates = "DeviceCertificates"
+            case deviceProfileId = "DeviceProfileId"
+            case privateKeys = "PrivateKeys"
             case sidewalkId = "SidewalkId"
             case sidewalkManufacturingSn = "SidewalkManufacturingSn"
+            case status = "Status"
         }
     }
 
@@ -5718,28 +6121,74 @@ extension IoTWireless {
         }
     }
 
+    public struct SidewalkGetDeviceProfile: AWSDecodableShape {
+        /// The Sidewalk application server public key.
+        public let applicationServerPublicKey: String?
+        /// The DAK certificate information of the Sidewalk device profile.
+        public let dakCertificateMetadata: [DakCertificateMetadata]?
+        /// Gets information about the certification status of a Sidewalk device profile.
+        public let qualificationStatus: Bool?
+
+        public init(applicationServerPublicKey: String? = nil, dakCertificateMetadata: [DakCertificateMetadata]? = nil, qualificationStatus: Bool? = nil) {
+            self.applicationServerPublicKey = applicationServerPublicKey
+            self.dakCertificateMetadata = dakCertificateMetadata
+            self.qualificationStatus = qualificationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationServerPublicKey = "ApplicationServerPublicKey"
+            case dakCertificateMetadata = "DakCertificateMetadata"
+            case qualificationStatus = "QualificationStatus"
+        }
+    }
+
+    public struct SidewalkGetStartImportInfo: AWSDecodableShape {
+        /// List of Sidewalk devices that are added to the import task.
+        public let deviceCreationFileList: [String]?
+        /// The IAM role that allows AWS IoT Wireless to access the CSV file in the S3 bucket.
+        public let role: String?
+
+        public init(deviceCreationFileList: [String]? = nil, role: String? = nil) {
+            self.deviceCreationFileList = deviceCreationFileList
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceCreationFileList = "DeviceCreationFileList"
+            case role = "Role"
+        }
+    }
+
     public struct SidewalkListDevice: AWSDecodableShape {
         /// The Sidewalk Amazon ID.
         public let amazonId: String?
         /// The sidewalk device certificates for Ed25519 and P256r1.
         public let deviceCertificates: [CertificateList]?
+        /// Sidewalk object used by list functions.
+        public let deviceProfileId: String?
         /// The sidewalk device identification.
         public let sidewalkId: String?
         /// The Sidewalk manufacturing series number.
         public let sidewalkManufacturingSn: String?
+        /// The status of the Sidewalk devices, such as provisioned or registered.
+        public let status: WirelessDeviceSidewalkStatus?
 
-        public init(amazonId: String? = nil, deviceCertificates: [CertificateList]? = nil, sidewalkId: String? = nil, sidewalkManufacturingSn: String? = nil) {
+        public init(amazonId: String? = nil, deviceCertificates: [CertificateList]? = nil, deviceProfileId: String? = nil, sidewalkId: String? = nil, sidewalkManufacturingSn: String? = nil, status: WirelessDeviceSidewalkStatus? = nil) {
             self.amazonId = amazonId
             self.deviceCertificates = deviceCertificates
+            self.deviceProfileId = deviceProfileId
             self.sidewalkId = sidewalkId
             self.sidewalkManufacturingSn = sidewalkManufacturingSn
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case amazonId = "AmazonId"
             case deviceCertificates = "DeviceCertificates"
+            case deviceProfileId = "DeviceProfileId"
             case sidewalkId = "SidewalkId"
             case sidewalkManufacturingSn = "SidewalkManufacturingSn"
+            case status = "Status"
         }
     }
 
@@ -5783,6 +6232,45 @@ extension IoTWireless {
         }
     }
 
+    public struct SidewalkSingleStartImportInfo: AWSEncodableShape {
+        /// The Sidewalk manufacturing serial number (SMSN) of the device added to the import task.
+        public let sidewalkManufacturingSn: String?
+
+        public init(sidewalkManufacturingSn: String? = nil) {
+            self.sidewalkManufacturingSn = sidewalkManufacturingSn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sidewalkManufacturingSn, name: "sidewalkManufacturingSn", parent: name, max: 64)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sidewalkManufacturingSn = "SidewalkManufacturingSn"
+        }
+    }
+
+    public struct SidewalkStartImportInfo: AWSEncodableShape {
+        /// The CSV file contained in an S3 bucket that's used for adding devices to an import task.
+        public let deviceCreationFile: String?
+        /// The IAM role that allows AWS IoT Wireless to access the CSV file in the S3 bucket.
+        public let role: String?
+
+        public init(deviceCreationFile: String? = nil, role: String? = nil) {
+            self.deviceCreationFile = deviceCreationFile
+            self.role = role
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceCreationFile, name: "deviceCreationFile", parent: name, max: 1024)
+            try self.validate(self.role, name: "role", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceCreationFile = "DeviceCreationFile"
+            case role = "Role"
+        }
+    }
+
     public struct SidewalkUpdateAccount: AWSEncodableShape {
         /// The new Sidewalk application server private key.
         public let appServerPrivateKey: String?
@@ -5799,6 +6287,23 @@ extension IoTWireless {
 
         private enum CodingKeys: String, CodingKey {
             case appServerPrivateKey = "AppServerPrivateKey"
+        }
+    }
+
+    public struct SidewalkUpdateImportInfo: AWSEncodableShape {
+        /// The CSV file contained in an S3 bucket that's used for appending devices to an existing import task.
+        public let deviceCreationFile: String?
+
+        public init(deviceCreationFile: String? = nil) {
+            self.deviceCreationFile = deviceCreationFile
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceCreationFile, name: "deviceCreationFile", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceCreationFile = "DeviceCreationFile"
         }
     }
 
@@ -5921,6 +6426,116 @@ extension IoTWireless {
 
     public struct StartMulticastGroupSessionResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct StartSingleWirelessDeviceImportTaskRequest: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// The name of the Sidewalk destination that describes the IoT rule to route messages from the device in the import  task that will be onboarded to AWS IoT Wireless.
+        public let destinationName: String
+        /// The name of the wireless device for which an import task is being started.
+        public let deviceName: String?
+        /// The Sidewalk-related parameters for importing a single wireless device.
+        public let sidewalk: SidewalkSingleStartImportInfo
+        public let tags: [Tag]?
+
+        public init(clientRequestToken: String? = StartSingleWirelessDeviceImportTaskRequest.idempotencyToken(), destinationName: String, deviceName: String? = nil, sidewalk: SidewalkSingleStartImportInfo, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.destinationName = destinationName
+            self.deviceName = deviceName
+            self.sidewalk = sidewalk
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.destinationName, name: "destinationName", parent: name, max: 128)
+            try self.validate(self.destinationName, name: "destinationName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.sidewalk.validate(name: "\(name).sidewalk")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case destinationName = "DestinationName"
+            case deviceName = "DeviceName"
+            case sidewalk = "Sidewalk"
+            case tags = "Tags"
+        }
+    }
+
+    public struct StartSingleWirelessDeviceImportTaskResponse: AWSDecodableShape {
+        /// The ARN (Amazon Resource Name) of the import task.
+        public let arn: String?
+        /// The import task ID.
+        public let id: String?
+
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+        }
+    }
+
+    public struct StartWirelessDeviceImportTaskRequest: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// The name of the Sidewalk destination that describes the IoT rule to route messages from the devices in the import task that are onboarded to AWS IoT Wireless.
+        public let destinationName: String
+        /// The Sidewalk-related parameters for importing wireless devices that need to be provisioned in bulk.
+        public let sidewalk: SidewalkStartImportInfo
+        public let tags: [Tag]?
+
+        public init(clientRequestToken: String? = StartWirelessDeviceImportTaskRequest.idempotencyToken(), destinationName: String, sidewalk: SidewalkStartImportInfo, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.destinationName = destinationName
+            self.sidewalk = sidewalk
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.destinationName, name: "destinationName", parent: name, max: 128)
+            try self.validate(self.destinationName, name: "destinationName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.sidewalk.validate(name: "\(name).sidewalk")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case destinationName = "DestinationName"
+            case sidewalk = "Sidewalk"
+            case tags = "Tags"
+        }
+    }
+
+    public struct StartWirelessDeviceImportTaskResponse: AWSDecodableShape {
+        /// The ARN (Amazon Resource Name) of the import task.
+        public let arn: String?
+        /// The import task ID.
+        public let id: String?
+
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+        }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
@@ -6339,17 +6954,23 @@ extension IoTWireless {
         public let description: String?
         public let firmwareUpdateImage: String?
         public let firmwareUpdateRole: String?
+        public let fragmentIntervalMS: Int?
+        public let fragmentSizeBytes: Int?
         public let id: String
         public let loRaWAN: LoRaWANFuotaTask?
         public let name: String?
+        public let redundancyPercent: Int?
 
-        public init(description: String? = nil, firmwareUpdateImage: String? = nil, firmwareUpdateRole: String? = nil, id: String, loRaWAN: LoRaWANFuotaTask? = nil, name: String? = nil) {
+        public init(description: String? = nil, firmwareUpdateImage: String? = nil, firmwareUpdateRole: String? = nil, fragmentIntervalMS: Int? = nil, fragmentSizeBytes: Int? = nil, id: String, loRaWAN: LoRaWANFuotaTask? = nil, name: String? = nil, redundancyPercent: Int? = nil) {
             self.description = description
             self.firmwareUpdateImage = firmwareUpdateImage
             self.firmwareUpdateRole = firmwareUpdateRole
+            self.fragmentIntervalMS = fragmentIntervalMS
+            self.fragmentSizeBytes = fragmentSizeBytes
             self.id = id
             self.loRaWAN = loRaWAN
             self.name = name
+            self.redundancyPercent = redundancyPercent
         }
 
         public func validate(name: String) throws {
@@ -6358,16 +6979,23 @@ extension IoTWireless {
             try self.validate(self.firmwareUpdateImage, name: "firmwareUpdateImage", parent: name, min: 1)
             try self.validate(self.firmwareUpdateRole, name: "firmwareUpdateRole", parent: name, max: 2048)
             try self.validate(self.firmwareUpdateRole, name: "firmwareUpdateRole", parent: name, min: 1)
+            try self.validate(self.fragmentIntervalMS, name: "fragmentIntervalMS", parent: name, min: 1)
+            try self.validate(self.fragmentSizeBytes, name: "fragmentSizeBytes", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.redundancyPercent, name: "redundancyPercent", parent: name, max: 100)
+            try self.validate(self.redundancyPercent, name: "redundancyPercent", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case firmwareUpdateImage = "FirmwareUpdateImage"
             case firmwareUpdateRole = "FirmwareUpdateRole"
+            case fragmentIntervalMS = "FragmentIntervalMS"
+            case fragmentSizeBytes = "FragmentSizeBytes"
             case loRaWAN = "LoRaWAN"
             case name = "Name"
+            case redundancyPercent = "RedundancyPercent"
         }
     }
 
@@ -6621,7 +7249,7 @@ extension IoTWireless {
 
         /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format,  which a format that's used to encode geographic data structures. For more information, see GeoJSON.
         public let geoJsonPayload: AWSPayload?
-        /// The identifier of the resource for which position information is updated. It can be the wireless device ID or the wireless gateway ID depending on the resource type.
+        /// The identifier of the resource for which position information is updated. It can be the wireless device ID or the wireless gateway ID, depending on the resource type.
         public let resourceIdentifier: String
         /// The type of resource for which position information is updated, which can be a wireless device or a wireless gateway.
         public let resourceType: PositionResourceType
@@ -6640,6 +7268,35 @@ extension IoTWireless {
     }
 
     public struct UpdateResourcePositionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateWirelessDeviceImportTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        /// The identifier of the import task to be updated.
+        public let id: String
+        /// The Sidewalk-related parameters of the import task to be updated.
+        public let sidewalk: SidewalkUpdateImportInfo
+
+        public init(id: String, sidewalk: SidewalkUpdateImportInfo) {
+            self.id = id
+            self.sidewalk = sidewalk
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.sidewalk.validate(name: "\(name).sidewalk")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sidewalk = "Sidewalk"
+        }
+    }
+
+    public struct UpdateWirelessDeviceImportTaskResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -6922,7 +7579,7 @@ extension IoTWireless {
     public struct WiFiAccessPoint: AWSEncodableShape {
         /// Wi-Fi MAC Address.
         public let macAddress: String
-        /// Recived signal strength of the WLAN measurement data.
+        /// Received signal strength (dBm) of the WLAN measurement data.
         public let rss: Int
 
         public init(macAddress: String, rss: Int) {
@@ -6956,6 +7613,60 @@ extension IoTWireless {
         private enum CodingKeys: String, CodingKey {
             case event = "Event"
             case logLevel = "LogLevel"
+        }
+    }
+
+    public struct WirelessDeviceImportTask: AWSDecodableShape {
+        /// The ARN (Amazon Resource Name) of the wireless device import task.
+        public let arn: String?
+        /// The time at which the import task was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The name of the Sidewalk destination that that describes the IoT rule to route messages from the device in  the import task that will be onboarded to AWS IoT Wireless
+        public let destinationName: String?
+        /// The summary information of count of wireless devices in an import task that failed to onboarded to the import task.
+        public let failedImportedDeviceCount: Int64?
+        /// The ID of the wireless device import task.
+        public let id: String?
+        /// The summary information of count of wireless devices that are waiting for the control log to be  added to an import task.
+        public let initializedImportedDeviceCount: Int64?
+        /// The summary information of count of wireless devices in an import task that have been onboarded to the import task.
+        public let onboardedImportedDeviceCount: Int64?
+        /// The summary information of count of wireless devices in an import task that are waiting in the queue  to be onboarded.
+        public let pendingImportedDeviceCount: Int64?
+        /// The Sidewalk-related information of the wireless device import task.
+        public let sidewalk: SidewalkGetStartImportInfo?
+        /// The status information of the wireless device import task.
+        public let status: ImportTaskStatus?
+        /// The reason that provides additional information about the import task status.
+        public let statusReason: String?
+
+        public init(arn: String? = nil, creationTime: Date? = nil, destinationName: String? = nil, failedImportedDeviceCount: Int64? = nil, id: String? = nil, initializedImportedDeviceCount: Int64? = nil, onboardedImportedDeviceCount: Int64? = nil, pendingImportedDeviceCount: Int64? = nil, sidewalk: SidewalkGetStartImportInfo? = nil, status: ImportTaskStatus? = nil, statusReason: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.destinationName = destinationName
+            self.failedImportedDeviceCount = failedImportedDeviceCount
+            self.id = id
+            self.initializedImportedDeviceCount = initializedImportedDeviceCount
+            self.onboardedImportedDeviceCount = onboardedImportedDeviceCount
+            self.pendingImportedDeviceCount = pendingImportedDeviceCount
+            self.sidewalk = sidewalk
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case destinationName = "DestinationName"
+            case failedImportedDeviceCount = "FailedImportedDeviceCount"
+            case id = "Id"
+            case initializedImportedDeviceCount = "InitializedImportedDeviceCount"
+            case onboardedImportedDeviceCount = "OnboardedImportedDeviceCount"
+            case pendingImportedDeviceCount = "PendingImportedDeviceCount"
+            case sidewalk = "Sidewalk"
+            case status = "Status"
+            case statusReason = "StatusReason"
         }
     }
 

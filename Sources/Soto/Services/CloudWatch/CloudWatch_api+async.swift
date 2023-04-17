@@ -24,8 +24,10 @@ extension CloudWatch {
     /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more
     /// 			than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't
     /// 			delete two composite alarms with one operation.
-    /// 			In the event of an error, no alarms are
-    /// 			deleted.  It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and
+    /// 			If you specify an incorrect alarm name or make any other error in the operation, no alarms are
+    /// 			deleted. To confirm that alarms were deleted successfully, you can use
+    /// 			the DescribeAlarms operation after using
+    /// 		DeleteAlarms.  It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and
     /// 			composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle
     /// 			because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must
     /// 				break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest
@@ -339,8 +341,8 @@ extension CloudWatch {
     /// 			INSUFFICIENT_DATA. The alarm is then evaluated and its state is set
     /// 			appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the
     /// 			update completely overwrites the previous configuration of the alarm. If you are an IAM user, you must have
-    /// 			Amazon EC2 permissions for some alarm operations:   The iam:CreateServiceLinkedRole for all alarms with EC2 actions   The iam:CreateServiceLinkedRole to create an alarm
-    /// 					with Systems Manager OpsItem actions.   The first time you create an alarm in the
+    /// 			Amazon EC2 permissions for some alarm operations:   The iam:CreateServiceLinkedRole permission for all alarms with EC2 actions   The iam:CreateServiceLinkedRole permissions to create an alarm
+    /// 					with Systems Manager OpsItem or response plan actions.   The first time you create an alarm in the
     /// 			Amazon Web Services Management Console, the CLI, or by using the PutMetricAlarm API, CloudWatch
     /// 			creates the necessary service-linked role for you. The service-linked roles
     /// 			are called AWSServiceRoleForCloudWatchEvents and

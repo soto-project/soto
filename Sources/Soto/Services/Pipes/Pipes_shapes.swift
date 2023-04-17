@@ -180,11 +180,11 @@ extension Pipes {
             case .clientCertificateTlsAuth(let value):
                 try self.validate(value, name: "clientCertificateTlsAuth", parent: name, max: 1600)
                 try self.validate(value, name: "clientCertificateTlsAuth", parent: name, min: 1)
-                try self.validate(value, name: "clientCertificateTlsAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try self.validate(value, name: "clientCertificateTlsAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
             case .saslScram512Auth(let value):
                 try self.validate(value, name: "saslScram512Auth", parent: name, max: 1600)
                 try self.validate(value, name: "saslScram512Auth", parent: name, min: 1)
-                try self.validate(value, name: "saslScram512Auth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try self.validate(value, name: "saslScram512Auth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
             }
         }
 
@@ -248,19 +248,19 @@ extension Pipes {
             case .basicAuth(let value):
                 try self.validate(value, name: "basicAuth", parent: name, max: 1600)
                 try self.validate(value, name: "basicAuth", parent: name, min: 1)
-                try self.validate(value, name: "basicAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try self.validate(value, name: "basicAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
             case .clientCertificateTlsAuth(let value):
                 try self.validate(value, name: "clientCertificateTlsAuth", parent: name, max: 1600)
                 try self.validate(value, name: "clientCertificateTlsAuth", parent: name, min: 1)
-                try self.validate(value, name: "clientCertificateTlsAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try self.validate(value, name: "clientCertificateTlsAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
             case .saslScram256Auth(let value):
                 try self.validate(value, name: "saslScram256Auth", parent: name, max: 1600)
                 try self.validate(value, name: "saslScram256Auth", parent: name, min: 1)
-                try self.validate(value, name: "saslScram256Auth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try self.validate(value, name: "saslScram256Auth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
             case .saslScram512Auth(let value):
                 try self.validate(value, name: "saslScram512Auth", parent: name, max: 1600)
                 try self.validate(value, name: "saslScram512Auth", parent: name, min: 1)
-                try self.validate(value, name: "saslScram512Auth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try self.validate(value, name: "saslScram512Auth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
             }
         }
 
@@ -292,13 +292,13 @@ extension Pipes {
             try self.securityGroups?.forEach {
                 try validate($0, name: "securityGroups[]", parent: name, max: 1024)
                 try validate($0, name: "securityGroups[]", parent: name, min: 1)
-                try validate($0, name: "securityGroups[]", parent: name, pattern: "^sg-[0-9a-zA-Z]*|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try validate($0, name: "securityGroups[]", parent: name, pattern: "^sg-[0-9a-zA-Z]*|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             }
             try self.validate(self.securityGroups, name: "securityGroups", parent: name, max: 5)
             try self.subnets.forEach {
                 try validate($0, name: "subnets[]", parent: name, max: 1024)
                 try validate($0, name: "subnets[]", parent: name, min: 1)
-                try validate($0, name: "subnets[]", parent: name, pattern: "^subnet-[0-9a-z]*|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try validate($0, name: "subnets[]", parent: name, pattern: "^subnet-[0-9a-z]*|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             }
             try self.validate(self.subnets, name: "subnets", parent: name, max: 16)
         }
@@ -498,7 +498,7 @@ extension Pipes {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
             try self.validate(self.enrichment, name: "enrichment", parent: name, max: 1600)
-            try self.validate(self.enrichment, name: "enrichment", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
+            try self.validate(self.enrichment, name: "enrichment", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
             try self.enrichmentParameters?.validate(name: "\(name).enrichmentParameters")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -508,7 +508,7 @@ extension Pipes {
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z0-9+=,.@\\-_/]+$")
             try self.validate(self.source, name: "source", parent: name, max: 1600)
             try self.validate(self.source, name: "source", parent: name, min: 1)
-            try self.validate(self.source, name: "source", parent: name, pattern: "^smk://(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9]):[0-9]{1,5}|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
+            try self.validate(self.source, name: "source", parent: name, pattern: "^smk://(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9]):[0-9]{1,5}|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
             try self.sourceParameters?.validate(name: "\(name).sourceParameters")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -519,7 +519,7 @@ extension Pipes {
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
             try self.validate(self.target, name: "target", parent: name, max: 1600)
             try self.validate(self.target, name: "target", parent: name, min: 1)
-            try self.validate(self.target, name: "target", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
+            try self.validate(self.target, name: "target", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
             try self.targetParameters?.validate(name: "\(name).targetParameters")
         }
 
@@ -581,7 +581,7 @@ extension Pipes {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -894,10 +894,10 @@ extension Pipes {
             try self.ephemeralStorage?.validate(name: "\(name).ephemeralStorage")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 1600)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
-            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             try self.validate(self.taskRoleArn, name: "taskRoleArn", parent: name, max: 1600)
             try self.validate(self.taskRoleArn, name: "taskRoleArn", parent: name, min: 1)
-            try self.validate(self.taskRoleArn, name: "taskRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+            try self.validate(self.taskRoleArn, name: "taskRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1033,7 +1033,7 @@ extension Pipes {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:([a-zA-Z0-9\\-]+):([a-z]|\\d|\\-)*:([0-9]{12})?:(.*)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:([a-zA-Z0-9\\-]+):([a-z]|\\d|\\-)*:([0-9]{12})?:(.+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1135,19 +1135,19 @@ extension Pipes {
         public func validate(name: String) throws {
             try self.headerParameters?.forEach {
                 try validate($0.key, name: "headerParameters.key", parent: name, max: 512)
-                try validate($0.key, name: "headerParameters.key", parent: name, pattern: "^[!#$%&'*+-.^_`|~0-9a-zA-Z]+|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try validate($0.key, name: "headerParameters.key", parent: name, pattern: "^[!#$%&'*+-.^_`|~0-9a-zA-Z]+|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
                 try validate($0.value, name: "headerParameters[\"\($0.key)\"]", parent: name, max: 512)
-                try validate($0.value, name: "headerParameters[\"\($0.key)\"]", parent: name, pattern: "^[ \\t]*[\\x20-\\x7E]+([ \\t]+[\\x20-\\x7E]+)*[ \\t]*|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try validate($0.value, name: "headerParameters[\"\($0.key)\"]", parent: name, pattern: "^[ \\t]*[\\x20-\\x7E]+([ \\t]+[\\x20-\\x7E]+)*[ \\t]*|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             }
             try self.pathParameterValues?.forEach {
-                try validate($0, name: "pathParameterValues[]", parent: name, pattern: "^(?!\\s*$).+|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try validate($0, name: "pathParameterValues[]", parent: name, pattern: "^(?!\\s*$).+|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             }
             try self.validate(self.pathParameterValues, name: "pathParameterValues", parent: name, max: 1)
             try self.queryStringParameters?.forEach {
                 try validate($0.key, name: "queryStringParameters.key", parent: name, max: 512)
-                try validate($0.key, name: "queryStringParameters.key", parent: name, pattern: "^[^\\x00-\\x1F\\x7F]+|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try validate($0.key, name: "queryStringParameters.key", parent: name, pattern: "^[^\\x00-\\x1F\\x7F]+|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
                 try validate($0.value, name: "queryStringParameters[\"\($0.key)\"]", parent: name, max: 512)
-                try validate($0.value, name: "queryStringParameters[\"\($0.key)\"]", parent: name, pattern: "^[^\\x00-\\x09\\x0B\\x0C\\x0E-\\x1F\\x7F]+|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try validate($0.value, name: "queryStringParameters[\"\($0.key)\"]", parent: name, pattern: "^[^\\x00-\\x09\\x0B\\x0C\\x0E-\\x1F\\x7F]+|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             }
         }
 
@@ -1249,7 +1249,7 @@ extension Pipes {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.batchSize, name: "batchSize", parent: name, max: 1000)
+            try self.validate(self.batchSize, name: "batchSize", parent: name, max: 10000)
             try self.validate(self.batchSize, name: "batchSize", parent: name, min: 1)
             try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
@@ -1527,7 +1527,7 @@ extension Pipes {
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
             try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, max: 1600)
             try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, min: 1)
-            try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+            try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
             try self.validate(self.topicName, name: "topicName", parent: name, max: 249)
             try self.validate(self.topicName, name: "topicName", parent: name, min: 1)
             try self.validate(self.topicName, name: "topicName", parent: name, pattern: "^[^.]([a-zA-Z0-9\\-_.]+)$")
@@ -1630,7 +1630,7 @@ extension Pipes {
             try self.validate(self.logStreamName, name: "logStreamName", parent: name, min: 1)
             try self.validate(self.timestamp, name: "timestamp", parent: name, max: 256)
             try self.validate(self.timestamp, name: "timestamp", parent: name, min: 1)
-            try self.validate(self.timestamp, name: "timestamp", parent: name, pattern: "^\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*$")
+            try self.validate(self.timestamp, name: "timestamp", parent: name, pattern: "^\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1711,7 +1711,7 @@ extension Pipes {
             try self.validate(self.taskCount, name: "taskCount", parent: name, min: 1)
             try self.validate(self.taskDefinitionArn, name: "taskDefinitionArn", parent: name, max: 1600)
             try self.validate(self.taskDefinitionArn, name: "taskDefinitionArn", parent: name, min: 1)
-            try self.validate(self.taskDefinitionArn, name: "taskDefinitionArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+            try self.validate(self.taskDefinitionArn, name: "taskDefinitionArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1758,19 +1758,19 @@ extension Pipes {
             try self.validate(self.detailType, name: "detailType", parent: name, min: 1)
             try self.validate(self.endpointId, name: "endpointId", parent: name, max: 50)
             try self.validate(self.endpointId, name: "endpointId", parent: name, min: 1)
-            try self.validate(self.endpointId, name: "endpointId", parent: name, pattern: "^[A-Za-z0-9\\-]+[\\.][A-Za-z0-9\\-]+|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+            try self.validate(self.endpointId, name: "endpointId", parent: name, pattern: "^[A-Za-z0-9\\-]+[\\.][A-Za-z0-9\\-]+$")
             try self.resources?.forEach {
                 try validate($0, name: "resources[]", parent: name, max: 1600)
                 try validate($0, name: "resources[]", parent: name, min: 1)
-                try validate($0, name: "resources[]", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try validate($0, name: "resources[]", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             }
             try self.validate(self.resources, name: "resources", parent: name, max: 10)
             try self.validate(self.source, name: "source", parent: name, max: 256)
             try self.validate(self.source, name: "source", parent: name, min: 1)
-            try self.validate(self.source, name: "source", parent: name, pattern: "(?=[/\\.\\-_A-Za-z0-9]+)((?!aws\\.).*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)")
+            try self.validate(self.source, name: "source", parent: name, pattern: "(?=[/\\.\\-_A-Za-z0-9]+)((?!aws\\.).*)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)")
             try self.validate(self.time, name: "time", parent: name, max: 256)
             try self.validate(self.time, name: "time", parent: name, min: 1)
-            try self.validate(self.time, name: "time", parent: name, pattern: "^\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*$")
+            try self.validate(self.time, name: "time", parent: name, pattern: "^\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1799,19 +1799,19 @@ extension Pipes {
         public func validate(name: String) throws {
             try self.headerParameters?.forEach {
                 try validate($0.key, name: "headerParameters.key", parent: name, max: 512)
-                try validate($0.key, name: "headerParameters.key", parent: name, pattern: "^[!#$%&'*+-.^_`|~0-9a-zA-Z]+|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try validate($0.key, name: "headerParameters.key", parent: name, pattern: "^[!#$%&'*+-.^_`|~0-9a-zA-Z]+|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
                 try validate($0.value, name: "headerParameters[\"\($0.key)\"]", parent: name, max: 512)
-                try validate($0.value, name: "headerParameters[\"\($0.key)\"]", parent: name, pattern: "^[ \\t]*[\\x20-\\x7E]+([ \\t]+[\\x20-\\x7E]+)*[ \\t]*|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try validate($0.value, name: "headerParameters[\"\($0.key)\"]", parent: name, pattern: "^[ \\t]*[\\x20-\\x7E]+([ \\t]+[\\x20-\\x7E]+)*[ \\t]*|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             }
             try self.pathParameterValues?.forEach {
-                try validate($0, name: "pathParameterValues[]", parent: name, pattern: "^(?!\\s*$).+|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try validate($0, name: "pathParameterValues[]", parent: name, pattern: "^(?!\\s*$).+|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             }
             try self.validate(self.pathParameterValues, name: "pathParameterValues", parent: name, max: 1)
             try self.queryStringParameters?.forEach {
                 try validate($0.key, name: "queryStringParameters.key", parent: name, max: 512)
-                try validate($0.key, name: "queryStringParameters.key", parent: name, pattern: "^[^\\x00-\\x1F\\x7F]+|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try validate($0.key, name: "queryStringParameters.key", parent: name, pattern: "^[^\\x00-\\x1F\\x7F]+|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
                 try validate($0.value, name: "queryStringParameters[\"\($0.key)\"]", parent: name, max: 512)
-                try validate($0.value, name: "queryStringParameters[\"\($0.key)\"]", parent: name, pattern: "^[^\\x00-\\x09\\x0B\\x0C\\x0E-\\x1F\\x7F]+|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try validate($0.value, name: "queryStringParameters[\"\($0.key)\"]", parent: name, pattern: "^[^\\x00-\\x09\\x0B\\x0C\\x0E-\\x1F\\x7F]+|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             }
         }
 
@@ -1952,7 +1952,7 @@ extension Pipes {
             try self.validate(self.dbUser, name: "dbUser", parent: name, min: 1)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, max: 1600)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, min: 1)
-            try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+            try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             try self.sqls.forEach {
                 try validate($0, name: "sqls[]", parent: name, max: 100000)
                 try validate($0, name: "sqls[]", parent: name, min: 1)
@@ -2083,7 +2083,7 @@ extension Pipes {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             try self.validate(self.value, name: "value", parent: name, max: 1024)
         }
 
@@ -2274,7 +2274,7 @@ extension Pipes {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:([a-zA-Z0-9\\-]+):([a-z]|\\d|\\-)*:([0-9]{12})?:(.*)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:([a-zA-Z0-9\\-]+):([a-z]|\\d|\\-)*:([0-9]{12})?:(.+)$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2312,7 +2312,7 @@ extension Pipes {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:([a-zA-Z0-9\\-]+):([a-z]|\\d|\\-)*:([0-9]{12})?:(.*)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:([a-zA-Z0-9\\-]+):([a-z]|\\d|\\-)*:([0-9]{12})?:(.+)$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -2367,7 +2367,7 @@ extension Pipes {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
             try self.validate(self.enrichment, name: "enrichment", parent: name, max: 1600)
-            try self.validate(self.enrichment, name: "enrichment", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
+            try self.validate(self.enrichment, name: "enrichment", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
             try self.enrichmentParameters?.validate(name: "\(name).enrichmentParameters")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -2378,7 +2378,7 @@ extension Pipes {
             try self.sourceParameters?.validate(name: "\(name).sourceParameters")
             try self.validate(self.target, name: "target", parent: name, max: 1600)
             try self.validate(self.target, name: "target", parent: name, min: 1)
-            try self.validate(self.target, name: "target", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
+            try self.validate(self.target, name: "target", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
             try self.targetParameters?.validate(name: "\(name).targetParameters")
         }
 
@@ -2486,7 +2486,7 @@ extension Pipes {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.batchSize, name: "batchSize", parent: name, max: 1000)
+            try self.validate(self.batchSize, name: "batchSize", parent: name, max: 10000)
             try self.validate(self.batchSize, name: "batchSize", parent: name, min: 1)
             try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
@@ -2702,7 +2702,7 @@ extension Pipes {
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
             try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, max: 1600)
             try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, min: 1)
-            try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+            try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
             try self.vpc?.validate(name: "\(name).vpc")
         }
 
@@ -2750,7 +2750,7 @@ extension Pipes {
         public func validate(name: String) throws {
             try self.validate(self.basicAuth, name: "basicAuth", parent: name, max: 1600)
             try self.validate(self.basicAuth, name: "basicAuth", parent: name, min: 1)
-            try self.validate(self.basicAuth, name: "basicAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+            try self.validate(self.basicAuth, name: "basicAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
         }
 
         private enum CodingKeys: String, CodingKey {

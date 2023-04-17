@@ -130,7 +130,9 @@ extension SecretsManager {
             try self.validate(self.name, name: "name", parent: name, max: 512)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, max: 65536)
+            try self.validate(self.secretBinary, name: "secretBinary", parent: name, min: 1)
             try self.validate(self.secretString, name: "secretString", parent: name, max: 65536)
+            try self.validate(self.secretString, name: "secretString", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -732,9 +734,11 @@ extension SecretsManager {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, max: 65536)
+            try self.validate(self.secretBinary, name: "secretBinary", parent: name, min: 1)
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
             try self.validate(self.secretString, name: "secretString", parent: name, max: 65536)
+            try self.validate(self.secretString, name: "secretString", parent: name, min: 1)
             try self.versionStages?.forEach {
                 try validate($0, name: "versionStages[]", parent: name, max: 256)
                 try validate($0, name: "versionStages[]", parent: name, min: 1)
@@ -1288,9 +1292,11 @@ extension SecretsManager {
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, max: 65536)
+            try self.validate(self.secretBinary, name: "secretBinary", parent: name, min: 1)
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
             try self.validate(self.secretString, name: "secretString", parent: name, max: 65536)
+            try self.validate(self.secretString, name: "secretString", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

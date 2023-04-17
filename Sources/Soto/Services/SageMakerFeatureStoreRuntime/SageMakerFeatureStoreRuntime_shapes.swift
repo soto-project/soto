@@ -21,6 +21,12 @@ import SotoCore
 extension SageMakerFeatureStoreRuntime {
     // MARK: Enums
 
+    public enum DeletionMode: String, CustomStringConvertible, Codable, Sendable {
+        case hardDelete = "HardDelete"
+        case softDelete = "SoftDelete"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetStore: String, CustomStringConvertible, Codable, Sendable {
         case offlineStore = "OfflineStore"
         case onlineStore = "OnlineStore"
@@ -30,13 +36,13 @@ extension SageMakerFeatureStoreRuntime {
     // MARK: Shapes
 
     public struct BatchGetRecordError: AWSDecodableShape {
-        /// The error code of an error that has occured when attempting to retrieve a batch of Records. For more information on errors, see Errors.
+        /// The error code of an error that has occurred when attempting to retrieve a batch of Records. For more information on errors, see Errors.
         public let errorCode: String
-        /// The error message of an error that has occured when attempting to retrieve a record in the batch.
+        /// The error message of an error that has occurred when attempting to retrieve a record in the batch.
         public let errorMessage: String
         /// The name of the feature group that the record belongs to.
         public let featureGroupName: String
-        /// The value for the RecordIdentifier in string format of a Record from a FeatureGroup that is causing  an error when attempting to be retrieved.
+        /// The value for the RecordIdentifier in string format of a Record from a FeatureGroup that is causing an error when attempting to be retrieved.
         public let recordIdentifierValueAsString: String
 
         public init(errorCode: String, errorMessage: String, featureGroupName: String, recordIdentifierValueAsString: String) {
@@ -71,7 +77,7 @@ extension SageMakerFeatureStoreRuntime {
         public func validate(name: String) throws {
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}$")
             try self.featureNames?.forEach {
                 try validate($0, name: "featureNames[]", parent: name, max: 64)
                 try validate($0, name: "featureNames[]", parent: name, min: 1)
@@ -119,7 +125,7 @@ extension SageMakerFeatureStoreRuntime {
         public let errors: [BatchGetRecordError]
         /// A list of Records you requested to be retrieved in batch.
         public let records: [BatchGetRecordResultDetail]
-        /// A unprocessed list of FeatureGroup names, with their corresponding RecordIdentifier value,  and Feature name.
+        /// A unprocessed list of FeatureGroup names, with their corresponding RecordIdentifier value, and Feature name.
         public let unprocessedIdentifiers: [BatchGetRecordIdentifier]
 
         public init(errors: [BatchGetRecordError], records: [BatchGetRecordResultDetail], unprocessedIdentifiers: [BatchGetRecordIdentifier]) {
@@ -140,7 +146,7 @@ extension SageMakerFeatureStoreRuntime {
         public let featureGroupName: String
         /// The Record retrieved.
         public let record: [FeatureValue]
-        /// The value of the record identifer in string format.
+        /// The value of the record identifier in string format.
         public let recordIdentifierValueAsString: String
 
         public init(featureGroupName: String, record: [FeatureValue], recordIdentifierValueAsString: String) {
@@ -158,12 +164,15 @@ extension SageMakerFeatureStoreRuntime {
 
     public struct DeleteRecordRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "deletionMode", location: .querystring("DeletionMode")),
             AWSMemberEncoding(label: "eventTime", location: .querystring("EventTime")),
             AWSMemberEncoding(label: "featureGroupName", location: .uri("FeatureGroupName")),
             AWSMemberEncoding(label: "recordIdentifierValueAsString", location: .querystring("RecordIdentifierValueAsString")),
             AWSMemberEncoding(label: "targetStores", location: .querystring("TargetStores"))
         ]
 
+        /// The name of the deletion mode for deleting the record. By default, the deletion mode is set to SoftDelete.
+        public let deletionMode: DeletionMode?
         /// Timestamp indicating when the deletion event occurred. EventTime can be used to query data at a certain point in time.
         public let eventTime: String
         /// The name of the feature group to delete the record from.
@@ -173,7 +182,8 @@ extension SageMakerFeatureStoreRuntime {
         /// A list of stores from which you're deleting the record. By default, Feature Store deletes the record from all of the stores that you're using for the FeatureGroup.
         public let targetStores: [TargetStore]?
 
-        public init(eventTime: String, featureGroupName: String, recordIdentifierValueAsString: String, targetStores: [TargetStore]? = nil) {
+        public init(deletionMode: DeletionMode? = nil, eventTime: String, featureGroupName: String, recordIdentifierValueAsString: String, targetStores: [TargetStore]? = nil) {
+            self.deletionMode = deletionMode
             self.eventTime = eventTime
             self.featureGroupName = featureGroupName
             self.recordIdentifierValueAsString = recordIdentifierValueAsString
@@ -185,7 +195,7 @@ extension SageMakerFeatureStoreRuntime {
             try self.validate(self.eventTime, name: "eventTime", parent: name, pattern: ".*")
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}$")
             try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, max: 358400)
             try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, pattern: ".*")
             try self.validate(self.targetStores, name: "targetStores", parent: name, max: 2)
@@ -243,7 +253,7 @@ extension SageMakerFeatureStoreRuntime {
         public func validate(name: String) throws {
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}$")
             try self.featureNames?.forEach {
                 try validate($0, name: "featureNames[]", parent: name, max: 64)
                 try validate($0, name: "featureNames[]", parent: name, min: 1)
@@ -291,7 +301,7 @@ extension SageMakerFeatureStoreRuntime {
         public func validate(name: String) throws {
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
-            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}$")
             try self.record.forEach {
                 try $0.validate(name: "\(name).record[]")
             }
@@ -339,7 +349,7 @@ public struct SageMakerFeatureStoreRuntimeErrorType: AWSErrorType {
 
     /// You do not have permission to perform an action.
     public static var accessForbidden: Self { .init(.accessForbidden) }
-    /// An internal failure occurred. Try your request again. If the problem  persists, contact Amazon Web Services customer support.
+    /// An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
     public static var internalFailure: Self { .init(.internalFailure) }
     /// A resource that is required to perform an action was not found.
     public static var resourceNotFound: Self { .init(.resourceNotFound) }

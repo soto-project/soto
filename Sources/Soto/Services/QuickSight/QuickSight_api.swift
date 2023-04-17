@@ -78,12 +78,12 @@ public struct QuickSight: AWSService {
         return self.client.execute(operation: "CreateAccountSubscription", path: "/account/{AwsAccountId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an analysis in Amazon QuickSight.
+    /// Creates an analysis in Amazon QuickSight.  Analyses can be created either from a template or from an AnalysisDefinition.
     public func createAnalysis(_ input: CreateAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAnalysisResponse> {
         return self.client.execute(operation: "CreateAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a dashboard from a template. To first create a template, see the   CreateTemplate  API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
+    /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the   CreateTemplate  API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
     public func createDashboard(_ input: CreateDashboardRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDashboardResponse> {
         return self.client.execute(operation: "CreateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -142,8 +142,13 @@ public struct QuickSight: AWSService {
         return self.client.execute(operation: "CreateNamespace", path: "/accounts/{AwsAccountId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a template from an existing Amazon QuickSight analysis or template. You can use the resulting
-    /// 			template to create a dashboard. A template is an entity in Amazon QuickSight that encapsulates the metadata
+    /// Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
+    public func createRefreshSchedule(_ input: CreateRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRefreshScheduleResponse> {
+        return self.client.execute(operation: "CreateRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a template either from a TemplateDefinition or from an existing Amazon QuickSight analysis or template. You can use the resulting
+    /// 			template to create additional dashboards, templates, or analyses. A template is an entity in Amazon QuickSight that encapsulates the metadata
     /// 			required to create an analysis and that you can use to create s dashboard. A template adds
     /// 			a layer of abstraction by using placeholders to replace the dataset associated with the
     /// 			analysis. You can use templates to create dashboards by replacing dataset placeholders
@@ -195,6 +200,11 @@ public struct QuickSight: AWSService {
         return self.client.execute(operation: "DeleteDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes the dataset refresh properties of the dataset.
+    public func deleteDataSetRefreshProperties(_ input: DeleteDataSetRefreshPropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDataSetRefreshPropertiesResponse> {
+        return self.client.execute(operation: "DeleteDataSetRefreshProperties", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the data source permanently. This operation breaks
     /// 			all the datasets that reference the deleted data source.
     public func deleteDataSource(_ input: DeleteDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDataSourceResponse> {
@@ -231,6 +241,11 @@ public struct QuickSight: AWSService {
         return self.client.execute(operation: "DeleteNamespace", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a refresh schedule from a dataset.
+    public func deleteRefreshSchedule(_ input: DeleteRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRefreshScheduleResponse> {
+        return self.client.execute(operation: "DeleteRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules/{ScheduleId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a template.
     public func deleteTemplate(_ input: DeleteTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTemplateResponse> {
         return self.client.execute(operation: "DeleteTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -255,7 +270,7 @@ public struct QuickSight: AWSService {
     }
 
     /// Deletes the Amazon QuickSight user that is associated with the identity of the
-    /// 			Identity and Access Management (IAM) user or role that's making the call. The IAM user
+    /// 			IAM user or role that's making the call. The IAM user
     /// 			isn't deleted as a result of this call.
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteUserResponse> {
         return self.client.execute(operation: "DeleteUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -321,6 +336,11 @@ public struct QuickSight: AWSService {
         return self.client.execute(operation: "DescribeDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes the refresh properties of a dataset.
+    public func describeDataSetRefreshProperties(_ input: DescribeDataSetRefreshPropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDataSetRefreshPropertiesResponse> {
+        return self.client.execute(operation: "DescribeDataSetRefreshProperties", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Describes a data source.
     public func describeDataSource(_ input: DescribeDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDataSourceResponse> {
         return self.client.execute(operation: "DescribeDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -376,6 +396,11 @@ public struct QuickSight: AWSService {
     /// Describes the current namespace.
     public func describeNamespace(_ input: DescribeNamespaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNamespaceResponse> {
         return self.client.execute(operation: "DescribeNamespace", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provides a summary of a refresh schedule.
+    public func describeRefreshSchedule(_ input: DescribeRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRefreshScheduleResponse> {
+        return self.client.execute(operation: "DescribeRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules/{ScheduleId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes a template's metadata.
@@ -508,6 +533,11 @@ public struct QuickSight: AWSService {
         return self.client.execute(operation: "ListNamespaces", path: "/accounts/{AwsAccountId}/namespaces", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
+    public func listRefreshSchedules(_ input: ListRefreshSchedulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRefreshSchedulesResponse> {
+        return self.client.execute(operation: "ListRefreshSchedules", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the tags assigned to a resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/resources/{ResourceArn}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -551,6 +581,11 @@ public struct QuickSight: AWSService {
     /// Returns a list of all of the Amazon QuickSight users belonging to this account.
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUsersResponse> {
         return self.client.execute(operation: "ListUsers", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates or updates the dataset refresh properties for the dataset.
+    public func putDataSetRefreshProperties(_ input: PutDataSetRefreshPropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutDataSetRefreshPropertiesResponse> {
+        return self.client.execute(operation: "PutDataSetRefreshProperties", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates an Amazon QuickSight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Amazon QuickSight API, Amazon QuickSight generates a registration URL. The user accesses this registration URL to create their account. Amazon QuickSight doesn't send a registration email to users who are registered from the Amazon QuickSight API. If you want new users to receive a registration email, then add those users in the Amazon QuickSight console. For more information on registering a new user in the Amazon QuickSight console, see  Inviting users to access Amazon QuickSight.
@@ -700,6 +735,11 @@ public struct QuickSight: AWSService {
     /// Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon QuickSight dashboard. To use this operation, turn on session capacity pricing for your Amazon QuickSight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon QuickSight, see Using Amazon QuickSight with IAM in the Amazon QuickSight User Guide.
     public func updatePublicSharingSettings(_ input: UpdatePublicSharingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePublicSharingSettingsResponse> {
         return self.client.execute(operation: "UpdatePublicSharingSettings", path: "/accounts/{AwsAccountId}/public-sharing-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a refresh schedule for a dataset.
+    public func updateRefreshSchedule(_ input: UpdateRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRefreshScheduleResponse> {
+        return self.client.execute(operation: "UpdateRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates a template from an existing Amazon QuickSight analysis or another template.

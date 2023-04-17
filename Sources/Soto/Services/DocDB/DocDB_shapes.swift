@@ -40,9 +40,9 @@ extension DocDB {
     // MARK: Shapes
 
     public struct AddSourceIdentifierToSubscriptionMessage: AWSEncodableShape {
-        /// The identifier of the event source to be added:   If the source type is an instance, a  DBInstanceIdentifier must be provided.   If the source type is a security group, a  DBSecurityGroupName must be provided.   If the source type is a parameter group, a DBParameterGroupName must be provided.   If the source type is a snapshot, a  DBSnapshotIdentifier must be provided.
+        /// The identifier of the event source to be added:   If the source type is an instance, a DBInstanceIdentifier must be provided.   If the source type is a security group, a DBSecurityGroupName must be provided.   If the source type is a parameter group, a DBParameterGroupName must be provided.   If the source type is a snapshot, a DBSnapshotIdentifier must be provided.
         public let sourceIdentifier: String
-        /// The name of the Amazon DocumentDB event notification subscription that you  want to add a source identifier to.
+        /// The name of the Amazon DocumentDB event notification subscription that you want to add a source identifier to.
         public let subscriptionName: String
 
         public init(sourceIdentifier: String, subscriptionName: String) {
@@ -91,9 +91,9 @@ extension DocDB {
     public struct ApplyPendingMaintenanceActionMessage: AWSEncodableShape {
         /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade
         public let applyAction: String
-        /// A value that specifies the type of opt-in request or undoes an  opt-in request. An opt-in request of type immediate  can't be undone. Valid values:    immediate - Apply the maintenance action  immediately.    next-maintenance - Apply the maintenance  action during the next maintenance window for the resource.     undo-opt-in - Cancel any existing  next-maintenance opt-in requests.
+        /// A value that specifies the type of opt-in request or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.     undo-opt-in - Cancel any existing next-maintenance opt-in requests.
         public let optInType: String
-        /// The Amazon Resource Name (ARN) of the resource that the pending  maintenance action applies to.
+        /// The Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to.
         public let resourceIdentifier: String
 
         public init(applyAction: String, optInType: String, resourceIdentifier: String) {
@@ -249,18 +249,18 @@ extension DocDB {
     public struct CopyDBClusterSnapshotMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// Set to true to copy all tags from the source cluster  snapshot to the target cluster snapshot, and otherwise  false. The default is false.
+        /// Set to true to copy all tags from the source cluster snapshot to the target cluster snapshot, and otherwise false. The default is false.
         public let copyTags: Bool?
-        /// The KMS key ID for an encrypted cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.   If you copy an encrypted cluster snapshot from your Amazon Web Services account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the cluster snapshot is encrypted with the same KMS key as the source cluster snapshot.  If you copy an encrypted cluster snapshot that is shared from another Amazon Web Services account, then you must specify a value for KmsKeyId.  To copy an encrypted cluster snapshot to another Amazon Web Services Region, set KmsKeyId to the KMS key ID that you want to use to encrypt the copy of the cluster snapshot in the destination Region. KMS encryption keys are specific to the Amazon Web Services Region that they are created in, and you can't use encryption keys from one Amazon Web Services Region in another Amazon Web Services Region.  If you copy an unencrypted cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
+        /// The KMS key ID for an encrypted cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an encrypted cluster snapshot from your Amazon Web Services account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the cluster snapshot is encrypted with the same KMS key as the source cluster snapshot. If you copy an encrypted cluster snapshot that is shared from another Amazon Web Services account, then you must specify a value for KmsKeyId. To copy an encrypted cluster snapshot to another Amazon Web Services Region, set KmsKeyId to the KMS key ID that you want to use to encrypt the copy of the cluster snapshot in the destination Region. KMS encryption keys are specific to the Amazon Web Services Region that they are created in, and you can't use encryption keys from one Amazon Web Services Region in another Amazon Web Services Region. If you copy an unencrypted cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
         public let kmsKeyId: String?
-        /// The URL that contains a Signature Version 4 signed request for theCopyDBClusterSnapshot API action in the Amazon Web Services Region that contains the source cluster snapshot to copy. You must use the PreSignedUrl parameter when copying a cluster snapshot from another Amazon Web Services Region.  If you are using an Amazon Web Services SDK tool or the CLI, you can specify  SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually.  Specifying SourceRegion autogenerates a pre-signed URL  that is a valid request for the operation that can be executed in the source Amazon Web Services Region.  The presigned URL must be a valid request for the  CopyDBClusterSnapshot API action that can be executed  in the source Amazon Web Services Region that contains the cluster snapshot to be  copied. The presigned URL request must contain the following parameter values:    SourceRegion - The ID of the region that  contains the snapshot to be copied.    SourceDBClusterSnapshotIdentifier - The  identifier for the the encrypted cluster snapshot to be  copied. This identifier must be in the Amazon Resource Name (ARN) format for the source Amazon Web Services Region. For example, if you  are copying an encrypted cluster snapshot from the us-east-1 Amazon Web Services Region, then your  SourceDBClusterSnapshotIdentifier looks  something like the following:  arn:aws:rds:us-east-1:12345678012:sample-cluster:sample-cluster-snapshot.    TargetDBClusterSnapshotIdentifier - The  identifier for the new cluster snapshot to be created. This parameter isn't case sensitive.
+        /// The URL that contains a Signature Version 4 signed request for theCopyDBClusterSnapshot API action in the Amazon Web Services Region that contains the source cluster snapshot to copy. You must use the PreSignedUrl parameter when copying a cluster snapshot from another Amazon Web Services Region. If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source Amazon Web Services Region. The presigned URL must be a valid request for the CopyDBClusterSnapshot API action that can be executed in the source Amazon Web Services Region that contains the cluster snapshot to be copied. The presigned URL request must contain the following parameter values:    SourceRegion - The ID of the region that contains the snapshot to be copied.    SourceDBClusterSnapshotIdentifier - The identifier for the the encrypted cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source Amazon Web Services Region. For example, if you are copying an encrypted cluster snapshot from the us-east-1 Amazon Web Services Region, then your SourceDBClusterSnapshotIdentifier looks something like the following: arn:aws:rds:us-east-1:12345678012:sample-cluster:sample-cluster-snapshot.    TargetDBClusterSnapshotIdentifier - The identifier for the new cluster snapshot to be created. This parameter isn't case sensitive.
         public let preSignedUrl: String?
-        /// The identifier of the cluster snapshot to copy. This parameter is not case sensitive.  Constraints:   Must specify a valid system snapshot in the  available state.   If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid snapshot identifier.    If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid cluster snapshot ARN.   Example: my-cluster-snapshot1
+        /// The identifier of the cluster snapshot to copy. This parameter is not case sensitive. Constraints:   Must specify a valid system snapshot in the available state.   If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid snapshot identifier.   If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid cluster snapshot ARN.   Example: my-cluster-snapshot1
         public let sourceDBClusterSnapshotIdentifier: String
         /// The tags to be assigned to the cluster snapshot.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
-        /// The identifier of the new cluster snapshot to create from the  source cluster snapshot. This parameter is not case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.    The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example: my-cluster-snapshot2
+        /// The identifier of the new cluster snapshot to create from the source cluster snapshot. This parameter is not case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.    The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example: my-cluster-snapshot2
         public let targetDBClusterSnapshotIdentifier: String
 
         public init(copyTags: Bool? = nil, kmsKeyId: String? = nil, preSignedUrl: String? = nil, sourceDBClusterSnapshotIdentifier: String, tags: [Tag]? = nil, targetDBClusterSnapshotIdentifier: String) {
@@ -299,20 +299,20 @@ extension DocDB {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// A list of Amazon EC2 Availability Zones that instances in the  cluster can be created in.
+        /// A list of Amazon EC2 Availability Zones that instances in the cluster can be created in.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
         public var availabilityZones: [String]?
-        /// The number of days for which automated backups are retained. You  must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.
+        /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.
         public let backupRetentionPeriod: Int?
         /// The cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.    The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example: my-cluster
         public let dbClusterIdentifier: String
-        /// The name of the cluster parameter group to associate with this  cluster.
+        /// The name of the cluster parameter group to associate with this cluster.
         public let dbClusterParameterGroupName: String?
-        /// A subnet group to associate with this cluster. Constraints: Must match the name of an existing  DBSubnetGroup. Must not be default. Example: mySubnetgroup
+        /// A subnet group to associate with this cluster. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
         public let dbSubnetGroupName: String?
-        /// Specifies whether this cluster can be deleted. If  DeletionProtection is enabled, the cluster cannot be  deleted unless it is modified and DeletionProtection is  disabled. DeletionProtection protects clusters from  being accidentally deleted.
+        /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
-        /// A list of log types that need to be enabled for exporting to Amazon  CloudWatch Logs. You can enable audit logs or profiler logs. For more  information, see  Auditing Amazon DocumentDB Events  and  Profiling Amazon DocumentDB Operations.
+        /// A list of log types that need to be enabled for exporting to Amazon CloudWatch Logs. You can enable audit logs or profiler logs. For more information, see  Auditing Amazon DocumentDB Events and  Profiling Amazon DocumentDB Operations.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
         /// The name of the database engine to be used for this cluster. Valid values: docdb
@@ -321,17 +321,17 @@ extension DocDB {
         public let engineVersion: String?
         /// The cluster identifier of the new global cluster.
         public let globalClusterIdentifier: String?
-        /// The KMS key identifier for an encrypted cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon Web Services account that owns the KMS encryption key that is used to encrypt the new cluster, you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId:    If the StorageEncrypted parameter is  true, Amazon DocumentDB uses your default encryption key.    KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Regions.
+        /// The KMS key identifier for an encrypted cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon Web Services account that owns the KMS encryption key that is used to encrypt the new cluster, you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId:    If the StorageEncrypted parameter is true, Amazon DocumentDB uses your default encryption key.    KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Regions.
         public let kmsKeyId: String?
         /// The name of the master user for the cluster. Constraints:   Must be from 1 to 63 letters or numbers.   The first character must be a letter.   Cannot be a reserved word for the chosen database engine.
         public let masterUsername: String?
-        /// The password for the master database user. This password can  contain any printable ASCII character except forward slash (/),  double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
+        /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
         public let masterUserPassword: String?
-        /// The port number on which the instances in the cluster accept  connections.
+        /// The port number on which the instances in the cluster accept connections.
         public let port: Int?
         /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.    Must be at least 30 minutes.
         public let preferredBackupWindow: String?
-        /// The weekly time range during which system maintenance can occur,  in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
+        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
         /// Not currently supported.
         public let preSignedUrl: String?
@@ -452,9 +452,9 @@ extension DocDB {
     public struct CreateDBClusterSnapshotMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The identifier of the cluster to create a snapshot for. This  parameter is not case sensitive. Constraints:   Must match the identifier of an existing  DBCluster.   Example: my-cluster
+        /// The identifier of the cluster to create a snapshot for. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster
         public let dbClusterIdentifier: String
-        /// The identifier of the cluster snapshot. This parameter is stored  as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example: my-cluster-snapshot1
+        /// The identifier of the cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example: my-cluster-snapshot1
         public let dbClusterSnapshotIdentifier: String
         /// The tags to be assigned to the cluster snapshot.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -510,7 +510,7 @@ extension DocDB {
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid values: 0-15
         public let promotionTier: Int?
-        /// The tags to be assigned to the instance. You can assign up to  10 tags to an instance.
+        /// The tags to be assigned to the instance. You can assign up to 10 tags to an instance.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
@@ -2404,7 +2404,7 @@ extension DocDB {
         /// The list of cluster IDs for secondary clusters within the global cluster. Currently limited to one item.
         @OptionalCustomCoding<ArrayCoder<_GlobalClusterMembersEncoding, GlobalClusterMember>>
         public var globalClusterMembers: [GlobalClusterMember]?
-        /// The Amazon Web Services Region-unique, immutable identifier for the global database cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS customer master key (CMK) for the cluster is accessed.
+        /// The Amazon Web Services Region-unique, immutable identifier for the global database cluster. This identifier is found in CloudTrail log entries whenever the KMS customer master key (CMK) for the cluster is accessed.
         public let globalClusterResourceId: String?
         /// Specifies the current state of this global cluster.
         public let status: String?
@@ -2784,17 +2784,9 @@ extension DocDB {
     public struct ModifyGlobalClusterMessage: AWSEncodableShape {
         /// Indicates if the global cluster has deletion protection enabled. The global cluster can't be deleted when deletion protection is enabled.
         public let deletionProtection: Bool?
-        /// The identifier for the global cluster being modified. This parameter isn't case-sensitive.
-        /// 		       Constraints:
-        /// 				           Must match the identifier of an existing global cluster.
-        ///
+        /// The identifier for the global cluster being modified. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing global cluster.
         public let globalClusterIdentifier: String
-        /// The new identifier for a global cluster when you modify a global cluster. This value is stored as a lowercase string.
-        /// 				           Must contain from 1 to 63 letters, numbers, or hyphens
-        /// 				           The first character must be a letter
-        /// 				           Can't end with a hyphen or contain two consecutive hyphens
-        ///
-        /// 		       Example: my-cluster2
+        /// The new identifier for a global cluster when you modify a global cluster. This value is stored as a lowercase string.   Must contain from 1 to 63 letters, numbers, or hyphens The first character must be a letter Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster2
         public let newGlobalClusterIdentifier: String?
 
         public init(deletionProtection: Bool? = nil, globalClusterIdentifier: String, newGlobalClusterIdentifier: String? = nil) {
@@ -3214,7 +3206,7 @@ extension DocDB {
         /// A list that provides details about the pending maintenance actions for the resource.
         @OptionalCustomCoding<ArrayCoder<_PendingMaintenanceActionDetailsEncoding, PendingMaintenanceAction>>
         public var pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
-        /// The Amazon Resource Name (ARN) of the resource that has pending  maintenance actions.
+        /// The Amazon Resource Name (ARN) of the resource that has pending maintenance actions.
         public let resourceIdentifier: String?
 
         public init(pendingMaintenanceActionDetails: [PendingMaintenanceAction]? = nil, resourceIdentifier: String? = nil) {
@@ -3238,6 +3230,8 @@ extension DocDB {
         public var availabilityZones: [String]?
         /// The name of the cluster to create from the snapshot or cluster snapshot. This parameter isn't case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-snapshot-id
         public let dbClusterIdentifier: String
+        /// The name of the DB cluster parameter group to associate with this DB cluster.  Type: String.         Required: No. If this argument is omitted, the default DB cluster parameter group is used. If supplied, must match the name of an existing default DB cluster parameter group. The string must consist of from 1 to 255 letters, numbers or hyphens. Its first character must be a letter, and it cannot end with a hyphen or contain two consecutive hyphens.
+        public let dbClusterParameterGroupName: String?
         /// The name of the subnet group to use for the new cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
         public let dbSubnetGroupName: String?
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
@@ -3262,9 +3256,10 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, dbClusterIdentifier: String, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, port: Int? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, dbClusterIdentifier: String, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, port: Int? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
@@ -3280,6 +3275,7 @@ extension DocDB {
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
             case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbClusterParameterGroupName = "DBClusterParameterGroupName"
             case dbSubnetGroupName = "DBSubnetGroupName"
             case deletionProtection = "DeletionProtection"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
@@ -3324,7 +3320,7 @@ extension DocDB {
         public let port: Int?
         /// The date and time to restore the cluster to. Valid values: A time in Universal Coordinated Time (UTC) format. Constraints:   Must be before the latest restorable time for the instance.   Must be specified if the UseLatestRestorableTime parameter is not provided.   Cannot be specified if the UseLatestRestorableTime parameter is true.   Cannot be specified if the RestoreType parameter is copy-on-write.   Example: 2015-03-07T23:45:00Z
         public let restoreToTime: Date?
-        /// The type of restore to be performed. You can specify one of the following values:    full-copy - The new DB cluster is restored as a full copy of the source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.   If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
+        /// The type of restore to be performed. You can specify one of the following values:    full-copy - The new DB cluster is restored as a full copy of the source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.   Constraints: You can't specify copy-on-write if the engine version of the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
         public let restoreType: String?
         /// The identifier of the source cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.
         public let sourceDBClusterIdentifier: String

@@ -21,7 +21,7 @@ import SotoCore
 extension DatabaseMigrationService {
     // MARK: Async API Calls
 
-    /// Adds metadata tags to an DMS resource, including replication instance, endpoint, security group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS. For more information, see  Tag data type description.
+    /// Adds metadata tags to an DMS resource, including replication instance, endpoint, subnet group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS. For more information, see  Tag data type description.
     public func addTagsToResource(_ input: AddTagsToResourceMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AddTagsToResourceResponse {
         return try await self.client.execute(operation: "AddTagsToResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -29,6 +29,11 @@ extension DatabaseMigrationService {
     /// Applies a pending maintenance action to a resource (for example, to a replication instance).
     public func applyPendingMaintenanceAction(_ input: ApplyPendingMaintenanceActionMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ApplyPendingMaintenanceActionResponse {
         return try await self.client.execute(operation: "ApplyPendingMaintenanceAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts the analysis of up to 20 source databases to recommend target engines for each source database. This is a batch version of StartRecommendations. The result of analysis of each source database is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    public func batchStartRecommendations(_ input: BatchStartRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchStartRecommendationsResponse {
+        return try await self.client.execute(operation: "BatchStartRecommendations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Cancels a single premigration assessment run. This operation prevents any individual assessments from running if they haven't started running. It also attempts to cancel any individual assessments that are currently running.
@@ -201,6 +206,16 @@ extension DatabaseMigrationService {
         return try await self.client.execute(operation: "DescribePendingMaintenanceActions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a paginated list of limitations for recommendations of target Amazon Web Services engines.
+    public func describeRecommendationLimitations(_ input: DescribeRecommendationLimitationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeRecommendationLimitationsResponse {
+        return try await self.client.execute(operation: "DescribeRecommendationLimitations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a paginated list of target engine recommendations for your source databases.
+    public func describeRecommendations(_ input: DescribeRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeRecommendationsResponse {
+        return try await self.client.execute(operation: "DescribeRecommendations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns the status of the RefreshSchemas operation.
     public func describeRefreshSchemasStatus(_ input: DescribeRefreshSchemasStatusMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeRefreshSchemasStatusResponse {
         return try await self.client.execute(operation: "DescribeRefreshSchemasStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -242,7 +257,6 @@ extension DatabaseMigrationService {
     }
 
     /// Returns information about the schema for the specified endpoint.
-    ///
     public func describeSchemas(_ input: DescribeSchemasMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeSchemasResponse {
         return try await self.client.execute(operation: "DescribeSchemas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -257,7 +271,7 @@ extension DatabaseMigrationService {
         return try await self.client.execute(operation: "ImportCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all metadata tags attached to an DMS resource, including  replication instance, endpoint, security group, and migration task.  For more information, see  Tag data type description.
+    /// Lists all metadata tags attached to an DMS resource, including  replication instance, endpoint, subnet group, and migration task.  For more information, see  Tag data type description.
     public func listTagsForResource(_ input: ListTagsForResourceMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -273,7 +287,6 @@ extension DatabaseMigrationService {
     }
 
     /// Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window.
-    ///
     public func modifyReplicationInstance(_ input: ModifyReplicationInstanceMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyReplicationInstanceResponse {
         return try await self.client.execute(operation: "ModifyReplicationInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -308,7 +321,7 @@ extension DatabaseMigrationService {
         return try await self.client.execute(operation: "ReloadTables", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes metadata tags from an DMS resource, including replication instance,  endpoint, security group, and migration task. For more information, see   Tag  data type description.
+    /// Removes metadata tags from an DMS resource, including replication instance,  endpoint, subnet group, and migration task. For more information, see   Tag  data type description.
     public func removeTagsFromResource(_ input: RemoveTagsFromResourceMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RemoveTagsFromResourceResponse {
         return try await self.client.execute(operation: "RemoveTagsFromResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -316,6 +329,11 @@ extension DatabaseMigrationService {
     /// Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
     public func runFleetAdvisorLsaAnalysis(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RunFleetAdvisorLsaAnalysisResponse {
         return try await self.client.execute(operation: "RunFleetAdvisorLsaAnalysis", path: "/", httpMethod: .POST, serviceConfig: self.config, logger: logger, on: eventLoop)
+    }
+
+    /// Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for multiple source databases using BatchStartRecommendations.
+    public func startRecommendations(_ input: StartRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "StartRecommendations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Starts the replication task. For more information about DMS tasks, see Working with Migration Tasks  in the Database Migration Service User Guide.
@@ -683,6 +701,50 @@ extension DatabaseMigrationService {
         )
     }
 
+    /// Returns a paginated list of limitations for recommendations of target Amazon Web Services engines.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeRecommendationLimitationsPaginator(
+        _ input: DescribeRecommendationLimitationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeRecommendationLimitationsRequest, DescribeRecommendationLimitationsResponse> {
+        return .init(
+            input: input,
+            command: self.describeRecommendationLimitations,
+            inputKey: \DescribeRecommendationLimitationsRequest.nextToken,
+            outputKey: \DescribeRecommendationLimitationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Returns a paginated list of target engine recommendations for your source databases.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeRecommendationsPaginator(
+        _ input: DescribeRecommendationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeRecommendationsRequest, DescribeRecommendationsResponse> {
+        return .init(
+            input: input,
+            command: self.describeRecommendations,
+            inputKey: \DescribeRecommendationsRequest.nextToken,
+            outputKey: \DescribeRecommendationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     /// Returns information about the task logs for the specified task.
     /// Return PaginatorSequence for operation.
     ///
@@ -838,7 +900,6 @@ extension DatabaseMigrationService {
     }
 
     /// Returns information about the schema for the specified endpoint.
-    ///
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

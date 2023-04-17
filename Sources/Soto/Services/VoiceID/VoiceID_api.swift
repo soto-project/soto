@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS VoiceID service.
 ///
-/// Amazon Connect Voice ID provides real-time caller authentication and fraud screening. This guide describes the APIs used for this service.
+/// Amazon Connect Voice ID provides real-time caller authentication and fraud risk detection, which make voice interactions in contact centers more secure and efficient.
 public struct VoiceID: AWSService {
     // MARK: Member variables
 
@@ -71,9 +71,19 @@ public struct VoiceID: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters, customer audio, and voiceprints.
+    /// Associates the fraudsters with the watchlist specified in the same domain.
+    public func associateFraudster(_ input: AssociateFraudsterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateFraudsterResponse> {
+        return self.client.execute(operation: "AssociateFraudster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters, customer audio, and voiceprints.  Every domain is created with a default watchlist that fraudsters can be a part of.
     public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDomainResponse> {
         return self.client.execute(operation: "CreateDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a watchlist that fraudsters can be a part of.
+    public func createWatchlist(_ input: CreateWatchlistRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWatchlistResponse> {
+        return self.client.execute(operation: "CreateWatchlist", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified domain from Voice ID.
@@ -81,7 +91,7 @@ public struct VoiceID: AWSService {
         return self.client.execute(operation: "DeleteDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified fraudster from Voice ID.
+    /// Deletes the specified fraudster from Voice ID. This action disassociates the fraudster from any watchlists it is a part of.
     @discardableResult public func deleteFraudster(_ input: DeleteFraudsterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteFraudster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -89,6 +99,11 @@ public struct VoiceID: AWSService {
     /// Deletes the specified speaker from Voice ID.
     @discardableResult public func deleteSpeaker(_ input: DeleteSpeakerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteSpeaker", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified watchlist from Voice ID. This API throws an exception when there are fraudsters in the watchlist that you are trying to delete. You must delete the fraudsters, and then delete the watchlist. Every domain has a default watchlist which cannot be deleted.
+    @discardableResult public func deleteWatchlist(_ input: DeleteWatchlistRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteWatchlist", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes the specified domain.
@@ -116,6 +131,16 @@ public struct VoiceID: AWSService {
         return self.client.execute(operation: "DescribeSpeakerEnrollmentJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes the specified watchlist.
+    public func describeWatchlist(_ input: DescribeWatchlistRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeWatchlistResponse> {
+        return self.client.execute(operation: "DescribeWatchlist", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Disassociates the fraudsters from the watchlist specified. Voice ID always expects a fraudster to be a part of at least one watchlist. If you try to disassociate a fraudster from its only watchlist, a ValidationException is thrown.
+    public func disassociateFraudster(_ input: DisassociateFraudsterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateFraudsterResponse> {
+        return self.client.execute(operation: "DisassociateFraudster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Evaluates a specified session based on audio data accumulated during a streaming Amazon Connect Voice ID call.
     public func evaluateSession(_ input: EvaluateSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EvaluateSessionResponse> {
         return self.client.execute(operation: "EvaluateSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -131,6 +156,11 @@ public struct VoiceID: AWSService {
         return self.client.execute(operation: "ListFraudsterRegistrationJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists all fraudsters in a specified watchlist or domain.
+    public func listFraudsters(_ input: ListFraudstersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFraudstersResponse> {
+        return self.client.execute(operation: "ListFraudsters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists all the speaker enrollment jobs in the domain with the specified JobStatus. If JobStatus is not provided, this lists all jobs with all possible speaker enrollment job statuses.
     public func listSpeakerEnrollmentJobs(_ input: ListSpeakerEnrollmentJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSpeakerEnrollmentJobsResponse> {
         return self.client.execute(operation: "ListSpeakerEnrollmentJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -144,6 +174,11 @@ public struct VoiceID: AWSService {
     /// Lists all tags associated with a specified Voice ID resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all watchlists in a specified domain.
+    public func listWatchlists(_ input: ListWatchlistsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWatchlistsResponse> {
+        return self.client.execute(operation: "ListWatchlists", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or not they already exist in Voice ID. If they don't yet exist, a new speaker is created in an opted out state. If they already exist, their existing status is overridden and they are opted out. Enrollment and evaluation authentication requests are rejected for opted out speakers, and opted out speakers have no voice embeddings stored in Voice ID.
@@ -174,6 +209,11 @@ public struct VoiceID: AWSService {
     /// Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes. If an optional field, such as 'Description' is not provided, it is removed from the domain.
     public func updateDomain(_ input: UpdateDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDomainResponse> {
         return self.client.execute(operation: "UpdateDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the specified watchlist. Every domain has a default watchlist which cannot be updated.
+    public func updateWatchlist(_ input: UpdateWatchlistRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWatchlistResponse> {
+        return self.client.execute(operation: "UpdateWatchlist", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 
@@ -295,6 +335,59 @@ extension VoiceID {
         )
     }
 
+    /// Lists all fraudsters in a specified watchlist or domain.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listFraudstersPaginator<Result>(
+        _ input: ListFraudstersRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListFraudstersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listFraudsters,
+            inputKey: \ListFraudstersRequest.nextToken,
+            outputKey: \ListFraudstersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listFraudstersPaginator(
+        _ input: ListFraudstersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListFraudstersResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listFraudsters,
+            inputKey: \ListFraudstersRequest.nextToken,
+            outputKey: \ListFraudstersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Lists all the speaker enrollment jobs in the domain with the specified JobStatus. If JobStatus is not provided, this lists all jobs with all possible speaker enrollment job statuses.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -400,6 +493,59 @@ extension VoiceID {
             onPage: onPage
         )
     }
+
+    /// Lists all watchlists in a specified domain.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listWatchlistsPaginator<Result>(
+        _ input: ListWatchlistsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListWatchlistsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listWatchlists,
+            inputKey: \ListWatchlistsRequest.nextToken,
+            outputKey: \ListWatchlistsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listWatchlistsPaginator(
+        _ input: ListWatchlistsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListWatchlistsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listWatchlists,
+            inputKey: \ListWatchlistsRequest.nextToken,
+            outputKey: \ListWatchlistsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension VoiceID.ListDomainsRequest: AWSPaginateToken {
@@ -422,6 +568,17 @@ extension VoiceID.ListFraudsterRegistrationJobsRequest: AWSPaginateToken {
     }
 }
 
+extension VoiceID.ListFraudstersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> VoiceID.ListFraudstersRequest {
+        return .init(
+            domainId: self.domainId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            watchlistId: self.watchlistId
+        )
+    }
+}
+
 extension VoiceID.ListSpeakerEnrollmentJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> VoiceID.ListSpeakerEnrollmentJobsRequest {
         return .init(
@@ -435,6 +592,16 @@ extension VoiceID.ListSpeakerEnrollmentJobsRequest: AWSPaginateToken {
 
 extension VoiceID.ListSpeakersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> VoiceID.ListSpeakersRequest {
+        return .init(
+            domainId: self.domainId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension VoiceID.ListWatchlistsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> VoiceID.ListWatchlistsRequest {
         return .init(
             domainId: self.domainId,
             maxResults: self.maxResults,

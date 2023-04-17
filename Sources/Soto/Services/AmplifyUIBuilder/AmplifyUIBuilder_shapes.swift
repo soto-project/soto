@@ -47,9 +47,23 @@ extension AmplifyUIBuilder {
         public var description: String { return self.rawValue }
     }
 
+    public enum LabelDecorator: String, CustomStringConvertible, Codable, Sendable {
+        case none = "none"
+        case optional = "optional"
+        case required = "required"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortDirection: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageAccessLevel: String, CustomStringConvertible, Codable, Sendable {
+        case `private` = "private"
+        case protected = "protected"
+        case `public` = "public"
         public var description: String { return self.rawValue }
     }
 
@@ -287,6 +301,10 @@ extension AmplifyUIBuilder {
             self.type = type
         }
 
+        public func validate(name: String) throws {
+            try self.bindingProperties?.validate(name: "\(name).bindingProperties")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bindingProperties = "bindingProperties"
             case defaultValue = "defaultValue"
@@ -321,6 +339,12 @@ extension AmplifyUIBuilder {
             self.predicates = predicates
             self.slotName = slotName
             self.userAttribute = userAttribute
+        }
+
+        public func validate(name: String) throws {
+            try self.predicates?.forEach {
+                try $0.validate(name: "\(name).predicates[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -420,6 +444,10 @@ extension AmplifyUIBuilder {
             self.model = model
             self.predicate = predicate
             self.sort = sort
+        }
+
+        public func validate(name: String) throws {
+            try self.predicate?.validate(name: "\(name).predicate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -625,6 +653,12 @@ extension AmplifyUIBuilder {
         }
 
         public func validate(name: String) throws {
+            try self.bindingProperties.forEach {
+                try $0.value.validate(name: "\(name).bindingProperties[\"\($0.key)\"]")
+            }
+            try self.collectionProperties?.forEach {
+                try $0.value.validate(name: "\(name).collectionProperties[\"\($0.key)\"]")
+            }
             try self.validate(self.componentType, name: "componentType", parent: name, max: 255)
             try self.validate(self.componentType, name: "componentType", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 255)
@@ -712,6 +746,8 @@ extension AmplifyUIBuilder {
         public let fields: [String: FieldConfig]
         /// Specifies whether to perform a create or update action on the form.
         public let formActionType: FormActionType
+        /// Specifies an icon or decoration to display on the form.
+        public let labelDecorator: LabelDecorator?
         /// The name of the form.
         public let name: String
         /// The schema version of the form.
@@ -723,11 +759,12 @@ extension AmplifyUIBuilder {
         /// One or more key-value pairs to use when tagging the form data.
         public let tags: [String: String]?
 
-        public init(cta: FormCTA? = nil, dataType: FormDataTypeConfig, fields: [String: FieldConfig], formActionType: FormActionType, name: String, schemaVersion: String, sectionalElements: [String: SectionalElement], style: FormStyle, tags: [String: String]? = nil) {
+        public init(cta: FormCTA? = nil, dataType: FormDataTypeConfig, fields: [String: FieldConfig], formActionType: FormActionType, labelDecorator: LabelDecorator? = nil, name: String, schemaVersion: String, sectionalElements: [String: SectionalElement], style: FormStyle, tags: [String: String]? = nil) {
             self.cta = cta
             self.dataType = dataType
             self.fields = fields
             self.formActionType = formActionType
+            self.labelDecorator = labelDecorator
             self.name = name
             self.schemaVersion = schemaVersion
             self.sectionalElements = sectionalElements
@@ -752,6 +789,7 @@ extension AmplifyUIBuilder {
             case dataType = "dataType"
             case fields = "fields"
             case formActionType = "formActionType"
+            case labelDecorator = "labelDecorator"
             case name = "name"
             case schemaVersion = "schemaVersion"
             case sectionalElements = "sectionalElements"
@@ -987,17 +1025,21 @@ extension AmplifyUIBuilder {
     }
 
     public struct ExchangeCodeForTokenRequestBody: AWSEncodableShape {
+        /// The ID of the client to request the token from.
+        public let clientId: String?
         /// The access code to send in the request.
         public let code: String
         /// The location of the application that will receive the access code.
         public let redirectUri: String
 
-        public init(code: String, redirectUri: String) {
+        public init(clientId: String? = nil, code: String, redirectUri: String) {
+            self.clientId = clientId
             self.code = code
             self.redirectUri = redirectUri
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientId = "clientId"
             case code = "code"
             case redirectUri = "redirectUri"
         }
@@ -1182,6 +1224,8 @@ extension AmplifyUIBuilder {
         public let defaultValue: String?
         /// The text to display to describe the field.
         public let descriptiveText: String?
+        /// The configuration for the file uploader field.
+        public let fileUploaderConfig: FileUploaderFieldConfig?
         /// Specifies whether to render the field as an array. This property is ignored if the dataSourceType for the form is a Data Store.
         public let isArray: Bool?
         /// The maximum value to display for the field.
@@ -1205,11 +1249,12 @@ extension AmplifyUIBuilder {
         /// The information to use to customize the input fields with data at runtime.
         public let valueMappings: ValueMappings?
 
-        public init(defaultChecked: Bool? = nil, defaultCountryCode: String? = nil, defaultValue: String? = nil, descriptiveText: String? = nil, isArray: Bool? = nil, maxValue: Float? = nil, minValue: Float? = nil, name: String? = nil, placeholder: String? = nil, readOnly: Bool? = nil, required: Bool? = nil, step: Float? = nil, type: String, value: String? = nil, valueMappings: ValueMappings? = nil) {
+        public init(defaultChecked: Bool? = nil, defaultCountryCode: String? = nil, defaultValue: String? = nil, descriptiveText: String? = nil, fileUploaderConfig: FileUploaderFieldConfig? = nil, isArray: Bool? = nil, maxValue: Float? = nil, minValue: Float? = nil, name: String? = nil, placeholder: String? = nil, readOnly: Bool? = nil, required: Bool? = nil, step: Float? = nil, type: String, value: String? = nil, valueMappings: ValueMappings? = nil) {
             self.defaultChecked = defaultChecked
             self.defaultCountryCode = defaultCountryCode
             self.defaultValue = defaultValue
             self.descriptiveText = descriptiveText
+            self.fileUploaderConfig = fileUploaderConfig
             self.isArray = isArray
             self.maxValue = maxValue
             self.minValue = minValue
@@ -1228,6 +1273,7 @@ extension AmplifyUIBuilder {
             case defaultCountryCode = "defaultCountryCode"
             case defaultValue = "defaultValue"
             case descriptiveText = "descriptiveText"
+            case fileUploaderConfig = "fileUploaderConfig"
             case isArray = "isArray"
             case maxValue = "maxValue"
             case minValue = "minValue"
@@ -1267,6 +1313,39 @@ extension AmplifyUIBuilder {
         }
     }
 
+    public struct FileUploaderFieldConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The file types that are allowed to be uploaded by the file uploader. Provide this information in an array of strings specifying the valid file extensions.
+        public let acceptedFileTypes: [String]
+        /// The access level to assign to the uploaded files in the Amazon S3 bucket where they are stored. The valid values for this property are private, protected, or public. For detailed information about the permissions associated with each access level, see File access levels in the Amplify documentation.
+        public let accessLevel: StorageAccessLevel
+        /// Allows the file upload operation to be paused and resumed. The default value is false. When isResumable is set to true, the file uploader uses a multipart upload to break the files into chunks before upload. The progress of the upload isn't continuous, because the file uploader uploads a chunk at a time.
+        public let isResumable: Bool?
+        /// Specifies the maximum number of files that can be selected to upload. The default value is an unlimited number of files.
+        public let maxFileCount: Int?
+        /// The maximum file size in bytes that the file uploader will accept. The default value is an unlimited file size.
+        public let maxSize: Int?
+        /// Specifies whether to display or hide the image preview after selecting a file for upload. The default value is true to display the image preview.
+        public let showThumbnails: Bool?
+
+        public init(acceptedFileTypes: [String], accessLevel: StorageAccessLevel, isResumable: Bool? = nil, maxFileCount: Int? = nil, maxSize: Int? = nil, showThumbnails: Bool? = nil) {
+            self.acceptedFileTypes = acceptedFileTypes
+            self.accessLevel = accessLevel
+            self.isResumable = isResumable
+            self.maxFileCount = maxFileCount
+            self.maxSize = maxSize
+            self.showThumbnails = showThumbnails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptedFileTypes = "acceptedFileTypes"
+            case accessLevel = "accessLevel"
+            case isResumable = "isResumable"
+            case maxFileCount = "maxFileCount"
+            case maxSize = "maxSize"
+            case showThumbnails = "showThumbnails"
+        }
+    }
+
     public struct Form: AWSDecodableShape {
         /// The unique ID of the Amplify app associated with the form.
         public let appId: String
@@ -1282,6 +1361,8 @@ extension AmplifyUIBuilder {
         public let formActionType: FormActionType
         /// The unique ID of the form.
         public let id: String
+        /// Specifies an icon or decoration to display on the form.
+        public let labelDecorator: LabelDecorator?
         /// The name of the form.
         public let name: String
         /// The schema version of the form when it was imported.
@@ -1293,7 +1374,7 @@ extension AmplifyUIBuilder {
         /// One or more key-value pairs to use when tagging the form.
         public let tags: [String: String]?
 
-        public init(appId: String, cta: FormCTA? = nil, dataType: FormDataTypeConfig, environmentName: String, fields: [String: FieldConfig], formActionType: FormActionType, id: String, name: String, schemaVersion: String, sectionalElements: [String: SectionalElement], style: FormStyle, tags: [String: String]? = nil) {
+        public init(appId: String, cta: FormCTA? = nil, dataType: FormDataTypeConfig, environmentName: String, fields: [String: FieldConfig], formActionType: FormActionType, id: String, labelDecorator: LabelDecorator? = nil, name: String, schemaVersion: String, sectionalElements: [String: SectionalElement], style: FormStyle, tags: [String: String]? = nil) {
             self.appId = appId
             self.cta = cta
             self.dataType = dataType
@@ -1301,6 +1382,7 @@ extension AmplifyUIBuilder {
             self.fields = fields
             self.formActionType = formActionType
             self.id = id
+            self.labelDecorator = labelDecorator
             self.name = name
             self.schemaVersion = schemaVersion
             self.sectionalElements = sectionalElements
@@ -1316,6 +1398,7 @@ extension AmplifyUIBuilder {
             case fields = "fields"
             case formActionType = "formActionType"
             case id = "id"
+            case labelDecorator = "labelDecorator"
             case name = "name"
             case schemaVersion = "schemaVersion"
             case sectionalElements = "sectionalElements"
@@ -1404,16 +1487,71 @@ extension AmplifyUIBuilder {
         }
     }
 
+    public struct FormInputBindingPropertiesValue: AWSEncodableShape & AWSDecodableShape {
+        /// Describes the properties to customize with data at runtime.
+        public let bindingProperties: FormInputBindingPropertiesValueProperties?
+        /// The property type.
+        public let type: String?
+
+        public init(bindingProperties: FormInputBindingPropertiesValueProperties? = nil, type: String? = nil) {
+            self.bindingProperties = bindingProperties
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bindingProperties = "bindingProperties"
+            case type = "type"
+        }
+    }
+
+    public struct FormInputBindingPropertiesValueProperties: AWSEncodableShape & AWSDecodableShape {
+        /// An Amplify DataStore model.
+        public let model: String?
+
+        public init(model: String? = nil) {
+            self.model = model
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case model = "model"
+        }
+    }
+
     public struct FormInputValueProperty: AWSEncodableShape & AWSDecodableShape {
+        /// The information to bind fields to data at runtime.
+        public let bindingProperties: FormInputValuePropertyBindingProperties?
+        /// A list of form properties to concatenate to create the value to assign to this field property.
+        public let concat: [FormInputValueProperty]?
         /// The value to assign to the input field.
         public let value: String?
 
-        public init(value: String? = nil) {
+        public init(bindingProperties: FormInputValuePropertyBindingProperties? = nil, concat: [FormInputValueProperty]? = nil, value: String? = nil) {
+            self.bindingProperties = bindingProperties
+            self.concat = concat
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bindingProperties = "bindingProperties"
+            case concat = "concat"
             case value = "value"
+        }
+    }
+
+    public struct FormInputValuePropertyBindingProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The data field to bind the property to.
+        public let field: String?
+        /// The form property to bind to the data field.
+        public let property: String
+
+        public init(field: String? = nil, property: String) {
+            self.field = field
+            self.property = property
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case field = "field"
+            case property = "property"
         }
     }
 
@@ -1792,23 +1930,37 @@ extension AmplifyUIBuilder {
         public let field: String?
         /// The value to use when performing the evaluation.
         public let operand: String?
+        /// The type of value to use when performing the evaluation.
+        public let operandType: String?
         /// The operator to use to perform the evaluation.
         public let `operator`: String?
         /// A list of predicates to combine logically.
         public let or: [Predicate]?
 
-        public init(and: [Predicate]? = nil, field: String? = nil, operand: String? = nil, operator: String? = nil, or: [Predicate]? = nil) {
+        public init(and: [Predicate]? = nil, field: String? = nil, operand: String? = nil, operandType: String? = nil, operator: String? = nil, or: [Predicate]? = nil) {
             self.and = and
             self.field = field
             self.operand = operand
+            self.operandType = operandType
             self.`operator` = `operator`
             self.or = or
+        }
+
+        public func validate(name: String) throws {
+            try self.and?.forEach {
+                try $0.validate(name: "\(name).and[]")
+            }
+            try self.validate(self.operandType, name: "operandType", parent: name, pattern: "^boolean|string|number$")
+            try self.or?.forEach {
+                try $0.validate(name: "\(name).or[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case and = "and"
             case field = "field"
             case operand = "operand"
+            case operandType = "operandType"
             case `operator` = "operator"
             case or = "or"
         }
@@ -1880,14 +2032,18 @@ extension AmplifyUIBuilder {
     }
 
     public struct RefreshTokenRequestBody: AWSEncodableShape {
+        /// The ID of the client to request the token from.
+        public let clientId: String?
         /// The token to use to refresh a previously issued access token that might have expired.
         public let token: String
 
-        public init(token: String) {
+        public init(clientId: String? = nil, token: String) {
+            self.clientId = clientId
             self.token = token
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientId = "clientId"
             case token = "token"
         }
     }
@@ -1910,6 +2066,8 @@ extension AmplifyUIBuilder {
     }
 
     public struct SectionalElement: AWSEncodableShape & AWSDecodableShape {
+        /// Excludes a sectional element that was generated by default for a specified data model.
+        public let excluded: Bool?
         /// Specifies the size of the font for a Heading sectional element. Valid values are 1 | 2 | 3 | 4 | 5 | 6.
         public let level: Int?
         /// Specifies the orientation for a Divider sectional element. Valid values are horizontal or vertical.
@@ -1921,7 +2079,8 @@ extension AmplifyUIBuilder {
         /// The type of sectional element. Valid values are Heading, Text, and Divider.
         public let type: String
 
-        public init(level: Int? = nil, orientation: String? = nil, position: FieldPosition? = nil, text: String? = nil, type: String) {
+        public init(excluded: Bool? = nil, level: Int? = nil, orientation: String? = nil, position: FieldPosition? = nil, text: String? = nil, type: String) {
+            self.excluded = excluded
             self.level = level
             self.orientation = orientation
             self.position = position
@@ -1930,6 +2089,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case excluded = "excluded"
             case level = "level"
             case orientation = "orientation"
             case position = "position"
@@ -2101,6 +2261,12 @@ extension AmplifyUIBuilder {
         }
 
         public func validate(name: String) throws {
+            try self.bindingProperties?.forEach {
+                try $0.value.validate(name: "\(name).bindingProperties[\"\($0.key)\"]")
+            }
+            try self.collectionProperties?.forEach {
+                try $0.value.validate(name: "\(name).collectionProperties[\"\($0.key)\"]")
+            }
             try self.validate(self.componentType, name: "componentType", parent: name, max: 255)
             try self.validate(self.componentType, name: "componentType", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 255)
@@ -2185,6 +2351,8 @@ extension AmplifyUIBuilder {
         public let fields: [String: FieldConfig]?
         /// Specifies whether to perform a create or update action on the form.
         public let formActionType: FormActionType?
+        /// Specifies an icon or decoration to display on the form.
+        public let labelDecorator: LabelDecorator?
         /// The name of the form.
         public let name: String?
         /// The schema version of the form.
@@ -2194,11 +2362,12 @@ extension AmplifyUIBuilder {
         /// The configuration for the form's style.
         public let style: FormStyle?
 
-        public init(cta: FormCTA? = nil, dataType: FormDataTypeConfig? = nil, fields: [String: FieldConfig]? = nil, formActionType: FormActionType? = nil, name: String? = nil, schemaVersion: String? = nil, sectionalElements: [String: SectionalElement]? = nil, style: FormStyle? = nil) {
+        public init(cta: FormCTA? = nil, dataType: FormDataTypeConfig? = nil, fields: [String: FieldConfig]? = nil, formActionType: FormActionType? = nil, labelDecorator: LabelDecorator? = nil, name: String? = nil, schemaVersion: String? = nil, sectionalElements: [String: SectionalElement]? = nil, style: FormStyle? = nil) {
             self.cta = cta
             self.dataType = dataType
             self.fields = fields
             self.formActionType = formActionType
+            self.labelDecorator = labelDecorator
             self.name = name
             self.schemaVersion = schemaVersion
             self.sectionalElements = sectionalElements
@@ -2215,6 +2384,7 @@ extension AmplifyUIBuilder {
             case dataType = "dataType"
             case fields = "fields"
             case formActionType = "formActionType"
+            case labelDecorator = "labelDecorator"
             case name = "name"
             case schemaVersion = "schemaVersion"
             case sectionalElements = "sectionalElements"
@@ -2376,14 +2546,18 @@ extension AmplifyUIBuilder {
     }
 
     public struct ValueMappings: AWSEncodableShape & AWSDecodableShape {
+        /// The information to bind fields to data at runtime.
+        public let bindingProperties: [String: FormInputBindingPropertiesValue]?
         /// The value and display value pairs.
         public let values: [ValueMapping]
 
-        public init(values: [ValueMapping]) {
+        public init(bindingProperties: [String: FormInputBindingPropertiesValue]? = nil, values: [ValueMapping]) {
+            self.bindingProperties = bindingProperties
             self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bindingProperties = "bindingProperties"
             case values = "values"
         }
     }

@@ -192,7 +192,7 @@ extension SQS {
         /// The new value for the message's visibility timeout (in seconds). Values range: 0 to 43200. Maximum: 12 hours.
         public let visibilityTimeout: Int
 
-        public init(queueUrl: String, receiptHandle: String, visibilityTimeout: Int) {
+        public init(queueUrl: String, receiptHandle: String, visibilityTimeout: Int = 0) {
             self.queueUrl = queueUrl
             self.receiptHandle = receiptHandle
             self.visibilityTimeout = visibilityTimeout

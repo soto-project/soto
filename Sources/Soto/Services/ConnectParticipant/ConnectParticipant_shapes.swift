@@ -159,7 +159,7 @@ extension ConnectParticipant {
             AWSMemberEncoding(label: "participantToken", location: .header("X-Amz-Bearer"))
         ]
 
-        /// Amazon Connect Participant is used to mark the participant as connected for message streaming.
+        /// Amazon Connect Participant is used to mark the participant as connected for customer participant in message streaming, as well as for agent or manager participant in non-streaming chats.
         public let connectParticipant: Bool?
         /// This is a header parameter. The ParticipantToken as obtained from StartChatContact API response.
         public let participantToken: String
@@ -508,9 +508,9 @@ extension ConnectParticipant {
         public let clientToken: String?
         /// The authentication token associated with the connection.
         public let connectionToken: String
-        /// The content of the message.    For text/plain and text/markdown, the Length Constraints are Minimum of 1, Maximum of 1024.    For application/json, the Length Constraints are Minimum of 1, Maximum of 12000.
+        /// The content of the message.    For text/plain and text/markdown, the Length Constraints are Minimum of 1, Maximum of 1024.    For application/json, the Length Constraints are Minimum of 1, Maximum of 12000.    For application/vnd.amazonaws.connect.message.interactive.response, the Length Constraints are Minimum of 1, Maximum of 12288.
         public let content: String
-        /// The type of the content. Supported types are text/plain, text/markdown, and application/json.
+        /// The type of the content. Supported types are text/plain, text/markdown, application/json, and  application/vnd.amazonaws.connect.message.interactive.response.
         public let contentType: String
 
         public init(clientToken: String? = SendMessageRequest.idempotencyToken(), connectionToken: String, content: String, contentType: String) {

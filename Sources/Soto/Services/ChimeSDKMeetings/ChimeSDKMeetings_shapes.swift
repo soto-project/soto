@@ -46,18 +46,18 @@ extension ChimeSDKMeetings {
     }
 
     public enum TranscribeLanguageCode: String, CustomStringConvertible, Codable, Sendable {
-        case deDE = "de-DE"
-        case enAU = "en-AU"
-        case enGB = "en-GB"
-        case enUS = "en-US"
-        case esUS = "es-US"
-        case frCA = "fr-CA"
-        case frFR = "fr-FR"
-        case itIT = "it-IT"
-        case jaJP = "ja-JP"
-        case koKR = "ko-KR"
-        case ptBR = "pt-BR"
-        case zhCN = "zh-CN"
+        case deDe = "de-DE"
+        case enAu = "en-AU"
+        case enGb = "en-GB"
+        case enUs = "en-US"
+        case esUs = "es-US"
+        case frCa = "fr-CA"
+        case frFr = "fr-FR"
+        case itIt = "it-IT"
+        case jaJp = "ja-JP"
+        case koKr = "ko-KR"
+        case ptBr = "pt-BR"
+        case zhCn = "zh-CN"
         public var description: String { return self.rawValue }
     }
 
@@ -67,7 +67,7 @@ extension ChimeSDKMeetings {
     }
 
     public enum TranscribeMedicalLanguageCode: String, CustomStringConvertible, Codable, Sendable {
-        case enUS = "en-US"
+        case enUs = "en-US"
         public var description: String { return self.rawValue }
     }
 
@@ -134,9 +134,9 @@ extension ChimeSDKMeetings {
     public struct Attendee: AWSDecodableShape {
         /// The Amazon Chime SDK attendee ID.
         public let attendeeId: String?
-        /// The capabilities assigned to an attendee: audio, video, or content.  You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .   When using capabilities, be aware of these corner cases:   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.                       When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
+        /// The capabilities assigned to an attendee: audio, video, or content.  You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .  When using capabilities, be aware of these corner cases:   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.   When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
         public let capabilities: AttendeeCapabilities?
-        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
+        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*  Values that begin with aws: are reserved. You can't configure a value that uses this prefix.  Case insensitive.
         public let externalUserId: String?
         /// The join token used by the Amazon Chime SDK attendee.
         public let joinToken: String?
@@ -291,7 +291,7 @@ extension ChimeSDKMeetings {
         public let errorCode: String?
         /// The error message.
         public let errorMessage: String?
-        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
+        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*  Values that begin with aws: are reserved. You can't configure a value that uses this prefix.  Case insensitive.
         public let externalUserId: String?
 
         public init(errorCode: String? = nil, errorMessage: String? = nil, externalUserId: String? = nil) {
@@ -312,9 +312,9 @@ extension ChimeSDKMeetings {
             AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
         ]
 
-        /// The capabilities (audio, video, or content) that you want to grant an attendee. If you don't specify capabilities, all users have send and receive capabilities on  all media channels by default.   You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .   When using capabilities, be aware of these corner cases:   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.                       When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
+        /// The capabilities (audio, video, or content) that you want to grant an attendee. If you don't specify capabilities, all users have send and receive capabilities on  all media channels by default.  You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .  When using capabilities, be aware of these corner cases:   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.   When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
         public let capabilities: AttendeeCapabilities?
-        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
+        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*  Values that begin with aws: are reserved. You can't configure a value that uses this prefix.
         public let externalUserId: String
         /// The unique ID of the meeting.
         public let meetingId: String
@@ -340,7 +340,7 @@ extension ChimeSDKMeetings {
     public struct CreateAttendeeRequestItem: AWSEncodableShape {
         /// A list of one or more capabilities.
         public let capabilities: AttendeeCapabilities?
-        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
+        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*  Values that begin with aws: are reserved. You can't configure a value that uses this prefix.  Case insensitive.
         public let externalUserId: String
 
         public init(capabilities: AttendeeCapabilities? = nil, externalUserId: String) {
@@ -375,9 +375,9 @@ extension ChimeSDKMeetings {
     public struct CreateMeetingRequest: AWSEncodableShape {
         /// The unique identifier for the client request. Use a different token for different meetings.
         public let clientRequestToken: String
-        /// The external meeting ID.
+        /// The external meeting ID. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*  Values that begin with aws: are reserved. You can't configure a value that uses this prefix.  Case insensitive.
         public let externalMeetingId: String
-        /// The Region in which to create the meeting.   Available values:  af-south-1,  ap-northeast-1,  ap-northeast-2,  ap-south-1,  ap-southeast-1,  ap-southeast-2,            ca-central-1,  eu-central-1,  eu-north-1,  eu-south-1,  eu-west-1,  eu-west-2,  eu-west-3,             sa-east-1,  us-east-1,  us-east-2,  us-west-1,  us-west-2.  Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
+        /// The Region in which to create the meeting.  Available values:  af-south-1,  ap-northeast-1,  ap-northeast-2,  ap-south-1,  ap-southeast-1,  ap-southeast-2,            ca-central-1,  eu-central-1,  eu-north-1,  eu-south-1,  eu-west-1,  eu-west-2,  eu-west-3,             sa-east-1,  us-east-1,  us-east-2,  us-west-1,  us-west-2.  Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
         public let mediaRegion: String
         /// Lists the audio and video features enabled for a meeting, such as echo reduction.
         public let meetingFeatures: MeetingFeaturesConfiguration?
@@ -387,7 +387,7 @@ extension ChimeSDKMeetings {
         public let notificationsConfiguration: NotificationsConfiguration?
         /// When specified, replicates the media from the primary meeting to the new meeting.
         public let primaryMeetingId: String?
-        /// Applies one or more tags to an Amazon Chime SDK meeting. Note the following:               Not all resources have tags. For a list of services with resources that support tagging using this operation, see  Services that support the Resource Groups Tagging API. If the resource  doesn't yet support this operation, the resource's service might support tagging using its own API operations. For more information, refer to the documentation for that service.   Each resource can have up to 50 tags. For other limits, see Tag Naming and Usage Conventions in the  AWS General Reference.   You can only tag resources that are located in the specified AWS Region for the AWS account.   To add tags to a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for adding tags. For more information, see the  documentation for each service.    Do not store personally identifiable information (PII) or other confidential or sensitive information in tags. We use tags to provide you with billing and administration services. Tags are not intended to be  used for private or sensitive data.   Minimum permissions   In addition to the tag:TagResources permission required by this operation, you must also have the tagging permission defined by the service that created the resource. For example,  to tag a ChimeSDKMeetings instance  using the TagResources operation, you must have both of the following permissions:   tag:TagResources    ChimeSDKMeetings:CreateTags    Some services might have specific requirements for tagging some resources. For example, to tag an Amazon S3 bucket, you must also have the s3:GetBucketTagging permission.  If the expected minimum permissions don't work, check the documentation for that service's tagging APIs for more information.
+        /// Applies one or more tags to an Amazon Chime SDK meeting. Note the following:   Not all resources have tags. For a list of services with resources that support tagging using this operation, see  Services that support the Resource Groups Tagging API. If the resource  doesn't yet support this operation, the resource's service might support tagging using its own API operations. For more information, refer to the documentation for that service.   Each resource can have up to 50 tags. For other limits, see Tag Naming and Usage Conventions in the  AWS General Reference.   You can only tag resources that are located in the specified AWS Region for the AWS account.   To add tags to a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for adding tags. For more information, see the  documentation for each service.    Do not store personally identifiable information (PII) or other confidential or sensitive information in tags. We use tags to provide you with billing and administration services. Tags are not intended to be  used for private or sensitive data.   Minimum permissions  In addition to the tag:TagResources permission required by this operation, you must also have the tagging permission defined by the service that created the resource. For example,  to tag a ChimeSDKMeetings instance using the TagResources operation, you must have both of the following permissions:  tag:TagResources   ChimeSDKMeetings:CreateTags   Some services might have specific requirements for tagging some resources. For example, to tag an Amazon S3 bucket, you must also have the s3:GetBucketTagging permission.  If the expected minimum permissions don't work, check the documentation for that service's tagging APIs for more information.
         public let tags: [Tag]?
         /// A consistent and opaque identifier, created and maintained by the builder to represent a segment of their users.
         public let tenantIds: [String]?
@@ -461,9 +461,9 @@ extension ChimeSDKMeetings {
         public let attendees: [CreateAttendeeRequestItem]
         /// The unique identifier for the client request. Use a different token for different meetings.
         public let clientRequestToken: String
-        /// The external meeting ID.
+        /// The external meeting ID. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*  Values that begin with aws: are reserved. You can't configure a value that uses this prefix.  Case insensitive.
         public let externalMeetingId: String
-        /// The Region in which to create the meeting.   Available values:  af-south-1,  ap-northeast-1,  ap-northeast-2,  ap-south-1,  ap-southeast-1,  ap-southeast-2,            ca-central-1,  eu-central-1,  eu-north-1,  eu-south-1,  eu-west-1,  eu-west-2,  eu-west-3,             sa-east-1,  us-east-1,  us-east-2,  us-west-1,  us-west-2.  Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
+        /// The Region in which to create the meeting.  Available values:  af-south-1,  ap-northeast-1,  ap-northeast-2,  ap-south-1,  ap-southeast-1,  ap-southeast-2,            ca-central-1,  eu-central-1,  eu-north-1,  eu-south-1,  eu-west-1,  eu-west-2,  eu-west-3,             sa-east-1,  us-east-1,  us-east-2,  us-west-1,  us-west-2.  Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
         public let mediaRegion: String
         /// Lists the audio and video features enabled for a meeting, such as echo reduction.
         public let meetingFeatures: MeetingFeaturesConfiguration?
@@ -640,7 +640,7 @@ extension ChimeSDKMeetings {
     public struct EngineTranscribeSettings: AWSEncodableShape {
         /// Set this field to PII to identify personally identifiable information in the transcription output.
         public let contentIdentificationType: TranscribeContentIdentificationType?
-        /// Set this field to PII to redact personally identifiable information in the transcription output. Content redaction is performed only upon complete transcription of the audio segments.  You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException.
+        /// Set this field to PII to redact personally identifiable information in the transcription output. Content redaction is performed only upon complete transcription of the audio segments. You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException.
         public let contentRedactionType: TranscribeContentRedactionType?
         /// Generates partial transcription results that are less likely to change as meeting attendees speak. It does so by only allowing the last few words from the partial results to change.
         public let enablePartialResultsStabilization: Bool?
@@ -654,7 +654,7 @@ extension ChimeSDKMeetings {
         public let languageOptions: String?
         /// The stabity level of a partial results transcription. Determines how stable you want the transcription results to be. A higher level means the transcription results are less likely to change.
         public let partialResultsStability: TranscribePartialResultsStability?
-        /// Lists the PII entity types you want to identify or redact. To specify entity types, you must enable ContentIdentificationType or ContentRedactionType.   PIIEntityTypes must be comma-separated. The available values are:  BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, PIN, EMAIL,  ADDRESS, NAME, PHONE, SSN, and ALL.   PiiEntityTypes is an optional parameter with a default value of ALL.
+        /// Lists the PII entity types you want to identify or redact. To specify entity types, you must enable ContentIdentificationType or ContentRedactionType.  PIIEntityTypes must be comma-separated. The available values are:  BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, PIN, EMAIL,  ADDRESS, NAME, PHONE, SSN, and ALL.  PiiEntityTypes is an optional parameter with a default value of ALL.
         public let piiEntityTypes: String?
         /// Language code for the preferred language.
         public let preferredLanguage: TranscribeLanguageCode?
@@ -908,7 +908,7 @@ extension ChimeSDKMeetings {
     }
 
     public struct Meeting: AWSDecodableShape {
-        /// The external meeting ID.
+        /// The external meeting ID. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*  Values that begin with aws: are reserved. You can't configure a value that uses this prefix.  Case insensitive.
         public let externalMeetingId: String?
         /// The media placement for the meeting.
         public let mediaPlacement: MediaPlacement?
@@ -916,7 +916,7 @@ extension ChimeSDKMeetings {
         public let mediaRegion: String?
         /// The ARN of the meeting.
         public let meetingArn: String?
-        /// The features available to a meeting, such as Amazon Voice Focus.
+        /// The features available to a meeting, such as echo reduction.
         public let meetingFeatures: MeetingFeaturesConfiguration?
         /// Reserved.
         public let meetingHostId: String?

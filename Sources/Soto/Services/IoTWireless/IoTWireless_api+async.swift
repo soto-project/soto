@@ -151,6 +151,11 @@ extension IoTWireless {
         return try await self.client.execute(operation: "DeleteWirelessDevice", path: "/wireless-devices/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Delete an import task.
+    public func deleteWirelessDeviceImportTask(_ input: DeleteWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteWirelessDeviceImportTaskResponse {
+        return try await self.client.execute(operation: "DeleteWirelessDeviceImportTask", path: "/wireless_device_import_task/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a wireless gateway.
     public func deleteWirelessGateway(_ input: DeleteWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteWirelessGatewayResponse {
         return try await self.client.execute(operation: "DeleteWirelessGateway", path: "/wireless-gateways/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -164,6 +169,11 @@ extension IoTWireless {
     /// Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress.
     public func deleteWirelessGatewayTaskDefinition(_ input: DeleteWirelessGatewayTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteWirelessGatewayTaskDefinitionResponse {
         return try await self.client.execute(operation: "DeleteWirelessGatewayTaskDefinition", path: "/wireless-gateway-task-definitions/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deregister a wireless device from AWS IoT Wireless.
+    public func deregisterWirelessDevice(_ input: DeregisterWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeregisterWirelessDeviceResponse {
+        return try await self.client.execute(operation: "DeregisterWirelessDevice", path: "/wireless-devices/{Identifier}/deregister", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType are null, disassociates your AWS account from all partner accounts.
@@ -273,7 +283,7 @@ extension IoTWireless {
         return try await self.client.execute(operation: "GetResourceLogLevel", path: "/log-levels/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get the position information for a given wireless device or a wireless gateway resource. The postion information uses the  World Geodetic System (WGS84).
+    /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the  World Geodetic System (WGS84).
     public func getResourcePosition(_ input: GetResourcePositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetResourcePositionResponse {
         return try await self.client.execute(operation: "GetResourcePosition", path: "/resource-positions/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -291,6 +301,11 @@ extension IoTWireless {
     /// Gets information about a wireless device.
     public func getWirelessDevice(_ input: GetWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetWirelessDeviceResponse {
         return try await self.client.execute(operation: "GetWirelessDevice", path: "/wireless-devices/{Identifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get information about an import task and count of device onboarding summary information for the import task.
+    public func getWirelessDeviceImportTask(_ input: GetWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetWirelessDeviceImportTaskResponse {
+        return try await self.client.execute(operation: "GetWirelessDeviceImportTask", path: "/wireless_device_import_task/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets operating information about a wireless device.
@@ -336,6 +351,11 @@ extension IoTWireless {
     /// Lists the device profiles registered to your AWS account.
     public func listDeviceProfiles(_ input: ListDeviceProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDeviceProfilesResponse {
         return try await self.client.execute(operation: "ListDeviceProfiles", path: "/device-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List the Sidewalk devices in an import task and their onboarding status.
+    public func listDevicesForWirelessDeviceImportTask(_ input: ListDevicesForWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDevicesForWirelessDeviceImportTaskResponse {
+        return try await self.client.execute(operation: "ListDevicesForWirelessDeviceImportTask", path: "/wireless_device_import_task", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// List event configurations where at least one event topic has been enabled.
@@ -387,6 +407,11 @@ extension IoTWireless {
     /// Lists the tags (metadata) you have assigned to the resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List wireless devices that have been added to an import task.
+    public func listWirelessDeviceImportTasks(_ input: ListWirelessDeviceImportTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListWirelessDeviceImportTasksResponse {
+        return try await self.client.execute(operation: "ListWirelessDeviceImportTasks", path: "/wireless_device_import_tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the wireless devices registered to your AWS account.
@@ -455,6 +480,16 @@ extension IoTWireless {
         return try await self.client.execute(operation: "StartMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Start import task for a single wireless device.
+    public func startSingleWirelessDeviceImportTask(_ input: StartSingleWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartSingleWirelessDeviceImportTaskResponse {
+        return try await self.client.execute(operation: "StartSingleWirelessDeviceImportTask", path: "/wireless_single_device_import_task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file.
+    public func startWirelessDeviceImportTask(_ input: StartWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartWirelessDeviceImportTaskResponse {
+        return try await self.client.execute(operation: "StartWirelessDeviceImportTask", path: "/wireless_device_import_task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Adds a tag to a resource.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -516,7 +551,7 @@ extension IoTWireless {
         return try await self.client.execute(operation: "UpdateResourceEventConfiguration", path: "/event-configurations/{Identifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update the position information of a given wireless device or a wireless gateway resource. The postion coordinates are based on the  World Geodetic System (WGS84).
+    /// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the  World Geodetic System (WGS84).
     public func updateResourcePosition(_ input: UpdateResourcePositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateResourcePositionResponse {
         return try await self.client.execute(operation: "UpdateResourcePosition", path: "/resource-positions/{ResourceIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -524,6 +559,11 @@ extension IoTWireless {
     /// Updates properties of a wireless device.
     public func updateWirelessDevice(_ input: UpdateWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateWirelessDeviceResponse {
         return try await self.client.execute(operation: "UpdateWirelessDevice", path: "/wireless-devices/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update an import task to add more devices to the task.
+    public func updateWirelessDeviceImportTask(_ input: UpdateWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateWirelessDeviceImportTaskResponse {
+        return try await self.client.execute(operation: "UpdateWirelessDeviceImportTask", path: "/wireless_device_import_task/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates properties of a wireless gateway.

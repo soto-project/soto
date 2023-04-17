@@ -67,6 +67,7 @@ public struct ServiceDiscovery: AWSService {
                     "ap-southeast-1": "servicediscovery.ap-southeast-1.amazonaws.com",
                     "ap-southeast-2": "servicediscovery.ap-southeast-2.amazonaws.com",
                     "ap-southeast-3": "servicediscovery.ap-southeast-3.amazonaws.com",
+                    "ap-southeast-4": "servicediscovery.ap-southeast-4.amazonaws.com",
                     "ca-central-1": "servicediscovery.ca-central-1.amazonaws.com",
                     "cn-north-1": "servicediscovery.cn-north-1.amazonaws.com.cn",
                     "cn-northwest-1": "servicediscovery.cn-northwest-1.amazonaws.com.cn",
@@ -117,7 +118,7 @@ public struct ServiceDiscovery: AWSService {
         return self.client.execute(operation: "CreatePrivateDnsNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a public namespace based on DNS, which is visible on the internet. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend, the resulting DNS name for the service is backend.example.com. You can discover instances that were registered with a public DNS namespace by using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see Cloud Map quotas in the Cloud Map Developer Guide.   The CreatePublicDnsNamespace API operation is not supported in the Amazon Web Services GovCloud (US) Regions.
+    /// Creates a public namespace based on DNS, which is visible on the internet. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend, the resulting DNS name for the service is backend.example.com. You can discover instances that were registered with a public DNS namespace by using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see Cloud Map quotas in the Cloud Map Developer Guide.  The CreatePublicDnsNamespace API operation is not supported in the Amazon Web Services GovCloud (US) Regions.
     public func createPublicDnsNamespace(_ input: CreatePublicDnsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePublicDnsNamespaceResponse> {
         return self.client.execute(operation: "CreatePublicDnsNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

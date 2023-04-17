@@ -21,6 +21,20 @@ import SotoCore
 extension Mgn {
     // MARK: Enums
 
+    public enum ActionCategory: String, CustomStringConvertible, Codable, Sendable {
+        case backup = "BACKUP"
+        case configuration = "CONFIGURATION"
+        case disasterRecovery = "DISASTER_RECOVERY"
+        case licenseAndSubscription = "LICENSE_AND_SUBSCRIPTION"
+        case networking = "NETWORKING"
+        case observability = "OBSERVABILITY"
+        case operatingSystem = "OPERATING_SYSTEM"
+        case other = "OTHER"
+        case security = "SECURITY"
+        case validation = "VALIDATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ApplicationHealthStatus: String, CustomStringConvertible, Codable, Sendable {
         case error = "ERROR"
         case healthy = "HEALTHY"
@@ -108,11 +122,33 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case started = "STARTED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FirstBoot: String, CustomStringConvertible, Codable, Sendable {
         case stopped = "STOPPED"
         case succeeded = "SUCCEEDED"
         case unknown = "UNKNOWN"
         case waiting = "WAITING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportErrorType: String, CustomStringConvertible, Codable, Sendable {
+        case processingError = "PROCESSING_ERROR"
+        case validationError = "VALIDATION_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case started = "STARTED"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -178,6 +214,7 @@ extension Mgn {
         case disconnected = "DISCONNECTED"
         case discovered = "DISCOVERED"
         case notReady = "NOT_READY"
+        case pendingInstallation = "PENDING_INSTALLATION"
         case readyForCutover = "READY_FOR_CUTOVER"
         case readyForTest = "READY_FOR_TEST"
         case stopped = "STOPPED"
@@ -1481,6 +1518,102 @@ extension Mgn {
         }
     }
 
+    public struct ExportErrorData: AWSDecodableShape {
+        /// Export errors data raw error.
+        public let rawError: String?
+
+        public init(rawError: String? = nil) {
+            self.rawError = rawError
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rawError = "rawError"
+        }
+    }
+
+    public struct ExportTask: AWSDecodableShape {
+        /// Export task creation datetime.
+        public let creationDateTime: String?
+        /// Export task end datetime.
+        public let endDateTime: String?
+        /// Export task id.
+        public let exportID: String?
+        /// Export task progress percentage.
+        public let progressPercentage: Float?
+        /// Export task s3 bucket.
+        public let s3Bucket: String?
+        /// Export task s3 bucket owner.
+        public let s3BucketOwner: String?
+        /// Export task s3 key.
+        public let s3Key: String?
+        /// Export task status.
+        public let status: ExportStatus?
+        /// Export task summary.
+        public let summary: ExportTaskSummary?
+
+        public init(creationDateTime: String? = nil, endDateTime: String? = nil, exportID: String? = nil, progressPercentage: Float? = nil, s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Key: String? = nil, status: ExportStatus? = nil, summary: ExportTaskSummary? = nil) {
+            self.creationDateTime = creationDateTime
+            self.endDateTime = endDateTime
+            self.exportID = exportID
+            self.progressPercentage = progressPercentage
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3Key = s3Key
+            self.status = status
+            self.summary = summary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case endDateTime = "endDateTime"
+            case exportID = "exportID"
+            case progressPercentage = "progressPercentage"
+            case s3Bucket = "s3Bucket"
+            case s3BucketOwner = "s3BucketOwner"
+            case s3Key = "s3Key"
+            case status = "status"
+            case summary = "summary"
+        }
+    }
+
+    public struct ExportTaskError: AWSDecodableShape {
+        /// Export task error data.
+        public let errorData: ExportErrorData?
+        /// Export task error datetime.
+        public let errorDateTime: String?
+
+        public init(errorData: ExportErrorData? = nil, errorDateTime: String? = nil) {
+            self.errorData = errorData
+            self.errorDateTime = errorDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorData = "errorData"
+            case errorDateTime = "errorDateTime"
+        }
+    }
+
+    public struct ExportTaskSummary: AWSDecodableShape {
+        /// Export task summary applications count.
+        public let applicationsCount: Int64?
+        /// Export task summary servers count.
+        public let serversCount: Int64?
+        /// Export task summary waves count.
+        public let wavesCount: Int64?
+
+        public init(applicationsCount: Int64? = nil, serversCount: Int64? = nil, wavesCount: Int64? = nil) {
+            self.applicationsCount = applicationsCount
+            self.serversCount = serversCount
+            self.wavesCount = wavesCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationsCount = "applicationsCount"
+            case serversCount = "serversCount"
+            case wavesCount = "wavesCount"
+        }
+    }
+
     public struct FinalizeCutoverRequest: AWSEncodableShape {
         /// Request to finalize Cutover by Source Server ID.
         public let sourceServerID: String
@@ -1564,6 +1697,169 @@ extension Mgn {
             case hostname = "hostname"
             case vmPath = "vmPath"
             case vmWareUuid = "vmWareUuid"
+        }
+    }
+
+    public struct ImportErrorData: AWSDecodableShape {
+        /// Import error data application ID.
+        public let applicationID: String?
+        /// Import error data ec2 LaunchTemplate ID.
+        public let ec2LaunchTemplateID: String?
+        /// Import error data raw error.
+        public let rawError: String?
+        /// Import error data row number.
+        public let rowNumber: Int64?
+        /// Import error data source server ID.
+        public let sourceServerID: String?
+        /// Import error data wave id.
+        public let waveID: String?
+
+        public init(applicationID: String? = nil, ec2LaunchTemplateID: String? = nil, rawError: String? = nil, rowNumber: Int64? = nil, sourceServerID: String? = nil, waveID: String? = nil) {
+            self.applicationID = applicationID
+            self.ec2LaunchTemplateID = ec2LaunchTemplateID
+            self.rawError = rawError
+            self.rowNumber = rowNumber
+            self.sourceServerID = sourceServerID
+            self.waveID = waveID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationID = "applicationID"
+            case ec2LaunchTemplateID = "ec2LaunchTemplateID"
+            case rawError = "rawError"
+            case rowNumber = "rowNumber"
+            case sourceServerID = "sourceServerID"
+            case waveID = "waveID"
+        }
+    }
+
+    public struct ImportTask: AWSDecodableShape {
+        /// Import task creation datetime.
+        public let creationDateTime: String?
+        /// Import task end datetime.
+        public let endDateTime: String?
+        /// Import task id.
+        public let importID: String?
+        /// Import task progress percentage.
+        public let progressPercentage: Float?
+        /// Import task s3 bucket source.
+        public let s3BucketSource: S3BucketSource?
+        /// Import task status.
+        public let status: ImportStatus?
+        /// Import task summary.
+        public let summary: ImportTaskSummary?
+
+        public init(creationDateTime: String? = nil, endDateTime: String? = nil, importID: String? = nil, progressPercentage: Float? = nil, s3BucketSource: S3BucketSource? = nil, status: ImportStatus? = nil, summary: ImportTaskSummary? = nil) {
+            self.creationDateTime = creationDateTime
+            self.endDateTime = endDateTime
+            self.importID = importID
+            self.progressPercentage = progressPercentage
+            self.s3BucketSource = s3BucketSource
+            self.status = status
+            self.summary = summary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case endDateTime = "endDateTime"
+            case importID = "importID"
+            case progressPercentage = "progressPercentage"
+            case s3BucketSource = "s3BucketSource"
+            case status = "status"
+            case summary = "summary"
+        }
+    }
+
+    public struct ImportTaskError: AWSDecodableShape {
+        /// Import task error data.
+        public let errorData: ImportErrorData?
+        /// Import task error datetime.
+        public let errorDateTime: String?
+        /// Import task error type.
+        public let errorType: ImportErrorType?
+
+        public init(errorData: ImportErrorData? = nil, errorDateTime: String? = nil, errorType: ImportErrorType? = nil) {
+            self.errorData = errorData
+            self.errorDateTime = errorDateTime
+            self.errorType = errorType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorData = "errorData"
+            case errorDateTime = "errorDateTime"
+            case errorType = "errorType"
+        }
+    }
+
+    public struct ImportTaskSummary: AWSDecodableShape {
+        /// Import task summary applications.
+        public let applications: ImportTaskSummaryApplications?
+        /// Import task summary servers.
+        public let servers: ImportTaskSummaryServers?
+        /// Import task summary waves.
+        public let waves: ImportTaskSummaryWaves?
+
+        public init(applications: ImportTaskSummaryApplications? = nil, servers: ImportTaskSummaryServers? = nil, waves: ImportTaskSummaryWaves? = nil) {
+            self.applications = applications
+            self.servers = servers
+            self.waves = waves
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applications = "applications"
+            case servers = "servers"
+            case waves = "waves"
+        }
+    }
+
+    public struct ImportTaskSummaryApplications: AWSDecodableShape {
+        /// Import task summary applications created count.
+        public let createdCount: Int64?
+        /// Import task summary applications modified count.
+        public let modifiedCount: Int64?
+
+        public init(createdCount: Int64? = nil, modifiedCount: Int64? = nil) {
+            self.createdCount = createdCount
+            self.modifiedCount = modifiedCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdCount = "createdCount"
+            case modifiedCount = "modifiedCount"
+        }
+    }
+
+    public struct ImportTaskSummaryServers: AWSDecodableShape {
+        /// Import task summary servers created count.
+        public let createdCount: Int64?
+        /// Import task summary servers modified count.
+        public let modifiedCount: Int64?
+
+        public init(createdCount: Int64? = nil, modifiedCount: Int64? = nil) {
+            self.createdCount = createdCount
+            self.modifiedCount = modifiedCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdCount = "createdCount"
+            case modifiedCount = "modifiedCount"
+        }
+    }
+
+    public struct ImportTaskSummaryWaves: AWSDecodableShape {
+        /// Import task summery waves created count.
+        public let createdCount: Int64?
+        /// Import task summery waves modified count.
+        public let modifiedCount: Int64?
+
+        public init(createdCount: Int64? = nil, modifiedCount: Int64? = nil) {
+            self.createdCount = createdCount
+            self.modifiedCount = modifiedCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdCount = "createdCount"
+            case modifiedCount = "modifiedCount"
         }
     }
 
@@ -2132,6 +2428,233 @@ extension Mgn {
         }
     }
 
+    public struct ListExportErrorsRequest: AWSEncodableShape {
+        /// List export errors request export id.
+        public let exportID: String
+        /// List export errors request max results.
+        public let maxResults: Int?
+        /// List export errors request next token.
+        public let nextToken: String?
+
+        public init(exportID: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.exportID = exportID
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exportID, name: "exportID", parent: name, max: 24)
+            try self.validate(self.exportID, name: "exportID", parent: name, min: 24)
+            try self.validate(self.exportID, name: "exportID", parent: name, pattern: "^export-[0-9a-zA-Z]{17}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportID = "exportID"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListExportErrorsResponse: AWSDecodableShape {
+        /// List export errors response items.
+        public let items: [ExportTaskError]?
+        /// List export errors response next token.
+        public let nextToken: String?
+
+        public init(items: [ExportTaskError]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListExportsRequest: AWSEncodableShape {
+        public let filters: ListExportsRequestFilters?
+        /// List export request max results.
+        public let maxResults: Int?
+        /// List export request next token.
+        public let nextToken: String?
+
+        public init(filters: ListExportsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListExportsRequestFilters: AWSEncodableShape {
+        /// List exports request filters export ids.
+        public let exportIDs: [String]?
+
+        public init(exportIDs: [String]? = nil) {
+            self.exportIDs = exportIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.exportIDs?.forEach {
+                try validate($0, name: "exportIDs[]", parent: name, max: 24)
+                try validate($0, name: "exportIDs[]", parent: name, min: 24)
+                try validate($0, name: "exportIDs[]", parent: name, pattern: "^export-[0-9a-zA-Z]{17}$")
+            }
+            try self.validate(self.exportIDs, name: "exportIDs", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportIDs = "exportIDs"
+        }
+    }
+
+    public struct ListExportsResponse: AWSDecodableShape {
+        /// List export response items.
+        public let items: [ExportTask]?
+        /// List export response next token.
+        public let nextToken: String?
+
+        public init(items: [ExportTask]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListImportErrorsRequest: AWSEncodableShape {
+        /// List import errors request import id.
+        public let importID: String
+        /// List import errors request max results.
+        public let maxResults: Int?
+        /// List import errors request next token.
+        public let nextToken: String?
+
+        public init(importID: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.importID = importID
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.importID, name: "importID", parent: name, max: 24)
+            try self.validate(self.importID, name: "importID", parent: name, min: 24)
+            try self.validate(self.importID, name: "importID", parent: name, pattern: "^import-[0-9a-zA-Z]{17}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importID = "importID"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListImportErrorsResponse: AWSDecodableShape {
+        /// List imports errors response items.
+        public let items: [ImportTaskError]?
+        /// List imports errors response next token.
+        public let nextToken: String?
+
+        public init(items: [ImportTaskError]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListImportsRequest: AWSEncodableShape {
+        /// List imports request filters.
+        public let filters: ListImportsRequestFilters?
+        /// List imports request max results.
+        public let maxResults: Int?
+        /// List imports request next token.
+        public let nextToken: String?
+
+        public init(filters: ListImportsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListImportsRequestFilters: AWSEncodableShape {
+        /// List imports request filters import IDs.
+        public let importIDs: [String]?
+
+        public init(importIDs: [String]? = nil) {
+            self.importIDs = importIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.importIDs?.forEach {
+                try validate($0, name: "importIDs[]", parent: name, max: 24)
+                try validate($0, name: "importIDs[]", parent: name, min: 24)
+                try validate($0, name: "importIDs[]", parent: name, pattern: "^import-[0-9a-zA-Z]{17}$")
+            }
+            try self.validate(self.importIDs, name: "importIDs", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importIDs = "importIDs"
+        }
+    }
+
+    public struct ListImportsResponse: AWSDecodableShape {
+        /// List import response items.
+        public let items: [ImportTask]?
+        /// List import response next token.
+        public let nextToken: String?
+
+        public init(items: [ImportTask]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListSourceServerActionsRequest: AWSEncodableShape {
         /// Filters to apply when listing source server post migration custom actions.
         public let filters: SourceServerActionsRequestFilters?
@@ -2484,10 +3007,16 @@ extension Mgn {
         public let actionName: String
         /// Source server post migration custom action active status.
         public let active: Bool?
+        /// Source server post migration custom action category.
+        public let category: ActionCategory?
+        /// Source server post migration custom action description.
+        public let description: String?
         /// Source server post migration custom action document identifier.
         public let documentIdentifier: String
         /// Source server post migration custom action document version.
         public let documentVersion: String?
+        /// Source server post migration custom action external parameters.
+        public let externalParameters: [String: SsmExternalParameter]?
         /// Source server post migration custom action must succeed for cutover.
         public let mustSucceedForCutover: Bool?
         /// Source server post migration custom action order.
@@ -2499,12 +3028,15 @@ extension Mgn {
         /// Source server post migration custom action timeout in seconds.
         public let timeoutSeconds: Int?
 
-        public init(actionID: String, actionName: String, active: Bool? = nil, documentIdentifier: String, documentVersion: String? = nil, mustSucceedForCutover: Bool? = nil, order: Int = 0, parameters: [String: [SsmParameterStoreParameter]]? = nil, sourceServerID: String, timeoutSeconds: Int? = nil) {
+        public init(actionID: String, actionName: String, active: Bool? = nil, category: ActionCategory? = nil, description: String? = nil, documentIdentifier: String, documentVersion: String? = nil, externalParameters: [String: SsmExternalParameter]? = nil, mustSucceedForCutover: Bool? = nil, order: Int = 0, parameters: [String: [SsmParameterStoreParameter]]? = nil, sourceServerID: String, timeoutSeconds: Int? = nil) {
             self.actionID = actionID
             self.actionName = actionName
             self.active = active
+            self.category = category
+            self.description = description
             self.documentIdentifier = documentIdentifier
             self.documentVersion = documentVersion
+            self.externalParameters = externalParameters
             self.mustSucceedForCutover = mustSucceedForCutover
             self.order = order
             self.parameters = parameters
@@ -2519,8 +3051,17 @@ extension Mgn {
             try self.validate(self.actionName, name: "actionName", parent: name, max: 256)
             try self.validate(self.actionName, name: "actionName", parent: name, min: 1)
             try self.validate(self.actionName, name: "actionName", parent: name, pattern: "^[^\\s\\x00]( *[^\\s\\x00])*$")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[0-9a-zA-Z ():/.,'-_#*;\n]*$")
             try self.validate(self.documentIdentifier, name: "documentIdentifier", parent: name, max: 256)
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "^(\\$DEFAULT|\\$LATEST|[0-9]+)$")
+            try self.externalParameters?.forEach {
+                try validate($0.key, name: "externalParameters.key", parent: name, max: 1011)
+                try validate($0.key, name: "externalParameters.key", parent: name, min: 1)
+                try validate($0.key, name: "externalParameters.key", parent: name, pattern: "^([A-Za-z0-9])+$")
+                try $0.value.validate(name: "\(name).externalParameters[\"\($0.key)\"]")
+            }
+            try self.validate(self.externalParameters, name: "externalParameters", parent: name, max: 20)
             try self.validate(self.order, name: "order", parent: name, max: 10000)
             try self.validate(self.order, name: "order", parent: name, min: 1001)
             try self.parameters?.forEach {
@@ -2540,8 +3081,11 @@ extension Mgn {
             case actionID = "actionID"
             case actionName = "actionName"
             case active = "active"
+            case category = "category"
+            case description = "description"
             case documentIdentifier = "documentIdentifier"
             case documentVersion = "documentVersion"
+            case externalParameters = "externalParameters"
             case mustSucceedForCutover = "mustSucceedForCutover"
             case order = "order"
             case parameters = "parameters"
@@ -2557,10 +3101,16 @@ extension Mgn {
         public let actionName: String
         /// Template post migration custom action active status.
         public let active: Bool?
+        /// Template post migration custom action category.
+        public let category: ActionCategory?
+        /// Template post migration custom action description.
+        public let description: String?
         /// Template post migration custom action document identifier.
         public let documentIdentifier: String
         /// Template post migration custom action document version.
         public let documentVersion: String?
+        /// Template post migration custom action external parameters.
+        public let externalParameters: [String: SsmExternalParameter]?
         /// Launch configuration template ID.
         public let launchConfigurationTemplateID: String
         /// Template post migration custom action must succeed for cutover.
@@ -2574,12 +3124,15 @@ extension Mgn {
         /// Template post migration custom action timeout in seconds.
         public let timeoutSeconds: Int?
 
-        public init(actionID: String, actionName: String, active: Bool? = nil, documentIdentifier: String, documentVersion: String? = nil, launchConfigurationTemplateID: String, mustSucceedForCutover: Bool? = nil, operatingSystem: String? = nil, order: Int = 0, parameters: [String: [SsmParameterStoreParameter]]? = nil, timeoutSeconds: Int? = nil) {
+        public init(actionID: String, actionName: String, active: Bool? = nil, category: ActionCategory? = nil, description: String? = nil, documentIdentifier: String, documentVersion: String? = nil, externalParameters: [String: SsmExternalParameter]? = nil, launchConfigurationTemplateID: String, mustSucceedForCutover: Bool? = nil, operatingSystem: String? = nil, order: Int = 0, parameters: [String: [SsmParameterStoreParameter]]? = nil, timeoutSeconds: Int? = nil) {
             self.actionID = actionID
             self.actionName = actionName
             self.active = active
+            self.category = category
+            self.description = description
             self.documentIdentifier = documentIdentifier
             self.documentVersion = documentVersion
+            self.externalParameters = externalParameters
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
             self.mustSucceedForCutover = mustSucceedForCutover
             self.operatingSystem = operatingSystem
@@ -2593,8 +3146,17 @@ extension Mgn {
             try self.validate(self.actionID, name: "actionID", parent: name, min: 1)
             try self.validate(self.actionID, name: "actionID", parent: name, pattern: "[0-9a-zA-Z]$")
             try self.validate(self.actionName, name: "actionName", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[0-9a-zA-Z ():/.,'-_#*;\n]*$")
             try self.validate(self.documentIdentifier, name: "documentIdentifier", parent: name, max: 256)
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "^(\\$DEFAULT|\\$LATEST|[0-9]+)$")
+            try self.externalParameters?.forEach {
+                try validate($0.key, name: "externalParameters.key", parent: name, max: 1011)
+                try validate($0.key, name: "externalParameters.key", parent: name, min: 1)
+                try validate($0.key, name: "externalParameters.key", parent: name, pattern: "^([A-Za-z0-9])+$")
+                try $0.value.validate(name: "\(name).externalParameters[\"\($0.key)\"]")
+            }
+            try self.validate(self.externalParameters, name: "externalParameters", parent: name, max: 20)
             try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, max: 21)
             try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, min: 21)
             try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, pattern: "^lct-[0-9a-zA-Z]{17}$")
@@ -2615,8 +3177,11 @@ extension Mgn {
             case actionID = "actionID"
             case actionName = "actionName"
             case active = "active"
+            case category = "category"
+            case description = "description"
             case documentIdentifier = "documentIdentifier"
             case documentVersion = "documentVersion"
+            case externalParameters = "externalParameters"
             case launchConfigurationTemplateID = "launchConfigurationTemplateID"
             case mustSucceedForCutover = "mustSucceedForCutover"
             case operatingSystem = "operatingSystem"
@@ -2878,6 +3443,35 @@ extension Mgn {
         }
     }
 
+    public struct S3BucketSource: AWSEncodableShape & AWSDecodableShape {
+        /// S3 bucket source s3 bucket.
+        public let s3Bucket: String
+        /// S3 bucket source s3 bucket owner.
+        public let s3BucketOwner: String?
+        /// S3 bucket source s3 key.
+        public let s3Key: String
+
+        public init(s3Bucket: String, s3BucketOwner: String? = nil, s3Key: String) {
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3Key = s3Key
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-zA-Z0-9.\\-_]{1,255}$")
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, max: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, min: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "[0-9]{12,}")
+            try self.validate(self.s3Key, name: "s3Key", parent: name, pattern: "^[^\\x00]{1,1020}\\.csv$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "s3Bucket"
+            case s3BucketOwner = "s3BucketOwner"
+            case s3Key = "s3Key"
+        }
+    }
+
     public struct SourceProperties: AWSDecodableShape {
         /// Source Server CPUs.
         public let cpus: [CPU]?
@@ -2926,6 +3520,8 @@ extension Mgn {
         public let arn: String?
         /// Source server data replication info.
         public let dataReplicationInfo: DataReplicationInfo?
+        /// Source server fqdn for action framework.
+        public let fqdnForActionFramework: String?
         /// Source server archived status.
         public let isArchived: Bool?
         /// Source server launched instance.
@@ -2940,13 +3536,16 @@ extension Mgn {
         public let sourceServerID: String?
         /// Source server Tags.
         public let tags: [String: String]?
+        /// Source server user provided ID.
+        public let userProvidedID: String?
         /// Source server vCenter client id.
         public let vcenterClientID: String?
 
-        public init(applicationID: String? = nil, arn: String? = nil, dataReplicationInfo: DataReplicationInfo? = nil, isArchived: Bool? = nil, launchedInstance: LaunchedInstance? = nil, lifeCycle: LifeCycle? = nil, replicationType: ReplicationType? = nil, sourceProperties: SourceProperties? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil, vcenterClientID: String? = nil) {
+        public init(applicationID: String? = nil, arn: String? = nil, dataReplicationInfo: DataReplicationInfo? = nil, fqdnForActionFramework: String? = nil, isArchived: Bool? = nil, launchedInstance: LaunchedInstance? = nil, lifeCycle: LifeCycle? = nil, replicationType: ReplicationType? = nil, sourceProperties: SourceProperties? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil, userProvidedID: String? = nil, vcenterClientID: String? = nil) {
             self.applicationID = applicationID
             self.arn = arn
             self.dataReplicationInfo = dataReplicationInfo
+            self.fqdnForActionFramework = fqdnForActionFramework
             self.isArchived = isArchived
             self.launchedInstance = launchedInstance
             self.lifeCycle = lifeCycle
@@ -2954,6 +3553,7 @@ extension Mgn {
             self.sourceProperties = sourceProperties
             self.sourceServerID = sourceServerID
             self.tags = tags
+            self.userProvidedID = userProvidedID
             self.vcenterClientID = vcenterClientID
         }
 
@@ -2961,6 +3561,7 @@ extension Mgn {
             case applicationID = "applicationID"
             case arn = "arn"
             case dataReplicationInfo = "dataReplicationInfo"
+            case fqdnForActionFramework = "fqdnForActionFramework"
             case isArchived = "isArchived"
             case launchedInstance = "launchedInstance"
             case lifeCycle = "lifeCycle"
@@ -2968,6 +3569,7 @@ extension Mgn {
             case sourceProperties = "sourceProperties"
             case sourceServerID = "sourceServerID"
             case tags = "tags"
+            case userProvidedID = "userProvidedID"
             case vcenterClientID = "vcenterClientID"
         }
     }
@@ -2979,10 +3581,16 @@ extension Mgn {
         public let actionName: String?
         /// Source server post migration custom action active status.
         public let active: Bool?
+        /// Source server post migration custom action category.
+        public let category: ActionCategory?
+        /// Source server post migration custom action description.
+        public let description: String?
         /// Source server post migration custom action document identifier.
         public let documentIdentifier: String?
         /// Source server post migration custom action document version.
         public let documentVersion: String?
+        /// Source server post migration custom action external parameters.
+        public let externalParameters: [String: SsmExternalParameter]?
         /// Source server post migration custom action must succeed for cutover.
         public let mustSucceedForCutover: Bool?
         /// Source server post migration custom action order.
@@ -2992,12 +3600,15 @@ extension Mgn {
         /// Source server post migration custom action timeout in seconds.
         public let timeoutSeconds: Int?
 
-        public init(actionID: String? = nil, actionName: String? = nil, active: Bool? = nil, documentIdentifier: String? = nil, documentVersion: String? = nil, mustSucceedForCutover: Bool? = nil, order: Int? = nil, parameters: [String: [SsmParameterStoreParameter]]? = nil, timeoutSeconds: Int? = nil) {
+        public init(actionID: String? = nil, actionName: String? = nil, active: Bool? = nil, category: ActionCategory? = nil, description: String? = nil, documentIdentifier: String? = nil, documentVersion: String? = nil, externalParameters: [String: SsmExternalParameter]? = nil, mustSucceedForCutover: Bool? = nil, order: Int? = nil, parameters: [String: [SsmParameterStoreParameter]]? = nil, timeoutSeconds: Int? = nil) {
             self.actionID = actionID
             self.actionName = actionName
             self.active = active
+            self.category = category
+            self.description = description
             self.documentIdentifier = documentIdentifier
             self.documentVersion = documentVersion
+            self.externalParameters = externalParameters
             self.mustSucceedForCutover = mustSucceedForCutover
             self.order = order
             self.parameters = parameters
@@ -3008,8 +3619,11 @@ extension Mgn {
             case actionID = "actionID"
             case actionName = "actionName"
             case active = "active"
+            case category = "category"
+            case description = "description"
             case documentIdentifier = "documentIdentifier"
             case documentVersion = "documentVersion"
+            case externalParameters = "externalParameters"
             case mustSucceedForCutover = "mustSucceedForCutover"
             case order = "order"
             case parameters = "parameters"
@@ -3042,6 +3656,8 @@ extension Mgn {
     public struct SsmDocument: AWSEncodableShape & AWSDecodableShape {
         /// User-friendly name for the AWS Systems Manager Document.
         public let actionName: String
+        /// AWS Systems Manager Document external parameters.
+        public let externalParameters: [String: SsmExternalParameter]?
         /// If true, Cutover will not be enabled if the document has failed.
         public let mustSucceedForCutover: Bool?
         /// AWS Systems Manager Document parameters.
@@ -3051,8 +3667,9 @@ extension Mgn {
         /// AWS Systems Manager Document timeout seconds.
         public let timeoutSeconds: Int?
 
-        public init(actionName: String, mustSucceedForCutover: Bool? = nil, parameters: [String: [SsmParameterStoreParameter]]? = nil, ssmDocumentName: String, timeoutSeconds: Int? = nil) {
+        public init(actionName: String, externalParameters: [String: SsmExternalParameter]? = nil, mustSucceedForCutover: Bool? = nil, parameters: [String: [SsmParameterStoreParameter]]? = nil, ssmDocumentName: String, timeoutSeconds: Int? = nil) {
             self.actionName = actionName
+            self.externalParameters = externalParameters
             self.mustSucceedForCutover = mustSucceedForCutover
             self.parameters = parameters
             self.ssmDocumentName = ssmDocumentName
@@ -3061,6 +3678,13 @@ extension Mgn {
 
         public func validate(name: String) throws {
             try self.validate(self.actionName, name: "actionName", parent: name, max: 256)
+            try self.externalParameters?.forEach {
+                try validate($0.key, name: "externalParameters.key", parent: name, max: 1011)
+                try validate($0.key, name: "externalParameters.key", parent: name, min: 1)
+                try validate($0.key, name: "externalParameters.key", parent: name, pattern: "^([A-Za-z0-9])+$")
+                try $0.value.validate(name: "\(name).externalParameters[\"\($0.key)\"]")
+            }
+            try self.validate(self.externalParameters, name: "externalParameters", parent: name, max: 20)
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 1011)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
@@ -3076,6 +3700,7 @@ extension Mgn {
 
         private enum CodingKeys: String, CodingKey {
             case actionName = "actionName"
+            case externalParameters = "externalParameters"
             case mustSucceedForCutover = "mustSucceedForCutover"
             case parameters = "parameters"
             case ssmDocumentName = "ssmDocumentName"
@@ -3147,6 +3772,83 @@ extension Mgn {
 
         private enum CodingKeys: String, CodingKey {
             case job = "job"
+        }
+    }
+
+    public struct StartExportRequest: AWSEncodableShape {
+        /// Start export request s3 bucket.
+        public let s3Bucket: String
+        /// Start export request s3 bucket owner.
+        public let s3BucketOwner: String?
+        /// Start export request s3key.
+        public let s3Key: String
+
+        public init(s3Bucket: String, s3BucketOwner: String? = nil, s3Key: String) {
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3Key = s3Key
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-zA-Z0-9.\\-_]{1,255}$")
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, max: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, min: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "[0-9]{12,}")
+            try self.validate(self.s3Key, name: "s3Key", parent: name, pattern: "^[^\\x00]{1,1020}\\.csv$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "s3Bucket"
+            case s3BucketOwner = "s3BucketOwner"
+            case s3Key = "s3Key"
+        }
+    }
+
+    public struct StartExportResponse: AWSDecodableShape {
+        /// Start export response export task.
+        public let exportTask: ExportTask?
+
+        public init(exportTask: ExportTask? = nil) {
+            self.exportTask = exportTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportTask = "exportTask"
+        }
+    }
+
+    public struct StartImportRequest: AWSEncodableShape {
+        /// Start import request client token.
+        public let clientToken: String?
+        /// Start import request s3 bucket source.
+        public let s3BucketSource: S3BucketSource
+
+        public init(clientToken: String? = StartImportRequest.idempotencyToken(), s3BucketSource: S3BucketSource) {
+            self.clientToken = clientToken
+            self.s3BucketSource = s3BucketSource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.s3BucketSource.validate(name: "\(name).s3BucketSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case s3BucketSource = "s3BucketSource"
+        }
+    }
+
+    public struct StartImportResponse: AWSDecodableShape {
+        /// Start import response import task.
+        public let importTask: ImportTask?
+
+        public init(importTask: ImportTask? = nil) {
+            self.importTask = importTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importTask = "importTask"
         }
     }
 
@@ -3249,10 +3951,16 @@ extension Mgn {
         public let actionName: String?
         /// Template post migration custom action active status.
         public let active: Bool?
+        /// Template post migration custom action category.
+        public let category: ActionCategory?
+        /// Template post migration custom action description.
+        public let description: String?
         /// Template post migration custom action document identifier.
         public let documentIdentifier: String?
         /// Template post migration custom action document version.
         public let documentVersion: String?
+        /// Template post migration custom action external parameters.
+        public let externalParameters: [String: SsmExternalParameter]?
         /// Template post migration custom action must succeed for cutover.
         public let mustSucceedForCutover: Bool?
         /// Operating system eligible for this template post migration custom action.
@@ -3264,12 +3972,15 @@ extension Mgn {
         /// Template post migration custom action timeout in seconds.
         public let timeoutSeconds: Int?
 
-        public init(actionID: String? = nil, actionName: String? = nil, active: Bool? = nil, documentIdentifier: String? = nil, documentVersion: String? = nil, mustSucceedForCutover: Bool? = nil, operatingSystem: String? = nil, order: Int? = nil, parameters: [String: [SsmParameterStoreParameter]]? = nil, timeoutSeconds: Int? = nil) {
+        public init(actionID: String? = nil, actionName: String? = nil, active: Bool? = nil, category: ActionCategory? = nil, description: String? = nil, documentIdentifier: String? = nil, documentVersion: String? = nil, externalParameters: [String: SsmExternalParameter]? = nil, mustSucceedForCutover: Bool? = nil, operatingSystem: String? = nil, order: Int? = nil, parameters: [String: [SsmParameterStoreParameter]]? = nil, timeoutSeconds: Int? = nil) {
             self.actionID = actionID
             self.actionName = actionName
             self.active = active
+            self.category = category
+            self.description = description
             self.documentIdentifier = documentIdentifier
             self.documentVersion = documentVersion
+            self.externalParameters = externalParameters
             self.mustSucceedForCutover = mustSucceedForCutover
             self.operatingSystem = operatingSystem
             self.order = order
@@ -3281,8 +3992,11 @@ extension Mgn {
             case actionID = "actionID"
             case actionName = "actionName"
             case active = "active"
+            case category = "category"
+            case description = "description"
             case documentIdentifier = "documentIdentifier"
             case documentVersion = "documentVersion"
+            case externalParameters = "externalParameters"
             case mustSucceedForCutover = "mustSucceedForCutover"
             case operatingSystem = "operatingSystem"
             case order = "order"
@@ -3940,6 +4654,25 @@ extension Mgn {
             case progressStatus = "progressStatus"
             case replicationStartedDateTime = "replicationStartedDateTime"
             case totalApplications = "totalApplications"
+        }
+    }
+
+    public struct SsmExternalParameter: AWSEncodableShape & AWSDecodableShape {
+        /// AWS Systems Manager Document external parameters dynamic path.
+        public let dynamicPath: String?
+
+        public init(dynamicPath: String? = nil) {
+            self.dynamicPath = dynamicPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dynamicPath, name: "dynamicPath", parent: name, max: 1011)
+            try self.validate(self.dynamicPath, name: "dynamicPath", parent: name, min: 1)
+            try self.validate(self.dynamicPath, name: "dynamicPath", parent: name, pattern: "^[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_\\[\\]]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamicPath = "dynamicPath"
         }
     }
 }

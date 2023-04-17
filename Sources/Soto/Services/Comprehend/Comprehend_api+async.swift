@@ -51,7 +51,7 @@ extension Comprehend {
         return try await self.client.execute(operation: "BatchDetectTargetedSentiment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new document classification request to analyze a single document in real-time, using a previously created and trained custom model and an endpoint. You can input plain text or you can upload a single-page input document (text, PDF, Word, or image).  If the system detects errors while processing a page in the input document,  the API response includes an entry in Errors that describes the errors. If the system detects a document-level error in your input document, the API returns an  InvalidRequestException error response.       For details about this exception, see  Errors in semi-structured documents in the Comprehend Developer Guide.
+    /// Creates a new document classification request to analyze a single document in real-time, using a previously created and trained custom model and an endpoint. You can input plain text or you can upload a single-page input document (text, PDF, Word, or image).  If the system detects errors while processing a page in the input document, the API response includes an entry in Errors that describes the errors. If the system detects a document-level error in your input document, the API returns an InvalidRequestException error response. For details about this exception, see  Errors in semi-structured documents in the Comprehend Developer Guide.
     public func classifyDocument(_ input: ClassifyDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ClassifyDocumentResponse {
         return try await self.client.execute(operation: "ClassifyDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -59,6 +59,11 @@ extension Comprehend {
     /// Analyzes input text for the presence of personally identifiable information (PII) and returns the labels of identified PII entity types such as name, address, bank account number, or phone number.
     public func containsPiiEntities(_ input: ContainsPiiEntitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ContainsPiiEntitiesResponse {
         return try await self.client.execute(operation: "ContainsPiiEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a dataset to upload training or test data for a model associated with a flywheel. For more information about datasets, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+    public func createDataset(_ input: CreateDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDatasetResponse {
+        return try await self.client.execute(operation: "CreateDataset", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a new document classifier that you can use to categorize documents. To create a classifier, you provide a set of training documents that labeled with the categories that you want to use. After the classifier is trained you can use it to categorize a set of labeled documents into the categories. For more information, see Document Classification in the Comprehend Developer Guide.
@@ -71,9 +76,14 @@ extension Comprehend {
         return try await self.client.execute(operation: "CreateEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an entity recognizer using submitted files. After your CreateEntityRecognizer request is submitted, you can check job status using the API.
+    /// Creates an entity recognizer using submitted files. After your CreateEntityRecognizer request is submitted, you can check job status using the DescribeEntityRecognizer API.
     public func createEntityRecognizer(_ input: CreateEntityRecognizerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateEntityRecognizerResponse {
         return try await self.client.execute(operation: "CreateEntityRecognizer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// A flywheel is an Amazon Web Services resource that orchestrates the ongoing training of a model for custom classification or custom entity recognition. You can create a flywheel to start with an existing trained model, or Comprehend can create and train a new model. When you create the flywheel, Comprehend creates a data lake in your account. The data lake holds the training data and test data for all versions of the model. To use a flywheel with an existing trained model, you specify the active model version. Comprehend copies the model's training data and test data into the flywheel's data lake. To use the flywheel with a new model, you need to provide a dataset for training data (and optional test data) when you create the flywheel. For more information about flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+    public func createFlywheel(_ input: CreateFlywheelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateFlywheelResponse {
+        return try await self.client.execute(operation: "CreateFlywheel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a previously created document classifier Only those classifiers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the classifier into a DELETING state, and it is then removed by a background job. Once removed, the classifier disappears from your account and is no longer available for use.
@@ -91,9 +101,19 @@ extension Comprehend {
         return try await self.client.execute(operation: "DeleteEntityRecognizer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a flywheel. When you delete the flywheel, Amazon Comprehend does not delete the data lake or the model associated with the flywheel. For more information about flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+    public func deleteFlywheel(_ input: DeleteFlywheelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteFlywheelResponse {
+        return try await self.client.execute(operation: "DeleteFlywheel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a resource-based policy that is attached to a custom model.
     public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteResourcePolicyResponse {
         return try await self.client.execute(operation: "DeleteResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about the dataset that you specify.  For more information about datasets, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+    public func describeDataset(_ input: DescribeDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeDatasetResponse {
+        return try await self.client.execute(operation: "DescribeDataset", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets the properties associated with a document classification job. Use this operation to get the status of a classification job.
@@ -131,6 +151,16 @@ extension Comprehend {
         return try await self.client.execute(operation: "DescribeEventsDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Provides configuration information about the flywheel. For more information about flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+    public func describeFlywheel(_ input: DescribeFlywheelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeFlywheelResponse {
+        return try await self.client.execute(operation: "DescribeFlywheel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieve the configuration properties of a flywheel iteration. For more information about flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+    public func describeFlywheelIteration(_ input: DescribeFlywheelIterationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeFlywheelIterationResponse {
+        return try await self.client.execute(operation: "DescribeFlywheelIteration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets the properties associated with a key phrases detection job. Use this operation to get the status of a detection job.
     public func describeKeyPhrasesDetectionJob(_ input: DescribeKeyPhrasesDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeKeyPhrasesDetectionJobResponse {
         return try await self.client.execute(operation: "DescribeKeyPhrasesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -166,7 +196,7 @@ extension Comprehend {
         return try await self.client.execute(operation: "DetectDominantLanguage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Detects named entities in input text when you use the pre-trained model.  Detects custom entities if you have a custom entity recognition model.   When detecting named entities using the pre-trained model, use plain text as the input. For more information about named entities, see Entities in the Comprehend Developer Guide. When you use a custom entity recognition model,  you can input plain text or you can upload a single-page input document (text, PDF, Word, or image).  If the system detects errors while processing a page in the input document, the API response  includes an entry in Errors for each error.  If the system detects a document-level error in your input document, the API returns an  InvalidRequestException error response.       For details about this exception, see  Errors in semi-structured documents in the Comprehend Developer Guide.
+    /// Detects named entities in input text when you use the pre-trained model. Detects custom entities if you have a custom entity recognition model.   When detecting named entities using the pre-trained model, use plain text as the input. For more information about named entities, see Entities in the Comprehend Developer Guide. When you use a custom entity recognition model, you can input plain text or you can upload a single-page input document (text, PDF, Word, or image).  If the system detects errors while processing a page in the input document, the API response includes an entry in Errors for each error.  If the system detects a document-level error in your input document, the API returns an InvalidRequestException error response. For details about this exception, see  Errors in semi-structured documents in the Comprehend Developer Guide.
     public func detectEntities(_ input: DetectEntitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetectEntitiesResponse {
         return try await self.client.execute(operation: "DetectEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -196,9 +226,14 @@ extension Comprehend {
         return try await self.client.execute(operation: "DetectTargetedSentiment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new custom model that replicates a source custom model that you import. The source model can be in your AWS account or another one. If the source model is in another AWS account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same AWS region that you're using when you import. You can't import a model that's in a different region.
+    /// Creates a new custom model that replicates a source custom model that you import. The source model can be in your Amazon Web Services account or another one. If the source model is in another Amazon Web Services account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same Amazon Web Services Region that you're using when you import. You can't import a model that's in a different Region.
     public func importModel(_ input: ImportModelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ImportModelResponse {
         return try await self.client.execute(operation: "ImportModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List the datasets that you have configured in this Region. For more information about datasets, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+    public func listDatasets(_ input: ListDatasetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDatasetsResponse {
+        return try await self.client.execute(operation: "ListDatasets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets a list of the documentation classification jobs that you have submitted.
@@ -246,6 +281,16 @@ extension Comprehend {
         return try await self.client.execute(operation: "ListEventsDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Information about the history of a flywheel iteration. For more information about flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+    public func listFlywheelIterationHistory(_ input: ListFlywheelIterationHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListFlywheelIterationHistoryResponse {
+        return try await self.client.execute(operation: "ListFlywheelIterationHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a list of the flywheels that you have created.
+    public func listFlywheels(_ input: ListFlywheelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListFlywheelsResponse {
+        return try await self.client.execute(operation: "ListFlywheels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Get a list of key phrase detection jobs that you have submitted.
     public func listKeyPhrasesDetectionJobs(_ input: ListKeyPhrasesDetectionJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListKeyPhrasesDetectionJobsResponse {
         return try await self.client.execute(operation: "ListKeyPhrasesDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -276,12 +321,12 @@ extension Comprehend {
         return try await self.client.execute(operation: "ListTopicsDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attaches a resource-based policy to a custom model. You can use this policy to authorize an entity in another AWS account to import the custom model, which replicates it in Amazon Comprehend in their account.
+    /// Attaches a resource-based policy to a custom model. You can use this policy to authorize an entity in another Amazon Web Services account to import the custom model, which replicates it in Amazon Comprehend in their account.
     public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutResourcePolicyResponse {
         return try await self.client.execute(operation: "PutResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts an asynchronous document classification job. Use the  operation to track the progress of the job.
+    /// Starts an asynchronous document classification job. Use the  DescribeDocumentClassificationJob operation to track the progress of the job.
     public func startDocumentClassificationJob(_ input: StartDocumentClassificationJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartDocumentClassificationJobResponse {
         return try await self.client.execute(operation: "StartDocumentClassificationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -301,6 +346,11 @@ extension Comprehend {
         return try await self.client.execute(operation: "StartEventsDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Start the flywheel iteration.This operation uses any new datasets to train a new model version. For more information about flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+    public func startFlywheelIteration(_ input: StartFlywheelIterationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartFlywheelIterationResponse {
+        return try await self.client.execute(operation: "StartFlywheelIteration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Starts an asynchronous key phrase detection job for a collection of documents. Use the operation to track the status of a job.
     public func startKeyPhrasesDetectionJob(_ input: StartKeyPhrasesDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartKeyPhrasesDetectionJobResponse {
         return try await self.client.execute(operation: "StartKeyPhrasesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -316,7 +366,7 @@ extension Comprehend {
         return try await self.client.execute(operation: "StartSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts an asynchronous targeted sentiment detection job for a collection of documents. Use the operation to track the status of a job.
+    /// Starts an asynchronous targeted sentiment detection job for a collection of documents. Use the DescribeTargetedSentimentDetectionJob operation to track the status of a job.
     public func startTargetedSentimentDetectionJob(_ input: StartTargetedSentimentDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartTargetedSentimentDetectionJobResponse {
         return try await self.client.execute(operation: "StartTargetedSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -385,12 +435,39 @@ extension Comprehend {
     public func updateEndpoint(_ input: UpdateEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateEndpointResponse {
         return try await self.client.execute(operation: "UpdateEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
+
+    /// Update the configuration information for an existing flywheel.
+    public func updateFlywheel(_ input: UpdateFlywheelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateFlywheelResponse {
+        return try await self.client.execute(operation: "UpdateFlywheel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
 }
 
 // MARK: Paginators
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Comprehend {
+    /// List the datasets that you have configured in this Region. For more information about datasets, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listDatasetsPaginator(
+        _ input: ListDatasetsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListDatasetsRequest, ListDatasetsResponse> {
+        return .init(
+            input: input,
+            command: self.listDatasets,
+            inputKey: \ListDatasetsRequest.nextToken,
+            outputKey: \ListDatasetsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     /// Gets a list of the documentation classification jobs that you have submitted.
     /// Return PaginatorSequence for operation.
     ///
@@ -584,6 +661,50 @@ extension Comprehend {
             command: self.listEventsDetectionJobs,
             inputKey: \ListEventsDetectionJobsRequest.nextToken,
             outputKey: \ListEventsDetectionJobsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Information about the history of a flywheel iteration. For more information about flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listFlywheelIterationHistoryPaginator(
+        _ input: ListFlywheelIterationHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListFlywheelIterationHistoryRequest, ListFlywheelIterationHistoryResponse> {
+        return .init(
+            input: input,
+            command: self.listFlywheelIterationHistory,
+            inputKey: \ListFlywheelIterationHistoryRequest.nextToken,
+            outputKey: \ListFlywheelIterationHistoryResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Gets a list of the flywheels that you have created.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listFlywheelsPaginator(
+        _ input: ListFlywheelsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListFlywheelsRequest, ListFlywheelsResponse> {
+        return .init(
+            input: input,
+            command: self.listFlywheels,
+            inputKey: \ListFlywheelsRequest.nextToken,
+            outputKey: \ListFlywheelsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

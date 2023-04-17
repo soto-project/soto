@@ -279,11 +279,11 @@ extension Grafana {
     }
 
     public struct AuthenticationDescription: AWSDecodableShape {
-        /// A structure containing information about how this workspace works with  IAM Identity Center.
+        /// A structure containing information about how this workspace works with IAM Identity Center.
         public let awsSso: AwsSsoAuthentication?
-        /// Specifies whether this workspace uses IAM Identity Center, SAML, or both methods  to authenticate users to use the Grafana console in the Amazon Managed Grafana  workspace.
+        /// Specifies whether this workspace uses IAM Identity Center, SAML, or both methods to authenticate users to use the Grafana console in the Amazon Managed Grafana workspace.
         public let providers: [AuthenticationProviderTypes]
-        /// A structure containing information about how this workspace works with  SAML, including what attributes within the assertion are to be mapped to  user information in the workspace.
+        /// A structure containing information about how this workspace works with SAML, including what attributes within the assertion are to be mapped to user information in the workspace.
         public let saml: SamlAuthentication?
 
         public init(awsSso: AwsSsoAuthentication? = nil, providers: [AuthenticationProviderTypes], saml: SamlAuthentication? = nil) {
@@ -364,7 +364,7 @@ extension Grafana {
     }
 
     public struct CreateWorkspaceApiKeyResponse: AWSDecodableShape {
-        /// The key token. Use this value as a bearer token to  authenticate HTTP requests to the workspace.
+        /// The key token. Use this value as a bearer token to authenticate HTTP requests to the workspace.
         public let key: String
         /// The name of the key that was created.
         public let keyName: String
@@ -387,15 +387,17 @@ extension Grafana {
     public struct CreateWorkspaceRequest: AWSEncodableShape {
         /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION, you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter.
         public let accountAccessType: AccountAccessType
-        /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center (successor to Single Sign-On), or both to authenticate  users for using the Grafana console within a workspace. For more information,  see User authentication in  Amazon Managed Grafana.
+        /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center (successor to Single Sign-On), or both to authenticate users for using the Grafana console within a workspace. For more information, see User authentication in Amazon Managed Grafana.
         public let authenticationProviders: [AuthenticationProviderTypes]
         /// A unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
-        /// The configuration string for the workspace that you create. For more information  about the format and configuration options available, see Working in your Grafana workspace.
+        /// The configuration string for the workspace that you create. For more information about the format and configuration options available, see Working in your Grafana workspace.
         public let configuration: String?
+        /// Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
+        public let networkAccessControl: NetworkAccessConfiguration?
         /// The name of an IAM role that already exists to use with Organizations to access Amazon Web Services data sources and notification channels in other accounts in an organization.
         public let organizationRoleName: String?
-        /// If you specify SERVICE_MANAGED on AWS Grafana console, Amazon Managed Grafana automatically creates the IAM roles and provisions the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. In the CLI mode, the permissionType SERVICE_MANAGED will not create the IAM role  for you. The ability for the Amazon Managed Grafana to create the IAM role on behalf of the user is supported only in the  Amazon Managed Grafana AWS console. Use only the CUSTOMER_MANAGED permission type when creating a workspace in the CLI.   If you specify CUSTOMER_MANAGED, you will manage those roles and permissions yourself. If you are creating this workspace in a member account of an organization that is not a delegated administrator account, and you want the workspace to access data sources in other Amazon Web Services accounts in the organization, you must choose CUSTOMER_MANAGED. For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels.
+        /// When creating a workspace through the Amazon Web Services API, CLI or Amazon Web Services CloudFormation, you must manage IAM roles and provision the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. You must also specify a workspaceRoleArn for a role that you will manage for the workspace to use when accessing those datasources and notification  channels. The ability for Amazon Managed Grafana to create and update IAM roles on behalf of the user is supported only in the Amazon Managed Grafana console, where this value may be set to SERVICE_MANAGED.  Use only the CUSTOMER_MANAGED permission type when creating a workspace with the API, CLI or Amazon Web Services CloudFormation.   For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels.
         public let permissionType: PermissionType
         /// The name of the CloudFormation stack set to use to generate IAM roles to be used for this workspace.
         public let stackSetName: String?
@@ -403,24 +405,25 @@ extension Grafana {
         public let tags: [String: String]?
         /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to.
         public let vpcConfiguration: VpcConfiguration?
-        /// Specify the Amazon Web Services data sources that you want to be queried in this workspace. Specifying these data sources here enables Amazon Managed Grafana to create IAM roles and permissions that allow Amazon Managed Grafana to read data from these sources. You must still add them as data sources in the Grafana console in the workspace. If you don't specify a data source here, you can still add it as a data source in the workspace console later. However, you will then have to manually configure permissions for it.
+        /// This parameter is for internal use only, and should not be used.
         public let workspaceDataSources: [DataSourceType]?
         /// A description for the workspace. This is used only to help you identify this workspace. Pattern: ^[\\p{L}\\p{Z}\\p{N}\\p{P}]{0,2048}$
         public let workspaceDescription: String?
         /// The name for the workspace. It does not have to be unique.
         public let workspaceName: String?
-        /// Specify the Amazon Web Services notification channels that you plan to use in this workspace. Specifying these  data sources here enables Amazon Managed Grafana to create IAM roles and permissions that allow  Amazon Managed Grafana to use these channels.
+        /// Specify the Amazon Web Services notification channels that you plan to use in this workspace. Specifying these data sources here enables Amazon Managed Grafana to create IAM roles and permissions that allow Amazon Managed Grafana to use these channels.
         public let workspaceNotificationDestinations: [NotificationDestinationType]?
         /// Specifies the organizational units that this workspace is allowed to use data sources from, if this workspace is in an account that is part of an organization.
         public let workspaceOrganizationalUnits: [String]?
-        /// The workspace needs an IAM role that grants permissions to the Amazon Web Services resources that the  workspace will view data from. If you already have a role that you want to use, specify it here.  The permission type should be set to  CUSTOMER_MANAGED.
+        /// Specified the IAM role that grants permissions to the Amazon Web Services resources that the workspace will view data from, including both data  sources and notification channels. You are responsible for managing the permissions  for this role as new data sources or notification channels are added.
         public let workspaceRoleArn: String?
 
-        public init(accountAccessType: AccountAccessType, authenticationProviders: [AuthenticationProviderTypes], clientToken: String? = CreateWorkspaceRequest.idempotencyToken(), configuration: String? = nil, organizationRoleName: String? = nil, permissionType: PermissionType, stackSetName: String? = nil, tags: [String: String]? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
+        public init(accountAccessType: AccountAccessType, authenticationProviders: [AuthenticationProviderTypes], clientToken: String? = CreateWorkspaceRequest.idempotencyToken(), configuration: String? = nil, networkAccessControl: NetworkAccessConfiguration? = nil, organizationRoleName: String? = nil, permissionType: PermissionType, stackSetName: String? = nil, tags: [String: String]? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
             self.accountAccessType = accountAccessType
             self.authenticationProviders = authenticationProviders
             self.clientToken = clientToken
             self.configuration = configuration
+            self.networkAccessControl = networkAccessControl
             self.organizationRoleName = organizationRoleName
             self.permissionType = permissionType
             self.stackSetName = stackSetName
@@ -438,6 +441,7 @@ extension Grafana {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]{1,64}$")
             try self.validate(self.configuration, name: "configuration", parent: name, max: 65536)
             try self.validate(self.configuration, name: "configuration", parent: name, min: 2)
+            try self.networkAccessControl?.validate(name: "\(name).networkAccessControl")
             try self.validate(self.organizationRoleName, name: "organizationRoleName", parent: name, max: 2048)
             try self.validate(self.organizationRoleName, name: "organizationRoleName", parent: name, min: 1)
             try self.tags?.forEach {
@@ -458,6 +462,7 @@ extension Grafana {
             case authenticationProviders = "authenticationProviders"
             case clientToken = "clientToken"
             case configuration = "configuration"
+            case networkAccessControl = "networkAccessControl"
             case organizationRoleName = "organizationRoleName"
             case permissionType = "permissionType"
             case stackSetName = "stackSetName"
@@ -579,7 +584,7 @@ extension Grafana {
     }
 
     public struct DescribeWorkspaceAuthenticationResponse: AWSDecodableShape {
-        /// A structure containing information about the authentication methods used in  the workspace.
+        /// A structure containing information about the authentication methods used in the workspace.
         public let authentication: AuthenticationDescription
 
         public init(authentication: AuthenticationDescription) {
@@ -611,7 +616,7 @@ extension Grafana {
     }
 
     public struct DescribeWorkspaceConfigurationResponse: AWSDecodableShape {
-        /// The configuration string for the workspace that you requested. For more information  about the format and configuration options available, see Working in your Grafana workspace.
+        /// The configuration string for the workspace that you requested. For more information about the format and configuration options available, see Working in your Grafana workspace.
         public let configuration: String
 
         public init(configuration: String) {
@@ -705,7 +710,7 @@ extension Grafana {
         public let groupId: String?
         /// The maximum number of results to include in the response.
         public let maxResults: Int?
-        /// The token to use when requesting the next set of results. You received this token from a previous  ListPermissions operation.
+        /// The token to use when requesting the next set of results. You received this token from a previous ListPermissions operation.
         public let nextToken: String?
         /// (Optional) Limits the results to only the user that matches this ID.
         public let userId: String?
@@ -815,6 +820,34 @@ extension Grafana {
         }
     }
 
+    public struct NetworkAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An array of prefix list IDs. A prefix list is a list of CIDR ranges of IP addresses. The IP addresses specified are allowed to access your workspace. If the list is not included in the configuration then no IP addresses will be allowed to access the workspace. You create a prefix list using the Amazon VPC console. Prefix list IDs have the format pl-1a2b3c4d . For more information about prefix lists, see Group CIDR blocks using managed prefix listsin the Amazon Virtual Private Cloud User Guide.
+        public let prefixListIds: [String]
+        /// An array of Amazon VPC endpoint IDs for the workspace. You can create VPC endpoints to your Amazon Managed Grafana workspace for access from within a VPC. If a NetworkAccessConfiguration is specified then only VPC endpoints specified here will be allowed to access the workspace. VPC endpoint IDs have the format vpce-1a2b3c4d . For more information about creating an interface VPC endpoint, see Interface VPC endpoints in the Amazon Managed Grafana User Guide.  The only VPC endpoints that can be specified here are interface VPC endpoints for Grafana workspaces (using the com.amazonaws.[region].grafana-workspace service endpoint). Other VPC endpoints will be ignored.
+        public let vpceIds: [String]
+
+        public init(prefixListIds: [String], vpceIds: [String]) {
+            self.prefixListIds = prefixListIds
+            self.vpceIds = vpceIds
+        }
+
+        public func validate(name: String) throws {
+            try self.prefixListIds.forEach {
+                try validate($0, name: "prefixListIds[]", parent: name, max: 100)
+                try validate($0, name: "prefixListIds[]", parent: name, min: 1)
+            }
+            try self.vpceIds.forEach {
+                try validate($0, name: "vpceIds[]", parent: name, max: 100)
+                try validate($0, name: "vpceIds[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prefixListIds = "prefixListIds"
+            case vpceIds = "vpceIds"
+        }
+    }
+
     public struct PermissionEntry: AWSDecodableShape {
         /// Specifies whether the user or group has the Admin, Editor, or Viewer role.
         public let role: Role
@@ -861,7 +894,7 @@ extension Grafana {
     }
 
     public struct SamlAuthentication: AWSDecodableShape {
-        /// A structure containing details about how this workspace works with  SAML.
+        /// A structure containing details about how this workspace works with SAML.
         public let configuration: SamlConfiguration?
         /// Specifies whether the workspace's SAML configuration is complete.
         public let status: SamlConfigurationStatus
@@ -886,7 +919,7 @@ extension Grafana {
         public let idpMetadata: IdpMetadata
         /// How long a sign-on session by a SAML user is valid, before the user has to sign on again.
         public let loginValidityDuration: Int?
-        /// A structure containing arrays that map group names in the SAML assertion to the  Grafana Admin and Editor roles in the workspace.
+        /// A structure containing arrays that map group names in the SAML assertion to the Grafana Admin and Editor roles in the workspace.
         public let roleValues: RoleValues?
 
         public init(allowedOrganizations: [String]? = nil, assertionAttributes: AssertionAttributes? = nil, idpMetadata: IdpMetadata, loginValidityDuration: Int? = nil, roleValues: RoleValues? = nil) {
@@ -923,7 +956,7 @@ extension Grafana {
 
         /// The ARN of the resource the tag is associated with.
         public let resourceArn: String
-        /// The list of tag keys and values to associate with the resource.  You can associate tag keys only, tags (key and values) only or a combination of tag keys and tags.
+        /// The list of tag keys and values to associate with the resource. You can associate tag keys only, tags (key and values) only or a combination of tag keys and tags.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -1073,9 +1106,9 @@ extension Grafana {
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
-        /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center (successor to Single Sign-On), or both to authenticate  users for using the Grafana console within a workspace. For more information,  see User authentication in  Amazon Managed Grafana.
+        /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center (successor to Single Sign-On), or both to authenticate users for using the Grafana console within a workspace. For more information, see User authentication in Amazon Managed Grafana.
         public let authenticationProviders: [AuthenticationProviderTypes]
-        /// If the workspace uses SAML, use this structure to map SAML assertion attributes to workspace user information and  define which groups in the assertion attribute are to have the Admin and Editor roles in the workspace.
+        /// If the workspace uses SAML, use this structure to map SAML assertion attributes to workspace user information and define which groups in the assertion attribute are to have the Admin and Editor roles in the workspace.
         public let samlConfiguration: SamlConfiguration?
         /// The ID of the workspace to update the authentication for.
         public let workspaceId: String
@@ -1115,7 +1148,7 @@ extension Grafana {
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
-        /// The new configuration string for the workspace. For more information  about the format and configuration options available, see Working in your Grafana workspace.
+        /// The new configuration string for the workspace. For more information about the format and configuration options available, see Working in your Grafana workspace.
         public let configuration: String
         /// The ID of the workspace to update.
         public let workspaceId: String
@@ -1147,17 +1180,21 @@ extension Grafana {
 
         /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION, you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter.
         public let accountAccessType: AccountAccessType?
-        /// The name of an IAM role that already exists to use to access resources through Organizations.
+        /// The configuration settings for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
+        public let networkAccessControl: NetworkAccessConfiguration?
+        /// The name of an IAM role that already exists to use to access resources through Organizations. This can only be used with a workspace that has the  permissionType set to CUSTOMER_MANAGED.
         public let organizationRoleName: String?
-        /// If you specify Service Managed, Amazon Managed Grafana automatically creates the IAM roles and provisions the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. If you specify CUSTOMER_MANAGED, you will manage those roles and permissions yourself. If you are creating this workspace in a member account of an organization and that account is not a delegated administrator account, and you want the workspace to access data sources in other Amazon Web Services accounts in the organization, you must choose CUSTOMER_MANAGED. For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels
+        /// Use this parameter if you want to change a workspace from SERVICE_MANAGED to CUSTOMER_MANAGED. This allows you to manage the permissions that the  workspace uses to access datasources and notification channels. If the workspace is in a member Amazon Web Services account of an organization, and that account is not a delegated administrator account, and you want the workspace to access data sources in  other Amazon Web Services accounts in the organization, you must choose  CUSTOMER_MANAGED. If you specify this as CUSTOMER_MANAGED, you must also specify a  workspaceRoleArn that the workspace will use for accessing Amazon Web Services resources. For more information on the role and permissions needed, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources  and notification channels   Do not use this to convert a CUSTOMER_MANAGED workspace to SERVICE_MANAGED. Do not include this  parameter if you want to leave the workspace as SERVICE_MANAGED. You can convert a CUSTOMER_MANAGED workspace to  SERVICE_MANAGED using the Amazon Managed Grafana console. For more  information, see Managing permissions for data sources and notification channels.
         public let permissionType: PermissionType?
-        /// Whether to remove the VPC configuration from the workspace. Setting this to true and providing a vpcConfiguration to set  will return an error.
+        /// Whether to remove the network access configuration from the workspace. Setting this to true and providing a networkAccessControl to set will return an error. If you remove this configuration by setting this to true, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
+        public let removeNetworkAccessConfiguration: Bool?
+        /// Whether to remove the VPC configuration from the workspace. Setting this to true and providing a vpcConfiguration to set will return an error.
         public let removeVpcConfiguration: Bool?
         /// The name of the CloudFormation stack set to use to generate IAM roles to be used for this workspace.
         public let stackSetName: String?
         /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to.
         public let vpcConfiguration: VpcConfiguration?
-        /// Specify the Amazon Web Services data sources that you want to be queried in this workspace. Specifying these data sources here enables Amazon Managed Grafana to create IAM roles and permissions that allow Amazon Managed Grafana to read data from these sources. You must still add them as data sources in the Grafana console in the workspace. If you don't specify a data source here, you can still add it as a data source later in the workspace console. However, you will then have to manually configure permissions for it.
+        /// This parameter is for internal use only, and should not be used.
         public let workspaceDataSources: [DataSourceType]?
         /// A description for the workspace. This is used only to help you identify this workspace.
         public let workspaceDescription: String?
@@ -1165,17 +1202,19 @@ extension Grafana {
         public let workspaceId: String
         /// A new name for the workspace to update.
         public let workspaceName: String?
-        /// Specify the Amazon Web Services notification channels that you plan to use in this workspace. Specifying these  data sources here enables Amazon Managed Grafana to create IAM roles and permissions that allow  Amazon Managed Grafana to use these channels.
+        /// Specify the Amazon Web Services notification channels that you plan to use in this workspace. Specifying these data sources here enables Amazon Managed Grafana to create IAM roles and permissions that allow Amazon Managed Grafana to use these channels.
         public let workspaceNotificationDestinations: [NotificationDestinationType]?
         /// Specifies the organizational units that this workspace is allowed to use data sources from, if this workspace is in an account that is part of an organization.
         public let workspaceOrganizationalUnits: [String]?
-        /// The workspace needs an IAM role that grants permissions to the Amazon Web Services resources that the  workspace will view data from. If you already have a role that you want to use, specify it here. If you omit this field and you specify some Amazon Web Services resources in workspaceDataSources or workspaceNotificationDestinations, a new IAM role with the necessary permissions is  automatically created.
+        /// Specifies an IAM role that grants permissions to Amazon Web Services resources that the workspace accesses, such as data sources and notification channels. If this workspace has permissionType CUSTOMER_MANAGED, then this role is required.
         public let workspaceRoleArn: String?
 
-        public init(accountAccessType: AccountAccessType? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, removeVpcConfiguration: Bool? = nil, stackSetName: String? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceId: String, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
+        public init(accountAccessType: AccountAccessType? = nil, networkAccessControl: NetworkAccessConfiguration? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, removeNetworkAccessConfiguration: Bool? = nil, removeVpcConfiguration: Bool? = nil, stackSetName: String? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceId: String, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
             self.accountAccessType = accountAccessType
+            self.networkAccessControl = networkAccessControl
             self.organizationRoleName = organizationRoleName
             self.permissionType = permissionType
+            self.removeNetworkAccessConfiguration = removeNetworkAccessConfiguration
             self.removeVpcConfiguration = removeVpcConfiguration
             self.stackSetName = stackSetName
             self.vpcConfiguration = vpcConfiguration
@@ -1189,6 +1228,7 @@ extension Grafana {
         }
 
         public func validate(name: String) throws {
+            try self.networkAccessControl?.validate(name: "\(name).networkAccessControl")
             try self.validate(self.organizationRoleName, name: "organizationRoleName", parent: name, max: 2048)
             try self.validate(self.organizationRoleName, name: "organizationRoleName", parent: name, min: 1)
             try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
@@ -1201,8 +1241,10 @@ extension Grafana {
 
         private enum CodingKeys: String, CodingKey {
             case accountAccessType = "accountAccessType"
+            case networkAccessControl = "networkAccessControl"
             case organizationRoleName = "organizationRoleName"
             case permissionType = "permissionType"
+            case removeNetworkAccessConfiguration = "removeNetworkAccessConfiguration"
             case removeVpcConfiguration = "removeVpcConfiguration"
             case stackSetName = "stackSetName"
             case vpcConfiguration = "vpcConfiguration"
@@ -1251,9 +1293,9 @@ extension Grafana {
     }
 
     public struct VpcConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The list of Amazon EC2 security group IDs attached to the Amazon VPC for your Grafana workspace to connect.
+        /// The list of Amazon EC2 security group IDs attached to the Amazon VPC for your Grafana workspace to connect. Duplicates not allowed.
         public let securityGroupIds: [String]
-        /// The list of Amazon EC2 subnet IDs created in the Amazon VPC for  your Grafana workspace to connect.
+        /// The list of Amazon EC2 subnet IDs created in the Amazon VPC for your Grafana workspace to connect. Duplicates not allowed.
         public let subnetIds: [String]
 
         public init(securityGroupIds: [String], subnetIds: [String]) {
@@ -1287,7 +1329,7 @@ extension Grafana {
         public let authentication: AuthenticationSummary
         /// The date that the workspace was created.
         public let created: Date
-        /// Specifies the Amazon Web Services data sources that have been configured to have IAM  roles and permissions created to allow  Amazon Managed Grafana to read data from these sources.
+        /// Specifies the Amazon Web Services data sources that have been configured to have IAM roles and permissions created to allow Amazon Managed Grafana to read data from these sources. This list is only used when the workspace was created through the Amazon Web Services console, and the permissionType is SERVICE_MANAGED.
         public let dataSources: [DataSourceType]
         /// The user-defined description of the workspace.
         public let description: String?
@@ -1309,13 +1351,15 @@ extension Grafana {
         public let modified: Date
         /// The name of the workspace.
         public let name: String?
-        /// The Amazon Web Services notification channels that Amazon Managed Grafana can automatically create IAM  roles and permissions for, to allow  Amazon Managed Grafana to use these channels.
+        /// The configuration settings for network access to your workspace.
+        public let networkAccessControl: NetworkAccessConfiguration?
+        /// The Amazon Web Services notification channels that Amazon Managed Grafana can automatically create IAM roles and permissions for, to allow Amazon Managed Grafana to use these channels.
         public let notificationDestinations: [NotificationDestinationType]?
         /// Specifies the organizational units that this workspace is allowed to use data sources from, if this workspace is in an account that is part of an organization.
         public let organizationalUnits: [String]?
         /// The name of the IAM role that is used to access resources through Organizations.
         public let organizationRoleName: String?
-        /// If this is Service Managed, Amazon Managed Grafana automatically creates the IAM roles  and provisions the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. If this is CUSTOMER_MANAGED, you manage those roles and permissions yourself. If you are creating this workspace in a member account of an organization and that account is not a delegated administrator account, and you want the workspace to access data sources in other Amazon Web Services accounts in the organization, you must choose CUSTOMER_MANAGED. For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels
+        /// If this is SERVICE_MANAGED, and the workplace was created through the  Amazon Managed Grafana console, then Amazon Managed Grafana automatically creates the IAM roles and provisions the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. If this is CUSTOMER_MANAGED, you must manage those roles and permissions yourself. If you are working with a workspace in a member account of an organization and that account is not a delegated administrator account, and you want the workspace to access data sources in other Amazon Web Services accounts in the organization, this parameter must be set to CUSTOMER_MANAGED. For more information about converting between customer and service managed, see Managing permissions for data sources and notification channels. For more information about the roles and permissions that must be managed for customer managed  workspaces, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels
         public let permissionType: PermissionType?
         /// The name of the CloudFormation stack set that is used to generate IAM roles to be used for this workspace.
         public let stackSetName: String?
@@ -1323,12 +1367,12 @@ extension Grafana {
         public let status: WorkspaceStatus
         /// The list of tags associated with the workspace.
         public let tags: [String: String]?
-        /// The configuration for connecting to data sources in a private VPC  (Amazon Virtual Private Cloud).
+        /// The configuration for connecting to data sources in a private VPC (Amazon Virtual Private Cloud).
         public let vpcConfiguration: VpcConfiguration?
-        /// The IAM role that grants permissions to the Amazon Web Services resources that the  workspace will view data from. This role must already exist.
+        /// The IAM role that grants permissions to the Amazon Web Services resources that the workspace will view data from. This role must already exist.
         public let workspaceRoleArn: String?
 
-        public init(accountAccessType: AccountAccessType? = nil, authentication: AuthenticationSummary, created: Date, dataSources: [DataSourceType], description: String? = nil, endpoint: String, freeTrialConsumed: Bool? = nil, freeTrialExpiration: Date? = nil, grafanaVersion: String, id: String, licenseExpiration: Date? = nil, licenseType: LicenseType? = nil, modified: Date, name: String? = nil, notificationDestinations: [NotificationDestinationType]? = nil, organizationalUnits: [String]? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, stackSetName: String? = nil, status: WorkspaceStatus, tags: [String: String]? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceRoleArn: String? = nil) {
+        public init(accountAccessType: AccountAccessType? = nil, authentication: AuthenticationSummary, created: Date, dataSources: [DataSourceType], description: String? = nil, endpoint: String, freeTrialConsumed: Bool? = nil, freeTrialExpiration: Date? = nil, grafanaVersion: String, id: String, licenseExpiration: Date? = nil, licenseType: LicenseType? = nil, modified: Date, name: String? = nil, networkAccessControl: NetworkAccessConfiguration? = nil, notificationDestinations: [NotificationDestinationType]? = nil, organizationalUnits: [String]? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, stackSetName: String? = nil, status: WorkspaceStatus, tags: [String: String]? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceRoleArn: String? = nil) {
             self.accountAccessType = accountAccessType
             self.authentication = authentication
             self.created = created
@@ -1343,6 +1387,7 @@ extension Grafana {
             self.licenseType = licenseType
             self.modified = modified
             self.name = name
+            self.networkAccessControl = networkAccessControl
             self.notificationDestinations = notificationDestinations
             self.organizationalUnits = organizationalUnits
             self.organizationRoleName = organizationRoleName
@@ -1369,6 +1414,7 @@ extension Grafana {
             case licenseType = "licenseType"
             case modified = "modified"
             case name = "name"
+            case networkAccessControl = "networkAccessControl"
             case notificationDestinations = "notificationDestinations"
             case organizationalUnits = "organizationalUnits"
             case organizationRoleName = "organizationRoleName"
@@ -1382,7 +1428,7 @@ extension Grafana {
     }
 
     public struct WorkspaceSummary: AWSDecodableShape {
-        /// A structure containing information about the authentication methods used in  the workspace.
+        /// A structure containing information about the authentication methods used in the workspace.
         public let authentication: AuthenticationSummary
         /// The date that the workspace was created.
         public let created: Date

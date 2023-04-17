@@ -62,22 +62,22 @@ public struct LexModelsV2: AWSService {
 
     // MARK: API Calls
 
-    /// Batch create custom vocabulary item for the specified locale in the  specified bot.
+    /// Create a batch of custom vocabulary items for a given bot locale's  custom vocabulary.
     public func batchCreateCustomVocabularyItem(_ input: BatchCreateCustomVocabularyItemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCreateCustomVocabularyItemResponse> {
         return self.client.execute(operation: "BatchCreateCustomVocabularyItem", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/customvocabulary/DEFAULT/batchcreate", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Batch delete custom vocabulary item for the specified locale in the  specified bot.
+    /// Delete a batch of custom vocabulary items for a given bot locale's  custom vocabulary.
     public func batchDeleteCustomVocabularyItem(_ input: BatchDeleteCustomVocabularyItemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteCustomVocabularyItemResponse> {
         return self.client.execute(operation: "BatchDeleteCustomVocabularyItem", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/customvocabulary/DEFAULT/batchdelete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Batch update custom vocabulary item for the specified locale in the  specified bot.
+    /// Update a batch of custom vocabulary items for a given bot locale's custom  vocabulary.
     public func batchUpdateCustomVocabularyItem(_ input: BatchUpdateCustomVocabularyItemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdateCustomVocabularyItemResponse> {
         return self.client.execute(operation: "BatchUpdateCustomVocabularyItem", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/customvocabulary/DEFAULT/batchupdate", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Builds a bot, its intents, and its slot types into a specific locale. A bot can be built into multiple locales. At runtime the locale is used to choose a specific build of the bot.
+    /// Builds a bot, its intents, and its slot types into a specific  locale. A bot can be built into multiple locales. At runtime the locale is used to choose a specific build of the bot.
     public func buildBotLocale(_ input: BuildBotLocaleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BuildBotLocaleResponse> {
         return self.client.execute(operation: "BuildBotLocale", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -152,7 +152,7 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "DeleteBotLocale", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a specific version of a bot. To delete all version of a bot, use the DeleteBot operation.
+    /// Deletes a specific version of a bot. To delete all versions of a bot, use the DeleteBot operation.
     public func deleteBotVersion(_ input: DeleteBotVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBotVersionResponse> {
         return self.client.execute(operation: "DeleteBotVersion", path: "/bots/{botId}/botversions/{botVersion}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -302,7 +302,7 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "ListBuiltInSlotTypes", path: "/builtins/locales/{localeId}/slottypes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List custom vocabulary items for the specified locale in the  specified bot.
+    /// Paginated list of custom vocabulary items for a given bot locale's  custom vocabulary.
     public func listCustomVocabularyItems(_ input: ListCustomVocabularyItemsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCustomVocabularyItemsResponse> {
         return self.client.execute(operation: "ListCustomVocabularyItems", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/customvocabulary/DEFAULT/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -854,7 +854,7 @@ extension LexModelsV2 {
         )
     }
 
-    /// List custom vocabulary items for the specified locale in the  specified bot.
+    /// Paginated list of custom vocabulary items for a given bot locale's  custom vocabulary.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

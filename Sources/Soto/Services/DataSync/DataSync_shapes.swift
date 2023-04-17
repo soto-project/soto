@@ -187,7 +187,9 @@ extension DataSync {
 
     public enum SmbVersion: String, CustomStringConvertible, Codable, Sendable {
         case automatic = "AUTOMATIC"
+        case smb1 = "SMB1"
         case smb2 = "SMB2"
+        case smb20 = "SMB2_0"
         case smb3 = "SMB3"
         public var description: String { return self.rawValue }
     }
@@ -248,11 +250,11 @@ extension DataSync {
     // MARK: Shapes
 
     public struct AgentListEntry: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the agent.
+        /// The Amazon Resource Name (ARN) of a DataSync agent.
         public let agentArn: String?
-        /// The name of the agent.
+        /// The name of an agent.
         public let name: String?
-        /// The status of the agent.
+        /// The status of an agent. For more information, see DataSync agent statuses.
         public let status: AgentStatus?
 
         public init(agentArn: String? = nil, name: String? = nil, status: AgentStatus? = nil) {
@@ -486,9 +488,9 @@ extension DataSync {
         public let `protocol`: FsxProtocol
         /// Specifies the Amazon EC2 security groups that provide access to your file system's preferred subnet. The security groups must allow outbound traffic on the following ports (depending on the protocol you use):    Network File System (NFS): TCP ports 111, 635, and 2049    Server Message Block (SMB): TCP port 445   Your file system's security groups must also allow inbound traffic on the same ports.
         public let securityGroupArns: [String]
-        /// Specifies the ARN of the storage virtual machine (SVM) on your file system where you're copying data to or from.
+        /// Specifies the ARN of the storage virtual machine (SVM) in your file system where you want to copy data to or from.
         public let storageVirtualMachineArn: String
-        /// Specifies the junction path (also known as a mount point) in the SVM volume where you're copying data to or from (for example, /vol1).  Don't specify a junction path in the SVM's root volume. For more information, see Managing FSx for ONTAP storage virtual machines in the Amazon FSx for NetApp ONTAP User Guide.
+        /// Specifies a path to the file share in the SVM where you'll copy your data. You can specify a junction path (also known as a mount point), qtree path (for NFS file shares), or share name (for SMB file shares). For example, your mount path might be /vol1, /vol1/tree1, or /share1.  Don't specify a junction path in the SVM's root volume. For more information, see Managing FSx for ONTAP storage virtual machines in the Amazon FSx for NetApp ONTAP User Guide.
         public let subdirectory: String?
         /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
         public let tags: [TagListEntry]?
@@ -873,7 +875,7 @@ extension DataSync {
 
         public func validate(name: String) throws {
             try self.validate(self.accessKey, name: "accessKey", parent: name, max: 200)
-            try self.validate(self.accessKey, name: "accessKey", parent: name, min: 8)
+            try self.validate(self.accessKey, name: "accessKey", parent: name, min: 1)
             try self.validate(self.accessKey, name: "accessKey", parent: name, pattern: "^.+$")
             try self.agentArns.forEach {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
@@ -885,7 +887,7 @@ extension DataSync {
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
             try self.validate(self.secretKey, name: "secretKey", parent: name, max: 200)
-            try self.validate(self.secretKey, name: "secretKey", parent: name, min: 8)
+            try self.validate(self.secretKey, name: "secretKey", parent: name, min: 1)
             try self.validate(self.secretKey, name: "secretKey", parent: name, pattern: "^.+$")
             try self.validate(self.serverCertificate, name: "serverCertificate", parent: name, max: 32768)
             try self.validate(self.serverHostname, name: "serverHostname", parent: name, max: 255)
@@ -991,21 +993,21 @@ extension DataSync {
     }
 
     public struct CreateLocationSmbRequest: AWSEncodableShape {
-        /// The Amazon Resource Names (ARNs) of agents to use for a Simple Message Block (SMB) location.
+        /// Specifies the DataSync agent (or agents) which you want to connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
         public let agentArns: [String]
-        /// The name of the Windows domain that the SMB server belongs to.
+        /// Specifies the Windows domain name that your SMB file server belongs to.  For more information, see required permissions for SMB locations.
         public let domain: String?
-        /// The mount options used by DataSync to access the SMB server.
+        /// Specifies the version of the SMB protocol that DataSync uses to access your SMB file server.
         public let mountOptions: SmbMountOptions?
-        /// The password of the user who can mount the share, has the permissions to access files and folders in the SMB share.
+        /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. For more information, see required permissions for SMB locations.
         public let password: String
-        /// The name of the SMB server. This value is the IP address or Domain Name Service (DNS) name of the SMB server. An agent that is installed on-premises uses this hostname to mount the SMB server in a network.  This name must either be DNS-compliant or must be an IP version 4 (IPv4) address.
+        /// Specifies the Domain Name Service (DNS) name or IP address of the SMB file server that your DataSync agent will mount.  You can't specify an IP version 6 (IPv6) address.
         public let serverHostname: String
-        /// The subdirectory in the SMB file system that is used to read data from the SMB source location or write data to the SMB destination. The SMB path should be a path that's exported by the SMB server, or a subdirectory of that path. The path should be such that it can be mounted by other SMB clients in your network.   Subdirectory must be specified with forward slashes. For example, /path/to/folder.  To transfer all the data in the folder you specified, DataSync needs to have permissions to mount the SMB share, as well as to access all the data in that share. To ensure this, either ensure that the user/password specified belongs to the user who can mount the share, and who has the appropriate permissions for all of the files and directories that you want DataSync to access, or use credentials of a member of the Backup Operators group to mount the share. Doing either enables the agent to access the data. For the agent to access directories, you must additionally enable all execute access.
+        /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the specified subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see required permissions for SMB locations.
         public let subdirectory: String
-        /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
+        /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
         public let tags: [TagListEntry]?
-        /// The user who can mount the share, has the permissions to access files and folders in the SMB share. For information about choosing a user name that ensures sufficient permissions to files, folders, and metadata, see the User setting for SMB locations.
+        /// Specifies the user name that can mount your SMB file server and has permission to access the files and folders involved in your transfer. For information about choosing a user with the right level of access for your transfer, see required permissions for SMB locations.
         public let user: String
 
         public init(agentArns: [String], domain: String? = nil, mountOptions: SmbMountOptions? = nil, password: String, serverHostname: String, subdirectory: String, tags: [TagListEntry]? = nil, user: String) {
@@ -1055,7 +1057,7 @@ extension DataSync {
     }
 
     public struct CreateLocationSmbResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the source SMB file system location that is created.
+        /// The ARN of the SMB location that you created.
         public let locationArn: String?
 
         public init(locationArn: String? = nil) {
@@ -1218,7 +1220,7 @@ extension DataSync {
     }
 
     public struct DescribeAgentRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the agent to describe.
+        /// Specifies the Amazon Resource Name (ARN) of the DataSync agent to describe.
         public let agentArn: String
 
         public init(agentArn: String) {
@@ -1236,7 +1238,7 @@ extension DataSync {
     }
 
     public struct DescribeAgentResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the agent.
+        /// The ARN of the agent.
         public let agentArn: String?
         /// The time that the agent was activated (that is, created in your account).
         public let creationTime: Date?
@@ -2117,9 +2119,9 @@ extension DataSync {
     }
 
     public struct ListAgentsRequest: AWSEncodableShape {
-        /// The maximum number of agents to list.
+        /// Specifies the maximum number of DataSync agents to list in a response. By default, a response shows a maximum of 100 agents.
         public let maxResults: Int?
-        /// An opaque string that indicates the position at which to begin the next list of agents.
+        /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2141,9 +2143,9 @@ extension DataSync {
     }
 
     public struct ListAgentsResponse: AWSDecodableShape {
-        /// A list of agents in your account.
+        /// A list of DataSync agents in your Amazon Web Services account in the Amazon Web Services Region specified in the request. The list is ordered by the agents' Amazon Resource Names (ARNs).
         public let agents: [AgentListEntry]?
-        /// An opaque string that indicates the position at which to begin returning the next list of agents.
+        /// The opaque string that indicates the position to begin the next list of results in the response.
         public let nextToken: String?
 
         public init(agents: [AgentListEntry]? = nil, nextToken: String? = nil) {
@@ -2441,11 +2443,11 @@ extension DataSync {
         public let mtime: Mtime?
         /// Specifies whether object tags are preserved when transferring between object storage systems. If you want your DataSync task to ignore object tags, specify the NONE value. Default Value: PRESERVE
         public let objectTags: ObjectTags?
-        /// Specifies whether data at the destination location should be overwritten or preserved. If set to NEVER, a destination file for example will not be replaced by a source file (even if the destination file differs from the source file). If you modify files in the destination and you sync the files, you can use this value to protect against overwriting those changes.  Some storage classes have specific behaviors that can affect your Amazon S3 storage cost. For detailed information, see Considerations when working with Amazon S3 storage classes in DataSync .
+        /// Specifies whether data at the destination location should be overwritten or preserved. If set to NEVER, a destination file for example will not be replaced by a source file (even if the destination file differs from the source file). If you modify files in the destination and you sync the files, you can use this value to protect against overwriting those changes.  Some storage classes have specific behaviors that can affect your Amazon S3 storage cost. For detailed information, see Considerations when working with Amazon S3 storage classes in DataSync.
         public let overwriteMode: OverwriteMode?
         /// Specifies which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file. For more information, see Metadata copied by DataSync. Default value: PRESERVE   PRESERVE: Preserve POSIX-style permissions (recommended).  NONE: Ignore permissions.   DataSync can preserve extant permissions of a source location.
         public let posixPermissions: PosixPermissions?
-        /// Specifies whether files in the destination location that don't exist in the source should be preserved. This option can affect your Amazon S3 storage cost. If your task deletes objects, you might incur minimum storage duration charges for certain storage classes. For detailed information, see Considerations when working with Amazon S3 storage classes in DataSync . Default value: PRESERVE   PRESERVE: Ignore such destination files (recommended).   REMOVE: Delete destination files that aren’t present in the source.
+        /// Specifies whether files in the destination location that don't exist in the source should be preserved. This option can affect your Amazon S3 storage cost. If your task deletes objects, you might incur minimum storage duration charges for certain storage classes. For detailed information, see Considerations when working with Amazon S3 storage classes in DataSync. Default value: PRESERVE   PRESERVE: Ignore such destination files (recommended).   REMOVE: Delete destination files that aren’t present in the source.  If you set this parameter to REMOVE, you can't set TransferMode to ALL. When you transfer all data, DataSync doesn't scan your destination location and doesn't know what to delete.
         public let preserveDeletedFiles: PreserveDeletedFiles?
         /// Specifies whether DataSync should preserve the metadata of block and character devices in the source location and recreate the files with that device name and metadata on the destination. DataSync copies only the name and metadata of such devices.  DataSync can't copy the actual contents of these devices because they're nonterminal and don't return an end-of-file (EOF) marker.  Default value: NONE   NONE: Ignore special devices (recommended).   PRESERVE: Preserve character and block device metadata. This option currently isn't supported for Amazon EFS.
         public let preserveDevices: PreserveDevices?
@@ -2562,7 +2564,7 @@ extension DataSync {
     }
 
     public struct SmbMountOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the SMB version that you want DataSync to use when mounting your SMB share. If you don't specify a version, DataSync defaults to AUTOMATIC and chooses a version based on negotiation with the SMB server.
+        /// By default, DataSync automatically chooses an SMB protocol version based on negotiation with your SMB file server. You also can configure DataSync to use a specific SMB version, but we recommend doing this only if DataSync has trouble negotiating with the SMB file server automatically. These are the following options for configuring the SMB version:    AUTOMATIC (default): DataSync and the SMB file server negotiate a protocol version that they mutually support. (DataSync supports SMB versions 1.0 and later.) This is the recommended option. If you instead choose a specific version that your file server doesn't support, you may get an Operation Not Supported error.    SMB3: Restricts the protocol negotiation to only SMB version 3.0.2.    SMB2: Restricts the protocol negotiation to only SMB version 2.1.    SMB2_0: Restricts the protocol negotiation to only SMB version 2.0.    SMB1: Restricts the protocol negotiation to only SMB version 1.0.  The SMB1 option isn't available when creating an Amazon FSx for NetApp ONTAP location.
         public let version: SmbVersion?
 
         public init(version: SmbVersion? = nil) {
@@ -3044,7 +3046,7 @@ extension DataSync {
 
         public func validate(name: String) throws {
             try self.validate(self.accessKey, name: "accessKey", parent: name, max: 200)
-            try self.validate(self.accessKey, name: "accessKey", parent: name, min: 8)
+            try self.validate(self.accessKey, name: "accessKey", parent: name, min: 1)
             try self.validate(self.accessKey, name: "accessKey", parent: name, pattern: "^.+$")
             try self.agentArns?.forEach {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
@@ -3055,7 +3057,7 @@ extension DataSync {
             try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
             try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
             try self.validate(self.secretKey, name: "secretKey", parent: name, max: 200)
-            try self.validate(self.secretKey, name: "secretKey", parent: name, min: 8)
+            try self.validate(self.secretKey, name: "secretKey", parent: name, min: 1)
             try self.validate(self.secretKey, name: "secretKey", parent: name, pattern: "^.+$")
             try self.validate(self.serverCertificate, name: "serverCertificate", parent: name, max: 32768)
             try self.validate(self.serverPort, name: "serverPort", parent: name, max: 65536)

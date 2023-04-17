@@ -36,6 +36,12 @@ extension MarketplaceCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum OwnershipType: String, CustomStringConvertible, Codable, Sendable {
+        case _self = "SELF"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
@@ -92,9 +98,9 @@ extension MarketplaceCatalog {
     public struct Change: AWSEncodableShape {
         /// Optional name for the change.
         public let changeName: String?
-        /// Change types are single string values that describe your intention for the change. Each change type is unique for each EntityType provided in the change's scope.
+        /// Change types are single string values that describe your intention for the change. Each change type is unique for each EntityType provided in the change's scope. For more information on change types available for single-AMI products, see Working with single-AMI products. Also, for more information on change types available for container-based products, see Working with container products.
         public let changeType: String
-        /// This object contains details specific to the change type of the requested change.
+        /// This object contains details specific to the change type of the requested change. For more information on change types available for single-AMI products, see Working with single-AMI products. Also, for more information on change types available for container-based products, see Working with container products.
         public let details: String
         /// The entity to be changed.
         public let entity: Entity
@@ -123,7 +129,7 @@ extension MarketplaceCatalog {
             try self.entityTags?.forEach {
                 try $0.validate(name: "\(name).entityTags[]")
             }
-            try self.validate(self.entityTags, name: "entityTags", parent: name, max: 50)
+            try self.validate(self.entityTags, name: "entityTags", parent: name, max: 200)
             try self.validate(self.entityTags, name: "entityTags", parent: name, min: 1)
         }
 
@@ -204,6 +210,31 @@ extension MarketplaceCatalog {
             case entity = "Entity"
             case errorDetailList = "ErrorDetailList"
         }
+    }
+
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the Entity resource that is associated with the resource policy.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 255)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:aws-marketplace:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteResourcePolicyResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DescribeChangeSetRequest: AWSEncodableShape {
@@ -442,6 +473,40 @@ extension MarketplaceCatalog {
         }
     }
 
+    public struct GetResourcePolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the Entity resource that is associated with the resource policy.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 255)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:aws-marketplace:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourcePolicyResponse: AWSDecodableShape {
+        /// The policy document to set; formatted in JSON.
+        public let policy: String?
+
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
     public struct ListChangeSetsRequest: AWSEncodableShape {
         /// The catalog related to the request. Fixed value: AWSMarketplace
         public let catalog: String
@@ -516,15 +581,17 @@ extension MarketplaceCatalog {
         public let maxResults: Int?
         /// The value of the next token, if it exists. Null if there are no more results.
         public let nextToken: String?
+        public let ownershipType: OwnershipType?
         /// An object that contains two attributes, SortBy and SortOrder.
         public let sort: Sort?
 
-        public init(catalog: String, entityType: String, filterList: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: Sort? = nil) {
+        public init(catalog: String, entityType: String, filterList: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownershipType: OwnershipType? = nil, sort: Sort? = nil) {
             self.catalog = catalog
             self.entityType = entityType
             self.filterList = filterList
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.ownershipType = ownershipType
             self.sort = sort
         }
 
@@ -540,7 +607,7 @@ extension MarketplaceCatalog {
             }
             try self.validate(self.filterList, name: "filterList", parent: name, max: 8)
             try self.validate(self.filterList, name: "filterList", parent: name, min: 1)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -554,6 +621,7 @@ extension MarketplaceCatalog {
             case filterList = "FilterList"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case ownershipType = "OwnershipType"
             case sort = "Sort"
         }
     }
@@ -609,6 +677,36 @@ extension MarketplaceCatalog {
             case resourceArn = "ResourceArn"
             case tags = "Tags"
         }
+    }
+
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        /// The policy document to set; formatted in JSON.
+        public let policy: String
+        /// The Amazon Resource Name (ARN) of the Entity resource you want to associate with a resource policy.
+        public let resourceArn: String
+
+        public init(policy: String, resourceArn: String) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policy, name: "policy", parent: name, max: 10240)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.validate(self.policy, name: "policy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 255)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:aws-marketplace:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct Sort: AWSEncodableShape {
@@ -669,7 +767,7 @@ extension MarketplaceCatalog {
             try self.changeSetTags?.forEach {
                 try $0.validate(name: "\(name).changeSetTags[]")
             }
-            try self.validate(self.changeSetTags, name: "changeSetTags", parent: name, max: 50)
+            try self.validate(self.changeSetTags, name: "changeSetTags", parent: name, max: 200)
             try self.validate(self.changeSetTags, name: "changeSetTags", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
@@ -745,7 +843,7 @@ extension MarketplaceCatalog {
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -779,7 +877,7 @@ extension MarketplaceCatalog {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
 
@@ -827,21 +925,21 @@ public struct MarketplaceCatalogErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Access is denied.
+    /// Access is denied. HTTP status code: 403
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// There was an internal service exception.
+    /// There was an internal service exception. HTTP status code: 500
     public static var internalServiceException: Self { .init(.internalServiceException) }
     /// The resource is currently in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
-    /// The specified resource wasn't found.
+    /// The specified resource wasn't found. HTTP status code: 404
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Currently, the specified resource is not supported.
     public static var resourceNotSupportedException: Self { .init(.resourceNotSupportedException) }
     /// The maximum number of open requests per account has been exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    /// Too many requests.
+    /// Too many requests. HTTP status code: 429
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// An error occurred during validation.
+    /// An error occurred during validation. HTTP status code: 422
     public static var validationException: Self { .init(.validationException) }
 }
 

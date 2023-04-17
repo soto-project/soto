@@ -58,6 +58,11 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
+    public enum AdditionalResponseFieldType: String, CustomStringConvertible, Codable, Sendable {
+        case weburl = "WEBURL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BooleanEnumType: String, CustomStringConvertible, Codable, Sendable {
         case `false` = "FALSE"
         case `true` = "TRUE"
@@ -74,6 +79,19 @@ extension WorkDocs {
     public enum CommentVisibilityType: String, CustomStringConvertible, Codable, Sendable {
         case `private` = "PRIVATE"
         case `public` = "PUBLIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentCategoryType: String, CustomStringConvertible, Codable, Sendable {
+        case audio = "AUDIO"
+        case document = "DOCUMENT"
+        case image = "IMAGE"
+        case other = "OTHER"
+        case pdf = "PDF"
+        case presentation = "PRESENTATION"
+        case sourceCode = "SOURCE_CODE"
+        case spreadsheet = "SPREADSHEET"
+        case video = "VIDEO"
         public var description: String { return self.rawValue }
     }
 
@@ -108,6 +126,41 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
+    public enum LanguageCodeType: String, CustomStringConvertible, Codable, Sendable {
+        case `default` = "DEFAULT"
+        case ar = "AR"
+        case bg = "BG"
+        case bn = "BN"
+        case cs = "CS"
+        case da = "DA"
+        case de = "DE"
+        case el = "EL"
+        case en = "EN"
+        case es = "ES"
+        case fa = "FA"
+        case fi = "FI"
+        case fr = "FR"
+        case hi = "HI"
+        case hu = "HU"
+        case id = "ID"
+        case it = "IT"
+        case ja = "JA"
+        case ko = "KO"
+        case lt = "LT"
+        case lv = "LV"
+        case nl = "NL"
+        case no = "NO"
+        case pt = "PT"
+        case ro = "RO"
+        case ru = "RU"
+        case sv = "SV"
+        case sw = "SW"
+        case th = "TH"
+        case tr = "TR"
+        case zh = "ZH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LocaleType: String, CustomStringConvertible, Codable, Sendable {
         case `default` = "default"
         case de = "de"
@@ -123,9 +176,26 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
+    public enum OrderByFieldType: String, CustomStringConvertible, Codable, Sendable {
+        case createdTimestamp = "CREATED_TIMESTAMP"
+        case modifiedTimestamp = "MODIFIED_TIMESTAMP"
+        case name = "NAME"
+        case relevance = "RELEVANCE"
+        case size = "SIZE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OrderType: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PrincipalRoleType: String, CustomStringConvertible, Codable, Sendable {
+        case contributor = "CONTRIBUTOR"
+        case coowner = "COOWNER"
+        case owner = "OWNER"
+        case viewer = "VIEWER"
         public var description: String { return self.rawValue }
     }
 
@@ -163,6 +233,14 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResponseItemType: String, CustomStringConvertible, Codable, Sendable {
+        case comment = "COMMENT"
+        case document = "DOCUMENT"
+        case documentVersion = "DOCUMENT_VERSION"
+        case folder = "FOLDER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RolePermissionType: String, CustomStringConvertible, Codable, Sendable {
         case direct = "DIRECT"
         case inherited = "INHERITED"
@@ -177,9 +255,35 @@ extension WorkDocs {
         public var description: String { return self.rawValue }
     }
 
+    public enum SearchCollectionType: String, CustomStringConvertible, Codable, Sendable {
+        case owned = "OWNED"
+        case sharedWithMe = "SHARED_WITH_ME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchQueryScopeType: String, CustomStringConvertible, Codable, Sendable {
+        case content = "CONTENT"
+        case name = "NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchResourceType: String, CustomStringConvertible, Codable, Sendable {
+        case comment = "COMMENT"
+        case document = "DOCUMENT"
+        case documentVersion = "DOCUMENT_VERSION"
+        case folder = "FOLDER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ShareStatusType: String, CustomStringConvertible, Codable, Sendable {
         case failure = "FAILURE"
         case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable {
+        case asc = "ASC"
+        case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
@@ -240,7 +344,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "versionId", location: .uri("VersionId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -273,7 +377,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "userId", location: .uri("UserId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the user.
         public let userId: String
@@ -358,7 +462,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The notification options.
         public let notificationOptions: NotificationOptions?
@@ -457,15 +561,18 @@ extension WorkDocs {
         public let commentStatus: CommentStatusType?
         /// The user who made the comment.
         public let contributor: User?
+        /// The ID of the user who made the comment.
+        public let contributorId: String?
         /// The timestamp that the comment was created.
         public let createdTimestamp: Date?
         /// The ID of the user being replied to.
         public let recipientId: String?
 
-        public init(commentId: String? = nil, commentStatus: CommentStatusType? = nil, contributor: User? = nil, createdTimestamp: Date? = nil, recipientId: String? = nil) {
+        public init(commentId: String? = nil, commentStatus: CommentStatusType? = nil, contributor: User? = nil, contributorId: String? = nil, createdTimestamp: Date? = nil, recipientId: String? = nil) {
             self.commentId = commentId
             self.commentStatus = commentStatus
             self.contributor = contributor
+            self.contributorId = contributorId
             self.createdTimestamp = createdTimestamp
             self.recipientId = recipientId
         }
@@ -474,6 +581,7 @@ extension WorkDocs {
             case commentId = "CommentId"
             case commentStatus = "CommentStatus"
             case contributor = "Contributor"
+            case contributorId = "ContributorId"
             case createdTimestamp = "CreatedTimestamp"
             case recipientId = "RecipientId"
         }
@@ -486,7 +594,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "versionId", location: .uri("VersionId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -562,7 +670,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "versionId", location: .querystring("versionid"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// Custom metadata in the form of name-value pairs.
         public let customMetadata: [String: String]
@@ -613,7 +721,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The name of the new folder.
         public let name: String?
@@ -662,7 +770,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// List of labels to add to the resource.
         public let labels: [String]
@@ -752,7 +860,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The email address of the user.
         public let emailAddress: String?
@@ -832,13 +940,30 @@ extension WorkDocs {
         }
     }
 
+    public struct DateRangeType: AWSEncodableShape {
+        /// Timestamp range end value (in epochs).
+        public let endValue: Date?
+        /// Timestamp range start value (in epochs)
+        public let startValue: Date?
+
+        public init(endValue: Date? = nil, startValue: Date? = nil) {
+            self.endValue = endValue
+            self.startValue = startValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endValue = "EndValue"
+            case startValue = "StartValue"
+        }
+    }
+
     public struct DeactivateUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
             AWSMemberEncoding(label: "userId", location: .uri("UserId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the user.
         public let userId: String
@@ -867,7 +992,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "versionId", location: .uri("VersionId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the comment.
         public let commentId: String
@@ -909,7 +1034,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "versionId", location: .querystring("versionId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// Flag to indicate removal of all custom metadata properties from the specified resource.
         public let deleteAll: Bool?
@@ -958,7 +1083,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "documentId", location: .uri("DocumentId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -987,13 +1112,13 @@ extension WorkDocs {
             AWSMemberEncoding(label: "versionId", location: .uri("VersionId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
-        /// When set to TRUE, deletes the specified version and all prior versions of a document.
+        /// Deletes all versions of a document prior to the current version.
         public let deletePriorVersions: Bool
-        /// The ID of a document.
+        /// The ID of the document associated with the version being deleted.
         public let documentId: String
-        /// The version ID of a document.
+        /// The ID of the version being deleted.
         public let versionId: String
 
         public init(authenticationToken: String? = nil, deletePriorVersions: Bool = false, documentId: String, versionId: String) {
@@ -1023,7 +1148,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
         public let folderId: String
@@ -1050,7 +1175,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
         public let folderId: String
@@ -1079,7 +1204,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// Flag to request removal of all labels from the specified resource.
         public let deleteAll: Bool?
@@ -1150,7 +1275,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "userId", location: .uri("UserId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using Amazon Web Services credentials.
         public let authenticationToken: String?
         /// The ID of the user.
         public let userId: String
@@ -1187,7 +1312,7 @@ extension WorkDocs {
 
         /// Specifies which activity types to include in the response. If this field is left empty, all activity types are returned.
         public let activityTypes: String?
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The timestamp that determines the end time of the activities. The response includes the activities performed before the specified timestamp.
         public let endTime: Date?
@@ -1270,7 +1395,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "versionId", location: .uri("VersionId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -1335,7 +1460,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "marker", location: .querystring("marker"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -1407,7 +1532,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "type", location: .querystring("type"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
         public let folderId: String
@@ -1483,7 +1608,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "searchQuery", location: .querystring("searchQuery"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The maximum number of items to return with this call.
         public let limit: Int?
@@ -1596,7 +1721,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The maximum number of items to return with this call.
         public let limit: Int?
@@ -1713,7 +1838,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "userIds", location: .querystring("userIds"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// A comma-separated list of values. Specify "STORAGE_METADATA" to include the user storage quota and utilization information.
         public let fields: String?
@@ -1901,6 +2026,76 @@ extension WorkDocs {
         }
     }
 
+    public struct Filters: AWSEncodableShape {
+        /// Filter based on resource’s path.
+        public let ancestorIds: [String]?
+        /// Filters by content category.
+        public let contentCategories: [ContentCategoryType]?
+        /// Filter based on resource’s creation timestamp.
+        public let createdRange: DateRangeType?
+        /// Filter by labels using exact match.
+        public let labels: [String]?
+        /// Filter based on resource’s modified timestamp.
+        public let modifiedRange: DateRangeType?
+        /// Filter based on UserIds or GroupIds.
+        public let principals: [SearchPrincipalType]?
+        /// Filters based on entity type.
+        public let resourceTypes: [SearchResourceType]?
+        /// Filter based on file groupings.
+        public let searchCollectionTypes: [SearchCollectionType]?
+        /// Filter based on size (in bytes).
+        public let sizeRange: LongRangeType?
+        /// Filters by the locale of the content or comment.
+        public let textLocales: [LanguageCodeType]?
+
+        public init(ancestorIds: [String]? = nil, contentCategories: [ContentCategoryType]? = nil, createdRange: DateRangeType? = nil, labels: [String]? = nil, modifiedRange: DateRangeType? = nil, principals: [SearchPrincipalType]? = nil, resourceTypes: [SearchResourceType]? = nil, searchCollectionTypes: [SearchCollectionType]? = nil, sizeRange: LongRangeType? = nil, textLocales: [LanguageCodeType]? = nil) {
+            self.ancestorIds = ancestorIds
+            self.contentCategories = contentCategories
+            self.createdRange = createdRange
+            self.labels = labels
+            self.modifiedRange = modifiedRange
+            self.principals = principals
+            self.resourceTypes = resourceTypes
+            self.searchCollectionTypes = searchCollectionTypes
+            self.sizeRange = sizeRange
+            self.textLocales = textLocales
+        }
+
+        public func validate(name: String) throws {
+            try self.ancestorIds?.forEach {
+                try validate($0, name: "ancestorIds[]", parent: name, max: 128)
+                try validate($0, name: "ancestorIds[]", parent: name, min: 1)
+            }
+            try self.validate(self.ancestorIds, name: "ancestorIds", parent: name, max: 10)
+            try self.validate(self.contentCategories, name: "contentCategories", parent: name, max: 9)
+            try self.labels?.forEach {
+                try validate($0, name: "labels[]", parent: name, max: 128)
+                try validate($0, name: "labels[]", parent: name, min: 1)
+            }
+            try self.validate(self.labels, name: "labels", parent: name, max: 10)
+            try self.principals?.forEach {
+                try $0.validate(name: "\(name).principals[]")
+            }
+            try self.validate(self.principals, name: "principals", parent: name, max: 10)
+            try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 4)
+            try self.validate(self.searchCollectionTypes, name: "searchCollectionTypes", parent: name, max: 2)
+            try self.validate(self.textLocales, name: "textLocales", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ancestorIds = "AncestorIds"
+            case contentCategories = "ContentCategories"
+            case createdRange = "CreatedRange"
+            case labels = "Labels"
+            case modifiedRange = "ModifiedRange"
+            case principals = "Principals"
+            case resourceTypes = "ResourceTypes"
+            case searchCollectionTypes = "SearchCollectionTypes"
+            case sizeRange = "SizeRange"
+            case textLocales = "TextLocales"
+        }
+    }
+
     public struct FolderMetadata: AWSDecodableShape {
         /// The time when the folder was created.
         public let createdTimestamp: Date?
@@ -1996,7 +2191,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "marker", location: .querystring("marker"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -2053,7 +2248,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "includeCustomMetadata", location: .querystring("includeCustomMetadata"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -2103,7 +2298,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "versionId", location: .uri("VersionId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -2165,7 +2360,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "marker", location: .querystring("marker"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
         public let fields: String?
@@ -2222,7 +2417,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "includeCustomMetadata", location: .querystring("includeCustomMetadata"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
         public let folderId: String
@@ -2272,7 +2467,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "userId", location: .querystring("userId"))
         ]
 
-        /// The Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// The Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The collection type.
         public let collectionType: ResourceCollectionType?
@@ -2349,7 +2544,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The timestamp when the content of the document was originally created.
         public let contentCreatedTimestamp: Date?
@@ -2421,10 +2616,27 @@ extension WorkDocs {
         }
     }
 
+    public struct LongRangeType: AWSEncodableShape {
+        /// The size end range (in bytes).
+        public let endValue: Int64?
+        /// The size start range (in bytes).
+        public let startValue: Int64?
+
+        public init(endValue: Int64? = nil, startValue: Int64? = nil) {
+            self.endValue = endValue
+            self.startValue = startValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endValue = "EndValue"
+            case startValue = "StartValue"
+        }
+    }
+
     public struct NotificationOptions: AWSEncodableShape {
         /// Text value to be included in the email body.
         public let emailMessage: String?
-        /// Boolean value to indicate an email notification should be sent to the receipients.
+        /// Boolean value to indicate an email notification should be sent to the recipients.
         public let sendEmail: Bool?
 
         public init(emailMessage: String? = nil, sendEmail: Bool? = nil) {
@@ -2503,7 +2715,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the resource.
         public let resourceId: String
@@ -2532,7 +2744,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The principal ID of the resource.
         public let principalId: String
@@ -2629,13 +2841,46 @@ extension WorkDocs {
         }
     }
 
+    public struct ResponseItem: AWSDecodableShape {
+        /// The comment that matches the query.
+        public let commentMetadata: CommentMetadata?
+        /// The document that matches the query.
+        public let documentMetadata: DocumentMetadata?
+        /// The document version that matches the metadata.
+        public let documentVersionMetadata: DocumentVersionMetadata?
+        /// The folder that matches the query.
+        public let folderMetadata: FolderMetadata?
+        /// The type of item being returned.
+        public let resourceType: ResponseItemType?
+        /// The webUrl of the item being returned.
+        public let webUrl: String?
+
+        public init(commentMetadata: CommentMetadata? = nil, documentMetadata: DocumentMetadata? = nil, documentVersionMetadata: DocumentVersionMetadata? = nil, folderMetadata: FolderMetadata? = nil, resourceType: ResponseItemType? = nil, webUrl: String? = nil) {
+            self.commentMetadata = commentMetadata
+            self.documentMetadata = documentMetadata
+            self.documentVersionMetadata = documentVersionMetadata
+            self.folderMetadata = folderMetadata
+            self.resourceType = resourceType
+            self.webUrl = webUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commentMetadata = "CommentMetadata"
+            case documentMetadata = "DocumentMetadata"
+            case documentVersionMetadata = "DocumentVersionMetadata"
+            case folderMetadata = "FolderMetadata"
+            case resourceType = "ResourceType"
+            case webUrl = "WebUrl"
+        }
+    }
+
     public struct RestoreDocumentVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication")),
             AWSMemberEncoding(label: "documentId", location: .uri("DocumentId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -2654,6 +2899,131 @@ extension WorkDocs {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct SearchPrincipalType: AWSEncodableShape {
+        /// UserIds or GroupIds.
+        public let id: String
+        /// The Role of a User or Group.
+        public let roles: [PrincipalRoleType]?
+
+        public init(id: String, roles: [PrincipalRoleType]? = nil) {
+            self.id = id
+            self.roles = roles
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[&\\w+-.@]+$")
+            try self.validate(self.roles, name: "roles", parent: name, max: 4)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case roles = "Roles"
+        }
+    }
+
+    public struct SearchResourcesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "authenticationToken", location: .header("Authentication"))
+        ]
+
+        /// A list of attributes to include in the response. Used to request fields that are not normally returned in a standard response.
+        public let additionalResponseFields: [AdditionalResponseFieldType]?
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
+        public let authenticationToken: String?
+        /// Filters results based on entity metadata.
+        public let filters: Filters?
+        /// Max results count per page.
+        public let limit: Int?
+        /// The marker for the next set of results.
+        public let marker: String?
+        /// Order by results in one or more categories.
+        public let orderBy: [SearchSortResult]?
+        /// Filters based on the resource owner OrgId. This is a mandatory parameter when using Admin SigV4 credentials.
+        public let organizationId: String?
+        /// Filter based on the text field type. A Folder has only a name and no content. A Comment has only content and no name. A Document or Document Version has a name and content
+        public let queryScopes: [SearchQueryScopeType]?
+        /// The String to search for. Searches across different text fields based on request parameters. Use double quotes around the query string for exact phrase matches.
+        public let queryText: String?
+
+        public init(additionalResponseFields: [AdditionalResponseFieldType]? = nil, authenticationToken: String? = nil, filters: Filters? = nil, limit: Int? = nil, marker: String? = nil, orderBy: [SearchSortResult]? = nil, organizationId: String? = nil, queryScopes: [SearchQueryScopeType]? = nil, queryText: String? = nil) {
+            self.additionalResponseFields = additionalResponseFields
+            self.authenticationToken = authenticationToken
+            self.filters = filters
+            self.limit = limit
+            self.marker = marker
+            self.orderBy = orderBy
+            self.organizationId = organizationId
+            self.queryScopes = queryScopes
+            self.queryText = queryText
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
+            try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2048)
+            try self.validate(self.marker, name: "marker", parent: name, min: 1)
+            try self.validate(self.marker, name: "marker", parent: name, pattern: "^[\\d]+$")
+            try self.validate(self.orderBy, name: "orderBy", parent: name, max: 1)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 256)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 1)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^[&\\w+-.@]+$")
+            try self.validate(self.queryScopes, name: "queryScopes", parent: name, max: 2)
+            try self.validate(self.queryText, name: "queryText", parent: name, max: 512)
+            try self.validate(self.queryText, name: "queryText", parent: name, min: 1)
+            try self.validate(self.queryText, name: "queryText", parent: name, pattern: "^[\\u0020-\\uFFFF]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalResponseFields = "AdditionalResponseFields"
+            case filters = "Filters"
+            case limit = "Limit"
+            case marker = "Marker"
+            case orderBy = "OrderBy"
+            case organizationId = "OrganizationId"
+            case queryScopes = "QueryScopes"
+            case queryText = "QueryText"
+        }
+    }
+
+    public struct SearchResourcesResponse: AWSDecodableShape {
+        /// List of Documents, Folders, Comments, and Document Versions matching the query.
+        public let items: [ResponseItem]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let marker: String?
+
+        public init(items: [ResponseItem]? = nil, marker: String? = nil) {
+            self.items = items
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case marker = "Marker"
+        }
+    }
+
+    public struct SearchSortResult: AWSEncodableShape {
+        /// Sort search results based on this field name.
+        public let field: OrderByFieldType?
+        /// Sort direction.
+        public let order: SortOrder?
+
+        public init(field: OrderByFieldType? = nil, order: SortOrder? = nil) {
+            self.field = field
+            self.order = order
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case field = "Field"
+            case order = "Order"
+        }
     }
 
     public struct SharePrincipal: AWSEncodableShape {
@@ -2764,7 +3134,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "documentId", location: .uri("DocumentId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -2811,7 +3181,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "versionId", location: .uri("VersionId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the document.
         public let documentId: String
@@ -2849,7 +3219,7 @@ extension WorkDocs {
             AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The ID of the folder.
         public let folderId: String
@@ -2895,11 +3265,11 @@ extension WorkDocs {
             AWSMemberEncoding(label: "userId", location: .uri("UserId"))
         ]
 
-        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// The given name of the user.
         public let givenName: String?
-        /// Boolean value to determine whether the user is granted Poweruser privileges.
+        /// Boolean value to determine whether the user is granted Power user privileges.
         public let grantPoweruserPrivileges: BooleanEnumType?
         /// The locale of the user.
         public let locale: LocaleType?
@@ -3164,7 +3534,7 @@ public struct WorkDocsErrorType: AWSErrorType {
     public static var entityAlreadyExistsException: Self { .init(.entityAlreadyExistsException) }
     /// The resource does not exist.
     public static var entityNotExistsException: Self { .init(.entityNotExistsException) }
-    /// The AWS Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+    /// The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
     public static var failedDependencyException: Self { .init(.failedDependencyException) }
     /// The user is undergoing transfer of ownership.
     public static var illegalUserStateException: Self { .init(.illegalUserStateException) }

@@ -432,7 +432,6 @@ extension OpenSearchServerless {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
@@ -569,7 +568,7 @@ extension OpenSearchServerless {
         public let description: String?
         /// The name of the security configuration.
         public let name: String
-        /// Describes SAML options in in the form of a key-value map.
+        /// Describes SAML options in in the form of a key-value map. This field is required if you specify saml for the type parameter.
         public let samlOptions: SamlConfigOptions?
         /// The type of security configuration.
         public let type: SecurityConfigType
@@ -639,7 +638,6 @@ extension OpenSearchServerless {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
@@ -1124,7 +1122,7 @@ extension OpenSearchServerless {
         public let maxResults: Int?
         /// If your initial ListAccessPolicies operation returns a nextToken, you can include the returned nextToken in subsequent ListAccessPolicies operations, which returns results in the next page.
         public let nextToken: String?
-        /// Resource filters (can be collection or indexes) that policies can apply to.
+        /// Resource filters (can be collections or indexes) that policies can apply to.
         public let resource: [String]?
         /// The type of access policy.
         public let type: AccessPolicyType
@@ -1357,7 +1355,7 @@ extension OpenSearchServerless {
         public let groupAttribute: String?
         /// The XML IdP metadata file generated from your identity provider.
         public let metadata: String
-        /// The session timeout, in minutes. Minimum is 15 minutes and maximum is 1440 minutes (24 hours or 1 day). Default is 60 minutes.
+        /// The session timeout, in minutes. Default is 60 minutes (12 hours).
         public let sessionTimeout: Int?
         /// A user attribute for this SAML integration.
         public let userAttribute: String?
@@ -1670,7 +1668,6 @@ extension OpenSearchServerless {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
@@ -1899,7 +1896,6 @@ extension OpenSearchServerless {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
@@ -2062,7 +2058,7 @@ extension OpenSearchServerless {
         public let status: VpcEndpointStatus?
         /// The ID of the subnets from which you access OpenSearch Serverless.
         public let subnetIds: [String]?
-        /// The ID of the VPC from which you access OpenSearch Serverless
+        /// The ID of the VPC from which you access OpenSearch Serverless.
         public let vpcId: String?
 
         public init(createdDate: Int64? = nil, id: String? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: VpcEndpointStatus? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
@@ -2149,7 +2145,9 @@ public struct OpenSearchServerlessErrorType: AWSErrorType {
     enum Code: String {
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case ocuLimitExceededException = "OcuLimitExceededException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case validationException = "ValidationException"
     }
 
@@ -2171,12 +2169,16 @@ public struct OpenSearchServerlessErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// When creating a collection, thrown when a collection with the same name already exists or is being created. When deleting a collection, thrown when the collection is not in the ACTIVE or FAILED state.
+    /// When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
     public static var conflictException: Self { .init(.conflictException) }
     /// Thrown when an error internal to the service occurs while processing a request.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// OCU Limit Exceeded for service limits
+    public static var ocuLimitExceededException: Self { .init(.ocuLimitExceededException) }
     /// Thrown when accessing or deleting a resource that does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Thrown when you attempt to create more resources than the service allows based on service quotas.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Thrown when the HTTP request contains invalid input or is missing required input.
     public static var validationException: Self { .init(.validationException) }
 }

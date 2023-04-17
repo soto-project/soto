@@ -689,14 +689,17 @@ public struct Glue: AWSService {
         return self.client.execute(operation: "GetTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves partition metadata from the Data Catalog that contains unfiltered  metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartition.
     public func getUnfilteredPartitionMetadata(_ input: GetUnfilteredPartitionMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUnfilteredPartitionMetadataResponse> {
         return self.client.execute(operation: "GetUnfilteredPartitionMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves partition metadata from the Data Catalog that contains unfiltered  metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions.
     public func getUnfilteredPartitionsMetadata(_ input: GetUnfilteredPartitionsMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUnfilteredPartitionsMetadataResponse> {
         return self.client.execute(operation: "GetUnfilteredPartitionsMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves table metadata from the Data Catalog that contains unfiltered  metadata. For IAM authorization, the public IAM action associated with this API is glue:GetTable.
     public func getUnfilteredTableMetadata(_ input: GetUnfilteredTableMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUnfilteredTableMetadataResponse> {
         return self.client.execute(operation: "GetUnfilteredTableMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2048,6 +2051,7 @@ extension Glue {
         )
     }
 
+    /// Retrieves partition metadata from the Data Catalog that contains unfiltered  metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

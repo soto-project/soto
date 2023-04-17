@@ -67,6 +67,11 @@ extension ChimeSDKVoice {
         public var description: String { return self.rawValue }
     }
 
+    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable {
+        case enUs = "en-US"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NotificationTarget: String, CustomStringConvertible, Codable, Sendable {
         case eventBridge = "EventBridge"
         case sns = "SNS"
@@ -178,15 +183,25 @@ extension ChimeSDKVoice {
     // MARK: Shapes
 
     public struct Address: AWSDecodableShape {
+        /// The city of an address.
         public let city: String?
+        /// The country of an address.
         public let country: String?
+        /// The postal code of an address.
         public let postalCode: String?
+        /// The zip + 4 or postal code + 4 of an address.
         public let postalCodePlus4: String?
+        /// An address suffix location, such as the S. Unit A in  Central Park S. Unit A.
         public let postDirectional: String?
+        /// An address prefix location, such as the N in N. Third St.
         public let preDirectional: String?
+        /// The state of an address.
         public let state: String?
+        /// The address street, such as 8th Avenue.
         public let streetName: String?
+        /// The numeric portion of an address.
         public let streetNumber: String?
+        /// The address suffix, such as the N in 8th Avenue N.
         public let streetSuffix: String?
 
         public init(city: String? = nil, country: String? = nil, postalCode: String? = nil, postalCodePlus4: String? = nil, postDirectional: String? = nil, preDirectional: String? = nil, state: String? = nil, streetName: String? = nil, streetNumber: String? = nil, streetSuffix: String? = nil) {
@@ -221,8 +236,11 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri("VoiceConnectorGroupId"))
         ]
 
+        /// List of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]
+        /// If true, associates the provided phone numbers with the provided Amazon Chime SDK Voice Connector Group and removes any previously existing associations.  If false, does not associate any phone numbers that have previously existing associations.
         public let forceAssociate: Bool?
+        /// The Amazon Chime SDK Voice Connector group ID.
         public let voiceConnectorGroupId: String
 
         public init(e164PhoneNumbers: [String], forceAssociate: Bool? = nil, voiceConnectorGroupId: String) {
@@ -245,6 +263,7 @@ extension ChimeSDKVoice {
     }
 
     public struct AssociatePhoneNumbersWithVoiceConnectorGroupResponse: AWSDecodableShape {
+        /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
@@ -261,8 +280,11 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// List of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]
+        /// If true, associates the provided phone numbers with the provided Amazon Chime SDK Voice Connector and removes any previously existing associations. If false, does not associate any phone numbers that have previously existing associations.
         public let forceAssociate: Bool?
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(e164PhoneNumbers: [String], forceAssociate: Bool? = nil, voiceConnectorId: String) {
@@ -285,6 +307,7 @@ extension ChimeSDKVoice {
     }
 
     public struct AssociatePhoneNumbersWithVoiceConnectorResponse: AWSDecodableShape {
+        /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and  error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
@@ -297,6 +320,7 @@ extension ChimeSDKVoice {
     }
 
     public struct BatchDeletePhoneNumberRequest: AWSEncodableShape {
+        /// List of phone number IDs.
         public let phoneNumberIds: [String]
 
         public init(phoneNumberIds: [String]) {
@@ -313,6 +337,7 @@ extension ChimeSDKVoice {
     }
 
     public struct BatchDeletePhoneNumberResponse: AWSDecodableShape {
+        /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
@@ -325,6 +350,7 @@ extension ChimeSDKVoice {
     }
 
     public struct BatchUpdatePhoneNumberRequest: AWSEncodableShape {
+        /// Lists the phone numbers in the update request.
         public let updatePhoneNumberRequestItems: [UpdatePhoneNumberRequestItem]
 
         public init(updatePhoneNumberRequestItems: [UpdatePhoneNumberRequestItem]) {
@@ -343,6 +369,7 @@ extension ChimeSDKVoice {
     }
 
     public struct BatchUpdatePhoneNumberResponse: AWSDecodableShape {
+        /// A list of failed phone numbers and their error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
@@ -354,13 +381,41 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct CallDetails: AWSDecodableShape {
+        /// Identifies a person as the caller or the callee.
+        public let isCaller: Bool?
+        /// The transaction ID of a Voice Connector call.
+        public let transactionId: String?
+        /// The Voice Connector ID.
+        public let voiceConnectorId: String?
+
+        public init(isCaller: Bool? = nil, transactionId: String? = nil, voiceConnectorId: String? = nil) {
+            self.isCaller = isCaller
+            self.transactionId = transactionId
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isCaller = "IsCaller"
+            case transactionId = "TransactionId"
+            case voiceConnectorId = "VoiceConnectorId"
+        }
+    }
+
     public struct CandidateAddress: AWSDecodableShape {
+        /// The city of the candidate address.
         public let city: String?
+        /// The country of the candidate address.
         public let country: String?
+        /// The postal code of the candidate address.
         public let postalCode: String?
+        /// The zip + 4 or postal code +4 of the candidate address.
         public let postalCodePlus4: String?
+        /// The state of the candidate address.
         public let state: String?
+        /// The street information of the candidate address.
         public let streetInfo: String?
+        /// The numeric portion of the candidate address.
         public let streetNumber: String?
 
         public init(city: String? = nil, country: String? = nil, postalCode: String? = nil, postalCodePlus4: String? = nil, state: String? = nil, streetInfo: String? = nil, streetNumber: String? = nil) {
@@ -385,7 +440,9 @@ extension ChimeSDKVoice {
     }
 
     public struct CreatePhoneNumberOrderRequest: AWSEncodableShape {
+        /// List of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]
+        /// The phone number product type.
         public let productType: PhoneNumberProductType
 
         public init(e164PhoneNumbers: [String], productType: PhoneNumberProductType) {
@@ -406,6 +463,7 @@ extension ChimeSDKVoice {
     }
 
     public struct CreatePhoneNumberOrderResponse: AWSDecodableShape {
+        /// The phone number order details.
         public let phoneNumberOrder: PhoneNumberOrder?
 
         public init(phoneNumberOrder: PhoneNumberOrder? = nil) {
@@ -422,13 +480,21 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The proxy session's capabilities.
         public let capabilities: [Capability]
+        /// The number of minutes allowed for the proxy session.
         public let expiryMinutes: Int?
+        /// The preference for matching the country or area code of the proxy phone number with that of the first participant.
         public let geoMatchLevel: GeoMatchLevel?
+        /// The country and area code for the proxy phone number.
         public let geoMatchParams: GeoMatchParams?
+        /// The name of the proxy session.
         public let name: String?
+        /// The preference for proxy phone number reuse, or stickiness, between the same  participants across sessions.
         public let numberSelectionBehavior: NumberSelectionBehavior?
+        /// The participant phone numbers.
         public let participantPhoneNumbers: [String]
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(capabilities: [Capability], expiryMinutes: Int? = nil, geoMatchLevel: GeoMatchLevel? = nil, geoMatchParams: GeoMatchParams? = nil, name: String? = nil, numberSelectionBehavior: NumberSelectionBehavior? = nil, participantPhoneNumbers: [String], voiceConnectorId: String) {
@@ -468,6 +534,7 @@ extension ChimeSDKVoice {
     }
 
     public struct CreateProxySessionResponse: AWSDecodableShape {
+        /// The proxy session details.
         public let proxySession: ProxySession?
 
         public init(proxySession: ProxySession? = nil) {
@@ -484,10 +551,15 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
         ]
 
+        /// Context passed to a CreateSipMediaApplication API call. For example, you could pass key-value pairs such as: "FirstName": "John", "LastName": "Doe"
         public let argumentsMap: [String: String]?
+        /// The phone number that a user calls from. This is a phone number in your  Amazon Chime SDK phone number inventory.
         public let fromPhoneNumber: String
+        /// The SIP headers added to an outbound call leg.
         public let sipHeaders: [String: String]?
+        /// The ID of the SIP media application.
         public let sipMediaApplicationId: String
+        /// The phone number that the service should call.
         public let toPhoneNumber: String
 
         public init(argumentsMap: [String: String]? = nil, fromPhoneNumber: String, sipHeaders: [String: String]? = nil, sipMediaApplicationId: String, toPhoneNumber: String) {
@@ -515,6 +587,7 @@ extension ChimeSDKVoice {
     }
 
     public struct CreateSipMediaApplicationCallResponse: AWSDecodableShape {
+        /// The actual call.
         public let sipMediaApplicationCall: SipMediaApplicationCall?
 
         public init(sipMediaApplicationCall: SipMediaApplicationCall? = nil) {
@@ -527,14 +600,20 @@ extension ChimeSDKVoice {
     }
 
     public struct CreateSipMediaApplicationRequest: AWSEncodableShape {
+        /// The AWS Region assigned to the SIP media application.
         public let awsRegion: String
+        /// List of endpoints (Lambda ARNs) specified for the SIP media application.
         public let endpoints: [SipMediaApplicationEndpoint]
+        /// The SIP media application's name.
         public let name: String
+        /// The tags assigned to the SIP media application.
+        public let tags: [Tag]?
 
-        public init(awsRegion: String, endpoints: [SipMediaApplicationEndpoint], name: String) {
+        public init(awsRegion: String, endpoints: [SipMediaApplicationEndpoint], name: String, tags: [Tag]? = nil) {
             self.awsRegion = awsRegion
             self.endpoints = endpoints
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -545,16 +624,24 @@ extension ChimeSDKVoice {
             try self.validate(self.endpoints, name: "endpoints", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9 _.-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case awsRegion = "AwsRegion"
             case endpoints = "Endpoints"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
     public struct CreateSipMediaApplicationResponse: AWSDecodableShape {
+        /// The SIP media application details.
         public let sipMediaApplication: SipMediaApplication?
 
         public init(sipMediaApplication: SipMediaApplication? = nil) {
@@ -567,10 +654,15 @@ extension ChimeSDKVoice {
     }
 
     public struct CreateSipRuleRequest: AWSEncodableShape {
+        /// Disables or enables a SIP rule. You must disable SIP rules  before you can delete them.
         public let disabled: Bool?
+        /// The name of the SIP rule.
         public let name: String
+        /// List of SIP media applications, with priority and AWS Region. Only one SIP  application per AWS Region can be used.
         public let targetApplications: [SipRuleTargetApplication]?
+        /// The type of trigger assigned to the SIP rule in TriggerValue,  currently RequestUriHostname or ToPhoneNumber.
         public let triggerType: SipRuleTriggerType
+        /// If TriggerType is RequestUriHostname, the  value can be the outbound host name of a Voice Connector. If  TriggerType is ToPhoneNumber, the value can  be a customer-owned phone number in the E164 format. The  SipMediaApplication specified in the SipRule is triggered  if the request URI in an incoming SIP request matches the  RequestUriHostname, or if the To header in the  incoming SIP request matches the ToPhoneNumber value.
         public let triggerValue: String
 
         public init(disabled: Bool? = nil, name: String, targetApplications: [SipRuleTargetApplication]? = nil, triggerType: SipRuleTriggerType, triggerValue: String) {
@@ -584,6 +676,7 @@ extension ChimeSDKVoice {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9 _.-]+$")
             try self.targetApplications?.forEach {
                 try $0.validate(name: "\(name).targetApplications[]")
             }
@@ -602,6 +695,7 @@ extension ChimeSDKVoice {
     }
 
     public struct CreateSipRuleResponse: AWSDecodableShape {
+        /// The SIP rule information, including the rule ID, triggers, and target applications.
         public let sipRule: SipRule?
 
         public init(sipRule: SipRule? = nil) {
@@ -614,7 +708,9 @@ extension ChimeSDKVoice {
     }
 
     public struct CreateVoiceConnectorGroupRequest: AWSEncodableShape {
+        /// The name of the Voice Connector group.
         public let name: String
+        /// Lists the Voice Connectors that inbound calls are routed to.
         public let voiceConnectorItems: [VoiceConnectorItem]?
 
         public init(name: String, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
@@ -625,6 +721,7 @@ extension ChimeSDKVoice {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9 _.-]+$")
             try self.voiceConnectorItems?.forEach {
                 try $0.validate(name: "\(name).voiceConnectorItems[]")
             }
@@ -637,6 +734,7 @@ extension ChimeSDKVoice {
     }
 
     public struct CreateVoiceConnectorGroupResponse: AWSDecodableShape {
+        /// The details of the Voice Connector group.
         public let voiceConnectorGroup: VoiceConnectorGroup?
 
         public init(voiceConnectorGroup: VoiceConnectorGroup? = nil) {
@@ -649,29 +747,43 @@ extension ChimeSDKVoice {
     }
 
     public struct CreateVoiceConnectorRequest: AWSEncodableShape {
+        /// The AWS Region in which the Amazon Chime SDK Voice Connector is created. Default value:  us-east-1 .
         public let awsRegion: VoiceConnectorAwsRegion?
+        /// The name of the Voice Connector.
         public let name: String
+        /// Enables or disables encryption for the Voice Connector.
         public let requireEncryption: Bool
+        /// The tags assigned to the Voice Connector.
+        public let tags: [Tag]?
 
-        public init(awsRegion: VoiceConnectorAwsRegion? = nil, name: String, requireEncryption: Bool) {
+        public init(awsRegion: VoiceConnectorAwsRegion? = nil, name: String, requireEncryption: Bool, tags: [Tag]? = nil) {
             self.awsRegion = awsRegion
             self.name = name
             self.requireEncryption = requireEncryption
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9 _.-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case awsRegion = "AwsRegion"
             case name = "Name"
             case requireEncryption = "RequireEncryption"
+            case tags = "Tags"
         }
     }
 
     public struct CreateVoiceConnectorResponse: AWSDecodableShape {
+        /// The details of the Voice Connector.
         public let voiceConnector: VoiceConnector?
 
         public init(voiceConnector: VoiceConnector? = nil) {
@@ -683,8 +795,98 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct CreateVoiceProfileDomainRequest: AWSEncodableShape {
+        /// The unique identifier for the client request. Use a different token for different domain creation requests.
+        public let clientRequestToken: String?
+        /// A description of the voice profile domain.
+        public let description: String?
+        /// The name of the voice profile domain.
+        public let name: String
+        /// The server-side encryption configuration for the request.
+        public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration
+        /// The tags assigned to the domain.
+        public let tags: [Tag]?
+
+        public init(clientRequestToken: String? = nil, description: String? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.name = name
+            self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[-_a-zA-Z0-9]*${2,64}$")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9 _.-]+$")
+            try self.serverSideEncryptionConfiguration.validate(name: "\(name).serverSideEncryptionConfiguration")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case description = "Description"
+            case name = "Name"
+            case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateVoiceProfileDomainResponse: AWSDecodableShape {
+        /// The requested voice profile domain.
+        public let voiceProfileDomain: VoiceProfileDomain?
+
+        public init(voiceProfileDomain: VoiceProfileDomain? = nil) {
+            self.voiceProfileDomain = voiceProfileDomain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case voiceProfileDomain = "VoiceProfileDomain"
+        }
+    }
+
+    public struct CreateVoiceProfileRequest: AWSEncodableShape {
+        /// The ID of the speaker search task.
+        public let speakerSearchTaskId: String
+
+        public init(speakerSearchTaskId: String) {
+            self.speakerSearchTaskId = speakerSearchTaskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, max: 256)
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, min: 1)
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case speakerSearchTaskId = "SpeakerSearchTaskId"
+        }
+    }
+
+    public struct CreateVoiceProfileResponse: AWSDecodableShape {
+        /// The requested voice profile.
+        public let voiceProfile: VoiceProfile?
+
+        public init(voiceProfile: VoiceProfile? = nil) {
+            self.voiceProfile = voiceProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case voiceProfile = "VoiceProfile"
+        }
+    }
+
     public struct Credential: AWSEncodableShape {
+        /// The RFC2617 compliant password associated with the SIP credentials, in US-ASCII format.
         public let password: String?
+        /// The RFC2617 compliant user name associated with the SIP credentials, in  US-ASCII format.
         public let username: String?
 
         public init(password: String? = nil, username: String? = nil) {
@@ -699,8 +901,11 @@ extension ChimeSDKVoice {
     }
 
     public struct DNISEmergencyCallingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The country from which emergency calls are allowed, in ISO 3166-1 alpha-2 format.
         public let callingCountry: String
+        /// The DNIS phone number that you route emergency calls to, in E.164 format.
         public let emergencyPhoneNumber: String
+        /// The DNIS phone number for routing test emergency calls to, in E.164 format.
         public let testPhoneNumber: String?
 
         public init(callingCountry: String, emergencyPhoneNumber: String, testPhoneNumber: String? = nil) {
@@ -727,6 +932,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
         ]
 
+        /// The phone number ID.
         public let phoneNumberId: String
 
         public init(phoneNumberId: String) {
@@ -746,7 +952,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The proxy session ID.
         public let proxySessionId: String
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(proxySessionId: String, voiceConnectorId: String) {
@@ -771,6 +979,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
         ]
 
+        /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
         public init(sipMediaApplicationId: String) {
@@ -789,6 +998,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "sipRuleId", location: .uri("SipRuleId"))
         ]
 
+        /// The SIP rule ID.
         public let sipRuleId: String
 
         public init(sipRuleId: String) {
@@ -807,6 +1017,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -825,6 +1036,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri("VoiceConnectorGroupId"))
         ]
 
+        /// The Voice Connector Group ID.
         public let voiceConnectorGroupId: String
 
         public init(voiceConnectorGroupId: String) {
@@ -843,6 +1055,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -861,6 +1074,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -881,6 +1095,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -899,6 +1114,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -917,7 +1133,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The RFC2617 compliant username associated with the SIP credentials,  in US-ASCII format.
         public let usernames: [String]
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(usernames: [String], voiceConnectorId: String) {
@@ -939,6 +1157,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -952,12 +1171,56 @@ extension ChimeSDKVoice {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteVoiceProfileDomainRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceProfileDomainId", location: .uri("VoiceProfileDomainId"))
+        ]
+
+        /// The voice profile domain ID.
+        public let voiceProfileDomainId: String
+
+        public init(voiceProfileDomainId: String) {
+            self.voiceProfileDomainId = voiceProfileDomainId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, max: 256)
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, min: 1)
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteVoiceProfileRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceProfileId", location: .uri("VoiceProfileId"))
+        ]
+
+        /// The voice profile ID.
+        public let voiceProfileId: String
+
+        public init(voiceProfileId: String) {
+            self.voiceProfileId = voiceProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.voiceProfileId, name: "voiceProfileId", parent: name, max: 256)
+            try self.validate(self.voiceProfileId, name: "voiceProfileId", parent: name, min: 1)
+            try self.validate(self.voiceProfileId, name: "voiceProfileId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DisassociatePhoneNumbersFromVoiceConnectorGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri("VoiceConnectorGroupId"))
         ]
 
+        /// The list of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]
+        /// The Voice Connector group ID.
         public let voiceConnectorGroupId: String
 
         public init(e164PhoneNumbers: [String], voiceConnectorGroupId: String) {
@@ -978,6 +1241,7 @@ extension ChimeSDKVoice {
     }
 
     public struct DisassociatePhoneNumbersFromVoiceConnectorGroupResponse: AWSDecodableShape {
+        /// If the action fails for one or more of the phone numbers in the request,  a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
@@ -994,7 +1258,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// List of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(e164PhoneNumbers: [String], voiceConnectorId: String) {
@@ -1015,6 +1281,7 @@ extension ChimeSDKVoice {
     }
 
     public struct DisassociatePhoneNumbersFromVoiceConnectorResponse: AWSDecodableShape {
+        /// If the action fails for one or more of the phone numbers in the request, a  list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
         public init(phoneNumberErrors: [PhoneNumberError]? = nil) {
@@ -1027,6 +1294,7 @@ extension ChimeSDKVoice {
     }
 
     public struct EmergencyCallingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Dialed Number Identification Service (DNIS) emergency calling configuration  details.
         public let dnis: [DNISEmergencyCallingConfiguration]?
 
         public init(dnis: [DNISEmergencyCallingConfiguration]? = nil) {
@@ -1045,7 +1313,9 @@ extension ChimeSDKVoice {
     }
 
     public struct GeoMatchParams: AWSEncodableShape & AWSDecodableShape {
+        /// The area code.
         public let areaCode: String
+        /// The country.
         public let country: String
 
         public init(areaCode: String, country: String) {
@@ -1065,6 +1335,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetGlobalSettingsResponse: AWSDecodableShape {
+        /// The Voice Connector settings.
         public let voiceConnector: VoiceConnectorSettings?
 
         public init(voiceConnector: VoiceConnectorSettings? = nil) {
@@ -1081,6 +1352,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "phoneNumberOrderId", location: .uri("PhoneNumberOrderId"))
         ]
 
+        /// The ID of the phone number order .
         public let phoneNumberOrderId: String
 
         public init(phoneNumberOrderId: String) {
@@ -1095,6 +1367,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetPhoneNumberOrderResponse: AWSDecodableShape {
+        /// The phone number order details.
         public let phoneNumberOrder: PhoneNumberOrder?
 
         public init(phoneNumberOrder: PhoneNumberOrder? = nil) {
@@ -1111,6 +1384,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
         ]
 
+        /// The phone number ID.
         public let phoneNumberId: String
 
         public init(phoneNumberId: String) {
@@ -1125,6 +1399,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetPhoneNumberResponse: AWSDecodableShape {
+        /// The phone number details.
         public let phoneNumber: PhoneNumber?
 
         public init(phoneNumber: PhoneNumber? = nil) {
@@ -1137,7 +1412,9 @@ extension ChimeSDKVoice {
     }
 
     public struct GetPhoneNumberSettingsResponse: AWSDecodableShape {
+        /// The default outbound calling name for the account.
         public let callingName: String?
+        /// The updated outbound calling name timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var callingNameUpdatedTimestamp: Date?
 
@@ -1158,7 +1435,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The proxy session ID.
         public let proxySessionId: String
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(proxySessionId: String, voiceConnectorId: String) {
@@ -1179,6 +1458,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetProxySessionResponse: AWSDecodableShape {
+        /// The proxy session details.
         public let proxySession: ProxySession?
 
         public init(proxySession: ProxySession? = nil) {
@@ -1195,6 +1475,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
         ]
 
+        /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
         public init(sipMediaApplicationId: String) {
@@ -1209,6 +1490,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetSipMediaApplicationAlexaSkillConfigurationResponse: AWSDecodableShape {
+        /// Returns the Alexa Skill configuration.
         public let sipMediaApplicationAlexaSkillConfiguration: SipMediaApplicationAlexaSkillConfiguration?
 
         public init(sipMediaApplicationAlexaSkillConfiguration: SipMediaApplicationAlexaSkillConfiguration? = nil) {
@@ -1225,6 +1507,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
         ]
 
+        /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
         public init(sipMediaApplicationId: String) {
@@ -1239,6 +1522,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetSipMediaApplicationLoggingConfigurationResponse: AWSDecodableShape {
+        /// The actual logging configuration.
         public let sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration?
 
         public init(sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration? = nil) {
@@ -1255,6 +1539,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
         ]
 
+        /// The SIP media application ID .
         public let sipMediaApplicationId: String
 
         public init(sipMediaApplicationId: String) {
@@ -1269,6 +1554,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetSipMediaApplicationResponse: AWSDecodableShape {
+        /// The details of the SIP media application.
         public let sipMediaApplication: SipMediaApplication?
 
         public init(sipMediaApplication: SipMediaApplication? = nil) {
@@ -1285,6 +1571,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "sipRuleId", location: .uri("SipRuleId"))
         ]
 
+        /// The SIP rule ID.
         public let sipRuleId: String
 
         public init(sipRuleId: String) {
@@ -1299,6 +1586,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetSipRuleResponse: AWSDecodableShape {
+        /// The SIP rule details.
         public let sipRule: SipRule?
 
         public init(sipRule: SipRule? = nil) {
@@ -1310,11 +1598,53 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct GetSpeakerSearchTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "speakerSearchTaskId", location: .uri("SpeakerSearchTaskId")),
+            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
+        ]
+
+        /// The ID of the speaker search task.
+        public let speakerSearchTaskId: String
+        /// The Voice Connector ID.
+        public let voiceConnectorId: String
+
+        public init(speakerSearchTaskId: String, voiceConnectorId: String) {
+            self.speakerSearchTaskId = speakerSearchTaskId
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, max: 256)
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, min: 1)
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSpeakerSearchTaskResponse: AWSDecodableShape {
+        /// The details of the speaker search task.
+        public let speakerSearchTask: SpeakerSearchTask?
+
+        public init(speakerSearchTask: SpeakerSearchTask? = nil) {
+            self.speakerSearchTask = speakerSearchTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case speakerSearchTask = "SpeakerSearchTask"
+        }
+    }
+
     public struct GetVoiceConnectorEmergencyCallingConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -1329,6 +1659,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorEmergencyCallingConfigurationResponse: AWSDecodableShape {
+        /// The details of the emergency calling configuration.
         public let emergencyCallingConfiguration: EmergencyCallingConfiguration?
 
         public init(emergencyCallingConfiguration: EmergencyCallingConfiguration? = nil) {
@@ -1345,6 +1676,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri("VoiceConnectorGroupId"))
         ]
 
+        /// The Voice Connector group ID.
         public let voiceConnectorGroupId: String
 
         public init(voiceConnectorGroupId: String) {
@@ -1359,6 +1691,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorGroupResponse: AWSDecodableShape {
+        /// The details of the Voice Connector group.
         public let voiceConnectorGroup: VoiceConnectorGroup?
 
         public init(voiceConnectorGroup: VoiceConnectorGroup? = nil) {
@@ -1375,6 +1708,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -1389,6 +1723,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorLoggingConfigurationResponse: AWSDecodableShape {
+        /// The logging configuration details .
         public let loggingConfiguration: LoggingConfiguration?
 
         public init(loggingConfiguration: LoggingConfiguration? = nil) {
@@ -1405,6 +1740,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -1419,6 +1755,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorOriginationResponse: AWSDecodableShape {
+        /// The origination setting details.
         public let origination: Origination?
 
         public init(origination: Origination? = nil) {
@@ -1435,6 +1772,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -1451,6 +1789,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorProxyResponse: AWSDecodableShape {
+        /// The proxy configuration details.
         public let proxy: Proxy?
 
         public init(proxy: Proxy? = nil) {
@@ -1467,6 +1806,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -1481,6 +1821,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorResponse: AWSDecodableShape {
+        /// The Voice Connector details.
         public let voiceConnector: VoiceConnector?
 
         public init(voiceConnector: VoiceConnector? = nil) {
@@ -1497,6 +1838,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -1511,6 +1853,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorStreamingConfigurationResponse: AWSDecodableShape {
+        /// The details of the streaming configuration.
         public let streamingConfiguration: StreamingConfiguration?
 
         public init(streamingConfiguration: StreamingConfiguration? = nil) {
@@ -1527,6 +1870,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -1541,6 +1885,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorTerminationHealthResponse: AWSDecodableShape {
+        /// The termination health details.
         public let terminationHealth: TerminationHealth?
 
         public init(terminationHealth: TerminationHealth? = nil) {
@@ -1557,6 +1902,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -1571,6 +1917,7 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorTerminationResponse: AWSDecodableShape {
+        /// The termination setting details.
         public let termination: Termination?
 
         public init(termination: Termination? = nil) {
@@ -1582,7 +1929,121 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct GetVoiceProfileDomainRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceProfileDomainId", location: .uri("VoiceProfileDomainId"))
+        ]
+
+        /// The voice profile domain ID.
+        public let voiceProfileDomainId: String
+
+        public init(voiceProfileDomainId: String) {
+            self.voiceProfileDomainId = voiceProfileDomainId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, max: 256)
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, min: 1)
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetVoiceProfileDomainResponse: AWSDecodableShape {
+        /// The details of the voice profile domain.
+        public let voiceProfileDomain: VoiceProfileDomain?
+
+        public init(voiceProfileDomain: VoiceProfileDomain? = nil) {
+            self.voiceProfileDomain = voiceProfileDomain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case voiceProfileDomain = "VoiceProfileDomain"
+        }
+    }
+
+    public struct GetVoiceProfileRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceProfileId", location: .uri("VoiceProfileId"))
+        ]
+
+        /// The voice profile ID.
+        public let voiceProfileId: String
+
+        public init(voiceProfileId: String) {
+            self.voiceProfileId = voiceProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.voiceProfileId, name: "voiceProfileId", parent: name, max: 256)
+            try self.validate(self.voiceProfileId, name: "voiceProfileId", parent: name, min: 1)
+            try self.validate(self.voiceProfileId, name: "voiceProfileId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetVoiceProfileResponse: AWSDecodableShape {
+        /// The voice profile details.
+        public let voiceProfile: VoiceProfile?
+
+        public init(voiceProfile: VoiceProfile? = nil) {
+            self.voiceProfile = voiceProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case voiceProfile = "VoiceProfile"
+        }
+    }
+
+    public struct GetVoiceToneAnalysisTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "isCaller", location: .querystring("isCaller")),
+            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId")),
+            AWSMemberEncoding(label: "voiceToneAnalysisTaskId", location: .uri("VoiceToneAnalysisTaskId"))
+        ]
+
+        /// Specifies whether the voice being analyzed is the caller (originator) or the callee (responder).
+        public let isCaller: Bool
+        /// The Voice Connector ID.
+        public let voiceConnectorId: String
+        /// The ID of the voice tone anlysis task.
+        public let voiceToneAnalysisTaskId: String
+
+        public init(isCaller: Bool, voiceConnectorId: String, voiceToneAnalysisTaskId: String) {
+            self.isCaller = isCaller
+            self.voiceConnectorId = voiceConnectorId
+            self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, max: 256)
+            try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, min: 1)
+            try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetVoiceToneAnalysisTaskResponse: AWSDecodableShape {
+        /// The details of the voice tone analysis task.
+        public let voiceToneAnalysisTask: VoiceToneAnalysisTask?
+
+        public init(voiceToneAnalysisTask: VoiceToneAnalysisTask? = nil) {
+            self.voiceToneAnalysisTask = voiceToneAnalysisTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case voiceToneAnalysisTask = "VoiceToneAnalysisTask"
+        }
+    }
+
     public struct ListAvailableVoiceConnectorRegionsResponse: AWSDecodableShape {
+        /// The list of AWS Regions.
         public let voiceConnectorRegions: [VoiceConnectorAwsRegion]?
 
         public init(voiceConnectorRegions: [VoiceConnectorAwsRegion]? = nil) {
@@ -1600,7 +2061,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
+        /// The maximum number of results to return in a single call.
         public let maxResults: Int?
+        /// The token used to retrieve the next page of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1617,7 +2080,9 @@ extension ChimeSDKVoice {
     }
 
     public struct ListPhoneNumberOrdersResponse: AWSDecodableShape {
+        /// The token used to retrieve the next page of results.
         public let nextToken: String?
+        /// The phone number order details.
         public let phoneNumberOrders: [PhoneNumberOrder]?
 
         public init(nextToken: String? = nil, phoneNumberOrders: [PhoneNumberOrder]? = nil) {
@@ -1641,11 +2106,17 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "status", location: .querystring("status"))
         ]
 
+        /// The filter to limit the number of results.
         public let filterName: PhoneNumberAssociationName?
+        /// The filter value.
         public let filterValue: String?
+        /// The maximum number of results to return in a single call.
         public let maxResults: Int?
+        /// The token used to return the next page of results.
         public let nextToken: String?
+        /// The phone number product types.
         public let productType: PhoneNumberProductType?
+        /// The status of your organization's phone numbers.
         public let status: String?
 
         public init(filterName: PhoneNumberAssociationName? = nil, filterValue: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, productType: PhoneNumberProductType? = nil, status: String? = nil) {
@@ -1666,7 +2137,9 @@ extension ChimeSDKVoice {
     }
 
     public struct ListPhoneNumbersResponse: AWSDecodableShape {
+        /// The token used to return the next page of results.
         public let nextToken: String?
+        /// The phone number details.
         public let phoneNumbers: [PhoneNumber]?
 
         public init(nextToken: String? = nil, phoneNumbers: [PhoneNumber]? = nil) {
@@ -1688,9 +2161,13 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The maximum number of results to return in a single call.
         public let maxResults: Int?
+        /// The token used to retrieve the next page of results.
         public let nextToken: String?
+        /// The proxy session status.
         public let status: ProxySessionStatus?
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, status: ProxySessionStatus? = nil, voiceConnectorId: String) {
@@ -1713,7 +2190,9 @@ extension ChimeSDKVoice {
     }
 
     public struct ListProxySessionsResponse: AWSDecodableShape {
+        /// The token used to retrieve the next page of results.
         public let nextToken: String?
+        /// The proxy sessions' details.
         public let proxySessions: [ProxySession]?
 
         public init(nextToken: String? = nil, proxySessions: [ProxySession]? = nil) {
@@ -1733,7 +2212,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
+        /// The maximum number of results to return in a single call. Defaults to 100.
         public let maxResults: Int?
+        /// The token used to return the next page of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1751,7 +2232,9 @@ extension ChimeSDKVoice {
     }
 
     public struct ListSipMediaApplicationsResponse: AWSDecodableShape {
+        /// The token used to return the next page of results.
         public let nextToken: String?
+        /// The list of SIP media applications and application details.
         public let sipMediaApplications: [SipMediaApplication]?
 
         public init(nextToken: String? = nil, sipMediaApplications: [SipMediaApplication]? = nil) {
@@ -1772,8 +2255,11 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "sipMediaApplicationId", location: .querystring("sip-media-application"))
         ]
 
+        /// The maximum number of results to return in a single call. Defaults to 100.
         public let maxResults: Int?
+        /// The token used to return the next page of results.
         public let nextToken: String?
+        /// The SIP media application ID.
         public let sipMediaApplicationId: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, sipMediaApplicationId: String? = nil) {
@@ -1793,7 +2279,9 @@ extension ChimeSDKVoice {
     }
 
     public struct ListSipRulesResponse: AWSDecodableShape {
+        /// The token used to return the next page of results.
         public let nextToken: String?
+        /// The list of SIP rules and details.
         public let sipRules: [SipRule]?
 
         public init(nextToken: String? = nil, sipRules: [SipRule]? = nil) {
@@ -1812,6 +2300,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "productType", location: .querystring("product-type"))
         ]
 
+        /// The phone number product type.
         public let productType: PhoneNumberProductType
 
         public init(productType: PhoneNumberProductType) {
@@ -1822,6 +2311,7 @@ extension ChimeSDKVoice {
     }
 
     public struct ListSupportedPhoneNumberCountriesResponse: AWSDecodableShape {
+        /// The supported phone number countries.
         public let phoneNumberCountries: [PhoneNumberCountry]?
 
         public init(phoneNumberCountries: [PhoneNumberCountry]? = nil) {
@@ -1833,13 +2323,49 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceARN", location: .querystring("arn"))
+        ]
+
+        /// The resource ARN.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The tags in the list.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct ListVoiceConnectorGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
+        /// The maximum number of results to return in a single call.
         public let maxResults: Int?
+        /// The token used to return the next page of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1856,7 +2382,9 @@ extension ChimeSDKVoice {
     }
 
     public struct ListVoiceConnectorGroupsResponse: AWSDecodableShape {
+        /// The token used to return the next page of results.
         public let nextToken: String?
+        /// The details of the Voice Connector groups.
         public let voiceConnectorGroups: [VoiceConnectorGroup]?
 
         public init(nextToken: String? = nil, voiceConnectorGroups: [VoiceConnectorGroup]? = nil) {
@@ -1875,6 +2403,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
@@ -1889,6 +2418,7 @@ extension ChimeSDKVoice {
     }
 
     public struct ListVoiceConnectorTerminationCredentialsResponse: AWSDecodableShape {
+        /// A list of user names.
         public let usernames: [String]?
 
         public init(usernames: [String]? = nil) {
@@ -1906,7 +2436,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
+        /// The maximum number of results to return in a single call.
         public let maxResults: Int?
+        /// The token used to return the next page of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1923,7 +2455,9 @@ extension ChimeSDKVoice {
     }
 
     public struct ListVoiceConnectorsResponse: AWSDecodableShape {
+        /// The token used to return the next page of results.
         public let nextToken: String?
+        /// The details of the Voice Connectors.
         public let voiceConnectors: [VoiceConnector]?
 
         public init(nextToken: String? = nil, voiceConnectors: [VoiceConnector]? = nil) {
@@ -1937,20 +2471,139 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct ListVoiceProfileDomainsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
+        ]
+
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token used to return the next page of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListVoiceProfileDomainsResponse: AWSDecodableShape {
+        /// The token used to return the next page of results.
+        public let nextToken: String?
+        /// The list of voice profile domains.
+        public let voiceProfileDomains: [VoiceProfileDomainSummary]?
+
+        public init(nextToken: String? = nil, voiceProfileDomains: [VoiceProfileDomainSummary]? = nil) {
+            self.nextToken = nextToken
+            self.voiceProfileDomains = voiceProfileDomains
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case voiceProfileDomains = "VoiceProfileDomains"
+        }
+    }
+
+    public struct ListVoiceProfilesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "voiceProfileDomainId", location: .querystring("voice-profile-domain-id"))
+        ]
+
+        /// The maximum number of results in the request.
+        public let maxResults: Int?
+        /// The token used to retrieve the next page of results.
+        public let nextToken: String?
+        /// The ID of the voice profile domain.
+        public let voiceProfileDomainId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, voiceProfileDomainId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.voiceProfileDomainId = voiceProfileDomainId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, max: 256)
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, min: 1)
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListVoiceProfilesResponse: AWSDecodableShape {
+        /// The token used to retrieve the next page of results.
+        public let nextToken: String?
+        /// The list of voice profiles.
+        public let voiceProfiles: [VoiceProfileSummary]?
+
+        public init(nextToken: String? = nil, voiceProfiles: [VoiceProfileSummary]? = nil) {
+            self.nextToken = nextToken
+            self.voiceProfiles = voiceProfiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case voiceProfiles = "VoiceProfiles"
+        }
+    }
+
     public struct LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enables or disables media metrics logging.
+        public let enableMediaMetricLogs: Bool?
+        /// Boolean that enables sending SIP message logs to Amazon CloudWatch.
         public let enableSIPLogs: Bool?
 
-        public init(enableSIPLogs: Bool? = nil) {
+        public init(enableMediaMetricLogs: Bool? = nil, enableSIPLogs: Bool? = nil) {
+            self.enableMediaMetricLogs = enableMediaMetricLogs
             self.enableSIPLogs = enableSIPLogs
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableMediaMetricLogs = "EnableMediaMetricLogs"
             case enableSIPLogs = "EnableSIPLogs"
         }
     }
 
+    public struct MediaInsightsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration's ARN.
+        public let configurationArn: String?
+        /// Denotes the configration as enabled or disabled.
+        public let disabled: Bool?
+
+        public init(configurationArn: String? = nil, disabled: Bool? = nil) {
+            self.configurationArn = configurationArn
+            self.disabled = disabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationArn, name: "configurationArn", parent: name, max: 1024)
+            try self.validate(self.configurationArn, name: "configurationArn", parent: name, min: 1)
+            try self.validate(self.configurationArn, name: "configurationArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationArn = "ConfigurationArn"
+            case disabled = "Disabled"
+        }
+    }
+
     public struct OrderedPhoneNumber: AWSDecodableShape {
+        /// The phone number, in E.164 format.
         public let e164PhoneNumber: String?
+        /// The phone number status.
         public let status: OrderedPhoneNumberStatus?
 
         public init(e164PhoneNumber: String? = nil, status: OrderedPhoneNumberStatus? = nil) {
@@ -1965,7 +2618,9 @@ extension ChimeSDKVoice {
     }
 
     public struct Origination: AWSEncodableShape & AWSDecodableShape {
+        /// When origination settings are disabled, inbound calls are not enabled for your  Amazon Chime SDK Voice Connector.  This parameter is not required, but you must specify this parameter or  Routes.
         public let disabled: Bool?
+        /// The call distribution properties defined for your SIP hosts. Valid range: Minimum  value of 1. Maximum value of 20. This parameter is not required, but you must specify  this parameter or Disabled.
         public let routes: [OriginationRoute]?
 
         public init(disabled: Bool? = nil, routes: [OriginationRoute]? = nil) {
@@ -1986,10 +2641,15 @@ extension ChimeSDKVoice {
     }
 
     public struct OriginationRoute: AWSEncodableShape & AWSDecodableShape {
+        /// The FQDN or IP address to contact for origination traffic.
         public let host: String?
+        /// The designated origination route port. Defaults to 5060.
         public let port: Int?
+        /// The priority associated with the host, with 1 being the highest priority. Higher  priority hosts are attempted first.
         public let priority: Int?
+        /// The protocol to use for the origination route. Encryption-enabled Amazon Chime SDK Voice Connectors use  TCP protocol by default.
         public let `protocol`: OriginationRouteProtocol?
+        /// The weight assigned to an origination route. When hosts have equal priority,  calls are distributed between them based on their relative weights.
         public let weight: Int?
 
         public init(host: String? = nil, port: Int? = nil, priority: Int? = nil, protocol: OriginationRouteProtocol? = nil, weight: Int? = nil) {
@@ -2019,7 +2679,9 @@ extension ChimeSDKVoice {
     }
 
     public struct Participant: AWSDecodableShape {
+        /// The participant's phone number.
         public let phoneNumber: String?
+        /// The participant's proxy phone number.
         public let proxyPhoneNumber: String?
 
         public init(phoneNumber: String? = nil, proxyPhoneNumber: String? = nil) {
@@ -2034,21 +2696,35 @@ extension ChimeSDKVoice {
     }
 
     public struct PhoneNumber: AWSDecodableShape {
+        /// The phone number's associations.
         public let associations: [PhoneNumberAssociation]?
+        /// The outbound calling name associated with the phone number.
         public let callingName: String?
+        /// The outbound calling name status.
         public let callingNameStatus: CallingNameStatus?
+        /// The phone number's capabilities.
         public let capabilities: PhoneNumberCapabilities?
+        /// The phone number's country. Format: ISO 3166-1 alpha-2.
         public let country: String?
+        /// The phone number creation timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
+        /// The deleted phone number timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var deletionTimestamp: Date?
+        /// The phone number, in E.164 format.
         public let e164PhoneNumber: String?
+        /// The phone number's order ID.
         public let orderId: String?
+        /// The phone number's ID.
         public let phoneNumberId: String?
+        /// The phone number's product type.
         public let productType: PhoneNumberProductType?
+        /// The phone number's status.
         public let status: PhoneNumberStatus?
+        /// The phone number's type.
         public let type: PhoneNumberType?
+        /// The updated phone number timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
@@ -2088,9 +2764,12 @@ extension ChimeSDKVoice {
     }
 
     public struct PhoneNumberAssociation: AWSDecodableShape {
+        /// The timestamp of the phone number association, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var associatedTimestamp: Date?
+        /// Defines the association with an Amazon Chime SDK account ID, user ID, Voice Connector ID, or Voice Connector group ID.
         public let name: PhoneNumberAssociationName?
+        /// Contains the ID for the entity specified in Name.
         public let value: String?
 
         public init(associatedTimestamp: Date? = nil, name: PhoneNumberAssociationName? = nil, value: String? = nil) {
@@ -2107,11 +2786,17 @@ extension ChimeSDKVoice {
     }
 
     public struct PhoneNumberCapabilities: AWSDecodableShape {
+        /// Allows or denies inbound calling for the specified phone number.
         public let inboundCall: Bool?
+        /// Allows or denies inbound MMS messaging for the specified phone number.
         public let inboundMMS: Bool?
+        /// Allows or denies inbound SMS messaging for the specified phone number.
         public let inboundSMS: Bool?
+        /// Allows or denies outbound calling for the specified phone number.
         public let outboundCall: Bool?
+        /// Allows or denies inbound MMS messaging for the specified phone number.
         public let outboundMMS: Bool?
+        /// Allows or denies outbound SMS messaging for the specified phone number.
         public let outboundSMS: Bool?
 
         public init(inboundCall: Bool? = nil, inboundMMS: Bool? = nil, inboundSMS: Bool? = nil, outboundCall: Bool? = nil, outboundMMS: Bool? = nil, outboundSMS: Bool? = nil) {
@@ -2134,7 +2819,9 @@ extension ChimeSDKVoice {
     }
 
     public struct PhoneNumberCountry: AWSDecodableShape {
+        /// The phone number country code. Format: ISO 3166-1 alpha-2.
         public let countryCode: String?
+        /// The supported phone number types.
         public let supportedPhoneNumberTypes: [PhoneNumberType]?
 
         public init(countryCode: String? = nil, supportedPhoneNumberTypes: [PhoneNumberType]? = nil) {
@@ -2149,8 +2836,11 @@ extension ChimeSDKVoice {
     }
 
     public struct PhoneNumberError: AWSDecodableShape {
+        /// The error code.
         public let errorCode: ErrorCode?
+        /// The error message.
         public let errorMessage: String?
+        /// The phone number ID for which the action failed.
         public let phoneNumberId: String?
 
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, phoneNumberId: String? = nil) {
@@ -2167,13 +2857,20 @@ extension ChimeSDKVoice {
     }
 
     public struct PhoneNumberOrder: AWSDecodableShape {
+        /// The phone number order creation time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
+        /// The ordered phone number details, such as the phone number in E.164 format  and the phone number status.
         public let orderedPhoneNumbers: [OrderedPhoneNumber]?
+        /// The type of phone number being ordered, local or toll-free.
         public let orderType: PhoneNumberOrderType?
+        /// The ID of the phone order.
         public let phoneNumberOrderId: String?
+        /// The phone number order product type.
         public let productType: PhoneNumberProductType?
+        /// The status of the phone number order.
         public let status: PhoneNumberOrderStatus?
+        /// The updated phone number order time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
@@ -2199,9 +2896,13 @@ extension ChimeSDKVoice {
     }
 
     public struct Proxy: AWSDecodableShape {
+        /// The default number of minutes allowed for proxy sessions.
         public let defaultSessionExpiryMinutes: Int?
+        /// When true, stops proxy sessions from being created on the specified Amazon Chime SDK Voice Connector.
         public let disabled: Bool?
+        /// The phone number to route calls to after a proxy session expires.
         public let fallBackPhoneNumber: String?
+        /// The countries for proxy phone numbers to be selected from.
         public let phoneNumberCountries: [String]?
 
         public init(defaultSessionExpiryMinutes: Int? = nil, disabled: Bool? = nil, fallBackPhoneNumber: String? = nil, phoneNumberCountries: [String]? = nil) {
@@ -2220,21 +2921,34 @@ extension ChimeSDKVoice {
     }
 
     public struct ProxySession: AWSDecodableShape {
+        /// The proxy session capabilities.
         public let capabilities: [Capability]?
+        /// The created time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
+        /// The ended time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endedTimestamp: Date?
+        /// The number of minutes allowed for the proxy session.
         public let expiryMinutes: Int?
+        /// The preference for matching the country or area code of the proxy phone number with that of the first participant.
         public let geoMatchLevel: GeoMatchLevel?
+        /// The country and area code for the proxy phone number.
         public let geoMatchParams: GeoMatchParams?
+        /// The proxy session name.
         public let name: String?
+        /// The preference for proxy phone number reuse, or stickiness, between the same participants across sessions.
         public let numberSelectionBehavior: NumberSelectionBehavior?
+        /// The proxy session participants.
         public let participants: [Participant]?
+        /// The proxy session ID.
         public let proxySessionId: String?
+        /// The proxy session status.
         public let status: ProxySessionStatus?
+        /// The updated time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
+        /// The Voice Connector ID.
         public let voiceConnectorId: String?
 
         public init(capabilities: [Capability]? = nil, createdTimestamp: Date? = nil, endedTimestamp: Date? = nil, expiryMinutes: Int? = nil, geoMatchLevel: GeoMatchLevel? = nil, geoMatchParams: GeoMatchParams? = nil, name: String? = nil, numberSelectionBehavior: NumberSelectionBehavior? = nil, participants: [Participant]? = nil, proxySessionId: String? = nil, status: ProxySessionStatus? = nil, updatedTimestamp: Date? = nil, voiceConnectorId: String? = nil) {
@@ -2275,7 +2989,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
         ]
 
+        /// The Alexa Skill configuration.
         public let sipMediaApplicationAlexaSkillConfiguration: SipMediaApplicationAlexaSkillConfiguration?
+        /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
         public init(sipMediaApplicationAlexaSkillConfiguration: SipMediaApplicationAlexaSkillConfiguration? = nil, sipMediaApplicationId: String) {
@@ -2294,6 +3010,7 @@ extension ChimeSDKVoice {
     }
 
     public struct PutSipMediaApplicationAlexaSkillConfigurationResponse: AWSDecodableShape {
+        /// Returns the Alexa Skill configuration.
         public let sipMediaApplicationAlexaSkillConfiguration: SipMediaApplicationAlexaSkillConfiguration?
 
         public init(sipMediaApplicationAlexaSkillConfiguration: SipMediaApplicationAlexaSkillConfiguration? = nil) {
@@ -2310,7 +3027,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
         ]
 
+        /// The SIP media application ID.
         public let sipMediaApplicationId: String
+        /// The logging configuration for the specified SIP media application.
         public let sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration?
 
         public init(sipMediaApplicationId: String, sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration? = nil) {
@@ -2328,6 +3047,7 @@ extension ChimeSDKVoice {
     }
 
     public struct PutSipMediaApplicationLoggingConfigurationResponse: AWSDecodableShape {
+        /// The updated logging configuration for the specified SIP media application.
         public let sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration?
 
         public init(sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration? = nil) {
@@ -2344,7 +3064,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The configuration being updated.
         public let emergencyCallingConfiguration: EmergencyCallingConfiguration
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(emergencyCallingConfiguration: EmergencyCallingConfiguration, voiceConnectorId: String) {
@@ -2363,6 +3085,7 @@ extension ChimeSDKVoice {
     }
 
     public struct PutVoiceConnectorEmergencyCallingConfigurationResponse: AWSDecodableShape {
+        /// The updated configuration.
         public let emergencyCallingConfiguration: EmergencyCallingConfiguration?
 
         public init(emergencyCallingConfiguration: EmergencyCallingConfiguration? = nil) {
@@ -2379,7 +3102,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The logging configuration being updated.
         public let loggingConfiguration: LoggingConfiguration
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(loggingConfiguration: LoggingConfiguration, voiceConnectorId: String) {
@@ -2397,6 +3122,7 @@ extension ChimeSDKVoice {
     }
 
     public struct PutVoiceConnectorLoggingConfigurationResponse: AWSDecodableShape {
+        /// The updated logging configuration.
         public let loggingConfiguration: LoggingConfiguration?
 
         public init(loggingConfiguration: LoggingConfiguration? = nil) {
@@ -2413,7 +3139,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The origination settings being updated.
         public let origination: Origination
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(origination: Origination, voiceConnectorId: String) {
@@ -2432,6 +3160,7 @@ extension ChimeSDKVoice {
     }
 
     public struct PutVoiceConnectorOriginationResponse: AWSDecodableShape {
+        /// The updated origination settings.
         public let origination: Origination?
 
         public init(origination: Origination? = nil) {
@@ -2448,10 +3177,15 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The default number of minutes allowed for proxy session.
         public let defaultSessionExpiryMinutes: Int
+        /// When true, stops proxy sessions from being created on the specified Amazon Chime SDK Voice Connector.
         public let disabled: Bool?
+        /// The phone number to route calls to after a proxy session expires.
         public let fallBackPhoneNumber: String?
+        /// The countries for proxy phone numbers to be selected from.
         public let phoneNumberPoolCountries: [String]
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(defaultSessionExpiryMinutes: Int, disabled: Bool? = nil, fallBackPhoneNumber: String? = nil, phoneNumberPoolCountries: [String], voiceConnectorId: String) {
@@ -2483,6 +3217,7 @@ extension ChimeSDKVoice {
     }
 
     public struct PutVoiceConnectorProxyResponse: AWSDecodableShape {
+        /// The proxy configuration details.
         public let proxy: Proxy?
 
         public init(proxy: Proxy? = nil) {
@@ -2499,7 +3234,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The streaming settings being updated.
         public let streamingConfiguration: StreamingConfiguration
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(streamingConfiguration: StreamingConfiguration, voiceConnectorId: String) {
@@ -2518,6 +3255,7 @@ extension ChimeSDKVoice {
     }
 
     public struct PutVoiceConnectorStreamingConfigurationResponse: AWSDecodableShape {
+        /// The updated streaming settings.
         public let streamingConfiguration: StreamingConfiguration?
 
         public init(streamingConfiguration: StreamingConfiguration? = nil) {
@@ -2534,7 +3272,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The termination credentials being updated.
         public let credentials: [Credential]?
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(credentials: [Credential]? = nil, voiceConnectorId: String) {
@@ -2556,7 +3296,9 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The termination settings to be updated.
         public let termination: Termination
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(termination: Termination, voiceConnectorId: String) {
@@ -2575,6 +3317,7 @@ extension ChimeSDKVoice {
     }
 
     public struct PutVoiceConnectorTerminationResponse: AWSDecodableShape {
+        /// The updated termination settings.
         public let termination: Termination?
 
         public init(termination: Termination? = nil) {
@@ -2591,6 +3334,7 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
         ]
 
+        /// The ID of the phone number being restored.
         public let phoneNumberId: String
 
         public init(phoneNumberId: String) {
@@ -2605,6 +3349,7 @@ extension ChimeSDKVoice {
     }
 
     public struct RestorePhoneNumberResponse: AWSDecodableShape {
+        /// The restored phone number.
         public let phoneNumber: PhoneNumber?
 
         public init(phoneNumber: PhoneNumber? = nil) {
@@ -2628,13 +3373,21 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "tollFreePrefix", location: .querystring("toll-free-prefix"))
         ]
 
+        /// Confines a search to just the phone numbers associated with the specified area code.
         public let areaCode: String?
+        /// Confines a search to just the phone numbers associated with the specified city.
         public let city: String?
+        /// Confines a search to just the phone numbers associated with the specified country.
         public let country: String?
+        /// The maximum number of results to return.
         public let maxResults: Int?
+        /// The token used to return the next page of results.
         public let nextToken: String?
+        /// Confines a search to just the phone numbers associated with the specified phone number type, either local or toll-free.
         public let phoneNumberType: PhoneNumberType?
+        /// Confines a search to just the phone numbers associated with the specified state.
         public let state: String?
+        /// Confines a search to just the phone numbers associated with the specified toll-free prefix.
         public let tollFreePrefix: String?
 
         public init(areaCode: String? = nil, city: String? = nil, country: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, phoneNumberType: PhoneNumberType? = nil, state: String? = nil, tollFreePrefix: String? = nil) {
@@ -2661,7 +3414,9 @@ extension ChimeSDKVoice {
     }
 
     public struct SearchAvailablePhoneNumbersResponse: AWSDecodableShape {
+        /// Confines a search to just the phone numbers in the E.164 format.
         public let e164PhoneNumbers: [String]?
+        /// The token used to return the next page of results.
         public let nextToken: String?
 
         public init(e164PhoneNumbers: [String]? = nil, nextToken: String? = nil) {
@@ -2675,21 +3430,49 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct ServerSideEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the KMS key used to encrypt the enrollment data in a voice profile domain.  Asymmetric customer managed keys are not supported.
+        public let kmsKeyArn: String
+
+        public init(kmsKeyArn: String) {
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 1024)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
+        }
+    }
+
     public struct SipMediaApplication: AWSDecodableShape {
+        /// The AWS Region in which the SIP media application is created.
         public let awsRegion: String?
+        /// The SIP media application creation timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
+        /// List of endpoints for a SIP media application. Currently, only one endpoint per  SIP media application is permitted.
         public let endpoints: [SipMediaApplicationEndpoint]?
+        /// The SIP media application's name.
         public let name: String?
+        /// The ARN of the SIP media application.
+        public let sipMediaApplicationArn: String?
+        /// A SIP media application's ID.
         public let sipMediaApplicationId: String?
+        /// The time at which the SIP media application was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
-        public init(awsRegion: String? = nil, createdTimestamp: Date? = nil, endpoints: [SipMediaApplicationEndpoint]? = nil, name: String? = nil, sipMediaApplicationId: String? = nil, updatedTimestamp: Date? = nil) {
+        public init(awsRegion: String? = nil, createdTimestamp: Date? = nil, endpoints: [SipMediaApplicationEndpoint]? = nil, name: String? = nil, sipMediaApplicationArn: String? = nil, sipMediaApplicationId: String? = nil, updatedTimestamp: Date? = nil) {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
             self.endpoints = endpoints
             self.name = name
+            self.sipMediaApplicationArn = sipMediaApplicationArn
             self.sipMediaApplicationId = sipMediaApplicationId
             self.updatedTimestamp = updatedTimestamp
         }
@@ -2699,13 +3482,16 @@ extension ChimeSDKVoice {
             case createdTimestamp = "CreatedTimestamp"
             case endpoints = "Endpoints"
             case name = "Name"
+            case sipMediaApplicationArn = "SipMediaApplicationArn"
             case sipMediaApplicationId = "SipMediaApplicationId"
             case updatedTimestamp = "UpdatedTimestamp"
         }
     }
 
     public struct SipMediaApplicationAlexaSkillConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the Alexa Skill configuration.
         public let alexaSkillIds: [String]
+        /// The status of the Alexa Skill configuration.
         public let alexaSkillStatus: AlexaSkillStatus
 
         public init(alexaSkillIds: [String], alexaSkillStatus: AlexaSkillStatus) {
@@ -2729,6 +3515,7 @@ extension ChimeSDKVoice {
     }
 
     public struct SipMediaApplicationCall: AWSDecodableShape {
+        /// The call's transaction ID.
         public let transactionId: String?
 
         public init(transactionId: String? = nil) {
@@ -2741,6 +3528,7 @@ extension ChimeSDKVoice {
     }
 
     public struct SipMediaApplicationEndpoint: AWSEncodableShape & AWSDecodableShape {
+        /// Valid Amazon Resource Name (ARN) of the Lambda function, version, or alias.  The function must be created in the same AWS Region as the SIP media application.
         public let lambdaArn: String?
 
         public init(lambdaArn: String? = nil) {
@@ -2758,6 +3546,7 @@ extension ChimeSDKVoice {
     }
 
     public struct SipMediaApplicationLoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enables message logging for the specified SIP media application.
         public let enableSipMediaApplicationMessageLogs: Bool?
 
         public init(enableSipMediaApplicationMessageLogs: Bool? = nil) {
@@ -2770,14 +3559,22 @@ extension ChimeSDKVoice {
     }
 
     public struct SipRule: AWSDecodableShape {
+        /// The time at which the SIP rule was created, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
+        /// Indicates whether the SIP rule is enabled or disabled. You must disable a rule before you can delete it.
         public let disabled: Bool?
+        /// A SIP rule's name.
         public let name: String?
+        /// A SIP rule's ID.
         public let sipRuleId: String?
+        /// The target SIP media application and other details, such as priority and AWS Region,  to be specified in the SIP rule. Only one SIP rule per AWS Region can be provided.
         public let targetApplications: [SipRuleTargetApplication]?
+        /// The type of trigger set for a SIP rule, either a phone number or a URI request host name.
         public let triggerType: SipRuleTriggerType?
+        /// The value set for a SIP rule's trigger type. Either a phone number or a URI hostname.
         public let triggerValue: String?
+        /// The time at which the SIP rule was updated, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
@@ -2805,8 +3602,11 @@ extension ChimeSDKVoice {
     }
 
     public struct SipRuleTargetApplication: AWSEncodableShape & AWSDecodableShape {
+        /// The AWS Region of a rule's target SIP media application.
         public let awsRegion: String?
+        /// The priority setting of a rule's target SIP media application.
         public let priority: Int?
+        /// The ID of a rule's target SIP media application.
         public let sipMediaApplicationId: String?
 
         public init(awsRegion: String? = nil, priority: Int? = nil, sipMediaApplicationId: String? = nil) {
@@ -2827,19 +3627,265 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct SpeakerSearchDetails: AWSDecodableShape {
+        /// The result value in the speaker search details.
+        public let results: [SpeakerSearchResult]?
+        /// The status of a voice print generation operation, VoiceprintGenerationSuccess or VoiceprintGenerationFailure..
+        public let voiceprintGenerationStatus: String?
+
+        public init(results: [SpeakerSearchResult]? = nil, voiceprintGenerationStatus: String? = nil) {
+            self.results = results
+            self.voiceprintGenerationStatus = voiceprintGenerationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case results = "Results"
+            case voiceprintGenerationStatus = "VoiceprintGenerationStatus"
+        }
+    }
+
+    public struct SpeakerSearchResult: AWSDecodableShape {
+        /// The confidence score in the speaker search analysis.
+        public let confidenceScore: Float?
+        /// The voice profile ID.
+        public let voiceProfileId: String?
+
+        public init(confidenceScore: Float? = nil, voiceProfileId: String? = nil) {
+            self.confidenceScore = confidenceScore
+            self.voiceProfileId = voiceProfileId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidenceScore = "ConfidenceScore"
+            case voiceProfileId = "VoiceProfileId"
+        }
+    }
+
+    public struct SpeakerSearchTask: AWSDecodableShape {
+        /// The call details of a speaker search task.
+        public let callDetails: CallDetails?
+        /// The time at which a speaker search task was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
+        /// The details of a speaker search task.
+        public let speakerSearchDetails: SpeakerSearchDetails?
+        /// The speaker search task ID.
+        public let speakerSearchTaskId: String?
+        /// The status of the speaker search task, IN_QUEUE, IN_PROGRESS, PARTIAL_SUCCESS, SUCCEEDED,  FAILED, or STOPPED.
+        public let speakerSearchTaskStatus: String?
+        /// The time at which the speaker search task began.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedTimestamp: Date?
+        /// A detailed message about the status of a speaker search.
+        public let statusMessage: String?
+        /// The time at which a speaker search task was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
+
+        public init(callDetails: CallDetails? = nil, createdTimestamp: Date? = nil, speakerSearchDetails: SpeakerSearchDetails? = nil, speakerSearchTaskId: String? = nil, speakerSearchTaskStatus: String? = nil, startedTimestamp: Date? = nil, statusMessage: String? = nil, updatedTimestamp: Date? = nil) {
+            self.callDetails = callDetails
+            self.createdTimestamp = createdTimestamp
+            self.speakerSearchDetails = speakerSearchDetails
+            self.speakerSearchTaskId = speakerSearchTaskId
+            self.speakerSearchTaskStatus = speakerSearchTaskStatus
+            self.startedTimestamp = startedTimestamp
+            self.statusMessage = statusMessage
+            self.updatedTimestamp = updatedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callDetails = "CallDetails"
+            case createdTimestamp = "CreatedTimestamp"
+            case speakerSearchDetails = "SpeakerSearchDetails"
+            case speakerSearchTaskId = "SpeakerSearchTaskId"
+            case speakerSearchTaskStatus = "SpeakerSearchTaskStatus"
+            case startedTimestamp = "StartedTimestamp"
+            case statusMessage = "StatusMessage"
+            case updatedTimestamp = "UpdatedTimestamp"
+        }
+    }
+
+    public struct StartSpeakerSearchTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
+        ]
+
+        /// The unique identifier for the client request. Use a different token for different speaker search tasks.
+        public let clientRequestToken: String?
+        /// The transaction ID of the call being analyzed.
+        public let transactionId: String
+        /// The Voice Connector ID.
+        public let voiceConnectorId: String
+        /// The ID of the voice profile domain that will store the voice profile.
+        public let voiceProfileDomainId: String
+
+        public init(clientRequestToken: String? = nil, transactionId: String, voiceConnectorId: String, voiceProfileDomainId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.transactionId = transactionId
+            self.voiceConnectorId = voiceConnectorId
+            self.voiceProfileDomainId = voiceProfileDomainId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[-_a-zA-Z0-9]*${2,64}$")
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 256)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, max: 256)
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, min: 1)
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case transactionId = "TransactionId"
+            case voiceProfileDomainId = "VoiceProfileDomainId"
+        }
+    }
+
+    public struct StartSpeakerSearchTaskResponse: AWSDecodableShape {
+        /// The details of the speaker search task.
+        public let speakerSearchTask: SpeakerSearchTask?
+
+        public init(speakerSearchTask: SpeakerSearchTask? = nil) {
+            self.speakerSearchTask = speakerSearchTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case speakerSearchTask = "SpeakerSearchTask"
+        }
+    }
+
+    public struct StartVoiceToneAnalysisTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
+        ]
+
+        /// The unique identifier for the client request. Use a different token for different voice tone analysis  tasks.
+        public let clientRequestToken: String?
+        /// The language code.
+        public let languageCode: LanguageCode
+        /// The transaction ID.
+        public let transactionId: String
+        /// The Voice Connector ID.
+        public let voiceConnectorId: String
+
+        public init(clientRequestToken: String? = nil, languageCode: LanguageCode, transactionId: String, voiceConnectorId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.languageCode = languageCode
+            self.transactionId = transactionId
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[-_a-zA-Z0-9]*${2,64}$")
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 256)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case languageCode = "LanguageCode"
+            case transactionId = "TransactionId"
+        }
+    }
+
+    public struct StartVoiceToneAnalysisTaskResponse: AWSDecodableShape {
+        /// The details of the voice tone analysis task.
+        public let voiceToneAnalysisTask: VoiceToneAnalysisTask?
+
+        public init(voiceToneAnalysisTask: VoiceToneAnalysisTask? = nil) {
+            self.voiceToneAnalysisTask = voiceToneAnalysisTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case voiceToneAnalysisTask = "VoiceToneAnalysisTask"
+        }
+    }
+
+    public struct StopSpeakerSearchTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "speakerSearchTaskId", location: .uri("SpeakerSearchTaskId")),
+            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
+        ]
+
+        /// The speaker search task ID.
+        public let speakerSearchTaskId: String
+        /// The Voice Connector ID.
+        public let voiceConnectorId: String
+
+        public init(speakerSearchTaskId: String, voiceConnectorId: String) {
+            self.speakerSearchTaskId = speakerSearchTaskId
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, max: 256)
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, min: 1)
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopVoiceToneAnalysisTaskRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId")),
+            AWSMemberEncoding(label: "voiceToneAnalysisTaskId", location: .uri("VoiceToneAnalysisTaskId"))
+        ]
+
+        /// The Voice Connector ID.
+        public let voiceConnectorId: String
+        /// The ID of the voice tone analysis task.
+        public let voiceToneAnalysisTaskId: String
+
+        public init(voiceConnectorId: String, voiceToneAnalysisTaskId: String) {
+            self.voiceConnectorId = voiceConnectorId
+            self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, max: 256)
+            try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, min: 1)
+            try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct StreamingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The amount of time, in hours, to the Kinesis data.
         public let dataRetentionInHours: Int
+        /// When true, streaming to Kinesis is off.
         public let disabled: Bool
+        /// The call analytics configuration.
+        public let mediaInsightsConfiguration: MediaInsightsConfiguration?
+        /// The streaming notification targets.
         public let streamingNotificationTargets: [StreamingNotificationTarget]?
 
-        public init(dataRetentionInHours: Int, disabled: Bool, streamingNotificationTargets: [StreamingNotificationTarget]? = nil) {
+        public init(dataRetentionInHours: Int, disabled: Bool, mediaInsightsConfiguration: MediaInsightsConfiguration? = nil, streamingNotificationTargets: [StreamingNotificationTarget]? = nil) {
             self.dataRetentionInHours = dataRetentionInHours
             self.disabled = disabled
+            self.mediaInsightsConfiguration = mediaInsightsConfiguration
             self.streamingNotificationTargets = streamingNotificationTargets
         }
 
         public func validate(name: String) throws {
             try self.validate(self.dataRetentionInHours, name: "dataRetentionInHours", parent: name, min: 0)
+            try self.mediaInsightsConfiguration?.validate(name: "\(name).mediaInsightsConfiguration")
             try self.validate(self.streamingNotificationTargets, name: "streamingNotificationTargets", parent: name, max: 3)
             try self.validate(self.streamingNotificationTargets, name: "streamingNotificationTargets", parent: name, min: 1)
         }
@@ -2847,11 +3893,13 @@ extension ChimeSDKVoice {
         private enum CodingKeys: String, CodingKey {
             case dataRetentionInHours = "DataRetentionInHours"
             case disabled = "Disabled"
+            case mediaInsightsConfiguration = "MediaInsightsConfiguration"
             case streamingNotificationTargets = "StreamingNotificationTargets"
         }
     }
 
     public struct StreamingNotificationTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The streaming notification target.
         public let notificationTarget: NotificationTarget?
 
         public init(notificationTarget: NotificationTarget? = nil) {
@@ -2863,11 +3911,67 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// The tag's key.
+        public let key: String
+        /// The tag's value.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The ARN of the resource being tagged.
+        public let resourceARN: String
+        /// A list of the tags being added to the resource.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
     public struct Termination: AWSEncodableShape & AWSDecodableShape {
+        /// The countries to which calls are allowed, in ISO 3166-1 alpha-2 format. Required.
         public let callingRegions: [String]?
+        /// The IP addresses allowed to make calls, in CIDR format.
         public let cidrAllowedList: [String]?
+        /// The limit on calls per second. Max value based on account service quota. Default value of 1.
         public let cpsLimit: Int?
+        /// The default outbound calling number.
         public let defaultPhoneNumber: String?
+        /// When termination is disabled, outbound calls cannot be made.
         public let disabled: Bool?
 
         public init(callingRegions: [String]? = nil, cidrAllowedList: [String]? = nil, cpsLimit: Int? = nil, defaultPhoneNumber: String? = nil, disabled: Bool? = nil) {
@@ -2893,7 +3997,9 @@ extension ChimeSDKVoice {
     }
 
     public struct TerminationHealth: AWSDecodableShape {
+        /// The source IP address.
         public let source: String?
+        /// The timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var timestamp: Date?
 
@@ -2908,7 +4014,37 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The ARN of the resource having its tags removed.
+        public let resourceARN: String
+        /// The keys of the tags being removed from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
     public struct UpdateGlobalSettingsRequest: AWSEncodableShape {
+        /// The Voice Connector settings.
         public let voiceConnector: VoiceConnectorSettings?
 
         public init(voiceConnector: VoiceConnectorSettings? = nil) {
@@ -2925,8 +4061,11 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
         ]
 
+        /// The outbound calling name associated with the phone number.
         public let callingName: String?
+        /// The phone number ID.
         public let phoneNumberId: String
+        /// The product type.
         public let productType: PhoneNumberProductType?
 
         public init(callingName: String? = nil, phoneNumberId: String, productType: PhoneNumberProductType? = nil) {
@@ -2947,8 +4086,11 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdatePhoneNumberRequestItem: AWSEncodableShape {
+        /// The outbound calling name to update.
         public let callingName: String?
+        /// The phone number ID to update.
         public let phoneNumberId: String
+        /// The product type to update.
         public let productType: PhoneNumberProductType?
 
         public init(callingName: String? = nil, phoneNumberId: String, productType: PhoneNumberProductType? = nil) {
@@ -2970,6 +4112,7 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdatePhoneNumberResponse: AWSDecodableShape {
+        /// The updated phone number details.
         public let phoneNumber: PhoneNumber?
 
         public init(phoneNumber: PhoneNumber? = nil) {
@@ -2982,6 +4125,7 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdatePhoneNumberSettingsRequest: AWSEncodableShape {
+        /// The default outbound calling name for the account.
         public let callingName: String
 
         public init(callingName: String) {
@@ -3003,9 +4147,13 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The proxy session capabilities.
         public let capabilities: [Capability]
+        /// The number of minutes allowed for the proxy session.
         public let expiryMinutes: Int?
+        /// The proxy session ID.
         public let proxySessionId: String
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(capabilities: [Capability], expiryMinutes: Int? = nil, proxySessionId: String, voiceConnectorId: String) {
@@ -3032,6 +4180,7 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateProxySessionResponse: AWSDecodableShape {
+        /// The updated proxy session details.
         public let proxySession: ProxySession?
 
         public init(proxySession: ProxySession? = nil) {
@@ -3049,8 +4198,11 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "transactionId", location: .uri("TransactionId"))
         ]
 
+        /// Arguments made available to the Lambda function as part of the  CALL_UPDATE_REQUESTED event. Can contain 0-20 key-value pairs.
         public let arguments: [String: String]
+        /// The ID of the SIP media application handling the call.
         public let sipMediaApplicationId: String
+        /// The ID of the call transaction.
         public let transactionId: String
 
         public init(arguments: [String: String], sipMediaApplicationId: String, transactionId: String) {
@@ -3071,6 +4223,7 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateSipMediaApplicationCallResponse: AWSDecodableShape {
+        /// A Call instance for a SIP media application.
         public let sipMediaApplicationCall: SipMediaApplicationCall?
 
         public init(sipMediaApplicationCall: SipMediaApplicationCall? = nil) {
@@ -3087,8 +4240,11 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
         ]
 
+        /// The new set of endpoints for the specified SIP media application.
         public let endpoints: [SipMediaApplicationEndpoint]?
+        /// The new name for the specified SIP media application.
         public let name: String?
+        /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
         public init(endpoints: [SipMediaApplicationEndpoint]? = nil, name: String? = nil, sipMediaApplicationId: String) {
@@ -3105,6 +4261,7 @@ extension ChimeSDKVoice {
             try self.validate(self.endpoints, name: "endpoints", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9 _.-]+$")
             try self.validate(self.sipMediaApplicationId, name: "sipMediaApplicationId", parent: name, pattern: "\\S")
         }
 
@@ -3115,6 +4272,7 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateSipMediaApplicationResponse: AWSDecodableShape {
+        /// The updated SIP media application’s details.
         public let sipMediaApplication: SipMediaApplication?
 
         public init(sipMediaApplication: SipMediaApplication? = nil) {
@@ -3131,9 +4289,13 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "sipRuleId", location: .uri("SipRuleId"))
         ]
 
+        /// The new value that indicates whether the rule is disabled.
         public let disabled: Bool?
+        /// The new name for the specified SIP rule.
         public let name: String
+        /// The SIP rule ID.
         public let sipRuleId: String
+        /// The new list of target applications.
         public let targetApplications: [SipRuleTargetApplication]?
 
         public init(disabled: Bool? = nil, name: String, sipRuleId: String, targetApplications: [SipRuleTargetApplication]? = nil) {
@@ -3146,6 +4308,7 @@ extension ChimeSDKVoice {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9 _.-]+$")
             try self.validate(self.sipRuleId, name: "sipRuleId", parent: name, pattern: "\\S")
             try self.targetApplications?.forEach {
                 try $0.validate(name: "\(name).targetApplications[]")
@@ -3162,6 +4325,7 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateSipRuleResponse: AWSDecodableShape {
+        /// The updated SIP rule details.
         public let sipRule: SipRule?
 
         public init(sipRule: SipRule? = nil) {
@@ -3178,8 +4342,11 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri("VoiceConnectorGroupId"))
         ]
 
+        /// The name of the Voice Connector group.
         public let name: String
+        /// The Voice Connector ID.
         public let voiceConnectorGroupId: String
+        /// The VoiceConnectorItems to associate with the Voice Connector  group.
         public let voiceConnectorItems: [VoiceConnectorItem]
 
         public init(name: String, voiceConnectorGroupId: String, voiceConnectorItems: [VoiceConnectorItem]) {
@@ -3191,6 +4358,7 @@ extension ChimeSDKVoice {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9 _.-]+$")
             try self.validate(self.voiceConnectorGroupId, name: "voiceConnectorGroupId", parent: name, pattern: "\\S")
             try self.voiceConnectorItems.forEach {
                 try $0.validate(name: "\(name).voiceConnectorItems[]")
@@ -3204,6 +4372,7 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateVoiceConnectorGroupResponse: AWSDecodableShape {
+        /// The updated Voice Connector group.
         public let voiceConnectorGroup: VoiceConnectorGroup?
 
         public init(voiceConnectorGroup: VoiceConnectorGroup? = nil) {
@@ -3220,8 +4389,11 @@ extension ChimeSDKVoice {
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
         ]
 
+        /// The name of the Voice Connector.
         public let name: String
+        /// When enabled, requires encryption for the Voice Connector.
         public let requireEncryption: Bool
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(name: String, requireEncryption: Bool, voiceConnectorId: String) {
@@ -3233,6 +4405,7 @@ extension ChimeSDKVoice {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9 _.-]+$")
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
         }
 
@@ -3243,6 +4416,7 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateVoiceConnectorResponse: AWSDecodableShape {
+        /// The updated Voice Connector details.
         public let voiceConnector: VoiceConnector?
 
         public init(voiceConnector: VoiceConnector? = nil) {
@@ -3254,13 +4428,109 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct UpdateVoiceProfileDomainRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceProfileDomainId", location: .uri("VoiceProfileDomainId"))
+        ]
+
+        /// The description of the voice profile domain.
+        public let description: String?
+        /// The name of the voice profile domain.
+        public let name: String?
+        /// The domain ID.
+        public let voiceProfileDomainId: String
+
+        public init(description: String? = nil, name: String? = nil, voiceProfileDomainId: String) {
+            self.description = description
+            self.name = name
+            self.voiceProfileDomainId = voiceProfileDomainId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9 _.-]+$")
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, max: 256)
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, min: 1)
+            try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateVoiceProfileDomainResponse: AWSDecodableShape {
+        /// The updated details of the voice profile domain.
+        public let voiceProfileDomain: VoiceProfileDomain?
+
+        public init(voiceProfileDomain: VoiceProfileDomain? = nil) {
+            self.voiceProfileDomain = voiceProfileDomain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case voiceProfileDomain = "VoiceProfileDomain"
+        }
+    }
+
+    public struct UpdateVoiceProfileRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "voiceProfileId", location: .uri("VoiceProfileId"))
+        ]
+
+        /// The ID of the speaker search task.
+        public let speakerSearchTaskId: String
+        /// The profile ID.
+        public let voiceProfileId: String
+
+        public init(speakerSearchTaskId: String, voiceProfileId: String) {
+            self.speakerSearchTaskId = speakerSearchTaskId
+            self.voiceProfileId = voiceProfileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, max: 256)
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, min: 1)
+            try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceProfileId, name: "voiceProfileId", parent: name, max: 256)
+            try self.validate(self.voiceProfileId, name: "voiceProfileId", parent: name, min: 1)
+            try self.validate(self.voiceProfileId, name: "voiceProfileId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case speakerSearchTaskId = "SpeakerSearchTaskId"
+        }
+    }
+
+    public struct UpdateVoiceProfileResponse: AWSDecodableShape {
+        /// The updated voice profile settings.
+        public let voiceProfile: VoiceProfile?
+
+        public init(voiceProfile: VoiceProfile? = nil) {
+            self.voiceProfile = voiceProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case voiceProfile = "VoiceProfile"
+        }
+    }
+
     public struct ValidateE911AddressRequest: AWSEncodableShape {
+        /// The AWS account ID.
         public let awsAccountId: String
+        /// The address city, such as Portland.
         public let city: String
+        /// The country in the address being validated.
         public let country: String
+        /// The dress postal code, such 04352.
         public let postalCode: String
+        /// The address state, such as ME.
         public let state: String
+        /// The address street information, such as 8th Avenue.
         public let streetInfo: String
+        /// The address street number, such as 200 or 2121.
         public let streetNumber: String
 
         public init(awsAccountId: String, city: String, country: String, postalCode: String, state: String, streetInfo: String, streetNumber: String) {
@@ -3295,9 +4565,13 @@ extension ChimeSDKVoice {
     }
 
     public struct ValidateE911AddressResponse: AWSDecodableShape {
+        /// The validated address.
         public let address: Address?
+        /// The ID that represents the address.
         public let addressExternalId: String?
+        /// The list of address suggestions..
         public let candidateAddressList: [CandidateAddress]?
+        /// Number indicating the result of address validation. 0 means the  address was perfect as-is and successfully validated. 1 means the  address was corrected. 2 means the address sent was not close  enough and was not validated.
         public let validationResult: Int?
 
         public init(address: Address? = nil, addressExternalId: String? = nil, candidateAddressList: [CandidateAddress]? = nil, validationResult: Int? = nil) {
@@ -3316,15 +4590,23 @@ extension ChimeSDKVoice {
     }
 
     public struct VoiceConnector: AWSDecodableShape {
+        /// The AWS Region in which the Voice Connector is created.  Default: us-east-1.
         public let awsRegion: VoiceConnectorAwsRegion?
+        /// The Voice Connector's creation timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
+        /// The Voice Connector's name.
         public let name: String?
+        /// The outbound host name for the Voice Connector.
         public let outboundHostName: String?
+        /// Enables or disables encryption for the Voice Connector.
         public let requireEncryption: Bool?
+        /// The Voice Connector's updated timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
+        /// The ARN of the Voice Connector.
         public let voiceConnectorArn: String?
+        /// The Voice Connector's ID.
         public let voiceConnectorId: String?
 
         public init(awsRegion: VoiceConnectorAwsRegion? = nil, createdTimestamp: Date? = nil, name: String? = nil, outboundHostName: String? = nil, requireEncryption: Bool? = nil, updatedTimestamp: Date? = nil, voiceConnectorArn: String? = nil, voiceConnectorId: String? = nil) {
@@ -3351,13 +4633,19 @@ extension ChimeSDKVoice {
     }
 
     public struct VoiceConnectorGroup: AWSDecodableShape {
+        /// The Voice Connector group's creation time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
+        /// The name of a Voice Connector group.
         public let name: String?
+        /// The Voice Connector group's creation time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
+        /// The ARN of the Voice Connector group.
         public let voiceConnectorGroupArn: String?
+        /// The ID of a Voice Connector group.
         public let voiceConnectorGroupId: String?
+        /// The Voice Connectors to which you route inbound calls.
         public let voiceConnectorItems: [VoiceConnectorItem]?
 
         public init(createdTimestamp: Date? = nil, name: String? = nil, updatedTimestamp: Date? = nil, voiceConnectorGroupArn: String? = nil, voiceConnectorGroupId: String? = nil, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
@@ -3380,7 +4668,9 @@ extension ChimeSDKVoice {
     }
 
     public struct VoiceConnectorItem: AWSEncodableShape & AWSDecodableShape {
+        /// The priority setting of a Voice Connector item. Calls are routed to hosts  in priority order, with 1 as the highest priority. When hosts have equal priority,  the system distributes calls among them based on their relative weight.
         public let priority: Int
+        /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(priority: Int, voiceConnectorId: String) {
@@ -3401,6 +4691,7 @@ extension ChimeSDKVoice {
     }
 
     public struct VoiceConnectorSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 bucket that stores the Voice Connector's call detail records.
         public let cdrBucket: String?
 
         public init(cdrBucket: String? = nil) {
@@ -3409,6 +4700,192 @@ extension ChimeSDKVoice {
 
         private enum CodingKeys: String, CodingKey {
             case cdrBucket = "CdrBucket"
+        }
+    }
+
+    public struct VoiceProfile: AWSDecodableShape {
+        /// The time at which the voice profile was created and enrolled.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
+        /// The time at which a voice profile expires unless you re-enroll the caller via the  UpdateVoiceProfile API.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var expirationTimestamp: Date?
+        /// The time at which the voice profile was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
+        /// The ARN of the voice profile.
+        public let voiceProfileArn: String?
+        /// The ID of the domain that contains the voice profile.
+        public let voiceProfileDomainId: String?
+        /// The ID of the voice profile.
+        public let voiceProfileId: String?
+
+        public init(createdTimestamp: Date? = nil, expirationTimestamp: Date? = nil, updatedTimestamp: Date? = nil, voiceProfileArn: String? = nil, voiceProfileDomainId: String? = nil, voiceProfileId: String? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.expirationTimestamp = expirationTimestamp
+            self.updatedTimestamp = updatedTimestamp
+            self.voiceProfileArn = voiceProfileArn
+            self.voiceProfileDomainId = voiceProfileDomainId
+            self.voiceProfileId = voiceProfileId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case expirationTimestamp = "ExpirationTimestamp"
+            case updatedTimestamp = "UpdatedTimestamp"
+            case voiceProfileArn = "VoiceProfileArn"
+            case voiceProfileDomainId = "VoiceProfileDomainId"
+            case voiceProfileId = "VoiceProfileId"
+        }
+    }
+
+    public struct VoiceProfileDomain: AWSDecodableShape {
+        /// The time at which the voice profile domain was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
+        /// The description of the voice profile domain.
+        public let description: String?
+        /// The name of the voice profile domain.
+        public let name: String?
+        /// A structure that contains the configuration settings for server-side encryption.
+        public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
+        /// The time at which the voice profile was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
+        /// The voice profile domain's Amazon Resource Number (ARN).
+        public let voiceProfileDomainArn: String?
+        /// The ID of the voice profile domain.
+        public let voiceProfileDomainId: String?
+
+        public init(createdTimestamp: Date? = nil, description: String? = nil, name: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, updatedTimestamp: Date? = nil, voiceProfileDomainArn: String? = nil, voiceProfileDomainId: String? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.description = description
+            self.name = name
+            self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+            self.updatedTimestamp = updatedTimestamp
+            self.voiceProfileDomainArn = voiceProfileDomainArn
+            self.voiceProfileDomainId = voiceProfileDomainId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case description = "Description"
+            case name = "Name"
+            case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
+            case updatedTimestamp = "UpdatedTimestamp"
+            case voiceProfileDomainArn = "VoiceProfileDomainArn"
+            case voiceProfileDomainId = "VoiceProfileDomainId"
+        }
+    }
+
+    public struct VoiceProfileDomainSummary: AWSDecodableShape {
+        /// The time at which the voice profile domain summary was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
+        /// Describes the voice profile domain summary.
+        public let description: String?
+        /// The name of the voice profile domain summary.
+        public let name: String?
+        /// The time at which the voice profile domain summary was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
+        /// The ARN of a voice profile in a voice profile domain summary.
+        public let voiceProfileDomainArn: String?
+        /// The ID of the voice profile domain summary.
+        public let voiceProfileDomainId: String?
+
+        public init(createdTimestamp: Date? = nil, description: String? = nil, name: String? = nil, updatedTimestamp: Date? = nil, voiceProfileDomainArn: String? = nil, voiceProfileDomainId: String? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.description = description
+            self.name = name
+            self.updatedTimestamp = updatedTimestamp
+            self.voiceProfileDomainArn = voiceProfileDomainArn
+            self.voiceProfileDomainId = voiceProfileDomainId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case description = "Description"
+            case name = "Name"
+            case updatedTimestamp = "UpdatedTimestamp"
+            case voiceProfileDomainArn = "VoiceProfileDomainArn"
+            case voiceProfileDomainId = "VoiceProfileDomainId"
+        }
+    }
+
+    public struct VoiceProfileSummary: AWSDecodableShape {
+        /// The time at which a voice profile summary was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
+        /// Extends the life of the voice profile. You can use UpdateVoiceProfile to refresh an existing voice profile's voice print and extend the life of the summary.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var expirationTimestamp: Date?
+        /// The time at which a voice profile summary was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
+        /// The ARN of the voice profile in a voice profile summary.
+        public let voiceProfileArn: String?
+        /// The ID of the voice profile domain in a voice profile summary.
+        public let voiceProfileDomainId: String?
+        /// The ID of the voice profile in a voice profile summary.
+        public let voiceProfileId: String?
+
+        public init(createdTimestamp: Date? = nil, expirationTimestamp: Date? = nil, updatedTimestamp: Date? = nil, voiceProfileArn: String? = nil, voiceProfileDomainId: String? = nil, voiceProfileId: String? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.expirationTimestamp = expirationTimestamp
+            self.updatedTimestamp = updatedTimestamp
+            self.voiceProfileArn = voiceProfileArn
+            self.voiceProfileDomainId = voiceProfileDomainId
+            self.voiceProfileId = voiceProfileId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case expirationTimestamp = "ExpirationTimestamp"
+            case updatedTimestamp = "UpdatedTimestamp"
+            case voiceProfileArn = "VoiceProfileArn"
+            case voiceProfileDomainId = "VoiceProfileDomainId"
+            case voiceProfileId = "VoiceProfileId"
+        }
+    }
+
+    public struct VoiceToneAnalysisTask: AWSDecodableShape {
+        /// The call details of a voice tone analysis task.
+        public let callDetails: CallDetails?
+        /// The time at which a voice tone analysis task was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
+        /// The time at which a voice tone analysis task started.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedTimestamp: Date?
+        /// The status of a voice tone analysis task.
+        public let statusMessage: String?
+        /// The time at which a voice tone analysis task was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
+        /// The ID of the voice tone analysis task.
+        public let voiceToneAnalysisTaskId: String?
+        /// The status of a voice tone analysis task, IN_QUEUE, IN_PROGRESS, PARTIAL_SUCCESS, SUCCEEDED,  FAILED, or STOPPED.
+        public let voiceToneAnalysisTaskStatus: String?
+
+        public init(callDetails: CallDetails? = nil, createdTimestamp: Date? = nil, startedTimestamp: Date? = nil, statusMessage: String? = nil, updatedTimestamp: Date? = nil, voiceToneAnalysisTaskId: String? = nil, voiceToneAnalysisTaskStatus: String? = nil) {
+            self.callDetails = callDetails
+            self.createdTimestamp = createdTimestamp
+            self.startedTimestamp = startedTimestamp
+            self.statusMessage = statusMessage
+            self.updatedTimestamp = updatedTimestamp
+            self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
+            self.voiceToneAnalysisTaskStatus = voiceToneAnalysisTaskStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callDetails = "CallDetails"
+            case createdTimestamp = "CreatedTimestamp"
+            case startedTimestamp = "StartedTimestamp"
+            case statusMessage = "StatusMessage"
+            case updatedTimestamp = "UpdatedTimestamp"
+            case voiceToneAnalysisTaskId = "VoiceToneAnalysisTaskId"
+            case voiceToneAnalysisTaskStatus = "VoiceToneAnalysisTaskStatus"
         }
     }
 }
@@ -3422,12 +4899,14 @@ public struct ChimeSDKVoiceErrorType: AWSErrorType {
         case badRequestException = "BadRequestException"
         case conflictException = "ConflictException"
         case forbiddenException = "ForbiddenException"
+        case goneException = "GoneException"
         case notFoundException = "NotFoundException"
         case resourceLimitExceededException = "ResourceLimitExceededException"
         case serviceFailureException = "ServiceFailureException"
         case serviceUnavailableException = "ServiceUnavailableException"
         case throttledClientException = "ThrottledClientException"
         case unauthorizedClientException = "UnauthorizedClientException"
+        case unprocessableEntityException = "UnprocessableEntityException"
     }
 
     private let error: Code
@@ -3448,16 +4927,30 @@ public struct ChimeSDKVoiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You don't have the permissions needed to run this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The input parameters don't match the service's restrictions.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// Multiple instances of the same request were made simultaneously.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The client is permanently forbidden from making the request.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// Access to the target resource is no longer available at the origin server. This condition is likely to be permanent.
+    public static var goneException: Self { .init(.goneException) }
+    /// The requested resource couldn't be found.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// The request exceeds the resource limit.
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    /// The service encountered an unexpected error.
     public static var serviceFailureException: Self { .init(.serviceFailureException) }
+    /// The service is currently unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The number of customer requests exceeds the request rate limit.
     public static var throttledClientException: Self { .init(.throttledClientException) }
+    /// The client isn't authorized to request a resource.
     public static var unauthorizedClientException: Self { .init(.unauthorizedClientException) }
+    /// A well-formed request couldn't be followed due to semantic errors.
+    public static var unprocessableEntityException: Self { .init(.unprocessableEntityException) }
 }
 
 extension ChimeSDKVoiceErrorType: Equatable {

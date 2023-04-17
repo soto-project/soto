@@ -62,6 +62,8 @@ public struct CloudFormation: AWSService {
                 [.fips]: .init(endpoints: [
                     "us-east-1": "cloudformation-fips.us-east-1.amazonaws.com",
                     "us-east-2": "cloudformation-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "cloudformation.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "cloudformation.us-gov-west-1.amazonaws.com",
                     "us-west-1": "cloudformation-fips.us-west-1.amazonaws.com",
                     "us-west-2": "cloudformation-fips.us-west-2.amazonaws.com"
                 ])
@@ -1501,6 +1503,7 @@ extension CloudFormation {
                 .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_IN_PROGRESS")),
                 .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_FAILED")),
                 .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_COMPLETE")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_COMPLETE")),
             ],
             minDelayTime: .seconds(30),
             command: self.describeStacks

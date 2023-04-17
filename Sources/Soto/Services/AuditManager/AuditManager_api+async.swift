@@ -316,7 +316,7 @@ extension AuditManager {
         return try await self.client.execute(operation: "UpdateControl", path: "/controls/{controlId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Updates Audit Manager settings for the current user account.
+    ///  Updates Audit Manager settings for the current account.
     public func updateSettings(_ input: UpdateSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateSettingsResponse {
         return try await self.client.execute(operation: "UpdateSettings", path: "/settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -73,7 +73,7 @@ public struct SSMIncidents: AWSService {
         return self.client.execute(operation: "CreateResponsePlan", path: "/createResponsePlan", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a custom timeline event on the incident details page of an incident record. Timeline events are automatically created by Incident Manager, marking key moment during an incident. You can create custom timeline events to mark important events that are automatically detected by Incident Manager.
+    /// Creates a custom timeline event on the incident details page of an incident record. Incident Manager automatically creates timeline events that mark key moments during an incident. You can create custom timeline events to mark important events that Incident Manager can detect automatically.
     public func createTimelineEvent(_ input: CreateTimelineEventInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTimelineEventOutput> {
         return self.client.execute(operation: "CreateTimelineEvent", path: "/createTimelineEvent", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

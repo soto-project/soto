@@ -1890,7 +1890,7 @@ extension NetworkManager {
         public let peeringId: String
         /// The list of key-value tags associated with the request.
         public let tags: [Tag]?
-        /// The ARN of the transit gateway route table for the attachment request.
+        /// The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
         public let transitGatewayRouteTableArn: String
 
         public init(clientToken: String? = CreateTransitGatewayRouteTableAttachmentRequest.idempotencyToken(), peeringId: String, tags: [Tag]? = nil, transitGatewayRouteTableArn: String) {
@@ -3387,8 +3387,7 @@ extension NetworkManager {
         public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
-        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif     The following are the supported resource types for Network Manager:    connection     device     link     site
-        ///  The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
+        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    connection     device     link     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
         public let resourceType: String?
 
         public init(globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, resourceType: String? = nil) {
@@ -3458,8 +3457,7 @@ extension NetworkManager {
         public let registeredGatewayArn: String?
         /// The ARN of the gateway.
         public let resourceArn: String?
-        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif     The following are the supported resource types for Network Manager:    connection     device     link     site
-        ///  The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
+        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    connection     device     link     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
         public let resourceType: String?
 
         public init(accountId: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
@@ -3546,7 +3544,7 @@ extension NetworkManager {
         public let registeredGatewayArn: String?
         /// The ARN of the resource.
         public let resourceArn: String?
-        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon - The definition model is Connection.    dx-gateway - The definition model is DirectConnectGateway.    dx-vif - The definition model is VirtualInterface.    The following are the supported resource types for Network Manager:    connection - The definition model is Connection.    device - The definition model is Device.    link - The definition model is Link.    site - The definition model is Site.    The following are the supported resource types for Amazon VPC:    customer-gateway - The definition model is CustomerGateway.    transit-gateway - The definition model is TransitGateway.    transit-gateway-attachment - The definition model is TransitGatewayAttachment.    transit-gateway-connect-peer - The definition model is TransitGatewayConnectPeer.    transit-gateway-route-table - The definition model is TransitGatewayRouteTable.    vpn-connection - The definition model is VpnConnection.
+        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon - The definition model is Connection.    dx-gateway - The definition model is DirectConnectGateway.    dx-vif - The definition model is VirtualInterface.   The following are the supported resource types for Network Manager:    connection - The definition model is Connection.    device - The definition model is Device.    link - The definition model is Link.    site - The definition model is Site.   The following are the supported resource types for Amazon VPC:    customer-gateway - The definition model is CustomerGateway.    transit-gateway - The definition model is TransitGateway.    transit-gateway-attachment - The definition model is TransitGatewayAttachment.    transit-gateway-connect-peer - The definition model is TransitGatewayConnectPeer.    transit-gateway-route-table - The definition model is TransitGatewayRouteTable.    vpn-connection - The definition model is VpnConnection.
         public let resourceType: String?
 
         public init(accountId: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
@@ -3744,8 +3742,7 @@ extension NetworkManager {
         public let registeredGatewayArn: String?
         /// The ARN of the resource.
         public let resourceArn: String?
-        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif     The following are the supported resource types for Network Manager:    connection     device     link     site
-        ///  The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
+        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    connection     device     link     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
         public let resourceType: String?
 
         public init(accountId: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
@@ -4689,8 +4686,7 @@ extension NetworkManager {
         public let resourceArn: String?
         /// The ID of the resource.
         public let resourceId: String?
-        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif     The following are the supported resource types for Network Manager:    connection     device     link     site
-        ///  The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
+        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    connection     device     link     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
         public let resourceType: String?
         /// The tags.
         public let tags: [Tag]?
@@ -5659,7 +5655,7 @@ extension NetworkManager {
         public let attachment: Attachment?
         /// The ID of the peering attachment.
         public let peeringId: String?
-        /// The ARN of the transit gateway attachment route table.
+        /// The ARN of the transit gateway attachment route table. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
         public let transitGatewayRouteTableArn: String?
 
         public init(attachment: Attachment? = nil, peeringId: String? = nil, transitGatewayRouteTableArn: String? = nil) {

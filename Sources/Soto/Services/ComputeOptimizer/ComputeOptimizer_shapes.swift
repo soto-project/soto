@@ -221,6 +221,7 @@ extension ComputeOptimizer {
         case inferredWorkloadTypes = "InferredWorkloadTypes"
         case instanceArn = "InstanceArn"
         case instanceName = "InstanceName"
+        case instanceState = "InstanceState"
         case lastRefreshTimestamp = "LastRefreshTimestamp"
         case lookbackPeriodInDays = "LookbackPeriodInDays"
         case recommendationOptionsEstimatedMonthlySavingsCurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
@@ -312,6 +313,7 @@ extension ComputeOptimizer {
         case recommendationOptionsMonthlyPrice = "RecommendationOptionsMonthlyPrice"
         case recommendationOptionsPerformanceRisk = "RecommendationOptionsPerformanceRisk"
         case recommendationOptionsSavingsOpportunityPercentage = "RecommendationOptionsSavingsOpportunityPercentage"
+        case rootVolume = "RootVolume"
         case utilizationMetricsVolumeReadBytesPerSecondMaximum = "UtilizationMetricsVolumeReadBytesPerSecondMaximum"
         case utilizationMetricsVolumeReadOpsPerSecondMaximum = "UtilizationMetricsVolumeReadOpsPerSecondMaximum"
         case utilizationMetricsVolumeWriteBytesPerSecondMaximum = "UtilizationMetricsVolumeWriteBytesPerSecondMaximum"
@@ -358,6 +360,7 @@ extension ComputeOptimizer {
         case amazonEmr = "AmazonEmr"
         case apacheCassandra = "ApacheCassandra"
         case apacheHadoop = "ApacheHadoop"
+        case kafka = "Kafka"
         case memcached = "Memcached"
         case nginx = "Nginx"
         case postgreSql = "PostgreSql"
@@ -388,6 +391,16 @@ extension ComputeOptimizer {
         case networkBandwidthUnderProvisioned = "NetworkBandwidthUnderprovisioned"
         case networkPpsOverProvisioned = "NetworkPPSOverprovisioned"
         case networkPpsUnderProvisioned = "NetworkPPSUnderprovisioned"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceState: String, CustomStringConvertible, Codable, Sendable {
+        case pending = "pending"
+        case running = "running"
+        case shuttingDown = "shutting-down"
+        case stopped = "stopped"
+        case stopping = "stopping"
+        case terminated = "terminated"
         public var description: String { return self.rawValue }
     }
 
@@ -855,7 +868,7 @@ extension ComputeOptimizer {
     public struct ECSServiceProjectedMetric: AWSDecodableShape {
         ///  The lower bound values for the projected metric.
         public let lowerBoundValues: [Double]?
-        ///  The name of the projected metric.  The following metrics are available:    CPU — The percentage of allocated compute units  that are currently in use on the ECS service tasks.    Memory — The percentage of memory that is  currently in use on the ECS service tasks.
+        ///  The name of the projected metric.  The following metrics are available:    Cpu — The percentage of allocated compute units  that are currently in use on the service tasks.    Memory — The percentage of memory that's  currently in use on the service tasks.
         public let name: ECSServiceMetricName?
         ///  The timestamps of the projected metric.
         public let timestamps: [Date]?
@@ -880,7 +893,7 @@ extension ComputeOptimizer {
     public struct ECSServiceProjectedUtilizationMetric: AWSDecodableShape {
         ///  The lower bound values for the projected utilization metrics.
         public let lowerBoundValue: Double?
-        ///  The name of the projected utilization metric.  The following utilization metrics are available:    CPU — The percentage of allocated compute units  that are currently in use on the ECS service tasks.    Memory — The percentage of memory that is  currently in use on the ECS service tasks.
+        ///  The name of the projected utilization metric.  The following utilization metrics are available:    Cpu — The percentage of allocated compute units  that are currently in use on the service tasks.    Memory — The percentage of memory that's  currently in use on the service tasks.
         public let name: ECSServiceMetricName?
         /// The statistic of the projected utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see Viewing resource recommendations in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the Amazon CloudWatch User Guide.
         public let statistic: ECSServiceMetricStatistic?
@@ -903,27 +916,27 @@ extension ComputeOptimizer {
     }
 
     public struct ECSServiceRecommendation: AWSDecodableShape {
-        ///  The Amazon Web Services account ID of the ECS service.
+        ///  The Amazon Web Services account ID of the Amazon ECS service.
         public let accountId: String?
-        ///  The risk of the current ECS service not meeting the performance needs of its workloads.  The higher the risk, the more likely the current service can't meet the performance  requirements of its workload.
+        ///  The risk of the current Amazon ECS service not meeting the performance needs of its workloads.  The higher the risk, the more likely the current service can't meet the performance  requirements of its workload.
         public let currentPerformanceRisk: CurrentPerformanceRisk?
-        ///  The configuration of the current ECS service.
+        ///  The configuration of the current Amazon ECS service.
         public let currentServiceConfiguration: ServiceConfiguration?
-        ///  The finding classification of an ECS service.  Findings for ECS services include:     Underprovisioned —  When Compute Optimizer detects that there’s not enough memory or CPU, an ECS  service is considered under-provisioned. An under-provisioned ECS service might  result in poor application performance.     Overprovisioned —  When Compute Optimizer detects that there’s excessive memory or CPU, an ECS  service is considered over-provisioned. An over-provisioned ECS service might  result in additional infrastructure costs.      Optimized —  When both the CPU and memory of your ECS service meet the performance requirements  of your workload, the service is considered optimized.
+        ///  The finding classification of an Amazon ECS service.  Findings for Amazon ECS services include:     Underprovisioned —  When Compute Optimizer detects that there’s not enough memory or CPU, an Amazon ECS  service is considered under-provisioned. An under-provisioned service might  result in poor application performance.     Overprovisioned —  When Compute Optimizer detects that there’s excessive memory or CPU, an Amazon ECS  service is considered over-provisioned. An over-provisioned service might  result in additional infrastructure costs.      Optimized —  When both the CPU and memory of your Amazon ECS service meet the performance requirements  of your workload, the service is considered optimized.
         public let finding: ECSServiceRecommendationFinding?
-        ///  The reason for the finding classification of an ECS service.  Finding reason codes for ECS services include:     CPUUnderprovisioned —  The ECS service CPU configuration can be sized up to enhance the performance of  your workload. This is identified by analyzing the CPUUtilization metric of the  current service during the look-back period.     CPUOverprovisioned —  The ECS service CPU configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the CPUUtilization  metric of the current service during the look-back period.      MemoryUnderprovisioned —  The ECS service memory configuration  can be sized up to enhance the performance of  your workload. This is identified by analyzing the MemoryUtilization metric of the  current service during the look-back period.     MemoryOverprovisioned —  The ECS service memory configuration can be sized down while still meeting the  performance requirements of your workload. This is identified by analyzing the  MemoryUtilization metric of the current service during the look-back period.
+        ///  The reason for the finding classification of an Amazon ECS service.  Finding reason codes for Amazon ECS services include:     CPUUnderprovisioned —  The service CPU configuration can be sized up to enhance the performance of  your workload. This is identified by analyzing the CPUUtilization metric of the  current service during the look-back period.     CPUOverprovisioned —  The service CPU configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the CPUUtilization  metric of the current service during the look-back period.      MemoryUnderprovisioned —  The service memory configuration  can be sized up to enhance the performance of  your workload. This is identified by analyzing the MemoryUtilization metric of the  current service during the look-back period.     MemoryOverprovisioned —  The service memory configuration can be sized down while still meeting the  performance requirements of your workload. This is identified by analyzing the  MemoryUtilization metric of the current service during the look-back period.
         public let findingReasonCodes: [ECSServiceRecommendationFindingReasonCode]?
-        ///  The timestamp of when the ECS service recommendation was last generated.
+        ///  The timestamp of when the Amazon ECS service recommendation was last generated.
         public let lastRefreshTimestamp: Date?
-        ///  The launch type the ECS service is using.    Compute Optimizer only supports the Fargate launch type.
+        ///  The launch type the Amazon ECS service is using.    Compute Optimizer only supports the Fargate launch type.
         public let launchType: ECSServiceLaunchType?
-        ///  The number of days the ECS service utilization metrics were analyzed.
+        ///  The number of days the Amazon ECS service utilization metrics were analyzed.
         public let lookbackPeriodInDays: Double?
-        ///  The Amazon Resource Name (ARN) of the current ECS service.   The following is the format of the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
+        ///  The Amazon Resource Name (ARN) of the current Amazon ECS service.   The following is the format of the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
         public let serviceArn: String?
-        ///  An array of objects that describe the recommendation options for the ECS service.
+        ///  An array of objects that describe the recommendation options for the Amazon ECS service.
         public let serviceRecommendationOptions: [ECSServiceRecommendationOption]?
-        ///  An array of objects that describe the utilization metrics of the ECS service.
+        ///  An array of objects that describe the utilization metrics of the Amazon ECS service.
         public let utilizationMetrics: [ECSServiceUtilizationMetric]?
 
         public init(accountId: String? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, currentServiceConfiguration: ServiceConfiguration? = nil, finding: ECSServiceRecommendationFinding? = nil, findingReasonCodes: [ECSServiceRecommendationFindingReasonCode]? = nil, lastRefreshTimestamp: Date? = nil, launchType: ECSServiceLaunchType? = nil, lookbackPeriodInDays: Double? = nil, serviceArn: String? = nil, serviceRecommendationOptions: [ECSServiceRecommendationOption]? = nil, utilizationMetrics: [ECSServiceUtilizationMetric]? = nil) {
@@ -973,13 +986,13 @@ extension ComputeOptimizer {
     }
 
     public struct ECSServiceRecommendationOption: AWSDecodableShape {
-        ///  The CPU and memory size recommendations for the containers within the task of your ECS service.
+        ///  The CPU and memory size recommendations for the containers within the task of your Amazon ECS service.
         public let containerRecommendations: [ContainerRecommendation]?
-        ///  The CPU size of the ECS service recommendation option.
+        ///  The CPU size of the Amazon ECS service recommendation option.
         public let cpu: Int?
-        ///  The memory size of the ECS service recommendation option.
+        ///  The memory size of the Amazon ECS service recommendation option.
         public let memory: Int?
-        ///  An array of objects that describe the projected utilization metrics of the ECS service recommendation option.
+        ///  An array of objects that describe the projected utilization metrics of the Amazon ECS service recommendation option.
         public let projectedUtilizationMetrics: [ECSServiceProjectedUtilizationMetric]?
         public let savingsOpportunity: SavingsOpportunity?
 
@@ -1003,9 +1016,9 @@ extension ComputeOptimizer {
     public struct ECSServiceRecommendedOptionProjectedMetric: AWSDecodableShape {
         ///  An array of objects that describe the projected metric.
         public let projectedMetrics: [ECSServiceProjectedMetric]?
-        ///  The recommended CPU size for the ECS service.
+        ///  The recommended CPU size for the Amazon ECS service.
         public let recommendedCpuUnits: Int?
-        ///  The recommended memory size for the ECS service.
+        ///  The recommended memory size for the Amazon ECS service.
         public let recommendedMemorySize: Int?
 
         public init(projectedMetrics: [ECSServiceProjectedMetric]? = nil, recommendedCpuUnits: Int? = nil, recommendedMemorySize: Int? = nil) {
@@ -1022,7 +1035,7 @@ extension ComputeOptimizer {
     }
 
     public struct ECSServiceUtilizationMetric: AWSDecodableShape {
-        ///  The name of the utilization metric.  The following utilization metrics are available:    Cpu — The amount of CPU units that are used in the service.    Memory — The amount  of memory that is used in the service.
+        ///  The name of the utilization metric.  The following utilization metrics are available:    Cpu — The amount of CPU capacity that's used in the service.    Memory — The amount of memory that's used in the service.
         public let name: ECSServiceMetricName?
         /// The statistic of the utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see Viewing resource recommendations in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the Amazon CloudWatch User Guide.
         public let statistic: ECSServiceMetricStatistic?
@@ -1271,13 +1284,13 @@ extension ComputeOptimizer {
     }
 
     public struct ExportECSServiceRecommendationsRequest: AWSEncodableShape {
-        ///  The Amazon Web Services account IDs for the export ECS service recommendations.  If your account is the management account or the delegated administrator  of an organization, use this parameter to specify the member account you want to  export recommendations to. This parameter can't be specified together with the include member accounts  parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
+        ///  The Amazon Web Services account IDs for the export Amazon ECS service recommendations.  If your account is the management account or the delegated administrator  of an organization, use this parameter to specify the member account you want to  export recommendations to. This parameter can't be specified together with the include member accounts  parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
         public let accountIds: [String]?
         /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
         public let fieldsToExport: [ExportableECSServiceField]?
         ///  The format of the export file.   The CSV file is the only export file format currently supported.
         public let fileFormat: FileFormat?
-        ///  An array of objects to specify a filter that exports a more specific set  of ECS service recommendations.
+        ///  An array of objects to specify a filter that exports a more specific set  of Amazon ECS service recommendations.
         public let filters: [ECSServiceRecommendationFilter]?
         /// If your account is the management account or the delegated administrator of an organization, this parameter indicates whether to include recommendations for resources in all member accounts of the organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and Amazon Web Services Organizations trusted access in the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member accounts of the  organization aren't included in the export file. If this parameter or the account ID parameter is omitted, recommendations for  member accounts aren't included in the export.
         public let includeMemberAccounts: Bool?
@@ -1620,7 +1633,7 @@ extension ComputeOptimizer {
         public let endTime: Date
         ///  The granularity, in seconds, of the projected metrics data points.
         public let period: Int
-        ///  The ARN that identifies the ECS service.   The following is the format of the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
+        ///  The ARN that identifies the Amazon ECS service.   The following is the format of the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
         public let serviceArn: String
         ///  The timestamp of the first projected metrics data point to return.
         public let startTime: Date
@@ -1658,15 +1671,15 @@ extension ComputeOptimizer {
     }
 
     public struct GetECSServiceRecommendationsRequest: AWSEncodableShape {
-        ///  Return the ECS service recommendations to the specified Amazon Web Services account IDs.  If your account is the management account or the delegated administrator  of an organization, use this parameter to return the ECS service recommendations to specific member accounts. You can only specify one account ID per request.
+        ///  Return the Amazon ECS service recommendations to the specified Amazon Web Services account IDs.  If your account is the management account or the delegated administrator  of an organization, use this parameter to return the Amazon ECS service recommendations to specific member accounts. You can only specify one account ID per request.
         public let accountIds: [String]?
-        ///  An array of objects to specify a filter that returns a more specific list of ECS service recommendations.
+        ///  An array of objects to specify a filter that returns a more specific list of Amazon ECS service recommendations.
         public let filters: [ECSServiceRecommendationFilter]?
-        ///  The maximum number of ECS service recommendations to return with a single request.  To retrieve the remaining results, make another request with the returned  nextToken value.
+        ///  The maximum number of Amazon ECS service recommendations to return with a single request.  To retrieve the remaining results, make another request with the returned  nextToken value.
         public let maxResults: Int?
-        ///  The token to advance to the next page of ECS service recommendations.
+        ///  The token to advance to the next page of Amazon ECS service recommendations.
         public let nextToken: String?
-        ///  The ARN that identifies the ECS service.   The following is the format of the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
+        ///  The ARN that identifies the Amazon ECS service.   The following is the format of the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
         public let serviceArns: [String]?
 
         public init(accountIds: [String]? = nil, filters: [ECSServiceRecommendationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceArns: [String]? = nil) {
@@ -1692,11 +1705,11 @@ extension ComputeOptimizer {
     }
 
     public struct GetECSServiceRecommendationsResponse: AWSDecodableShape {
-        ///  An array of objects that describe the ECS service recommendations.
+        ///  An array of objects that describe the Amazon ECS service recommendations.
         public let ecsServiceRecommendations: [ECSServiceRecommendation]?
         ///  An array of objects that describe errors of the request.
         public let errors: [GetRecommendationError]?
-        ///  The token to advance to the next page of ECS service recommendations.
+        ///  The token to advance to the next page of Amazon ECS service recommendations.
         public let nextToken: String?
 
         public init(ecsServiceRecommendations: [ECSServiceRecommendation]? = nil, errors: [GetRecommendationError]? = nil, nextToken: String? = nil) {
@@ -1991,14 +2004,16 @@ extension ComputeOptimizer {
         public let effectiveRecommendationPreferences: EffectiveRecommendationPreferences?
         /// The finding classification of the instance. Findings for instances include:     Underprovisioned —An instance is considered under-provisioned when at least one specification of your instance, such as CPU, memory, or network, does not meet the performance requirements of your workload. Under-provisioned instances may lead to poor application performance.     Overprovisioned —An instance is considered over-provisioned when at least one specification of your instance, such as CPU, memory, or network, can be sized down while still meeting the performance requirements of your workload, and no specification is under-provisioned. Over-provisioned instances may lead to unnecessary infrastructure cost.     Optimized —An instance is considered optimized when all specifications of your instance, such as CPU, memory, and network, meet the performance requirements of your workload and is not over provisioned. For optimized resources, Compute Optimizer might recommend a new generation instance type.
         public let finding: Finding?
-        /// The reason for the finding classification of the instance. Finding reason codes for instances include:     CPUOverprovisioned — The instance’s CPU configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     CPUUnderprovisioned — The instance’s CPU configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better CPU performance. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     MemoryOverprovisioned — The instance’s memory configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.     MemoryUnderprovisioned — The instance’s memory configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better memory performance. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.  Memory utilization is analyzed only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling memory utilization with the Amazon CloudWatch Agent in the Compute Optimizer User Guide. On Linux instances, Compute Optimizer analyses the mem_used_percent metric in the CWAgent namespace, or the legacy MemoryUtilization metric in the System/Linux namespace. On Windows instances, Compute Optimizer analyses the Memory % Committed Bytes In Use metric in the CWAgent namespace.      EBSThroughputOverprovisioned — The instance’s EBS throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metrics of EBS volumes attached to the current instance during the look-back period.     EBSThroughputUnderprovisioned — The instance’s EBS throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS throughput performance. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metrics of EBS volumes attached to the current instance during the look-back period.     EBSIOPSOverprovisioned — The instance’s EBS IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metric of EBS volumes attached to the current instance during the look-back period.     EBSIOPSUnderprovisioned — The instance’s EBS IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS IOPS performance. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metric of EBS volumes attached to the current instance during the look-back period.     NetworkBandwidthOverprovisioned  — The instance’s network bandwidth configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period.     NetworkBandwidthUnderprovisioned  — The instance’s network bandwidth configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network bandwidth performance. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period. This finding reason happens when the NetworkIn or NetworkOut performance of an instance is impacted.     NetworkPPSOverprovisioned — The instance’s network PPS (packets per second) configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     NetworkPPSUnderprovisioned — The instance’s network PPS (packets per second) configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network PPS performance. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     DiskIOPSOverprovisioned — The instance’s disk IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskIOPSUnderprovisioned — The instance’s disk IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk IOPS performance. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskThroughputOverprovisioned — The instance’s disk throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.     DiskThroughputUnderprovisioned — The instance’s disk throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk throughput performance. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.    For more information about instance metrics, see List the available CloudWatch metrics for your instances in the Amazon Elastic Compute Cloud User Guide. For more information about EBS volume metrics, see Amazon CloudWatch metrics for Amazon EBS in the Amazon Elastic Compute Cloud User Guide.
+        /// The reason for the finding classification of the instance. Finding reason codes for instances include:     CPUOverprovisioned — The instance’s CPU configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     CPUUnderprovisioned — The instance’s CPU configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better CPU performance. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     MemoryOverprovisioned — The instance’s memory configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.     MemoryUnderprovisioned — The instance’s memory configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better memory performance. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.  Memory utilization is analyzed only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling memory utilization with the Amazon CloudWatch Agent in the Compute Optimizer User Guide. On Linux instances, Compute Optimizer analyses the mem_used_percent metric in the CWAgent namespace, or the legacy MemoryUtilization metric in the System/Linux namespace. On Windows instances, Compute Optimizer analyses the Memory % Committed Bytes In Use metric in the CWAgent namespace.      EBSThroughputOverprovisioned — The instance’s EBS throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metrics of EBS volumes attached to the current instance during the look-back period.     EBSThroughputUnderprovisioned — The instance’s EBS throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS throughput performance. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes> metrics of EBS volumes attached to the current instance during the look-back period.     EBSIOPSOverprovisioned — The instance’s EBS IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metric of EBS volumes attached to the current instance during the look-back period.     EBSIOPSUnderprovisioned — The instance’s EBS IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS IOPS performance. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metric of EBS volumes attached to the current instance during the look-back period.     NetworkBandwidthOverprovisioned  — The instance’s network bandwidth configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period.     NetworkBandwidthUnderprovisioned  — The instance’s network bandwidth configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network bandwidth performance. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period. This finding reason happens when the NetworkIn or NetworkOut performance of an instance is impacted.     NetworkPPSOverprovisioned — The instance’s network PPS (packets per second) configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     NetworkPPSUnderprovisioned — The instance’s network PPS (packets per second) configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network PPS performance. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     DiskIOPSOverprovisioned — The instance’s disk IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskIOPSUnderprovisioned — The instance’s disk IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk IOPS performance. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskThroughputOverprovisioned — The instance’s disk throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.     DiskThroughputUnderprovisioned — The instance’s disk throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk throughput performance. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.    For more information about instance metrics, see List the available CloudWatch metrics for your instances in the Amazon Elastic Compute Cloud User Guide. For more information about EBS volume metrics, see Amazon CloudWatch metrics for Amazon EBS in the Amazon Elastic Compute Cloud User Guide.
         public let findingReasonCodes: [InstanceRecommendationFindingReasonCode]?
-        /// The applications that might be running on the instance as inferred by Compute Optimizer. Compute Optimizer can infer if one of the following applications might be running on the instance:    AmazonEmr - Infers that Amazon EMR might be running on the instance.    ApacheCassandra - Infers that Apache Cassandra might be running on the instance.    ApacheHadoop - Infers that Apache Hadoop might be running on the instance.    Memcached - Infers that Memcached might be running on the instance.    NGINX - Infers that NGINX might be running on the instance.    PostgreSql - Infers that PostgreSQL might be running on the instance.    Redis - Infers that Redis might be running on the instance.
+        /// The applications that might be running on the instance as inferred by Compute Optimizer. Compute Optimizer can infer if one of the following applications might be running on the instance:    AmazonEmr - Infers that Amazon EMR might be running on the instance.    ApacheCassandra - Infers that Apache Cassandra might be running on the instance.    ApacheHadoop - Infers that Apache Hadoop might be running on the instance.    Memcached - Infers that Memcached might be running on the instance.    NGINX - Infers that NGINX might be running on the instance.    PostgreSql - Infers that PostgreSQL might be running on the instance.    Redis - Infers that Redis might be running on the instance.    Kafka - Infers that Kafka might be running on the instance.
         public let inferredWorkloadTypes: [InferredWorkloadType]?
         /// The Amazon Resource Name (ARN) of the current instance.
         public let instanceArn: String?
         /// The name of the current instance.
         public let instanceName: String?
+        ///  The state of the instance when the recommendation was generated.
+        public let instanceState: InstanceState?
         /// The timestamp of when the instance recommendation was last generated.
         public let lastRefreshTimestamp: Date?
         /// The number of days for which utilization metrics were analyzed for the instance.
@@ -2010,7 +2025,7 @@ extension ComputeOptimizer {
         /// An array of objects that describe the utilization metrics of the instance.
         public let utilizationMetrics: [UtilizationMetric]?
 
-        public init(accountId: String? = nil, currentInstanceType: String? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EffectiveRecommendationPreferences? = nil, finding: Finding? = nil, findingReasonCodes: [InstanceRecommendationFindingReasonCode]? = nil, inferredWorkloadTypes: [InferredWorkloadType]? = nil, instanceArn: String? = nil, instanceName: String? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [InstanceRecommendationOption]? = nil, recommendationSources: [RecommendationSource]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
+        public init(accountId: String? = nil, currentInstanceType: String? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EffectiveRecommendationPreferences? = nil, finding: Finding? = nil, findingReasonCodes: [InstanceRecommendationFindingReasonCode]? = nil, inferredWorkloadTypes: [InferredWorkloadType]? = nil, instanceArn: String? = nil, instanceName: String? = nil, instanceState: InstanceState? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [InstanceRecommendationOption]? = nil, recommendationSources: [RecommendationSource]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
             self.accountId = accountId
             self.currentInstanceType = currentInstanceType
             self.currentPerformanceRisk = currentPerformanceRisk
@@ -2020,6 +2035,7 @@ extension ComputeOptimizer {
             self.inferredWorkloadTypes = inferredWorkloadTypes
             self.instanceArn = instanceArn
             self.instanceName = instanceName
+            self.instanceState = instanceState
             self.lastRefreshTimestamp = lastRefreshTimestamp
             self.lookBackPeriodInDays = lookBackPeriodInDays
             self.recommendationOptions = recommendationOptions
@@ -2037,6 +2053,7 @@ extension ComputeOptimizer {
             case inferredWorkloadTypes = "inferredWorkloadTypes"
             case instanceArn = "instanceArn"
             case instanceName = "instanceName"
+            case instanceState = "instanceState"
             case lastRefreshTimestamp = "lastRefreshTimestamp"
             case lookBackPeriodInDays = "lookBackPeriodInDays"
             case recommendationOptions = "recommendationOptions"
@@ -2547,15 +2564,15 @@ extension ComputeOptimizer {
     }
 
     public struct ServiceConfiguration: AWSDecodableShape {
-        ///  Describes the Auto Scaling configuration methods for an Amazon ECS service. This affects  the generated recommendations. For example, if Auto Scaling is configured on a  ECS service’s CPU, then Compute Optimizer doesn’t generate CPU size recommendations.  The Auto Scaling configuration methods include:    TARGET_TRACKING_SCALING_CPU — If the ECS service is configured to use target scaling on CPU, Compute Optimizer doesn't generate CPU recommendations.    TARGET_TRACKING_SCALING_MEMORY — If the ECS service is configured to use target scaling on memory, Compute Optimizer doesn't generate memory recommendations.   For more information about step scaling and target scaling, see   Step scaling policies for Application Auto Scaling and   Target tracking scaling policies for Application Auto Scaling in the  Application Auto Scaling User Guide.
+        ///  Describes the Auto Scaling configuration methods for an Amazon ECS service. This affects  the generated recommendations. For example, if Auto Scaling is configured on a  service’s CPU, then Compute Optimizer doesn’t generate CPU size recommendations.  The Auto Scaling configuration methods include:    TARGET_TRACKING_SCALING_CPU — If the Amazon ECS service is configured to use target scaling on CPU, Compute Optimizer doesn't generate CPU recommendations.    TARGET_TRACKING_SCALING_MEMORY — If the Amazon ECS service is configured to use target scaling on memory, Compute Optimizer doesn't generate memory recommendations.   For more information about step scaling and target scaling, see   Step scaling policies for Application Auto Scaling and   Target tracking scaling policies for Application Auto Scaling in the  Application Auto Scaling User Guide.
         public let autoScalingConfiguration: AutoScalingConfiguration?
-        ///  The container configurations within a task of an ECS service.
+        ///  The container configurations within a task of an Amazon ECS service.
         public let containerConfigurations: [ContainerConfiguration]?
-        ///  The number of CPU units used by the tasks in the ECS service.
+        ///  The number of CPU units used by the tasks in the Amazon ECS service.
         public let cpu: Int?
-        ///  The amount of memory used by the tasks in the ECS service.
+        ///  The amount of memory used by the tasks in the Amazon ECS service.
         public let memory: Int?
-        ///  The task definition ARN used by the tasks in the ECS service.
+        ///  The task definition ARN used by the tasks in the Amazon ECS service.
         public let taskDefinitionArn: String?
 
         public init(autoScalingConfiguration: AutoScalingConfiguration? = nil, containerConfigurations: [ContainerConfiguration]? = nil, cpu: Int? = nil, memory: Int? = nil, taskDefinitionArn: String? = nil) {
@@ -2652,6 +2669,8 @@ extension ComputeOptimizer {
     }
 
     public struct VolumeConfiguration: AWSDecodableShape {
+        ///  Contains the image used to boot the instance during launch.
+        public let rootVolume: Bool?
         /// The baseline IOPS of the volume.
         public let volumeBaselineIOPS: Int?
         /// The baseline throughput of the volume.
@@ -2665,7 +2684,8 @@ extension ComputeOptimizer {
         /// The volume type. This can be gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.
         public let volumeType: String?
 
-        public init(volumeBaselineIOPS: Int? = nil, volumeBaselineThroughput: Int? = nil, volumeBurstIOPS: Int? = nil, volumeBurstThroughput: Int? = nil, volumeSize: Int? = nil, volumeType: String? = nil) {
+        public init(rootVolume: Bool? = nil, volumeBaselineIOPS: Int? = nil, volumeBaselineThroughput: Int? = nil, volumeBurstIOPS: Int? = nil, volumeBurstThroughput: Int? = nil, volumeSize: Int? = nil, volumeType: String? = nil) {
+            self.rootVolume = rootVolume
             self.volumeBaselineIOPS = volumeBaselineIOPS
             self.volumeBaselineThroughput = volumeBaselineThroughput
             self.volumeBurstIOPS = volumeBurstIOPS
@@ -2675,6 +2695,7 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case rootVolume = "rootVolume"
             case volumeBaselineIOPS = "volumeBaselineIOPS"
             case volumeBaselineThroughput = "volumeBaselineThroughput"
             case volumeBurstIOPS = "volumeBurstIOPS"

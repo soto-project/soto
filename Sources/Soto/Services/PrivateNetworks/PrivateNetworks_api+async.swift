@@ -91,7 +91,7 @@ extension PrivateNetworks {
         return try await self.client.execute(operation: "GetOrder", path: "/v1/orders/{orderArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists device identifiers. Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order,  the status of device identifiers, or the ARN of the traffic group.  If you specify multiple filters, filters are joined with an OR, and the request
+    /// Lists device identifiers. Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order,  the status of device identifiers, or the ARN of the traffic group. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
     public func listDeviceIdentifiers(_ input: ListDeviceIdentifiersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDeviceIdentifiersResponse {
         return try await self.client.execute(operation: "ListDeviceIdentifiers", path: "/v1/device-identifiers/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -129,6 +129,11 @@ extension PrivateNetworks {
         return try await self.client.execute(operation: "Ping", path: "/ping", httpMethod: .GET, serviceConfig: self.config, logger: logger, on: eventLoop)
     }
 
+    /// Starts an update of the specified network resource. After you submit a request to replace or return a network resource, the status of the network resource is CREATING_SHIPPING_LABEL. The shipping label  is available when the status of the network resource is PENDING_RETURN.  After the network resource is successfully returned, its status is DELETED.  For more information, see Return a radio unit.
+    public func startNetworkResourceUpdate(_ input: StartNetworkResourceUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartNetworkResourceUpdateResponse {
+        return try await self.client.execute(operation: "StartNetworkResourceUpdate", path: "/v1/network-resources/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Adds tags to the specified resource.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -154,7 +159,7 @@ extension PrivateNetworks {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension PrivateNetworks {
-    /// Lists device identifiers. Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order,  the status of device identifiers, or the ARN of the traffic group.  If you specify multiple filters, filters are joined with an OR, and the request
+    /// Lists device identifiers. Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order,  the status of device identifiers, or the ARN of the traffic group. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
     /// Return PaginatorSequence for operation.
     ///

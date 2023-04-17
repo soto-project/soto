@@ -2405,7 +2405,7 @@ extension SES {
         /// The identity for which DKIM signing should be enabled or disabled.
         public let identity: String
 
-        public init(dkimEnabled: Bool, identity: String) {
+        public init(dkimEnabled: Bool = false, identity: String) {
             self.dkimEnabled = dkimEnabled
             self.identity = identity
         }
@@ -2426,7 +2426,7 @@ extension SES {
         /// The identity for which to set bounce and complaint notification forwarding. Examples: user@example.com, example.com.
         public let identity: String
 
-        public init(forwardingEnabled: Bool, identity: String) {
+        public init(forwardingEnabled: Bool = false, identity: String) {
             self.forwardingEnabled = forwardingEnabled
             self.identity = identity
         }
@@ -2449,7 +2449,7 @@ extension SES {
         /// The notification type for which to enable or disable headers in notifications.
         public let notificationType: NotificationType
 
-        public init(enabled: Bool, identity: String, notificationType: NotificationType) {
+        public init(enabled: Bool = false, identity: String, notificationType: NotificationType) {
             self.enabled = enabled
             self.identity = identity
             self.notificationType = notificationType
@@ -2687,7 +2687,7 @@ extension SES {
         /// Describes whether or not Amazon SES will publish reputation metrics for the configuration set, such as bounce and complaint rates, to Amazon CloudWatch.
         public let enabled: Bool
 
-        public init(configurationSetName: String, enabled: Bool) {
+        public init(configurationSetName: String, enabled: Bool = false) {
             self.configurationSetName = configurationSetName
             self.enabled = enabled
         }
@@ -2704,7 +2704,7 @@ extension SES {
         /// Describes whether email sending is enabled or disabled for the configuration set.
         public let enabled: Bool
 
-        public init(configurationSetName: String, enabled: Bool) {
+        public init(configurationSetName: String, enabled: Bool = false) {
             self.configurationSetName = configurationSetName
             self.enabled = enabled
         }

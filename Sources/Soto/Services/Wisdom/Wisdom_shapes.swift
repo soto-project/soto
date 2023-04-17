@@ -105,12 +105,12 @@ extension Wisdom {
     // MARK: Shapes
 
     public struct AppIntegrationsConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the AppIntegrations DataIntegration to use for ingesting content.
+        /// The Amazon Resource Name (ARN) of the AppIntegrations DataIntegration to use for ingesting content.   For  Salesforce, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted as source fields.    For  ServiceNow, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least number, short_description, sys_mod_count, workflow_state, and active as source fields.    For  Zendesk, your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least id, title, updated_at, and draft as source fields.    For  SharePoint, your AppIntegrations DataIntegration must have a FileConfiguration, including only file extensions that are among docx, pdf, html, htm, and txt.
         public let appIntegrationArn: String
-        /// The fields from the source that are made available to your agents in Wisdom.    For  Salesforce, you must include at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted.    For  ServiceNow, you must include at least number, short_description, sys_mod_count, workflow_state, and active.    Make sure to include additional fields. These fields are indexed and used to source recommendations.
-        public let objectFields: [String]
+        /// The fields from the source that are made available to your agents in Wisdom. Optional if ObjectConfiguration is included in the provided DataIntegration.    For  Salesforce, you must include at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted.    For  ServiceNow, you must include at least number, short_description, sys_mod_count, workflow_state, and active.    For  Zendesk, you must include at least id, title, updated_at, and draft.    Make sure to include additional fields. These fields are indexed and used to source recommendations.
+        public let objectFields: [String]?
 
-        public init(appIntegrationArn: String, objectFields: [String]) {
+        public init(appIntegrationArn: String, objectFields: [String]? = nil) {
             self.appIntegrationArn = appIntegrationArn
             self.objectFields = objectFields
         }
@@ -119,7 +119,7 @@ extension Wisdom {
             try self.validate(self.appIntegrationArn, name: "appIntegrationArn", parent: name, max: 2048)
             try self.validate(self.appIntegrationArn, name: "appIntegrationArn", parent: name, min: 1)
             try self.validate(self.appIntegrationArn, name: "appIntegrationArn", parent: name, pattern: "^arn:[a-z-]+?:[a-z-]+?:[a-z0-9-]*?:([0-9]{12})?:[a-zA-Z0-9-:/]+$")
-            try self.objectFields.forEach {
+            try self.objectFields?.forEach {
                 try validate($0, name: "objectFields[]", parent: name, max: 4096)
                 try validate($0, name: "objectFields[]", parent: name, min: 1)
             }
@@ -445,7 +445,7 @@ extension Wisdom {
         public let association: AssistantAssociationInputData
         /// The type of association.
         public let associationType: AssociationType
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -494,7 +494,7 @@ extension Wisdom {
     }
 
     public struct CreateAssistantRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The description of the assistant.
         public let description: String?
@@ -563,7 +563,7 @@ extension Wisdom {
             AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
         ]
 
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
@@ -646,7 +646,7 @@ extension Wisdom {
     }
 
     public struct CreateKnowledgeBaseRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The description.
         public let description: String?
@@ -727,7 +727,7 @@ extension Wisdom {
 
         /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The description.
         public let description: String?
@@ -1781,8 +1781,7 @@ extension Wisdom {
     }
 
     public struct RenderingConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A URI template containing exactly one variable in ${variableName} format. This can only be set for EXTERNAL knowledge bases. For Salesforce and ServiceNow, the variable must be one of the following:   Salesforce: Id, ArticleNumber, VersionNumber, Title, PublishStatus, or IsDeleted    ServiceNow: number, short_description, sys_mod_count, workflow_state, or active
-        ///  The variable is replaced with the actual value for a piece of content when calling GetContent.
+        /// A URI template containing exactly one variable in ${variableName} format. This can only be set for EXTERNAL knowledge bases. For Salesforce, ServiceNow, and Zendesk, the variable must be one of the following:   Salesforce: Id, ArticleNumber, VersionNumber, Title, PublishStatus, or IsDeleted    ServiceNow: number, short_description, sys_mod_count, workflow_state, or active    Zendesk: id, title, updated_at, or draft    The variable is replaced with the actual value for a piece of content when calling GetContent.
         public let templateUri: String?
 
         public init(templateUri: String? = nil) {

@@ -28,15 +28,13 @@ extension DLM {
     }
 
     /// Deletes the specified lifecycle policy and halts the automated operations that the
-    /// 			policy specified.
-    /// 		       For more information about deleting a policy, see Delete lifecycle
+    /// 			policy specified. For more information about deleting a policy, see Delete lifecycle
     /// 			policies.
     public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteLifecyclePolicyResponse {
         return try await self.client.execute(operation: "DeleteLifecyclePolicy", path: "/policies/{PolicyId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets summary information about all or the specified data lifecycle policies.
-    /// 		       To get complete information about a policy, use GetLifecyclePolicy.
+    /// Gets summary information about all or the specified data lifecycle policies. To get complete information about a policy, use GetLifecyclePolicy.
     public func getLifecyclePolicies(_ input: GetLifecyclePoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetLifecyclePoliciesResponse {
         return try await self.client.execute(operation: "GetLifecyclePolicies", path: "/policies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -61,8 +59,7 @@ extension DLM {
         return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the specified lifecycle policy.
-    /// 		       For more information about updating a policy, see Modify lifecycle
+    /// Updates the specified lifecycle policy. For more information about updating a policy, see Modify lifecycle
     /// 			policies.
     public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateLifecyclePolicyResponse {
         return try await self.client.execute(operation: "UpdateLifecyclePolicy", path: "/policies/{PolicyId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

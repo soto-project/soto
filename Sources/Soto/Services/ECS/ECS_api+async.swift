@@ -35,7 +35,7 @@ extension ECS {
     /// 			cluster when you launch your first container instance. However, you can create your own
     /// 			cluster with a unique name with the CreateCluster action.  When you call the CreateCluster API operation, Amazon ECS attempts to
     /// 				create the Amazon ECS service-linked role for your account. This is so that it can manage
-    /// 				required resources in other Amazon Web Services services on your behalf. However, if the IAM user
+    /// 				required resources in other Amazon Web Services services on your behalf. However, if the user
     /// 				that makes the call doesn't have permissions to create the service-linked role, it
     /// 				isn't created. For more information, see Using
     /// 					service-linked roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide.
@@ -46,7 +46,7 @@ extension ECS {
     /// Runs and maintains your desired number of tasks from a specified task definition. If
     /// 			the number of tasks running in a service drops below the desiredCount,
     /// 			Amazon ECS runs another copy of the task in the specified cluster. To update an existing
-    /// 			service, see the UpdateService action. In addition to maintaining the desired count of tasks in your service, you can
+    /// 			service, see the UpdateService action.  Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.   In addition to maintaining the desired count of tasks in your service, you can
     /// 			optionally run your service behind one or more load balancers. The load balancers
     /// 			distribute traffic across the tasks that are associated with the service. For more
     /// 			information, see Service load balancing in the Amazon Elastic Container Service Developer Guide. Tasks for services that don't use a load balancer are considered healthy if they're in
@@ -113,7 +113,7 @@ extension ECS {
         return try await self.client.execute(operation: "CreateTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disables an account setting for a specified IAM user, IAM role, or the root user for
+    /// Disables an account setting for a specified  user, role, or the root user for
     /// 			an account.
     public func deleteAccountSetting(_ input: DeleteAccountSettingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteAccountSettingResponse {
         return try await self.client.execute(operation: "DeleteAccountSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -167,6 +167,20 @@ extension ECS {
         return try await self.client.execute(operation: "DeleteService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes one or more task definitions. You must deregister a task definition revision before you delete it. For more information,
+    /// 			see DeregisterTaskDefinition. When you delete a task definition revision, it is immediately transitions from the
+    /// 		INACTIVE to DELETE_IN_PROGRESS. Existing tasks and services
+    /// 		that reference a DELETE_IN_PROGRESS task definition revision continue to run
+    /// 		without disruption. Existing services that reference a DELETE_IN_PROGRESS task
+    /// 		definition revision can still scale up or down by modifying the service's desired
+    /// 		count. You can't use a DELETE_IN_PROGRESS task definition revision to run new tasks
+    /// 			or create new services. You also can't update an existing service to reference a
+    /// 			DELETE_IN_PROGRESS task definition revision. A task definition revision will stay in DELETE_IN_PROGRESS status until
+    /// 			all the associated tasks and services have been terminated.
+    public func deleteTaskDefinitions(_ input: DeleteTaskDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteTaskDefinitionsResponse {
+        return try await self.client.execute(operation: "DeleteTaskDefinitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a specified task set within a service. This is used when a service uses the
     /// 				EXTERNAL deployment controller type. For more information, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide.
     public func deleteTaskSet(_ input: DeleteTaskSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteTaskSetResponse {
@@ -186,17 +200,19 @@ extension ECS {
         return try await self.client.execute(operation: "DeregisterContainerInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deregisters the specified task definition by family and revision. Upon deregistration,
-    /// 			the task definition is marked as INACTIVE. Existing tasks and services that
+    /// Deregisters the specified task definition by family and revision. Upon deregistration, the
+    /// 			task definition is marked as INACTIVE. Existing tasks and services that
     /// 			reference an INACTIVE task definition continue to run without disruption.
     /// 			Existing services that reference an INACTIVE task definition can still
-    /// 			scale up or down by modifying the service's desired count. You can't use an INACTIVE task definition to run new tasks or create new
+    /// 			scale up or down by modifying the service's desired count. If you want to delete a  task
+    /// 			definition revision, you must first deregister the  task definition revision. You can't use an INACTIVE task definition to run new tasks or create new
     /// 			services, and you can't update an existing service to reference an INACTIVE
     /// 			task definition. However, there may be up to a 10-minute window following deregistration
     /// 			where these restrictions have not yet taken effect.  At this time, INACTIVE task definitions remain discoverable in your
     /// 				account indefinitely. However, this behavior is subject to change in the future. We
     /// 				don't recommend that you rely on INACTIVE task definitions persisting
-    /// 				beyond the lifecycle of any associated tasks and services.
+    /// 				beyond the lifecycle of any associated tasks and services.  You must deregister a task definition revision before you delete it. For more information,
+    /// 			see DeleteTaskDefinitions.
     public func deregisterTaskDefinition(_ input: DeregisterTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeregisterTaskDefinitionResponse {
         return try await self.client.execute(operation: "DeregisterTaskDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -336,31 +352,31 @@ extension ECS {
         return try await self.client.execute(operation: "ListTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies an account setting. Account settings are set on a per-Region basis. If you change the account setting for the root user, the default settings for all of
-    /// 			the IAM users and roles that no individual account setting was specified are reset for.
-    /// 			For more information, see Account
+    /// Modifies an account setting. Account settings are set on a per-Region basis. If you change the root user account setting, the default settings are reset for  users
+    /// 			and roles that do not have specified individual account settings. For more information,
+    /// 			see Account
     /// 				Settings in the Amazon Elastic Container Service Developer Guide. When serviceLongArnFormat, taskLongArnFormat, or
     /// 				containerInstanceLongArnFormat are specified, the Amazon Resource Name
-    /// 			(ARN) and resource ID format of the resource type for a specified IAM user, IAM role, or
+    /// 			(ARN) and resource ID format of the resource type for a specified user, role, or
     /// 			the root user for an account is affected. The opt-in and opt-out account setting must be
     /// 			set for each Amazon ECS resource separately. The ARN and resource ID format of a resource
-    /// 			is defined by the opt-in status of the IAM user or role that created the resource. You
+    /// 			is defined by the opt-in status of the user or role that created the resource. You
     /// 			must turn on this setting to use Amazon ECS features such as resource tagging. When awsvpcTrunking is specified, the elastic network interface (ENI)
     /// 			limit for any new container instances that support the feature is changed. If
-    /// 				awsvpcTrunking is enabled, any new container instances that support the
+    /// 				awsvpcTrunking is turned on, any new container instances that support the
     /// 			feature are launched have the increased ENI limits available to them. For more
     /// 			information, see Elastic Network
-    /// 				Interface Trunking in the Amazon Elastic Container Service Developer Guide. When containerInsights is specified, the default setting indicating
-    /// 			whether CloudWatch Container Insights is enabled for your clusters is changed. If
-    /// 				containerInsights is enabled, any new clusters that are created will
-    /// 			have Container Insights enabled unless you disable it during cluster creation. For more
-    /// 			information, see CloudWatch
+    /// 				Interface Trunking in the Amazon Elastic Container Service Developer Guide. When containerInsights is specified, the default setting indicating whether
+    /// 			Amazon Web Services CloudWatch Container Insights is turned on for your clusters is changed. If
+    /// 				containerInsights is turned on, any new clusters that are created will
+    /// 			have Container Insights turned on unless you disable it during cluster creation. For
+    /// 			more information, see CloudWatch
     /// 				Container Insights in the Amazon Elastic Container Service Developer Guide.
     public func putAccountSetting(_ input: PutAccountSettingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutAccountSettingResponse {
         return try await self.client.execute(operation: "PutAccountSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies an account setting for all IAM users on an account for whom no individual
+    /// Modifies an account setting for all users on an account for whom no individual
     /// 			account setting has been specified. Account settings are set on a per-Region
     /// 			basis.
     public func putAccountSettingDefault(_ input: PutAccountSettingDefaultRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutAccountSettingDefaultResponse {
@@ -401,10 +417,10 @@ extension ECS {
     /// 				containerDefinitions. Optionally, you can add data volumes to your
     /// 			containers with the volumes parameter. For more information about task
     /// 			definition parameters and defaults, see Amazon ECS Task
-    /// 				Definitions in the Amazon Elastic Container Service Developer Guide. You can specify an IAM role for your task with the taskRoleArn parameter.
-    /// 			When you specify an IAM role for a task, its containers can then use the latest versions
+    /// 				Definitions in the Amazon Elastic Container Service Developer Guide. You can specify a role for your task with the taskRoleArn parameter.
+    /// 			When you specify a role for a task, its containers can then use the latest versions
     /// 			of the CLI or SDKs to make API requests to the Amazon Web Services services that are specified in
-    /// 			the IAM policy that's associated with the role. For more information, see IAM
+    /// 			the policy that's associated with the role. For more information, see IAM
     /// 				Roles for Tasks in the Amazon Elastic Container Service Developer Guide. You can specify a Docker networking mode for the containers in your task definition
     /// 			with the networkMode parameter. The available network modes correspond to
     /// 			those described in Network
@@ -420,7 +436,7 @@ extension ECS {
     /// Starts a new task using the specified task definition. You can allow Amazon ECS to place tasks for you, or you can customize how Amazon ECS places
     /// 			tasks using placement constraints and placement strategies. For more information, see
     /// 				Scheduling Tasks in the Amazon Elastic Container Service Developer Guide. Alternatively, you can use StartTask to use your own scheduler or
-    /// 			place tasks manually on specific container instances. The Amazon ECS API follows an eventual consistency model. This is because of the
+    /// 			place tasks manually on specific container instances.  Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.   The Amazon ECS API follows an eventual consistency model. This is because of the
     /// 			distributed nature of the system supporting the API. This means that the result of an
     /// 			API command you run that affects your Amazon ECS resources might not be immediately visible
     /// 			to all subsequent commands you run. Keep this in mind when you carry out an API command
@@ -438,7 +454,7 @@ extension ECS {
     }
 
     /// Starts a new task from the specified task definition on the specified container
-    /// 			instance or instances. Alternatively, you can use RunTask to place tasks for you. For more
+    /// 			instance or instances.  Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.   Alternatively, you can use RunTask to place tasks for you. For more
     /// 			information, see Scheduling Tasks in the Amazon Elastic Container Service Developer Guide.
     public func startTask(_ input: StartTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartTaskResponse {
         return try await self.client.execute(operation: "StartTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -613,7 +629,7 @@ extension ECS {
     /// 					instances in either zone B or C are considered optimal for termination.   Stop the task on a container instance in an optimal Availability Zone (based
     /// 					on the previous steps), favoring container instances with the largest number of
     /// 					running tasks for this service.    You must have a service-linked role when you update any of the following service
-    /// 				properties. If you specified a custom IAM role when you created the service, Amazon ECS
+    /// 				properties. If you specified a custom role when you created the service, Amazon ECS
     /// 				automatically replaces the roleARN associated with the service with the ARN of your
     /// 				service-linked role. For more information, see Service-linked roles in the Amazon Elastic Container Service Developer Guide.    loadBalancers,     serviceRegistries
     public func updateService(_ input: UpdateServiceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateServiceResponse {
@@ -632,7 +648,7 @@ extension ECS {
     /// Updates the protection status of a task. You can set protectionEnabled to
     /// 				true to protect your task from termination during scale-in events from
     /// 				Service
-    /// 				Autoscaling or deployments. Task-protection, by default, expires after 2 hours at which point Amazon ECS unsets the
+    /// 				Autoscaling or deployments. Task-protection, by default, expires after 2 hours at which point Amazon ECS clears the
     /// 				protectionEnabled property making the task eligible for termination by
     /// 			a subsequent scale-in event. You can specify a custom expiration period for task protection from 1 minute to up to
     /// 			2,880 minutes (48 hours). To specify the custom expiration period, set the

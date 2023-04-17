@@ -79,6 +79,7 @@ extension PrivateNetworks {
 
     public enum NetworkResourceStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
+        case creatingShippingLabel = "CREATING_SHIPPING_LABEL"
         case deleted = "DELETED"
         case deleting = "DELETING"
         case pending = "PENDING"
@@ -120,6 +121,12 @@ extension PrivateNetworks {
     public enum OrderFilterKeys: String, CustomStringConvertible, Codable, Sendable {
         case networkSite = "NETWORK_SITE"
         case status = "STATUS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateType: String, CustomStringConvertible, Codable, Sendable {
+        case replace = "REPLACE"
+        case `return` = "RETURN"
         public var description: String { return self.rawValue }
     }
 
@@ -1160,6 +1167,8 @@ extension PrivateNetworks {
         public let orderArn: String?
         /// The position of the network resource.
         public let position: Position?
+        /// Information about a request to return the network resource.
+        public let returnInformation: ReturnInformation?
         /// The serial number of the network resource.
         public let serialNumber: String?
         /// The status of the network resource.
@@ -1171,7 +1180,7 @@ extension PrivateNetworks {
         /// The vendor of the network resource.
         public let vendor: String?
 
-        public init(attributes: [NameValuePair]? = nil, createdAt: Date? = nil, description: String? = nil, health: HealthStatus? = nil, model: String? = nil, networkArn: String? = nil, networkResourceArn: String? = nil, networkSiteArn: String? = nil, orderArn: String? = nil, position: Position? = nil, serialNumber: String? = nil, status: NetworkResourceStatus? = nil, statusReason: String? = nil, type: NetworkResourceType? = nil, vendor: String? = nil) {
+        public init(attributes: [NameValuePair]? = nil, createdAt: Date? = nil, description: String? = nil, health: HealthStatus? = nil, model: String? = nil, networkArn: String? = nil, networkResourceArn: String? = nil, networkSiteArn: String? = nil, orderArn: String? = nil, position: Position? = nil, returnInformation: ReturnInformation? = nil, serialNumber: String? = nil, status: NetworkResourceStatus? = nil, statusReason: String? = nil, type: NetworkResourceType? = nil, vendor: String? = nil) {
             self.attributes = attributes
             self.createdAt = createdAt
             self.description = description
@@ -1182,6 +1191,7 @@ extension PrivateNetworks {
             self.networkSiteArn = networkSiteArn
             self.orderArn = orderArn
             self.position = position
+            self.returnInformation = returnInformation
             self.serialNumber = serialNumber
             self.status = status
             self.statusReason = statusReason
@@ -1200,6 +1210,7 @@ extension PrivateNetworks {
             case networkSiteArn = "networkSiteArn"
             case orderArn = "orderArn"
             case position = "position"
+            case returnInformation = "returnInformation"
             case serialNumber = "serialNumber"
             case status = "status"
             case statusReason = "statusReason"
@@ -1363,6 +1374,31 @@ extension PrivateNetworks {
         }
     }
 
+    public struct ReturnInformation: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the replacement order.
+        public let replacementOrderArn: String?
+        /// The reason for the return. If the return request did not include a  reason for the return, this value is null.
+        public let returnReason: String?
+        /// The shipping address.
+        public let shippingAddress: Address?
+        /// The URL of the shipping label. The shipping label is available for download only if the status of the network resource is PENDING_RETURN. For more information, see Return a radio unit.
+        public let shippingLabel: String?
+
+        public init(replacementOrderArn: String? = nil, returnReason: String? = nil, shippingAddress: Address? = nil, shippingLabel: String? = nil) {
+            self.replacementOrderArn = replacementOrderArn
+            self.returnReason = returnReason
+            self.shippingAddress = shippingAddress
+            self.shippingLabel = shippingLabel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replacementOrderArn = "replacementOrderArn"
+            case returnReason = "returnReason"
+            case shippingAddress = "shippingAddress"
+            case shippingLabel = "shippingLabel"
+        }
+    }
+
     public struct SitePlan: AWSEncodableShape & AWSDecodableShape {
         /// The options of the plan.
         public let options: [NameValuePair]?
@@ -1377,6 +1413,49 @@ extension PrivateNetworks {
         private enum CodingKeys: String, CodingKey {
             case options = "options"
             case resourceDefinitions = "resourceDefinitions"
+        }
+    }
+
+    public struct StartNetworkResourceUpdateRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the network resource.
+        public let networkResourceArn: String
+        /// The reason for the return. Providing a reason for a return is optional.
+        public let returnReason: String?
+        /// The shipping address. If you don't provide a shipping address when replacing or returning a network resource, we use the address from the original order for the network resource.
+        public let shippingAddress: Address?
+        /// The update type.    REPLACE - Submits a request to replace a defective radio unit. We provide a shipping label that you can use for the  return process and we ship a replacement radio unit to you.    RETURN - Submits a request to replace a radio unit that you no longer need. We provide a shipping label that you can  use for the return process.
+        public let updateType: UpdateType
+
+        public init(networkResourceArn: String, returnReason: String? = nil, shippingAddress: Address? = nil, updateType: UpdateType) {
+            self.networkResourceArn = networkResourceArn
+            self.returnReason = returnReason
+            self.shippingAddress = shippingAddress
+            self.updateType = updateType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.networkResourceArn, name: "networkResourceArn", parent: name, pattern: "^arn:aws:private-networks:[a-z0-9-]+:[^:]*:.*$")
+            try self.shippingAddress?.validate(name: "\(name).shippingAddress")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkResourceArn = "networkResourceArn"
+            case returnReason = "returnReason"
+            case shippingAddress = "shippingAddress"
+            case updateType = "updateType"
+        }
+    }
+
+    public struct StartNetworkResourceUpdateResponse: AWSDecodableShape {
+        /// The network resource.
+        public let networkResource: NetworkResource?
+
+        public init(networkResource: NetworkResource? = nil) {
+            self.networkResource = networkResource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkResource = "networkResource"
         }
     }
 

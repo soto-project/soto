@@ -56,13 +56,16 @@ public struct Greengrass: AWSService {
             endpoint: endpoint,
             serviceEndpoints: [
                 "dataplane-us-gov-east-1": "greengrass-ats.iot.us-gov-east-1.amazonaws.com",
-                "dataplane-us-gov-west-1": "greengrass-ats.iot.us-gov-west-1.amazonaws.com",
-                "us-gov-east-1": "greengrass.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1": "greengrass.us-gov-west-1.amazonaws.com"
+                "dataplane-us-gov-west-1": "greengrass-ats.iot.us-gov-west-1.amazonaws.com"
             ],
             variantEndpoints: [
                 [.fips]: .init(endpoints: [
-                    "us-gov-east-1": "greengrass-fips.us-gov-east-1.amazonaws.com"
+                    "ca-central-1": "greengrass-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "greengrass-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "greengrass-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "greengrass.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "greengrass.us-gov-west-1.amazonaws.com",
+                    "us-west-2": "greengrass-fips.us-west-2.amazonaws.com"
                 ])
             ],
             errorType: GreengrassErrorType.self,

@@ -201,6 +201,11 @@ extension OpenSearch {
         return try await self.client.execute(operation: "ListPackagesForDomain", path: "/2021-01-01/domain/{DomainName}/packages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves a list of configuration changes that are scheduled for a domain. These changes can be service software updates or blue/green Auto-Tune enhancements.
+    public func listScheduledActions(_ input: ListScheduledActionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListScheduledActionsResponse {
+        return try await self.client.execute(operation: "ListScheduledActions", path: "/2021-01-01/opensearch/domain/{DomainName}/scheduledActions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns all resource tags for an Amazon OpenSearch Service domain. For more information, see Tagging Amazon OpenSearch Service domains.
     public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsResponse {
         return try await self.client.execute(operation: "ListTags", path: "/2021-01-01/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -259,6 +264,11 @@ extension OpenSearch {
     /// Updates a package for use with Amazon OpenSearch Service domains. For more information, see Custom packages for Amazon OpenSearch Service.
     public func updatePackage(_ input: UpdatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdatePackageResponse {
         return try await self.client.execute(operation: "UpdatePackage", path: "/2021-01-01/packages/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Reschedules a planned domain configuration change for a later time. This change can be a scheduled service software update or a blue/green Auto-Tune enhancement.
+    public func updateScheduledAction(_ input: UpdateScheduledActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateScheduledActionResponse {
+        return try await self.client.execute(operation: "UpdateScheduledAction", path: "/2021-01-01/opensearch/domain/{DomainName}/scheduledAction/update", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
@@ -513,6 +523,28 @@ extension OpenSearch {
             command: self.listPackagesForDomain,
             inputKey: \ListPackagesForDomainRequest.nextToken,
             outputKey: \ListPackagesForDomainResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Retrieves a list of configuration changes that are scheduled for a domain. These changes can be service software updates or blue/green Auto-Tune enhancements.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listScheduledActionsPaginator(
+        _ input: ListScheduledActionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListScheduledActionsRequest, ListScheduledActionsResponse> {
+        return .init(
+            input: input,
+            command: self.listScheduledActions,
+            inputKey: \ListScheduledActionsRequest.nextToken,
+            outputKey: \ListScheduledActionsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

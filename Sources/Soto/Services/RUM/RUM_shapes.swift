@@ -820,16 +820,19 @@ extension RUM {
         public let metricDefinitionId: String
         /// The name of the metric that is defined in this structure.
         public let name: String
+        /// If this metric definition is for a custom metric instead of an extended metric, this field displays the metric namespace that the custom metric is published to.
+        public let namespace: String?
         /// Use this field only if you are sending this metric to CloudWatch. It defines the CloudWatch metric unit that this metric is measured in.
         public let unitLabel: String?
         /// The field within the event object that the metric value is sourced from.
         public let valueKey: String?
 
-        public init(dimensionKeys: [String: String]? = nil, eventPattern: String? = nil, metricDefinitionId: String, name: String, unitLabel: String? = nil, valueKey: String? = nil) {
+        public init(dimensionKeys: [String: String]? = nil, eventPattern: String? = nil, metricDefinitionId: String, name: String, namespace: String? = nil, unitLabel: String? = nil, valueKey: String? = nil) {
             self.dimensionKeys = dimensionKeys
             self.eventPattern = eventPattern
             self.metricDefinitionId = metricDefinitionId
             self.name = name
+            self.namespace = namespace
             self.unitLabel = unitLabel
             self.valueKey = valueKey
         }
@@ -839,27 +842,31 @@ extension RUM {
             case eventPattern = "EventPattern"
             case metricDefinitionId = "MetricDefinitionId"
             case name = "Name"
+            case namespace = "Namespace"
             case unitLabel = "UnitLabel"
             case valueKey = "ValueKey"
         }
     }
 
     public struct MetricDefinitionRequest: AWSEncodableShape & AWSDecodableShape {
-        /// Use this field only if you are sending the metric to CloudWatch. This field is a map of field paths to dimension names. It defines the dimensions to associate with this metric in CloudWatch. Valid values for the entries in this field are the following:    "metadata.pageId": "PageId"     "metadata.browserName": "BrowserName"     "metadata.deviceType": "DeviceType"     "metadata.osName": "OSName"     "metadata.countryCode": "CountryCode"     "event_details.fileType": "FileType"    All dimensions listed in this field must also be included in EventPattern.
+        /// Use this field only if you are sending the metric to CloudWatch. This field is a map of field paths to dimension names. It defines the dimensions to associate with this metric in CloudWatch. For extended metrics, valid values for the entries in this field are the following:    "metadata.pageId": "PageId"     "metadata.browserName": "BrowserName"     "metadata.deviceType": "DeviceType"     "metadata.osName": "OSName"     "metadata.countryCode": "CountryCode"     "event_details.fileType": "FileType"    For both extended metrics and custom metrics,  all dimensions listed in this field must also be included in EventPattern.
         public let dimensionKeys: [String: String]?
         /// The pattern that defines the metric, specified as a JSON object. RUM checks events that happen in a user's session against the pattern, and events that match the pattern are sent to the metric destination. When you define extended metrics, the metric definition is not valid if EventPattern is omitted. Example event patterns:    '{ "event_type": ["com.amazon.rum.js_error_event"], "metadata": { "browserName": [ "Chrome", "Safari" ], } }'     '{ "event_type": ["com.amazon.rum.performance_navigation_event"], "metadata": { "browserName": [ "Chrome", "Firefox" ] }, "event_details": { "duration": [{ "numeric": [ "&lt;", 2000 ] }] } }'     '{ "event_type": ["com.amazon.rum.performance_navigation_event"], "metadata": { "browserName": [ "Chrome", "Safari" ], "countryCode": [ "US" ] }, "event_details": { "duration": [{ "numeric": [ "&gt;=", 2000, "&lt;", 8000 ] }] } }'    If the metrics destination' is CloudWatch and the event also matches a value in DimensionKeys, then the metric is published with the specified dimensions.
         public let eventPattern: String?
-        /// The name for the metric that is defined in this structure. Valid values are the following:    PerformanceNavigationDuration     PerformanceResourceDuration      NavigationSatisfiedTransaction     NavigationToleratedTransaction     NavigationFrustratedTransaction     WebVitalsCumulativeLayoutShift     WebVitalsFirstInputDelay     WebVitalsLargestContentfulPaint     JsErrorCount     HttpErrorCount     SessionCount
+        /// The name for the metric that is defined in this structure. For custom metrics, you can specify  any name that you like. For extended metrics, valid values are the following:    PerformanceNavigationDuration     PerformanceResourceDuration      NavigationSatisfiedTransaction     NavigationToleratedTransaction     NavigationFrustratedTransaction     WebVitalsCumulativeLayoutShift     WebVitalsFirstInputDelay     WebVitalsLargestContentfulPaint     JsErrorCount     HttpErrorCount     SessionCount
         public let name: String
+        /// If this structure is for a custom metric instead of an extended metrics, use this parameter to define the  metric namespace for that custom metric. Do not specify this parameter if this structure is for an extended metric. You cannot use any string that starts with AWS/ for your namespace.
+        public let namespace: String?
         /// The CloudWatch metric unit to use for this metric. If you omit this field, the metric is recorded with no unit.
         public let unitLabel: String?
         /// The field within the event object that the metric value is sourced from. If you omit this field, a hardcoded value of 1 is pushed as the metric value. This is useful if you just want to count the number of events that the filter catches.  If this metric is sent to CloudWatch Evidently, this field will be passed to Evidently raw and Evidently  will handle data extraction from the event.
         public let valueKey: String?
 
-        public init(dimensionKeys: [String: String]? = nil, eventPattern: String? = nil, name: String, unitLabel: String? = nil, valueKey: String? = nil) {
+        public init(dimensionKeys: [String: String]? = nil, eventPattern: String? = nil, name: String, namespace: String? = nil, unitLabel: String? = nil, valueKey: String? = nil) {
             self.dimensionKeys = dimensionKeys
             self.eventPattern = eventPattern
             self.name = name
+            self.namespace = namespace
             self.unitLabel = unitLabel
             self.valueKey = valueKey
         }
@@ -872,9 +879,13 @@ extension RUM {
                 try validate($0.value, name: "dimensionKeys[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "dimensionKeys[\"\($0.key)\"]", parent: name, pattern: "^(?!:).*[^\\s].*")
             }
+            try self.validate(self.dimensionKeys, name: "dimensionKeys", parent: name, max: 29)
             try self.validate(self.eventPattern, name: "eventPattern", parent: name, max: 4000)
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 237)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[a-zA-Z0-9-._/#:]+$")
             try self.validate(self.unitLabel, name: "unitLabel", parent: name, max: 256)
             try self.validate(self.unitLabel, name: "unitLabel", parent: name, min: 1)
             try self.validate(self.valueKey, name: "valueKey", parent: name, max: 280)
@@ -885,6 +896,7 @@ extension RUM {
             case dimensionKeys = "DimensionKeys"
             case eventPattern = "EventPattern"
             case name = "Name"
+            case namespace = "Namespace"
             case unitLabel = "UnitLabel"
             case valueKey = "ValueKey"
         }

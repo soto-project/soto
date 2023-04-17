@@ -1780,7 +1780,7 @@ extension PinpointEmail {
         /// An array of objects, one for each verified domain that you use to send email and enabled the Deliverability dashboard for.
         public let subscribedDomains: [DomainDeliverabilityTrackingOption]?
 
-        public init(dashboardEnabled: Bool, subscribedDomains: [DomainDeliverabilityTrackingOption]? = nil) {
+        public init(dashboardEnabled: Bool = false, subscribedDomains: [DomainDeliverabilityTrackingOption]? = nil) {
             self.dashboardEnabled = dashboardEnabled
             self.subscribedDomains = subscribedDomains
         }

@@ -128,15 +128,18 @@ extension ManagedBlockchain {
         public let id: String?
         /// The current status of the accessor.
         public let status: AccessorStatus?
-        /// The type of the accessor.  Currently accessor type is restricted to BILLING_TOKEN.
+        /// The tags assigned to the Accessor. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        public let tags: [String: String]?
+        /// The type of the accessor.  Currently, accessor type is restricted to BILLING_TOKEN.
         public let type: AccessorType?
 
-        public init(arn: String? = nil, billingToken: String? = nil, creationDate: Date? = nil, id: String? = nil, status: AccessorStatus? = nil, type: AccessorType? = nil) {
+        public init(arn: String? = nil, billingToken: String? = nil, creationDate: Date? = nil, id: String? = nil, status: AccessorStatus? = nil, tags: [String: String]? = nil, type: AccessorType? = nil) {
             self.arn = arn
             self.billingToken = billingToken
             self.creationDate = creationDate
             self.id = id
             self.status = status
+            self.tags = tags
             self.type = type
         }
 
@@ -146,6 +149,7 @@ extension ManagedBlockchain {
             case creationDate = "CreationDate"
             case id = "Id"
             case status = "Status"
+            case tags = "Tags"
             case type = "Type"
         }
     }
@@ -209,24 +213,34 @@ extension ManagedBlockchain {
     }
 
     public struct CreateAccessorInput: AWSEncodableShape {
-        /// The type of accessor.  Currently accessor type is restricted to BILLING_TOKEN.
+        /// The type of accessor.  Currently, accessor type is restricted to BILLING_TOKEN.
         public let accessorType: AccessorType
         /// This is a unique, case-sensitive identifier that you provide to ensure the idempotency of  the operation. An idempotent operation completes no more than once. This  identifier is required only if you make a service request directly using  an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the  Amazon Web Services CLI.
         public let clientRequestToken: String
+        /// Tags to assign to the Accessor. Each tag consists of a key and an optional value. You can specify  multiple key-value pairs in a single request with an overall maximum of 50 tags  allowed per resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        public let tags: [String: String]?
 
-        public init(accessorType: AccessorType, clientRequestToken: String = CreateAccessorInput.idempotencyToken()) {
+        public init(accessorType: AccessorType, clientRequestToken: String = CreateAccessorInput.idempotencyToken(), tags: [String: String]? = nil) {
             self.accessorType = accessorType
             self.clientRequestToken = clientRequestToken
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessorType = "AccessorType"
             case clientRequestToken = "ClientRequestToken"
+            case tags = "Tags"
         }
     }
 
@@ -313,7 +327,7 @@ extension ManagedBlockchain {
         public let memberConfiguration: MemberConfiguration
         /// The name of the network.
         public let name: String
-        /// Tags to assign to the network. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        /// Tags to assign to the network. Each tag consists of a key and an optional value. You can specify  multiple key-value pairs in a single request with an overall maximum of 50 tags  allowed per resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
         ///  The voting rules used by the network to determine if a proposal is approved.
         public let votingPolicy: VotingPolicy
@@ -388,11 +402,11 @@ extension ManagedBlockchain {
         public let clientRequestToken: String
         /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric.
         public let memberId: String?
-        /// The unique identifier of the network for the node. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli     n-ethereum-rinkeby     n-ethereum-ropsten
+        /// The unique identifier of the network for the node. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli     n-ethereum-rinkeby
         public let networkId: String
         /// The properties of a node configuration.
         public let nodeConfiguration: NodeConfiguration
-        /// Tags to assign to the node. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        /// Tags to assign to the node. Each tag consists of a key and an optional value. You can specify  multiple key-value pairs in a single request with an overall maximum of 50 tags  allowed per resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
         public init(clientRequestToken: String = CreateNodeInput.idempotencyToken(), memberId: String? = nil, networkId: String, nodeConfiguration: NodeConfiguration, tags: [String: String]? = nil) {
@@ -454,7 +468,7 @@ extension ManagedBlockchain {
         public let memberId: String
         ///  The unique identifier of the network for which the proposal is made.
         public let networkId: String
-        /// Tags to assign to the proposal. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. If the proposal is for a network invitation, the invitation inherits the tags added to the proposal. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        /// Tags to assign to the proposal. Each tag consists of a key and an optional value. You can specify  multiple key-value pairs in a single request with an overall maximum of 50 tags  allowed per resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
         public init(actions: ProposalActions, clientRequestToken: String = CreateProposalInput.idempotencyToken(), description: String? = nil, memberId: String, networkId: String, tags: [String: String]? = nil) {
@@ -568,7 +582,7 @@ extension ManagedBlockchain {
 
         /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
         public let memberId: String?
-        /// The unique identifier of the network that the node is on. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli     n-ethereum-rinkeby     n-ethereum-ropsten
+        /// The unique identifier of the network that the node is on. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli     n-ethereum-rinkeby
         public let networkId: String
         /// The unique identifier of the node.
         public let nodeId: String
@@ -1269,9 +1283,9 @@ extension ManagedBlockchain {
         public let name: String?
         /// The unique identifier of the network to which the member belongs.
         public let networkId: String?
-        /// The status of a member.    CREATING - The Amazon Web Services account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The Amazon Web Services account attempted to create a member and creation failed.    UPDATING - The member is in the process of being updated.    DELETING - The member and all associated resources are in the process of being deleted. Either the Amazon Web Services account that owns the member deleted it, or the member is being deleted as the result of an APPROVED  PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the Amazon Web Services account that owns the member deleted it, or the member is being deleted as the result of an APPROVED  PROPOSAL to remove the member.    INACCESSIBLE_ENCRYPTION_KEY - The member is impaired and might not function as expected because it cannot access the specified customer managed key in KMS for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key or of revoking a grant isn't immediate. It might take some time for the member resource to discover that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
+        /// The status of a member.    CREATING - The Amazon Web Services account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The Amazon Web Services account attempted to create a member and creation failed.    UPDATING - The member is in the process of being updated.    DELETING - The member and all associated resources are in the process of being deleted. Either the Amazon Web Services account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the Amazon Web Services account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    INACCESSIBLE_ENCRYPTION_KEY - The member is impaired and might not function as expected because it cannot access the specified customer managed key in KMS for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key or of revoking a grant isn't immediate. It might take some time for the member resource to discover that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
         public let status: MemberStatus?
-        /// Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        /// Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
         public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, frameworkAttributes: MemberFrameworkAttributes? = nil, id: String? = nil, kmsKeyArn: String? = nil, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String? = nil, networkId: String? = nil, status: MemberStatus? = nil, tags: [String: String]? = nil) {
@@ -1314,7 +1328,7 @@ extension ManagedBlockchain {
         public let logPublishingConfiguration: MemberLogPublishingConfiguration?
         /// The name of the member.
         public let name: String
-        /// Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource.
+        /// Tags assigned to the member. Tags consist of a key and optional value.  When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
         public init(description: String? = nil, frameworkConfiguration: MemberFrameworkConfiguration, kmsKeyArn: String? = nil, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String, tags: [String: String]? = nil) {
@@ -1371,7 +1385,7 @@ extension ManagedBlockchain {
     }
 
     public struct MemberFabricConfiguration: AWSEncodableShape {
-        /// The password for the member's initial administrative user. The AdminPassword must be at least eight characters long and no more than 32 characters. It must contain at least one uppercase letter, one lowercase letter, and one digit. It cannot have a single quotation mark (‘), a double quotation marks (“), a forward slash(/), a backward slash(\), @, or a space.
+        /// The password for the member's initial administrative user. The AdminPassword must be at least 8 characters long and no more than 32 characters. It must contain at least one uppercase letter, one lowercase letter, and one digit. It cannot have a single quotation mark (‘), a double quotation marks (“), a forward slash(/), a backward slash(\), @, or a space.
         public let adminPassword: String
         /// The user name for the member's initial administrative user.
         public let adminUsername: String
@@ -1466,7 +1480,7 @@ extension ManagedBlockchain {
         public let isOwned: Bool?
         /// The name of the member.
         public let name: String?
-        /// The status of the member.    CREATING - The Amazon Web Services account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The Amazon Web Services account attempted to create a member and creation failed.    UPDATING - The member is in the process of being updated.    DELETING - The member and all associated resources are in the process of being deleted. Either the Amazon Web Services account that owns the member deleted it, or the member is being deleted as the result of an APPROVED  PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the Amazon Web Services account that owns the member deleted it, or the member is being deleted as the result of an APPROVED  PROPOSAL to remove the member.    INACCESSIBLE_ENCRYPTION_KEY - The member is impaired and might not function as expected because it cannot access the specified customer managed key in Key Management Service (KMS) for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key or of revoking a grant isn't immediate. It might take some time for the member resource to discover that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
+        /// The status of the member.    CREATING - The Amazon Web Services account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The Amazon Web Services account attempted to create a member and creation failed.    UPDATING - The member is in the process of being updated.    DELETING - The member and all associated resources are in the process of being deleted. Either the Amazon Web Services account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the Amazon Web Services account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    INACCESSIBLE_ENCRYPTION_KEY - The member is impaired and might not function as expected because it cannot access the specified customer managed key in Key Management Service (KMS) for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key or of revoking a grant isn't immediate. It might take some time for the member resource to discover that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
         public let status: MemberStatus?
 
         public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, id: String? = nil, isOwned: Bool? = nil, name: String? = nil, status: MemberStatus? = nil) {
@@ -1512,7 +1526,7 @@ extension ManagedBlockchain {
         public let status: NetworkStatus?
         /// Tags assigned to the network. Each tag consists of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
-        /// The voting rules for the network to decide if a proposal is accepted.
+        /// The voting rules that the network uses to decide if a proposal is accepted.
         public let votingPolicy: VotingPolicy?
         /// The VPC endpoint service name of the VPC endpoint service of the network. Members use the VPC endpoint service name to create a VPC endpoint to access network resources.
         public let vpcEndpointServiceName: String?
@@ -1549,7 +1563,7 @@ extension ManagedBlockchain {
     }
 
     public struct NetworkEthereumAttributes: AWSDecodableShape {
-        /// The Ethereum CHAIN_ID associated with the Ethereum network. Chain IDs are as follows:   mainnet = 1    goerli = 5    rinkeby = 4    ropsten = 3
+        /// The Ethereum CHAIN_ID associated with the Ethereum network. Chain IDs are as follows:   mainnet = 1    goerli = 5    rinkeby = 4
         public let chainId: String?
 
         public init(chainId: String? = nil) {

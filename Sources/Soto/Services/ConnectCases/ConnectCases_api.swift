@@ -19,8 +19,7 @@
 
 /// Service object for interacting with AWS ConnectCases service.
 ///
-/// Welcome to the Amazon Connect Cases API Reference. This guide provides information about the Amazon Connect Cases API, which you can use to create, update, get, and list Cases domains, fields, field options, layouts, templates, cases, related items, and tags.
-///  For more information about Amazon Connect Cases, see Amazon Connect Cases in the Amazon Connect Administrator Guide.
+/// With Amazon Connect Cases, your agents can track and manage customer issues that require multiple interactions, follow-up tasks, and teams in your contact center. A case represents a customer issue. It records the issue, the steps and interactions taken to resolve the issue, and the outcome. For more information, see Amazon Connect Cases in the Amazon Connect Administrator Guide.
 public struct ConnectCases: AWSService {
     // MARK: Member variables
 
@@ -80,12 +79,13 @@ public struct ConnectCases: AWSService {
         return self.client.execute(operation: "BatchPutFieldOptions", path: "/domains/{domainId}/fields/{fieldId}/options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types.   customer_id is a required field when creating a case.
+    /// Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types.  The following fields are required when creating a case:     customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID     title
+    ///
     public func createCase(_ input: CreateCaseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCaseResponse> {
         return self.client.execute(operation: "CreateCase", path: "/domains/{domainId}/cases", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain.  This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect CreateIntegrationAssociation API.
+    /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain.  This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases.
     public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDomainResponse> {
         return self.client.execute(operation: "CreateDomain", path: "/domains", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -108,6 +108,11 @@ public struct ConnectCases: AWSService {
     /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases.
     public func createTemplate(_ input: CreateTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTemplateResponse> {
         return self.client.execute(operation: "CreateTemplate", path: "/domains/{domainId}/templates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a domain.
+    public func deleteDomain(_ input: DeleteDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDomainResponse> {
+        return self.client.execute(operation: "DeleteDomain", path: "/domains/{domainId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about a specific case if it exists.
@@ -175,7 +180,7 @@ public struct ConnectCases: AWSService {
         return self.client.execute(operation: "PutCaseEventConfiguration", path: "/domains/{domainId}/case-event-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents.
+    /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents.  For customer_id you must provide the full customer profile ARN in this format:  arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID.
     public func searchCases(_ input: SearchCasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchCasesResponse> {
         return self.client.execute(operation: "SearchCases", path: "/domains/{domainId}/cases-search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -599,7 +604,7 @@ extension ConnectCases {
         )
     }
 
-    /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents.
+    /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents.  For customer_id you must provide the full customer profile ARN in this format:  arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

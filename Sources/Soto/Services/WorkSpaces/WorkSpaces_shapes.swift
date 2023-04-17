@@ -749,7 +749,7 @@ extension WorkSpaces {
     public struct CreateStandbyWorkspacesRequest: AWSEncodableShape {
         /// The Region of the primary WorkSpace.
         public let primaryRegion: String
-        /// Information about the Standby WorkSpace to be created.
+        /// Information about the standby WorkSpace to be created.
         public let standbyWorkspaces: [StandbyWorkspace]
 
         public init(primaryRegion: String, standbyWorkspaces: [StandbyWorkspace]) {
@@ -773,9 +773,9 @@ extension WorkSpaces {
     }
 
     public struct CreateStandbyWorkspacesResult: AWSDecodableShape {
-        /// Information about the Standby WorkSpace that could not be created.
+        /// Information about the standby WorkSpace that could not be created.
         public let failedStandbyRequests: [FailedCreateStandbyWorkspacesRequest]?
-        /// Information about the Standby WorkSpace that was created.
+        /// Information about the standby WorkSpace that was created.
         public let pendingStandbyRequests: [PendingCreateStandbyWorkspacesRequest]?
 
         public init(failedStandbyRequests: [FailedCreateStandbyWorkspacesRequest]? = nil, pendingStandbyRequests: [PendingCreateStandbyWorkspacesRequest]? = nil) {
@@ -877,7 +877,7 @@ extension WorkSpaces {
         /// The identifier of the image that is used to create the bundle.
         public let imageId: String
         public let rootStorage: RootStorage?
-        /// The tags associated with the bundle.   To add tags at the same time when you're creating the bundle, you must create an IAM policy that  grants your IAM user permissions to use workspaces:CreateTags.
+        /// The tags associated with the bundle.  To add tags at the same time when you're creating the bundle, you must create an IAM policy that  grants your IAM user permissions to use workspaces:CreateTags.
         public let tags: [Tag]?
         public let userStorage: UserStorage
 
@@ -2135,11 +2135,11 @@ extension WorkSpaces {
     }
 
     public struct FailedCreateStandbyWorkspacesRequest: AWSDecodableShape {
-        /// The error code that is returned if the Standby WorkSpace could not be created.
+        /// The error code that is returned if the standby WorkSpace could not be created.
         public let errorCode: String?
-        /// The text of the error message that is returned if the Standby WorkSpace could not be created.
+        /// The text of the error message that is returned if the standby WorkSpace could not be created.
         public let errorMessage: String?
-        /// Information about the Standby WorkSpace that could not be created.
+        /// Information about the standby WorkSpace that could not be created.
         public let standbyWorkspaceRequest: StandbyWorkspace?
 
         public init(errorCode: String? = nil, errorMessage: String? = nil, standbyWorkspaceRequest: StandbyWorkspace? = nil) {
@@ -2831,13 +2831,13 @@ extension WorkSpaces {
     }
 
     public struct PendingCreateStandbyWorkspacesRequest: AWSDecodableShape {
-        /// The identifier of the directory for the Standby WorkSpace.
+        /// The identifier of the directory for the standby WorkSpace.
         public let directoryId: String?
-        /// The operational state of the Standby WorkSpace.
+        /// The operational state of the standby WorkSpace.
         public let state: WorkspaceState?
-        /// Describes the Standby WorkSpace that was created. Because this operation is asynchronous, the identifier returned is not immediately  available for use with other operations. For example, if you call   DescribeWorkspaces  before the WorkSpace is created, the information returned can be incomplete.
+        /// Describes the standby WorkSpace that was created. Because this operation is asynchronous, the identifier returned is not immediately  available for use with other operations. For example, if you call   DescribeWorkspaces  before the WorkSpace is created, the information returned can be incomplete.
         public let userName: String?
-        /// The identifier of the Standby WorkSpace.
+        /// The identifier of the standby WorkSpace.
         public let workspaceId: String?
 
         public init(directoryId: String? = nil, state: WorkspaceState? = nil, userName: String? = nil, workspaceId: String? = nil) {
@@ -3098,7 +3098,7 @@ extension WorkSpaces {
     }
 
     public struct SamlProperties: AWSEncodableShape & AWSDecodableShape {
-        /// The relay state parameter name supported by the SAML 2.0 identity provider (IdP). When the end user is redirected to  the user access URL from the WorkSpaces client application, this relay state parameter name is appended as a query  parameter to the URL along with the relay state endpoint to return the user to the client application session.  To use SAML 2.0 authentication with WorkSpaces, the IdP must support IdP-initiated deep linking for the relay state  URL. Consult your IdP documentation for more information.
+        /// The relay state parameter name supported by the SAML 2.0 identity provider (IdP). When the end user is redirected to  the user access URL from the WorkSpaces client application, this relay state parameter name is appended as a query  parameter to the URL along with the relay state endpoint to return the user to the client application session. To use SAML 2.0 authentication with WorkSpaces, the IdP must support IdP-initiated deep linking for the relay state  URL. Consult your IdP documentation for more information.
         public let relayStateParameterName: String?
         /// Indicates the status of SAML 2.0 authentication. These statuses include the following.   If the setting is DISABLED, end users will be directed to login with their directory credentials.   If the setting is ENABLED, end users will be directed to login via the user access URL. Users attempting  to connect to WorkSpaces from a client application that does not support SAML 2.0 authentication will not be able to  connect.   If the setting is ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK, end users will be directed to login via the user  access URL on supported client applications, but will not prevent clients that do not support SAML 2.0 authentication  from connecting as if SAML 2.0 authentication was disabled.
         public let status: SamlStatusEnum?
@@ -3168,13 +3168,13 @@ extension WorkSpaces {
     }
 
     public struct StandbyWorkspace: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier of the directory for the Standby WorkSpace.
+        /// The identifier of the directory for the standby WorkSpace.
         public let directoryId: String
-        /// The identifier of the Standby WorkSpace.
+        /// The identifier of the standby WorkSpace.
         public let primaryWorkspaceId: String
-        /// The tags associated with the Standby WorkSpace.
+        /// The tags associated with the standby WorkSpace.
         public let tags: [Tag]?
-        /// The volume encryption key of the Standby WorkSpace.
+        /// The volume encryption key of the standby WorkSpace.
         public let volumeEncryptionKey: String?
 
         public init(directoryId: String, primaryWorkspaceId: String, tags: [Tag]? = nil, volumeEncryptionKey: String? = nil) {
@@ -3580,7 +3580,7 @@ extension WorkSpaces {
         public let ipAddress: String?
         /// The modification states of the WorkSpace.
         public let modificationStates: [ModificationState]?
-        /// The Standby WorkSpace or Primary WorkSpace related to the specified WorkSpace.
+        /// The standby WorkSpace or primary WorkSpace related to the specified WorkSpace.
         public let relatedWorkspaces: [RelatedWorkspaceProperties]?
         /// Indicates whether the data stored on the root volume is encrypted.
         public let rootVolumeEncryptionEnabled: Bool?

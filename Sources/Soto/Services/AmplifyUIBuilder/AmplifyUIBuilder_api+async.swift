@@ -106,7 +106,7 @@ extension AmplifyUIBuilder {
         return try await self.client.execute(operation: "ListThemes", path: "/app/{appId}/environment/{environmentName}/themes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Stores the metadata information about a feature on a form or view.
+    /// Stores the metadata information about a feature on a form.
     public func putMetadataFlag(_ input: PutMetadataFlagRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "PutMetadataFlag", path: "/app/{appId}/environment/{environmentName}/metadata/features/{featureName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

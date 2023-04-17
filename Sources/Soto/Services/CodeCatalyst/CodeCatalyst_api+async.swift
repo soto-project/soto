@@ -26,7 +26,7 @@ extension CodeCatalyst {
         return try await self.client.execute(operation: "CreateAccessToken", path: "/v1/accessTokens", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development Dev Environment that you can use to quickly work on the code stored in the source repositories of your project.  By default, a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage.
+    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development Dev Environment that you can use to quickly work on the code stored in the source repositories of your project.    When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically.
     public func createDevEnvironment(_ input: CreateDevEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDevEnvironmentResponse {
         return try await self.client.execute(operation: "CreateDevEnvironment", path: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -129,6 +129,11 @@ extension CodeCatalyst {
     /// Pauses a specified Dev Environment and places it in a non-running state. Stopped Dev Environments do not consume compute minutes.
     public func stopDevEnvironment(_ input: StopDevEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StopDevEnvironmentResponse {
         return try await self.client.execute(operation: "StopDevEnvironment", path: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}/stop", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Stops a session for a specified Dev Environment.
+    public func stopDevEnvironmentSession(_ input: StopDevEnvironmentSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StopDevEnvironmentSessionResponse {
+        return try await self.client.execute(operation: "StopDevEnvironmentSession", path: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{id}/session/{sessionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart.

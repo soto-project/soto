@@ -1462,6 +1462,20 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum NielsenWatermarkTimezones: String, CustomStringConvertible, Codable, Sendable {
+        case americaPuertoRico = "AMERICA_PUERTO_RICO"
+        case usAlaska = "US_ALASKA"
+        case usArizona = "US_ARIZONA"
+        case usCentral = "US_CENTRAL"
+        case usEastern = "US_EASTERN"
+        case usHawaii = "US_HAWAII"
+        case usMountain = "US_MOUNTAIN"
+        case usPacific = "US_PACIFIC"
+        case usSamoa = "US_SAMOA"
+        case utc = "UTC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NielsenWatermarksCbetStepaside: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -2511,7 +2525,7 @@ extension MediaLive {
     }
 
     public struct AvailConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Ad avail settings.
+        /// Controls how SCTE-35 messages create cues. Splice Insert mode treats all segmentation signals traditionally. With Time Signal APOS mode only Time Signal Placement Opportunity and Break messages create segment breaks. With ESAM mode, signals are forwarded to an ESAM server for possible update.
         public let availSettings: AvailSettings?
 
         public init(availSettings: AvailSettings? = nil) {
@@ -4243,12 +4257,14 @@ extension MediaLive {
         public let networkSettings: InputDeviceNetworkSettings?
         /// The unique serial number of the input device.
         public let serialNumber: String?
+        /// A collection of key-value pairs.
+        public let tags: [String: String]?
         /// The type of the input device.
         public let type: InputDeviceType?
         /// Settings that describe an input device that is type UHD.
         public let uhdDeviceSettings: InputDeviceUhdSettings?
 
-        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil, uhdDeviceSettings: InputDeviceUhdSettings? = nil) {
+        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, type: InputDeviceType? = nil, uhdDeviceSettings: InputDeviceUhdSettings? = nil) {
             self.arn = arn
             self.connectionState = connectionState
             self.deviceSettingsSyncState = deviceSettingsSyncState
@@ -4259,6 +4275,7 @@ extension MediaLive {
             self.name = name
             self.networkSettings = networkSettings
             self.serialNumber = serialNumber
+            self.tags = tags
             self.type = type
             self.uhdDeviceSettings = uhdDeviceSettings
         }
@@ -4274,6 +4291,7 @@ extension MediaLive {
             case name = "name"
             case networkSettings = "networkSettings"
             case serialNumber = "serialNumber"
+            case tags = "tags"
             case type = "type"
             case uhdDeviceSettings = "uhdDeviceSettings"
         }
@@ -6090,7 +6108,7 @@ extension MediaLive {
         public let filecacheDuration: Int?
         /// Specify whether or not to use chunked transfer encoding to Akamai. User should contact Akamai to enable this feature.
         public let httpTransferMode: HlsAkamaiHttpTransferMode?
-        /// Number of retry attempts that will be made before the Live Event is put into an error state.
+        /// Number of retry attempts that will be made before the Live Event is put into an error state. Applies only if the CDN destination URI begins with "s3" or "mediastore". For other URIs, the value is always 3.
         public let numRetries: Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public let restartDelay: Int?
@@ -6134,7 +6152,7 @@ extension MediaLive {
         public let connectionRetryInterval: Int?
         /// Size in seconds of file cache for streaming outputs.
         public let filecacheDuration: Int?
-        /// Number of retry attempts that will be made before the Live Event is put into an error state.
+        /// Number of retry attempts that will be made before the Live Event is put into an error state. Applies only if the CDN destination URI begins with "s3" or "mediastore". For other URIs, the value is always 3.
         public let numRetries: Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public let restartDelay: Int?
@@ -6416,14 +6434,18 @@ extension MediaLive {
     }
 
     public struct HlsId3SegmentTaggingScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Base64 string formatted according to the ID3 specification: http://id3.org/id3v2.4.0-structure
+        public let id3: String?
         /// ID3 tag to insert into each segment. Supports special keyword identifiers to substitute in segment-related values.\nSupported keyword identifiers: https://docs.aws.amazon.com/medialive/latest/ug/variable-data-identifiers.html
-        public let tag: String
+        public let tag: String?
 
-        public init(tag: String) {
+        public init(id3: String? = nil, tag: String? = nil) {
+            self.id3 = id3
             self.tag = tag
         }
 
         private enum CodingKeys: String, CodingKey {
+            case id3 = "id3"
             case tag = "tag"
         }
     }
@@ -6471,7 +6493,7 @@ extension MediaLive {
         public let filecacheDuration: Int?
         /// When set to temporal, output files are stored in non-persistent memory for faster reading and writing.
         public let mediaStoreStorageClass: HlsMediaStoreStorageClass?
-        /// Number of retry attempts that will be made before the Live Event is put into an error state.
+        /// Number of retry attempts that will be made before the Live Event is put into an error state. Applies only if the CDN destination URI begins with "s3" or "mediastore". For other URIs, the value is always 3.
         public let numRetries: Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public let restartDelay: Int?
@@ -6592,7 +6614,7 @@ extension MediaLive {
         public let filecacheDuration: Int?
         /// Specify whether or not to use chunked transfer encoding to WebDAV.
         public let httpTransferMode: HlsWebdavHttpTransferMode?
-        /// Number of retry attempts that will be made before the Live Event is put into an error state.
+        /// Number of retry attempts that will be made before the Live Event is put into an error state. Applies only if the CDN destination URI begins with "s3" or "mediastore". For other URIs, the value is always 3.
         public let numRetries: Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
         public let restartDelay: Int?
@@ -6978,12 +7000,14 @@ extension MediaLive {
         public let networkSettings: InputDeviceNetworkSettings?
         /// The unique serial number of the input device.
         public let serialNumber: String?
+        /// A collection of key-value pairs.
+        public let tags: [String: String]?
         /// The type of the input device.
         public let type: InputDeviceType?
         /// Settings that describe an input device that is type UHD.
         public let uhdDeviceSettings: InputDeviceUhdSettings?
 
-        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil, uhdDeviceSettings: InputDeviceUhdSettings? = nil) {
+        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, type: InputDeviceType? = nil, uhdDeviceSettings: InputDeviceUhdSettings? = nil) {
             self.arn = arn
             self.connectionState = connectionState
             self.deviceSettingsSyncState = deviceSettingsSyncState
@@ -6994,6 +7018,7 @@ extension MediaLive {
             self.name = name
             self.networkSettings = networkSettings
             self.serialNumber = serialNumber
+            self.tags = tags
             self.type = type
             self.uhdDeviceSettings = uhdDeviceSettings
         }
@@ -7009,6 +7034,7 @@ extension MediaLive {
             case name = "name"
             case networkSettings = "networkSettings"
             case serialNumber = "serialNumber"
+            case tags = "tags"
             case type = "type"
             case uhdDeviceSettings = "uhdDeviceSettings"
         }
@@ -9131,10 +9157,14 @@ extension MediaLive {
         public let checkDigitString: String
         /// Enter the Nielsen Source ID (SID) to include in the watermark
         public let sid: Double
+        /// Choose the timezone for the time stamps in the watermark. If not provided,
+        /// the timestamps will be in Coordinated Universal Time (UTC)
+        public let timezone: NielsenWatermarkTimezones?
 
-        public init(checkDigitString: String, sid: Double) {
+        public init(checkDigitString: String, sid: Double, timezone: NielsenWatermarkTimezones? = nil) {
             self.checkDigitString = checkDigitString
             self.sid = sid
+            self.timezone = timezone
         }
 
         public func validate(name: String) throws {
@@ -9145,6 +9175,7 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case checkDigitString = "checkDigitString"
             case sid = "sid"
+            case timezone = "timezone"
         }
     }
 
@@ -11198,12 +11229,14 @@ extension MediaLive {
         public let networkSettings: InputDeviceNetworkSettings?
         /// The unique serial number of the input device.
         public let serialNumber: String?
+        /// A collection of key-value pairs.
+        public let tags: [String: String]?
         /// The type of the input device.
         public let type: InputDeviceType?
         /// Settings that describe an input device that is type UHD.
         public let uhdDeviceSettings: InputDeviceUhdSettings?
 
-        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil, uhdDeviceSettings: InputDeviceUhdSettings? = nil) {
+        public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, deviceUpdateStatus: DeviceUpdateStatus? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, type: InputDeviceType? = nil, uhdDeviceSettings: InputDeviceUhdSettings? = nil) {
             self.arn = arn
             self.connectionState = connectionState
             self.deviceSettingsSyncState = deviceSettingsSyncState
@@ -11214,6 +11247,7 @@ extension MediaLive {
             self.name = name
             self.networkSettings = networkSettings
             self.serialNumber = serialNumber
+            self.tags = tags
             self.type = type
             self.uhdDeviceSettings = uhdDeviceSettings
         }
@@ -11229,6 +11263,7 @@ extension MediaLive {
             case name = "name"
             case networkSettings = "networkSettings"
             case serialNumber = "serialNumber"
+            case tags = "tags"
             case type = "type"
             case uhdDeviceSettings = "uhdDeviceSettings"
         }

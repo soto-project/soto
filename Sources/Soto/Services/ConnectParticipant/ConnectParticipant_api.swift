@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS ConnectParticipant service.
 ///
-/// Amazon Connect is a cloud-based contact center solution that makes it easy to set up and manage a customer contact center. Amazon Connect enables customer contacts through voice or chat. Use the Amazon Connect Participant Service to manage chat participants, such as agents and customers.
+/// Amazon Connect is an easy-to-use omnichannel cloud contact center service that enables companies of any size to deliver superior customer service at a lower cost. Amazon Connect communications capabilities make it easy for companies to deliver personalized interactions across communication channels, including chat.  Use the Amazon Connect Participant Service to manage participants (for example, agents, customers, and managers listening in), and to send messages and events within a chat contact. The APIs in the service enable the following: sending chat messages, attachment sharing, managing a participant's connection state and message events, and retrieving chat transcripts.
 public struct ConnectParticipant: AWSService {
     // MARK: Member variables
 
@@ -55,12 +55,10 @@ public struct ConnectParticipant: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-09-07",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "us-gov-west-1": "participant.connect.us-gov-west-1.amazonaws.com"
-            ],
             variantEndpoints: [
                 [.fips]: .init(endpoints: [
                     "us-east-1": "participant.connect-fips.us-east-1.amazonaws.com",
+                    "us-gov-west-1": "participant.connect.us-gov-west-1.amazonaws.com",
                     "us-west-2": "participant.connect-fips.us-west-2.amazonaws.com"
                 ])
             ],
@@ -93,7 +91,7 @@ public struct ConnectParticipant: AWSService {
         return self.client.execute(operation: "GetAttachment", path: "/participant/attachment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves a transcript of the session, including details about any attachments. For information about accessing past chat contact transcripts for a persistent chat, see  Enable persistent chat.    ConnectionToken is used for invoking this API instead of ParticipantToken.  The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
+    /// Retrieves a transcript of the session, including details about any attachments. For information about accessing past chat contact transcripts for a persistent chat, see Enable persistent chat.    ConnectionToken is used for invoking this API instead of ParticipantToken.  The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
     public func getTranscript(_ input: GetTranscriptRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTranscriptResponse> {
         return self.client.execute(operation: "GetTranscript", path: "/participant/transcript", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -126,7 +124,7 @@ extension ConnectParticipant {
 // MARK: Paginators
 
 extension ConnectParticipant {
-    /// Retrieves a transcript of the session, including details about any attachments. For information about accessing past chat contact transcripts for a persistent chat, see  Enable persistent chat.    ConnectionToken is used for invoking this API instead of ParticipantToken.  The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
+    /// Retrieves a transcript of the session, including details about any attachments. For information about accessing past chat contact transcripts for a persistent chat, see Enable persistent chat.    ConnectionToken is used for invoking this API instead of ParticipantToken.  The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

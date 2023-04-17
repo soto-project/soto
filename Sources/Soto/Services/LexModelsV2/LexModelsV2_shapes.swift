@@ -59,12 +59,14 @@ extension LexModelsV2 {
 
     public enum BotFilterName: String, CustomStringConvertible, Codable, Sendable {
         case botName = "BotName"
+        case botType = "BotType"
         public var description: String { return self.rawValue }
     }
 
     public enum BotFilterOperator: String, CustomStringConvertible, Codable, Sendable {
         case contains = "CO"
         case equals = "EQ"
+        case notEquals = "NE"
         public var description: String { return self.rawValue }
     }
 
@@ -122,7 +124,14 @@ extension LexModelsV2 {
         case failed = "Failed"
         case importing = "Importing"
         case inactive = "Inactive"
+        case updating = "Updating"
         case versioning = "Versioning"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BotType: String, CustomStringConvertible, Codable, Sendable {
+        case bot = "Bot"
+        case botNetwork = "BotNetwork"
         public var description: String { return self.rawValue }
     }
 
@@ -622,13 +631,13 @@ extension LexModelsV2 {
             AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
-        /// The unique identifier of the bot to batch create the custom vocabulary item for.
+        /// The identifier of the bot associated with this custom vocabulary.
         public let botId: String
-        /// The bot version of the bot to batch create the custom vocabulary item for.
+        /// The identifier of the version of the bot associated with this  custom vocabulary.
         public let botVersion: String
-        /// The custom vocabulary item list of the bot to batch create the custom vocabulary item for.
+        /// A list of new custom vocabulary items. Each entry must contain a phrase and can optionally contain a displayAs and/or a weight.
         public let customVocabularyItemList: [NewCustomVocabularyItem]
-        /// The unique locale identifier of the bot to batch create the custom vocabulary item for.
+        /// The identifier of the language and locale where this custom vocabulary  is used. The string must match one of the supported locales. For more  information, see  Supported Languages .
         public let localeId: String
 
         public init(botId: String, botVersion: String, customVocabularyItemList: [NewCustomVocabularyItem], localeId: String) {
@@ -658,15 +667,15 @@ extension LexModelsV2 {
     }
 
     public struct BatchCreateCustomVocabularyItemResponse: AWSDecodableShape {
-        /// The unique identifier of the bot to batch create response for the custom vocabulary item.
+        /// The identifier of the bot associated with this custom vocabulary.
         public let botId: String?
-        /// The bot version of the bot to batch create the custom vocabulary item response for.
+        /// The identifier of the version of the bot associated with this  custom vocabulary.
         public let botVersion: String?
-        /// The errors of the action to batch create the custom vocabulary item response for a bot.
+        /// A list of custom vocabulary items that failed to create during the operation. The reason for the error is contained within each error object.
         public let errors: [FailedCustomVocabularyItem]?
-        /// The unique locale identifier of the bot to batch create the custom vocabulary item response for.
+        /// The identifier of the language and locale where this custom vocabulary is used.  The string must match one of the supported locales.  For more information, see  Supported Languages .
         public let localeId: String?
-        /// The resources of the action to batch create the custom vocabulary item response for a bot.
+        /// A list of custom vocabulary items that were  successfully created during the operation.
         public let resources: [CustomVocabularyItem]?
 
         public init(botId: String? = nil, botVersion: String? = nil, errors: [FailedCustomVocabularyItem]? = nil, localeId: String? = nil, resources: [CustomVocabularyItem]? = nil) {
@@ -693,13 +702,13 @@ extension LexModelsV2 {
             AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
-        /// The unique identifier of the bot to batch delete request for the custom vocabulary item.
+        /// The identifier of the bot associated with this custom vocabulary.
         public let botId: String
-        /// The version of the bot to batch delete request for the custom vocabulary item.
+        /// The identifier of the version of the bot associated with this custom  vocabulary.
         public let botVersion: String
-        /// The custom vocabulary list to batch delete request for the custom vocabulary item.
+        /// A list of custom vocabulary items requested to be deleted. Each entry must contain the unique custom vocabulary entry identifier.
         public let customVocabularyItemList: [CustomVocabularyEntryId]
-        /// The locale identifier of the bot to batch delete request for the custom vocabulary item.
+        /// The identifier of the language and locale where this custom vocabulary is  used. The string must match one of the supported locales.  For more information, see  Supported Languages .
         public let localeId: String
 
         public init(botId: String, botVersion: String, customVocabularyItemList: [CustomVocabularyEntryId], localeId: String) {
@@ -729,15 +738,15 @@ extension LexModelsV2 {
     }
 
     public struct BatchDeleteCustomVocabularyItemResponse: AWSDecodableShape {
-        /// The unique identifier of the bot to batch delete response for the custom vocabulary item.
+        /// The identifier of the bot associated with this custom vocabulary.
         public let botId: String?
-        /// The version of the bot to batch delete response for the custom vocabulary item.
+        /// The identifier of the version of the bot associated with this custom  vocabulary.
         public let botVersion: String?
-        /// The errors of the action to batch delete response for the custom vocabulary item.
+        /// A list of custom vocabulary items that failed to delete during the operation. The reason for the error is contained within each error object.
         public let errors: [FailedCustomVocabularyItem]?
-        /// The locale identifier of the bot to batch delete response for the custom vocabulary item.
+        /// The identifier of the language and locale where this custom vocabulary is  used. The string must match one of the supported locales.  For more information, see Supported  languages (https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
         public let localeId: String?
-        /// The resources of the action to batch delete response for the custom vocabulary item.
+        /// A list of custom vocabulary items that were  successfully deleted during the operation.
         public let resources: [CustomVocabularyItem]?
 
         public init(botId: String? = nil, botVersion: String? = nil, errors: [FailedCustomVocabularyItem]? = nil, localeId: String? = nil, resources: [CustomVocabularyItem]? = nil) {
@@ -764,13 +773,13 @@ extension LexModelsV2 {
             AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
-        /// The unique identifier of the bot to the batch update request for the custom vocabulary item.
+        /// The identifier of the bot associated with this custom vocabulary
         public let botId: String
-        /// The bot version of the bot to the batch update request for the custom vocabulary item.
+        /// The identifier of the version of the bot associated with this custom  vocabulary.
         public let botVersion: String
-        /// The custom vocabulary item list of the bot to the batch update request for the custom vocabulary item.
+        /// A list of custom vocabulary items with updated fields. Each entry must contain a phrase and can optionally contain a displayAs and/or a weight.
         public let customVocabularyItemList: [CustomVocabularyItem]
-        /// The locale identifier of the bot to the batch update request for the custom vocabulary item.
+        /// The identifier of the language and locale where this custom vocabulary  is used. The string must match one of the supported locales. For more  information, see  Supported Languages .
         public let localeId: String
 
         public init(botId: String, botVersion: String, customVocabularyItemList: [CustomVocabularyItem], localeId: String) {
@@ -800,15 +809,15 @@ extension LexModelsV2 {
     }
 
     public struct BatchUpdateCustomVocabularyItemResponse: AWSDecodableShape {
-        /// The unique identifier of the bot to the batch update response for the custom vocabulary item.
+        /// The identifier of the bot associated with this custom vocabulary.
         public let botId: String?
-        /// The bot version of the bot to the batch update response for the custom vocabulary item.
+        /// The identifier of the version of the bot associated with this custom  vocabulary.
         public let botVersion: String?
-        /// The errors of the action to batch update response for the custom vocabulary item.
+        /// A list of custom vocabulary items that failed to update during the operation. The reason for the error is contained within each error object.
         public let errors: [FailedCustomVocabularyItem]?
-        /// The locale identifier of the bot to the batch update response for the custom vocabulary item.
+        /// The identifier of the language and locale where this custom vocabulary  is used. The string must match one of the supported locales. For more  information, see  Supported Languages .
         public let localeId: String?
-        /// The resources of the action to batch update response for the custom vocabulary item.
+        /// A list of custom vocabulary items that were  successfully updated during the operation.
         public let resources: [CustomVocabularyItem]?
 
         public init(botId: String? = nil, botVersion: String? = nil, errors: [FailedCustomVocabularyItem]? = nil, localeId: String? = nil, resources: [CustomVocabularyItem]? = nil) {
@@ -1186,6 +1195,53 @@ extension LexModelsV2 {
         }
     }
 
+    public struct BotMember: AWSEncodableShape & AWSDecodableShape {
+        /// The alias ID of a bot that is a member of this network of bots.
+        public let botMemberAliasId: String
+        /// The alias name of a bot that is a member of this network of bots.
+        public let botMemberAliasName: String
+        /// The unique ID of a bot that is a member of this network of bots.
+        public let botMemberId: String
+        /// The unique name of a bot that is a member of this network of bots.
+        public let botMemberName: String
+        /// The version of a bot that is a member of this network of bots.
+        public let botMemberVersion: String
+
+        public init(botMemberAliasId: String, botMemberAliasName: String, botMemberId: String, botMemberName: String, botMemberVersion: String) {
+            self.botMemberAliasId = botMemberAliasId
+            self.botMemberAliasName = botMemberAliasName
+            self.botMemberId = botMemberId
+            self.botMemberName = botMemberName
+            self.botMemberVersion = botMemberVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botMemberAliasId, name: "botMemberAliasId", parent: name, max: 10)
+            try self.validate(self.botMemberAliasId, name: "botMemberAliasId", parent: name, min: 10)
+            try self.validate(self.botMemberAliasId, name: "botMemberAliasId", parent: name, pattern: "^(\\bTSTALIASID\\b|[0-9a-zA-Z]+)$")
+            try self.validate(self.botMemberAliasName, name: "botMemberAliasName", parent: name, max: 100)
+            try self.validate(self.botMemberAliasName, name: "botMemberAliasName", parent: name, min: 1)
+            try self.validate(self.botMemberAliasName, name: "botMemberAliasName", parent: name, pattern: "^(\\bAmazonLexTestAlias\\b|[0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.botMemberId, name: "botMemberId", parent: name, max: 10)
+            try self.validate(self.botMemberId, name: "botMemberId", parent: name, min: 10)
+            try self.validate(self.botMemberId, name: "botMemberId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botMemberName, name: "botMemberName", parent: name, max: 100)
+            try self.validate(self.botMemberName, name: "botMemberName", parent: name, min: 1)
+            try self.validate(self.botMemberName, name: "botMemberName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.botMemberVersion, name: "botMemberVersion", parent: name, max: 5)
+            try self.validate(self.botMemberVersion, name: "botMemberVersion", parent: name, min: 1)
+            try self.validate(self.botMemberVersion, name: "botMemberVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botMemberAliasId = "botMemberAliasId"
+            case botMemberAliasName = "botMemberAliasName"
+            case botMemberId = "botMemberId"
+            case botMemberName = "botMemberName"
+            case botMemberVersion = "botMemberVersion"
+        }
+    }
+
     public struct BotRecommendationResultStatistics: AWSDecodableShape {
         /// Statistical information about about the intents associated with the bot recommendation results.
         public let intents: IntentStatistics?
@@ -1273,6 +1329,8 @@ extension LexModelsV2 {
         public let botName: String?
         /// The current status of the bot. When the status is Available the bot is ready for use.
         public let botStatus: BotStatus?
+        /// The type of the bot.
+        public let botType: BotType?
         /// The description of the bot.
         public let description: String?
         /// The date and time that the bot was last updated.
@@ -1280,10 +1338,11 @@ extension LexModelsV2 {
         /// The latest numerical version in use for the bot.
         public let latestBotVersion: String?
 
-        public init(botId: String? = nil, botName: String? = nil, botStatus: BotStatus? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, latestBotVersion: String? = nil) {
+        public init(botId: String? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botType: BotType? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, latestBotVersion: String? = nil) {
             self.botId = botId
             self.botName = botName
             self.botStatus = botStatus
+            self.botType = botType
             self.description = description
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.latestBotVersion = latestBotVersion
@@ -1293,6 +1352,7 @@ extension LexModelsV2 {
             case botId = "botId"
             case botName = "botName"
             case botStatus = "botStatus"
+            case botType = "botType"
             case description = "description"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
             case latestBotVersion = "latestBotVersion"
@@ -1901,10 +1961,14 @@ extension LexModelsV2 {
     }
 
     public struct CreateBotRequest: AWSEncodableShape {
+        /// The list of bot members in a network to be created.
+        public let botMembers: [BotMember]?
         /// The name of the bot. The bot name must be unique in the account that creates the bot.
         public let botName: String
         /// A list of tags to add to the bot. You can only add tags when you create a bot. You can't use the UpdateBot operation to update tags. To update tags, use the TagResource operation.
         public let botTags: [String: String]?
+        /// The type of a bot to create.
+        public let botType: BotType?
         /// Provides information on additional privacy protections Amazon Lex should use with the bot's data.
         public let dataPrivacy: DataPrivacy
         /// A description of the bot. It appears in lists to help you identify a particular bot.
@@ -1916,9 +1980,11 @@ extension LexModelsV2 {
         /// A list of tags to add to the test alias for a bot. You can only add tags when you create a bot. You can't use the UpdateAlias operation to update tags. To update tags on the test alias, use the TagResource operation.
         public let testBotAliasTags: [String: String]?
 
-        public init(botName: String, botTags: [String: String]? = nil, dataPrivacy: DataPrivacy, description: String? = nil, idleSessionTTLInSeconds: Int, roleArn: String, testBotAliasTags: [String: String]? = nil) {
+        public init(botMembers: [BotMember]? = nil, botName: String, botTags: [String: String]? = nil, botType: BotType? = nil, dataPrivacy: DataPrivacy, description: String? = nil, idleSessionTTLInSeconds: Int, roleArn: String, testBotAliasTags: [String: String]? = nil) {
+            self.botMembers = botMembers
             self.botName = botName
             self.botTags = botTags
+            self.botType = botType
             self.dataPrivacy = dataPrivacy
             self.description = description
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
@@ -1927,6 +1993,10 @@ extension LexModelsV2 {
         }
 
         public func validate(name: String) throws {
+            try self.botMembers?.forEach {
+                try $0.validate(name: "\(name).botMembers[]")
+            }
+            try self.validate(self.botMembers, name: "botMembers", parent: name, max: 10)
             try self.validate(self.botName, name: "botName", parent: name, max: 100)
             try self.validate(self.botName, name: "botName", parent: name, min: 1)
             try self.validate(self.botName, name: "botName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
@@ -1951,8 +2021,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case botMembers = "botMembers"
             case botName = "botName"
             case botTags = "botTags"
+            case botType = "botType"
             case dataPrivacy = "dataPrivacy"
             case description = "description"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
@@ -1964,12 +2036,16 @@ extension LexModelsV2 {
     public struct CreateBotResponse: AWSDecodableShape {
         /// A unique identifier for a particular bot. You use this to identify the bot when you call other Amazon Lex API operations.
         public let botId: String?
+        /// The list of bots in a network that was created.
+        public let botMembers: [BotMember]?
         /// The name specified for the bot.
         public let botName: String?
-        /// Shows the current status of the bot. The bot is first in the Creating status. Once the bot is read for use, it changes to the Available status. After the bot is created, you can use the Draft version of the bot.
+        /// Shows the current status of the bot. The bot is first in the Creating status. Once the bot is read for use, it changes to the Available status. After the bot is created, you can use the DRAFT version of the bot.
         public let botStatus: BotStatus?
         /// A list of tags associated with the bot.
         public let botTags: [String: String]?
+        /// The type of a bot that was created.
+        public let botType: BotType?
         /// A timestamp indicating the date and time that the bot was created.
         public let creationDateTime: Date?
         /// The data privacy settings specified for the bot.
@@ -1983,11 +2059,13 @@ extension LexModelsV2 {
         /// A list of tags associated with the test alias for the bot.
         public let testBotAliasTags: [String: String]?
 
-        public init(botId: String? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botTags: [String: String]? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, idleSessionTTLInSeconds: Int? = nil, roleArn: String? = nil, testBotAliasTags: [String: String]? = nil) {
+        public init(botId: String? = nil, botMembers: [BotMember]? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botTags: [String: String]? = nil, botType: BotType? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, idleSessionTTLInSeconds: Int? = nil, roleArn: String? = nil, testBotAliasTags: [String: String]? = nil) {
             self.botId = botId
+            self.botMembers = botMembers
             self.botName = botName
             self.botStatus = botStatus
             self.botTags = botTags
+            self.botType = botType
             self.creationDateTime = creationDateTime
             self.dataPrivacy = dataPrivacy
             self.description = description
@@ -1998,9 +2076,11 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case botId = "botId"
+            case botMembers = "botMembers"
             case botName = "botName"
             case botStatus = "botStatus"
             case botTags = "botTags"
+            case botType = "botType"
             case creationDateTime = "creationDateTime"
             case dataPrivacy = "dataPrivacy"
             case description = "description"
@@ -2819,7 +2899,7 @@ extension LexModelsV2 {
     }
 
     public struct CustomVocabularyItem: AWSEncodableShape & AWSDecodableShape {
-        /// The display as value for the custom vocabulary item  from the custom vocabulary list.
+        /// The DisplayAs value for the custom vocabulary item  from the custom vocabulary list.
         public let displayAs: String?
         /// The unique item identifer for the custom vocabulary item  from the custom vocabulary list.
         public let itemId: String
@@ -2949,7 +3029,7 @@ extension LexModelsV2 {
         public let botAliasId: String
         /// The unique identifier of the bot associated with the alias to delete.
         public let botId: String
-        /// When this parameter is true, Amazon Lex doesn't check to see if any other resource is using the alias before it is deleted.
+        /// By default, Amazon Lex checks if any other resource, such as a bot network,  is using the bot alias before it is deleted and throws a  ResourceInUseException exception if the alias is  being used by another resource. Set this parameter to true to skip this check and remove the alias even if it is being used by  another resource.
         public let skipResourceInUseCheck: Bool?
 
         public init(botAliasId: String, botId: String, skipResourceInUseCheck: Bool? = nil) {
@@ -3056,7 +3136,7 @@ extension LexModelsV2 {
 
         /// The identifier of the bot to delete.
         public let botId: String
-        /// When true, Amazon Lex doesn't check to see if another resource, such as an alias, is using the bot before it is deleted.
+        /// By default, Amazon Lex checks if any other resource, such as an alias or  bot network, is using the bot version before it is deleted and throws a  ResourceInUseException exception if the bot is  being used by another resource. Set this parameter to true to skip this check and remove the bot even if it is being used by  another resource.
         public let skipResourceInUseCheck: Bool?
 
         public init(botId: String, skipResourceInUseCheck: Bool? = nil) {
@@ -3101,7 +3181,7 @@ extension LexModelsV2 {
         public let botId: String
         /// The version of the bot to delete.
         public let botVersion: String
-        /// By default, the DeleteBotVersion operations throws a ResourceInUseException exception if you try to delete a bot version that has an alias pointing at it. Set the skipResourceInUseCheck parameter to true to skip this check and remove the version even if an alias points to it.
+        /// By default, Amazon Lex checks if any other resource, such as an alias or bot network,  is using the bot version before it is deleted and throws a  ResourceInUseException exception if the version is  being used by another resource. Set this parameter to true to skip this check and remove the version even if it is being used by  another resource.
         public let skipResourceInUseCheck: Bool?
 
         public init(botId: String, botVersion: String, skipResourceInUseCheck: Bool? = nil) {
@@ -3586,9 +3666,11 @@ extension LexModelsV2 {
         public let description: String?
         /// A timestamp of the date and time that the alias was last updated.
         public let lastUpdatedDateTime: Date?
+        /// A list of the networks to which the bot alias you described belongs.
+        public let parentBotNetworks: [ParentBotNetwork]?
         public let sentimentAnalysisSettings: SentimentAnalysisSettings?
 
-        public init(botAliasHistoryEvents: [BotAliasHistoryEvent]? = nil, botAliasId: String? = nil, botAliasLocaleSettings: [String: BotAliasLocaleSettings]? = nil, botAliasName: String? = nil, botAliasStatus: BotAliasStatus? = nil, botId: String? = nil, botVersion: String? = nil, conversationLogSettings: ConversationLogSettings? = nil, creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, sentimentAnalysisSettings: SentimentAnalysisSettings? = nil) {
+        public init(botAliasHistoryEvents: [BotAliasHistoryEvent]? = nil, botAliasId: String? = nil, botAliasLocaleSettings: [String: BotAliasLocaleSettings]? = nil, botAliasName: String? = nil, botAliasStatus: BotAliasStatus? = nil, botId: String? = nil, botVersion: String? = nil, conversationLogSettings: ConversationLogSettings? = nil, creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, parentBotNetworks: [ParentBotNetwork]? = nil, sentimentAnalysisSettings: SentimentAnalysisSettings? = nil) {
             self.botAliasHistoryEvents = botAliasHistoryEvents
             self.botAliasId = botAliasId
             self.botAliasLocaleSettings = botAliasLocaleSettings
@@ -3600,6 +3682,7 @@ extension LexModelsV2 {
             self.creationDateTime = creationDateTime
             self.description = description
             self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.parentBotNetworks = parentBotNetworks
             self.sentimentAnalysisSettings = sentimentAnalysisSettings
         }
 
@@ -3615,6 +3698,7 @@ extension LexModelsV2 {
             case creationDateTime = "creationDateTime"
             case description = "description"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case parentBotNetworks = "parentBotNetworks"
             case sentimentAnalysisSettings = "sentimentAnalysisSettings"
         }
     }
@@ -3840,16 +3924,22 @@ extension LexModelsV2 {
     public struct DescribeBotResponse: AWSDecodableShape {
         /// The unique identifier of the bot.
         public let botId: String?
+        /// The list of bots in the network that was described.
+        public let botMembers: [BotMember]?
         /// The name of the bot.
         public let botName: String?
         /// The current status of the bot. When the status is Available the bot is ready to be used in conversations with users.
         public let botStatus: BotStatus?
+        /// The type of the bot that was described.
+        public let botType: BotType?
         /// A timestamp of the date and time that the bot was created.
         public let creationDateTime: Date?
         /// Settings for managing data privacy of the bot and its conversations with users.
         public let dataPrivacy: DataPrivacy?
         /// The description of the bot.
         public let description: String?
+        /// If the botStatus is Failed, this contains a list of reasons that the bot couldn't be built.
+        public let failureReasons: [String]?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation.
         public let idleSessionTTLInSeconds: Int?
         /// A timestamp of the date and time that the bot was last updated.
@@ -3857,13 +3947,16 @@ extension LexModelsV2 {
         /// The Amazon Resource Name (ARN) of an IAM role that has permission to access the bot.
         public let roleArn: String?
 
-        public init(botId: String? = nil, botName: String? = nil, botStatus: BotStatus? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, idleSessionTTLInSeconds: Int? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil) {
+        public init(botId: String? = nil, botMembers: [BotMember]? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botType: BotType? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, failureReasons: [String]? = nil, idleSessionTTLInSeconds: Int? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil) {
             self.botId = botId
+            self.botMembers = botMembers
             self.botName = botName
             self.botStatus = botStatus
+            self.botType = botType
             self.creationDateTime = creationDateTime
             self.dataPrivacy = dataPrivacy
             self.description = description
+            self.failureReasons = failureReasons
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.roleArn = roleArn
@@ -3871,11 +3964,14 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case botId = "botId"
+            case botMembers = "botMembers"
             case botName = "botName"
             case botStatus = "botStatus"
+            case botType = "botType"
             case creationDateTime = "creationDateTime"
             case dataPrivacy = "dataPrivacy"
             case description = "description"
+            case failureReasons = "failureReasons"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
             case roleArn = "roleArn"
@@ -3913,11 +4009,15 @@ extension LexModelsV2 {
     public struct DescribeBotVersionResponse: AWSDecodableShape {
         /// The identifier of the bot that contains the version.
         public let botId: String?
+        /// The members of bot network in the version that was described.
+        public let botMembers: [BotMember]?
         /// The name of the bot that contains the version.
         public let botName: String?
         /// The current status of the bot. When the status is Available, the bot version is ready for use.
         public let botStatus: BotStatus?
-        /// The version of the bot to describe.
+        /// The type of the bot in the version that was described.
+        public let botType: BotType?
+        /// The version of the bot that was described.
         public let botVersion: String?
         /// A timestamp of the date and time that the bot version was created.
         public let creationDateTime: Date?
@@ -3929,32 +4029,40 @@ extension LexModelsV2 {
         public let failureReasons: [String]?
         /// The number of seconds that a session with the bot remains active before it is discarded by Amazon Lex.
         public let idleSessionTTLInSeconds: Int?
+        /// A list of the networks to which the bot version you described belongs.
+        public let parentBotNetworks: [ParentBotNetwork]?
         /// The Amazon Resource Name (ARN) of an IAM role that has permission to access the bot version.
         public let roleArn: String?
 
-        public init(botId: String? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, failureReasons: [String]? = nil, idleSessionTTLInSeconds: Int? = nil, roleArn: String? = nil) {
+        public init(botId: String? = nil, botMembers: [BotMember]? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botType: BotType? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, failureReasons: [String]? = nil, idleSessionTTLInSeconds: Int? = nil, parentBotNetworks: [ParentBotNetwork]? = nil, roleArn: String? = nil) {
             self.botId = botId
+            self.botMembers = botMembers
             self.botName = botName
             self.botStatus = botStatus
+            self.botType = botType
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
             self.dataPrivacy = dataPrivacy
             self.description = description
             self.failureReasons = failureReasons
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
+            self.parentBotNetworks = parentBotNetworks
             self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case botId = "botId"
+            case botMembers = "botMembers"
             case botName = "botName"
             case botStatus = "botStatus"
+            case botType = "botType"
             case botVersion = "botVersion"
             case creationDateTime = "creationDateTime"
             case dataPrivacy = "dataPrivacy"
             case description = "description"
             case failureReasons = "failureReasons"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case parentBotNetworks = "parentBotNetworks"
             case roleArn = "roleArn"
         }
     }
@@ -5893,7 +6001,7 @@ extension LexModelsV2 {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.filters, name: "filters", parent: name, max: 2)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -6039,13 +6147,13 @@ extension LexModelsV2 {
             AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
         ]
 
-        /// The unique identifier of the bot to the list custom vocabulary  request.
+        /// The identifier of the version of the bot associated with this custom  vocabulary.
         public let botId: String
         /// The bot version of the bot to the list custom vocabulary  request.
         public let botVersion: String
-        /// The locale identifier of the bot to the list custom vocabulary  request.
+        /// The identifier of the language and locale where this custom vocabulary  is used. The string must match one of the supported locales. For more  information, see Supported  languages (https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
         public let localeId: String
-        /// The maximum results to the list custom vocabulary  request.
+        /// The maximum number of items returned by the list operation.
         public let maxResults: Int?
         /// The nextToken identifier to the list custom vocabulary  request.
         public let nextToken: String?
@@ -6076,13 +6184,13 @@ extension LexModelsV2 {
     }
 
     public struct ListCustomVocabularyItemsResponse: AWSDecodableShape {
-        /// The unique identifier of the bot to the list custom vocabulary  response.
+        /// The identifier of the bot associated with this custom vocabulary.
         public let botId: String?
-        /// The bot version of the bot to the list custom vocabulary  response.
+        /// The identifier of the version of the bot associated with this custom  vocabulary.
         public let botVersion: String?
         /// The custom vocabulary items from the list custom vocabulary  response.
         public let customVocabularyItems: [CustomVocabularyItem]?
-        /// The locale identifier of the bot to the list custom vocabulary  response.
+        /// The identifier of the language and locale where this custom vocabulary  is used. The string must match one of the supported locales. For more  information, see  Supported Languages .
         public let localeId: String?
         /// The nextToken identifier to the list custom vocabulary  response.
         public let nextToken: String?
@@ -6791,6 +6899,23 @@ extension LexModelsV2 {
             case name = "name"
             case timeToLiveInSeconds = "timeToLiveInSeconds"
             case turnsToLive = "turnsToLive"
+        }
+    }
+
+    public struct ParentBotNetwork: AWSDecodableShape {
+        /// The identifier of the network of bots assigned by Amazon Lex.
+        public let botId: String
+        /// The version of the network of bots.
+        public let botVersion: String
+
+        public init(botId: String, botVersion: String) {
+            self.botId = botId
+            self.botVersion = botVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId = "botId"
+            case botVersion = "botVersion"
         }
     }
 
@@ -7767,9 +7892,7 @@ extension LexModelsV2 {
         public let advancedRecognitionSetting: AdvancedRecognitionSetting?
         /// A regular expression used to validate the value of a slot.
         public let regexFilter: SlotValueRegexFilter?
-        /// Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:
-        ///    OriginalValue - Returns the value entered by the user, if the user value is similar to the slot value.   TopResolution - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.
-        ///  If you don't specify the valueSelectionStrategy, the default is OriginalValue.
+        /// Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:   OriginalValue - Returns the value entered by the user, if the user value is similar to the slot value.   TopResolution - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.   If you don't specify the valueSelectionStrategy, the default is OriginalValue.
         public let resolutionStrategy: SlotValueResolutionStrategy
 
         public init(advancedRecognitionSetting: AdvancedRecognitionSetting? = nil, regexFilter: SlotValueRegexFilter? = nil, resolutionStrategy: SlotValueResolutionStrategy) {
@@ -8618,8 +8741,12 @@ extension LexModelsV2 {
 
         /// The unique identifier of the bot to update. This identifier is returned by the CreateBot operation.
         public let botId: String
+        /// The list of bot members in the network associated  with the update action.
+        public let botMembers: [BotMember]?
         /// The new name of the bot. The name must be unique in the account that creates the bot.
         public let botName: String
+        /// The type of the bot to be updated.
+        public let botType: BotType?
         /// Provides information on additional privacy protections Amazon Lex should use with the bot's data.
         public let dataPrivacy: DataPrivacy
         /// A description of the bot.
@@ -8629,9 +8756,11 @@ extension LexModelsV2 {
         /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the bot.
         public let roleArn: String
 
-        public init(botId: String, botName: String, dataPrivacy: DataPrivacy, description: String? = nil, idleSessionTTLInSeconds: Int, roleArn: String) {
+        public init(botId: String, botMembers: [BotMember]? = nil, botName: String, botType: BotType? = nil, dataPrivacy: DataPrivacy, description: String? = nil, idleSessionTTLInSeconds: Int, roleArn: String) {
             self.botId = botId
+            self.botMembers = botMembers
             self.botName = botName
+            self.botType = botType
             self.dataPrivacy = dataPrivacy
             self.description = description
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
@@ -8642,6 +8771,10 @@ extension LexModelsV2 {
             try self.validate(self.botId, name: "botId", parent: name, max: 10)
             try self.validate(self.botId, name: "botId", parent: name, min: 10)
             try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.botMembers?.forEach {
+                try $0.validate(name: "\(name).botMembers[]")
+            }
+            try self.validate(self.botMembers, name: "botMembers", parent: name, max: 10)
             try self.validate(self.botName, name: "botName", parent: name, max: 100)
             try self.validate(self.botName, name: "botName", parent: name, min: 1)
             try self.validate(self.botName, name: "botName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
@@ -8654,7 +8787,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case botMembers = "botMembers"
             case botName = "botName"
+            case botType = "botType"
             case dataPrivacy = "dataPrivacy"
             case description = "description"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
@@ -8665,10 +8800,14 @@ extension LexModelsV2 {
     public struct UpdateBotResponse: AWSDecodableShape {
         /// The unique identifier of the bot that was updated.
         public let botId: String?
+        /// The list of bot members in the network that was updated.
+        public let botMembers: [BotMember]?
         /// The name of the bot after the update.
         public let botName: String?
         /// Shows the current status of the bot. The bot is first in the Creating status. Once the bot is read for use, it changes to the Available status. After the bot is created, you can use the DRAFT version of the bot.
         public let botStatus: BotStatus?
+        /// The type of the bot that was updated.
+        public let botType: BotType?
         /// A timestamp of the date and time that the bot was created.
         public let creationDateTime: Date?
         /// The data privacy settings for the bot after the update.
@@ -8682,10 +8821,12 @@ extension LexModelsV2 {
         /// The Amazon Resource Name (ARN) of the IAM role used by the bot after the update.
         public let roleArn: String?
 
-        public init(botId: String? = nil, botName: String? = nil, botStatus: BotStatus? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, idleSessionTTLInSeconds: Int? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil) {
+        public init(botId: String? = nil, botMembers: [BotMember]? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botType: BotType? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, idleSessionTTLInSeconds: Int? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil) {
             self.botId = botId
+            self.botMembers = botMembers
             self.botName = botName
             self.botStatus = botStatus
+            self.botType = botType
             self.creationDateTime = creationDateTime
             self.dataPrivacy = dataPrivacy
             self.description = description
@@ -8696,8 +8837,10 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case botId = "botId"
+            case botMembers = "botMembers"
             case botName = "botName"
             case botStatus = "botStatus"
+            case botType = "botType"
             case creationDateTime = "creationDateTime"
             case dataPrivacy = "dataPrivacy"
             case description = "description"

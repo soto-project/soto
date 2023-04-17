@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS GuardDuty service.
 ///
-/// Amazon GuardDuty is a continuous security monitoring service that analyzes and processes the following data sources: VPC flow logs, Amazon Web Services CloudTrail management event logs, CloudTrail S3 data event logs, EKS audit logs, DNS logs, and Amazon EBS volume data. It uses threat intelligence feeds, such as lists of malicious IPs and domains, and machine learning to identify unexpected, potentially unauthorized, and malicious activity within your Amazon Web Services environment. This can include issues like escalations of privileges, uses of exposed credentials, or communication with malicious IPs, domains, or presence of malware on your  Amazon EC2 instances and container workloads. For example, GuardDuty can detect compromised EC2 instances and container workloads serving malware, or mining bitcoin.  GuardDuty also monitors Amazon Web Services account access behavior for signs of compromise, such  as unauthorized infrastructure deployments like EC2 instances deployed in a Region that has never been used, or unusual API calls like a password policy change to reduce password strength.  GuardDuty informs you about the status of your Amazon Web Services environment by producing  security findings that you can view in the GuardDuty console or through Amazon EventBridge.  For more information, see the  Amazon GuardDuty User Guide .
+/// Amazon GuardDuty is a continuous security monitoring service that analyzes and processes the following data sources: VPC flow logs, Amazon Web Services CloudTrail management event logs, CloudTrail S3 data event logs, EKS audit logs, DNS logs, and Amazon EBS volume data. It uses threat intelligence feeds, such as lists of malicious IPs and domains, and machine learning to identify unexpected, potentially unauthorized, and malicious activity within your Amazon Web Services environment. This can include issues like escalations of privileges, uses of exposed credentials, or communication with malicious IPs, domains, or presence of malware on your Amazon EC2 instances and container workloads. For example, GuardDuty can detect compromised EC2 instances and container workloads serving malware, or mining bitcoin.  GuardDuty also monitors Amazon Web Services account access behavior for signs of compromise, such as unauthorized infrastructure deployments like EC2 instances deployed in a Region that has never been used, or unusual API calls like a password policy change to reduce password strength.  GuardDuty informs you about the status of your Amazon Web Services environment by producing security findings that you can view in the GuardDuty console or through Amazon EventBridge. For more information, see the  Amazon GuardDuty User Guide .
 public struct GuardDuty: AWSService {
     // MARK: Member variables
 
@@ -89,12 +89,12 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "ArchiveFindings", path: "/detector/{DetectorId}/findings/archive", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default.
+    /// Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     public func createDetector(_ input: CreateDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDetectorResponse> {
         return self.client.execute(operation: "CreateDetector", path: "/detector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a filter using the specified finding criteria.
+    /// Creates a filter using the specified finding criteria. The maximum number of saved filters per Amazon Web Services account per Region is 100. For more information, see Quotas for GuardDuty.
     public func createFilter(_ input: CreateFilterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFilterResponse> {
         return self.client.execute(operation: "CreateFilter", path: "/detector/{DetectorId}/filter", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -104,7 +104,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "CreateIPSet", path: "/detector/{DetectorId}/ipset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. When using Create Members as an organizations delegated administrator this action will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account, which must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation use this action after GuardDuty has been enabled in potential member accounts and before using  Invite Members .
+    /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. When using Create Members as an organizations delegated administrator this action will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account, which must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation, use this action after GuardDuty has bee enabled in potential member accounts and before using InviteMembers.
     public func createMembers(_ input: CreateMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMembersResponse> {
         return self.client.execute(operation: "CreateMembers", path: "/detector/{DetectorId}/member", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -114,7 +114,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "CreatePublishingDestination", path: "/detector/{DetectorId}/publishingDestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Generates example findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates example findings of all supported finding types.
+    /// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates sample findings of all supported finding types.
     public func createSampleFindings(_ input: CreateSampleFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSampleFindingsResponse> {
         return self.client.execute(operation: "CreateSampleFindings", path: "/detector/{DetectorId}/findings/create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -149,7 +149,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "DeleteInvitations", path: "/invitation/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs.
+    /// Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disable GuardDuty for a member account in your organization.
     public func deleteMembers(_ input: DeleteMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMembersResponse> {
         return self.client.execute(operation: "DeleteMembers", path: "/detector/{DetectorId}/member/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -164,12 +164,12 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "DeleteThreatIntelSet", path: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of malware scans. Each member account can view the malware scans for their  own accounts. An administrator can view the malware scans for all the member accounts.
+    /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     public func describeMalwareScans(_ input: DescribeMalwareScansRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMalwareScansResponse> {
         return self.client.execute(operation: "DescribeMalwareScans", path: "/detector/{DetectorId}/malware-scans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about the account selected as the delegated administrator for GuardDuty.
+    /// Returns information about the account selected as the delegated administrator for GuardDuty. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOrganizationConfigurationResponse> {
         return self.client.execute(operation: "DescribeOrganizationConfiguration", path: "/detector/{DetectorId}/admin", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -184,7 +184,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "DisableOrganizationAdminAccount", path: "/admin/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates the current GuardDuty member account from its administrator account.
+    /// Disassociates the current GuardDuty member account from its administrator account. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disable GuardDuty in a member account.
     public func disassociateFromAdministratorAccount(_ input: DisassociateFromAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateFromAdministratorAccountResponse> {
         return self.client.execute(operation: "DisassociateFromAdministratorAccount", path: "/detector/{DetectorId}/administrator/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -195,7 +195,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "DisassociateFromMasterAccount", path: "/detector/{DetectorId}/master/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates GuardDuty member accounts (to the current administrator account) specified by the account IDs.
+    /// Disassociates GuardDuty member accounts (to the current administrator account) specified by the account IDs. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disassociate a member account before removing them from your Amazon Web Services organization.
     public func disassociateMembers(_ input: DisassociateMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateMembersResponse> {
         return self.client.execute(operation: "DisassociateMembers", path: "/detector/{DetectorId}/member/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -210,7 +210,12 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "GetAdministratorAccount", path: "/detector/{DetectorId}/administrator", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves an Amazon GuardDuty detector specified by the detectorId.
+    /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled EKS Runtime Monitoring and have the GuardDuty agent running on their EKS nodes.
+    public func getCoverageStatistics(_ input: GetCoverageStatisticsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCoverageStatisticsResponse> {
+        return self.client.execute(operation: "GetCoverageStatistics", path: "/detector/{DetectorId}/coverage/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves an Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     public func getDetector(_ input: GetDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDetectorResponse> {
         return self.client.execute(operation: "GetDetector", path: "/detector/{DetectorId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -240,7 +245,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "GetInvitationsCount", path: "/invitation/count", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the details of the malware scan settings.
+    /// Returns the details of the malware scan settings. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     public func getMalwareScanSettings(_ input: GetMalwareScanSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMalwareScanSettingsResponse> {
         return self.client.execute(operation: "GetMalwareScanSettings", path: "/detector/{DetectorId}/malware-scan-settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -251,7 +256,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "GetMasterAccount", path: "/detector/{DetectorId}/master", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes which data sources are enabled for the member account's detector.
+    /// Describes which data sources are enabled for the member account's detector. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     public func getMemberDetectors(_ input: GetMemberDetectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMemberDetectorsResponse> {
         return self.client.execute(operation: "GetMemberDetectors", path: "/detector/{DetectorId}/member/detector/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -279,6 +284,11 @@ public struct GuardDuty: AWSService {
     /// Invites other Amazon Web Services accounts (created as members of the current Amazon Web Services account by CreateMembers) to enable GuardDuty, and allow the current Amazon Web Services account to view and manage these accounts' findings on their behalf as the GuardDuty administrator account.
     public func inviteMembers(_ input: InviteMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<InviteMembersResponse> {
         return self.client.execute(operation: "InviteMembers", path: "/detector/{DetectorId}/member/invite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have EKS Runtime Monitoring enabled and GuardDuty agent running on their EKS nodes.
+    public func listCoverage(_ input: ListCoverageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCoverageResponse> {
+        return self.client.execute(operation: "ListCoverage", path: "/detector/{DetectorId}/coverage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists detectorIds of all the existing Amazon GuardDuty detector resources.
@@ -336,7 +346,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "StartMonitoringMembers", path: "/detector/{DetectorId}/member/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those accounts.
+    /// Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those accounts. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to stop monitoring the member accounts in your organization.
     public func stopMonitoringMembers(_ input: StopMonitoringMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopMonitoringMembersResponse> {
         return self.client.execute(operation: "StopMonitoringMembers", path: "/detector/{DetectorId}/member/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -356,7 +366,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the Amazon GuardDuty detector specified by the detectorId.
+    /// Updates the Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     public func updateDetector(_ input: UpdateDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDetectorResponse> {
         return self.client.execute(operation: "UpdateDetector", path: "/detector/{DetectorId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -376,17 +386,17 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "UpdateIPSet", path: "/detector/{DetectorId}/ipset/{IpSetId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the malware scan settings.
+    /// Updates the malware scan settings. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     public func updateMalwareScanSettings(_ input: UpdateMalwareScanSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMalwareScanSettingsResponse> {
         return self.client.execute(operation: "UpdateMalwareScanSettings", path: "/detector/{DetectorId}/malware-scan-settings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Contains information on member accounts to be updated.
+    /// Contains information on member accounts to be updated. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     public func updateMemberDetectors(_ input: UpdateMemberDetectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMemberDetectorsResponse> {
         return self.client.execute(operation: "UpdateMemberDetectors", path: "/detector/{DetectorId}/member/detector/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the delegated administrator account with the values provided.
+    /// Configures the delegated administrator account with the provided values. You must provide the value for either autoEnableOrganizationMembers or autoEnable.  There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     public func updateOrganizationConfiguration(_ input: UpdateOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateOrganizationConfigurationResponse> {
         return self.client.execute(operation: "UpdateOrganizationConfiguration", path: "/detector/{DetectorId}/admin", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -414,7 +424,7 @@ extension GuardDuty {
 // MARK: Paginators
 
 extension GuardDuty {
-    /// Returns a list of malware scans. Each member account can view the malware scans for their  own accounts. An administrator can view the malware scans for all the member accounts.
+    /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -462,6 +472,59 @@ extension GuardDuty {
             command: self.describeMalwareScans,
             inputKey: \DescribeMalwareScansRequest.nextToken,
             outputKey: \DescribeMalwareScansResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns information about the account selected as the delegated administrator for GuardDuty. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeOrganizationConfigurationPaginator<Result>(
+        _ input: DescribeOrganizationConfigurationRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeOrganizationConfigurationResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeOrganizationConfiguration,
+            inputKey: \DescribeOrganizationConfigurationRequest.nextToken,
+            outputKey: \DescribeOrganizationConfigurationResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeOrganizationConfigurationPaginator(
+        _ input: DescribeOrganizationConfigurationRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeOrganizationConfigurationResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeOrganizationConfiguration,
+            inputKey: \DescribeOrganizationConfigurationRequest.nextToken,
+            outputKey: \DescribeOrganizationConfigurationResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -515,6 +578,59 @@ extension GuardDuty {
             command: self.getUsageStatistics,
             inputKey: \GetUsageStatisticsRequest.nextToken,
             outputKey: \GetUsageStatisticsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have EKS Runtime Monitoring enabled and GuardDuty agent running on their EKS nodes.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCoveragePaginator<Result>(
+        _ input: ListCoverageRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCoverageResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listCoverage,
+            inputKey: \ListCoverageRequest.nextToken,
+            outputKey: \ListCoverageResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCoveragePaginator(
+        _ input: ListCoverageRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCoverageResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listCoverage,
+            inputKey: \ListCoverageRequest.nextToken,
+            outputKey: \ListCoverageResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1010,6 +1126,16 @@ extension GuardDuty.DescribeMalwareScansRequest: AWSPaginateToken {
     }
 }
 
+extension GuardDuty.DescribeOrganizationConfigurationRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> GuardDuty.DescribeOrganizationConfigurationRequest {
+        return .init(
+            detectorId: self.detectorId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension GuardDuty.GetUsageStatisticsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GuardDuty.GetUsageStatisticsRequest {
         return .init(
@@ -1019,6 +1145,18 @@ extension GuardDuty.GetUsageStatisticsRequest: AWSPaginateToken {
             unit: self.unit,
             usageCriteria: self.usageCriteria,
             usageStatisticType: self.usageStatisticType
+        )
+    }
+}
+
+extension GuardDuty.ListCoverageRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListCoverageRequest {
+        return .init(
+            detectorId: self.detectorId,
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortCriteria: self.sortCriteria
         )
     }
 }

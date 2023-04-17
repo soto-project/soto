@@ -69,63 +69,52 @@ public struct ChimeSDKMessaging: AWSService {
 
     // MARK: API Calls
 
-    /// Associates a channel flow with a channel. Once associated, all messages to that channel go through channel flow processors. To stop processing, use the  DisassociateChannelFlow API.   Only administrators or channel moderators can associate a channel flow. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn  of the user that makes the API call as the value in the header.
+    /// Associates a channel flow with a channel. Once associated, all messages to that channel go through channel flow processors. To stop processing, use the  DisassociateChannelFlow API.  Only administrators or channel moderators can associate a channel flow. The  x-amz-chime-bearer request header is mandatory. Use the ARN of the  AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     @discardableResult public func associateChannelFlow(_ input: AssociateChannelFlowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "AssociateChannelFlow", path: "/channels/{ChannelArn}/channel-flow", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds a specified number of users to a channel.
+    /// Adds a specified number of users and bots to a channel.
     public func batchCreateChannelMembership(_ input: BatchCreateChannelMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCreateChannelMembershipResponse> {
         return self.client.execute(operation: "BatchCreateChannelMembership", path: "/channels/{ChannelArn}/memberships?operation=batch-create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Calls back Chime SDK Messaging with a processing response message. This should be invoked from the processor Lambda. This is a developer API. You can return one of the following processing responses:                     Update message content or metadata   Deny a message   Make no changes to the message
+    /// Calls back Chime SDK Messaging with a processing response message. This should be invoked from the processor Lambda. This is a developer API. You can return one of the following processing responses:   Update message content or metadata   Deny a message   Make no changes to the message
     public func channelFlowCallback(_ input: ChannelFlowCallbackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ChannelFlowCallbackResponse> {
         return self.client.execute(operation: "ChannelFlowCallback", path: "/channels/{ChannelArn}?operation=channel-flow-callback", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a channel to which you can add users and send messages.
-    ///   Restriction: You can't change a channel's privacy.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Creates a channel to which you can add users and send messages.  Restriction: You can't change a channel's privacy.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func createChannel(_ input: CreateChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelResponse> {
         return self.client.execute(operation: "CreateChannel", path: "/channels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans are cleaned up when you delete users or channels. If you ban a user who is already part of a channel, that user is automatically kicked from the channel.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans are cleaned up when you delete users or channels. If you ban a user who is already part of a channel, that user is automatically kicked from the channel.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func createChannelBan(_ input: CreateChannelBanRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelBanResponse> {
         return self.client.execute(operation: "CreateChannelBan", path: "/channels/{ChannelArn}/bans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a channel flow, a container for processors. Processors are AWS Lambda functions that perform actions on chat messages, such as stripping out profanity. You can associate channel flows with channels, and the processors in the channel flow then take action on all messages sent to that channel. This is a developer API.  Channel flows process the following items:   New and updated messages   Persistent and non-persistent messages   The Standard message type     Channel flows don't process Control or System messages. For more information about the message types provided by Chime SDK Messaging, refer to  Message types in the Amazon Chime developer guide.
+    /// Creates a channel flow, a container for processors. Processors are AWS Lambda functions that perform actions on chat messages, such as stripping out profanity. You can associate channel flows with channels, and the processors in the channel flow then take action on all messages sent to that channel. This is a developer API. Channel flows process the following items:   New and updated messages   Persistent and non-persistent messages   The Standard message type    Channel flows don't process Control or System messages. For more information about the message types provided by Chime SDK Messaging, refer to  Message types in the Amazon Chime developer guide.
     public func createChannelFlow(_ input: CreateChannelFlowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelFlowResponse> {
         return self.client.execute(operation: "CreateChannelFlow", path: "/channel-flows", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds a user to a channel. The InvitedBy field in ChannelMembership is derived from the request header. A channel member can:
-    ///    List messages   Send messages   Receive messages   Edit their own messages   Leave the channel
-    ///  Privacy settings impact this action as follows:
-    ///    Public Channels: You do not need to be a member to list messages, but you must be a member to send messages.   Private Channels: You must be a member to list or send messages.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Adds a member to a channel. The InvitedBy field in ChannelMembership  is derived from the request header. A channel member can:   List messages   Send messages   Receive messages   Edit their own messages   Leave the channel   Privacy settings impact this action as follows:   Public Channels: You do not need to be a member to list messages, but you must be a member to send messages.   Private Channels: You must be a member to list or send messages.    The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUserArn or AppInstanceBot that makes the API call  as the value in the header.
     public func createChannelMembership(_ input: CreateChannelMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelMembershipResponse> {
         return self.client.execute(operation: "CreateChannelMembership", path: "/channels/{ChannelArn}/memberships", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new ChannelModerator. A channel moderator can:
-    ///    Add and remove other members of the channel.   Add and remove other moderators of the channel.   Add and remove user bans for the channel.   Redact messages in the channel.   List messages in the channel.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Creates a new ChannelModerator. A channel moderator can:   Add and remove other members of the channel.   Add and remove other moderators of the channel.   Add and remove user bans for the channel.   Redact messages in the channel.   List messages in the channel.    The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBotof the user that makes the API call as the value in the header.
     public func createChannelModerator(_ input: CreateChannelModeratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelModeratorResponse> {
         return self.client.execute(operation: "CreateChannelModerator", path: "/channels/{ChannelArn}/moderators", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUserArn or AppInstanceBot that makes the API call as the value in the header.
     @discardableResult public func deleteChannel(_ input: DeleteChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteChannel", path: "/channels/{ChannelArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes a user from a channel's ban list.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Removes a member from a channel's ban list.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     @discardableResult public func deleteChannelBan(_ input: DeleteChannelBanRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteChannelBan", path: "/channels/{ChannelArn}/bans/{MemberArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -135,34 +124,32 @@ public struct ChimeSDKMessaging: AWSService {
         return self.client.execute(operation: "DeleteChannelFlow", path: "/channel-flows/{ChannelFlowArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes a member from a channel.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Removes a member from a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     @discardableResult public func deleteChannelMembership(_ input: DeleteChannelMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteChannelMembership", path: "/channels/{ChannelArn}/memberships/{MemberArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a channel message. Only admins can perform this action. Deletion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Deletes a channel message. Only admins can perform this action. Deletion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     @discardableResult public func deleteChannelMessage(_ input: DeleteChannelMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteChannelMessage", path: "/channels/{ChannelArn}/messages/{MessageId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a channel moderator.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Deletes a channel moderator.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     @discardableResult public func deleteChannelModerator(_ input: DeleteChannelModeratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteChannelModerator", path: "/channels/{ChannelArn}/moderators/{ChannelModeratorArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the full details of a channel in an Amazon Chime AppInstance.
-    ///
-    ///  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Deletes the streaming configurations for an AppInstance. For more information, see  Streaming messaging data in the Amazon Chime SDK Developer Guide.
+    @discardableResult public func deleteMessagingStreamingConfigurations(_ input: DeleteMessagingStreamingConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteMessagingStreamingConfigurations", path: "/app-instances/{AppInstanceArn}/streaming-configurations", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns the full details of a channel in an Amazon Chime AppInstance.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func describeChannel(_ input: DescribeChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelResponse> {
         return self.client.execute(operation: "DescribeChannel", path: "/channels/{ChannelArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the full details of a channel ban.
-    ///
-    ///  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Returns the full details of a channel ban.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func describeChannelBan(_ input: DescribeChannelBanRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelBanResponse> {
         return self.client.execute(operation: "DescribeChannelBan", path: "/channels/{ChannelArn}/bans/{MemberArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -172,19 +159,17 @@ public struct ChimeSDKMessaging: AWSService {
         return self.client.execute(operation: "DescribeChannelFlow", path: "/channel-flows/{ChannelFlowArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the full details of a user's channel membership.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Returns the full details of a user's channel membership.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func describeChannelMembership(_ input: DescribeChannelMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelMembershipResponse> {
         return self.client.execute(operation: "DescribeChannelMembership", path: "/channels/{ChannelArn}/memberships/{MemberArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns the details of a channel based on the membership of the specified AppInstanceUser.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    ///  Returns the details of a channel based on the membership of the specified AppInstanceUser or AppInstanceBot.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func describeChannelMembershipForAppInstanceUser(_ input: DescribeChannelMembershipForAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelMembershipForAppInstanceUserResponse> {
         return self.client.execute(operation: "DescribeChannelMembershipForAppInstanceUser", path: "/channels/{ChannelArn}?scope=app-instance-user-membership", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the full details of a channel moderated by the specified AppInstanceUser.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Returns the full details of a channel moderated by the specified AppInstanceUser or AppInstanceBot.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func describeChannelModeratedByAppInstanceUser(_ input: DescribeChannelModeratedByAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelModeratedByAppInstanceUserResponse> {
         return self.client.execute(operation: "DescribeChannelModeratedByAppInstanceUser", path: "/channels/{ChannelArn}?scope=app-instance-user-moderated-channel", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -194,23 +179,22 @@ public struct ChimeSDKMessaging: AWSService {
         return self.client.execute(operation: "DescribeChannelModerator", path: "/channels/{ChannelArn}/moderators/{ChannelModeratorArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates a channel flow from all its channels. Once disassociated, all messages to that channel stop going through the channel flow processor.  Only administrators or channel moderators can disassociate a channel flow. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn  of the user that makes the API call as the value in the header.
+    /// Disassociates a channel flow from all its channels. Once disassociated, all messages to that channel stop going through the channel flow processor.  Only administrators or channel moderators can disassociate a channel flow. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     @discardableResult public func disassociateChannelFlow(_ input: DisassociateChannelFlowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DisassociateChannelFlow", path: "/channels/{ChannelArn}/channel-flow/{ChannelFlowArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets the membership preferences of an AppInstanceUser for the specified channel. The AppInstanceUser must be a member of the channel.  Only the AppInstanceUser who owns the membership can retrieve preferences. Users in the AppInstanceAdmin and channel moderator roles can't retrieve preferences for other users.  Banned users can't retrieve membership preferences for the channel from which they are banned.
+    /// Gets the membership preferences of an AppInstanceUser or AppInstanceBot  for the specified channel. A user or a bot must be a member of the channel and own the membership to be able  to retrieve membership preferences. Users or bots in the AppInstanceAdmin and channel moderator roles can't  retrieve preferences for other users or bots. Banned users or bots can't retrieve membership preferences for the  channel from which they are banned.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func getChannelMembershipPreferences(_ input: GetChannelMembershipPreferencesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetChannelMembershipPreferencesResponse> {
         return self.client.execute(operation: "GetChannelMembershipPreferences", path: "/channels/{ChannelArn}/memberships/{MemberArn}/preferences", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets the full details of a channel message.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Gets the full details of a channel message.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func getChannelMessage(_ input: GetChannelMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetChannelMessageResponse> {
         return self.client.execute(operation: "GetChannelMessage", path: "/channels/{ChannelArn}/messages/{MessageId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets message status for a specified messageId. Use this API to determine the intermediate status of messages going through channel flow processing. The API provides an alternative to  retrieving message status if the event was not received because a client wasn't connected to a websocket.   Messages can have any one of these statuses.   SENT  Message processed successfully  PENDING  Ongoing processing  FAILED  Processing failed  DENIED  Messasge denied by the processor       This API does not return statuses for denied messages, because we don't store them once the processor denies them.    Only the message sender can invoke this API.   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header
+    /// Gets message status for a specified messageId. Use this API to determine the intermediate status of messages going through channel flow processing. The API provides an alternative to  retrieving message status if the event was not received because a client wasn't connected to a websocket.  Messages can have any one of these statuses.  SENT  Message processed successfully  PENDING  Ongoing processing  FAILED  Processing failed  DENIED  Messasge denied by the processor      This API does not return statuses for denied messages, because we don't store them once the processor denies them.    Only the message sender can invoke this API.   The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func getChannelMessageStatus(_ input: GetChannelMessageStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetChannelMessageStatusResponse> {
         return self.client.execute(operation: "GetChannelMessageStatus", path: "/channels/{ChannelArn}/messages/{MessageId}?scope=message-status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -220,8 +204,12 @@ public struct ChimeSDKMessaging: AWSService {
         return self.client.execute(operation: "GetMessagingSessionEndpoint", path: "/endpoints/messaging-session", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all the users banned from a particular channel.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Retrieves the data streaming configuration for an AppInstance. For more information, see  Streaming messaging data in the Amazon Chime SDK Developer Guide.
+    public func getMessagingStreamingConfigurations(_ input: GetMessagingStreamingConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMessagingStreamingConfigurationsResponse> {
+        return self.client.execute(operation: "GetMessagingStreamingConfigurations", path: "/app-instances/{AppInstanceArn}/streaming-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all the users and bots banned from a particular channel.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func listChannelBans(_ input: ListChannelBansRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelBansResponse> {
         return self.client.execute(operation: "ListChannelBans", path: "/channels/{ChannelArn}/bans", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -231,31 +219,27 @@ public struct ChimeSDKMessaging: AWSService {
         return self.client.execute(operation: "ListChannelFlows", path: "/channel-flows", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all channel memberships in a channel.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.   If you want to list the channels to which a specific app instance user belongs, see the  ListChannelMembershipsForAppInstanceUser API.
+    /// Lists all channel memberships in a channel.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.  If you want to list the channels to which a specific app instance user belongs, see the  ListChannelMembershipsForAppInstanceUser API.
     public func listChannelMemberships(_ input: ListChannelMembershipsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelMembershipsResponse> {
         return self.client.execute(operation: "ListChannelMemberships", path: "/channels/{ChannelArn}/memberships", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    ///  Lists all channels that anr AppInstanceUser or AppInstanceBot is a part of.  Only an AppInstanceAdmin can call the API with a user ARN that is not their own.   The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func listChannelMembershipsForAppInstanceUser(_ input: ListChannelMembershipsForAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelMembershipsForAppInstanceUserResponse> {
         return self.client.execute(operation: "ListChannelMembershipsForAppInstanceUser", path: "/channels?scope=app-instance-user-memberships", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order.  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order.  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func listChannelMessages(_ input: ListChannelMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelMessagesResponse> {
         return self.client.execute(operation: "ListChannelMessages", path: "/channels/{ChannelArn}/messages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all the moderators for a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all the moderators for a channel.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func listChannelModerators(_ input: ListChannelModeratorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelModeratorsResponse> {
         return self.client.execute(operation: "ListChannelModerators", path: "/channels/{ChannelArn}/moderators", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.
-    ///   Functionality & restrictions    Use privacy = PUBLIC to retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.  Functionality & restrictions    Use privacy = PUBLIC to retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelsResponse> {
         return self.client.execute(operation: "ListChannels", path: "/channels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -265,8 +249,7 @@ public struct ChimeSDKMessaging: AWSService {
         return self.client.execute(operation: "ListChannelsAssociatedWithChannelFlow", path: "/channels?scope=channel-flow-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// A list of the channels moderated by an AppInstanceUser.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// A list of the channels moderated by an AppInstanceUser.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func listChannelsModeratedByAppInstanceUser(_ input: ListChannelsModeratedByAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelsModeratedByAppInstanceUserResponse> {
         return self.client.execute(operation: "ListChannelsModeratedByAppInstanceUser", path: "/channels?scope=app-instance-user-moderated-channels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -281,25 +264,32 @@ public struct ChimeSDKMessaging: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Sets the membership preferences of an AppInstanceUser for the specified channel. The AppInstanceUser must be a member of the channel.  Only the AppInstanceUser who owns the membership can set preferences. Users in the AppInstanceAdmin and channel moderator roles can't set preferences for other users.  Banned users can't set membership preferences for the channel from which they are banned.
+    /// Sets the number of days before the channel is automatically deleted.    A background process deletes expired channels within 6 hours of expiration.  Actual deletion times may vary.   Expired channels that have not yet been deleted appear as active, and you can update  their expiration settings. The system honors the new settings.   The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
+    public func putChannelExpirationSettings(_ input: PutChannelExpirationSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutChannelExpirationSettingsResponse> {
+        return self.client.execute(operation: "PutChannelExpirationSettings", path: "/channels/{ChannelArn}/expiration-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Sets the membership preferences of an AppInstanceUser or AppIntanceBot  for the specified channel. The user or bot must be a member of the channel. Only the user or bot who owns the  membership can set preferences. Users or bots in the AppInstanceAdmin and channel moderator roles can't set  preferences for other users or users. Banned users or bots can't set membership preferences for the channel from  which they are banned.  The x-amz-chime-bearer request header is mandatory. Use the ARN of an  AppInstanceUser or AppInstanceBot that makes the API call as the value in the  header.
     public func putChannelMembershipPreferences(_ input: PutChannelMembershipPreferencesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutChannelMembershipPreferencesResponse> {
         return self.client.execute(operation: "PutChannelMembershipPreferences", path: "/channels/{ChannelArn}/memberships/{MemberArn}/preferences", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Sets the data streaming configuration for an AppInstance. For more information, see  Streaming messaging data in the Amazon Chime SDK Developer Guide.
+    public func putMessagingStreamingConfigurations(_ input: PutMessagingStreamingConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutMessagingStreamingConfigurationsResponse> {
+        return self.client.execute(operation: "PutMessagingStreamingConfigurations", path: "/app-instances/{AppInstanceArn}/streaming-configurations", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func redactChannelMessage(_ input: RedactChannelMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RedactChannelMessageResponse> {
         return self.client.execute(operation: "RedactChannelMessage", path: "/channels/{ChannelArn}/messages/{MessageId}?operation=redact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Allows ChimeBearer to search channels by channel members. AppInstanceUsers can search across the channels that they belong to. AppInstanceAdmins can search across all channels.
+    /// Allows the ChimeBearer to search channels by channel members. Users or bots can search  across the channels that they belong to. Users in the AppInstanceAdmin role can search across  all channels. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func searchChannels(_ input: SearchChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchChannelsResponse> {
         return self.client.execute(operation: "SearchChannels", path: "/channels?operation=search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Sends a message to a particular channel that the member is a part of.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
-    ///  Also, STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata.
+    /// Sends a message to a particular channel that the member is a part of.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata.
     public func sendChannelMessage(_ input: SendChannelMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendChannelMessageResponse> {
         return self.client.execute(operation: "SendChannelMessage", path: "/channels/{ChannelArn}/messages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -314,7 +304,7 @@ public struct ChimeSDKMessaging: AWSService {
         return self.client.execute(operation: "UntagResource", path: "/tags?operation=untag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update a channel's attributes.  Restriction: You can't change a channel's privacy.   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Update a channel's attributes.  Restriction: You can't change a channel's privacy.   The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func updateChannel(_ input: UpdateChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateChannelResponse> {
         return self.client.execute(operation: "UpdateChannel", path: "/channels/{ChannelArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -324,14 +314,12 @@ public struct ChimeSDKMessaging: AWSService {
         return self.client.execute(operation: "UpdateChannelFlow", path: "/channel-flows/{ChannelFlowArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the content of a message.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Updates the content of a message.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func updateChannelMessage(_ input: UpdateChannelMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateChannelMessageResponse> {
         return self.client.execute(operation: "UpdateChannelMessage", path: "/channels/{ChannelArn}/messages/{MessageId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// The details of the time when a user last read messages in a channel.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// The details of the time when a user last read messages in a channel.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     public func updateChannelReadMarker(_ input: UpdateChannelReadMarkerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateChannelReadMarkerResponse> {
         return self.client.execute(operation: "UpdateChannelReadMarker", path: "/channels/{ChannelArn}/readMarker", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -349,8 +337,7 @@ extension ChimeSDKMessaging {
 // MARK: Paginators
 
 extension ChimeSDKMessaging {
-    /// Lists all the users banned from a particular channel.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all the users and bots banned from a particular channel.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -456,8 +443,7 @@ extension ChimeSDKMessaging {
         )
     }
 
-    /// Lists all channel memberships in a channel.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.   If you want to list the channels to which a specific app instance user belongs, see the  ListChannelMembershipsForAppInstanceUser API.
+    /// Lists all channel memberships in a channel.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.  If you want to list the channels to which a specific app instance user belongs, see the  ListChannelMembershipsForAppInstanceUser API.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -510,8 +496,7 @@ extension ChimeSDKMessaging {
         )
     }
 
-    ///  Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    ///  Lists all channels that anr AppInstanceUser or AppInstanceBot is a part of.  Only an AppInstanceAdmin can call the API with a user ARN that is not their own.   The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -564,7 +549,7 @@ extension ChimeSDKMessaging {
         )
     }
 
-    /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order.  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order.  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -617,7 +602,7 @@ extension ChimeSDKMessaging {
         )
     }
 
-    /// Lists all the moderators for a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all the moderators for a channel.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -670,9 +655,7 @@ extension ChimeSDKMessaging {
         )
     }
 
-    /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.
-    ///   Functionality & restrictions    Use privacy = PUBLIC to retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.  Functionality & restrictions    Use privacy = PUBLIC to retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -778,8 +761,7 @@ extension ChimeSDKMessaging {
         )
     }
 
-    /// A list of the channels moderated by an AppInstanceUser.
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// A list of the channels moderated by an AppInstanceUser.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -885,7 +867,7 @@ extension ChimeSDKMessaging {
         )
     }
 
-    /// Allows ChimeBearer to search channels by channel members. AppInstanceUsers can search across the channels that they belong to. AppInstanceAdmins can search across all channels.
+    /// Allows the ChimeBearer to search channels by channel members. Users or bots can search  across the channels that they belong to. Users in the AppInstanceAdmin role can search across  all channels. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

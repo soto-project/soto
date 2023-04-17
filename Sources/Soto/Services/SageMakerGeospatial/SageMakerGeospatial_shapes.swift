@@ -294,7 +294,9 @@ extension SageMakerGeospatial {
     }
 
     public enum AreaOfInterestGeometry: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The structure representing the MultiPolygon Geometry.
         case multiPolygonGeometry(MultiPolygonGeometryInput)
+        /// The structure representing Polygon Geometry.
         case polygonGeometry(PolygonGeometryInput)
 
         public init(from decoder: Decoder) throws {
@@ -342,6 +344,7 @@ extension SageMakerGeospatial {
     }
 
     public enum JobConfigInput: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// An object containing information about the job configuration for BandMath.
         case bandMathConfig(BandMathConfigInput)
         /// An object containing information about the job configuration for cloud masking.
         case cloudMaskingConfig(CloudMaskingConfigInput)
@@ -353,6 +356,7 @@ extension SageMakerGeospatial {
         case landCoverSegmentationConfig(LandCoverSegmentationConfigInput)
         /// An object containing information about the job configuration for resampling.
         case resamplingConfig(ResamplingConfigInput)
+        /// An object containing information about the job configuration for a Stacking Earth Observation job.
         case stackConfig(StackConfigInput)
         /// An object containing information about the job configuration for temporal statistics.
         case temporalStatisticsConfig(TemporalStatisticsConfigInput)
@@ -458,11 +462,17 @@ extension SageMakerGeospatial {
     }
 
     public enum Property: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The structure representing EoCloudCover property filter containing a lower bound and upper bound.
         case eoCloudCover(EoCloudCoverInput)
+        /// The structure representing Land Cloud Cover property filter  for Landsat collection containing a lower bound and upper bound.
         case landsatCloudCoverLand(LandsatCloudCoverLandInput)
+        /// The structure representing Platform property filter consisting of value and comparison operator.
         case platform(PlatformInput)
+        /// The structure representing ViewOffNadir property filter containing a lower bound and upper bound.
         case viewOffNadir(ViewOffNadirInput)
+        /// The structure representing ViewSunAzimuth property filter containing a lower bound and upper bound.
         case viewSunAzimuth(ViewSunAzimuthInput)
+        /// The structure representing ViewSunElevation property filter containing a lower bound and upper bound.
         case viewSunElevation(ViewSunElevationInput)
 
         public init(from decoder: Decoder) throws {
@@ -525,7 +535,9 @@ extension SageMakerGeospatial {
     }
 
     public enum VectorEnrichmentJobConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The input structure for Map Matching operation type.
         case mapMatchingConfig(MapMatchingConfig)
+        /// The input structure for Reverse Geocoding operation type.
         case reverseGeocodingConfig(ReverseGeocodingConfig)
 
         public init(from decoder: Decoder) throws {
@@ -566,6 +578,7 @@ extension SageMakerGeospatial {
     // MARK: Shapes
 
     public struct AssetValue: AWSDecodableShape {
+        /// Link to the asset object.
         public let href: String?
 
         public init(href: String? = nil) {
@@ -578,7 +591,9 @@ extension SageMakerGeospatial {
     }
 
     public struct BandMathConfigInput: AWSEncodableShape & AWSDecodableShape {
+        /// CustomIndices that are computed.
         public let customIndices: CustomIndicesInput?
+        /// One or many of the supported predefined indices to compute.  Allowed values: NDVI, EVI2, MSAVI,  NDWI, NDMI, NDSI, and WDRVI.
         public let predefinedIndices: [String]?
 
         public init(customIndices: CustomIndicesInput? = nil, predefinedIndices: [String]? = nil) {
@@ -606,6 +621,7 @@ extension SageMakerGeospatial {
         public let algorithmName: AlgorithmNameCloudRemoval?
         /// The interpolation value you provide for cloud removal.
         public let interpolationValue: String?
+        /// TargetBands to be returned in the output of CloudRemoval operation.
         public let targetBands: [String]?
 
         public init(algorithmName: AlgorithmNameCloudRemoval? = nil, interpolationValue: String? = nil, targetBands: [String]? = nil) {
@@ -626,6 +642,7 @@ extension SageMakerGeospatial {
     }
 
     public struct CustomIndicesInput: AWSEncodableShape & AWSDecodableShape {
+        /// A list of BandMath indices to compute.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -688,7 +705,9 @@ extension SageMakerGeospatial {
     }
 
     public struct EarthObservationJobErrorDetails: AWSDecodableShape {
+        /// A detailed message describing the error in an Earth Observation job.
         public let message: String?
+        /// The type of error in an Earth Observation job.
         public let type: EarthObservationJobErrorType?
 
         public init(message: String? = nil, type: EarthObservationJobErrorType? = nil) {
@@ -703,7 +722,9 @@ extension SageMakerGeospatial {
     }
 
     public struct EoCloudCoverInput: AWSEncodableShape & AWSDecodableShape {
+        /// Lower bound for EoCloudCover.
         public let lowerBound: Float
+        /// Upper bound for EoCloudCover.
         public let upperBound: Float
 
         public init(lowerBound: Float, upperBound: Float) {
@@ -720,6 +741,8 @@ extension SageMakerGeospatial {
     public struct ExportEarthObservationJobInput: AWSEncodableShape {
         /// The input Amazon Resource Name (ARN) of the Earth Observation job being exported.
         public let arn: String
+        /// A unique token that guarantees that the call to this API is idempotent.
+        public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the IAM role that you specified for the job.
         public let executionRoleArn: String
         /// The source images provided to the Earth Observation job being exported.
@@ -727,8 +750,9 @@ extension SageMakerGeospatial {
         /// An object containing information about the output file.
         public let outputConfig: OutputConfigInput
 
-        public init(arn: String, executionRoleArn: String, exportSourceImages: Bool? = nil, outputConfig: OutputConfigInput) {
+        public init(arn: String, clientToken: String? = ExportEarthObservationJobInput.idempotencyToken(), executionRoleArn: String, exportSourceImages: Bool? = nil, outputConfig: OutputConfigInput) {
             self.arn = arn
+            self.clientToken = clientToken
             self.executionRoleArn = executionRoleArn
             self.exportSourceImages = exportSourceImages
             self.outputConfig = outputConfig
@@ -736,10 +760,15 @@ extension SageMakerGeospatial {
 
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]{0,12}:sagemaker-geospatial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observation-job/[a-z0-9]{12,}$")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.outputConfig.validate(name: "\(name).outputConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case clientToken = "ClientToken"
             case executionRoleArn = "ExecutionRoleArn"
             case exportSourceImages = "ExportSourceImages"
             case outputConfig = "OutputConfig"
@@ -780,7 +809,9 @@ extension SageMakerGeospatial {
     }
 
     public struct ExportErrorDetails: AWSDecodableShape {
+        /// The structure for returning the export error details while exporting results of an Earth Observation job.
         public let exportResults: ExportErrorDetailsOutput?
+        /// The structure for returning the export error details  while exporting the source images of an Earth Observation job.
         public let exportSourceImages: ExportErrorDetailsOutput?
 
         public init(exportResults: ExportErrorDetailsOutput? = nil, exportSourceImages: ExportErrorDetailsOutput? = nil) {
@@ -795,7 +826,9 @@ extension SageMakerGeospatial {
     }
 
     public struct ExportErrorDetailsOutput: AWSDecodableShape {
+        /// A detailed message describing the error in an export EarthObservationJob operation.
         public let message: String?
+        /// The type of error in an export EarthObservationJob operation.
         public let type: ExportErrorType?
 
         public init(message: String? = nil, type: ExportErrorType? = nil) {
@@ -810,7 +843,7 @@ extension SageMakerGeospatial {
     }
 
     public struct ExportS3DataInput: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+        /// The Key Management Service key ID for server-side encryption.
         public let kmsKeyId: String?
         /// The URL to the Amazon S3 data input.
         public let s3Uri: String
@@ -818,6 +851,11 @@ extension SageMakerGeospatial {
         public init(kmsKeyId: String? = nil, s3Uri: String) {
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://([^/]+)/?(.*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -829,23 +867,31 @@ extension SageMakerGeospatial {
     public struct ExportVectorEnrichmentJobInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Vector Enrichment job.
         public let arn: String
+        /// A unique token that guarantees that the call to this API is idempotent.
+        public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the IAM rolewith permission to upload to the location in OutputConfig.
         public let executionRoleArn: String
         /// Output location information for exporting Vector Enrichment Job results.
         public let outputConfig: ExportVectorEnrichmentJobOutputConfig
 
-        public init(arn: String, executionRoleArn: String, outputConfig: ExportVectorEnrichmentJobOutputConfig) {
+        public init(arn: String, clientToken: String? = ExportVectorEnrichmentJobInput.idempotencyToken(), executionRoleArn: String, outputConfig: ExportVectorEnrichmentJobOutputConfig) {
             self.arn = arn
+            self.clientToken = clientToken
             self.executionRoleArn = executionRoleArn
             self.outputConfig = outputConfig
         }
 
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]{0,12}:sagemaker-geospatial:[a-z0-9-]{1,25}:[0-9]{12}:vector-enrichment-job/[a-z0-9]{12,}$")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.outputConfig.validate(name: "\(name).outputConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case clientToken = "ClientToken"
             case executionRoleArn = "ExecutionRoleArn"
             case outputConfig = "OutputConfig"
         }
@@ -881,10 +927,15 @@ extension SageMakerGeospatial {
     }
 
     public struct ExportVectorEnrichmentJobOutputConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The input structure for Amazon S3 data; representing the Amazon S3 location of the input data objects.
         public let s3Data: VectorEnrichmentJobS3Data
 
         public init(s3Data: VectorEnrichmentJobS3Data) {
             self.s3Data = s3Data
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Data.validate(name: "\(name).s3Data")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -939,7 +990,9 @@ extension SageMakerGeospatial {
     }
 
     public struct Geometry: AWSDecodableShape {
+        /// The coordinates of the GeoJson Geometry.
         public let coordinates: [[[Double]]]
+        /// GeoJson Geometry types like Polygon and MultiPolygon.
         public let type: String
 
         public init(coordinates: [[[Double]]], type: String) {
@@ -991,10 +1044,11 @@ extension SageMakerGeospatial {
         public let inputConfig: InputConfigOutput
         /// An object containing information about the job configuration.
         public let jobConfig: JobConfigInput
-        /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+        /// The Key Management Service key ID for server-side encryption.
         public let kmsKeyId: String?
         /// The name of the Earth Observation job.
         public let name: String
+        /// Bands available in the output of an operation.
         public let outputBands: [OutputBand]?
         /// The status of a previously initiated Earth Observation job.
         public let status: EarthObservationJobStatus
@@ -1062,6 +1116,7 @@ extension SageMakerGeospatial {
         public let description: String
         /// The URL of the description page.
         public let descriptionPageUrl: String
+        /// The list of image source bands in the raster data collection.
         public let imageSourceBands: [String]
         /// The name of the raster data collection.
         public let name: String
@@ -1098,6 +1153,7 @@ extension SageMakerGeospatial {
     public struct GetTileInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "arn", location: .querystring("Arn")),
+            AWSMemberEncoding(label: "executionRoleArn", location: .querystring("ExecutionRoleArn")),
             AWSMemberEncoding(label: "imageAssets", location: .querystring("ImageAssets")),
             AWSMemberEncoding(label: "imageMask", location: .querystring("ImageMask")),
             AWSMemberEncoding(label: "outputDataType", location: .querystring("OutputDataType")),
@@ -1112,6 +1168,8 @@ extension SageMakerGeospatial {
 
         /// The Amazon Resource Name (ARN) of the tile operation.
         public let arn: String
+        /// The Amazon Resource Name (ARN) of the IAM role that you specify.
+        public let executionRoleArn: String?
         /// The particular assets or bands to tile.
         public let imageAssets: [String]
         /// Determines whether or not to return a valid data mask.
@@ -1133,8 +1191,9 @@ extension SageMakerGeospatial {
         /// The z coordinate of the tile input.
         public let z: Int
 
-        public init(arn: String, imageAssets: [String], imageMask: Bool? = nil, outputDataType: OutputType? = nil, outputFormat: String? = nil, propertyFilters: String? = nil, target: TargetOptions, timeRangeFilter: String? = nil, x: Int, y: Int, z: Int) {
+        public init(arn: String, executionRoleArn: String? = nil, imageAssets: [String], imageMask: Bool? = nil, outputDataType: OutputType? = nil, outputFormat: String? = nil, propertyFilters: String? = nil, target: TargetOptions, timeRangeFilter: String? = nil, x: Int, y: Int, z: Int) {
             self.arn = arn
+            self.executionRoleArn = executionRoleArn
             self.imageAssets = imageAssets
             self.imageMask = imageMask
             self.outputDataType = outputDataType
@@ -1149,6 +1208,9 @@ extension SageMakerGeospatial {
 
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]{0,12}:sagemaker-geospatial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observation-job/[a-z0-9]{12,}$")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$")
             try self.validate(self.imageAssets, name: "imageAssets", parent: name, min: 1)
         }
 
@@ -1213,7 +1275,7 @@ extension SageMakerGeospatial {
         public let inputConfig: VectorEnrichmentJobInputConfig
         /// An object containing information about the job configuration.
         public let jobConfig: VectorEnrichmentJobConfig
-        /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+        /// The Key Management Service key ID for server-side encryption.
         public let kmsKeyId: String?
         /// The name of the Vector Enrichment job.
         public let name: String
@@ -1264,6 +1326,7 @@ extension SageMakerGeospatial {
         public let dataSourceConfig: EojDataSourceConfigInput?
         /// The Amazon Resource Name (ARN) of the previous Earth Observation job.
         public let previousEarthObservationJobArn: String?
+        /// The structure representing the RasterDataCollection Query consisting of  the Area of Interest, RasterDataCollectionArn,TimeRange and Property Filters.
         public let rasterDataCollectionQuery: RasterDataCollectionQueryInput?
 
         public init(dataSourceConfig: EojDataSourceConfigInput? = nil, previousEarthObservationJobArn: String? = nil, rasterDataCollectionQuery: RasterDataCollectionQueryInput? = nil) {
@@ -1273,6 +1336,8 @@ extension SageMakerGeospatial {
         }
 
         public func validate(name: String) throws {
+            try self.dataSourceConfig?.validate(name: "\(name).dataSourceConfig")
+            try self.validate(self.previousEarthObservationJobArn, name: "previousEarthObservationJobArn", parent: name, pattern: "^arn:aws[a-z-]{0,12}:sagemaker-geospatial:[a-z0-9-]{1,25}:[0-9]{12}:earth-observation-job/[a-z0-9]{12,}$")
             try self.rasterDataCollectionQuery?.validate(name: "\(name).rasterDataCollectionQuery")
         }
 
@@ -1288,6 +1353,7 @@ extension SageMakerGeospatial {
         public let dataSourceConfig: EojDataSourceConfigInput?
         /// The Amazon Resource Name (ARN) of the previous Earth Observation job.
         public let previousEarthObservationJobArn: String?
+        /// The structure representing the RasterDataCollection Query consisting of the Area of Interest,  RasterDataCollectionArn, RasterDataCollectionName, TimeRange, and Property Filters.
         public let rasterDataCollectionQuery: RasterDataCollectionQueryOutput?
 
         public init(dataSourceConfig: EojDataSourceConfigInput? = nil, previousEarthObservationJobArn: String? = nil, rasterDataCollectionQuery: RasterDataCollectionQueryOutput? = nil) {
@@ -1304,11 +1370,15 @@ extension SageMakerGeospatial {
     }
 
     public struct ItemSource: AWSDecodableShape {
+        /// This is a dictionary of Asset Objects data associated with the Item that  can be downloaded or streamed, each with a unique key.
         public let assets: [String: AssetValue]?
+        /// The searchable date and time of the item, in UTC.
         public let dateTime: Date
+        /// The item Geometry in GeoJson format.
         public let geometry: Geometry
         /// A unique Id for the source item.
         public let id: String
+        /// This field contains additional properties of the item.
         public let properties: Properties?
 
         public init(assets: [String: AssetValue]? = nil, dateTime: Date, geometry: Geometry, id: String, properties: Properties? = nil) {
@@ -1333,7 +1403,9 @@ extension SageMakerGeospatial {
     }
 
     public struct LandsatCloudCoverLandInput: AWSEncodableShape & AWSDecodableShape {
+        /// The minimum value for Land Cloud Cover property filter. This will filter items  having Land Cloud Cover greater than or equal to this value.
         public let lowerBound: Float
+        /// The maximum value for Land Cloud Cover property filter.  This will filter items having Land Cloud Cover less than or equal to this value.
         public let upperBound: Float
 
         public init(lowerBound: Float, upperBound: Float) {
@@ -1406,6 +1478,7 @@ extension SageMakerGeospatial {
         public let durationInSeconds: Int
         /// The names of the Earth Observation jobs in the list.
         public let name: String
+        /// The operation type for an Earth Observation job.
         public let operationType: String
         /// The status of the list of the Earth Observation jobs.
         public let status: EarthObservationJobStatus
@@ -1594,6 +1667,7 @@ extension SageMakerGeospatial {
     }
 
     public struct MapMatchingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The field name for the data that describes the identifier representing a collection of GPS points belonging to an individual trace.
         public let idAttributeName: String
         /// The name of the timestamp attribute.
         public let timestampAttributeName: String
@@ -1637,6 +1711,7 @@ extension SageMakerGeospatial {
     }
 
     public struct Operation: AWSEncodableShape & AWSDecodableShape {
+        /// Textual representation of the math operation; Equation used to compute the spectral index.
         public let equation: String
         /// The name of the operation.
         public let name: String
@@ -1681,12 +1756,17 @@ extension SageMakerGeospatial {
             self.s3Data = s3Data
         }
 
+        public func validate(name: String) throws {
+            try self.s3Data.validate(name: "\(name).s3Data")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case s3Data = "S3Data"
         }
     }
 
     public struct OutputResolutionResamplingInput: AWSEncodableShape & AWSDecodableShape {
+        /// User Defined Resolution for the output  of Resampling operation defined by value and unit.
         public let userDefined: UserDefined
 
         public init(userDefined: UserDefined) {
@@ -1699,7 +1779,9 @@ extension SageMakerGeospatial {
     }
 
     public struct OutputResolutionStackInput: AWSEncodableShape & AWSDecodableShape {
+        /// A string value representing Predefined Output Resolution for a stacking operation. Allowed values are HIGHEST, LOWEST, and AVERAGE.
         public let predefined: PredefinedResolution?
+        /// The structure representing User Output Resolution for a Stacking operation defined as a value and unit.
         public let userDefined: UserDefined?
 
         public init(predefined: PredefinedResolution? = nil, userDefined: UserDefined? = nil) {
@@ -1714,6 +1796,7 @@ extension SageMakerGeospatial {
     }
 
     public struct PlatformInput: AWSEncodableShape & AWSDecodableShape {
+        /// The ComparisonOperator to use with PlatformInput.
         public let comparisonOperator: ComparisonOperator?
         /// The value of the platform.
         public let value: String
@@ -1730,6 +1813,7 @@ extension SageMakerGeospatial {
     }
 
     public struct PolygonGeometryInput: AWSEncodableShape & AWSDecodableShape {
+        /// Coordinates representing a Polygon based on the GeoJson spec.
         public let coordinates: [[[Double]]]
 
         public init(coordinates: [[[Double]]]) {
@@ -1749,11 +1833,17 @@ extension SageMakerGeospatial {
     }
 
     public struct Properties: AWSDecodableShape {
+        /// Estimate of cloud cover.
         public let eoCloudCover: Float?
+        /// Land cloud cover for Landsat Data Collection.
         public let landsatCloudCoverLand: Float?
+        /// Platform property. Platform refers to the unique name  of the specific platform the instrument is attached to.  For satellites it is the name of  the satellite, eg. landsat-8 (Landsat-8), sentinel-2a.
         public let platform: String?
+        /// The angle from the sensor between nadir (straight down) and the scene center. Measured in degrees (0-90).
         public let viewOffNadir: Float?
+        /// The sun azimuth angle. From the scene center point on the ground, this is the angle between truth north and the sun.  Measured clockwise in degrees (0-360).
         public let viewSunAzimuth: Float?
+        /// The sun elevation angle. The angle from the tangent of the scene center point to the sun. Measured from the horizon in degrees (-90-90). Negative values indicate the sun is below the horizon, e.g. sun elevation of -10° means the data was captured during nautical twilight.
         public let viewSunElevation: Float?
 
         public init(eoCloudCover: Float? = nil, landsatCloudCoverLand: Float? = nil, platform: String? = nil, viewOffNadir: Float? = nil, viewSunAzimuth: Float? = nil, viewSunElevation: Float? = nil) {
@@ -1776,6 +1866,7 @@ extension SageMakerGeospatial {
     }
 
     public struct PropertyFilter: AWSEncodableShape & AWSDecodableShape {
+        /// Represents a single property to match with when searching a raster data collection.
         public let property: Property
 
         public init(property: Property) {
@@ -1788,7 +1879,9 @@ extension SageMakerGeospatial {
     }
 
     public struct PropertyFilters: AWSEncodableShape & AWSDecodableShape {
+        /// The Logical Operator used to combine the Property Filters.
         public let logicalOperator: LogicalOperator?
+        /// A list of Property Filters.
         public let properties: [PropertyFilter]?
 
         public init(logicalOperator: LogicalOperator? = nil, properties: [PropertyFilter]? = nil) {
@@ -1811,6 +1904,7 @@ extension SageMakerGeospatial {
         public let descriptionPageUrl: String?
         /// The name of the raster data collection.
         public let name: String
+        /// The list of filters supported by the raster data collection.
         public let supportedFilters: [Filter]
         /// Each tag consists of a key and a value.
         public let tags: [String: String]?
@@ -1841,9 +1935,11 @@ extension SageMakerGeospatial {
     public struct RasterDataCollectionQueryInput: AWSEncodableShape {
         /// The area of interest being queried for the raster data collection.
         public let areaOfInterest: AreaOfInterest?
+        /// The list of Property filters used in the Raster Data Collection Query.
         public let propertyFilters: PropertyFilters?
         /// The Amazon Resource Name (ARN) of the raster data collection.
         public let rasterDataCollectionArn: String
+        /// The TimeRange Filter used in the RasterDataCollection Query.
         public let timeRangeFilter: TimeRangeFilterInput
 
         public init(areaOfInterest: AreaOfInterest? = nil, propertyFilters: PropertyFilters? = nil, rasterDataCollectionArn: String, timeRangeFilter: TimeRangeFilterInput) {
@@ -1855,6 +1951,7 @@ extension SageMakerGeospatial {
 
         public func validate(name: String) throws {
             try self.areaOfInterest?.validate(name: "\(name).areaOfInterest")
+            try self.validate(self.rasterDataCollectionArn, name: "rasterDataCollectionArn", parent: name, pattern: "^arn:aws[a-z-]{0,12}:sagemaker-geospatial:[a-z0-9-]{1,25}:[0-9]{12}:raster-data-collection/(public|premium|user)/[a-z0-9]{12,}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1866,14 +1963,18 @@ extension SageMakerGeospatial {
     }
 
     public struct RasterDataCollectionQueryOutput: AWSDecodableShape {
+        /// The Area of Interest used in the search.
         public let areaOfInterest: AreaOfInterest?
+        /// Property filters used in the search.
         public let propertyFilters: PropertyFilters?
+        /// The ARN of the Raster Data Collection against which the search is done.
         public let rasterDataCollectionArn: String
         /// The name of the raster data collection.
         public let rasterDataCollectionName: String
-        public let timeRangeFilter: TimeRangeFilterInput
+        /// The TimeRange filter used in the search.
+        public let timeRangeFilter: TimeRangeFilterOutput
 
-        public init(areaOfInterest: AreaOfInterest? = nil, propertyFilters: PropertyFilters? = nil, rasterDataCollectionArn: String, rasterDataCollectionName: String, timeRangeFilter: TimeRangeFilterInput) {
+        public init(areaOfInterest: AreaOfInterest? = nil, propertyFilters: PropertyFilters? = nil, rasterDataCollectionArn: String, rasterDataCollectionName: String, timeRangeFilter: TimeRangeFilterOutput) {
             self.areaOfInterest = areaOfInterest
             self.propertyFilters = propertyFilters
             self.rasterDataCollectionArn = rasterDataCollectionArn
@@ -1891,9 +1992,13 @@ extension SageMakerGeospatial {
     }
 
     public struct RasterDataCollectionQueryWithBandFilterInput: AWSEncodableShape {
+        /// The Area of interest to be used in the search query.
         public let areaOfInterest: AreaOfInterest?
+        /// The list of Bands to be displayed in the result for each item.
         public let bandFilter: [String]?
+        /// The Property Filters used in the search query.
         public let propertyFilters: PropertyFilters?
+        /// The TimeRange Filter used in the search query.
         public let timeRangeFilter: TimeRangeFilterInput
 
         public init(areaOfInterest: AreaOfInterest? = nil, bandFilter: [String]? = nil, propertyFilters: PropertyFilters? = nil, timeRangeFilter: TimeRangeFilterInput) {
@@ -1919,7 +2024,9 @@ extension SageMakerGeospatial {
     public struct ResamplingConfigInput: AWSEncodableShape & AWSDecodableShape {
         /// The name of the algorithm used for resampling.
         public let algorithmName: AlgorithmNameResampling?
+        /// The structure representing output  resolution (in target georeferenced units) of the result of resampling operation.
         public let outputResolution: OutputResolutionResamplingInput
+        /// Bands used in the operation. If no target bands are specified, it uses all bands available in the input.
         public let targetBands: [String]?
 
         public init(algorithmName: AlgorithmNameResampling? = nil, outputResolution: OutputResolutionResamplingInput, targetBands: [String]? = nil) {
@@ -1940,7 +2047,9 @@ extension SageMakerGeospatial {
     }
 
     public struct ReverseGeocodingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The field name for the data that describes x-axis coordinate, eg. longitude of a point.
         public let xAttributeName: String
+        /// The field name for the data that describes y-axis coordinate, eg. latitude of a point.
         public let yAttributeName: String
 
         public init(xAttributeName: String, yAttributeName: String) {
@@ -1955,8 +2064,9 @@ extension SageMakerGeospatial {
     }
 
     public struct S3DataInput: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+        /// The Key Management Service key ID for server-side encryption.
         public let kmsKeyId: String?
+        /// Metadata provider from whom the Amazon S3 data has been acquired.
         public let metadataProvider: MetadataProvider
         /// The URL to the Amazon S3 input.
         public let s3Uri: String
@@ -1965,6 +2075,11 @@ extension SageMakerGeospatial {
             self.kmsKeyId = kmsKeyId
             self.metadataProvider = metadataProvider
             self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://([^/]+)/?(.*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1979,6 +2094,7 @@ extension SageMakerGeospatial {
         public let arn: String
         /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
+        /// RasterDataCollectionQuery consisting of AreaOfInterest(AOI), PropertyFilters and  TimeRangeFilterInput used in SearchRasterDataCollection.
         public let rasterDataCollectionQuery: RasterDataCollectionQueryWithBandFilterInput
 
         public init(arn: String, nextToken: String? = nil, rasterDataCollectionQuery: RasterDataCollectionQueryWithBandFilterInput) {
@@ -2001,7 +2117,9 @@ extension SageMakerGeospatial {
     }
 
     public struct SearchRasterDataCollectionOutput: AWSDecodableShape {
+        /// Approximate number of results in the response.
         public let approximateResultCount: Int
+        /// List of items matching the Raster DataCollectionQuery.
         public let items: [ItemSource]?
         /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
@@ -2020,7 +2138,9 @@ extension SageMakerGeospatial {
     }
 
     public struct StackConfigInput: AWSEncodableShape & AWSDecodableShape {
+        /// The structure representing output  resolution (in target georeferenced units) of the  result of stacking operation.
         public let outputResolution: OutputResolutionStackInput?
+        /// A list of bands to be stacked in the specified order. When the parameter is not provided, all the available bands in the data collection are stacked in the alphabetical order of their asset names.
         public let targetBands: [String]?
 
         public init(outputResolution: OutputResolutionStackInput? = nil, targetBands: [String]? = nil) {
@@ -2047,7 +2167,7 @@ extension SageMakerGeospatial {
         public let inputConfig: InputConfigInput
         /// An object containing information about the job configuration.
         public let jobConfig: JobConfigInput
-        /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+        /// The Key Management Service key ID for server-side encryption.
         public let kmsKeyId: String?
         /// The name of the Earth Observation job.
         public let name: String
@@ -2065,8 +2185,12 @@ extension SageMakerGeospatial {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$")
             try self.inputConfig.validate(name: "\(name).inputConfig")
             try self.jobConfig.validate(name: "\(name).jobConfig")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2093,7 +2217,7 @@ extension SageMakerGeospatial {
         public let inputConfig: InputConfigOutput?
         /// An object containing information about the job configuration.
         public let jobConfig: JobConfigInput
-        /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+        /// The Key Management Service key ID for server-side encryption.
         public let kmsKeyId: String?
         /// The name of the Earth Observation job.
         public let name: String
@@ -2138,7 +2262,7 @@ extension SageMakerGeospatial {
         public let inputConfig: VectorEnrichmentJobInputConfig
         /// An object containing information about the job configuration.
         public let jobConfig: VectorEnrichmentJobConfig
-        /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+        /// The Key Management Service key ID for server-side encryption.
         public let kmsKeyId: String?
         /// The name of the Vector Enrichment job.
         public let name: String
@@ -2153,6 +2277,14 @@ extension SageMakerGeospatial {
             self.kmsKeyId = kmsKeyId
             self.name = name
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.inputConfig.validate(name: "\(name).inputConfig")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2179,7 +2311,7 @@ extension SageMakerGeospatial {
         public let inputConfig: VectorEnrichmentJobInputConfig
         /// An object containing information about the job configuration.
         public let jobConfig: VectorEnrichmentJobConfig
-        /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+        /// The Key Management Service key ID for server-side encryption.
         public let kmsKeyId: String?
         /// The name of the Vector Enrichment job.
         public let name: String
@@ -2291,8 +2423,11 @@ extension SageMakerGeospatial {
     }
 
     public struct TemporalStatisticsConfigInput: AWSEncodableShape & AWSDecodableShape {
+        /// The input for the temporal statistics grouping by time frequency option.
         public let groupBy: GroupBy?
+        /// The list of the statistics method options.
         public let statistics: [TemporalStatistics]
+        /// The list of target band names for the temporal statistic to calculate.
         public let targetBands: [String]?
 
         public init(groupBy: GroupBy? = nil, statistics: [TemporalStatistics], targetBands: [String]? = nil) {
@@ -2313,10 +2448,27 @@ extension SageMakerGeospatial {
         }
     }
 
-    public struct TimeRangeFilterInput: AWSEncodableShape & AWSDecodableShape {
+    public struct TimeRangeFilterInput: AWSEncodableShape {
         /// The end time for the time-range filter.
         public let endTime: Date
         /// The start time for the time-range filter.
+        public let startTime: Date
+
+        public init(endTime: Date, startTime: Date) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct TimeRangeFilterOutput: AWSDecodableShape {
+        /// The ending time for the time range filter.
+        public let endTime: Date
+        /// The starting time for the time range filter.
         public let startTime: Date
 
         public init(endTime: Date, startTime: Date) {
@@ -2361,7 +2513,9 @@ extension SageMakerGeospatial {
     }
 
     public struct UserDefined: AWSEncodableShape & AWSDecodableShape {
+        /// The units for output resolution of the result.
         public let unit: Unit
+        /// The value for output resolution of the result.
         public let value: Float
 
         public init(unit: Unit, value: Float) {
@@ -2395,6 +2549,7 @@ extension SageMakerGeospatial {
     public struct VectorEnrichmentJobExportErrorDetails: AWSDecodableShape {
         /// The message providing details about the errors generated during the Vector Enrichment job.
         public let message: String?
+        /// The output error details for an Export operation on a Vector Enrichment job.
         public let type: VectorEnrichmentJobExportErrorType?
 
         public init(message: String? = nil, type: VectorEnrichmentJobExportErrorType? = nil) {
@@ -2409,12 +2564,18 @@ extension SageMakerGeospatial {
     }
 
     public struct VectorEnrichmentJobInputConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The input structure for the data source that represents the storage type of the input data objects.
         public let dataSourceConfig: VectorEnrichmentJobDataSourceConfigInput
+        /// The input structure that defines the data source file type.
         public let documentType: VectorEnrichmentJobDocumentType
 
         public init(dataSourceConfig: VectorEnrichmentJobDataSourceConfigInput, documentType: VectorEnrichmentJobDocumentType) {
             self.dataSourceConfig = dataSourceConfig
             self.documentType = documentType
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSourceConfig.validate(name: "\(name).dataSourceConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2424,7 +2585,7 @@ extension SageMakerGeospatial {
     }
 
     public struct VectorEnrichmentJobS3Data: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+        /// The Key Management Service key ID for server-side encryption.
         public let kmsKeyId: String?
         /// The URL to the Amazon S3 data for the Vector Enrichment job.
         public let s3Uri: String
@@ -2434,6 +2595,11 @@ extension SageMakerGeospatial {
             self.s3Uri = s3Uri
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://([^/]+)/?(.*)$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
             case s3Uri = "S3Uri"
@@ -2441,7 +2607,9 @@ extension SageMakerGeospatial {
     }
 
     public struct ViewOffNadirInput: AWSEncodableShape & AWSDecodableShape {
+        /// The minimum value for ViewOffNadir property filter.  This filters items having ViewOffNadir greater than or equal to this value.
         public let lowerBound: Float
+        /// The maximum value for ViewOffNadir property filter.  This filters items having ViewOffNadir lesser than or equal to this value.
         public let upperBound: Float
 
         public init(lowerBound: Float, upperBound: Float) {
@@ -2456,7 +2624,9 @@ extension SageMakerGeospatial {
     }
 
     public struct ViewSunAzimuthInput: AWSEncodableShape & AWSDecodableShape {
+        /// The minimum value for ViewSunAzimuth property filter.  This filters items having ViewSunAzimuth greater than or equal to this value.
         public let lowerBound: Float
+        /// The maximum value for ViewSunAzimuth property filter.  This filters items having ViewSunAzimuth lesser than or equal to this value.
         public let upperBound: Float
 
         public init(lowerBound: Float, upperBound: Float) {
@@ -2488,29 +2658,42 @@ extension SageMakerGeospatial {
     }
 
     public struct ZonalStatisticsConfigInput: AWSEncodableShape & AWSDecodableShape {
+        /// List of zonal statistics to compute.
         public let statistics: [ZonalStatistics]
+        /// Bands used in the operation.  If no target bands are specified, it uses all bands available input.
         public let targetBands: [String]?
+        /// The Amazon S3 path pointing to the GeoJSON containing the polygonal zones.
         public let zoneS3Path: String
+        /// The Amazon Resource Name (ARN) or an ID of a Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to decrypt your output artifacts with Amazon S3 server-side encryption.
+        /// The SageMaker execution role must have kms:GenerateDataKey permission. The KmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:&lt;region&gt;:&lt;account&gt;:key/&lt;key-id-12ab-34cd-56ef-1234567890ab&gt;"    For more information about key identifiers, see
+        /// Key identifiers (KeyID) in the
+        /// Amazon Web Services Key Management Service (Amazon Web Services KMS) documentation.
+        public let zoneS3PathKmsKeyId: String?
 
-        public init(statistics: [ZonalStatistics], targetBands: [String]? = nil, zoneS3Path: String) {
+        public init(statistics: [ZonalStatistics], targetBands: [String]? = nil, zoneS3Path: String, zoneS3PathKmsKeyId: String? = nil) {
             self.statistics = statistics
             self.targetBands = targetBands
             self.zoneS3Path = zoneS3Path
+            self.zoneS3PathKmsKeyId = zoneS3PathKmsKeyId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.statistics, name: "statistics", parent: name, min: 1)
             try self.validate(self.targetBands, name: "targetBands", parent: name, min: 1)
+            try self.validate(self.zoneS3Path, name: "zoneS3Path", parent: name, pattern: "^s3://([^/]+)/?(.*)$")
+            try self.validate(self.zoneS3PathKmsKeyId, name: "zoneS3PathKmsKeyId", parent: name, max: 2048)
         }
 
         private enum CodingKeys: String, CodingKey {
             case statistics = "Statistics"
             case targetBands = "TargetBands"
             case zoneS3Path = "ZoneS3Path"
+            case zoneS3PathKmsKeyId = "ZoneS3PathKmsKeyId"
         }
     }
 
     public struct AreaOfInterest: AWSEncodableShape & AWSDecodableShape {
+        /// A GeoJSON object representing the geographic extent in the coordinate space.
         public let areaOfInterestGeometry: AreaOfInterestGeometry?
 
         public init(areaOfInterestGeometry: AreaOfInterestGeometry? = nil) {
@@ -2527,10 +2710,15 @@ extension SageMakerGeospatial {
     }
 
     public struct EojDataSourceConfigInput: AWSEncodableShape & AWSDecodableShape {
+        /// The input structure for S3Data; representing the  Amazon S3 location of the input data objects.
         public let s3Data: S3DataInput?
 
         public init(s3Data: S3DataInput? = nil) {
             self.s3Data = s3Data
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Data?.validate(name: "\(name).s3Data")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2539,10 +2727,15 @@ extension SageMakerGeospatial {
     }
 
     public struct VectorEnrichmentJobDataSourceConfigInput: AWSEncodableShape & AWSDecodableShape {
+        /// The input structure for the Amazon S3 data that represents the Amazon S3 location of the input data objects.
         public let s3Data: VectorEnrichmentJobS3Data?
 
         public init(s3Data: VectorEnrichmentJobS3Data? = nil) {
             self.s3Data = s3Data
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Data?.validate(name: "\(name).s3Data")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2585,9 +2778,11 @@ public struct SageMakerGeospatialErrorType: AWSErrorType {
 
     /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Updating or deleting a resource can cause an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
     /// The request processing has failed because of an unknown error, exception, or failure.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The request references a resource which does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// You have exceeded the service quota.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

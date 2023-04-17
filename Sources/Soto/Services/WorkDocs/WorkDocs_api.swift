@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS WorkDocs service.
 ///
-/// The WorkDocs API is designed for the following use cases:   File Migration: File migration applications are supported for users who want to migrate their files from an on-premises or off-premises file system or service. Users can insert files into a user directory structure, as well as allow for basic metadata changes, such as modifications to the permissions of files.   Security: Support security applications are supported for users who have additional security needs, such as antivirus or data loss prevention. The API actions, along with AWS CloudTrail, allow these applications to detect when changes occur in Amazon WorkDocs. Then, the application can take the necessary actions and replace the target file. If the target file violates the policy, the application can also choose to email the user.   eDiscovery/Analytics: General administrative applications are supported, such as eDiscovery and analytics. These applications can choose to mimic or record the actions in an Amazon WorkDocs site, along with AWS CloudTrail, to replicate data for eDiscovery, backup, or analytical applications.   All Amazon WorkDocs API actions are Amazon authenticated and certificate-signed. They not only require the use of the AWS SDK, but also allow for the exclusive use of IAM users and roles to help facilitate access, trust, and permission policies. By creating a role and allowing an IAM user to access the Amazon WorkDocs site, the IAM user gains full administrative visibility into the entire Amazon WorkDocs site (or as set in the IAM policy). This includes, but is not limited to, the ability to modify file permissions and upload any file to any user. This allows developers to perform the three use cases above, as well as give users the ability to grant access on a selective basis using the IAM model.  The pricing for Amazon WorkDocs APIs varies depending on the API call type for these actions:    READ  (Get*)     WRITE (Activate*, Add*, Create*, Deactivate*, Initiate*, Update*)     LIST (Describe*)     DELETE*, CANCEL    For information about Amazon WorkDocs API pricing, see Amazon WorkDocs Pricing.
+/// The Amazon WorkDocs API is designed for the following use cases:   File Migration: File migration applications are supported for users who want to migrate their files from an on-premises or off-premises file system or service. Users can insert files into a user directory structure, as well as allow for basic metadata changes, such as modifications to the permissions of files.   Security: Support security applications are supported for users who have additional security needs, such as antivirus or data loss prevention. The API actions, along with CloudTrail, allow these applications to detect when changes occur in Amazon WorkDocs. Then, the application can take the necessary actions and replace the target file. If the target file violates the policy, the application can also choose to email the user.   eDiscovery/Analytics: General administrative applications are supported, such as eDiscovery and analytics. These applications can choose to mimic or record the actions in an Amazon WorkDocs site, along with CloudTrail, to replicate data for eDiscovery, backup, or analytical applications.   All Amazon WorkDocs API actions are Amazon authenticated and certificate-signed. They not only require the use of the Amazon Web Services SDK, but also allow for the exclusive use of IAM users and roles to help facilitate access, trust, and permission policies. By creating a role and allowing an IAM user to access the Amazon WorkDocs site, the IAM user gains full administrative visibility into the entire Amazon WorkDocs site (or as set in the IAM policy). This includes, but is not limited to, the ability to modify file permissions and upload any file to any user. This allows developers to perform the three use cases above, as well as give users the ability to grant access on a selective basis using the IAM model.  The pricing for Amazon WorkDocs APIs varies depending on the API call type for these actions:    READ  (Get*)     WRITE (Activate*, Add*, Create*, Deactivate*, Initiate*, Update*)     LIST (Describe*)     DELETE*, CANCEL    For information about Amazon WorkDocs API pricing, see Amazon WorkDocs Pricing.
 public struct WorkDocs: AWSService {
     // MARK: Member variables
 
@@ -135,7 +135,7 @@ public struct WorkDocs: AWSService {
         return self.client.execute(operation: "DeleteDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a version of an Amazon WorkDocs document. Use the DeletePriorVersions parameter to delete prior versions.
+    /// Deletes a specific version of a document.
     @discardableResult public func deleteDocumentVersion(_ input: DeleteDocumentVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteDocumentVersion", path: "/api/v1/documentVersions/{DocumentId}/versions/{VersionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -160,7 +160,7 @@ public struct WorkDocs: AWSService {
         return self.client.execute(operation: "DeleteNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions/{SubscriptionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified user from a Simple AD or Microsoft AD directory.
+    /// Deletes the specified user from a Simple AD or Microsoft AD directory.  Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
     @discardableResult public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteUser", path: "/api/v1/users/{UserId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -265,6 +265,11 @@ public struct WorkDocs: AWSService {
         return self.client.execute(operation: "RestoreDocumentVersions", path: "/api/v1/documentVersions/restore/{DocumentId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Searches metadata and the content of folders, documents, document versions, and comments.
+    public func searchResources(_ input: SearchResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchResourcesResponse> {
+        return self.client.execute(operation: "SearchResources", path: "/api/v1/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.
     @discardableResult public func updateDocument(_ input: UpdateDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -298,6 +303,112 @@ extension WorkDocs {
 // MARK: Paginators
 
 extension WorkDocs {
+    /// Describes the user activities in a specified time period.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeActivitiesPaginator<Result>(
+        _ input: DescribeActivitiesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeActivitiesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeActivities,
+            inputKey: \DescribeActivitiesRequest.marker,
+            outputKey: \DescribeActivitiesResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeActivitiesPaginator(
+        _ input: DescribeActivitiesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeActivitiesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeActivities,
+            inputKey: \DescribeActivitiesRequest.marker,
+            outputKey: \DescribeActivitiesResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// List all the comments for the specified document version.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeCommentsPaginator<Result>(
+        _ input: DescribeCommentsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeCommentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeComments,
+            inputKey: \DescribeCommentsRequest.marker,
+            outputKey: \DescribeCommentsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeCommentsPaginator(
+        _ input: DescribeCommentsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeCommentsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeComments,
+            inputKey: \DescribeCommentsRequest.marker,
+            outputKey: \DescribeCommentsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Retrieves the document versions for the specified document. By default, only active versions are returned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -404,6 +515,218 @@ extension WorkDocs {
         )
     }
 
+    /// Describes the groups specified by the query. Groups are defined by the underlying Active Directory.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeGroupsPaginator<Result>(
+        _ input: DescribeGroupsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeGroupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeGroups,
+            inputKey: \DescribeGroupsRequest.marker,
+            outputKey: \DescribeGroupsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeGroupsPaginator(
+        _ input: DescribeGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeGroups,
+            inputKey: \DescribeGroupsRequest.marker,
+            outputKey: \DescribeGroupsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists the specified notification subscriptions.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeNotificationSubscriptionsPaginator<Result>(
+        _ input: DescribeNotificationSubscriptionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeNotificationSubscriptionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeNotificationSubscriptions,
+            inputKey: \DescribeNotificationSubscriptionsRequest.marker,
+            outputKey: \DescribeNotificationSubscriptionsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeNotificationSubscriptionsPaginator(
+        _ input: DescribeNotificationSubscriptionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeNotificationSubscriptionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeNotificationSubscriptions,
+            inputKey: \DescribeNotificationSubscriptionsRequest.marker,
+            outputKey: \DescribeNotificationSubscriptionsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Describes the permissions of a specified resource.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeResourcePermissionsPaginator<Result>(
+        _ input: DescribeResourcePermissionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeResourcePermissionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeResourcePermissions,
+            inputKey: \DescribeResourcePermissionsRequest.marker,
+            outputKey: \DescribeResourcePermissionsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeResourcePermissionsPaginator(
+        _ input: DescribeResourcePermissionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeResourcePermissionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeResourcePermissions,
+            inputKey: \DescribeResourcePermissionsRequest.marker,
+            outputKey: \DescribeResourcePermissionsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Describes the current user's special folders; the RootFolder and the RecycleBin. RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeRootFoldersPaginator<Result>(
+        _ input: DescribeRootFoldersRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeRootFoldersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeRootFolders,
+            inputKey: \DescribeRootFoldersRequest.marker,
+            outputKey: \DescribeRootFoldersResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeRootFoldersPaginator(
+        _ input: DescribeRootFoldersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeRootFoldersResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeRootFolders,
+            inputKey: \DescribeRootFoldersRequest.marker,
+            outputKey: \DescribeRootFoldersResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -456,6 +779,88 @@ extension WorkDocs {
             onPage: onPage
         )
     }
+
+    /// Searches metadata and the content of folders, documents, document versions, and comments.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchResourcesPaginator<Result>(
+        _ input: SearchResourcesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.searchResources,
+            inputKey: \SearchResourcesRequest.marker,
+            outputKey: \SearchResourcesResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchResourcesPaginator(
+        _ input: SearchResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.searchResources,
+            inputKey: \SearchResourcesRequest.marker,
+            outputKey: \SearchResourcesResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+}
+
+extension WorkDocs.DescribeActivitiesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkDocs.DescribeActivitiesRequest {
+        return .init(
+            activityTypes: self.activityTypes,
+            authenticationToken: self.authenticationToken,
+            endTime: self.endTime,
+            includeIndirectActivities: self.includeIndirectActivities,
+            limit: self.limit,
+            marker: token,
+            organizationId: self.organizationId,
+            resourceId: self.resourceId,
+            startTime: self.startTime,
+            userId: self.userId
+        )
+    }
+}
+
+extension WorkDocs.DescribeCommentsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkDocs.DescribeCommentsRequest {
+        return .init(
+            authenticationToken: self.authenticationToken,
+            documentId: self.documentId,
+            limit: self.limit,
+            marker: token,
+            versionId: self.versionId
+        )
+    }
 }
 
 extension WorkDocs.DescribeDocumentVersionsRequest: AWSPaginateToken {
@@ -486,6 +891,50 @@ extension WorkDocs.DescribeFolderContentsRequest: AWSPaginateToken {
     }
 }
 
+extension WorkDocs.DescribeGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkDocs.DescribeGroupsRequest {
+        return .init(
+            authenticationToken: self.authenticationToken,
+            limit: self.limit,
+            marker: token,
+            organizationId: self.organizationId,
+            searchQuery: self.searchQuery
+        )
+    }
+}
+
+extension WorkDocs.DescribeNotificationSubscriptionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkDocs.DescribeNotificationSubscriptionsRequest {
+        return .init(
+            limit: self.limit,
+            marker: token,
+            organizationId: self.organizationId
+        )
+    }
+}
+
+extension WorkDocs.DescribeResourcePermissionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkDocs.DescribeResourcePermissionsRequest {
+        return .init(
+            authenticationToken: self.authenticationToken,
+            limit: self.limit,
+            marker: token,
+            principalId: self.principalId,
+            resourceId: self.resourceId
+        )
+    }
+}
+
+extension WorkDocs.DescribeRootFoldersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkDocs.DescribeRootFoldersRequest {
+        return .init(
+            authenticationToken: self.authenticationToken,
+            limit: self.limit,
+            marker: token
+        )
+    }
+}
+
 extension WorkDocs.DescribeUsersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkDocs.DescribeUsersRequest {
         return .init(
@@ -499,6 +948,22 @@ extension WorkDocs.DescribeUsersRequest: AWSPaginateToken {
             query: self.query,
             sort: self.sort,
             userIds: self.userIds
+        )
+    }
+}
+
+extension WorkDocs.SearchResourcesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkDocs.SearchResourcesRequest {
+        return .init(
+            additionalResponseFields: self.additionalResponseFields,
+            authenticationToken: self.authenticationToken,
+            filters: self.filters,
+            limit: self.limit,
+            marker: token,
+            orderBy: self.orderBy,
+            organizationId: self.organizationId,
+            queryScopes: self.queryScopes,
+            queryText: self.queryText
         )
     }
 }

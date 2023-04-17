@@ -92,6 +92,9 @@ extension AutoScaling {
         case failed = "Failed"
         case inProgress = "InProgress"
         case pending = "Pending"
+        case rollbackFailed = "RollbackFailed"
+        case rollbackInProgress = "RollbackInProgress"
+        case rollbackSuccessful = "RollbackSuccessful"
         case successful = "Successful"
         public var description: String { return self.rawValue }
     }
@@ -194,6 +197,13 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScaleInProtectedInstances: String, CustomStringConvertible, Codable, Sendable {
+        case ignore = "Ignore"
+        case refresh = "Refresh"
+        case wait = "Wait"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable, Sendable {
         case cancelled = "Cancelled"
         case failed = "Failed"
@@ -202,11 +212,19 @@ extension AutoScaling {
         case pendingSpotBidPlacement = "PendingSpotBidPlacement"
         case preInService = "PreInService"
         case successful = "Successful"
+        case waitingForConnectionDraining = "WaitingForConnectionDraining"
         case waitingForELBConnectionDraining = "WaitingForELBConnectionDraining"
         case waitingForInstanceId = "WaitingForInstanceId"
         case waitingForInstanceWarmup = "WaitingForInstanceWarmup"
         case waitingForSpotInstanceId = "WaitingForSpotInstanceId"
         case waitingForSpotInstanceRequestId = "WaitingForSpotInstanceRequestId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StandbyInstances: String, CustomStringConvertible, Codable, Sendable {
+        case ignore = "Ignore"
+        case terminate = "Terminate"
+        case wait = "Wait"
         public var description: String { return self.rawValue }
     }
 
@@ -488,7 +506,7 @@ extension AutoScaling {
     public struct AttachTrafficSourcesType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources. Currently, you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group. Amazon EC2 Auto Scaling registers the running instances with the attached target groups. The target groups receive incoming traffic and route requests to one or more registered targets.
+        /// The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources.
         @CustomCoding<StandardArrayCoder>
         public var trafficSources: [TrafficSourceIdentifier]
 
@@ -539,7 +557,7 @@ extension AutoScaling {
         public var enabledMetrics: [EnabledMetric]?
         /// The duration of the health check grace period, in seconds.
         public let healthCheckGracePeriod: Int?
-        /// Determines whether any additional health checks are performed on the instances in this group. Amazon EC2 health checks are always on. The valid values are EC2 (default), ELB, and VPC_LATTICE. The VPC_LATTICE health check type is reserved for use with VPC Lattice, which is in preview release and is subject to change.
+        /// A comma-separated value string of one or more health check types.
         public let healthCheckType: String
         /// The EC2 instances associated with the group.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -581,7 +599,7 @@ extension AutoScaling {
         /// The termination policies for the group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var terminationPolicies: [String]?
-        /// The unique identifiers of the traffic sources.
+        /// The traffic sources associated with this Auto Scaling group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var trafficSources: [TrafficSourceIdentifier]?
         /// One or more subnet IDs, if applicable, separated by commas.
@@ -728,7 +746,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The Availability Zone for the instance.
         public let availabilityZone: String
-        /// The last reported health status of this instance. "Healthy" means that the instance is healthy and should remain in service. "Unhealthy" means that the instance is unhealthy and Amazon EC2 Auto Scaling should terminate and replace it.
+        /// The last reported health status of this instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and Amazon EC2 Auto Scaling should terminate and replace it.
         public let healthStatus: String
         /// The ID of the instance.
         public let instanceId: String
@@ -932,7 +950,7 @@ extension AutoScaling {
     }
 
     public struct CancelInstanceRefreshAnswer: AWSDecodableShape {
-        /// The instance refresh ID.
+        /// The instance refresh ID associated with the request. This is the unique ID assigned to the instance refresh when it was started.
         public let instanceRefreshId: String?
 
         public init(instanceRefreshId: String? = nil) {
@@ -1041,7 +1059,7 @@ extension AutoScaling {
         public let context: String?
         ///  Only needed if you use simple scaling policies.  The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Default: 300 seconds
         public let defaultCooldown: Int?
-        /// The amount of time, in seconds, until a newly launched instance can contribute to the Amazon CloudWatch metrics. This delay lets an instance finish initializing before Amazon EC2 Auto Scaling aggregates instance metrics, resulting in more reliable usage data. Set this value equal to the amount of time that it takes for resource consumption to become stable after an instance reaches the InService state. For more information, see Set the default instance warmup for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.  To manage your warm-up settings at the group level, we recommend that you set the default instance warmup, even if its value is set to 0 seconds. This also optimizes the performance of scaling policies that scale continuously, such as target tracking and step scaling policies.  If you need to remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a minimum value of 0.  Default: None
+        /// The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state.  During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see Set the default instance warmup for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.  To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value.  Default: None
         public let defaultInstanceWarmup: Int?
         /// The desired capacity is the initial capacity of the Auto Scaling group at the time of its creation and the capacity it attempts to maintain. It can scale beyond this capacity if you configure auto scaling. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
         public let desiredCapacity: Int?
@@ -1049,7 +1067,7 @@ extension AutoScaling {
         public let desiredCapacityType: String?
         /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Default: 0 seconds
         public let healthCheckGracePeriod: Int?
-        /// Determines whether any additional health checks are performed on the instances in this group. Amazon EC2 health checks are always on. For more information, see Health checks for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide. The valid values are EC2 (default), ELB, and VPC_LATTICE. The VPC_LATTICE health check type is reserved for use with VPC Lattice, which is in preview release and is subject to change.
+        /// A comma-separated value string of one or more health check types. The valid values are EC2, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
         public let healthCheckType: String?
         /// The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 DescribeInstances API operation. For more information, see Creating an Auto Scaling group using an EC2 instance in the Amazon EC2 Auto Scaling User Guide.
         public let instanceId: String?
@@ -1060,7 +1078,7 @@ extension AutoScaling {
         /// One or more lifecycle hooks to add to the Auto Scaling group before instances are launched.
         @OptionalCustomCoding<StandardArrayCoder>
         public var lifecycleHookSpecificationList: [LifecycleHookSpecification]?
-        /// A list of Classic Load Balancers associated with this Auto Scaling group. For Application Load Balancers, Network Load Balancers, and Gateway Load Balancer, specify the TargetGroupARNs property instead.
+        /// A list of Classic Load Balancers associated with this Auto Scaling group. For Application Load Balancers, Network Load Balancers, and Gateway Load Balancers, specify the TargetGroupARNs property instead.
         @OptionalCustomCoding<StandardArrayCoder>
         public var loadBalancerNames: [String]?
         /// The maximum amount of time, in seconds, that an instance can be in service. The default is null. If specified, the value must be either 0 or a number equal to or greater than 86,400 seconds (1 day). For more information, see Replacing Auto Scaling instances based on maximum instance lifetime in the Amazon EC2 Auto Scaling User Guide.
@@ -1086,7 +1104,7 @@ extension AutoScaling {
         /// A policy or a list of policies that are used to select the instance to terminate. These policies are executed in the order that you list them. For more information, see Work with Amazon EC2 Auto Scaling termination policies in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
         @OptionalCustomCoding<StandardArrayCoder>
         public var terminationPolicies: [String]?
-        ///  Reserved for use with Amazon VPC Lattice, which is in preview release and is subject to change. Do not use this parameter for production workloads. It is also subject to change.  The unique identifiers of one or more traffic sources. Currently, you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group. Amazon EC2 Auto Scaling registers the running instances with the attached target groups. The target groups receive incoming traffic and route requests to one or more registered targets.
+        /// The list of traffic sources to attach to this Auto Scaling group. You can use any of the following as traffic sources for an Auto Scaling group: Classic Load Balancer, Application Load Balancer, Gateway Load Balancer, Network Load Balancer, and VPC Lattice.
         @OptionalCustomCoding<StandardArrayCoder>
         public var trafficSources: [TrafficSourceIdentifier]?
         /// A comma-separated list of subnet IDs for a virtual private cloud (VPC) where instances in the Auto Scaling group can be created. If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify must reside in those Availability Zones.
@@ -2129,10 +2147,10 @@ extension AutoScaling {
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// The type of traffic source you are describing. Currently, the only valid value is vpc-lattice.
-        public let trafficSourceType: String
+        /// The traffic source type that you want to describe. The following lists the valid values:    elb if the traffic source is a Classic Load Balancer.    elbv2 if the traffic source is a Application Load Balancer, Gateway Load Balancer, or Network Load Balancer.    vpc-lattice if the traffic source is VPC Lattice.
+        public let trafficSourceType: String?
 
-        public init(autoScalingGroupName: String, maxRecords: Int? = nil, nextToken: String? = nil, trafficSourceType: String) {
+        public init(autoScalingGroupName: String, maxRecords: Int? = nil, nextToken: String? = nil, trafficSourceType: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.maxRecords = maxRecords
             self.nextToken = nextToken
@@ -2226,7 +2244,9 @@ extension AutoScaling {
     }
 
     public struct DesiredConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Describes the launch template and the version of the launch template that Amazon EC2 Auto Scaling uses to launch Amazon EC2 instances. For more information about launch templates, see Launch templates in the Amazon EC2 Auto Scaling User Guide.
         public let launchTemplate: LaunchTemplateSpecification?
+        /// Use this structure to launch multiple instance types and On-Demand Instances and Spot Instances within a single Auto Scaling group. A mixed instances policy contains information that Amazon EC2 Auto Scaling can use to launch instances and help optimize your costs. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
         public let mixedInstancesPolicy: MixedInstancesPolicy?
 
         public init(launchTemplate: LaunchTemplateSpecification? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil) {
@@ -2365,7 +2385,7 @@ extension AutoScaling {
     public struct DetachTrafficSourcesType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// The unique identifiers of one or more traffic sources you are detaching. You can specify up to 10 traffic sources. Currently, you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group. When you detach a target group, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the target group using the DescribeTrafficSources API call. The instances continue to run.
+        /// The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources.
         @CustomCoding<StandardArrayCoder>
         public var trafficSources: [TrafficSourceIdentifier]
 
@@ -2755,7 +2775,7 @@ extension AutoScaling {
     public struct Instance: AWSDecodableShape {
         /// The Availability Zone in which the instance is running.
         public let availabilityZone: String
-        /// The last reported health status of the instance. "Healthy" means that the instance is healthy and should remain in service. "Unhealthy" means that the instance is unhealthy and that Amazon EC2 Auto Scaling should terminate and replace it.
+        /// The last reported health status of the instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and that Amazon EC2 Auto Scaling should terminate and replace it.
         public let healthStatus: String
         /// The ID of the instance.
         public let instanceId: String
@@ -2839,27 +2859,30 @@ extension AutoScaling {
     public struct InstanceRefresh: AWSDecodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
-        /// Describes the specific update you want to deploy.
+        /// Describes the desired configuration for the instance refresh.
         public let desiredConfiguration: DesiredConfiguration?
         /// The date and time at which the instance refresh ended.
         public let endTime: Date?
         /// The instance refresh ID.
         public let instanceRefreshId: String?
-        /// The number of instances remaining to update before the instance refresh is complete.
+        /// The number of instances remaining to update before the instance refresh is complete.  If you roll back the instance refresh, InstancesToUpdate shows you the number of instances that were not yet updated by the instance refresh. Therefore, these instances don't need to be replaced as part of the rollback.
         public let instancesToUpdate: Int?
-        /// The percentage of the instance refresh that is complete. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and is added to the percentage complete.
+        /// The percentage of the instance refresh that is complete. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and is added to the percentage complete.   PercentageComplete does not include instances that are replaced during a rollback. This value gradually goes back down to zero during a rollback.
         public let percentageComplete: Int?
+        /// The preferences for an instance refresh.
         public let preferences: RefreshPreferences?
         /// Additional progress details for an Auto Scaling group that has a warm pool.
         public let progressDetails: InstanceRefreshProgressDetails?
+        /// The rollback details.
+        public let rollbackDetails: RollbackDetails?
         /// The date and time at which the instance refresh began.
         public let startTime: Date?
-        /// The current status for the instance refresh operation:    Pending - The request was created, but the operation has not started.    InProgress - The operation is in progress.    Successful - The operation completed successfully.    Failed - The operation failed to complete. You can troubleshoot using the status reason and the scaling activities.     Cancelling - An ongoing operation is being cancelled. Cancellation does not roll back any replacements that have already been completed, but it prevents new replacements from being started.     Cancelled - The operation is cancelled.
+        /// The current status for the instance refresh operation:    Pending - The request was created, but the instance refresh has not started.    InProgress - An instance refresh is in progress.    Successful - An instance refresh completed successfully.    Failed - An instance refresh failed to complete. You can troubleshoot using the status reason and the scaling activities.     Cancelling - An ongoing instance refresh is being cancelled.    Cancelled - The instance refresh is cancelled.     RollbackInProgress - An instance refresh is being rolled back.    RollbackFailed - The rollback failed to complete. You can troubleshoot using the status reason and the scaling activities.    RollbackSuccessful - The rollback completed successfully.
         public let status: InstanceRefreshStatus?
-        /// Provides more details about the current status of the instance refresh.
+        /// The explanation for the specific status assigned to this operation.
         public let statusReason: String?
 
-        public init(autoScalingGroupName: String? = nil, desiredConfiguration: DesiredConfiguration? = nil, endTime: Date? = nil, instanceRefreshId: String? = nil, instancesToUpdate: Int? = nil, percentageComplete: Int? = nil, preferences: RefreshPreferences? = nil, progressDetails: InstanceRefreshProgressDetails? = nil, startTime: Date? = nil, status: InstanceRefreshStatus? = nil, statusReason: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, desiredConfiguration: DesiredConfiguration? = nil, endTime: Date? = nil, instanceRefreshId: String? = nil, instancesToUpdate: Int? = nil, percentageComplete: Int? = nil, preferences: RefreshPreferences? = nil, progressDetails: InstanceRefreshProgressDetails? = nil, rollbackDetails: RollbackDetails? = nil, startTime: Date? = nil, status: InstanceRefreshStatus? = nil, statusReason: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.desiredConfiguration = desiredConfiguration
             self.endTime = endTime
@@ -2868,6 +2891,7 @@ extension AutoScaling {
             self.percentageComplete = percentageComplete
             self.preferences = preferences
             self.progressDetails = progressDetails
+            self.rollbackDetails = rollbackDetails
             self.startTime = startTime
             self.status = status
             self.statusReason = statusReason
@@ -2882,6 +2906,7 @@ extension AutoScaling {
             case percentageComplete = "PercentageComplete"
             case preferences = "Preferences"
             case progressDetails = "ProgressDetails"
+            case rollbackDetails = "RollbackDetails"
             case startTime = "StartTime"
             case status = "Status"
             case statusReason = "StatusReason"
@@ -2906,9 +2931,9 @@ extension AutoScaling {
     }
 
     public struct InstanceRefreshProgressDetails: AWSDecodableShape {
-        /// Indicates the progress of an instance refresh on instances that are in the Auto Scaling group.
+        /// Reports progress on replacing instances that are in the Auto Scaling group.
         public let livePoolProgress: InstanceRefreshLivePoolProgress?
-        /// Indicates the progress of an instance refresh on instances that are in the warm pool.
+        /// Reports progress on replacing instances that are in the warm pool.
         public let warmPoolProgress: InstanceRefreshWarmPoolProgress?
 
         public init(livePoolProgress: InstanceRefreshLivePoolProgress? = nil, warmPoolProgress: InstanceRefreshWarmPoolProgress? = nil) {
@@ -4430,24 +4455,33 @@ extension AutoScaling {
     }
 
     public struct RefreshPreferences: AWSEncodableShape & AWSDecodableShape {
-        /// The amount of time, in seconds, to wait after a checkpoint before continuing. This property is optional, but if you specify a value for it, you must also specify a value for CheckpointPercentages. If you specify a value for CheckpointPercentages and not for CheckpointDelay, the CheckpointDelay defaults to 3600 (1 hour).
+        /// (Optional) Indicates whether to roll back the Auto Scaling group to its previous configuration if the instance refresh fails. The default is false. A rollback is not supported in the following situations:    There is no desired configuration specified for the instance refresh.   The Auto Scaling group has a launch template that uses an Amazon Web Services Systems Manager parameter instead of an AMI ID for the ImageId property.   The Auto Scaling group uses the launch template's $Latest or $Default version.
+        public let autoRollback: Bool?
+        /// (Optional) The amount of time, in seconds, to wait after a checkpoint before continuing. This property is optional, but if you specify a value for it, you must also specify a value for CheckpointPercentages. If you specify a value for CheckpointPercentages and not for CheckpointDelay, the CheckpointDelay defaults to 3600 (1 hour).
         public let checkpointDelay: Int?
-        /// Threshold values for each checkpoint in ascending order. Each number must be unique. To replace all instances in the Auto Scaling group, the last number in the array must be 100. For usage examples, see Adding checkpoints to an instance refresh in the Amazon EC2 Auto Scaling User Guide.
+        /// (Optional) Threshold values for each checkpoint in ascending order. Each number must be unique. To replace all instances in the Auto Scaling group, the last number in the array must be 100. For usage examples, see Adding checkpoints to an instance refresh in the Amazon EC2 Auto Scaling User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var checkpointPercentages: [Int]?
-        ///  Not needed if the default instance warmup is defined for the group.  The duration of the instance warmup, in seconds.  The default is to use the value for the default instance warmup defined for the group. If default instance warmup is null, then InstanceWarmup falls back to the value of the health check grace period.
+        /// A time period, in seconds, during which an instance refresh waits before moving on to replacing the next instance after a new instance enters the InService state. This property is not required for normal usage. Instead, use the DefaultInstanceWarmup property of the Auto Scaling group. The InstanceWarmup and DefaultInstanceWarmup properties work the same way. Only specify this property if you must override the DefaultInstanceWarmup property.  If you do not specify this property, the instance warmup by default is the value of the DefaultInstanceWarmup property, if defined (which is recommended in all cases), or the HealthCheckGracePeriod property otherwise.
         public let instanceWarmup: Int?
         /// The amount of capacity in the Auto Scaling group that must pass your group's health checks to allow the operation to continue. The value is expressed as a percentage of the desired capacity of the Auto Scaling group (rounded up to the nearest integer). The default is 90. Setting the minimum healthy percentage to 100 percent limits the rate of replacement to one instance at a time. In contrast, setting it to 0 percent has the effect of replacing all instances at the same time.
         public let minHealthyPercentage: Int?
-        /// A boolean value that indicates whether skip matching is enabled. If true, then Amazon EC2 Auto Scaling skips replacing instances that match the desired configuration. If no desired configuration is specified, then it skips replacing instances that have the same configuration that is already set on the group. The default is false.
+        /// Choose the behavior that you want Amazon EC2 Auto Scaling to use if instances protected from scale in are found.  The following lists the valid values:  Refresh  Amazon EC2 Auto Scaling replaces instances that are protected from scale in.  Ignore  Amazon EC2 Auto Scaling ignores instances that are protected from scale in and continues to replace instances that are not protected.  Wait (default)  Amazon EC2 Auto Scaling waits one hour for you to remove scale-in protection. Otherwise, the instance refresh will fail.
+        public let scaleInProtectedInstances: ScaleInProtectedInstances?
+        /// (Optional) Indicates whether skip matching is enabled. If enabled (true), then Amazon EC2 Auto Scaling skips replacing instances that match the desired configuration. If no desired configuration is specified, then it skips replacing instances that have the same launch template and instance types that the Auto Scaling group was using before the start of the instance refresh. The default is false. For more information, see Use an instance refresh with skip matching in the Amazon EC2 Auto Scaling User Guide.
         public let skipMatching: Bool?
+        /// Choose the behavior that you want Amazon EC2 Auto Scaling to use if instances in Standby state are found. The following lists the valid values:  Terminate  Amazon EC2 Auto Scaling terminates instances that are in Standby.  Ignore  Amazon EC2 Auto Scaling ignores instances that are in Standby and continues to replace instances that are in the InService state.  Wait (default)  Amazon EC2 Auto Scaling waits one hour for you to return the instances to service. Otherwise, the instance refresh will fail.
+        public let standbyInstances: StandbyInstances?
 
-        public init(checkpointDelay: Int? = nil, checkpointPercentages: [Int]? = nil, instanceWarmup: Int? = nil, minHealthyPercentage: Int? = nil, skipMatching: Bool? = nil) {
+        public init(autoRollback: Bool? = nil, checkpointDelay: Int? = nil, checkpointPercentages: [Int]? = nil, instanceWarmup: Int? = nil, minHealthyPercentage: Int? = nil, scaleInProtectedInstances: ScaleInProtectedInstances? = nil, skipMatching: Bool? = nil, standbyInstances: StandbyInstances? = nil) {
+            self.autoRollback = autoRollback
             self.checkpointDelay = checkpointDelay
             self.checkpointPercentages = checkpointPercentages
             self.instanceWarmup = instanceWarmup
             self.minHealthyPercentage = minHealthyPercentage
+            self.scaleInProtectedInstances = scaleInProtectedInstances
             self.skipMatching = skipMatching
+            self.standbyInstances = standbyInstances
         }
 
         public func validate(name: String) throws {
@@ -4463,11 +4497,75 @@ extension AutoScaling {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoRollback = "AutoRollback"
             case checkpointDelay = "CheckpointDelay"
             case checkpointPercentages = "CheckpointPercentages"
             case instanceWarmup = "InstanceWarmup"
             case minHealthyPercentage = "MinHealthyPercentage"
+            case scaleInProtectedInstances = "ScaleInProtectedInstances"
             case skipMatching = "SkipMatching"
+            case standbyInstances = "StandbyInstances"
+        }
+    }
+
+    public struct RollbackDetails: AWSDecodableShape {
+        /// Indicates the value of InstancesToUpdate at the time the rollback started.
+        public let instancesToUpdateOnRollback: Int?
+        /// Indicates the value of PercentageComplete at the time the rollback started.
+        public let percentageCompleteOnRollback: Int?
+        /// Reports progress on replacing instances in an Auto Scaling group that has a warm pool. This includes separate details for instances in the warm pool and instances in the Auto Scaling group (the live pool).
+        public let progressDetailsOnRollback: InstanceRefreshProgressDetails?
+        /// The reason for this instance refresh rollback (for example, whether a manual or automatic rollback was initiated).
+        public let rollbackReason: String?
+        /// The date and time at which the rollback began.
+        public let rollbackStartTime: Date?
+
+        public init(instancesToUpdateOnRollback: Int? = nil, percentageCompleteOnRollback: Int? = nil, progressDetailsOnRollback: InstanceRefreshProgressDetails? = nil, rollbackReason: String? = nil, rollbackStartTime: Date? = nil) {
+            self.instancesToUpdateOnRollback = instancesToUpdateOnRollback
+            self.percentageCompleteOnRollback = percentageCompleteOnRollback
+            self.progressDetailsOnRollback = progressDetailsOnRollback
+            self.rollbackReason = rollbackReason
+            self.rollbackStartTime = rollbackStartTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instancesToUpdateOnRollback = "InstancesToUpdateOnRollback"
+            case percentageCompleteOnRollback = "PercentageCompleteOnRollback"
+            case progressDetailsOnRollback = "ProgressDetailsOnRollback"
+            case rollbackReason = "RollbackReason"
+            case rollbackStartTime = "RollbackStartTime"
+        }
+    }
+
+    public struct RollbackInstanceRefreshAnswer: AWSDecodableShape {
+        /// The instance refresh ID associated with the request. This is the unique ID assigned to the instance refresh when it was started.
+        public let instanceRefreshId: String?
+
+        public init(instanceRefreshId: String? = nil) {
+            self.instanceRefreshId = instanceRefreshId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceRefreshId = "InstanceRefreshId"
+        }
+    }
+
+    public struct RollbackInstanceRefreshType: AWSEncodableShape {
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String?
+
+        public init(autoScalingGroupName: String? = nil) {
+            self.autoScalingGroupName = autoScalingGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
@@ -4794,7 +4892,7 @@ extension AutoScaling {
     }
 
     public struct StartInstanceRefreshAnswer: AWSDecodableShape {
-        /// A unique ID for tracking the progress of the request.
+        /// A unique ID for tracking the progress of the instance refresh.
         public let instanceRefreshId: String?
 
         public init(instanceRefreshId: String? = nil) {
@@ -4809,11 +4907,11 @@ extension AutoScaling {
     public struct StartInstanceRefreshType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// The desired configuration. For example, the desired configuration can specify a new launch template or a new version of the current launch template. Once the instance refresh succeeds, Amazon EC2 Auto Scaling updates the settings of the Auto Scaling group to reflect the new desired configuration.   When you specify a new launch template or a new version of the current launch template for your desired configuration, consider enabling the SkipMatching property in preferences. If it's enabled, Amazon EC2 Auto Scaling skips replacing instances that already use the specified launch template and version. This can help you reduce the number of replacements that are required to apply updates.
+        /// The desired configuration. For example, the desired configuration can specify a new launch template or a new version of the current launch template. Once the instance refresh succeeds, Amazon EC2 Auto Scaling updates the settings of the Auto Scaling group to reflect the new desired configuration.   When you specify a new launch template or a new version of the current launch template for your desired configuration, consider enabling the SkipMatching property in preferences. If it's enabled, Amazon EC2 Auto Scaling skips replacing instances that already use the specified launch template and instance types. This can help you reduce the number of replacements that are required to apply updates.
         public let desiredConfiguration: DesiredConfiguration?
-        /// Set of preferences associated with the instance refresh request. If not provided, the default values are used.
+        /// Sets your preferences for the instance refresh so that it performs as expected when you start it. Includes the instance warmup time, the minimum healthy percentage, and the behaviors that you want Amazon EC2 Auto Scaling to use if instances that are in Standby state or protected from scale in are found. You can also choose to enable additional features, such as the following:   Auto rollback   Checkpoints   Skip matching
         public let preferences: RefreshPreferences?
-        /// The strategy to use for the instance refresh. The only valid value is Rolling. A rolling update helps you update your instances gradually. A rolling update can fail due to failed health checks or if instances are on standby or are protected from scale in. If the rolling update process fails, any instances that are replaced are not rolled back to their previous configuration.
+        /// The strategy to use for the instance refresh. The only valid value is Rolling.
         public let strategy: RefreshStrategy?
 
         public init(autoScalingGroupName: String, desiredConfiguration: DesiredConfiguration? = nil, preferences: RefreshPreferences? = nil, strategy: RefreshStrategy? = nil) {
@@ -5035,8 +5133,9 @@ extension AutoScaling {
     }
 
     public struct TargetTrackingMetricStat: AWSEncodableShape & AWSDecodableShape {
+        /// The metric to use.
         public let metric: Metric
-        /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in Statistics in the Amazon CloudWatch User Guide. The most commonly used metrics for scaling is Average
+        /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in Statistics in the Amazon CloudWatch User Guide. The most commonly used metric for scaling is Average.
         public let stat: String
         /// The unit to use for the returned data points. For a complete list of the units that CloudWatch supports, see the MetricDatum data type in the Amazon CloudWatch API Reference.
         public let unit: String?
@@ -5106,38 +5205,61 @@ extension AutoScaling {
     }
 
     public struct TrafficSourceIdentifier: AWSEncodableShape & AWSDecodableShape {
-        /// The unique identifier of the traffic source.
-        public let identifier: String?
+        /// Identifies the traffic source. For Application Load Balancers, Gateway Load Balancers, Network Load Balancers, and VPC Lattice, this will be the Amazon Resource Name (ARN) for a target group in this account and Region. For Classic Load Balancers, this will be the name of the Classic Load Balancer in this account and Region. For example:    Application Load Balancer ARN: arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/1234567890123456    Classic Load Balancer name: my-classic-load-balancer    VPC Lattice ARN: arn:aws:vpc-lattice:us-west-2:123456789012:targetgroup/tg-1234567890123456    To get the ARN of a target group for a Application Load Balancer, Gateway Load Balancer, or Network Load Balancer, or the name of a Classic Load Balancer, use the Elastic Load Balancing DescribeTargetGroups and DescribeLoadBalancers API operations. To get the ARN of a target group for VPC Lattice, use the VPC Lattice GetTargetGroup API operation.
+        public let identifier: String
+        /// Provides additional context for the value of Identifier. The following lists the valid values:    elb if Identifier is the name of a Classic Load Balancer.    elbv2 if Identifier is the ARN of an Application Load Balancer, Gateway Load Balancer, or Network Load Balancer target group.    vpc-lattice if Identifier is the ARN of a VPC Lattice target group.   Required if the identifier is the name of a Classic Load Balancer.
+        public let type: String?
 
-        public init(identifier: String? = nil) {
+        public init(identifier: String, type: String? = nil) {
             self.identifier = identifier
+            self.type = type
         }
 
         public func validate(name: String) throws {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 511)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.type, name: "type", parent: name, max: 511)
+            try self.validate(self.type, name: "type", parent: name, min: 1)
+            try self.validate(self.type, name: "type", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case identifier = "Identifier"
+            case type = "Type"
         }
     }
 
     public struct TrafficSourceState: AWSDecodableShape {
-        /// The following are the possible states for a VPC Lattice target group:    Adding - The Auto Scaling instances are being registered with the target group.    Added - All Auto Scaling instances are registered with the target group.    InService - At least one Auto Scaling instance passed the VPC_LATTICE health check.    Removing - The Auto Scaling instances are being deregistered from the target group. If connection draining is enabled, VPC Lattice waits for in-flight requests to complete before deregistering the instances.    Removed - All Auto Scaling instances are deregistered from the target group.
+        /// The unique identifier of the traffic source.
+        public let identifier: String?
+        /// Describes the current state of a traffic source. The state values are as follows:    Adding - The Auto Scaling instances are being registered with the load balancer or target group.    Added - All Auto Scaling instances are registered with the load balancer or target group.    InService - For an Elastic Load Balancing load balancer or target group, at least one Auto Scaling instance passed an ELB health check. For VPC Lattice, at least one Auto Scaling instance passed an VPC_LATTICE health check.    Removing - The Auto Scaling instances are being deregistered from the load balancer or target group. If connection draining (deregistration delay) is enabled, Elastic Load Balancing or VPC Lattice waits for in-flight requests to complete before deregistering the instances.    Removed - All Auto Scaling instances are deregistered from the load balancer or target group.
         public let state: String?
-        /// The unique identifier of the traffic source. Currently, this is the Amazon Resource Name (ARN) for a VPC Lattice target group.
+        /// This is replaced by Identifier.
         public let trafficSource: String?
+        /// Provides additional context for the value of Identifier. The following lists the valid values:    elb if Identifier is the name of a Classic Load Balancer.    elbv2 if Identifier is the ARN of an Application Load Balancer, Gateway Load Balancer, or Network Load Balancer target group.    vpc-lattice if Identifier is the ARN of a VPC Lattice target group.   Required if the identifier is the name of a Classic Load Balancer.
+        public let type: String?
 
-        public init(state: String? = nil, trafficSource: String? = nil) {
+        public init(identifier: String? = nil, state: String? = nil, type: String? = nil) {
+            self.identifier = identifier
+            self.state = state
+            self.trafficSource = nil
+            self.type = type
+        }
+
+        @available(*, deprecated, message: "Members trafficSource have been deprecated")
+        public init(identifier: String? = nil, state: String? = nil, trafficSource: String? = nil, type: String? = nil) {
+            self.identifier = identifier
             self.state = state
             self.trafficSource = trafficSource
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
             case state = "State"
             case trafficSource = "TrafficSource"
+            case type = "Type"
         }
     }
 
@@ -5153,7 +5275,7 @@ extension AutoScaling {
         public let context: String?
         ///  Only needed if you use simple scaling policies.  The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
         public let defaultCooldown: Int?
-        /// The amount of time, in seconds, until a newly launched instance can contribute to the Amazon CloudWatch metrics. This delay lets an instance finish initializing before Amazon EC2 Auto Scaling aggregates instance metrics, resulting in more reliable usage data. Set this value equal to the amount of time that it takes for resource consumption to become stable after an instance reaches the InService state. For more information, see Set the default instance warmup for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.  To manage your warm-up settings at the group level, we recommend that you set the default instance warmup, even if its value is set to 0 seconds. This also optimizes the performance of scaling policies that scale continuously, such as target tracking and step scaling policies.  If you need to remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a minimum value of 0.
+        /// The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state.  During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see Set the default instance warmup for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.  To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value.
         public let defaultInstanceWarmup: Int?
         /// The desired capacity is the initial capacity of the Auto Scaling group after this operation completes and the capacity it attempts to maintain. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
         public let desiredCapacity: Int?
@@ -5161,7 +5283,7 @@ extension AutoScaling {
         public let desiredCapacityType: String?
         /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
         public let healthCheckGracePeriod: Int?
-        /// Determines whether any additional health checks are performed on the instances in this group. Amazon EC2 health checks are always on. The valid values are EC2 (default), ELB, and VPC_LATTICE. The VPC_LATTICE health check type is reserved for use with VPC Lattice, which is in preview release and is subject to change.
+        /// A comma-separated value string of one or more health check types. The valid values are EC2, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
         public let healthCheckType: String?
         /// The name of the launch configuration. If you specify LaunchConfigurationName in your update request, you can't specify LaunchTemplate or MixedInstancesPolicy.
         public let launchConfigurationName: String?
@@ -5333,6 +5455,7 @@ public struct AutoScalingErrorType: AWSErrorType {
         case alreadyExistsFault = "AlreadyExists"
         case instanceRefreshInProgressFault = "InstanceRefreshInProgress"
         case invalidNextToken = "InvalidNextToken"
+        case irreversibleInstanceRefreshFault = "IrreversibleInstanceRefresh"
         case limitExceededFault = "LimitExceeded"
         case resourceContentionFault = "ResourceContention"
         case resourceInUseFault = "ResourceInUse"
@@ -5358,14 +5481,16 @@ public struct AutoScalingErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The request failed because an active instance refresh for the specified Auto Scaling group was not found.
+    /// The request failed because an active instance refresh or rollback for the specified Auto Scaling group was not found.
     public static var activeInstanceRefreshNotFoundFault: Self { .init(.activeInstanceRefreshNotFoundFault) }
     /// You already have an Auto Scaling group or launch configuration with this name.
     public static var alreadyExistsFault: Self { .init(.alreadyExistsFault) }
-    /// The request failed because an active instance refresh operation already exists for the specified Auto Scaling group.
+    /// The request failed because an active instance refresh already exists for the specified Auto Scaling group.
     public static var instanceRefreshInProgressFault: Self { .init(.instanceRefreshInProgressFault) }
     /// The NextToken value is not valid.
     public static var invalidNextToken: Self { .init(.invalidNextToken) }
+    /// The request failed because a desired configuration was not found or an incompatible launch template (uses a Systems Manager parameter instead of an AMI ID) or launch template version ($Latest or $Default) is present on the Auto Scaling group.
+    public static var irreversibleInstanceRefreshFault: Self { .init(.irreversibleInstanceRefreshFault) }
     /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see DescribeAccountLimits in the Amazon EC2 Auto Scaling API Reference.
     public static var limitExceededFault: Self { .init(.limitExceededFault) }
     /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).

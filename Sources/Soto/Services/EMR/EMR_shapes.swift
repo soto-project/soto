@@ -984,6 +984,8 @@ extension EMR {
     }
 
     public struct ClusterStatus: AWSDecodableShape {
+        /// A list of tuples that provide information about the errors that caused a cluster termination. This structure may have up to 10 different ErrorDetail tuples.
+        public let errorDetails: [ErrorDetail]?
         /// The current state of the cluster.
         public let state: ClusterState?
         /// The reason for the cluster status change.
@@ -991,13 +993,15 @@ extension EMR {
         /// A timeline that represents the status of a cluster over the lifetime of the cluster.
         public let timeline: ClusterTimeline?
 
-        public init(state: ClusterState? = nil, stateChangeReason: ClusterStateChangeReason? = nil, timeline: ClusterTimeline? = nil) {
+        public init(errorDetails: [ErrorDetail]? = nil, state: ClusterState? = nil, stateChangeReason: ClusterStateChangeReason? = nil, timeline: ClusterTimeline? = nil) {
+            self.errorDetails = errorDetails
             self.state = state
             self.stateChangeReason = stateChangeReason
             self.timeline = timeline
         }
 
         private enum CodingKeys: String, CodingKey {
+            case errorDetails = "ErrorDetails"
             case state = "State"
             case stateChangeReason = "StateChangeReason"
             case timeline = "Timeline"
@@ -1514,7 +1518,7 @@ extension EMR {
     public struct DescribeReleaseLabelOutput: AWSDecodableShape {
         /// The list of applications available for the target release label. Name is the name of the application. Version is the concise version of the application.
         public let applications: [SimplifiedApplication]?
-        /// The list of available Amazon Linux release versions for an Amazon EMR release.  Contains a Label field that is formatted as shown in  Amazon Linux 2 Release Notes . For example, 2.0.20220218.1.
+        /// The list of available Amazon Linux release versions for an Amazon EMR release. Contains a Label field that is formatted as shown in  Amazon Linux 2 Release Notes . For example, 2.0.20220218.1.
         public let availableOSReleases: [OSRelease]?
         /// The pagination token. Reserved for future use. Currently set to null.
         public let nextToken: String?
@@ -1767,6 +1771,27 @@ extension EMR {
         }
     }
 
+    public struct ErrorDetail: AWSDecodableShape {
+        /// The name or code that's associated with the error.
+        public let errorCode: String?
+        /// A list of key value pairs that provide contextual information to explain why the error may have occured.
+        public let errorData: [[String: String]]?
+        /// A message describing the error that occured.
+        public let errorMessage: String?
+
+        public init(errorCode: String? = nil, errorData: [[String: String]]? = nil, errorMessage: String? = nil) {
+            self.errorCode = errorCode
+            self.errorData = errorData
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorData = "ErrorData"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
     public struct ExecutionEngineConfig: AWSEncodableShape & AWSDecodableShape {
         /// The unique identifier of the execution engine. For an EMR cluster, this is the cluster ID.
         public let id: String
@@ -1888,7 +1913,7 @@ extension EMR {
     }
 
     public struct GetClusterSessionCredentialsOutput: AWSDecodableShape {
-        /// The credentials that you can use to connect to cluster endpoints that support username-based and password-based authentication.
+        /// The credentials that you can use to connect to cluster endpoints that support username and password authentication.
         public let credentials: Credentials?
         /// The time when the credentials that are returned by the GetClusterSessionCredentials API expire.
         public let expiresAt: Date?
@@ -2113,6 +2138,8 @@ extension EMR {
         public let provisionedOnDemandCapacity: Int?
         /// The number of Spot units that have been provisioned for this instance fleet to fulfill TargetSpotCapacity. This provisioned capacity might be less than or greater than TargetSpotCapacity.
         public let provisionedSpotCapacity: Int?
+        /// The resize specification for the instance fleet.
+        public let resizeSpecifications: InstanceFleetResizingSpecifications?
         /// The current status of the instance fleet.
         public let status: InstanceFleetStatus?
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand Instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand Instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand Instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedOnDemandCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only Spot Instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1.
@@ -2120,7 +2147,7 @@ extension EMR {
         /// The target capacity of Spot units for the instance fleet, which determines how many Spot Instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot Instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When a Spot instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedSpotCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only On-Demand Instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1.
         public let targetSpotCapacity: Int?
 
-        public init(id: String? = nil, instanceFleetType: InstanceFleetType? = nil, instanceTypeSpecifications: [InstanceTypeSpecification]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, provisionedOnDemandCapacity: Int? = nil, provisionedSpotCapacity: Int? = nil, status: InstanceFleetStatus? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
+        public init(id: String? = nil, instanceFleetType: InstanceFleetType? = nil, instanceTypeSpecifications: [InstanceTypeSpecification]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, provisionedOnDemandCapacity: Int? = nil, provisionedSpotCapacity: Int? = nil, resizeSpecifications: InstanceFleetResizingSpecifications? = nil, status: InstanceFleetStatus? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
             self.id = id
             self.instanceFleetType = instanceFleetType
             self.instanceTypeSpecifications = instanceTypeSpecifications
@@ -2128,6 +2155,7 @@ extension EMR {
             self.name = name
             self.provisionedOnDemandCapacity = provisionedOnDemandCapacity
             self.provisionedSpotCapacity = provisionedSpotCapacity
+            self.resizeSpecifications = resizeSpecifications
             self.status = status
             self.targetOnDemandCapacity = targetOnDemandCapacity
             self.targetSpotCapacity = targetSpotCapacity
@@ -2141,6 +2169,7 @@ extension EMR {
             case name = "Name"
             case provisionedOnDemandCapacity = "ProvisionedOnDemandCapacity"
             case provisionedSpotCapacity = "ProvisionedSpotCapacity"
+            case resizeSpecifications = "ResizeSpecifications"
             case status = "Status"
             case targetOnDemandCapacity = "TargetOnDemandCapacity"
             case targetSpotCapacity = "TargetSpotCapacity"
@@ -2156,16 +2185,19 @@ extension EMR {
         public let launchSpecifications: InstanceFleetProvisioningSpecifications?
         /// The friendly name of the instance fleet.
         public let name: String?
+        /// The resize specification for the instance fleet.
+        public let resizeSpecifications: InstanceFleetResizingSpecifications?
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand Instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand Instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand Instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only Spot Instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1.
         public let targetOnDemandCapacity: Int?
         /// The target capacity of Spot units for the instance fleet, which determines how many Spot Instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot Instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When a Spot Instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only On-Demand Instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1.
         public let targetSpotCapacity: Int?
 
-        public init(instanceFleetType: InstanceFleetType, instanceTypeConfigs: [InstanceTypeConfig]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
+        public init(instanceFleetType: InstanceFleetType, instanceTypeConfigs: [InstanceTypeConfig]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, resizeSpecifications: InstanceFleetResizingSpecifications? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
             self.instanceFleetType = instanceFleetType
             self.instanceTypeConfigs = instanceTypeConfigs
             self.launchSpecifications = launchSpecifications
             self.name = name
+            self.resizeSpecifications = resizeSpecifications
             self.targetOnDemandCapacity = targetOnDemandCapacity
             self.targetSpotCapacity = targetSpotCapacity
         }
@@ -2177,6 +2209,7 @@ extension EMR {
             try self.launchSpecifications?.validate(name: "\(name).launchSpecifications")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.resizeSpecifications?.validate(name: "\(name).resizeSpecifications")
             try self.validate(self.targetOnDemandCapacity, name: "targetOnDemandCapacity", parent: name, min: 0)
             try self.validate(self.targetSpotCapacity, name: "targetSpotCapacity", parent: name, min: 0)
         }
@@ -2186,6 +2219,7 @@ extension EMR {
             case instanceTypeConfigs = "InstanceTypeConfigs"
             case launchSpecifications = "LaunchSpecifications"
             case name = "Name"
+            case resizeSpecifications = "ResizeSpecifications"
             case targetOnDemandCapacity = "TargetOnDemandCapacity"
             case targetSpotCapacity = "TargetSpotCapacity"
         }
@@ -2194,24 +2228,29 @@ extension EMR {
     public struct InstanceFleetModifyConfig: AWSEncodableShape {
         /// A unique identifier for the instance fleet.
         public let instanceFleetId: String
+        /// The resize specification for the instance fleet.
+        public let resizeSpecifications: InstanceFleetResizingSpecifications?
         /// The target capacity of On-Demand units for the instance fleet. For more information see InstanceFleetConfig$TargetOnDemandCapacity.
         public let targetOnDemandCapacity: Int?
         /// The target capacity of Spot units for the instance fleet. For more information, see InstanceFleetConfig$TargetSpotCapacity.
         public let targetSpotCapacity: Int?
 
-        public init(instanceFleetId: String, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
+        public init(instanceFleetId: String, resizeSpecifications: InstanceFleetResizingSpecifications? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
             self.instanceFleetId = instanceFleetId
+            self.resizeSpecifications = resizeSpecifications
             self.targetOnDemandCapacity = targetOnDemandCapacity
             self.targetSpotCapacity = targetSpotCapacity
         }
 
         public func validate(name: String) throws {
+            try self.resizeSpecifications?.validate(name: "\(name).resizeSpecifications")
             try self.validate(self.targetOnDemandCapacity, name: "targetOnDemandCapacity", parent: name, min: 0)
             try self.validate(self.targetSpotCapacity, name: "targetSpotCapacity", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case instanceFleetId = "InstanceFleetId"
+            case resizeSpecifications = "ResizeSpecifications"
             case targetOnDemandCapacity = "TargetOnDemandCapacity"
             case targetSpotCapacity = "TargetSpotCapacity"
         }
@@ -2220,7 +2259,7 @@ extension EMR {
     public struct InstanceFleetProvisioningSpecifications: AWSEncodableShape & AWSDecodableShape {
         ///  The launch specification for On-Demand Instances in the instance fleet, which determines the allocation strategy.   The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation strategy is available in Amazon EMR version 5.12.1 and later.
         public let onDemandSpecification: OnDemandProvisioningSpecification?
-        /// The launch specification for Spot Instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy.
+        /// The launch specification for Spot instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy.
         public let spotSpecification: SpotProvisioningSpecification?
 
         public init(onDemandSpecification: OnDemandProvisioningSpecification? = nil, spotSpecification: SpotProvisioningSpecification? = nil) {
@@ -2236,6 +2275,28 @@ extension EMR {
         private enum CodingKeys: String, CodingKey {
             case onDemandSpecification = "OnDemandSpecification"
             case spotSpecification = "SpotSpecification"
+        }
+    }
+
+    public struct InstanceFleetResizingSpecifications: AWSEncodableShape & AWSDecodableShape {
+        /// The resize specification for On-Demand Instances in the instance fleet, which contains the resize timeout period.
+        public let onDemandResizeSpecification: OnDemandResizingSpecification?
+        /// The resize specification for Spot Instances in the instance fleet, which contains the resize timeout period.
+        public let spotResizeSpecification: SpotResizingSpecification?
+
+        public init(onDemandResizeSpecification: OnDemandResizingSpecification? = nil, spotResizeSpecification: SpotResizingSpecification? = nil) {
+            self.onDemandResizeSpecification = onDemandResizeSpecification
+            self.spotResizeSpecification = spotResizeSpecification
+        }
+
+        public func validate(name: String) throws {
+            try self.onDemandResizeSpecification?.validate(name: "\(name).onDemandResizeSpecification")
+            try self.spotResizeSpecification?.validate(name: "\(name).spotResizeSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case onDemandResizeSpecification = "OnDemandResizeSpecification"
+            case spotResizeSpecification = "SpotResizeSpecification"
         }
     }
 
@@ -3827,6 +3888,23 @@ extension EMR {
         }
     }
 
+    public struct OnDemandResizingSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// On-Demand resize timeout in minutes. If On-Demand Instances are not provisioned within this time, the resize workflow stops. The minimum value is 5 minutes, and the maximum value is 10,080 minutes (7 days). The timeout applies to all resize workflows on the Instance Fleet. The resize could be triggered by Amazon EMR Managed Scaling or by the customer (via Amazon EMR Console, Amazon EMR CLI modify-instance-fleet or Amazon EMR SDK ModifyInstanceFleet API) or by Amazon EMR due to Amazon EC2 Spot Reclamation.
+        public let timeoutDurationMinutes: Int
+
+        public init(timeoutDurationMinutes: Int) {
+            self.timeoutDurationMinutes = timeoutDurationMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.timeoutDurationMinutes, name: "timeoutDurationMinutes", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeoutDurationMinutes = "TimeoutDurationMinutes"
+        }
+    }
+
     public struct PlacementGroupConfig: AWSEncodableShape & AWSDecodableShape {
         /// Role of the instance in the cluster. Starting with Amazon EMR version 5.23.0, the only supported instance role is MASTER.
         public let instanceRole: InstanceRoleType
@@ -4586,7 +4664,7 @@ extension EMR {
         public let blockDurationMinutes: Int?
         /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired; that is, when all Spot Instances could not be provisioned within the Spot provisioning timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND. SWITCH_TO_ON_DEMAND specifies that if no Spot Instances are available, On-Demand Instances should be provisioned to fulfill any remaining Spot capacity.
         public let timeoutAction: SpotProvisioningTimeoutAction
-        /// The spot provisioning timeout period in minutes. If Spot Instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
+        /// The Spot provisioning timeout period in minutes. If Spot Instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
         public let timeoutDurationMinutes: Int
 
         public init(allocationStrategy: SpotProvisioningAllocationStrategy? = nil, blockDurationMinutes: Int? = nil, timeoutAction: SpotProvisioningTimeoutAction, timeoutDurationMinutes: Int) {
@@ -4605,6 +4683,23 @@ extension EMR {
             case allocationStrategy = "AllocationStrategy"
             case blockDurationMinutes = "BlockDurationMinutes"
             case timeoutAction = "TimeoutAction"
+            case timeoutDurationMinutes = "TimeoutDurationMinutes"
+        }
+    }
+
+    public struct SpotResizingSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Spot resize timeout in minutes. If Spot Instances are not provisioned within this time, the resize workflow will stop provisioning of Spot instances. Minimum value is 5 minutes and maximum value is 10,080 minutes (7 days). The timeout applies to all resize workflows on the Instance Fleet. The resize could be triggered by Amazon EMR Managed Scaling or by the customer (via Amazon EMR Console, Amazon EMR CLI modify-instance-fleet or Amazon EMR SDK ModifyInstanceFleet API) or by Amazon EMR due to Amazon EC2 Spot Reclamation.
+        public let timeoutDurationMinutes: Int
+
+        public init(timeoutDurationMinutes: Int) {
+            self.timeoutDurationMinutes = timeoutDurationMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.timeoutDurationMinutes, name: "timeoutDurationMinutes", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case timeoutDurationMinutes = "TimeoutDurationMinutes"
         }
     }
@@ -5174,7 +5269,7 @@ extension EMR {
         public let iops: Int?
         /// The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If the volume type is EBS-optimized, the minimum value is 10.
         public let sizeInGB: Int
-        /// The throughput, in mebibyte per second (MiB/s). This optional parameter can be a number  from 125 - 1000 and is valid only for gp3 volumes.
+        /// The throughput, in mebibyte per second (MiB/s). This optional parameter can be a number from 125 - 1000 and is valid only for gp3 volumes.
         public let throughput: Int?
         /// The volume type. Volume types supported are gp3, gp2, io1, st1, sc1, and standard.
         public let volumeType: String

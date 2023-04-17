@@ -80,14 +80,12 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "AcceptCertificateTransfer", path: "/accept-certificate-transfer/{certificateId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds a thing to a billing group.
-    /// 		       Requires permission to access the AddThingToBillingGroup action.
+    /// Adds a thing to a billing group. Requires permission to access the AddThingToBillingGroup action.
     public func addThingToBillingGroup(_ input: AddThingToBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddThingToBillingGroupResponse> {
         return self.client.execute(operation: "AddThingToBillingGroup", path: "/billing-groups/addThingToBillingGroup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds a thing to a thing group.
-    /// 		       Requires permission to access the AddThingToThingGroup action.
+    /// Adds a thing to a thing group. Requires permission to access the AddThingToThingGroup action.
     public func addThingToThingGroup(_ input: AddThingToThingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddThingToThingGroupResponse> {
         return self.client.execute(operation: "AddThingToThingGroup", path: "/thing-groups/addThingToThingGroup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -113,8 +111,7 @@ public struct IoT: AWSService {
     }
 
     /// Attaches the specified principal to the specified thing. A principal can be X.509
-    /// 			certificates, Amazon Cognito identities or federated identities.
-    /// 		       Requires permission to access the AttachThingPrincipal action.
+    /// 			certificates, Amazon Cognito identities or federated identities. Requires permission to access the AttachThingPrincipal action.
     public func attachThingPrincipal(_ input: AttachThingPrincipalRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AttachThingPrincipalResponse> {
         return self.client.execute(operation: "AttachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -169,15 +166,12 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "CreateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a billing group.
-    /// 		       Requires permission to access the CreateBillingGroup action.
+    /// Creates a billing group. Requires permission to access the CreateBillingGroup action.
     public func createBillingGroup(_ input: CreateBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBillingGroupResponse> {
         return self.client.execute(operation: "CreateBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an X.509 certificate using the specified certificate signing request.  Note: The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-512 curves. For supported certificates, consult  Certificate signing algorithms supported by IoT.  Note: Reusing the same certificate signing request (CSR) results in a distinct certificate. Requires permission to access the CreateCertificateFromCsr action.  You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. Assuming a set of CSRs are located inside of the directory my-csr-directory:
-    ///  On Linux and OS X, the command is:
-    ///  $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr Amazon Web Services CLI command to create a certificate for the corresponding CSR. The aws iot create-certificate-from-csr part of the command can also be run in parallel to speed up the certificate creation process: $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is: > ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_} On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is: > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
+    /// Creates an X.509 certificate using the specified certificate signing request.  Requires permission to access the CreateCertificateFromCsr action.   The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-25 or NIST P-384 curves.  For supported certificates, consult  Certificate signing algorithms supported by IoT.    Reusing the same certificate signing request (CSR) results in a distinct certificate.  You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. In the following commands, we assume that a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is:   $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}  This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr Amazon Web Services CLI command to create a certificate for the corresponding CSR.  You can also run the aws iot create-certificate-from-csr part of the command in parallel to speed up the certificate creation process:  $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}   On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is:  > ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_}   On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is:  > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
     public func createCertificateFromCsr(_ input: CreateCertificateFromCsrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCertificateFromCsrResponse> {
         return self.client.execute(operation: "CreateCertificateFromCsr", path: "/certificates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -197,8 +191,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "CreateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a dynamic thing group.
-    /// 		       Requires permission to access the CreateDynamicThingGroup action.
+    /// Creates a dynamic thing group. Requires permission to access the CreateDynamicThingGroup action.
     public func createDynamicThingGroup(_ input: CreateDynamicThingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDynamicThingGroupResponse> {
         return self.client.execute(operation: "CreateDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -273,7 +266,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "CreateSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream. 	    Requires permission to access the CreateStream action.
+    /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream. Requires permission to access the CreateStream action.
     public func createStream(_ input: CreateStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStreamResponse> {
         return self.client.execute(operation: "CreateStream", path: "/streams/{streamId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -281,28 +274,19 @@ public struct IoT: AWSService {
     /// Creates a thing record in the registry. If this call is made multiple times using
     /// 			the same thing name and configuration, the call will succeed. If this call is made with
     /// 			the same thing name but different configuration a
-    /// 				ResourceAlreadyExistsException is thrown.
-    ///
-    /// 			         This is a control plane operation. See Authorization for
-    /// 				information about authorizing control plane actions.
-    ///
-    /// 		       Requires permission to access the CreateThing action.
+    /// 				ResourceAlreadyExistsException is thrown.  This is a control plane operation. See Authorization for
+    /// 				information about authorizing control plane actions.  Requires permission to access the CreateThing action.
     public func createThing(_ input: CreateThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateThingResponse> {
         return self.client.execute(operation: "CreateThing", path: "/things/{thingName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a thing group.
-    ///
-    /// 			         This is a control plane operation. See Authorization for
-    /// 				information about authorizing control plane actions.
-    ///
-    /// 		       Requires permission to access the CreateThingGroup action.
+    /// Create a thing group.  This is a control plane operation. See Authorization for
+    /// 				information about authorizing control plane actions.  Requires permission to access the CreateThingGroup action.
     public func createThingGroup(_ input: CreateThingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateThingGroupResponse> {
         return self.client.execute(operation: "CreateThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new thing type.
-    /// 		       Requires permission to access the CreateThingType action.
+    /// Creates a new thing type. Requires permission to access the CreateThingType action.
     public func createThingType(_ input: CreateThingTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateThingTypeResponse> {
         return self.client.execute(operation: "CreateThingType", path: "/thing-types/{thingTypeName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -317,7 +301,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "CreateTopicRuleDestination", path: "/destinations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to  disabled.    Requires permission to access the DeleteAccountAuditConfiguration action.
+    /// Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to  disabled.   Requires permission to access the DeleteAccountAuditConfiguration action.
     public func deleteAccountAuditConfiguration(_ input: DeleteAccountAuditConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAccountAuditConfigurationResponse> {
         return self.client.execute(operation: "DeleteAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -332,8 +316,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DeleteAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the billing group.
-    /// 		       Requires permission to access the DeleteBillingGroup action.
+    /// Deletes the billing group. Requires permission to access the DeleteBillingGroup action.
     public func deleteBillingGroup(_ input: DeleteBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBillingGroupResponse> {
         return self.client.execute(operation: "DeleteBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -363,8 +346,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DeleteDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a dynamic thing group.
-    /// 		       Requires permission to access the DeleteDynamicThingGroup action.
+    /// Deletes a dynamic thing group. Requires permission to access the DeleteDynamicThingGroup action.
     public func deleteDynamicThingGroup(_ input: DeleteDynamicThingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDynamicThingGroupResponse> {
         return self.client.execute(operation: "DeleteDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -439,29 +421,25 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DeleteSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a stream.
-    /// 		       Requires permission to access the DeleteStream action.
+    /// Deletes a stream. Requires permission to access the DeleteStream action.
     public func deleteStream(_ input: DeleteStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteStreamResponse> {
         return self.client.execute(operation: "DeleteStream", path: "/streams/{streamId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified thing. Returns successfully with no error if the deletion is
-    /// 			successful or you specify a thing that doesn't exist.
-    /// 		       Requires permission to access the DeleteThing action.
+    /// 			successful or you specify a thing that doesn't exist. Requires permission to access the DeleteThing action.
     public func deleteThing(_ input: DeleteThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteThingResponse> {
         return self.client.execute(operation: "DeleteThing", path: "/things/{thingName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a thing group.
-    /// 		       Requires permission to access the DeleteThingGroup action.
+    /// Deletes a thing group. Requires permission to access the DeleteThingGroup action.
     public func deleteThingGroup(_ input: DeleteThingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteThingGroupResponse> {
         return self.client.execute(operation: "DeleteThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified thing type. You cannot delete a thing type if it has things
     /// 			associated with it. To delete a thing type, first mark it as deprecated by calling DeprecateThingType, then remove any associated things by calling UpdateThing to change the thing type on any associated thing, and
-    /// 			finally use DeleteThingType to delete the thing type.
-    /// 		       Requires permission to access the DeleteThingType action.
+    /// 			finally use DeleteThingType to delete the thing type. Requires permission to access the DeleteThingType action.
     public func deleteThingType(_ input: DeleteThingTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteThingTypeResponse> {
         return self.client.execute(operation: "DeleteThingType", path: "/thing-types/{thingTypeName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -482,8 +460,7 @@ public struct IoT: AWSService {
     }
 
     /// Deprecates a thing type. You can not associate new things with deprecated thing
-    /// 			type.
-    /// 		       Requires permission to access the DeprecateThingType action.
+    /// 			type. Requires permission to access the DeprecateThingType action.
     public func deprecateThingType(_ input: DeprecateThingTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeprecateThingTypeResponse> {
         return self.client.execute(operation: "DeprecateThingType", path: "/thing-types/{thingTypeName}/deprecate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -508,7 +485,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DescribeAuditSuppression", path: "/audit/suppressions/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about a Device Defender audit.  Requires permission to access the DescribeAuditTask action.
+    /// Gets information about a Device Defender audit. Requires permission to access the DescribeAuditTask action.
     public func describeAuditTask(_ input: DescribeAuditTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAuditTaskResponse> {
         return self.client.execute(operation: "DescribeAuditTask", path: "/audit/tasks/{taskId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -518,8 +495,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DescribeAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about a billing group.
-    /// 		       Requires permission to access the DescribeBillingGroup action.
+    /// Returns information about a billing group. Requires permission to access the DescribeBillingGroup action.
     public func describeBillingGroup(_ input: DescribeBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeBillingGroupResponse> {
         return self.client.execute(operation: "DescribeBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -564,8 +540,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DescribeEndpoint", path: "/endpoint", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes event configurations.
-    /// 		       Requires permission to access the DescribeEventConfigurations action.
+    /// Describes event configurations. Requires permission to access the DescribeEventConfigurations action.
     public func describeEventConfigurations(_ input: DescribeEventConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEventConfigurationsResponse> {
         return self.client.execute(operation: "DescribeEventConfigurations", path: "/event-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -630,32 +605,27 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DescribeSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about a stream.
-    /// 		       Requires permission to access the DescribeStream action.
+    /// Gets information about a stream. Requires permission to access the DescribeStream action.
     public func describeStream(_ input: DescribeStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStreamResponse> {
         return self.client.execute(operation: "DescribeStream", path: "/streams/{streamId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about the specified thing.
-    /// 		       Requires permission to access the DescribeThing action.
+    /// Gets information about the specified thing. Requires permission to access the DescribeThing action.
     public func describeThing(_ input: DescribeThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeThingResponse> {
         return self.client.execute(operation: "DescribeThing", path: "/things/{thingName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describe a thing group.
-    /// 		       Requires permission to access the DescribeThingGroup action.
+    /// Describe a thing group. Requires permission to access the DescribeThingGroup action.
     public func describeThingGroup(_ input: DescribeThingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeThingGroupResponse> {
         return self.client.execute(operation: "DescribeThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes a bulk thing provisioning task.
-    /// 		       Requires permission to access the DescribeThingRegistrationTask action.
+    /// Describes a bulk thing provisioning task. Requires permission to access the DescribeThingRegistrationTask action.
     public func describeThingRegistrationTask(_ input: DescribeThingRegistrationTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeThingRegistrationTaskResponse> {
         return self.client.execute(operation: "DescribeThingRegistrationTask", path: "/thing-registration-tasks/{taskId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about the specified thing type.
-    /// 		       Requires permission to access the DescribeThingType action.
+    /// Gets information about the specified thing type. Requires permission to access the DescribeThingType action.
     public func describeThingType(_ input: DescribeThingTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeThingTypeResponse> {
         return self.client.execute(operation: "DescribeThingType", path: "/thing-types/{thingTypeName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -677,12 +647,8 @@ public struct IoT: AWSService {
 
     /// Detaches the specified principal from the specified thing. A principal can be X.509
     /// 			certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
-    /// 			identities.
-    ///
-    /// 			         This call is asynchronous. It might take several seconds for the detachment to
-    /// 				propagate.
-    ///
-    /// 		       Requires permission to access the DetachThingPrincipal action.
+    /// 			identities.  This call is asynchronous. It might take several seconds for the detachment to
+    /// 				propagate.  Requires permission to access the DetachThingPrincipal action.
     public func detachThingPrincipal(_ input: DetachThingPrincipalRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetachThingPrincipalResponse> {
         return self.client.execute(operation: "DetachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -787,7 +753,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListAttachedPolicies", path: "/attached-policies/{target}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.)  Requires permission to access the ListAuditFindings action.
+    /// Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.) Requires permission to access the ListAuditFindings action.
     public func listAuditFindings(_ input: ListAuditFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAuditFindingsResponse> {
         return self.client.execute(operation: "ListAuditFindings", path: "/audit/findings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -817,8 +783,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListAuthorizers", path: "/authorizers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the billing groups you have created.
-    /// 		       Requires permission to access the ListBillingGroups action.
+    /// Lists the billing groups you have created. Requires permission to access the ListBillingGroups action.
     public func listBillingGroups(_ input: ListBillingGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBillingGroupsResponse> {
         return self.client.execute(operation: "ListBillingGroups", path: "/billing-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -940,8 +905,7 @@ public struct IoT: AWSService {
 
     /// Lists the things associated with the specified principal. A principal can be X.509
     /// 			certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
-    /// 			identities.
-    /// 		       Requires permission to access the ListPrincipalThings action.
+    /// 			identities.  Requires permission to access the ListPrincipalThings action.
     public func listPrincipalThings(_ input: ListPrincipalThingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPrincipalThingsResponse> {
         return self.client.execute(operation: "ListPrincipalThings", path: "/principals/things", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -976,19 +940,17 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListSecurityProfiles", path: "/security-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the Device Defender security profiles attached to a target (thing group).  Requires permission to access the ListSecurityProfilesForTarget action.
+    /// Lists the Device Defender security profiles attached to a target (thing group). Requires permission to access the ListSecurityProfilesForTarget action.
     public func listSecurityProfilesForTarget(_ input: ListSecurityProfilesForTargetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSecurityProfilesForTargetResponse> {
         return self.client.execute(operation: "ListSecurityProfilesForTarget", path: "/security-profiles-for-target", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all of the streams in your Amazon Web Services account.
-    /// 		       Requires permission to access the ListStreams action.
+    /// Lists all of the streams in your Amazon Web Services account. Requires permission to access the ListStreams action.
     public func listStreams(_ input: ListStreamsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStreamsResponse> {
         return self.client.execute(operation: "ListStreams", path: "/streams", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the tags (metadata) you have assigned to the resource.
-    /// 		       Requires permission to access the ListTagsForResource action.
+    /// Lists the tags (metadata) you have assigned to the resource. Requires permission to access the ListTagsForResource action.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1003,22 +965,19 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListTargetsForSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List the thing groups in your account.
-    /// 		       Requires permission to access the ListThingGroups action.
+    /// List the thing groups in your account. Requires permission to access the ListThingGroups action.
     public func listThingGroups(_ input: ListThingGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThingGroupsResponse> {
         return self.client.execute(operation: "ListThingGroups", path: "/thing-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List the thing groups to which the specified thing belongs.
-    /// 		       Requires permission to access the ListThingGroupsForThing action.
+    /// List the thing groups to which the specified thing belongs. Requires permission to access the ListThingGroupsForThing action.
     public func listThingGroupsForThing(_ input: ListThingGroupsForThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThingGroupsForThingResponse> {
         return self.client.execute(operation: "ListThingGroupsForThing", path: "/things/{thingName}/thing-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the principals associated with the specified thing. A principal can be X.509
     /// 			certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
-    /// 			identities.
-    /// 		       Requires permission to access the ListThingPrincipals action.
+    /// 			identities. Requires permission to access the ListThingPrincipals action.
     public func listThingPrincipals(_ input: ListThingPrincipalsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThingPrincipalsResponse> {
         return self.client.execute(operation: "ListThingPrincipals", path: "/things/{thingName}/principals", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1028,14 +987,12 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListThingRegistrationTaskReports", path: "/thing-registration-tasks/{taskId}/reports", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List bulk thing provisioning tasks.
-    /// 		       Requires permission to access the ListThingRegistrationTasks action.
+    /// List bulk thing provisioning tasks. Requires permission to access the ListThingRegistrationTasks action.
     public func listThingRegistrationTasks(_ input: ListThingRegistrationTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThingRegistrationTasksResponse> {
         return self.client.execute(operation: "ListThingRegistrationTasks", path: "/thing-registration-tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the existing thing types.
-    /// 		       Requires permission to access the ListThingTypes action.
+    /// Lists the existing thing types. Requires permission to access the ListThingTypes action.
     public func listThingTypes(_ input: ListThingTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThingTypesResponse> {
         return self.client.execute(operation: "ListThingTypes", path: "/thing-types", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1044,24 +1001,17 @@ public struct IoT: AWSService {
     /// 			calling ListThings with attributeName=Color and attributeValue=Red
     /// 			retrieves all things in the registry that contain an attribute Color with the value Red. For more
     /// 			information, see List Things from the Amazon Web Services IoT Core Developer
-    /// 				Guide.
-    /// 		       Requires permission to access the ListThings action.
-    ///
-    ///
-    /// 			         You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
-    ///
+    /// 				Guide. Requires permission to access the ListThings action.  You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
     public func listThings(_ input: ListThingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThingsResponse> {
         return self.client.execute(operation: "ListThings", path: "/things", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the things you have added to the given billing group.
-    /// 		       Requires permission to access the ListThingsInBillingGroup action.
+    /// Lists the things you have added to the given billing group. Requires permission to access the ListThingsInBillingGroup action.
     public func listThingsInBillingGroup(_ input: ListThingsInBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThingsInBillingGroupResponse> {
         return self.client.execute(operation: "ListThingsInBillingGroup", path: "/billing-groups/{billingGroupName}/things", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the things in the specified group.
-    /// 		       Requires permission to access the ListThingsInThingGroup action.
+    /// Lists the things in the specified group. Requires permission to access the ListThingsInThingGroup action.
     public func listThingsInThingGroup(_ input: ListThingsInThingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThingsInThingGroupResponse> {
         return self.client.execute(operation: "ListThingsInThingGroup", path: "/thing-groups/{thingGroupName}/things", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1116,20 +1066,16 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "RejectCertificateTransfer", path: "/reject-certificate-transfer/{certificateId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the given thing from the billing group.
-    /// 		       Requires permission to access the RemoveThingFromBillingGroup action.
-    /// 		        This call is asynchronous. It might take several seconds for the detachment to propagate.
+    /// Removes the given thing from the billing group. Requires permission to access the RemoveThingFromBillingGroup action.  This call is asynchronous. It might take several seconds for the detachment to propagate.
     public func removeThingFromBillingGroup(_ input: RemoveThingFromBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveThingFromBillingGroupResponse> {
         return self.client.execute(operation: "RemoveThingFromBillingGroup", path: "/billing-groups/removeThingFromBillingGroup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Remove the specified thing from the specified group.
-    /// 		       You must specify either a thingGroupArn or a
+    /// Remove the specified thing from the specified group. You must specify either a thingGroupArn or a
     /// 			thingGroupName to identify the thing group and
     /// 			either a thingArn or a thingName to
     /// 			identify the thing to remove from the thing group.
-    ///
-    /// 		       Requires permission to access the RemoveThingFromThingGroup action.
+    /// 		 Requires permission to access the RemoveThingFromThingGroup action.
     public func removeThingFromThingGroup(_ input: RemoveThingFromThingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveThingFromThingGroupResponse> {
         return self.client.execute(operation: "RemoveThingFromThingGroup", path: "/thing-groups/removeThingFromThingGroup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1184,21 +1130,18 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "StartOnDemandAuditTask", path: "/audit/tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a bulk thing provisioning task.
-    /// 		       Requires permission to access the StartThingRegistrationTask action.
+    /// Creates a bulk thing provisioning task. Requires permission to access the StartThingRegistrationTask action.
     public func startThingRegistrationTask(_ input: StartThingRegistrationTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartThingRegistrationTaskResponse> {
         return self.client.execute(operation: "StartThingRegistrationTask", path: "/thing-registration-tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Cancels a bulk thing provisioning task.
-    /// 		       Requires permission to access the StopThingRegistrationTask action.
+    /// Cancels a bulk thing provisioning task. Requires permission to access the StopThingRegistrationTask action.
     public func stopThingRegistrationTask(_ input: StopThingRegistrationTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopThingRegistrationTaskResponse> {
         return self.client.execute(operation: "StopThingRegistrationTask", path: "/thing-registration-tasks/{taskId}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be
-    /// 			used to manage a resource.
-    /// 		       Requires permission to access the TagResource action.
+    /// 			used to manage a resource. Requires permission to access the TagResource action.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
         return self.client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1213,13 +1156,12 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "TestInvokeAuthorizer", path: "/authorizer/{authorizerName}/test", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Transfers the specified certificate to the specified Amazon Web Services account. Requires permission to access the TransferCertificate action.  You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It is up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate action to deactivate it. The certificate must not have any policies attached to it. You can use the DetachPolicy action to detach them.
+    /// Transfers the specified certificate to the specified Amazon Web Services account. Requires permission to access the TransferCertificate action. You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It is up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate action to deactivate it. The certificate must not have any policies attached to it. You can use the DetachPolicy action to detach them.
     public func transferCertificate(_ input: TransferCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TransferCertificateResponse> {
         return self.client.execute(operation: "TransferCertificate", path: "/transfer-certificate/{certificateId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the given tags (metadata) from the resource.
-    /// 		       Requires permission to access the UntagResource action.
+    /// Removes the given tags (metadata) from the resource. Requires permission to access the UntagResource action.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/untag", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1239,8 +1181,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "UpdateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates information about the billing group.
-    /// 		       Requires permission to access the UpdateBillingGroup action.
+    /// Updates information about the billing group. Requires permission to access the UpdateBillingGroup action.
     public func updateBillingGroup(_ input: UpdateBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBillingGroupResponse> {
         return self.client.execute(operation: "UpdateBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1250,7 +1191,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "UpdateCACertificate", path: "/cacertificate/{certificateId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the status of the specified certificate. This operation is idempotent. Requires permission to access the UpdateCertificate action.  Certificates must be in the ACTIVE state to authenticate devices that use a certificate to connect to IoT. Within a few minutes of updating a certificate from the ACTIVE state to any other state, IoT disconnects all devices that used that certificate to connect. Devices cannot use a certificate that is not in the ACTIVE state to reconnect.
+    /// Updates the status of the specified certificate. This operation is idempotent. Requires permission to access the UpdateCertificate action. Certificates must be in the ACTIVE state to authenticate devices that use a certificate to connect to IoT. Within a few minutes of updating a certificate from the ACTIVE state to any other state, IoT disconnects all devices that used that certificate to connect. Devices cannot use a certificate that is not in the ACTIVE state to reconnect.
     @discardableResult public func updateCertificate(_ input: UpdateCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateCertificate", path: "/certificates/{certificateId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1270,14 +1211,12 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "UpdateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a dynamic thing group.
-    /// 		       Requires permission to access the UpdateDynamicThingGroup action.
+    /// Updates a dynamic thing group. Requires permission to access the UpdateDynamicThingGroup action.
     public func updateDynamicThingGroup(_ input: UpdateDynamicThingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDynamicThingGroupResponse> {
         return self.client.execute(operation: "UpdateDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the event configurations.
-    /// 		       Requires permission to access the UpdateEventConfigurations action.
+    /// Updates the event configurations. Requires permission to access the UpdateEventConfigurations action.
     public func updateEventConfigurations(_ input: UpdateEventConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEventConfigurationsResponse> {
         return self.client.execute(operation: "UpdateEventConfigurations", path: "/event-configurations", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1322,26 +1261,22 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "UpdateSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an existing stream. The stream version will be incremented by one.
-    /// 		       Requires permission to access the UpdateStream action.
+    /// Updates an existing stream. The stream version will be incremented by one. Requires permission to access the UpdateStream action.
     public func updateStream(_ input: UpdateStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateStreamResponse> {
         return self.client.execute(operation: "UpdateStream", path: "/streams/{streamId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the data for a thing.
-    /// 		       Requires permission to access the UpdateThing action.
+    /// Updates the data for a thing. Requires permission to access the UpdateThing action.
     public func updateThing(_ input: UpdateThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateThingResponse> {
         return self.client.execute(operation: "UpdateThing", path: "/things/{thingName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update a thing group.
-    /// 		       Requires permission to access the UpdateThingGroup action.
+    /// Update a thing group. Requires permission to access the UpdateThingGroup action.
     public func updateThingGroup(_ input: UpdateThingGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateThingGroupResponse> {
         return self.client.execute(operation: "UpdateThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the groups to which the thing belongs.
-    /// 		       Requires permission to access the UpdateThingGroupsForThing action.
+    /// Updates the groups to which the thing belongs. Requires permission to access the UpdateThingGroupsForThing action.
     public func updateThingGroupsForThing(_ input: UpdateThingGroupsForThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateThingGroupsForThingResponse> {
         return self.client.execute(operation: "UpdateThingGroupsForThing", path: "/thing-groups/updateThingGroupsForThing", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1528,7 +1463,7 @@ extension IoT {
         )
     }
 
-    /// Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.)  Requires permission to access the ListAuditFindings action.
+    /// Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.) Requires permission to access the ListAuditFindings action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1846,8 +1781,7 @@ extension IoT {
         )
     }
 
-    /// Lists the billing groups you have created.
-    /// 		       Requires permission to access the ListBillingGroups action.
+    /// Lists the billing groups you have created. Requires permission to access the ListBillingGroups action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3015,8 +2949,7 @@ extension IoT {
 
     /// Lists the things associated with the specified principal. A principal can be X.509
     /// 			certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
-    /// 			identities.
-    /// 		       Requires permission to access the ListPrincipalThings action.
+    /// 			identities.  Requires permission to access the ListPrincipalThings action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3334,7 +3267,7 @@ extension IoT {
         )
     }
 
-    /// Lists the Device Defender security profiles attached to a target (thing group).  Requires permission to access the ListSecurityProfilesForTarget action.
+    /// Lists the Device Defender security profiles attached to a target (thing group). Requires permission to access the ListSecurityProfilesForTarget action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3387,8 +3320,7 @@ extension IoT {
         )
     }
 
-    /// Lists all of the streams in your Amazon Web Services account.
-    /// 		       Requires permission to access the ListStreams action.
+    /// Lists all of the streams in your Amazon Web Services account. Requires permission to access the ListStreams action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3441,8 +3373,7 @@ extension IoT {
         )
     }
 
-    /// Lists the tags (metadata) you have assigned to the resource.
-    /// 		       Requires permission to access the ListTagsForResource action.
+    /// Lists the tags (metadata) you have assigned to the resource. Requires permission to access the ListTagsForResource action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3601,8 +3532,7 @@ extension IoT {
         )
     }
 
-    /// List the thing groups in your account.
-    /// 		       Requires permission to access the ListThingGroups action.
+    /// List the thing groups in your account. Requires permission to access the ListThingGroups action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3655,8 +3585,7 @@ extension IoT {
         )
     }
 
-    /// List the thing groups to which the specified thing belongs.
-    /// 		       Requires permission to access the ListThingGroupsForThing action.
+    /// List the thing groups to which the specified thing belongs. Requires permission to access the ListThingGroupsForThing action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3711,8 +3640,7 @@ extension IoT {
 
     /// Lists the principals associated with the specified thing. A principal can be X.509
     /// 			certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
-    /// 			identities.
-    /// 		       Requires permission to access the ListThingPrincipals action.
+    /// 			identities. Requires permission to access the ListThingPrincipals action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3818,8 +3746,7 @@ extension IoT {
         )
     }
 
-    /// List bulk thing provisioning tasks.
-    /// 		       Requires permission to access the ListThingRegistrationTasks action.
+    /// List bulk thing provisioning tasks. Requires permission to access the ListThingRegistrationTasks action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3872,8 +3799,7 @@ extension IoT {
         )
     }
 
-    /// Lists the existing thing types.
-    /// 		       Requires permission to access the ListThingTypes action.
+    /// Lists the existing thing types. Requires permission to access the ListThingTypes action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3930,12 +3856,7 @@ extension IoT {
     /// 			calling ListThings with attributeName=Color and attributeValue=Red
     /// 			retrieves all things in the registry that contain an attribute Color with the value Red. For more
     /// 			information, see List Things from the Amazon Web Services IoT Core Developer
-    /// 				Guide.
-    /// 		       Requires permission to access the ListThings action.
-    ///
-    ///
-    /// 			         You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
-    ///
+    /// 				Guide. Requires permission to access the ListThings action.  You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3988,8 +3909,7 @@ extension IoT {
         )
     }
 
-    /// Lists the things you have added to the given billing group.
-    /// 		       Requires permission to access the ListThingsInBillingGroup action.
+    /// Lists the things you have added to the given billing group. Requires permission to access the ListThingsInBillingGroup action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4042,8 +3962,7 @@ extension IoT {
         )
     }
 
-    /// Lists the things in the specified group.
-    /// 		       Requires permission to access the ListThingsInThingGroup action.
+    /// Lists the things in the specified group. Requires permission to access the ListThingsInThingGroup action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

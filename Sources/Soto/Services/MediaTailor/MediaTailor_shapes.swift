@@ -305,6 +305,19 @@ extension MediaTailor {
         }
     }
 
+    public struct ClipRange: AWSEncodableShape & AWSDecodableShape {
+        /// The end offset of the clip range, in milliseconds, starting from the beginning of the VOD source associated with the program.
+        public let endOffsetMillis: Int64
+
+        public init(endOffsetMillis: Int64) {
+            self.endOffsetMillis = endOffsetMillis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endOffsetMillis = "EndOffsetMillis"
+        }
+    }
+
     public struct ConfigureLogsForChannelRequest: AWSEncodableShape {
         /// The name of the channel.
         public let channelName: String
@@ -639,9 +652,13 @@ extension MediaTailor {
         public let arn: String?
         /// The name to assign to the channel for this program.
         public let channelName: String?
+        /// The clip range configuration settings.
+        public let clipRange: ClipRange?
         /// The time the program was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
+        /// The duration of the live program in milliseconds.
+        public let durationMillis: Int64?
         /// The name of the LiveSource for this Program.
         public let liveSourceName: String?
         /// The name to assign to this program.
@@ -654,11 +671,13 @@ extension MediaTailor {
         /// The name that's used to refer to a VOD source.
         public let vodSourceName: String?
 
-        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, creationTime: Date? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
+        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, clipRange: ClipRange? = nil, creationTime: Date? = nil, durationMillis: Int64? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.arn = arn
             self.channelName = channelName
+            self.clipRange = clipRange
             self.creationTime = creationTime
+            self.durationMillis = durationMillis
             self.liveSourceName = liveSourceName
             self.programName = programName
             self.scheduledStartTime = scheduledStartTime
@@ -670,7 +689,9 @@ extension MediaTailor {
             case adBreaks = "AdBreaks"
             case arn = "Arn"
             case channelName = "ChannelName"
+            case clipRange = "ClipRange"
             case creationTime = "CreationTime"
+            case durationMillis = "DurationMillis"
             case liveSourceName = "LiveSourceName"
             case programName = "ProgramName"
             case scheduledStartTime = "ScheduledStartTime"
@@ -1227,9 +1248,13 @@ extension MediaTailor {
         public let arn: String?
         /// The name of the channel that the program belongs to.
         public let channelName: String?
+        /// The clip range configuration settings.
+        public let clipRange: ClipRange?
         /// The timestamp of when the program was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
+        /// The duration of the live program in milliseconds.
+        public let durationMillis: Int64?
         /// The name of the LiveSource for this Program.
         public let liveSourceName: String?
         /// The name of the program.
@@ -1242,11 +1267,13 @@ extension MediaTailor {
         /// The name that's used to refer to a VOD source.
         public let vodSourceName: String?
 
-        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, creationTime: Date? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
+        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, clipRange: ClipRange? = nil, creationTime: Date? = nil, durationMillis: Int64? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.arn = arn
             self.channelName = channelName
+            self.clipRange = clipRange
             self.creationTime = creationTime
+            self.durationMillis = durationMillis
             self.liveSourceName = liveSourceName
             self.programName = programName
             self.scheduledStartTime = scheduledStartTime
@@ -1258,7 +1285,9 @@ extension MediaTailor {
             case adBreaks = "AdBreaks"
             case arn = "Arn"
             case channelName = "ChannelName"
+            case clipRange = "ClipRange"
             case creationTime = "CreationTime"
+            case durationMillis = "DurationMillis"
             case liveSourceName = "LiveSourceName"
             case programName = "ProgramName"
             case scheduledStartTime = "ScheduledStartTime"
@@ -2530,14 +2559,18 @@ extension MediaTailor {
     }
 
     public struct ScheduleConfiguration: AWSEncodableShape {
+        /// Program clip range configuration.
+        public let clipRange: ClipRange?
         /// Program transition configurations.
         public let transition: Transition
 
-        public init(transition: Transition) {
+        public init(clipRange: ClipRange? = nil, transition: Transition) {
+            self.clipRange = clipRange
             self.transition = transition
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clipRange = "ClipRange"
             case transition = "Transition"
         }
     }
@@ -3014,6 +3047,123 @@ extension MediaTailor {
             case liveSourceName = "LiveSourceName"
             case sourceLocationName = "SourceLocationName"
             case tags = "tags"
+        }
+    }
+
+    public struct UpdateProgramRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
+            AWSMemberEncoding(label: "programName", location: .uri("ProgramName"))
+        ]
+
+        /// The ad break configuration settings.
+        public let adBreaks: [AdBreak]?
+        /// The name of the channel for this Program.
+        public let channelName: String
+        /// The name of the Program.
+        public let programName: String
+        /// The schedule configuration settings.
+        public let scheduleConfiguration: UpdateProgramScheduleConfiguration
+
+        public init(adBreaks: [AdBreak]? = nil, channelName: String, programName: String, scheduleConfiguration: UpdateProgramScheduleConfiguration) {
+            self.adBreaks = adBreaks
+            self.channelName = channelName
+            self.programName = programName
+            self.scheduleConfiguration = scheduleConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adBreaks = "AdBreaks"
+            case scheduleConfiguration = "ScheduleConfiguration"
+        }
+    }
+
+    public struct UpdateProgramResponse: AWSDecodableShape {
+        /// The ad break configuration settings.
+        public let adBreaks: [AdBreak]?
+        /// The ARN to assign to the program.
+        public let arn: String?
+        /// The name to assign to the channel for this program.
+        public let channelName: String?
+        /// The clip range configuration settings.
+        public let clipRange: ClipRange?
+        /// The time the program was created.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        /// The duration of the live program in milliseconds.
+        public let durationMillis: Int64?
+        /// The name of the LiveSource for this Program.
+        public let liveSourceName: String?
+        /// The name to assign to this program.
+        public let programName: String?
+        /// The scheduled start time for this Program.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var scheduledStartTime: Date?
+        /// The name to assign to the source location for this program.
+        public let sourceLocationName: String?
+        /// The name that's used to refer to a VOD source.
+        public let vodSourceName: String?
+
+        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, clipRange: ClipRange? = nil, creationTime: Date? = nil, durationMillis: Int64? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
+            self.adBreaks = adBreaks
+            self.arn = arn
+            self.channelName = channelName
+            self.clipRange = clipRange
+            self.creationTime = creationTime
+            self.durationMillis = durationMillis
+            self.liveSourceName = liveSourceName
+            self.programName = programName
+            self.scheduledStartTime = scheduledStartTime
+            self.sourceLocationName = sourceLocationName
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adBreaks = "AdBreaks"
+            case arn = "Arn"
+            case channelName = "ChannelName"
+            case clipRange = "ClipRange"
+            case creationTime = "CreationTime"
+            case durationMillis = "DurationMillis"
+            case liveSourceName = "LiveSourceName"
+            case programName = "ProgramName"
+            case scheduledStartTime = "ScheduledStartTime"
+            case sourceLocationName = "SourceLocationName"
+            case vodSourceName = "VodSourceName"
+        }
+    }
+
+    public struct UpdateProgramScheduleConfiguration: AWSEncodableShape {
+        /// Program clip range configuration.
+        public let clipRange: ClipRange?
+        /// Program transition configuration.
+        public let transition: UpdateProgramTransition?
+
+        public init(clipRange: ClipRange? = nil, transition: UpdateProgramTransition? = nil) {
+            self.clipRange = clipRange
+            self.transition = transition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clipRange = "ClipRange"
+            case transition = "Transition"
+        }
+    }
+
+    public struct UpdateProgramTransition: AWSEncodableShape {
+        /// The duration of the live program in seconds.
+        public let durationMillis: Int64?
+        /// The date and time that the program is scheduled to start, in epoch milliseconds.
+        public let scheduledStartTimeMillis: Int64?
+
+        public init(durationMillis: Int64? = nil, scheduledStartTimeMillis: Int64? = nil) {
+            self.durationMillis = durationMillis
+            self.scheduledStartTimeMillis = scheduledStartTimeMillis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationMillis = "DurationMillis"
+            case scheduledStartTimeMillis = "ScheduledStartTimeMillis"
         }
     }
 

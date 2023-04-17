@@ -387,7 +387,7 @@ extension AppConfig {
         public let applicationId: String
         /// A description of the configuration profile.
         public let description: String?
-        /// A URI to locate the configuration. You can specify the AppConfig hosted configuration store, Systems Manager (SSM) document, an SSM Parameter Store parameter, or an Amazon S3 object. For the hosted configuration store and for feature flags, specify hosted. For an SSM document, specify either the document name in the format ssm-document:// or the Amazon Resource Name (ARN). For a parameter, specify either the parameter name in the format ssm-parameter:// or the ARN. For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json
+        /// A URI to locate the configuration. You can specify the following:   For the AppConfig hosted configuration store and for feature flags, specify hosted.   For an Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter name in the format ssm-parameter:// or the ARN.   For an Secrets Manager secret, specify the URI in the following format: secrets-manager://.   For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json    For an SSM document, specify either the document name in the format ssm-document:// or the Amazon Resource Name (ARN).
         public let locationUri: String
         /// A name for the configuration profile.
         public let name: String
@@ -454,8 +454,7 @@ extension AppConfig {
         public let finalBakeTimeInMinutes: Int?
         /// The percentage of targets to receive a deployed configuration during each interval.
         public let growthFactor: Float
-        /// The algorithm used to define how percentage grows over time. AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by dividing the total number of targets by the value specified for Step percentage. For example, a linear deployment that uses a Step percentage of 10 deploys the configuration to 10 percent of the hosts. After those deployments are complete, the system deploys the configuration to the next 10 percent. This continues until 100% of the targets have successfully received the configuration.
-        ///   Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
+        /// The algorithm used to define how percentage grows over time. AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by dividing the total number of targets by the value specified for Step percentage. For example, a linear deployment that uses a Step percentage of 10 deploys the configuration to 10 percent of the hosts. After those deployments are complete, the system deploys the configuration to the next 10 percent. This continues until 100% of the targets have successfully received the configuration.  Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
         public let growthType: GrowthType?
         /// A name for the deployment strategy.
         public let name: String
@@ -673,7 +672,8 @@ extension AppConfig {
             AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId")),
             AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
             AWSMemberEncoding(label: "description", location: .header("Description")),
-            AWSMemberEncoding(label: "latestVersionNumber", location: .header("Latest-Version-Number"))
+            AWSMemberEncoding(label: "latestVersionNumber", location: .header("Latest-Version-Number")),
+            AWSMemberEncoding(label: "versionLabel", location: .header("VersionLabel"))
         ]
 
         /// The application ID.
@@ -688,14 +688,17 @@ extension AppConfig {
         public let description: String?
         /// An optional locking token used to prevent race conditions from overwriting configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configuration versions in rapid succession, specify the version number of the latest hosted configuration version.
         public let latestVersionNumber: Int?
+        /// An optional, user-defined label for the AppConfig hosted configuration version. This value must contain at least one non-numeric character. For example, "v2.2.0".
+        public let versionLabel: String?
 
-        public init(applicationId: String, configurationProfileId: String, content: AWSPayload, contentType: String, description: String? = nil, latestVersionNumber: Int? = nil) {
+        public init(applicationId: String, configurationProfileId: String, content: AWSPayload, contentType: String, description: String? = nil, latestVersionNumber: Int? = nil, versionLabel: String? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.content = content
             self.contentType = contentType
             self.description = description
             self.latestVersionNumber = latestVersionNumber
+            self.versionLabel = versionLabel
         }
 
         public func validate(name: String) throws {
@@ -704,6 +707,9 @@ extension AppConfig {
             try self.validate(self.contentType, name: "contentType", parent: name, max: 255)
             try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.versionLabel, name: "versionLabel", parent: name, max: 64)
+            try self.validate(self.versionLabel, name: "versionLabel", parent: name, min: 1)
+            try self.validate(self.versionLabel, name: "versionLabel", parent: name, pattern: "[^0-9]")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -852,7 +858,7 @@ extension AppConfig {
         /// The versions number to delete.
         public let versionNumber: Int
 
-        public init(applicationId: String, configurationProfileId: String, versionNumber: Int) {
+        public init(applicationId: String, configurationProfileId: String, versionNumber: Int = 0) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.versionNumber = versionNumber
@@ -900,6 +906,10 @@ extension AppConfig {
         public let growthFactor: Float?
         /// The algorithm used to define how percentage grew over time.
         public let growthType: GrowthType?
+        /// The Amazon Resource Name of the Key Management Service key used to encrypt configuration data. You can encrypt secrets stored in Secrets Manager, Amazon Simple Storage Service (Amazon S3) objects encrypted with SSE-KMS, or secure string parameters stored in Amazon Web Services Systems Manager Parameter Store.
+        public let kmsKeyArn: String?
+        /// The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer managed key.
+        public let kmsKeyIdentifier: String?
         /// The percentage of targets for which the deployment is available.
         public let percentageComplete: Float?
         /// The time the deployment started.
@@ -908,7 +918,7 @@ extension AppConfig {
         /// The state of the deployment.
         public let state: DeploymentState?
 
-        public init(applicationId: String? = nil, appliedExtensions: [AppliedExtension]? = nil, completedAt: Date? = nil, configurationLocationUri: String? = nil, configurationName: String? = nil, configurationProfileId: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, deploymentStrategyId: String? = nil, description: String? = nil, environmentId: String? = nil, eventLog: [DeploymentEvent]? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil) {
+        public init(applicationId: String? = nil, appliedExtensions: [AppliedExtension]? = nil, completedAt: Date? = nil, configurationLocationUri: String? = nil, configurationName: String? = nil, configurationProfileId: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, deploymentStrategyId: String? = nil, description: String? = nil, environmentId: String? = nil, eventLog: [DeploymentEvent]? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, kmsKeyArn: String? = nil, kmsKeyIdentifier: String? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil) {
             self.applicationId = applicationId
             self.appliedExtensions = appliedExtensions
             self.completedAt = completedAt
@@ -925,6 +935,8 @@ extension AppConfig {
             self.finalBakeTimeInMinutes = finalBakeTimeInMinutes
             self.growthFactor = growthFactor
             self.growthType = growthType
+            self.kmsKeyArn = kmsKeyArn
+            self.kmsKeyIdentifier = kmsKeyIdentifier
             self.percentageComplete = percentageComplete
             self.startedAt = startedAt
             self.state = state
@@ -947,6 +959,8 @@ extension AppConfig {
             case finalBakeTimeInMinutes = "FinalBakeTimeInMinutes"
             case growthFactor = "GrowthFactor"
             case growthType = "GrowthType"
+            case kmsKeyArn = "KmsKeyArn"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
             case percentageComplete = "PercentageComplete"
             case startedAt = "StartedAt"
             case state = "State"
@@ -1301,7 +1315,7 @@ extension AppConfig {
     }
 
     public struct Extensions: AWSDecodableShape {
-        /// The list of available extensions. The list includes Amazon Web Services-authored and user-created extensions.
+        /// The list of available extensions. The list includes Amazon Web Services authored and user-created extensions.
         public let items: [ExtensionSummary]?
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
@@ -1371,7 +1385,7 @@ extension AppConfig {
 
         /// The application to get. Specify either the application name or the application ID.
         public let application: String
-        /// The configuration version returned in the most recent GetConfiguration response.  AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend that you include the ClientConfigurationVersion value with every call to GetConfiguration. This value must be saved on your client. Subsequent calls to GetConfiguration must pass this value by using the ClientConfigurationVersion parameter.   For more information about working with configurations, see Retrieving the Configuration in the AppConfig User Guide.
+        /// The configuration version returned in the most recent GetConfiguration response.  AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend you use the StartConfigurationSession and GetLatestConfiguration APIs, which track the client configuration version on your behalf. If you choose to continue using GetConfiguration, we recommend that you include the ClientConfigurationVersion value with every call to GetConfiguration. The value to use for ClientConfigurationVersion comes from the ConfigurationVersion attribute returned by GetConfiguration when there is new or updated data, and should be saved for subsequent calls to GetConfiguration.  For more information about working with configurations, see Retrieving the Configuration in the AppConfig User Guide.
         public let clientConfigurationVersion: String?
         /// The clientId parameter in the following command is a unique, user-specified ID to identify the client for the configuration. This ID enables AppConfig to deploy the configuration in intervals, as defined in the deployment strategy.
         public let clientId: String
@@ -1532,7 +1546,7 @@ extension AppConfig {
         /// The version.
         public let versionNumber: Int
 
-        public init(applicationId: String, configurationProfileId: String, versionNumber: Int) {
+        public init(applicationId: String, configurationProfileId: String, versionNumber: Int = 0) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.versionNumber = versionNumber
@@ -1556,6 +1570,7 @@ extension AppConfig {
             AWSMemberEncoding(label: "content", location: .body("Content")),
             AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
             AWSMemberEncoding(label: "description", location: .header("Description")),
+            AWSMemberEncoding(label: "versionLabel", location: .header("VersionLabel")),
             AWSMemberEncoding(label: "versionNumber", location: .header("Version-Number"))
         ]
 
@@ -1569,15 +1584,18 @@ extension AppConfig {
         public let contentType: String?
         /// A description of the configuration.
         public let description: String?
+        /// A user-defined label for an AppConfig hosted configuration version.
+        public let versionLabel: String?
         /// The configuration version.
         public let versionNumber: Int?
 
-        public init(applicationId: String? = nil, configurationProfileId: String? = nil, content: AWSPayload? = nil, contentType: String? = nil, description: String? = nil, versionNumber: Int? = nil) {
+        public init(applicationId: String? = nil, configurationProfileId: String? = nil, content: AWSPayload? = nil, contentType: String? = nil, description: String? = nil, versionLabel: String? = nil, versionNumber: Int? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.content = content
             self.contentType = contentType
             self.description = description
+            self.versionLabel = versionLabel
             self.versionNumber = versionNumber
         }
 
@@ -1587,6 +1605,7 @@ extension AppConfig {
             case content = "Content"
             case contentType = "Content-Type"
             case description = "Description"
+            case versionLabel = "VersionLabel"
             case versionNumber = "Version-Number"
         }
     }
@@ -1600,14 +1619,17 @@ extension AppConfig {
         public let contentType: String?
         /// A description of the configuration.
         public let description: String?
+        /// A user-defined label for an AppConfig hosted configuration version.
+        public let versionLabel: String?
         /// The configuration version.
         public let versionNumber: Int?
 
-        public init(applicationId: String? = nil, configurationProfileId: String? = nil, contentType: String? = nil, description: String? = nil, versionNumber: Int? = nil) {
+        public init(applicationId: String? = nil, configurationProfileId: String? = nil, contentType: String? = nil, description: String? = nil, versionLabel: String? = nil, versionNumber: Int? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.contentType = contentType
             self.description = description
+            self.versionLabel = versionLabel
             self.versionNumber = versionNumber
         }
 
@@ -1616,6 +1638,7 @@ extension AppConfig {
             case configurationProfileId = "ConfigurationProfileId"
             case contentType = "ContentType"
             case description = "Description"
+            case versionLabel = "VersionLabel"
             case versionNumber = "VersionNumber"
         }
     }
@@ -1872,7 +1895,8 @@ extension AppConfig {
             AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
             AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token")),
+            AWSMemberEncoding(label: "versionLabel", location: .querystring("version_label"))
         ]
 
         /// The application ID.
@@ -1883,12 +1907,15 @@ extension AppConfig {
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?
+        /// An optional filter that can be used to specify the version label of an AppConfig hosted configuration version. This parameter supports filtering by prefix using a wildcard, for example "v2*". If you don't specify an asterisk at the end of the value, only an exact match is returned.
+        public let versionLabel: String?
 
-        public init(applicationId: String, configurationProfileId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(applicationId: String, configurationProfileId: String, maxResults: Int? = nil, nextToken: String? = nil, versionLabel: String? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.versionLabel = versionLabel
         }
 
         public func validate(name: String) throws {
@@ -1898,6 +1925,8 @@ extension AppConfig {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.versionLabel, name: "versionLabel", parent: name, max: 64)
+            try self.validate(self.versionLabel, name: "versionLabel", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1993,7 +2022,7 @@ extension AppConfig {
         public let applicationId: String
         /// The configuration profile ID.
         public let configurationProfileId: String
-        /// The configuration version to deploy.
+        /// The configuration version to deploy. If deploying an AppConfig hosted configuration version, you can specify either the version number or version label.
         public let configurationVersion: String
         /// The deployment strategy ID.
         public let deploymentStrategyId: String
@@ -2001,16 +2030,19 @@ extension AppConfig {
         public let description: String?
         /// The environment ID.
         public let environmentId: String
+        /// The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer managed key.
+        public let kmsKeyIdentifier: String?
         /// Metadata to assign to the deployment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
 
-        public init(applicationId: String, configurationProfileId: String, configurationVersion: String, deploymentStrategyId: String, description: String? = nil, environmentId: String, tags: [String: String]? = nil) {
+        public init(applicationId: String, configurationProfileId: String, configurationVersion: String, deploymentStrategyId: String, description: String? = nil, environmentId: String, kmsKeyIdentifier: String? = nil, tags: [String: String]? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.configurationVersion = configurationVersion
             self.deploymentStrategyId = deploymentStrategyId
             self.description = description
             self.environmentId = environmentId
+            self.kmsKeyIdentifier = kmsKeyIdentifier
             self.tags = tags
         }
 
@@ -2022,6 +2054,8 @@ extension AppConfig {
             try self.validate(self.deploymentStrategyId, name: "deploymentStrategyId", parent: name, pattern: "^(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2035,6 +2069,7 @@ extension AppConfig {
             case configurationVersion = "ConfigurationVersion"
             case deploymentStrategyId = "DeploymentStrategyId"
             case description = "Description"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
             case tags = "Tags"
         }
     }
@@ -2226,8 +2261,7 @@ extension AppConfig {
         public let finalBakeTimeInMinutes: Int?
         /// The percentage of targets to receive a deployed configuration during each interval.
         public let growthFactor: Float?
-        /// The algorithm used to define how percentage grows over time. AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by increments of the growth factor evenly distributed over the deployment time. For example, a linear deployment that uses a growth factor of 20 initially makes the configuration available to 20 percent of the targets. After 1/5th of the deployment time has passed, the system updates the percentage to 40 percent. This continues until 100% of the targets are set to receive the deployed configuration.
-        ///   Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
+        /// The algorithm used to define how percentage grows over time. AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by increments of the growth factor evenly distributed over the deployment time. For example, a linear deployment that uses a growth factor of 20 initially makes the configuration available to 20 percent of the targets. After 1/5th of the deployment time has passed, the system updates the percentage to 40 percent. This continues until 100% of the targets are set to receive the deployed configuration.  Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
         public let growthType: GrowthType?
 
         public init(deploymentDurationInMinutes: Int? = nil, deploymentStrategyId: String, description: String? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil) {

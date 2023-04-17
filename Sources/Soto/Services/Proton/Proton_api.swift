@@ -124,6 +124,16 @@ public struct Proton: AWSService {
         return self.client.execute(operation: "CreateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Create a service instance.
+    public func createServiceInstance(_ input: CreateServiceInstanceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateServiceInstanceOutput> {
+        return self.client.execute(operation: "CreateServiceInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Create the Proton Ops configuration file.
+    public func createServiceSyncConfig(_ input: CreateServiceSyncConfigInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateServiceSyncConfigOutput> {
+        return self.client.execute(operation: "CreateServiceSyncConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Create a service template. The administrator creates a service template to define standardized infrastructure and an optional CI/CD service pipeline. Developers, in turn, select the service template from Proton. If the selected service template includes a service pipeline definition, they provide a link to their source code repository. Proton then deploys and manages the infrastructure defined by the selected service template. For more information, see Proton templates in the Proton User Guide.
     public func createServiceTemplate(_ input: CreateServiceTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateServiceTemplateOutput> {
         return self.client.execute(operation: "CreateServiceTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -172,6 +182,11 @@ public struct Proton: AWSService {
     /// Delete a service, with its instances and pipeline.  You can't delete a service if it has any service instances that have components attached to them. For more information about components, see Proton components in the Proton User Guide.
     public func deleteService(_ input: DeleteServiceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteServiceOutput> {
         return self.client.execute(operation: "DeleteService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete the Proton Ops file.
+    public func deleteServiceSyncConfig(_ input: DeleteServiceSyncConfigInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteServiceSyncConfigOutput> {
+        return self.client.execute(operation: "DeleteServiceSyncConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// If no other major or minor versions of the service template exist, delete the service template.
@@ -229,6 +244,11 @@ public struct Proton: AWSService {
         return self.client.execute(operation: "GetRepositorySyncStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Get counts of Proton resources. For infrastructure-provisioning resources (environments, services, service instances, pipelines), the action returns staleness counts. A resource is stale when it's behind the recommended version of the Proton template that it uses and it needs an update to become current. The action returns staleness counts (counts of resources that are up-to-date, behind a template major version, or behind a template minor version), the total number of resources, and the number of resources that are in a failed state, grouped by resource type. Components, environments, and service templates return less information - see the components, environments, and serviceTemplates field descriptions. For context, the action also returns the total number of each type of Proton template in the Amazon Web Services account. For more information, see Proton dashboard in the Proton User Guide.
+    public func getResourcesSummary(_ input: GetResourcesSummaryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourcesSummaryOutput> {
+        return self.client.execute(operation: "GetResourcesSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Get detailed data for a service.
     public func getService(_ input: GetServiceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceOutput> {
         return self.client.execute(operation: "GetService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -237,6 +257,21 @@ public struct Proton: AWSService {
     /// Get detailed data for a service instance. A service instance is an instantiation of service template and it runs in a specific environment.
     public func getServiceInstance(_ input: GetServiceInstanceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceInstanceOutput> {
         return self.client.execute(operation: "GetServiceInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get the status of the synced service instance.
+    public func getServiceInstanceSyncStatus(_ input: GetServiceInstanceSyncStatusInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceInstanceSyncStatusOutput> {
+        return self.client.execute(operation: "GetServiceInstanceSyncStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get detailed data for the service sync blocker summary.
+    public func getServiceSyncBlockerSummary(_ input: GetServiceSyncBlockerSummaryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceSyncBlockerSummaryOutput> {
+        return self.client.execute(operation: "GetServiceSyncBlockerSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get detailed information for the service sync configuration.
+    public func getServiceSyncConfig(_ input: GetServiceSyncConfigInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceSyncConfigOutput> {
+        return self.client.execute(operation: "GetServiceSyncConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Get detailed data for a service template.
@@ -422,6 +457,16 @@ public struct Proton: AWSService {
     /// Update the service pipeline. There are four modes for updating a service pipeline. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the service pipeline is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the service pipeline is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the service pipeline is deployed and updated with the published, recommended (latest) major and minor version of the current template by default. You can specify a different major version that's higher than the major version in use and a minor version.
     public func updateServicePipeline(_ input: UpdateServicePipelineInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServicePipelineOutput> {
         return self.client.execute(operation: "UpdateServicePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update the service sync blocker by resolving it.
+    public func updateServiceSyncBlocker(_ input: UpdateServiceSyncBlockerInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServiceSyncBlockerOutput> {
+        return self.client.execute(operation: "UpdateServiceSyncBlocker", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update the Proton Ops config file.
+    public func updateServiceSyncConfig(_ input: UpdateServiceSyncConfigInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServiceSyncConfigOutput> {
+        return self.client.execute(operation: "UpdateServiceSyncConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Update a service template.

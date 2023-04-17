@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS IoTTwinMaker service.
 ///
-/// IoT TwinMaker is a service that enables you to build operational digital twins of physical systems. IoT TwinMaker overlays measurements and analysis from real-world sensors, cameras, and enterprise applications so you can create data visualizations to monitor your physical factory, building, or industrial plant. You can use this real-world data to monitor operations and diagnose and repair errors.
+/// IoT TwinMaker is a service with which you can build operational digital twins of physical systems. IoT TwinMaker overlays measurements and analysis from real-world sensors, cameras, and enterprise applications so you can create data visualizations to monitor your physical factory, building, or industrial plant. You can use this real-world data to monitor operations and diagnose and repair errors.
 public struct IoTTwinMaker: AWSService {
     // MARK: Member variables
 
@@ -54,6 +54,13 @@ public struct IoTTwinMaker: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-11-29",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "iottwinmaker-fips.us-east-1.amazonaws.com",
+                    "us-gov-west-1": "iottwinmaker-fips.us-gov-west-1.amazonaws.com",
+                    "us-west-2": "iottwinmaker-fips.us-west-2.amazonaws.com"
+                ])
+            ],
             errorType: IoTTwinMakerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
@@ -143,7 +150,7 @@ public struct IoTTwinMaker: AWSService {
         return self.client.execute(operation: "GetPropertyValue", path: "/workspaces/{workspaceId}/entity-properties/value", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and  entityId. For cross-entity quries, specify a value for componentTypeId.
+    /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and entityId. For cross-entity quries, specify a value for componentTypeId.
     public func getPropertyValueHistory(_ input: GetPropertyValueHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPropertyValueHistoryResponse> {
         return self.client.execute(operation: "GetPropertyValueHistory", path: "/workspaces/{workspaceId}/entity-properties/history", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
     }
@@ -352,7 +359,7 @@ extension IoTTwinMaker {
         )
     }
 
-    /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and  entityId. For cross-entity quries, specify a value for componentTypeId.
+    /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and entityId. For cross-entity quries, specify a value for componentTypeId.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

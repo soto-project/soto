@@ -28,7 +28,7 @@ extension AppConfigData {
             AWSMemberEncoding(label: "configurationToken", location: .querystring("configuration_token"))
         ]
 
-        /// Token describing the current state of the configuration session. To obtain a token, first call the StartConfigurationSession API. Note that every call to GetLatestConfiguration will return a new ConfigurationToken (NextPollConfigurationToken in the response) and MUST be provided to subsequent GetLatestConfiguration API calls.
+        /// Token describing the current state of the configuration session. To obtain a token, first call the StartConfigurationSession API. Note that every call to GetLatestConfiguration will return a new ConfigurationToken (NextPollConfigurationToken in the response) and must be provided to subsequent GetLatestConfiguration API calls.  This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
         public let configurationToken: String
 
         public init(configurationToken: String) {
@@ -50,23 +50,27 @@ extension AppConfigData {
             AWSMemberEncoding(label: "configuration", location: .body("Configuration")),
             AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
             AWSMemberEncoding(label: "nextPollConfigurationToken", location: .header("Next-Poll-Configuration-Token")),
-            AWSMemberEncoding(label: "nextPollIntervalInSeconds", location: .header("Next-Poll-Interval-In-Seconds"))
+            AWSMemberEncoding(label: "nextPollIntervalInSeconds", location: .header("Next-Poll-Interval-In-Seconds")),
+            AWSMemberEncoding(label: "versionLabel", location: .header("Version-Label"))
         ]
 
         /// The data of the configuration. This may be empty if the client already has the latest version of configuration.
         public let configuration: AWSPayload?
         /// A standard MIME type describing the format of the configuration content.
         public let contentType: String?
-        /// The latest token describing the current state of the configuration session. This MUST be provided to the next call to GetLatestConfiguration.
+        /// The latest token describing the current state of the configuration session. This must be provided to the next call to GetLatestConfiguration.   This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
         public let nextPollConfigurationToken: String?
         /// The amount of time the client should wait before polling for configuration updates again. Use RequiredMinimumPollIntervalInSeconds to set the desired poll interval.
         public let nextPollIntervalInSeconds: Int?
+        /// The user-defined label for the AppConfig hosted configuration version. This attribute doesn't apply if the configuration is not from an AppConfig hosted configuration version. If the client already has the latest version of the configuration data, this value is empty.
+        public let versionLabel: String?
 
-        public init(configuration: AWSPayload? = nil, contentType: String? = nil, nextPollConfigurationToken: String? = nil, nextPollIntervalInSeconds: Int? = nil) {
+        public init(configuration: AWSPayload? = nil, contentType: String? = nil, nextPollConfigurationToken: String? = nil, nextPollIntervalInSeconds: Int? = nil, versionLabel: String? = nil) {
             self.configuration = configuration
             self.contentType = contentType
             self.nextPollConfigurationToken = nextPollConfigurationToken
             self.nextPollIntervalInSeconds = nextPollIntervalInSeconds
+            self.versionLabel = versionLabel
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -74,6 +78,7 @@ extension AppConfigData {
             case contentType = "Content-Type"
             case nextPollConfigurationToken = "Next-Poll-Configuration-Token"
             case nextPollIntervalInSeconds = "Next-Poll-Interval-In-Seconds"
+            case versionLabel = "Version-Label"
         }
     }
 
@@ -84,7 +89,7 @@ extension AppConfigData {
         public let configurationProfileIdentifier: String
         /// The environment ID or the environment name.
         public let environmentIdentifier: String
-        /// Sets a constraint on a session. If you specify a value of, for example, 60 seconds, then the client that established the session can't call GetLatestConfiguration more frequently then every 60 seconds.
+        /// Sets a constraint on a session. If you specify a value of, for example, 60 seconds, then the client that established the session can't call GetLatestConfiguration more frequently than every 60 seconds.
         public let requiredMinimumPollIntervalInSeconds: Int?
 
         public init(applicationIdentifier: String, configurationProfileIdentifier: String, environmentIdentifier: String, requiredMinimumPollIntervalInSeconds: Int? = nil) {
@@ -95,11 +100,11 @@ extension AppConfigData {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 64)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 128)
             try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
-            try self.validate(self.configurationProfileIdentifier, name: "configurationProfileIdentifier", parent: name, max: 64)
+            try self.validate(self.configurationProfileIdentifier, name: "configurationProfileIdentifier", parent: name, max: 128)
             try self.validate(self.configurationProfileIdentifier, name: "configurationProfileIdentifier", parent: name, min: 1)
-            try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, max: 64)
+            try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, max: 128)
             try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, min: 1)
             try self.validate(self.requiredMinimumPollIntervalInSeconds, name: "requiredMinimumPollIntervalInSeconds", parent: name, max: 86400)
             try self.validate(self.requiredMinimumPollIntervalInSeconds, name: "requiredMinimumPollIntervalInSeconds", parent: name, min: 15)
@@ -114,7 +119,7 @@ extension AppConfigData {
     }
 
     public struct StartConfigurationSessionResponse: AWSDecodableShape {
-        /// Token encapsulating state about the configuration session. Provide this token to the GetLatestConfiguration API to retrieve configuration data.  This token should only be used once in your first call to GetLatestConfiguration. You MUST use the new token in the GetLatestConfiguration response (NextPollConfigurationToken) in each subsequent call to GetLatestConfiguration.
+        /// Token encapsulating state about the configuration session. Provide this token to the GetLatestConfiguration API to retrieve configuration data.  This token should only be used once in your first call to GetLatestConfiguration. You must use the new token in the GetLatestConfiguration response (NextPollConfigurationToken) in each subsequent call to GetLatestConfiguration. The InitialConfigurationToken and NextPollConfigurationToken should only be used once. To support long poll use cases, the tokens are valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
         public let initialConfigurationToken: String?
 
         public init(initialConfigurationToken: String? = nil) {

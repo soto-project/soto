@@ -36,12 +36,17 @@ extension Kendra {
         return try await self.client.execute(operation: "BatchDeleteDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Removes one or more sets of featured results. Features results are placed above all other results for certain queries. If there's an exact match of a  query, then one or more specific documents are featured in the search results.
+    public func batchDeleteFeaturedResultsSet(_ input: BatchDeleteFeaturedResultsSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchDeleteFeaturedResultsSetResponse {
+        return try await self.client.execute(operation: "BatchDeleteFeaturedResultsSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns the indexing status for one or more documents submitted with the  BatchPutDocument API. When you use the BatchPutDocument API, documents are indexed asynchronously. You can use the BatchGetDocumentStatus API to get the current status of a list of documents so that you can determine if they have been successfully indexed. You can also use the BatchGetDocumentStatus API to check the status of the  BatchDeleteDocument API. When a document is deleted from the index, Amazon Kendra returns NOT_FOUND as the status.
     public func batchGetDocumentStatus(_ input: BatchGetDocumentStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchGetDocumentStatusResponse {
         return try await self.client.execute(operation: "BatchGetDocumentStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds one or more documents to an index. The BatchPutDocument API enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this API to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using Amazon Web Services CloudWatch. Any error messages related to processing the batch are sent to your Amazon Web Services CloudWatch log. For an example of ingesting inline documents using Python and Java SDKs,  see Adding  files directly to an index.
+    /// Adds one or more documents to an index. The BatchPutDocument API enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this API to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using Amazon Web Services CloudWatch. Any error messages related to processing the batch are sent to your Amazon Web Services CloudWatch log. For an example of ingesting inline documents using Python and Java SDKs, see Adding files directly to an index.
     public func batchPutDocument(_ input: BatchPutDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchPutDocumentResponse {
         return try await self.client.execute(operation: "BatchPutDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -51,12 +56,12 @@ extension Kendra {
         return try await self.client.execute(operation: "ClearQuerySuggestions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an access configuration for your documents. This includes  user and group access information for your documents. This is useful  for user context filtering, where search results are filtered based  on the user or their group access to documents. You can use this to re-configure your existing document level access control without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. One of these users leaves the company or switches to a team that should be blocked from accessing  top-secret documents. The user still has access to top-secret documents because the user  had access when your documents were previously indexed. You  can create a specific access control configuration for the user with deny  access. You can later update the access control configuration to allow access if the  user returns to the company and re-joins the 'top-secret' team. You can re-configure  access control for your documents as circumstances change. To apply your access control configuration to certain documents, you call  the BatchPutDocument  API with the AccessControlConfigurationId included in the  Document  object. If you use an S3 bucket as a data source, you update the  .metadata.json with the AccessControlConfigurationId  and synchronize your data source. Amazon Kendra currently only supports  access control configuration for S3 data sources and documents indexed using the  BatchPutDocument API.
+    /// Creates an access configuration for your documents. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can use this to re-configure your existing document level access control without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. One of these users leaves the company or switches to a team that should be blocked from accessing top-secret documents. The user still has access to top-secret documents because the user had access when your documents were previously indexed. You can create a specific access control configuration for the user with deny access. You can later update the access control configuration to allow access if the user returns to the company and re-joins the 'top-secret' team. You can re-configure access control for your documents as circumstances change. To apply your access control configuration to certain documents, you call the BatchPutDocument API with the AccessControlConfigurationId included in the Document object. If you use an S3 bucket as a data source, you update the .metadata.json with the AccessControlConfigurationId and synchronize your data source. Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API.
     public func createAccessControlConfiguration(_ input: CreateAccessControlConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateAccessControlConfigurationResponse {
         return try await self.client.execute(operation: "CreateAccessControlConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a data source connector that you want to use with an Amazon Kendra index. You specify a name, data source connector type and description for your data source. You also specify configuration information for the data source connector.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised. Amazon S3 and custom data sources are the only supported data sources in the Amazon Web Services GovCloud (US-West) region. For an example of creating an index and data source using the Python SDK, see Getting started with Python SDK. For an example of creating an index and data source using the Java SDK, see Getting started with Java SDK.
+    /// Creates a data source connector that you want to use with an Amazon Kendra index. You specify a name, data source connector type and description for your data source. You also specify configuration information for the data source connector.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised. For an example of creating an index and data source using the Python SDK, see Getting started with Python SDK. For an example of creating an index and data source using the Java SDK, see Getting started with Java SDK.
     public func createDataSource(_ input: CreateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDataSourceResponse {
         return try await self.client.execute(operation: "CreateDataSource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -66,9 +71,14 @@ extension Kendra {
         return try await self.client.execute(operation: "CreateExperience", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an new set of frequently asked question (FAQ) questions and answers. Adding FAQs to an index is an asynchronous operation. For an example of adding an FAQ to an index using Python and Java SDKs,  see Using your  FAQ file.
+    /// Creates a set of frequently ask questions (FAQs) using a specified FAQ file stored  in an Amazon S3 bucket. Adding FAQs to an index is an asynchronous operation. For an example of adding an FAQ to an index using Python and Java SDKs, see Using your FAQ file.
     public func createFaq(_ input: CreateFaqRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateFaqResponse {
         return try await self.client.execute(operation: "CreateFaq", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a set of featured results to display at the top of the search results page. Featured results are placed above all other results for certain queries. You map  specific queries to specific documents for featuring in the results. If a query  contains an exact match, then one or more specific documents are featured in the  search results. You can create up to 50 sets of featured results per index. You can request to  increase this limit by contacting Support.
+    public func createFeaturedResultsSet(_ input: CreateFeaturedResultsSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateFeaturedResultsSetResponse {
+        return try await self.client.execute(operation: "CreateFeaturedResultsSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active you can index your documents using the BatchPutDocument API or using one of the supported data sources. For an example of creating an index and data source using the Python SDK, see Getting started with Python SDK. For an example of creating an index and data source using the Java SDK, see Getting started with Java SDK.
@@ -86,7 +96,7 @@ extension Kendra {
         return try await self.client.execute(operation: "CreateThesaurus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an access control configuration that you created for your  documents in an index. This includes user and group access information  for your documents. This is useful for user context filtering, where search  results are filtered based on the user or their group access to documents.
+    /// Deletes an access control configuration that you created for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     public func deleteAccessControlConfiguration(_ input: DeleteAccessControlConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteAccessControlConfigurationResponse {
         return try await self.client.execute(operation: "DeleteAccessControlConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -111,7 +121,7 @@ extension Kendra {
         return try await self.client.execute(operation: "DeleteIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a group so that all users and sub groups that belong to the group can  no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who  belonged to that group no longer see intern-only documents in their search  results. If you want to delete or replace users or sub groups of a group, you need to  use the PutPrincipalMapping operation. For example, if a user in  the group "Engineering" leaves the engineering team and another user takes  their place, you provide an updated list of users or sub groups that belong  to the "Engineering" group when calling PutPrincipalMapping. You  can update your internal list of users or sub groups and input this list  when calling PutPrincipalMapping.  DeletePrincipalMapping is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
+    /// Deletes a group so that all users and sub groups that belong to the group can no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who belonged to that group no longer see intern-only documents in their search results. If you want to delete or replace users or sub groups of a group, you need to use the PutPrincipalMapping operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling PutPrincipalMapping. You can update your internal list of users or sub groups and input this list when calling PutPrincipalMapping.  DeletePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     public func deletePrincipalMapping(_ input: DeletePrincipalMappingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeletePrincipalMapping", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -126,7 +136,7 @@ extension Kendra {
         return try await self.client.execute(operation: "DeleteThesaurus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about an access control configuration that you created for your  documents in an index. This includes user and group access information for your  documents. This is useful for user context filtering, where search results are  filtered based on the user or their group access to documents.
+    /// Gets information about an access control configuration that you created for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     public func describeAccessControlConfiguration(_ input: DescribeAccessControlConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAccessControlConfigurationResponse {
         return try await self.client.execute(operation: "DescribeAccessControlConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -146,12 +156,17 @@ extension Kendra {
         return try await self.client.execute(operation: "DescribeFaq", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets information about a set of featured results. Features results are placed above all other results for certain queries. If there's an exact match of a query,  then one or more specific documents are featured in the search results.
+    public func describeFeaturedResultsSet(_ input: DescribeFeaturedResultsSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeFeaturedResultsSetResponse {
+        return try await self.client.execute(operation: "DescribeFeaturedResultsSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets information about an existing Amazon Kendra index.
     public func describeIndex(_ input: DescribeIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeIndexResponse {
         return try await self.client.execute(operation: "DescribeIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the processing of PUT and DELETE actions  for mapping users to their groups. This includes information on the status of  actions currently processing or yet to be processed, when actions were last updated,  when actions were received by Amazon Kendra, the latest action that should process  and apply after other actions, and useful error messages if an action could  not be processed.  DescribePrincipalMapping is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
+    /// Describes the processing of PUT and DELETE actions for mapping users to their groups. This includes information on the status of actions currently processing or yet to be processed, when actions were last updated, when actions were received by Amazon Kendra, the latest action that should process and apply after other actions, and useful error messages if an action could not be processed.  DescribePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     public func describePrincipalMapping(_ input: DescribePrincipalMappingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribePrincipalMappingResponse {
         return try await self.client.execute(operation: "DescribePrincipalMapping", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -191,7 +206,7 @@ extension Kendra {
         return try await self.client.execute(operation: "GetSnapshots", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists one or more access control configurations for an index. This  includes user and group access information for your documents. This  is useful for user context filtering, where search results are filtered  based on the user or their group access to documents.
+    /// Lists one or more access control configurations for an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     public func listAccessControlConfigurations(_ input: ListAccessControlConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAccessControlConfigurationsResponse {
         return try await self.client.execute(operation: "ListAccessControlConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -226,7 +241,12 @@ extension Kendra {
         return try await self.client.execute(operation: "ListFaqs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides a list of groups that are mapped to users before a  given ordering or timestamp identifier.  ListGroupsOlderThanOrderingId is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
+    /// Lists all your sets of featured results for a given index. Features results  are placed above all other results for certain queries. If there's an exact match  of a query, then one or more specific documents are featured in the search results.
+    public func listFeaturedResultsSets(_ input: ListFeaturedResultsSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListFeaturedResultsSetsResponse {
+        return try await self.client.execute(operation: "ListFeaturedResultsSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provides a list of groups that are mapped to users before a given ordering or timestamp identifier.  ListGroupsOlderThanOrderingId is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     public func listGroupsOlderThanOrderingId(_ input: ListGroupsOlderThanOrderingIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListGroupsOlderThanOrderingIdResponse {
         return try await self.client.execute(operation: "ListGroupsOlderThanOrderingId", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -251,7 +271,7 @@ extension Kendra {
         return try await self.client.execute(operation: "ListThesauri", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Maps users to their groups so that you only need to provide  the user ID when you issue the query. You can also map sub groups to groups.  For example, the group "Company Intellectual Property Teams" includes  sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work  in research and engineering, and therefore belong in the intellectual  property group, can see top-secret company documents in their search  results. This is useful for user context filtering, where search results are  filtered based on the user or their group access to documents. For more  information, see  Filtering  on user context. If more than five PUT actions for a group are currently  processing, a validation exception is thrown.  PutPrincipalMapping is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
+    /// Maps users to their groups so that you only need to provide the user ID when you issue the query. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their search results. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. For more information, see Filtering on user context. If more than five PUT actions for a group are currently processing, a validation exception is thrown.
     public func putPrincipalMapping(_ input: PutPrincipalMappingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "PutPrincipalMapping", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -286,7 +306,7 @@ extension Kendra {
         return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an access control configuration for your documents in an index. This  includes user and group access information for your documents. This is useful  for user context filtering, where search results are filtered based on the user  or their group access to documents. You can update an access control configuration you created without indexing all  of your documents again. For example, your index contains top-secret company  documents that only certain employees or users should access. You created an 'allow'  access control configuration for one user who recently joined the 'top-secret' team,  switching from a team with 'deny' access to top-secret documents. However, the user  suddenly returns to their previous team and should no longer have access to top secret  documents. You can update the access control configuration to re-configure access  control for your documents as circumstances change. You call the BatchPutDocument API to apply the updated access control configuration, with the AccessControlConfigurationId included in the  Document object. If you use an S3 bucket as a data source, you synchronize your data source to apply the AccessControlConfigurationId in the .metadata.json file.  Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API.
+    /// Updates an access control configuration for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can update an access control configuration you created without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. You created an 'allow' access control configuration for one user who recently joined the 'top-secret' team, switching from a team with 'deny' access to top-secret documents. However, the user suddenly returns to their previous team and should no longer have access to top secret documents. You can update the access control configuration to re-configure access control for your documents as circumstances change. You call the BatchPutDocument API to apply the updated access control configuration, with the AccessControlConfigurationId included in the Document object. If you use an S3 bucket as a data source, you synchronize your data source to apply the AccessControlConfigurationId in the .metadata.json file. Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API.
     public func updateAccessControlConfiguration(_ input: UpdateAccessControlConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAccessControlConfigurationResponse {
         return try await self.client.execute(operation: "UpdateAccessControlConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -299,6 +319,11 @@ extension Kendra {
     /// Updates your Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a  search experience with no code.
     public func updateExperience(_ input: UpdateExperienceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "UpdateExperience", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a set of featured results. Features results are placed above  all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match of a query, then one  or more specific documents are featured in the search results.
+    public func updateFeaturedResultsSet(_ input: UpdateFeaturedResultsSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateFeaturedResultsSetResponse {
+        return try await self.client.execute(operation: "UpdateFeaturedResultsSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates an existing Amazon Kendra index.
@@ -348,7 +373,7 @@ extension Kendra {
         )
     }
 
-    /// Lists one or more access control configurations for an index. This  includes user and group access information for your documents. This  is useful for user context filtering, where search results are filtered  based on the user or their group access to documents.
+    /// Lists one or more access control configurations for an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -502,7 +527,7 @@ extension Kendra {
         )
     }
 
-    /// Provides a list of groups that are mapped to users before a  given ordering or timestamp identifier.  ListGroupsOlderThanOrderingId is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
+    /// Provides a list of groups that are mapped to users before a given ordering or timestamp identifier.  ListGroupsOlderThanOrderingId is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

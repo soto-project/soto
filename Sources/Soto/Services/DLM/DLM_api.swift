@@ -19,11 +19,9 @@
 
 /// Service object for interacting with AWS DLM service.
 ///
-/// Amazon Data Lifecycle Manager
-/// 		       With Amazon Data Lifecycle Manager, you can manage the lifecycle of your Amazon Web Services resources. You create
+/// Amazon Data Lifecycle Manager With Amazon Data Lifecycle Manager, you can manage the lifecycle of your Amazon Web Services resources. You create
 /// 			lifecycle policies, which are used to automate operations on the specified
-/// 			resources.
-/// 		       Amazon Data Lifecycle Manager supports Amazon EBS volumes and snapshots. For information about using Amazon Data Lifecycle Manager
+/// 			resources. Amazon Data Lifecycle Manager supports Amazon EBS volumes and snapshots. For information about using Amazon Data Lifecycle Manager
 /// 			with Amazon EBS, see
 /// 				Amazon Data Lifecycle Manager in the Amazon EC2 User Guide.
 public struct DLM: AWSService {
@@ -60,6 +58,12 @@ public struct DLM: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-01-12",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-gov-east-1": "dlm.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "dlm.us-gov-west-1.amazonaws.com"
+                ])
+            ],
             errorType: DLMErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
@@ -76,15 +80,13 @@ public struct DLM: AWSService {
     }
 
     /// Deletes the specified lifecycle policy and halts the automated operations that the
-    /// 			policy specified.
-    /// 		       For more information about deleting a policy, see Delete lifecycle
+    /// 			policy specified. For more information about deleting a policy, see Delete lifecycle
     /// 			policies.
     public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLifecyclePolicyResponse> {
         return self.client.execute(operation: "DeleteLifecyclePolicy", path: "/policies/{PolicyId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets summary information about all or the specified data lifecycle policies.
-    /// 		       To get complete information about a policy, use GetLifecyclePolicy.
+    /// Gets summary information about all or the specified data lifecycle policies. To get complete information about a policy, use GetLifecyclePolicy.
     public func getLifecyclePolicies(_ input: GetLifecyclePoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLifecyclePoliciesResponse> {
         return self.client.execute(operation: "GetLifecyclePolicies", path: "/policies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -109,8 +111,7 @@ public struct DLM: AWSService {
         return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the specified lifecycle policy.
-    /// 		       For more information about updating a policy, see Modify lifecycle
+    /// Updates the specified lifecycle policy. For more information about updating a policy, see Modify lifecycle
     /// 			policies.
     public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLifecyclePolicyResponse> {
         return self.client.execute(operation: "UpdateLifecyclePolicy", path: "/policies/{PolicyId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

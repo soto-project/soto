@@ -48,7 +48,19 @@ extension SSMContacts {
 
     public enum ContactType: String, CustomStringConvertible, Codable, Sendable {
         case escalation = "ESCALATION"
+        case oncallSchedule = "ONCALL_SCHEDULE"
         case personal = "PERSONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable {
+        case fri = "FRI"
+        case mon = "MON"
+        case sat = "SAT"
+        case sun = "SUN"
+        case thu = "THU"
+        case tue = "TUE"
+        case wed = "WED"
         public var description: String { return self.rawValue }
     }
 
@@ -61,10 +73,16 @@ extension SSMContacts {
         public var description: String { return self.rawValue }
     }
 
+    public enum ShiftType: String, CustomStringConvertible, Codable, Sendable {
+        case overridden = "OVERRIDDEN"
+        case regular = "REGULAR"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AcceptPageRequest: AWSEncodableShape {
-        /// The accept code is a 6-digit code used to acknowledge the page.
+        /// A 6-digit code used to acknowledge the page.
         public let acceptCode: String
         /// An optional field that Incident Manager uses to ENFORCE AcceptCode validation when acknowledging an page. Acknowledgement can occur by replying to a page, or when entering the AcceptCode in the console. Enforcing AcceptCode validation causes Incident Manager to verify that the code entered by the user matches the code sent by Incident Manager with the page. Incident Manager can also IGNORE AcceptCode validation. Ignoring AcceptCode validation causes Incident Manager to accept any value entered for the AcceptCode.
         public let acceptCodeValidation: AcceptCodeValidation?
@@ -269,6 +287,28 @@ extension SSMContacts {
         }
     }
 
+    public struct CoverageTime: AWSEncodableShape & AWSDecodableShape {
+        /// Information about when the on-call rotation shift ends.
+        public let end: HandOffTime?
+        /// Information about when the on-call rotation shift begins.
+        public let start: HandOffTime?
+
+        public init(end: HandOffTime? = nil, start: HandOffTime? = nil) {
+            self.end = end
+            self.start = start
+        }
+
+        public func validate(name: String) throws {
+            try self.end?.validate(name: "\(name).end")
+            try self.start?.validate(name: "\(name).start")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end = "End"
+            case start = "Start"
+        }
+    }
+
     public struct CreateContactChannelRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the contact you are adding the contact channel to.
         public let contactId: String
@@ -388,6 +428,135 @@ extension SSMContacts {
         }
     }
 
+    public struct CreateRotationOverrideRequest: AWSEncodableShape {
+        /// The date and time when the override ends.
+        public let endTime: Date
+        /// A token that ensures that the operation is called only once with the specified details.
+        public let idempotencyToken: String?
+        /// The Amazon Resource Names (ARNs) of the contacts to replace those in the current on-call rotation with. If you want to include any current team members in the override shift, you must include their ARNs in the new contact ID list.
+        public let newContactIds: [String]
+        /// The Amazon Resource Name (ARN) of the rotation to create an override for.
+        public let rotationId: String
+        /// The date and time when the override goes into effect.
+        public let startTime: Date
+
+        public init(endTime: Date, idempotencyToken: String? = nil, newContactIds: [String], rotationId: String, startTime: Date) {
+            self.endTime = endTime
+            self.idempotencyToken = idempotencyToken
+            self.newContactIds = newContactIds
+            self.rotationId = rotationId
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 2048)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "^[\\\\\\/a-zA-Z0-9_+=\\-]*$")
+            try self.newContactIds.forEach {
+                try validate($0, name: "newContactIds[]", parent: name, max: 2048)
+                try validate($0, name: "newContactIds[]", parent: name, min: 1)
+                try validate($0, name: "newContactIds[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*$")
+            }
+            try self.validate(self.newContactIds, name: "newContactIds", parent: name, max: 30)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, max: 2048)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, min: 1)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case idempotencyToken = "IdempotencyToken"
+            case newContactIds = "NewContactIds"
+            case rotationId = "RotationId"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct CreateRotationOverrideResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created rotation override.
+        public let rotationOverrideId: String
+
+        public init(rotationOverrideId: String) {
+            self.rotationOverrideId = rotationOverrideId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rotationOverrideId = "RotationOverrideId"
+        }
+    }
+
+    public struct CreateRotationRequest: AWSEncodableShape {
+        /// The Amazon Resource Names (ARNs) of the contacts to add to the rotation. The order that you list the contacts in is their shift order in the rotation schedule. To change the order of the contact's shifts, use the UpdateRotation operation.
+        public let contactIds: [String]
+        /// A token that ensures that the operation is called only once with the specified details.
+        public let idempotencyToken: String?
+        /// The name of the rotation.
+        public let name: String
+        /// Information about the rule that specifies when a shift's team members rotate.
+        public let recurrence: RecurrenceSettings
+        /// The date and time that the rotation goes into effect.
+        public let startTime: Date?
+        /// Optional metadata to assign to the rotation. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For more information, see Tagging Incident Manager resources in the Incident Manager User Guide.
+        public let tags: [Tag]?
+        /// The time zone to base the rotation’s activity on in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.  Designators for time zones that don’t support Daylight Savings Time rules, such as Pacific Standard Time (PST) and Pacific Daylight Time (PDT), are not supported.
+        public let timeZoneId: String
+
+        public init(contactIds: [String], idempotencyToken: String? = nil, name: String, recurrence: RecurrenceSettings, startTime: Date? = nil, tags: [Tag]? = nil, timeZoneId: String) {
+            self.contactIds = contactIds
+            self.idempotencyToken = idempotencyToken
+            self.name = name
+            self.recurrence = recurrence
+            self.startTime = startTime
+            self.tags = tags
+            self.timeZoneId = timeZoneId
+        }
+
+        public func validate(name: String) throws {
+            try self.contactIds.forEach {
+                try validate($0, name: "contactIds[]", parent: name, max: 2048)
+                try validate($0, name: "contactIds[]", parent: name, min: 1)
+                try validate($0, name: "contactIds[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*$")
+            }
+            try self.validate(self.contactIds, name: "contactIds", parent: name, max: 30)
+            try self.validate(self.contactIds, name: "contactIds", parent: name, min: 1)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 2048)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "^[\\\\\\/a-zA-Z0-9_+=\\-]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-\\s\\.]*$")
+            try self.recurrence.validate(name: "\(name).recurrence")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.timeZoneId, name: "timeZoneId", parent: name, max: 255)
+            try self.validate(self.timeZoneId, name: "timeZoneId", parent: name, min: 1)
+            try self.validate(self.timeZoneId, name: "timeZoneId", parent: name, pattern: "^[:a-zA-Z0-9_\\-\\s\\.\\\\/]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactIds = "ContactIds"
+            case idempotencyToken = "IdempotencyToken"
+            case name = "Name"
+            case recurrence = "Recurrence"
+            case startTime = "StartTime"
+            case tags = "Tags"
+            case timeZoneId = "TimeZoneId"
+        }
+    }
+
+    public struct CreateRotationResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created rotation.
+        public let rotationArn: String
+
+        public init(rotationArn: String) {
+            self.rotationArn = rotationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rotationArn = "RotationArn"
+        }
+    }
+
     public struct DeactivateContactChannelRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the contact channel you're deactivating.
         public let contactChannelId: String
@@ -454,6 +623,59 @@ extension SSMContacts {
     }
 
     public struct DeleteContactResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteRotationOverrideRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the rotation that was overridden.
+        public let rotationId: String
+        /// The Amazon Resource Name (ARN) of the on-call rotation override to delete.
+        public let rotationOverrideId: String
+
+        public init(rotationId: String, rotationOverrideId: String) {
+            self.rotationId = rotationId
+            self.rotationOverrideId = rotationOverrideId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.rotationId, name: "rotationId", parent: name, max: 2048)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, min: 1)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*$")
+            try self.validate(self.rotationOverrideId, name: "rotationOverrideId", parent: name, max: 39)
+            try self.validate(self.rotationOverrideId, name: "rotationOverrideId", parent: name, min: 36)
+            try self.validate(self.rotationOverrideId, name: "rotationOverrideId", parent: name, pattern: "^([a-fA-Z0-9]{8,11}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}){1}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rotationId = "RotationId"
+            case rotationOverrideId = "RotationOverrideId"
+        }
+    }
+
+    public struct DeleteRotationOverrideResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteRotationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the on-call rotation to delete.
+        public let rotationId: String
+
+        public init(rotationId: String) {
+            self.rotationId = rotationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.rotationId, name: "rotationId", parent: name, max: 2048)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, min: 1)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rotationId = "RotationId"
+        }
+    }
+
+    public struct DeleteRotationResult: AWSDecodableShape {
         public init() {}
     }
 
@@ -770,6 +992,141 @@ extension SSMContacts {
         }
     }
 
+    public struct GetRotationOverrideRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the overridden rotation to retrieve information about.
+        public let rotationId: String
+        /// The Amazon Resource Name (ARN) of the on-call rotation override to retrieve information about.
+        public let rotationOverrideId: String
+
+        public init(rotationId: String, rotationOverrideId: String) {
+            self.rotationId = rotationId
+            self.rotationOverrideId = rotationOverrideId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.rotationId, name: "rotationId", parent: name, max: 2048)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, min: 1)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*$")
+            try self.validate(self.rotationOverrideId, name: "rotationOverrideId", parent: name, max: 39)
+            try self.validate(self.rotationOverrideId, name: "rotationOverrideId", parent: name, min: 36)
+            try self.validate(self.rotationOverrideId, name: "rotationOverrideId", parent: name, pattern: "^([a-fA-Z0-9]{8,11}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}){1}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rotationId = "RotationId"
+            case rotationOverrideId = "RotationOverrideId"
+        }
+    }
+
+    public struct GetRotationOverrideResult: AWSDecodableShape {
+        /// The date and time when the override was created.
+        public let createTime: Date?
+        /// The date and time when the override ends.
+        public let endTime: Date?
+        /// The Amazon Resource Names (ARNs) of the contacts assigned to the override of the on-call rotation.
+        public let newContactIds: [String]?
+        /// The Amazon Resource Name (ARN) of the on-call rotation that was overridden.
+        public let rotationArn: String?
+        /// The Amazon Resource Name (ARN) of the override to an on-call rotation.
+        public let rotationOverrideId: String?
+        /// The date and time when the override goes into effect.
+        public let startTime: Date?
+
+        public init(createTime: Date? = nil, endTime: Date? = nil, newContactIds: [String]? = nil, rotationArn: String? = nil, rotationOverrideId: String? = nil, startTime: Date? = nil) {
+            self.createTime = createTime
+            self.endTime = endTime
+            self.newContactIds = newContactIds
+            self.rotationArn = rotationArn
+            self.rotationOverrideId = rotationOverrideId
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "CreateTime"
+            case endTime = "EndTime"
+            case newContactIds = "NewContactIds"
+            case rotationArn = "RotationArn"
+            case rotationOverrideId = "RotationOverrideId"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct GetRotationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the on-call rotation to retrieve information about.
+        public let rotationId: String
+
+        public init(rotationId: String) {
+            self.rotationId = rotationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.rotationId, name: "rotationId", parent: name, max: 2048)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, min: 1)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rotationId = "RotationId"
+        }
+    }
+
+    public struct GetRotationResult: AWSDecodableShape {
+        /// The Amazon Resource Names (ARNs) of the contacts assigned to the on-call rotation team.
+        public let contactIds: [String]
+        /// The name of the on-call rotation.
+        public let name: String
+        /// Specifies how long a rotation lasts before restarting at the beginning of the shift order.
+        public let recurrence: RecurrenceSettings
+        /// The Amazon Resource Name (ARN) of the on-call rotation.
+        public let rotationArn: String
+        /// The specified start time for the on-call rotation.
+        public let startTime: Date
+        /// The time zone that the rotation’s activity is based on, in Internet Assigned Numbers Authority (IANA) format.
+        public let timeZoneId: String
+
+        public init(contactIds: [String], name: String, recurrence: RecurrenceSettings, rotationArn: String, startTime: Date, timeZoneId: String) {
+            self.contactIds = contactIds
+            self.name = name
+            self.recurrence = recurrence
+            self.rotationArn = rotationArn
+            self.startTime = startTime
+            self.timeZoneId = timeZoneId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactIds = "ContactIds"
+            case name = "Name"
+            case recurrence = "Recurrence"
+            case rotationArn = "RotationArn"
+            case startTime = "StartTime"
+            case timeZoneId = "TimeZoneId"
+        }
+    }
+
+    public struct HandOffTime: AWSEncodableShape & AWSDecodableShape {
+        /// The hour when an on-call rotation shift begins or ends.
+        public let hourOfDay: Int
+        /// The minute when an on-call rotation shift begins or ends.
+        public let minuteOfHour: Int
+
+        public init(hourOfDay: Int, minuteOfHour: Int) {
+            self.hourOfDay = hourOfDay
+            self.minuteOfHour = minuteOfHour
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hourOfDay, name: "hourOfDay", parent: name, max: 23)
+            try self.validate(self.hourOfDay, name: "hourOfDay", parent: name, min: 0)
+            try self.validate(self.minuteOfHour, name: "minuteOfHour", parent: name, max: 59)
+            try self.validate(self.minuteOfHour, name: "minuteOfHour", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hourOfDay = "HourOfDay"
+            case minuteOfHour = "MinuteOfHour"
+        }
+    }
+
     public struct ListContactChannelsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the contact.
         public let contactId: String
@@ -969,6 +1326,48 @@ extension SSMContacts {
         }
     }
 
+    public struct ListPageResolutionsRequest: AWSEncodableShape {
+        /// A token to start the list. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the contact engaged for the incident.
+        public let pageId: String
+
+        public init(nextToken: String? = nil, pageId: String) {
+            self.nextToken = nextToken
+            self.pageId = pageId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\\\/a-zA-Z0-9_+=\\-]*$")
+            try self.validate(self.pageId, name: "pageId", parent: name, max: 2048)
+            try self.validate(self.pageId, name: "pageId", parent: name, min: 1)
+            try self.validate(self.pageId, name: "pageId", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pageId = "PageId"
+        }
+    }
+
+    public struct ListPageResolutionsResult: AWSDecodableShape {
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// Information about the resolution for an engagement.
+        public let pageResolutions: [ResolutionContact]
+
+        public init(nextToken: String? = nil, pageResolutions: [ResolutionContact]) {
+            self.nextToken = nextToken
+            self.pageResolutions = pageResolutions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pageResolutions = "PageResolutions"
+        }
+    }
+
     public struct ListPagesByContactRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the contact you are retrieving engagements for.
         public let contactId: String
@@ -1065,6 +1464,249 @@ extension SSMContacts {
         }
     }
 
+    public struct ListPreviewRotationShiftsRequest: AWSEncodableShape {
+        /// The date and time a rotation shift would end.
+        public let endTime: Date
+        /// The maximum number of items to return for this call. The call also returns a token that can be specified in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// The contacts that would be assigned to a rotation.
+        public let members: [String]
+        /// A token to start the list. This token is used to get the next set of results.
+        public let nextToken: String?
+        /// Information about changes that would be made in a rotation override.
+        public let overrides: [PreviewOverride]?
+        /// Information about how long a rotation would last before restarting at the beginning of the shift order.
+        public let recurrence: RecurrenceSettings
+        /// The date and time a rotation would begin. The first shift is calculated from this date and time.
+        public let rotationStartTime: Date?
+        /// Used to filter the range of calculated shifts before sending the response back to the user.
+        public let startTime: Date?
+        /// The time zone the rotation’s activity would be based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul".
+        public let timeZoneId: String
+
+        public init(endTime: Date, maxResults: Int? = nil, members: [String], nextToken: String? = nil, overrides: [PreviewOverride]? = nil, recurrence: RecurrenceSettings, rotationStartTime: Date? = nil, startTime: Date? = nil, timeZoneId: String) {
+            self.endTime = endTime
+            self.maxResults = maxResults
+            self.members = members
+            self.nextToken = nextToken
+            self.overrides = overrides
+            self.recurrence = recurrence
+            self.rotationStartTime = rotationStartTime
+            self.startTime = startTime
+            self.timeZoneId = timeZoneId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1024)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.members.forEach {
+                try validate($0, name: "members[]", parent: name, max: 512)
+                try validate($0, name: "members[]", parent: name, min: 1)
+                try validate($0, name: "members[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.members, name: "members", parent: name, max: 30)
+            try self.validate(self.members, name: "members", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\\\/a-zA-Z0-9_+=\\-]*$")
+            try self.overrides?.forEach {
+                try $0.validate(name: "\(name).overrides[]")
+            }
+            try self.recurrence.validate(name: "\(name).recurrence")
+            try self.validate(self.timeZoneId, name: "timeZoneId", parent: name, max: 255)
+            try self.validate(self.timeZoneId, name: "timeZoneId", parent: name, min: 1)
+            try self.validate(self.timeZoneId, name: "timeZoneId", parent: name, pattern: "^[:a-zA-Z0-9_\\-\\s\\.\\\\/]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case maxResults = "MaxResults"
+            case members = "Members"
+            case nextToken = "NextToken"
+            case overrides = "Overrides"
+            case recurrence = "Recurrence"
+            case rotationStartTime = "RotationStartTime"
+            case startTime = "StartTime"
+            case timeZoneId = "TimeZoneId"
+        }
+    }
+
+    public struct ListPreviewRotationShiftsResult: AWSDecodableShape {
+        /// The token for the next set of items to return. This token is used to get the next set of results.
+        public let nextToken: String?
+        /// Details about a rotation shift, including times, types, and contacts.
+        public let rotationShifts: [RotationShift]?
+
+        public init(nextToken: String? = nil, rotationShifts: [RotationShift]? = nil) {
+            self.nextToken = nextToken
+            self.rotationShifts = rotationShifts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case rotationShifts = "RotationShifts"
+        }
+    }
+
+    public struct ListRotationOverridesRequest: AWSEncodableShape {
+        /// The date and time for the end of a time range for listing overrides.
+        public let endTime: Date
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// A token to start the list. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the rotation to retrieve information about.
+        public let rotationId: String
+        /// The date and time for the beginning of a time range for listing overrides.
+        public let startTime: Date
+
+        public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, rotationId: String, startTime: Date) {
+            self.endTime = endTime
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.rotationId = rotationId
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1024)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\\\/a-zA-Z0-9_+=\\-]*$")
+            try self.validate(self.rotationId, name: "rotationId", parent: name, max: 2048)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, min: 1)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case rotationId = "RotationId"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct ListRotationOverridesResult: AWSDecodableShape {
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// A list of rotation overrides in the specified time range.
+        public let rotationOverrides: [RotationOverride]?
+
+        public init(nextToken: String? = nil, rotationOverrides: [RotationOverride]? = nil) {
+            self.nextToken = nextToken
+            self.rotationOverrides = rotationOverrides
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case rotationOverrides = "RotationOverrides"
+        }
+    }
+
+    public struct ListRotationShiftsRequest: AWSEncodableShape {
+        /// The date and time for the end of the time range to list shifts for.
+        public let endTime: Date
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// A token to start the list. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the rotation to retrieve shift information about.
+        public let rotationId: String
+        /// The date and time for the beginning of the time range to list shifts for.
+        public let startTime: Date?
+
+        public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, rotationId: String, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.rotationId = rotationId
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1024)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\\\/a-zA-Z0-9_+=\\-]*$")
+            try self.validate(self.rotationId, name: "rotationId", parent: name, max: 2048)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, min: 1)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case rotationId = "RotationId"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct ListRotationShiftsResult: AWSDecodableShape {
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// Information about shifts that meet the filter criteria.
+        public let rotationShifts: [RotationShift]?
+
+        public init(nextToken: String? = nil, rotationShifts: [RotationShift]? = nil) {
+            self.nextToken = nextToken
+            self.rotationShifts = rotationShifts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case rotationShifts = "RotationShifts"
+        }
+    }
+
+    public struct ListRotationsRequest: AWSEncodableShape {
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// A token to start the list. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// A filter to include rotations in list results based on their common prefix. For example, entering prod returns a list of all rotation names that begin with prod, such as production and prod-1.
+        public let rotationNamePrefix: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, rotationNamePrefix: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.rotationNamePrefix = rotationNamePrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1024)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\\\/a-zA-Z0-9_+=\\-]*$")
+            try self.validate(self.rotationNamePrefix, name: "rotationNamePrefix", parent: name, max: 255)
+            try self.validate(self.rotationNamePrefix, name: "rotationNamePrefix", parent: name, min: 1)
+            try self.validate(self.rotationNamePrefix, name: "rotationNamePrefix", parent: name, pattern: "^[a-zA-Z0-9_\\-\\s\\.]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case rotationNamePrefix = "RotationNamePrefix"
+        }
+    }
+
+    public struct ListRotationsResult: AWSDecodableShape {
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// Information about rotations that meet the filter criteria.
+        public let rotations: [Rotation]
+
+        public init(nextToken: String? = nil, rotations: [Rotation]) {
+            self.nextToken = nextToken
+            self.rotations = rotations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case rotations = "Rotations"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the contact or escalation plan.
         public let resourceARN: String
@@ -1093,6 +1735,29 @@ extension SSMContacts {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct MonthlySetting: AWSEncodableShape & AWSDecodableShape {
+        /// The day of the month when monthly recurring on-call rotations begin.
+        public let dayOfMonth: Int
+        /// The time of day when a monthly recurring on-call shift rotation begins.
+        public let handOffTime: HandOffTime
+
+        public init(dayOfMonth: Int, handOffTime: HandOffTime) {
+            self.dayOfMonth = dayOfMonth
+            self.handOffTime = handOffTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dayOfMonth, name: "dayOfMonth", parent: name, max: 31)
+            try self.validate(self.dayOfMonth, name: "dayOfMonth", parent: name, min: 1)
+            try self.handOffTime.validate(name: "\(name).handOffTime")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dayOfMonth = "DayOfMonth"
+            case handOffTime = "HandOffTime"
         }
     }
 
@@ -1138,21 +1803,61 @@ extension SSMContacts {
     }
 
     public struct Plan: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Names (ARNs) of the on-call rotations associated with the plan.
+        public let rotationIds: [String]?
         /// A list of stages that the escalation plan or engagement plan uses to engage contacts and contact methods.
-        public let stages: [Stage]
+        public let stages: [Stage]?
 
-        public init(stages: [Stage]) {
+        public init(rotationIds: [String]? = nil, stages: [Stage]? = nil) {
+            self.rotationIds = rotationIds
             self.stages = stages
         }
 
         public func validate(name: String) throws {
-            try self.stages.forEach {
+            try self.rotationIds?.forEach {
+                try validate($0, name: "rotationIds[]", parent: name, max: 2048)
+                try validate($0, name: "rotationIds[]", parent: name, min: 1)
+                try validate($0, name: "rotationIds[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*$")
+            }
+            try self.validate(self.rotationIds, name: "rotationIds", parent: name, max: 25)
+            try self.stages?.forEach {
                 try $0.validate(name: "\(name).stages[]")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case rotationIds = "RotationIds"
             case stages = "Stages"
+        }
+    }
+
+    public struct PreviewOverride: AWSEncodableShape {
+        /// Information about the time a rotation override would end.
+        public let endTime: Date?
+        /// Information about contacts to add to an on-call rotation override.
+        public let newMembers: [String]?
+        /// Information about the time a rotation override would begin.
+        public let startTime: Date?
+
+        public init(endTime: Date? = nil, newMembers: [String]? = nil, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.newMembers = newMembers
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.newMembers?.forEach {
+                try validate($0, name: "newMembers[]", parent: name, max: 512)
+                try validate($0, name: "newMembers[]", parent: name, min: 1)
+                try validate($0, name: "newMembers[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.newMembers, name: "newMembers", parent: name, max: 30)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case newMembers = "NewMembers"
+            case startTime = "StartTime"
         }
     }
 
@@ -1211,6 +1916,166 @@ extension SSMContacts {
         }
     }
 
+    public struct RecurrenceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Information about on-call rotations that recur daily.
+        public let dailySettings: [HandOffTime]?
+        /// Information about on-call rotations that recur monthly.
+        public let monthlySettings: [MonthlySetting]?
+        /// The number of contacts, or shift team members designated to be on call concurrently during a shift. For example, in an on-call schedule containing ten contacts, a value of 2 designates that two of them are on call at any given time.
+        public let numberOfOnCalls: Int
+        /// The number of days, weeks, or months a single rotation lasts.
+        public let recurrenceMultiplier: Int
+        /// Information about the days of the week included in on-call rotation coverage.
+        public let shiftCoverages: [DayOfWeek: [CoverageTime]]?
+        /// Information about on-call rotations that recur weekly.
+        public let weeklySettings: [WeeklySetting]?
+
+        public init(dailySettings: [HandOffTime]? = nil, monthlySettings: [MonthlySetting]? = nil, numberOfOnCalls: Int, recurrenceMultiplier: Int, shiftCoverages: [DayOfWeek: [CoverageTime]]? = nil, weeklySettings: [WeeklySetting]? = nil) {
+            self.dailySettings = dailySettings
+            self.monthlySettings = monthlySettings
+            self.numberOfOnCalls = numberOfOnCalls
+            self.recurrenceMultiplier = recurrenceMultiplier
+            self.shiftCoverages = shiftCoverages
+            self.weeklySettings = weeklySettings
+        }
+
+        public func validate(name: String) throws {
+            try self.dailySettings?.forEach {
+                try $0.validate(name: "\(name).dailySettings[]")
+            }
+            try self.monthlySettings?.forEach {
+                try $0.validate(name: "\(name).monthlySettings[]")
+            }
+            try self.validate(self.numberOfOnCalls, name: "numberOfOnCalls", parent: name, min: 1)
+            try self.validate(self.recurrenceMultiplier, name: "recurrenceMultiplier", parent: name, max: 100)
+            try self.validate(self.recurrenceMultiplier, name: "recurrenceMultiplier", parent: name, min: 1)
+            try self.weeklySettings?.forEach {
+                try $0.validate(name: "\(name).weeklySettings[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dailySettings = "DailySettings"
+            case monthlySettings = "MonthlySettings"
+            case numberOfOnCalls = "NumberOfOnCalls"
+            case recurrenceMultiplier = "RecurrenceMultiplier"
+            case shiftCoverages = "ShiftCoverages"
+            case weeklySettings = "WeeklySettings"
+        }
+    }
+
+    public struct ResolutionContact: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of a contact in the engagement resolution process.
+        public let contactArn: String
+        /// The stage in the escalation plan that resolves to this contact.
+        public let stageIndex: Int?
+        /// The type of contact for a resolution step.
+        public let type: ContactType
+
+        public init(contactArn: String, stageIndex: Int? = nil, type: ContactType) {
+            self.contactArn = contactArn
+            self.stageIndex = stageIndex
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactArn = "ContactArn"
+            case stageIndex = "StageIndex"
+            case type = "Type"
+        }
+    }
+
+    public struct Rotation: AWSDecodableShape {
+        /// The Amazon Resource Names (ARNs) of the contacts assigned to the rotation team.
+        public let contactIds: [String]?
+        /// The name of the rotation.
+        public let name: String
+        /// Information about when an on-call rotation is in effect and how long the rotation period lasts.
+        public let recurrence: RecurrenceSettings?
+        /// The Amazon Resource Name (ARN) of the rotation.
+        public let rotationArn: String
+        /// The date and time the rotation becomes active.
+        public let startTime: Date?
+        /// The time zone the rotation’s activity is based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul".
+        public let timeZoneId: String?
+
+        public init(contactIds: [String]? = nil, name: String, recurrence: RecurrenceSettings? = nil, rotationArn: String, startTime: Date? = nil, timeZoneId: String? = nil) {
+            self.contactIds = contactIds
+            self.name = name
+            self.recurrence = recurrence
+            self.rotationArn = rotationArn
+            self.startTime = startTime
+            self.timeZoneId = timeZoneId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactIds = "ContactIds"
+            case name = "Name"
+            case recurrence = "Recurrence"
+            case rotationArn = "RotationArn"
+            case startTime = "StartTime"
+            case timeZoneId = "TimeZoneId"
+        }
+    }
+
+    public struct RotationOverride: AWSDecodableShape {
+        /// The time a rotation override was created.
+        public let createTime: Date
+        /// The time a rotation override ends.
+        public let endTime: Date
+        /// The Amazon Resource Names (ARNs) of the contacts assigned to the override of the on-call rotation.
+        public let newContactIds: [String]
+        /// The Amazon Resource Name (ARN) of the override to an on-call rotation.
+        public let rotationOverrideId: String
+        /// The time a rotation override begins.
+        public let startTime: Date
+
+        public init(createTime: Date, endTime: Date, newContactIds: [String], rotationOverrideId: String, startTime: Date) {
+            self.createTime = createTime
+            self.endTime = endTime
+            self.newContactIds = newContactIds
+            self.rotationOverrideId = rotationOverrideId
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "CreateTime"
+            case endTime = "EndTime"
+            case newContactIds = "NewContactIds"
+            case rotationOverrideId = "RotationOverrideId"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct RotationShift: AWSDecodableShape {
+        /// The Amazon Resource Names (ARNs) of the contacts who are part of the shift rotation.
+        public let contactIds: [String]?
+        /// The time a shift rotation ends.
+        public let endTime: Date
+        /// Additional information about an on-call rotation shift.
+        public let shiftDetails: ShiftDetails?
+        /// The time a shift rotation begins.
+        public let startTime: Date
+        /// The type of shift rotation.
+        public let type: ShiftType?
+
+        public init(contactIds: [String]? = nil, endTime: Date, shiftDetails: ShiftDetails? = nil, startTime: Date, type: ShiftType? = nil) {
+            self.contactIds = contactIds
+            self.endTime = endTime
+            self.shiftDetails = shiftDetails
+            self.startTime = startTime
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactIds = "ContactIds"
+            case endTime = "EndTime"
+            case shiftDetails = "ShiftDetails"
+            case startTime = "StartTime"
+            case type = "Type"
+        }
+    }
+
     public struct SendActivationCodeRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the contact channel.
         public let contactChannelId: String
@@ -1232,6 +2097,19 @@ extension SSMContacts {
 
     public struct SendActivationCodeResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ShiftDetails: AWSDecodableShape {
+        /// The Amazon Resources Names (ARNs) of the contacts who were replaced in a shift when an override was created. If the override is deleted, these contacts are restored to the shift.
+        public let overriddenContactIds: [String]
+
+        public init(overriddenContactIds: [String]) {
+            self.overriddenContactIds = overriddenContactIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overriddenContactIds = "OverriddenContactIds"
+        }
     }
 
     public struct Stage: AWSEncodableShape & AWSDecodableShape {
@@ -1560,6 +2438,77 @@ extension SSMContacts {
 
     public struct UpdateContactResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateRotationRequest: AWSEncodableShape {
+        /// The Amazon Resource Names (ARNs) of the contacts to include in the updated rotation.  The order in which you list the contacts is their shift order in the rotation schedule.
+        public let contactIds: [String]?
+        /// Information about how long the updated rotation lasts before restarting at the beginning of the shift order.
+        public let recurrence: RecurrenceSettings
+        /// The Amazon Resource Name (ARN) of the rotation to update.
+        public let rotationId: String
+        /// The date and time the rotation goes into effect.
+        public let startTime: Date?
+        /// The time zone to base the updated rotation’s activity on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.  Designators for time zones that don’t support Daylight Savings Time Rules, such as Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
+        public let timeZoneId: String?
+
+        public init(contactIds: [String]? = nil, recurrence: RecurrenceSettings, rotationId: String, startTime: Date? = nil, timeZoneId: String? = nil) {
+            self.contactIds = contactIds
+            self.recurrence = recurrence
+            self.rotationId = rotationId
+            self.startTime = startTime
+            self.timeZoneId = timeZoneId
+        }
+
+        public func validate(name: String) throws {
+            try self.contactIds?.forEach {
+                try validate($0, name: "contactIds[]", parent: name, max: 2048)
+                try validate($0, name: "contactIds[]", parent: name, min: 1)
+                try validate($0, name: "contactIds[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*$")
+            }
+            try self.validate(self.contactIds, name: "contactIds", parent: name, max: 30)
+            try self.validate(self.contactIds, name: "contactIds", parent: name, min: 1)
+            try self.recurrence.validate(name: "\(name).recurrence")
+            try self.validate(self.rotationId, name: "rotationId", parent: name, max: 2048)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, min: 1)
+            try self.validate(self.rotationId, name: "rotationId", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*$")
+            try self.validate(self.timeZoneId, name: "timeZoneId", parent: name, max: 255)
+            try self.validate(self.timeZoneId, name: "timeZoneId", parent: name, min: 1)
+            try self.validate(self.timeZoneId, name: "timeZoneId", parent: name, pattern: "^[:a-zA-Z0-9_\\-\\s\\.\\\\/]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactIds = "ContactIds"
+            case recurrence = "Recurrence"
+            case rotationId = "RotationId"
+            case startTime = "StartTime"
+            case timeZoneId = "TimeZoneId"
+        }
+    }
+
+    public struct UpdateRotationResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct WeeklySetting: AWSEncodableShape & AWSDecodableShape {
+        /// The day of the week when weekly recurring on-call shift rotations begins.
+        public let dayOfWeek: DayOfWeek
+        /// The time of day when a weekly recurring on-call shift rotation begins.
+        public let handOffTime: HandOffTime
+
+        public init(dayOfWeek: DayOfWeek, handOffTime: HandOffTime) {
+            self.dayOfWeek = dayOfWeek
+            self.handOffTime = handOffTime
+        }
+
+        public func validate(name: String) throws {
+            try self.handOffTime.validate(name: "\(name).handOffTime")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dayOfWeek = "DayOfWeek"
+            case handOffTime = "HandOffTime"
+        }
     }
 }
 

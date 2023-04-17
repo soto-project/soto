@@ -1400,7 +1400,7 @@ extension ElasticLoadBalancing {
         /// The Amazon Resource Name (ARN) of the SSL certificate.
         public let sslCertificateId: String
 
-        public init(loadBalancerName: String, loadBalancerPort: Int, sslCertificateId: String) {
+        public init(loadBalancerName: String, loadBalancerPort: Int = 0, sslCertificateId: String) {
             self.loadBalancerName = loadBalancerName
             self.loadBalancerPort = loadBalancerPort
             self.sslCertificateId = sslCertificateId
@@ -1452,7 +1452,7 @@ extension ElasticLoadBalancing {
         @CustomCoding<StandardArrayCoder>
         public var policyNames: [String]
 
-        public init(loadBalancerName: String, loadBalancerPort: Int, policyNames: [String]) {
+        public init(loadBalancerName: String, loadBalancerPort: Int = 0, policyNames: [String]) {
             self.loadBalancerName = loadBalancerName
             self.loadBalancerPort = loadBalancerPort
             self.policyNames = policyNames

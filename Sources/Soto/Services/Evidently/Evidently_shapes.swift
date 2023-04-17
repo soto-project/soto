@@ -287,7 +287,7 @@ extension Evidently {
         public let samplingRate: Int64?
         /// Specifies an audience segment to use in the experiment. When a segment is used in an experiment, only user sessions that match the segment pattern are used in the experiment.
         public let segment: String?
-        /// Assigns one or more tags (key-value pairs) to the experiment. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.  You can associate as many as 50 tags with an experiment. For more information, see Tagging Amazon Web Services resources.
+        /// Assigns one or more tags (key-value pairs) to the experiment. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with an experiment. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
         /// An array of structures that describe the configuration of each feature variation used in the experiment.
         public let treatments: [TreatmentConfig]
@@ -372,7 +372,7 @@ extension Evidently {
         public let defaultVariation: String?
         /// An optional description of the feature.
         public let description: String?
-        /// Specify users that should always be served a specific variation of a feature. Each user is specified by a key-value pair . For each key, specify a user by entering their user ID, account ID, or some other identifier. For the value, specify the name of the variation that they are to be served.
+        /// Specify users that should always be served a specific variation of a feature. Each user is specified by a key-value pair . For each key, specify a user by entering their user ID, account ID, or some other identifier. For the value, specify the name of the variation that they are to be served. This parameter is limited to 2500 overrides or a total of 40KB. The 40KB limit includes an overhead of 6 bytes per override.
         public let entityOverrides: [String: String]?
         /// Specify ALL_RULES to activate the traffic allocation specified by any ongoing launches or experiments. Specify DEFAULT_VARIATION to serve the default variation to all users instead.
         public let evaluationStrategy: FeatureEvaluationStrategy?
@@ -380,7 +380,7 @@ extension Evidently {
         public let name: String
         /// The name or ARN of the project that is to contain the new feature.
         public let project: String
-        /// Assigns one or more tags (key-value pairs) to the feature. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.  You can associate as many as 50 tags with a feature. For more information, see Tagging Amazon Web Services resources.
+        /// Assigns one or more tags (key-value pairs) to the feature. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with a feature. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
         /// An array of structures that contain the configuration of the feature's different variations.
         public let variations: [VariationConfig]
@@ -410,7 +410,7 @@ extension Evidently {
                 try validate($0.value, name: "entityOverrides[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "entityOverrides[\"\($0.key)\"]", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             }
-            try self.validate(self.entityOverrides, name: "entityOverrides", parent: name, max: 20)
+            try self.validate(self.entityOverrides, name: "entityOverrides", parent: name, max: 2500)
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
@@ -472,7 +472,7 @@ extension Evidently {
         public let randomizationSalt: String?
         /// An array of structures that define the traffic allocation percentages among the feature variations during each step of the launch.
         public let scheduledSplitsConfig: ScheduledSplitsLaunchConfig?
-        /// Assigns one or more tags (key-value pairs) to the launch. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.  You can associate as many as 50 tags with a launch. For more information, see Tagging Amazon Web Services resources.
+        /// Assigns one or more tags (key-value pairs) to the launch. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with a launch. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
 
         public init(description: String? = nil, groups: [LaunchGroupConfig], metricMonitors: [MetricMonitorConfig]? = nil, name: String, project: String, randomizationSalt: String? = nil, scheduledSplitsConfig: ScheduledSplitsLaunchConfig? = nil, tags: [String: String]? = nil) {
@@ -547,7 +547,7 @@ extension Evidently {
         public let description: String?
         /// The name for the project.
         public let name: String
-        /// Assigns one or more tags (key-value pairs) to the project. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.  You can associate as many as 50 tags with a project. For more information, see Tagging Amazon Web Services resources.
+        /// Assigns one or more tags (key-value pairs) to the project. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with a project. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
 
         public init(appConfigResource: ProjectAppConfigResourceConfig? = nil, dataDelivery: ProjectDataDeliveryConfig? = nil, description: String? = nil, name: String, tags: [String: String]? = nil) {
@@ -603,7 +603,7 @@ extension Evidently {
         public let name: String
         /// The pattern to use for the segment. For more information about pattern syntax,  see  Segment rule pattern syntax.
         public let pattern: String
-        /// Assigns one or more tags (key-value pairs) to the segment. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters.  You can associate as many as 50 tags with a segment. For more information, see Tagging Amazon Web Services resources.
+        /// Assigns one or more tags (key-value pairs) to the segment. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with a segment. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
 
         public init(description: String? = nil, name: String, pattern: String, tags: [String: String]? = nil) {
@@ -799,7 +799,7 @@ extension Evidently {
 
         /// An internal ID that represents a unique user of the application. This entityID is checked against any override rules assigned for this feature.
         public let entityId: String
-        /// A JSON object of attributes that you can optionally pass in as part of the evaluation event sent to Evidently from the user session. Evidently can use  this value to match user sessions with defined audience segments. For more information, see Use segments to focus your  audience.  If you include this parameter, the value must be a JSON object. A JSON array is not supported.
+        /// A JSON object of attributes that you can optionally pass in as part of the evaluation event sent to Evidently from the user session. Evidently can use  this value to match user sessions with defined audience segments. For more information, see Use segments to focus your  audience. If you include this parameter, the value must be a JSON object. A JSON array is not supported.
         public let evaluationContext: String?
         /// The name of the feature being evaluated.
         public let feature: String
@@ -2561,7 +2561,7 @@ extension Evidently {
     }
 
     public struct ScheduledSplitConfig: AWSEncodableShape {
-        /// The traffic allocation percentages among the feature variations during one step of a launch. This is a set of key-value pairs. The keys are variation names. The values represent the percentage of traffic to allocate to that variation during this step.  The values is expressed in thousandths of a percent, so assigning a weight of 50000 assigns 50% of traffic to that variation. If the sum of the weights for all the variations in a segment override does not add up to 100,000,  then the remaining traffic that matches this segment is not assigned by this segment override, and instead moves on to the next segment override or the default traffic split.
+        /// The traffic allocation percentages among the feature variations during one step of a launch. This is a set of key-value pairs. The keys are variation names. The values represent the percentage of traffic to allocate to that variation during this step. The values is expressed in thousandths of a percent, so assigning a weight of 50000 assigns 50% of traffic to that variation. If the sum of the weights for all the variations in a segment override does not add up to 100,000,  then the remaining traffic that matches this segment is not assigned by this segment override, and instead moves on to the next segment override or the default traffic split.
         public let groupWeights: [String: Int64]
         /// Use this parameter to specify different traffic splits for one or more audience segments.  A segment is a portion of your audience that share one or more characteristics. Examples could be Chrome browser users,  users in Europe, or Firefox browser users in Europe who also fit other criteria that your application collects, such as age. This parameter is an array of up to six segment override objects. Each of these objects specifies a segment that you have already created, and defines the traffic split for that segment.
         public let segmentOverrides: [SegmentOverride]?
@@ -3163,7 +3163,7 @@ extension Evidently {
         public let defaultVariation: String?
         /// An optional description of the feature.
         public let description: String?
-        /// Specified users that should always be served a specific variation of a feature. Each user is specified by a key-value pair . For each key, specify a user by entering their user ID, account ID, or some other identifier. For the value, specify the name of the variation that they are to be served.
+        /// Specified users that should always be served a specific variation of a feature. Each user is specified by a key-value pair . For each key, specify a user by entering their user ID, account ID, or some other identifier. For the value, specify the name of the variation that they are to be served. This parameter is limited to 2500 overrides or a total of 40KB. The 40KB limit includes an overhead of 6 bytes per override.
         public let entityOverrides: [String: String]?
         /// Specify ALL_RULES to activate the traffic allocation specified by any ongoing launches or experiments. Specify DEFAULT_VARIATION to serve the default variation to all users instead.
         public let evaluationStrategy: FeatureEvaluationStrategy?
@@ -3204,7 +3204,7 @@ extension Evidently {
                 try validate($0.value, name: "entityOverrides[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "entityOverrides[\"\($0.key)\"]", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             }
-            try self.validate(self.entityOverrides, name: "entityOverrides", parent: name, max: 20)
+            try self.validate(self.entityOverrides, name: "entityOverrides", parent: name, max: 2500)
             try self.validate(self.feature, name: "feature", parent: name, max: 127)
             try self.validate(self.feature, name: "feature", parent: name, min: 1)
             try self.validate(self.feature, name: "feature", parent: name, pattern: "^[-a-zA-Z0-9._]*$")

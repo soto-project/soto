@@ -28,6 +28,15 @@ extension Account {
         public var description: String { return self.rawValue }
     }
 
+    public enum RegionOptStatus: String, CustomStringConvertible, Codable, Sendable {
+        case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabledByDefault = "ENABLED_BY_DEFAULT"
+        case enabling = "ENABLING"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AlternateContact: AWSDecodableShape {
@@ -165,6 +174,52 @@ extension Account {
         }
     }
 
+    public struct DisableRegionRequest: AWSEncodableShape {
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        public let accountId: String?
+        /// Specifies the Region-code for a given Region name (for example, af-south-1). When you disable a Region, Amazon Web Services performs actions to deactivate that Region in your account, such as destroying IAM resources in the Region. This process takes a few minutes for most accounts, but this can take several hours. You cannot enable the Region until the disabling process is fully completed.
+        public let regionName: String
+
+        public init(accountId: String? = nil, regionName: String) {
+            self.accountId = accountId
+            self.regionName = regionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.regionName, name: "regionName", parent: name, max: 50)
+            try self.validate(self.regionName, name: "regionName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case regionName = "RegionName"
+        }
+    }
+
+    public struct EnableRegionRequest: AWSEncodableShape {
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        public let accountId: String?
+        /// Specifies the Region-code for a given Region name (for example, af-south-1). When you enable a Region, Amazon Web Services performs actions to prepare your account in that Region, such as distributing your IAM resources to the Region. This process takes a few minutes for most accounts, but it can take several hours. You cannot use the Region until this process is complete. Furthermore, you cannot disable the Region until the enabling process is fully completed.
+        public let regionName: String
+
+        public init(accountId: String? = nil, regionName: String) {
+            self.accountId = accountId
+            self.regionName = regionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.regionName, name: "regionName", parent: name, max: 50)
+            try self.validate(self.regionName, name: "regionName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case regionName = "RegionName"
+        }
+    }
+
     public struct GetAlternateContactRequest: AWSEncodableShape {
         /// Specifies the 12 digit account ID number of the Amazon Web Services account that  you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the  identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and  the specified account ID must be a member account in the same organization. The organization must have all features  enabled, and the organization must have trusted access enabled for the  Account Management service, and optionally a delegated admin account  assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId  parameter.  To call this operation on an account that is not a member of an organization, then  don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
@@ -229,6 +284,92 @@ extension Account {
         }
     }
 
+    public struct GetRegionOptStatusRequest: AWSEncodableShape {
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        public let accountId: String?
+        /// Specifies the Region-code for a given Region name (for example, af-south-1). This function will return the status of whatever Region you pass into this parameter.
+        public let regionName: String
+
+        public init(accountId: String? = nil, regionName: String) {
+            self.accountId = accountId
+            self.regionName = regionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.regionName, name: "regionName", parent: name, max: 50)
+            try self.validate(self.regionName, name: "regionName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case regionName = "RegionName"
+        }
+    }
+
+    public struct GetRegionOptStatusResponse: AWSDecodableShape {
+        /// The Region code that was passed in.
+        public let regionName: String?
+        /// One of the potential statuses a Region can undergo (Enabled, Enabling, Disabled, Disabling, Enabled_By_Default).
+        public let regionOptStatus: RegionOptStatus?
+
+        public init(regionName: String? = nil, regionOptStatus: RegionOptStatus? = nil) {
+            self.regionName = regionName
+            self.regionOptStatus = regionOptStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionName = "RegionName"
+            case regionOptStatus = "RegionOptStatus"
+        }
+    }
+
+    public struct ListRegionsRequest: AWSEncodableShape {
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        public let accountId: String?
+        /// The total number of items to return in the command’s output. If the total number of items available is more than the value specified, a NextToken is provided in the command’s output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the Amazon Web Services CLI. For usage examples, see Pagination in the Amazon Web Services Command Line Interface User Guide.
+        public let maxResults: Int?
+        /// A token used to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the Amazon Web Services Command Line Interface User Guide.
+        public let nextToken: String?
+        /// A list of Region statuses (Enabling, Enabled, Disabling, Disabled, Enabled_by_default) to use to filter the list of Regions for a given account. For example, passing in a value of ENABLING will only return a list of Regions with a Region status of ENABLING.
+        public let regionOptStatusContains: [RegionOptStatus]?
+
+        public init(accountId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, regionOptStatusContains: [RegionOptStatus]? = nil) {
+            self.accountId = accountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.regionOptStatusContains = regionOptStatusContains
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case regionOptStatusContains = "RegionOptStatusContains"
+        }
+    }
+
+    public struct ListRegionsResponse: AWSDecodableShape {
+        /// If there is more data to be returned, this will be populated. It should be passed into the next-token request parameter of list-regions.
+        public let nextToken: String?
+        /// This is a list of Regions for a given account, or if the filtered parameter was used, a list of Regions that match the filter criteria set in the filter parameter.
+        public let regions: [Region]?
+
+        public init(nextToken: String? = nil, regions: [Region]? = nil) {
+            self.nextToken = nextToken
+            self.regions = regions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case regions = "Regions"
+        }
+    }
+
     public struct PutAlternateContactRequest: AWSEncodableShape {
         /// Specifies the 12 digit account ID number of the Amazon Web Services account that  you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the  identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and  the specified account ID must be a member account in the same organization. The organization must have all features  enabled, and the organization must have trusted access enabled for the  Account Management service, and optionally a delegated admin account  assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId  parameter.  To call this operation on an account that is not a member of an organization, then  don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
@@ -254,9 +395,9 @@ extension Account {
 
         public func validate(name: String) throws {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 64)
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 254)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 1)
-            try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^[\\s]*[\\w+=.#!&-]+@[\\w.-]+\\.[\\w]+[\\s]*$")
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^[\\s]*[\\w+=.#|!&-]+@[\\w.-]+\\.[\\w]+[\\s]*$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 25)
@@ -297,6 +438,23 @@ extension Account {
             case contactInformation = "ContactInformation"
         }
     }
+
+    public struct Region: AWSDecodableShape {
+        /// The Region code of a given Region (for example, us-east-1).
+        public let regionName: String?
+        /// One of potential statuses a Region can undergo (Enabled, Enabling, Disabled, Disabling, Enabled_By_Default).
+        public let regionOptStatus: RegionOptStatus?
+
+        public init(regionName: String? = nil, regionOptStatus: RegionOptStatus? = nil) {
+            self.regionName = regionName
+            self.regionOptStatus = regionOptStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionName = "RegionName"
+            case regionOptStatus = "RegionOptStatus"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -305,6 +463,7 @@ extension Account {
 public struct AccountErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case tooManyRequestsException = "TooManyRequestsException"
@@ -331,6 +490,8 @@ public struct AccountErrorType: AWSErrorType {
 
     /// The operation failed because the calling identity doesn't have the minimum required permissions.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The request could not be processed because of a conflict in the current status of the resource. For example, this happens if you try to enable a Region that is currently being disabled (in a status of DISABLING).
+    public static var conflictException: Self { .init(.conflictException) }
     /// The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The operation failed because it specified a resource that can't be found.

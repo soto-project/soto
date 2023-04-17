@@ -28,6 +28,28 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum BridgePlacement: String, CustomStringConvertible, Codable, Sendable {
+        case available = "AVAILABLE"
+        case locked = "LOCKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BridgeState: String, CustomStringConvertible, Codable, Sendable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case deploying = "DEPLOYING"
+        case standby = "STANDBY"
+        case startFailed = "START_FAILED"
+        case startPending = "START_PENDING"
+        case starting = "STARTING"
+        case stopFailed = "STOP_FAILED"
+        case stopping = "STOPPING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Colorimetry: String, CustomStringConvertible, Codable, Sendable {
         case bt2020 = "BT2020"
         case bt2100 = "BT2100"
@@ -36,6 +58,19 @@ extension MediaConnect {
         case st20651 = "ST2065-1"
         case st20653 = "ST2065-3"
         case xyz = "XYZ"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable {
+        case connected = "CONNECTED"
+        case disconnected = "DISCONNECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DesiredState: String, CustomStringConvertible, Codable, Sendable {
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        case standby = "STANDBY"
         public var description: String { return self.rawValue }
     }
 
@@ -67,6 +102,26 @@ extension MediaConnect {
     public enum FailoverMode: String, CustomStringConvertible, Codable, Sendable {
         case failover = "FAILOVER"
         case merge = "MERGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GatewayState: String, CustomStringConvertible, Codable, Sendable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case error = "ERROR"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceState: String, CustomStringConvertible, Codable, Sendable {
+        case active = "ACTIVE"
+        case deregistered = "DEREGISTERED"
+        case deregistering = "DEREGISTERING"
+        case deregistrationError = "DEREGISTRATION_ERROR"
+        case registering = "REGISTERING"
+        case registrationError = "REGISTRATION_ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -178,12 +233,210 @@ extension MediaConnect {
         case srtCaller = "srt-caller"
         case srtListener = "srt-listener"
         case st2110Jpegxs = "st2110-jpegxs"
+        case udp = "udp"
         case zixiPull = "zixi-pull"
         case zixiPush = "zixi-push"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
+
+    public struct AddBridgeFlowSourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Number (ARN) of the cloud flow to use as a source of this bridge.
+        public let flowArn: String
+        /// The name of the VPC interface attachment to use for this source.
+        public let flowVpcInterfaceAttachment: VpcInterfaceAttachment?
+        /// The name of the flow source. This name is used to reference the source and must be unique among sources in this bridge.
+        public let name: String
+
+        public init(flowArn: String, flowVpcInterfaceAttachment: VpcInterfaceAttachment? = nil, name: String) {
+            self.flowArn = flowArn
+            self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case flowVpcInterfaceAttachment = "flowVpcInterfaceAttachment"
+            case name = "name"
+        }
+    }
+
+    public struct AddBridgeNetworkOutputRequest: AWSEncodableShape {
+        /// The network output IP Address.
+        public let ipAddress: String
+        /// The network output name. This name is used to reference the output and must be unique among outputs in this bridge.
+        public let name: String
+        /// The network output's gateway network name.
+        public let networkName: String
+        /// The network output port.
+        public let port: Int
+        /// The network output protocol.
+        public let `protocol`: `Protocol`
+        /// The network output TTL.
+        public let ttl: Int
+
+        public init(ipAddress: String, name: String, networkName: String, port: Int = 0, protocol: `Protocol`, ttl: Int = 0) {
+            self.ipAddress = ipAddress
+            self.name = name
+            self.networkName = networkName
+            self.port = port
+            self.`protocol` = `protocol`
+            self.ttl = ttl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddress = "ipAddress"
+            case name = "name"
+            case networkName = "networkName"
+            case port = "port"
+            case `protocol` = "protocol"
+            case ttl = "ttl"
+        }
+    }
+
+    public struct AddBridgeNetworkSourceRequest: AWSEncodableShape {
+        /// The network source multicast IP.
+        public let multicastIp: String
+        /// The name of the network source. This name is used to reference the source and must be unique among sources in this bridge.
+        public let name: String
+        /// The network source's gateway network name.
+        public let networkName: String
+        /// The network source port.
+        public let port: Int
+        /// The network source protocol.
+        public let `protocol`: `Protocol`
+
+        public init(multicastIp: String, name: String, networkName: String, port: Int = 0, protocol: `Protocol`) {
+            self.multicastIp = multicastIp
+            self.name = name
+            self.networkName = networkName
+            self.port = port
+            self.`protocol` = `protocol`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multicastIp = "multicastIp"
+            case name = "name"
+            case networkName = "networkName"
+            case port = "port"
+            case `protocol` = "protocol"
+        }
+    }
+
+    public struct AddBridgeOutputRequest: AWSEncodableShape {
+        public let networkOutput: AddBridgeNetworkOutputRequest?
+
+        public init(networkOutput: AddBridgeNetworkOutputRequest? = nil) {
+            self.networkOutput = networkOutput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkOutput = "networkOutput"
+        }
+    }
+
+    public struct AddBridgeOutputsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn"))
+        ]
+
+        /// The ARN of the bridge that you want to update.
+        public let bridgeArn: String
+        /// The outputs that you want to add to this bridge.
+        public let outputs: [AddBridgeOutputRequest]
+
+        public init(bridgeArn: String, outputs: [AddBridgeOutputRequest]) {
+            self.bridgeArn = bridgeArn
+            self.outputs = outputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputs = "outputs"
+        }
+    }
+
+    public struct AddBridgeOutputsResponse: AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) of the bridge.
+        public let bridgeArn: String?
+        /// The outputs that you added to this bridge.
+        public let outputs: [BridgeOutput]?
+
+        public init(bridgeArn: String? = nil, outputs: [BridgeOutput]? = nil) {
+            self.bridgeArn = bridgeArn
+            self.outputs = outputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgeArn = "bridgeArn"
+            case outputs = "outputs"
+        }
+    }
+
+    public struct AddBridgeSourceRequest: AWSEncodableShape {
+        public let flowSource: AddBridgeFlowSourceRequest?
+        public let networkSource: AddBridgeNetworkSourceRequest?
+
+        public init(flowSource: AddBridgeFlowSourceRequest? = nil, networkSource: AddBridgeNetworkSourceRequest? = nil) {
+            self.flowSource = flowSource
+            self.networkSource = networkSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowSource = "flowSource"
+            case networkSource = "networkSource"
+        }
+    }
+
+    public struct AddBridgeSourcesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn"))
+        ]
+
+        /// The ARN of the bridge that you want to update.
+        public let bridgeArn: String
+        /// The sources that you want to add to this bridge.
+        public let sources: [AddBridgeSourceRequest]
+
+        public init(bridgeArn: String, sources: [AddBridgeSourceRequest]) {
+            self.bridgeArn = bridgeArn
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sources = "sources"
+        }
+    }
+
+    public struct AddBridgeSourcesResponse: AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) of the bridge.
+        public let bridgeArn: String?
+        /// The sources that you added to this bridge.
+        public let sources: [BridgeSource]?
+
+        public init(bridgeArn: String? = nil, sources: [BridgeSource]? = nil) {
+            self.bridgeArn = bridgeArn
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgeArn = "bridgeArn"
+            case sources = "sources"
+        }
+    }
+
+    public struct AddEgressGatewayBridgeRequest: AWSEncodableShape {
+        /// The maximum expected bitrate (in bps).
+        public let maxBitrate: Int
+
+        public init(maxBitrate: Int = 0) {
+            self.maxBitrate = maxBitrate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxBitrate = "maxBitrate"
+        }
+    }
 
     public struct AddFlowMediaStreamsRequest: AWSEncodableShape {
         public static var _encoding = [
@@ -333,6 +586,23 @@ extension MediaConnect {
         }
     }
 
+    public struct AddIngressGatewayBridgeRequest: AWSEncodableShape {
+        /// The maximum expected bitrate (in bps).
+        public let maxBitrate: Int
+        /// The maximum number of expected outputs.
+        public let maxOutputs: Int
+
+        public init(maxBitrate: Int = 0, maxOutputs: Int = 0) {
+            self.maxBitrate = maxBitrate
+            self.maxOutputs = maxOutputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxBitrate = "maxBitrate"
+            case maxOutputs = "maxOutputs"
+        }
+    }
+
     public struct AddMaintenance: AWSEncodableShape {
         /// A day of a week when the maintenance will happen. Use Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
         public let maintenanceDay: MaintenanceDay
@@ -394,7 +664,7 @@ extension MediaConnect {
         public let description: String?
         /// The IP address from which video will be sent to output destinations.
         public let destination: String?
-        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
+        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Allowable encryption types: static-key.
         public let encryption: Encryption?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
         public let maxLatency: Int?
@@ -414,7 +684,7 @@ extension MediaConnect {
         public let senderControlPort: Int?
         /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
         public let smoothingLatency: Int?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public let streamId: String?
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
@@ -453,6 +723,237 @@ extension MediaConnect {
             case smoothingLatency = "smoothingLatency"
             case streamId = "streamId"
             case vpcInterfaceAttachment = "vpcInterfaceAttachment"
+        }
+    }
+
+    public struct Bridge: AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) of the bridge.
+        public let bridgeArn: String
+        public let bridgeMessages: [MessageDetail]?
+        public let bridgeState: BridgeState
+        public let egressGatewayBridge: EgressGatewayBridge?
+        public let ingressGatewayBridge: IngressGatewayBridge?
+        /// The name of the bridge.
+        public let name: String
+        /// The outputs on this bridge.
+        public let outputs: [BridgeOutput]?
+        /// The placement Amazon Resource Number (ARN) of the bridge.
+        public let placementArn: String
+        public let sourceFailoverConfig: FailoverConfig?
+        /// The sources on this bridge.
+        public let sources: [BridgeSource]?
+
+        public init(bridgeArn: String, bridgeMessages: [MessageDetail]? = nil, bridgeState: BridgeState, egressGatewayBridge: EgressGatewayBridge? = nil, ingressGatewayBridge: IngressGatewayBridge? = nil, name: String, outputs: [BridgeOutput]? = nil, placementArn: String, sourceFailoverConfig: FailoverConfig? = nil, sources: [BridgeSource]? = nil) {
+            self.bridgeArn = bridgeArn
+            self.bridgeMessages = bridgeMessages
+            self.bridgeState = bridgeState
+            self.egressGatewayBridge = egressGatewayBridge
+            self.ingressGatewayBridge = ingressGatewayBridge
+            self.name = name
+            self.outputs = outputs
+            self.placementArn = placementArn
+            self.sourceFailoverConfig = sourceFailoverConfig
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgeArn = "bridgeArn"
+            case bridgeMessages = "bridgeMessages"
+            case bridgeState = "bridgeState"
+            case egressGatewayBridge = "egressGatewayBridge"
+            case ingressGatewayBridge = "ingressGatewayBridge"
+            case name = "name"
+            case outputs = "outputs"
+            case placementArn = "placementArn"
+            case sourceFailoverConfig = "sourceFailoverConfig"
+            case sources = "sources"
+        }
+    }
+
+    public struct BridgeFlowOutput: AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) of the cloud flow.
+        public let flowArn: String
+        /// The Amazon Resource Number (ARN) of the flow source.
+        public let flowSourceArn: String
+        /// The name of the bridge's output.
+        public let name: String
+
+        public init(flowArn: String, flowSourceArn: String, name: String) {
+            self.flowArn = flowArn
+            self.flowSourceArn = flowSourceArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case flowSourceArn = "flowSourceArn"
+            case name = "name"
+        }
+    }
+
+    public struct BridgeFlowSource: AWSDecodableShape {
+        /// The ARN of the cloud flow used as a source of this bridge.
+        public let flowArn: String
+        /// The name of the VPC interface attachment to use for this source.
+        public let flowVpcInterfaceAttachment: VpcInterfaceAttachment?
+        /// The name of the flow source.
+        public let name: String
+        /// The Amazon Resource Number (ARN) of the output.
+        public let outputArn: String?
+
+        public init(flowArn: String, flowVpcInterfaceAttachment: VpcInterfaceAttachment? = nil, name: String, outputArn: String? = nil) {
+            self.flowArn = flowArn
+            self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
+            self.name = name
+            self.outputArn = outputArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case flowVpcInterfaceAttachment = "flowVpcInterfaceAttachment"
+            case name = "name"
+            case outputArn = "outputArn"
+        }
+    }
+
+    public struct BridgeNetworkOutput: AWSDecodableShape {
+        /// The network output IP Address.
+        public let ipAddress: String
+        /// The network output name.
+        public let name: String
+        /// The network output's gateway network name.
+        public let networkName: String
+        /// The network output port.
+        public let port: Int
+        /// The network output protocol.
+        public let `protocol`: `Protocol`
+        /// The network output TTL.
+        public let ttl: Int
+
+        public init(ipAddress: String, name: String, networkName: String, port: Int, protocol: `Protocol`, ttl: Int) {
+            self.ipAddress = ipAddress
+            self.name = name
+            self.networkName = networkName
+            self.port = port
+            self.`protocol` = `protocol`
+            self.ttl = ttl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddress = "ipAddress"
+            case name = "name"
+            case networkName = "networkName"
+            case port = "port"
+            case `protocol` = "protocol"
+            case ttl = "ttl"
+        }
+    }
+
+    public struct BridgeNetworkSource: AWSDecodableShape {
+        /// The network source multicast IP.
+        public let multicastIp: String
+        /// The name of the network source.
+        public let name: String
+        /// The network source's gateway network name.
+        public let networkName: String
+        /// The network source port.
+        public let port: Int
+        /// The network source protocol.
+        public let `protocol`: `Protocol`
+
+        public init(multicastIp: String, name: String, networkName: String, port: Int, protocol: `Protocol`) {
+            self.multicastIp = multicastIp
+            self.name = name
+            self.networkName = networkName
+            self.port = port
+            self.`protocol` = `protocol`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multicastIp = "multicastIp"
+            case name = "name"
+            case networkName = "networkName"
+            case port = "port"
+            case `protocol` = "protocol"
+        }
+    }
+
+    public struct BridgeOutput: AWSDecodableShape {
+        public let flowOutput: BridgeFlowOutput?
+        public let networkOutput: BridgeNetworkOutput?
+
+        public init(flowOutput: BridgeFlowOutput? = nil, networkOutput: BridgeNetworkOutput? = nil) {
+            self.flowOutput = flowOutput
+            self.networkOutput = networkOutput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowOutput = "flowOutput"
+            case networkOutput = "networkOutput"
+        }
+    }
+
+    public struct BridgeSource: AWSDecodableShape {
+        public let flowSource: BridgeFlowSource?
+        public let networkSource: BridgeNetworkSource?
+
+        public init(flowSource: BridgeFlowSource? = nil, networkSource: BridgeNetworkSource? = nil) {
+            self.flowSource = flowSource
+            self.networkSource = networkSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowSource = "flowSource"
+            case networkSource = "networkSource"
+        }
+    }
+
+    public struct CreateBridgeRequest: AWSEncodableShape {
+        /// Create a bridge with the egress bridge type. An egress bridge is a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
+        public let egressGatewayBridge: AddEgressGatewayBridgeRequest?
+        /// Create a bridge with the ingress bridge type. An ingress bridge is a ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
+        public let ingressGatewayBridge: AddIngressGatewayBridgeRequest?
+        /// The name of the bridge. This name can not be modified after the bridge is created.
+        public let name: String
+        /// The outputs that you want to add to this bridge.
+        public let outputs: [AddBridgeOutputRequest]?
+        /// The bridge placement Amazon Resource Number (ARN).
+        public let placementArn: String
+        /// The settings for source failover.
+        public let sourceFailoverConfig: FailoverConfig?
+        /// The sources that you want to add to this bridge.
+        public let sources: [AddBridgeSourceRequest]
+
+        public init(egressGatewayBridge: AddEgressGatewayBridgeRequest? = nil, ingressGatewayBridge: AddIngressGatewayBridgeRequest? = nil, name: String, outputs: [AddBridgeOutputRequest]? = nil, placementArn: String, sourceFailoverConfig: FailoverConfig? = nil, sources: [AddBridgeSourceRequest]) {
+            self.egressGatewayBridge = egressGatewayBridge
+            self.ingressGatewayBridge = ingressGatewayBridge
+            self.name = name
+            self.outputs = outputs
+            self.placementArn = placementArn
+            self.sourceFailoverConfig = sourceFailoverConfig
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case egressGatewayBridge = "egressGatewayBridge"
+            case ingressGatewayBridge = "ingressGatewayBridge"
+            case name = "name"
+            case outputs = "outputs"
+            case placementArn = "placementArn"
+            case sourceFailoverConfig = "sourceFailoverConfig"
+            case sources = "sources"
+        }
+    }
+
+    public struct CreateBridgeResponse: AWSDecodableShape {
+        public let bridge: Bridge?
+
+        public init(bridge: Bridge? = nil) {
+            self.bridge = bridge
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridge = "bridge"
         }
     }
 
@@ -513,6 +1014,67 @@ extension MediaConnect {
         }
     }
 
+    public struct CreateGatewayRequest: AWSEncodableShape {
+        /// The range of IP addresses that are allowed to contribute content or initiate output requests for flows communicating with this gateway. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        public let egressCidrBlocks: [String]
+        /// The name of the gateway. This name can not be modified after the gateway is created.
+        public let name: String
+        /// The list of networks that you want to add.
+        public let networks: [GatewayNetwork]
+
+        public init(egressCidrBlocks: [String], name: String, networks: [GatewayNetwork]) {
+            self.egressCidrBlocks = egressCidrBlocks
+            self.name = name
+            self.networks = networks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case egressCidrBlocks = "egressCidrBlocks"
+            case name = "name"
+            case networks = "networks"
+        }
+    }
+
+    public struct CreateGatewayResponse: AWSDecodableShape {
+        public let gateway: Gateway?
+
+        public init(gateway: Gateway? = nil) {
+            self.gateway = gateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gateway = "gateway"
+        }
+    }
+
+    public struct DeleteBridgeRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn"))
+        ]
+
+        /// The ARN of the bridge that you want to delete.
+        public let bridgeArn: String
+
+        public init(bridgeArn: String) {
+            self.bridgeArn = bridgeArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteBridgeResponse: AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) of the deleted bridge.
+        public let bridgeArn: String?
+
+        public init(bridgeArn: String? = nil) {
+            self.bridgeArn = bridgeArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgeArn = "bridgeArn"
+        }
+    }
+
     public struct DeleteFlowRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
@@ -545,6 +1107,97 @@ extension MediaConnect {
         }
     }
 
+    public struct DeleteGatewayRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "gatewayArn", location: .uri("GatewayArn"))
+        ]
+
+        /// The ARN of the gateway that you want to delete.
+        public let gatewayArn: String
+
+        public init(gatewayArn: String) {
+            self.gatewayArn = gatewayArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteGatewayResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the gateway that was deleted.
+        public let gatewayArn: String?
+
+        public init(gatewayArn: String? = nil) {
+            self.gatewayArn = gatewayArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayArn = "gatewayArn"
+        }
+    }
+
+    public struct DeregisterGatewayInstanceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "force", location: .querystring("force")),
+            AWSMemberEncoding(label: "gatewayInstanceArn", location: .uri("GatewayInstanceArn"))
+        ]
+
+        /// Force the deregistration of an instance. Force will deregister an instance, even if there are bridges running on it.
+        public let force: Bool?
+        /// The Amazon Resource Name (ARN) of the gateway that contains the instance that you want to deregister.
+        public let gatewayInstanceArn: String
+
+        public init(force: Bool? = nil, gatewayInstanceArn: String) {
+            self.force = force
+            self.gatewayInstanceArn = gatewayInstanceArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeregisterGatewayInstanceResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the instance.
+        public let gatewayInstanceArn: String?
+        /// The status of the instance.
+        public let instanceState: InstanceState?
+
+        public init(gatewayInstanceArn: String? = nil, instanceState: InstanceState? = nil) {
+            self.gatewayInstanceArn = gatewayInstanceArn
+            self.instanceState = instanceState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayInstanceArn = "gatewayInstanceArn"
+            case instanceState = "instanceState"
+        }
+    }
+
+    public struct DescribeBridgeRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn"))
+        ]
+
+        /// The ARN of the bridge that you want to describe.
+        public let bridgeArn: String
+
+        public init(bridgeArn: String) {
+            self.bridgeArn = bridgeArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeBridgeResponse: AWSDecodableShape {
+        public let bridge: Bridge?
+
+        public init(bridge: Bridge? = nil) {
+            self.bridge = bridge
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridge = "bridge"
+        }
+    }
+
     public struct DescribeFlowRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "flowArn", location: .uri("FlowArn"))
@@ -572,6 +1225,60 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case flow = "flow"
             case messages = "messages"
+        }
+    }
+
+    public struct DescribeGatewayInstanceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "gatewayInstanceArn", location: .uri("GatewayInstanceArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the gateway instance that you want to describe.
+        public let gatewayInstanceArn: String
+
+        public init(gatewayInstanceArn: String) {
+            self.gatewayInstanceArn = gatewayInstanceArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeGatewayInstanceResponse: AWSDecodableShape {
+        public let gatewayInstance: GatewayInstance?
+
+        public init(gatewayInstance: GatewayInstance? = nil) {
+            self.gatewayInstance = gatewayInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayInstance = "gatewayInstance"
+        }
+    }
+
+    public struct DescribeGatewayRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "gatewayArn", location: .uri("GatewayArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the gateway that you want to describe.
+        public let gatewayArn: String
+
+        public init(gatewayArn: String) {
+            self.gatewayArn = gatewayArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeGatewayResponse: AWSDecodableShape {
+        public let gateway: Gateway?
+
+        public init(gateway: Gateway? = nil) {
+            self.gateway = gateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gateway = "gateway"
         }
     }
 
@@ -672,6 +1379,23 @@ extension MediaConnect {
             case destinationIp = "destinationIp"
             case destinationPort = "destinationPort"
             case interface = "interface"
+        }
+    }
+
+    public struct EgressGatewayBridge: AWSDecodableShape {
+        /// The ID of the instance running this bridge.
+        public let instanceId: String?
+        /// The maximum expected bitrate (in bps) of the egress bridge.
+        public let maxBitrate: Int
+
+        public init(instanceId: String? = nil, maxBitrate: Int) {
+            self.instanceId = instanceId
+            self.maxBitrate = maxBitrate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "instanceId"
+            case maxBitrate = "maxBitrate"
         }
     }
 
@@ -824,7 +1548,7 @@ extension MediaConnect {
         public let egressIp: String?
         /// The entitlements in this flow.
         public let entitlements: [Entitlement]
-        /// The Amazon Resource Name (ARN), a unique identifier for any AWS resource, of the flow.
+        /// The Amazon Resource Name (ARN) of the flow.
         public let flowArn: String
         public let maintenance: Maintenance?
         /// The media streams that are associated with the flow. After you associate a media stream with a source, you can also associate it with outputs on the flow.
@@ -950,12 +1674,118 @@ extension MediaConnect {
         }
     }
 
+    public struct Gateway: AWSDecodableShape {
+        /// The range of IP addresses that contribute content or initiate output requests for flows communicating with this gateway. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        public let egressCidrBlocks: [String]
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayArn: String
+        public let gatewayMessages: [MessageDetail]?
+        /// The current status of the gateway.
+        public let gatewayState: GatewayState?
+        /// The name of the gateway. This name can not be modified after the gateway is created.
+        public let name: String
+        /// The list of networks in the gateway.
+        public let networks: [GatewayNetwork]
+
+        public init(egressCidrBlocks: [String], gatewayArn: String, gatewayMessages: [MessageDetail]? = nil, gatewayState: GatewayState? = nil, name: String, networks: [GatewayNetwork]) {
+            self.egressCidrBlocks = egressCidrBlocks
+            self.gatewayArn = gatewayArn
+            self.gatewayMessages = gatewayMessages
+            self.gatewayState = gatewayState
+            self.name = name
+            self.networks = networks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case egressCidrBlocks = "egressCidrBlocks"
+            case gatewayArn = "gatewayArn"
+            case gatewayMessages = "gatewayMessages"
+            case gatewayState = "gatewayState"
+            case name = "name"
+            case networks = "networks"
+        }
+    }
+
+    public struct GatewayBridgeSource: AWSDecodableShape {
+        /// The ARN of the bridge feeding this flow.
+        public let bridgeArn: String
+        /// The name of the VPC interface attachment to use for this bridge source.
+        public let vpcInterfaceAttachment: VpcInterfaceAttachment?
+
+        public init(bridgeArn: String, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+            self.bridgeArn = bridgeArn
+            self.vpcInterfaceAttachment = vpcInterfaceAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgeArn = "bridgeArn"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
+        }
+    }
+
+    public struct GatewayInstance: AWSDecodableShape {
+        /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
+        public let bridgePlacement: BridgePlacement
+        /// The connection state of the instance.
+        public let connectionStatus: ConnectionStatus
+        /// The Amazon Resource Name (ARN) of the instance.
+        public let gatewayArn: String
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayInstanceArn: String
+        /// The managed instance ID generated by the SSM install. This will begin with "mi-".
+        public let instanceId: String
+        public let instanceMessages: [MessageDetail]?
+        /// The status of the instance.
+        public let instanceState: InstanceState
+        /// The running bridge count.
+        public let runningBridgeCount: Int
+
+        public init(bridgePlacement: BridgePlacement, connectionStatus: ConnectionStatus, gatewayArn: String, gatewayInstanceArn: String, instanceId: String, instanceMessages: [MessageDetail]? = nil, instanceState: InstanceState, runningBridgeCount: Int) {
+            self.bridgePlacement = bridgePlacement
+            self.connectionStatus = connectionStatus
+            self.gatewayArn = gatewayArn
+            self.gatewayInstanceArn = gatewayInstanceArn
+            self.instanceId = instanceId
+            self.instanceMessages = instanceMessages
+            self.instanceState = instanceState
+            self.runningBridgeCount = runningBridgeCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgePlacement = "bridgePlacement"
+            case connectionStatus = "connectionStatus"
+            case gatewayArn = "gatewayArn"
+            case gatewayInstanceArn = "gatewayInstanceArn"
+            case instanceId = "instanceId"
+            case instanceMessages = "instanceMessages"
+            case instanceState = "instanceState"
+            case runningBridgeCount = "runningBridgeCount"
+        }
+    }
+
+    public struct GatewayNetwork: AWSEncodableShape & AWSDecodableShape {
+        /// A unique IP address range to use for this network. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        public let cidrBlock: String
+        /// The name of the network. This name is used to reference the network and must be unique among networks in this gateway.
+        public let name: String
+
+        public init(cidrBlock: String, name: String) {
+            self.cidrBlock = cidrBlock
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrBlock = "cidrBlock"
+            case name = "name"
+        }
+    }
+
     public struct GrantEntitlementRequest: AWSEncodableShape {
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
         /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
         public let description: String?
-        /// The type of encryption that will be used on the output that is associated with this entitlement.
+        /// The type of encryption that will be used on the output that is associated with this entitlement. Allowable encryption types: static-key, speke.
         public let encryption: Encryption?
         /// An indication of whether the new entitlement should be enabled or disabled as soon as it is created. If you don’t specify the entitlementStatus field in your request, MediaConnect sets it to ENABLED.
         public let entitlementStatus: EntitlementStatus?
@@ -1020,6 +1850,27 @@ extension MediaConnect {
         }
     }
 
+    public struct IngressGatewayBridge: AWSDecodableShape {
+        /// The ID of the instance running this bridge.
+        public let instanceId: String?
+        /// The maximum expected bitrate (in bps) of the ingress bridge.
+        public let maxBitrate: Int
+        /// The maximum number of outputs on the ingress bridge.
+        public let maxOutputs: Int
+
+        public init(instanceId: String? = nil, maxBitrate: Int, maxOutputs: Int) {
+            self.instanceId = instanceId
+            self.maxBitrate = maxBitrate
+            self.maxOutputs = maxOutputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "instanceId"
+            case maxBitrate = "maxBitrate"
+            case maxOutputs = "maxOutputs"
+        }
+    }
+
     public struct InputConfiguration: AWSDecodableShape {
         /// The IP address that the flow listens on for incoming content for a media stream.
         public let inputIp: String
@@ -1081,6 +1932,51 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
+        }
+    }
+
+    public struct ListBridgesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filterArn", location: .querystring("filterArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// Filter the list results to display only the bridges associated with the selected Amazon Resource Name (ARN).
+        public let filterArn: String?
+        /// The maximum number of results to return per API request. For example, you submit a ListBridges request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+        public let maxResults: Int?
+        /// The token that identifies which batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
+        public let nextToken: String?
+
+        public init(filterArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filterArn = filterArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListBridgesResponse: AWSDecodableShape {
+        /// A list of bridge summaries.
+        public let bridges: [ListedBridge]?
+        /// The token that identifies which batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
+        public let nextToken: String?
+
+        public init(bridges: [ListedBridge]? = nil, nextToken: String? = nil) {
+            self.bridges = bridges
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridges = "bridges"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1162,6 +2058,92 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case flows = "flows"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListGatewayInstancesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "filterArn", location: .querystring("filterArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// Filter the list results to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
+        public let filterArn: String?
+        /// The maximum number of results to return per API request. For example, you submit a ListInstances request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+        public let maxResults: Int?
+        /// The token that identifies which batch of results that you want to see. For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
+        public let nextToken: String?
+
+        public init(filterArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filterArn = filterArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListGatewayInstancesResponse: AWSDecodableShape {
+        /// A list of instance summaries.
+        public let instances: [ListedGatewayInstance]?
+        /// The token that identifies which batch of results that you want to see. For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
+        public let nextToken: String?
+
+        public init(instances: [ListedGatewayInstance]? = nil, nextToken: String? = nil) {
+            self.instances = instances
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "instances"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListGatewaysRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The maximum number of results to return per API request. For example, you submit a ListGateways request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+        public let maxResults: Int?
+        /// The token that identifies which batch of results that you want to see. For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListGatewaysResponse: AWSDecodableShape {
+        /// A list of gateway summaries.
+        public let gateways: [ListedGateway]?
+        /// The token that identifies which batch of results that you want to see. For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
+        public let nextToken: String?
+
+        public init(gateways: [ListedGateway]? = nil, nextToken: String? = nil) {
+            self.gateways = gateways
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gateways = "gateways"
             case nextToken = "nextToken"
         }
     }
@@ -1276,6 +2258,34 @@ extension MediaConnect {
         }
     }
 
+    public struct ListedBridge: AWSDecodableShape {
+        /// The ARN of the bridge.
+        public let bridgeArn: String
+        public let bridgeState: BridgeState
+        /// The type of the bridge.
+        public let bridgeType: String
+        /// The name of the bridge.
+        public let name: String
+        /// The ARN of the gateway associated with the bridge.
+        public let placementArn: String
+
+        public init(bridgeArn: String, bridgeState: BridgeState, bridgeType: String, name: String, placementArn: String) {
+            self.bridgeArn = bridgeArn
+            self.bridgeState = bridgeState
+            self.bridgeType = bridgeType
+            self.name = name
+            self.placementArn = placementArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgeArn = "bridgeArn"
+            case bridgeState = "bridgeState"
+            case bridgeType = "bridgeType"
+            case name = "name"
+            case placementArn = "placementArn"
+        }
+    }
+
     public struct ListedEntitlement: AWSDecodableShape {
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
@@ -1330,6 +2340,51 @@ extension MediaConnect {
             case name = "name"
             case sourceType = "sourceType"
             case status = "status"
+        }
+    }
+
+    public struct ListedGateway: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayArn: String
+        public let gatewayState: GatewayState
+        /// The name of the gateway.
+        public let name: String
+
+        public init(gatewayArn: String, gatewayState: GatewayState, name: String) {
+            self.gatewayArn = gatewayArn
+            self.gatewayState = gatewayState
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayArn = "gatewayArn"
+            case gatewayState = "gatewayState"
+            case name = "name"
+        }
+    }
+
+    public struct ListedGatewayInstance: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayArn: String
+        /// The Amazon Resource Name (ARN) of the instance.
+        public let gatewayInstanceArn: String
+        /// The managed instance ID generated by the SSM install. This will begin with "mi-".
+        public let instanceId: String
+        /// The status of the instance.
+        public let instanceState: InstanceState?
+
+        public init(gatewayArn: String, gatewayInstanceArn: String, instanceId: String, instanceState: InstanceState? = nil) {
+            self.gatewayArn = gatewayArn
+            self.gatewayInstanceArn = gatewayInstanceArn
+            self.instanceId = instanceId
+            self.instanceState = instanceState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayArn = "gatewayArn"
+            case gatewayInstanceArn = "gatewayInstanceArn"
+            case instanceId = "instanceId"
+            case instanceState = "instanceState"
         }
     }
 
@@ -1525,6 +2580,27 @@ extension MediaConnect {
         }
     }
 
+    public struct MessageDetail: AWSDecodableShape {
+        /// The error code.
+        public let code: String
+        /// The specific error message that MediaConnect returns to help you understand the reason that the request did not succeed.
+        public let message: String
+        /// The name of the resource.
+        public let resourceName: String?
+
+        public init(code: String, message: String, resourceName: String? = nil) {
+            self.code = code
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case resourceName = "resourceName"
+        }
+    }
+
     public struct Messages: AWSDecodableShape {
         /// A list of errors that might have been generated from processes on this flow.
         public let errors: [String]
@@ -1580,6 +2656,10 @@ extension MediaConnect {
     }
 
     public struct Output: AWSDecodableShape {
+        /// The ARN of the bridge that added this output.
+        public let bridgeArn: String?
+        /// The bridge output ports currently in use.
+        public let bridgePorts: [Int]?
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
         /// A description of the output.
@@ -1607,7 +2687,9 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, listenerAddress: String? = nil, mediaLiveInputArn: String? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfiguration]? = nil, name: String, outputArn: String, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(bridgeArn: String? = nil, bridgePorts: [Int]? = nil, dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, listenerAddress: String? = nil, mediaLiveInputArn: String? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfiguration]? = nil, name: String, outputArn: String, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+            self.bridgeArn = bridgeArn
+            self.bridgePorts = bridgePorts
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.destination = destination
@@ -1624,6 +2706,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bridgeArn = "bridgeArn"
+            case bridgePorts = "bridgePorts"
             case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
             case description = "description"
             case destination = "destination"
@@ -1673,6 +2757,74 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case reservation = "reservation"
+        }
+    }
+
+    public struct RemoveBridgeOutputRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn")),
+            AWSMemberEncoding(label: "outputName", location: .uri("OutputName"))
+        ]
+
+        /// The ARN of the bridge that you want to update.
+        public let bridgeArn: String
+        /// The name of the bridge output that you want to remove.
+        public let outputName: String
+
+        public init(bridgeArn: String, outputName: String) {
+            self.bridgeArn = bridgeArn
+            self.outputName = outputName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RemoveBridgeOutputResponse: AWSDecodableShape {
+        public let bridgeArn: String?
+        public let outputName: String?
+
+        public init(bridgeArn: String? = nil, outputName: String? = nil) {
+            self.bridgeArn = bridgeArn
+            self.outputName = outputName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgeArn = "bridgeArn"
+            case outputName = "outputName"
+        }
+    }
+
+    public struct RemoveBridgeSourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn")),
+            AWSMemberEncoding(label: "sourceName", location: .uri("SourceName"))
+        ]
+
+        /// The ARN of the bridge that you want to update.
+        public let bridgeArn: String
+        /// The name of the bridge source that you want to remove.
+        public let sourceName: String
+
+        public init(bridgeArn: String, sourceName: String) {
+            self.bridgeArn = bridgeArn
+            self.sourceName = sourceName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RemoveBridgeSourceResponse: AWSDecodableShape {
+        public let bridgeArn: String?
+        public let sourceName: String?
+
+        public init(bridgeArn: String? = nil, sourceName: String? = nil) {
+            self.bridgeArn = bridgeArn
+            self.sourceName = sourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgeArn = "bridgeArn"
+            case sourceName = "sourceName"
         }
     }
 
@@ -1938,16 +3090,35 @@ extension MediaConnect {
         }
     }
 
+    public struct SetGatewayBridgeSourceRequest: AWSEncodableShape {
+        /// The ARN of the bridge feeding this flow.
+        public let bridgeArn: String
+        /// The name of the VPC interface attachment to use for this bridge source.
+        public let vpcInterfaceAttachment: VpcInterfaceAttachment?
+
+        public init(bridgeArn: String, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+            self.bridgeArn = bridgeArn
+            self.vpcInterfaceAttachment = vpcInterfaceAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgeArn = "bridgeArn"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
+        }
+    }
+
     public struct SetSourceRequest: AWSEncodableShape {
-        /// The type of encryption that is used on the content ingested from this source.
+        /// The type of encryption that is used on the content ingested from this source. Allowable encryption types: static-key.
         public let decryption: Encryption?
         /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
         public let description: String?
         /// The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.
         public let entitlementArn: String?
+        /// The source configuration for cloud flows receiving a stream from a bridge.
+        public let gatewayBridgeSource: SetGatewayBridgeSourceRequest?
         /// The port that the flow will be listening on for incoming content.
         public let ingestPort: Int?
-        /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+        /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
         public let maxBitrate: Int?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
         public let maxLatency: Int?
@@ -1969,17 +3140,18 @@ extension MediaConnect {
         public let sourceListenerAddress: String?
         /// Source port for SRT-caller protocol.
         public let sourceListenerPort: Int?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public let streamId: String?
         /// The name of the VPC interface to use for this source.
         public let vpcInterfaceName: String?
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, protocol: `Protocol`? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, gatewayBridgeSource: SetGatewayBridgeSourceRequest? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, protocol: `Protocol`? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
+            self.gatewayBridgeSource = gatewayBridgeSource
             self.ingestPort = ingestPort
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
@@ -2001,6 +3173,7 @@ extension MediaConnect {
             case decryption = "decryption"
             case description = "description"
             case entitlementArn = "entitlementArn"
+            case gatewayBridgeSource = "gatewayBridgeSource"
             case ingestPort = "ingestPort"
             case maxBitrate = "maxBitrate"
             case maxLatency = "maxLatency"
@@ -2028,6 +3201,8 @@ extension MediaConnect {
         public let description: String?
         /// The ARN of the entitlement that allows you to subscribe to content that comes from another AWS account. The entitlement is set by the content originator and the ARN is generated as part of the originator's flow.
         public let entitlementArn: String?
+        /// The source configuration for cloud flows receiving a stream from a bridge.
+        public let gatewayBridgeSource: GatewayBridgeSource?
         /// The IP address that the flow will be listening on for incoming content.
         public let ingestIp: String?
         /// The port that the flow will be listening on for incoming content.
@@ -2049,11 +3224,12 @@ extension MediaConnect {
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]? = nil, name: String, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String, transport: Transport? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, gatewayBridgeSource: GatewayBridgeSource? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]? = nil, name: String, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String, transport: Transport? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
+            self.gatewayBridgeSource = gatewayBridgeSource
             self.ingestIp = ingestIp
             self.ingestPort = ingestPort
             self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
@@ -2071,6 +3247,7 @@ extension MediaConnect {
             case decryption = "decryption"
             case description = "description"
             case entitlementArn = "entitlementArn"
+            case gatewayBridgeSource = "gatewayBridgeSource"
             case ingestIp = "ingestIp"
             case ingestPort = "ingestPort"
             case mediaStreamSourceConfigurations = "mediaStreamSourceConfigurations"
@@ -2184,7 +3361,7 @@ extension MediaConnect {
     public struct Transport: AWSDecodableShape {
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let cidrAllowList: [String]?
-        /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+        /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
         public let maxBitrate: Int?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
         public let maxLatency: Int?
@@ -2206,7 +3383,7 @@ extension MediaConnect {
         public let sourceListenerAddress: String?
         /// Source port for SRT-caller protocol.
         public let sourceListenerPort: Int?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public let streamId: String?
 
         public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, protocol: `Protocol`, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil) {
@@ -2259,6 +3436,245 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UpdateBridgeFlowSourceRequest: AWSEncodableShape {
+        /// The ARN of the cloud flow to use as a source of this bridge.
+        public let flowArn: String?
+        /// The name of the VPC interface attachment to use for this source.
+        public let flowVpcInterfaceAttachment: VpcInterfaceAttachment?
+
+        public init(flowArn: String? = nil, flowVpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+            self.flowArn = flowArn
+            self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case flowVpcInterfaceAttachment = "flowVpcInterfaceAttachment"
+        }
+    }
+
+    public struct UpdateBridgeNetworkOutputRequest: AWSEncodableShape {
+        /// The network output IP Address.
+        public let ipAddress: String?
+        /// The network output's gateway network name.
+        public let networkName: String?
+        /// The network output port.
+        public let port: Int?
+        /// The network output protocol.
+        public let `protocol`: `Protocol`?
+        /// The network output TTL.
+        public let ttl: Int?
+
+        public init(ipAddress: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil, ttl: Int? = nil) {
+            self.ipAddress = ipAddress
+            self.networkName = networkName
+            self.port = port
+            self.`protocol` = `protocol`
+            self.ttl = ttl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddress = "ipAddress"
+            case networkName = "networkName"
+            case port = "port"
+            case `protocol` = "protocol"
+            case ttl = "ttl"
+        }
+    }
+
+    public struct UpdateBridgeNetworkSourceRequest: AWSEncodableShape {
+        /// The network source multicast IP.
+        public let multicastIp: String?
+        /// The network source's gateway network name.
+        public let networkName: String?
+        /// The network source port.
+        public let port: Int?
+        /// The network source protocol.
+        public let `protocol`: `Protocol`?
+
+        public init(multicastIp: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil) {
+            self.multicastIp = multicastIp
+            self.networkName = networkName
+            self.port = port
+            self.`protocol` = `protocol`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multicastIp = "multicastIp"
+            case networkName = "networkName"
+            case port = "port"
+            case `protocol` = "protocol"
+        }
+    }
+
+    public struct UpdateBridgeOutputRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn")),
+            AWSMemberEncoding(label: "outputName", location: .uri("OutputName"))
+        ]
+
+        /// The ARN of the bridge that you want to update.
+        public let bridgeArn: String
+        public let networkOutput: UpdateBridgeNetworkOutputRequest?
+        /// The name of the bridge output that you want to update.
+        public let outputName: String
+
+        public init(bridgeArn: String, networkOutput: UpdateBridgeNetworkOutputRequest? = nil, outputName: String) {
+            self.bridgeArn = bridgeArn
+            self.networkOutput = networkOutput
+            self.outputName = outputName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkOutput = "networkOutput"
+        }
+    }
+
+    public struct UpdateBridgeOutputResponse: AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) of the bridge.
+        public let bridgeArn: String?
+        /// The output that you updated.
+        public let output: BridgeOutput?
+
+        public init(bridgeArn: String? = nil, output: BridgeOutput? = nil) {
+            self.bridgeArn = bridgeArn
+            self.output = output
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgeArn = "bridgeArn"
+            case output = "output"
+        }
+    }
+
+    public struct UpdateBridgeRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn"))
+        ]
+
+        /// The Amazon Resource Number (ARN) of the bridge that you want to update.
+        public let bridgeArn: String
+        public let egressGatewayBridge: UpdateEgressGatewayBridgeRequest?
+        public let ingressGatewayBridge: UpdateIngressGatewayBridgeRequest?
+        public let sourceFailoverConfig: UpdateFailoverConfig?
+
+        public init(bridgeArn: String, egressGatewayBridge: UpdateEgressGatewayBridgeRequest? = nil, ingressGatewayBridge: UpdateIngressGatewayBridgeRequest? = nil, sourceFailoverConfig: UpdateFailoverConfig? = nil) {
+            self.bridgeArn = bridgeArn
+            self.egressGatewayBridge = egressGatewayBridge
+            self.ingressGatewayBridge = ingressGatewayBridge
+            self.sourceFailoverConfig = sourceFailoverConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case egressGatewayBridge = "egressGatewayBridge"
+            case ingressGatewayBridge = "ingressGatewayBridge"
+            case sourceFailoverConfig = "sourceFailoverConfig"
+        }
+    }
+
+    public struct UpdateBridgeResponse: AWSDecodableShape {
+        public let bridge: Bridge?
+
+        public init(bridge: Bridge? = nil) {
+            self.bridge = bridge
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridge = "bridge"
+        }
+    }
+
+    public struct UpdateBridgeSourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn")),
+            AWSMemberEncoding(label: "sourceName", location: .uri("SourceName"))
+        ]
+
+        /// The ARN of the bridge that you want to update.
+        public let bridgeArn: String
+        public let flowSource: UpdateBridgeFlowSourceRequest?
+        public let networkSource: UpdateBridgeNetworkSourceRequest?
+        /// The name of the source that you want to update.
+        public let sourceName: String
+
+        public init(bridgeArn: String, flowSource: UpdateBridgeFlowSourceRequest? = nil, networkSource: UpdateBridgeNetworkSourceRequest? = nil, sourceName: String) {
+            self.bridgeArn = bridgeArn
+            self.flowSource = flowSource
+            self.networkSource = networkSource
+            self.sourceName = sourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowSource = "flowSource"
+            case networkSource = "networkSource"
+        }
+    }
+
+    public struct UpdateBridgeSourceResponse: AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) of the bridge.
+        public let bridgeArn: String?
+        public let source: BridgeSource?
+
+        public init(bridgeArn: String? = nil, source: BridgeSource? = nil) {
+            self.bridgeArn = bridgeArn
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgeArn = "bridgeArn"
+            case source = "source"
+        }
+    }
+
+    public struct UpdateBridgeStateRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "bridgeArn", location: .uri("BridgeArn"))
+        ]
+
+        /// The ARN of the bridge that you want to update.
+        public let bridgeArn: String
+        public let desiredState: DesiredState
+
+        public init(bridgeArn: String, desiredState: DesiredState) {
+            self.bridgeArn = bridgeArn
+            self.desiredState = desiredState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredState = "desiredState"
+        }
+    }
+
+    public struct UpdateBridgeStateResponse: AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) of the bridge.
+        public let bridgeArn: String?
+        /// The state of the bridge. ACTIVE or STANDBY.
+        public let desiredState: DesiredState?
+
+        public init(bridgeArn: String? = nil, desiredState: DesiredState? = nil) {
+            self.bridgeArn = bridgeArn
+            self.desiredState = desiredState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgeArn = "bridgeArn"
+            case desiredState = "desiredState"
+        }
+    }
+
+    public struct UpdateEgressGatewayBridgeRequest: AWSEncodableShape {
+        /// Update an existing egress-type bridge.
+        public let maxBitrate: Int?
+
+        public init(maxBitrate: Int? = nil) {
+            self.maxBitrate = maxBitrate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxBitrate = "maxBitrate"
+        }
     }
 
     public struct UpdateEncryption: AWSEncodableShape {
@@ -2338,7 +3754,7 @@ extension MediaConnect {
 
         /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
         public let description: String?
-        /// The type of encryption that will be used on the output associated with this entitlement.
+        /// The type of encryption that will be used on the output associated with this entitlement. Allowable encryption types: static-key, speke.
         public let encryption: UpdateEncryption?
         /// The ARN of the entitlement that you want to update.
         public let entitlementArn: String
@@ -2452,7 +3868,7 @@ extension MediaConnect {
         public let description: String?
         /// The IP address where you want to send the output.
         public let destination: String?
-        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
+        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Allowable encryption types: static-key.
         public let encryption: UpdateEncryption?
         /// The flow that is associated with the output that you want to update.
         public let flowArn: String
@@ -2476,7 +3892,7 @@ extension MediaConnect {
         public let senderIpAddress: String?
         /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
         public let smoothingLatency: Int?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public let streamId: String?
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
@@ -2577,7 +3993,7 @@ extension MediaConnect {
             AWSMemberEncoding(label: "sourceArn", location: .uri("SourceArn"))
         ]
 
-        /// The type of encryption used on the content ingested from this source.
+        /// The type of encryption used on the content ingested from this source. Allowable encryption types: static-key.
         public let decryption: UpdateEncryption?
         /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
         public let description: String?
@@ -2585,9 +4001,11 @@ extension MediaConnect {
         public let entitlementArn: String?
         /// The flow that is associated with the source that you want to update.
         public let flowArn: String
+        /// The source configuration for cloud flows receiving a stream from a bridge.
+        public let gatewayBridgeSource: UpdateGatewayBridgeSourceRequest?
         /// The port that the flow will be listening on for incoming content.
         public let ingestPort: Int?
-        /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+        /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
         public let maxBitrate: Int?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
         public let maxLatency: Int?
@@ -2609,18 +4027,19 @@ extension MediaConnect {
         public let sourceListenerAddress: String?
         /// Source port for SRT-caller protocol.
         public let sourceListenerPort: Int?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public let streamId: String?
         /// The name of the VPC interface to use for this source.
         public let vpcInterfaceName: String?
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, protocol: `Protocol`? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, gatewayBridgeSource: UpdateGatewayBridgeSourceRequest? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, protocol: `Protocol`? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
             self.flowArn = flowArn
+            self.gatewayBridgeSource = gatewayBridgeSource
             self.ingestPort = ingestPort
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
@@ -2642,6 +4061,7 @@ extension MediaConnect {
             case decryption = "decryption"
             case description = "description"
             case entitlementArn = "entitlementArn"
+            case gatewayBridgeSource = "gatewayBridgeSource"
             case ingestPort = "ingestPort"
             case maxBitrate = "maxBitrate"
             case maxLatency = "maxLatency"
@@ -2673,6 +4093,77 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case flowArn = "flowArn"
             case source = "source"
+        }
+    }
+
+    public struct UpdateGatewayBridgeSourceRequest: AWSEncodableShape {
+        /// The ARN of the bridge feeding this flow.
+        public let bridgeArn: String?
+        /// The name of the VPC interface attachment to use for this bridge source.
+        public let vpcInterfaceAttachment: VpcInterfaceAttachment?
+
+        public init(bridgeArn: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+            self.bridgeArn = bridgeArn
+            self.vpcInterfaceAttachment = vpcInterfaceAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgeArn = "bridgeArn"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
+        }
+    }
+
+    public struct UpdateGatewayInstanceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "gatewayInstanceArn", location: .uri("GatewayInstanceArn"))
+        ]
+
+        /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
+        public let bridgePlacement: BridgePlacement?
+        /// The Amazon Resource Name (ARN) of the instance that you want to update.
+        public let gatewayInstanceArn: String
+
+        public init(bridgePlacement: BridgePlacement? = nil, gatewayInstanceArn: String) {
+            self.bridgePlacement = bridgePlacement
+            self.gatewayInstanceArn = gatewayInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgePlacement = "bridgePlacement"
+        }
+    }
+
+    public struct UpdateGatewayInstanceResponse: AWSDecodableShape {
+        /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
+        public let bridgePlacement: BridgePlacement?
+        /// The Amazon Resource Name (ARN) of the instance.
+        public let gatewayInstanceArn: String?
+
+        public init(bridgePlacement: BridgePlacement? = nil, gatewayInstanceArn: String? = nil) {
+            self.bridgePlacement = bridgePlacement
+            self.gatewayInstanceArn = gatewayInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bridgePlacement = "bridgePlacement"
+            case gatewayInstanceArn = "gatewayInstanceArn"
+        }
+    }
+
+    public struct UpdateIngressGatewayBridgeRequest: AWSEncodableShape {
+        /// The maximum expected bitrate (in bps).
+        public let maxBitrate: Int?
+        /// The maximum number of expected outputs.
+        public let maxOutputs: Int?
+
+        public init(maxBitrate: Int? = nil, maxOutputs: Int? = nil) {
+            self.maxBitrate = maxBitrate
+            self.maxOutputs = maxOutputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxBitrate = "maxBitrate"
+            case maxOutputs = "maxOutputs"
         }
     }
 
@@ -2731,7 +4222,7 @@ extension MediaConnect {
     }
 
     public struct VpcInterfaceAttachment: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the VPC interface to use for this output.
+        /// The name of the VPC interface to use for this resource.
         public let vpcInterfaceName: String?
 
         public init(vpcInterfaceName: String? = nil) {
@@ -2780,7 +4271,10 @@ public struct MediaConnectErrorType: AWSErrorType {
     enum Code: String {
         case addFlowOutputs420Exception = "AddFlowOutputs420Exception"
         case badRequestException = "BadRequestException"
+        case conflictException = "ConflictException"
+        case createBridge420Exception = "CreateBridge420Exception"
         case createFlow420Exception = "CreateFlow420Exception"
+        case createGateway420Exception = "CreateGateway420Exception"
         case forbiddenException = "ForbiddenException"
         case grantFlowEntitlements420Exception = "GrantFlowEntitlements420Exception"
         case internalServerErrorException = "InternalServerErrorException"
@@ -2812,7 +4306,13 @@ public struct MediaConnectErrorType: AWSErrorType {
     /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public static var badRequestException: Self { .init(.badRequestException) }
     /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    public static var conflictException: Self { .init(.conflictException) }
+    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    public static var createBridge420Exception: Self { .init(.createBridge420Exception) }
+    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public static var createFlow420Exception: Self { .init(.createFlow420Exception) }
+    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    public static var createGateway420Exception: Self { .init(.createGateway420Exception) }
     /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public static var forbiddenException: Self { .init(.forbiddenException) }
     /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.

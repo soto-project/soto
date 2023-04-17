@@ -54,6 +54,11 @@ public struct CloudDirectory: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-01-11",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-gov-west-1": "clouddirectory.us-gov-west-1.amazonaws.com"
+                ])
+            ],
             errorType: CloudDirectoryErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

@@ -560,17 +560,17 @@ extension SSMIncidents {
     }
 
     public struct CreateTimelineEventInput: AWSEncodableShape {
-        /// A token ensuring that the action is called only once with the specified details.
+        /// A token that ensures that a client calls the action only once with the specified details.
         public let clientToken: String?
         /// A short description of the event.
         public let eventData: String
-        /// Adds one or more references to the TimelineEvent. A reference can be an Amazon Web Services resource involved in the incident or in some way associated with it. When you specify a reference, you enter the Amazon Resource Name (ARN) of the resource. You can also specify a related item. As an example, you could specify the ARN of an Amazon DynamoDB (DynamoDB) table. The table for this example is the resource. You could also specify a Amazon CloudWatch metric for that table. The metric is the related item.
+        /// Adds one or more references to the TimelineEvent. A reference is an Amazon Web Services resource involved or associated with the incident. To specify a reference, enter its Amazon Resource Name (ARN). You can also specify a related item associated with a resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as a resource, use the table's ARN. You can also specify an Amazon CloudWatch metric associated with the DynamoDB table as a related item.
         public let eventReferences: [EventReference]?
         /// The time that the event occurred.
         public let eventTime: Date
-        /// The type of the event. You can create timeline events of type Custom Event.
+        /// The type of event. You can create timeline events of type Custom Event.
         public let eventType: String
-        /// The Amazon Resource Name (ARN) of the incident record to which the event will be added.
+        /// The Amazon Resource Name (ARN) of the incident record that the action adds the incident to.
         public let incidentRecordArn: String
 
         public init(clientToken: String? = CreateTimelineEventInput.idempotencyToken(), eventData: String, eventReferences: [EventReference]? = nil, eventTime: Date, eventType: String, incidentRecordArn: String) {
@@ -734,7 +734,7 @@ extension SSMIncidents {
     }
 
     public struct DeleteTimelineEventInput: AWSEncodableShape {
-        /// The ID of the event you are updating. You can find this by using ListTimelineEvents.
+        /// The ID of the event to update. You can use ListTimelineEvents to find an event's ID.
         public let eventId: String
         /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
         public let incidentRecordArn: String
@@ -1199,7 +1199,7 @@ extension SSMIncidents {
                 try $0.validate(name: "\(name).notificationTargets[]")
             }
             try self.validate(self.notificationTargets, name: "notificationTargets", parent: name, max: 10)
-            try self.validate(self.summary, name: "summary", parent: name, max: 4000)
+            try self.validate(self.summary, name: "summary", parent: name, max: 8000)
             try self.validate(self.title, name: "title", parent: name, max: 200)
         }
 
@@ -1235,7 +1235,7 @@ extension SSMIncidents {
     }
 
     public struct ListIncidentRecordsInput: AWSEncodableShape {
-        /// Filters the list of incident records through which you are searching. You can filter on the following keys:    creationTime     impact     status     createdBy    Note the following when deciding how to use Filters:   If you don't specify a Filter, the response includes all incident records.   If you specify more than one filter in a single request, the response returns incident records that match all filters.   If you specify a filter with more than one value, the response returns incident records that match any of the values provided.
+        /// Filters the list of incident records you want to search through. You can filter on the following keys:    creationTime     impact     status     createdBy    Note the following when when you use Filters:   If you don't specify a Filter, the response includes all incident records.   If you specify more than one filter in a single request, the response returns incident records that match all filters.   If you specify a filter with more than one value, the response returns incident records that match any of the values provided.
         public let filters: [Filter]?
         /// The maximum number of results per page.
         public let maxResults: Int?
@@ -1437,7 +1437,7 @@ extension SSMIncidents {
     }
 
     public struct ListTimelineEventsInput: AWSEncodableShape {
-        /// Filters the timeline events based on the provided conditional values. You can filter timeline events using the following keys:    eventTime     eventType    Note the following when deciding how to use Filters:   If you don't specify a Filter, the response includes all timeline events.   If you specify more than one filter in a single request, the response returns timeline events that match all filters.   If you specify a filter with more than one value, the response returns timeline events that match any of the values provided.
+        /// Filters the timeline events based on the provided conditional values. You can filter timeline events with the following keys:    eventTime     eventType    Note the following when deciding how to use Filters:   If you don't specify a Filter, the response includes all timeline events.   If you specify more than one filter in a single request, the response returns timeline events that match all filters.   If you specify a filter with more than one value, the response returns timeline events that match any of the values provided.
         public let filters: [Filter]?
         /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
         public let incidentRecordArn: String
@@ -1445,7 +1445,7 @@ extension SSMIncidents {
         public let maxResults: Int?
         /// The pagination token to continue to the next page of results.
         public let nextToken: String?
-        /// Sort by the specified key value pair.
+        /// Sort timeline events by the specified key value pair.
         public let sortBy: TimelineEventSort?
         /// Sorts the order of timeline events by the value specified in the sortBy field.
         public let sortOrder: SortOrder?
@@ -1791,7 +1791,7 @@ extension SSMIncidents {
         public let clientToken: String?
         /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan.  Possible impacts:     1 - Critical impact, this typically relates to full application failure that impacts many to all customers.     2 - High impact, partial application failure with impact to many customers.    3 - Medium impact, the application is providing reduced service to customers.    4 - Low impact, customer might aren't impacted by the problem yet.    5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
         public let impact: Int?
-        /// Add related items to the incident for other responders to use. Related items are AWS resources, external links, or files uploaded to an Amazon S3 bucket.
+        /// Add related items to the incident for other responders to use. Related items are Amazon Web Services resources, external links, or files uploaded to an Amazon S3 bucket.
         public let relatedItems: [RelatedItem]?
         /// The Amazon Resource Name (ARN) of the response plan that pre-defines summary, chat channels, Amazon SNS topics, runbooks, title, and impact of the incident.
         public let responsePlanArn: String
@@ -1937,7 +1937,7 @@ extension SSMIncidents {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.rawData, name: "rawData", parent: name, max: 4000)
+            try self.validate(self.rawData, name: "rawData", parent: name, max: 10000)
             try self.validate(self.source, name: "source", parent: name, max: 50)
             try self.validate(self.triggerArn, name: "triggerArn", parent: name, max: 1000)
             try self.validate(self.triggerArn, name: "triggerArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$")
@@ -2020,13 +2020,13 @@ extension SSMIncidents {
         public let arn: String
         /// The Chatbot chat channel where responders can collaborate.
         public let chatChannel: ChatChannel?
-        /// A token that ensures that the operation is called only once with the specified details.
+        /// A token that ensures that a client calls the operation only once with the specified details.
         public let clientToken: String?
-        /// Defines the impact of the incident to customers and applications. Providing an impact overwrites the impact provided by the response plan.  Possible impacts:     1 - Critical impact, full application failure that impacts many to all customers.     2 - High impact, partial application failure with impact to many customers.    3 - Medium impact, the application is providing reduced service to customers.    4 - Low impact, customer aren't impacted by the problem yet.    5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
+        /// Defines the impact of the incident to customers and applications. If you provide an impact for an incident, it overwrites the impact provided by the response plan.  Possible impacts:     1 - Critical impact, full application failure that impacts many to all customers.     2 - High impact, partial application failure with impact to many customers.    3 - Medium impact, the application is providing reduced service to customers.    4 - Low impact, customer aren't impacted by the problem yet.    5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
         public let impact: Int?
-        /// The Amazon SNS targets that are notified when updates are made to an incident. Using multiple SNS topics creates redundancy in the event that a Region is down during the incident.
+        /// The Amazon SNS targets that Incident Manager notifies when a client updates an incident. Using multiple SNS topics creates redundancy in the event that a Region is down during the incident.
         public let notificationTargets: [NotificationTargetItem]?
-        /// The status of the incident. An incident can be Open or Resolved.
+        /// The status of the incident. Possible statuses are Open or Resolved.
         public let status: IncidentRecordStatus?
         /// A longer description of what occurred during the incident.
         public let summary: String?
@@ -2055,7 +2055,7 @@ extension SSMIncidents {
                 try $0.validate(name: "\(name).notificationTargets[]")
             }
             try self.validate(self.notificationTargets, name: "notificationTargets", parent: name, max: 10)
-            try self.validate(self.summary, name: "summary", parent: name, max: 4000)
+            try self.validate(self.summary, name: "summary", parent: name, max: 8000)
             try self.validate(self.title, name: "title", parent: name, max: 200)
         }
 
@@ -2076,11 +2076,11 @@ extension SSMIncidents {
     }
 
     public struct UpdateRelatedItemsInput: AWSEncodableShape {
-        /// A token ensuring that the operation is called only once with the specified details.
+        /// A token that ensures that a client calls the operation only once with the specified details.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the incident record containing the related items you are updating.
+        /// The Amazon Resource Name (ARN) of the incident record that contains the related items that you update.
         public let incidentRecordArn: String
-        /// Details about the item you are adding or deleting.
+        /// Details about the item that you are add to, or delete from, an incident.
         public let relatedItemsUpdate: RelatedItemsUpdate
 
         public init(clientToken: String? = UpdateRelatedItemsInput.idempotencyToken(), incidentRecordArn: String, relatedItemsUpdate: RelatedItemsUpdate) {
@@ -2207,7 +2207,7 @@ extension SSMIncidents {
                 try $0.validate(name: "\(name).incidentTemplateNotificationTargets[]")
             }
             try self.validate(self.incidentTemplateNotificationTargets, name: "incidentTemplateNotificationTargets", parent: name, max: 10)
-            try self.validate(self.incidentTemplateSummary, name: "incidentTemplateSummary", parent: name, max: 4000)
+            try self.validate(self.incidentTemplateSummary, name: "incidentTemplateSummary", parent: name, max: 8000)
             try self.incidentTemplateTags?.forEach {
                 try validate($0.key, name: "incidentTemplateTags.key", parent: name, max: 128)
                 try validate($0.key, name: "incidentTemplateTags.key", parent: name, min: 1)
@@ -2242,17 +2242,17 @@ extension SSMIncidents {
     }
 
     public struct UpdateTimelineEventInput: AWSEncodableShape {
-        /// A token ensuring that the operation is called only once with the specified details.
+        /// A token that ensures that a client calls the operation only once with the specified details.
         public let clientToken: String?
         /// A short description of the event.
         public let eventData: String?
-        /// The ID of the event you are updating. You can find this by using ListTimelineEvents.
+        /// The ID of the event to update. You can use ListTimelineEvents to find an event's ID.
         public let eventId: String
-        /// Updates all existing references in a TimelineEvent. A reference can be an Amazon Web Services resource involved in the incident or in some way associated with it. When you specify a reference, you enter the Amazon Resource Name (ARN) of the resource. You can also specify a related item. As an example, you could specify the ARN of an Amazon DynamoDB (DynamoDB) table. The table for this example is the resource. You could also specify a Amazon CloudWatch metric for that table. The metric is the related item.  This update action overrides all existing references. If you want to keep existing references, you must specify them in the call. If you don't, this action removes them and enters only new references.
+        /// Updates all existing references in a TimelineEvent. A reference is an Amazon Web Services resource involved or associated with the incident. To specify a reference, enter its Amazon Resource Name (ARN). You can also specify a related item associated with that resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as a resource, use its ARN. You can also specify an Amazon CloudWatch metric associated with the DynamoDB table as a related item.  This update action overrides all existing references. If you want to keep existing references, you must specify them in the call. If you don't, this action removes any existing references and enters only new references.
         public let eventReferences: [EventReference]?
         /// The time that the event occurred.
         public let eventTime: Date?
-        /// The type of the event. You can update events of type Custom Event.
+        /// The type of event. You can update events of type Custom Event.
         public let eventType: String?
         /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
         public let incidentRecordArn: String

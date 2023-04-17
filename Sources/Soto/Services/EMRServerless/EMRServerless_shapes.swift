@@ -381,7 +381,7 @@ extension EMRServerless {
         public let autoStopConfiguration: AutoStopConfig?
         /// The client idempotency token of the application to create. Its value must be unique for each request.
         public let clientToken: String
-        /// The image configuration for all worker types. You can either set this parameter or imageConfiguration  for each worker type in workerTypeSpecifications.
+        /// The image configuration for all worker types. You can either set this parameter or imageConfiguration for each worker type in workerTypeSpecifications.
         public let imageConfiguration: ImageConfigurationInput?
         /// The capacity to initialize when the application is created.
         public let initialCapacity: [String: InitialCapacityConfig]?
@@ -397,7 +397,7 @@ extension EMRServerless {
         public let tags: [String: String]?
         /// The type of application you want to start, such as Spark or Hive.
         public let type: String
-        /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid  worker types for a Spark or Hive application. Valid worker types include Driver and Executor for  Spark applications and HiveDriver and TezTask for Hive applications. You can either set  image details in this parameter for each worker type, or in imageConfiguration for all worker types.
+        /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
         public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
@@ -669,7 +669,7 @@ extension EMRServerless {
     public struct ImageConfiguration: AWSDecodableShape {
         /// The image URI.
         public let imageUri: String
-        /// The SHA256 digest of the image URI. This indicates which specific image  the application is configured for. The image digest doesn't exist until an application has started.
+        /// The SHA256 digest of the image URI. This indicates which specific image the application is configured for. The image digest doesn't exist until an application has started.
         public let resolvedImageDigest: String?
 
         public init(imageUri: String, resolvedImageDigest: String? = nil) {
@@ -684,7 +684,7 @@ extension EMRServerless {
     }
 
     public struct ImageConfigurationInput: AWSEncodableShape {
-        /// The URI of an image in the Amazon ECR registry. This field is required when you create a new  application. If you leave this field blank in an update, Amazon EMR will remove the image configuration.
+        /// The URI of an image in the Amazon ECR registry. This field is required when you create a new application. If you leave this field blank in an update, Amazon EMR will remove the image configuration.
         public let imageUri: String?
 
         public init(imageUri: String? = nil) {
@@ -738,6 +738,8 @@ extension EMRServerless {
         public let createdBy: String
         /// The execution role ARN of the job run.
         public let executionRole: String
+        /// Maximum duration for the job run to run. If the job run runs beyond this duration, it will be automatically cancelled.
+        public let executionTimeoutMinutes: Int64?
         /// The job driver for the job run.
         public let jobDriver: JobDriver
         /// The ID of the job run.
@@ -760,13 +762,14 @@ extension EMRServerless {
         /// The date and time when the job run was updated.
         public let updatedAt: Date
 
-        public init(applicationId: String, arn: String, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date, createdBy: String, executionRole: String, jobDriver: JobDriver, jobRunId: String, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, state: JobRunState, stateDetails: String, tags: [String: String]? = nil, totalExecutionDurationSeconds: Int? = nil, totalResourceUtilization: TotalResourceUtilization? = nil, updatedAt: Date) {
+        public init(applicationId: String, arn: String, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date, createdBy: String, executionRole: String, executionTimeoutMinutes: Int64? = nil, jobDriver: JobDriver, jobRunId: String, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, state: JobRunState, stateDetails: String, tags: [String: String]? = nil, totalExecutionDurationSeconds: Int? = nil, totalResourceUtilization: TotalResourceUtilization? = nil, updatedAt: Date) {
             self.applicationId = applicationId
             self.arn = arn
             self.configurationOverrides = configurationOverrides
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.executionRole = executionRole
+            self.executionTimeoutMinutes = executionTimeoutMinutes
             self.jobDriver = jobDriver
             self.jobRunId = jobRunId
             self.name = name
@@ -787,6 +790,7 @@ extension EMRServerless {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case executionRole = "executionRole"
+            case executionTimeoutMinutes = "executionTimeoutMinutes"
             case jobDriver = "jobDriver"
             case jobRunId = "jobRunId"
             case name = "name"
@@ -1272,7 +1276,7 @@ extension EMRServerless {
     public struct StartJobRunResponse: AWSDecodableShape {
         /// This output displays the application ID on which the job run was submitted.
         public let applicationId: String
-        /// The output lists the execution role ARN of the job run.
+        /// This output displays the ARN of the job run..
         public let arn: String
         /// The output contains the ID of the started job run.
         public let jobRunId: String
@@ -1425,14 +1429,14 @@ extension EMRServerless {
         public let autoStopConfiguration: AutoStopConfig?
         /// The client idempotency token of the application to update. Its value must be unique for each request.
         public let clientToken: String
-        /// The image configuration to be used for all worker types. You can either set this parameter or imageConfiguration  for each worker type in WorkerTypeSpecificationInput.
+        /// The image configuration to be used for all worker types. You can either set this parameter or imageConfiguration for each worker type in WorkerTypeSpecificationInput.
         public let imageConfiguration: ImageConfigurationInput?
         /// The capacity to initialize when the application is updated.
         public let initialCapacity: [String: InitialCapacityConfig]?
         /// The maximum capacity to allocate when the application is updated. This is cumulative across all workers at any given point in time during the lifespan of the application. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
         public let networkConfiguration: NetworkConfiguration?
-        /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid  worker types for a Spark or Hive application. Valid worker types include Driver and Executor for  Spark applications and HiveDriver and TezTask for Hive applications. You can either set  image details in this parameter for each worker type, or in imageConfiguration for all worker types.
+        /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
         public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, networkConfiguration: NetworkConfiguration? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
@@ -1601,7 +1605,7 @@ public struct EMRServerlessErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The maximum number of resources per account has been reached.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    /// The input fails to satisfy the constraints specified by an AWS service.
+    /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
 }
 

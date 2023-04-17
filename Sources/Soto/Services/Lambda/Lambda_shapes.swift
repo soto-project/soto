@@ -45,6 +45,12 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
+    public enum FullDocument: String, CustomStringConvertible, Codable, Sendable {
+        case `default` = "Default"
+        case updateLookup = "UpdateLookup"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FunctionResponseType: String, CustomStringConvertible, Codable, Sendable {
         case reportBatchItemFailures = "ReportBatchItemFailures"
         public var description: String { return self.rawValue }
@@ -65,6 +71,12 @@ extension Lambda {
         case dryRun = "DryRun"
         case event = "Event"
         case requestResponse = "RequestResponse"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvokeMode: String, CustomStringConvertible, Codable, Sendable {
+        case buffered = "BUFFERED"
+        case responseStream = "RESPONSE_STREAM"
         public var description: String { return self.rawValue }
     }
 
@@ -116,6 +128,12 @@ extension Lambda {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case ready = "READY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResponseStreamingInvocationType: String, CustomStringConvertible, Codable, Sendable {
+        case dryRun = "DryRun"
+        case requestResponse = "RequestResponse"
         public var description: String { return self.rawValue }
     }
 
@@ -222,6 +240,37 @@ extension Lambda {
         case functionUpdate = "FunctionUpdate"
         case manual = "Manual"
         public var description: String { return self.rawValue }
+    }
+
+    public enum InvokeWithResponseStreamResponseEvent: AWSDecodableShape, Sendable {
+        /// An object that's returned when the stream has ended and all the payload chunks have been returned.
+        case invokeComplete(InvokeWithResponseStreamCompleteEvent)
+        /// A chunk of the streamed response payload.
+        case payloadChunk(InvokeResponseStreamUpdate)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .invokeComplete:
+                let value = try container.decode(InvokeWithResponseStreamCompleteEvent.self, forKey: .invokeComplete)
+                self = .invokeComplete(value)
+            case .payloadChunk:
+                let value = try container.decode(InvokeResponseStreamUpdate.self, forKey: .payloadChunk)
+                self = .payloadChunk(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invokeComplete = "InvokeComplete"
+            case payloadChunk = "PayloadChunk"
+        }
     }
 
     // MARK: Shapes
@@ -355,7 +404,7 @@ extension Lambda {
         public let eventSourceToken: String?
         /// The name of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let functionUrlAuthType: FunctionUrlAuthType?
         /// The Amazon Web Service or Amazon Web Services account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
         public let principal: String
@@ -736,29 +785,31 @@ extension Lambda {
     public struct CreateEventSourceMappingRequest: AWSEncodableShape {
         /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
         public let amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig?
-        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis – Default 100. Max 10,000.    Amazon DynamoDB Streams – Default 100. Max 10,000.    Amazon Simple Queue Service – Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka – Default 100. Max 10,000.    Self-managed Apache Kafka – Default 100. Max 10,000.    Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.
+        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis – Default 100. Max 10,000.    Amazon DynamoDB Streams – Default 100. Max 10,000.    Amazon Simple Queue Service – Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka – Default 100. Max 10,000.    Self-managed Apache Kafka – Default 100. Max 10,000.    Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.    DocumentDB – Default 100. Max 10,000.
         public let batchSize: Int?
-        /// (Streams only) If the function returns an error, split the batch in two and retry.
+        /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
-        /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+        /// (Kinesis and DynamoDB Streams only) A standard Amazon SQS queue or standard Amazon SNS topic destination for discarded records.
         public let destinationConfig: DestinationConfig?
+        /// Specific configuration settings for a DocumentDB event source.
+        public let documentDBEventSourceConfig: DocumentDBEventSourceConfig?
         /// When true, the event source mapping is active. When false, Lambda pauses polling and invocation. Default: True
         public let enabled: Bool?
-        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis – The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams – The ARN of the stream.    Amazon Simple Queue Service – The ARN of the queue.    Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.    Amazon MQ – The ARN of the broker.
+        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis – The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams – The ARN of the stream.    Amazon Simple Queue Service – The ARN of the queue.    Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.    Amazon MQ – The ARN of the broker.    Amazon DocumentDB – The ARN of the DocumentDB change stream.
         public let eventSourceArn: String?
         /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
         public let filterCriteria: FilterCriteria?
         /// The name of the Lambda function.  Name formats     Function name – MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String
-        /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
+        /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
-        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams only) Discard records older than the specified age. The default value is infinite (-1).
+        /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
-        /// (Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+        /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
         public let maximumRetryAttempts: Int?
-        /// (Streams only) The number of batches to process from each shard concurrently.
+        /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
         public let parallelizationFactor: Int?
         ///  (MQ) The name of the Amazon MQ broker destination queue to consume.
         public let queues: [String]?
@@ -770,20 +821,21 @@ extension Lambda {
         public let selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig?
         /// An array of authentication protocols or VPC components required to secure your event source.
         public let sourceAccessConfigurations: [SourceAccessConfiguration]?
-        /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams.
+        /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
         public let startingPosition: EventSourcePosition?
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
         public let startingPositionTimestamp: Date?
         /// The name of the Kafka topic.
         public let topics: [String]?
-        /// (Streams only) The duration in seconds of a processing window. The range is between 1 second and 900 seconds.
+        /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
         public let tumblingWindowInSeconds: Int?
 
-        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
+        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
+            self.documentDBEventSourceConfig = documentDBEventSourceConfig
             self.enabled = enabled
             self.eventSourceArn = eventSourceArn
             self.filterCriteria = filterCriteria
@@ -809,6 +861,7 @@ extension Lambda {
             try self.validate(self.batchSize, name: "batchSize", parent: name, max: 10000)
             try self.validate(self.batchSize, name: "batchSize", parent: name, min: 1)
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
+            try self.documentDBEventSourceConfig?.validate(name: "\(name).documentDBEventSourceConfig")
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
             try self.filterCriteria?.validate(name: "\(name).filterCriteria")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
@@ -853,6 +906,7 @@ extension Lambda {
             case batchSize = "BatchSize"
             case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
             case destinationConfig = "DestinationConfig"
+            case documentDBEventSourceConfig = "DocumentDBEventSourceConfig"
             case enabled = "Enabled"
             case eventSourceArn = "EventSourceArn"
             case filterCriteria = "FilterCriteria"
@@ -899,7 +953,7 @@ extension Lambda {
         public let handler: String?
         /// Container image configuration values that override the values in the container image Dockerfile.
         public let imageConfig: ImageConfig?
-        /// The ARN of the Key Management Service (KMS) key that's used to encrypt your function's environment variables. If it's not provided, Lambda uses a default service key.
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's environment variables. When Lambda SnapStart is activated, this key is also used to encrypt your function's snapshot. If you don't provide a customer managed key, Lambda uses a default service key.
         public let kmsKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?
@@ -911,7 +965,7 @@ extension Lambda {
         public let publish: Bool?
         /// The Amazon Resource Name (ARN) of the function's execution role.
         public let role: String
-        /// The identifier of the function's runtime. Runtime is required if the deployment package is a .zip file archive.
+        /// The identifier of the function's runtime. Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see Runtime deprecation policy.
         public let runtime: Runtime?
         /// The function's SnapStart setting.
         public let snapStart: SnapStart?
@@ -1017,19 +1071,22 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let authType: FunctionUrlAuthType
         /// The cross-origin resource sharing (CORS) settings for your function URL.
         public let cors: Cors?
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
+        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results  are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using  the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
+        public let invokeMode: InvokeMode?
         /// The alias name.
         public let qualifier: String?
 
-        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, functionName: String, qualifier: String? = nil) {
+        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, functionName: String, invokeMode: InvokeMode? = nil, qualifier: String? = nil) {
             self.authType = authType
             self.cors = cors
             self.functionName = functionName
+            self.invokeMode = invokeMode
             self.qualifier = qualifier
         }
 
@@ -1046,11 +1103,12 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case authType = "AuthType"
             case cors = "Cors"
+            case invokeMode = "InvokeMode"
         }
     }
 
     public struct CreateFunctionUrlConfigResponse: AWSDecodableShape {
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let authType: FunctionUrlAuthType
         /// The cross-origin resource sharing (CORS) settings for your function URL.
         public let cors: Cors?
@@ -1060,13 +1118,16 @@ extension Lambda {
         public let functionArn: String
         /// The HTTP URL endpoint for your function.
         public let functionUrl: String
+        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results  are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using  the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
+        public let invokeMode: InvokeMode?
 
-        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String) {
+        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, invokeMode: InvokeMode? = nil) {
             self.authType = authType
             self.cors = cors
             self.creationTime = creationTime
             self.functionArn = functionArn
             self.functionUrl = functionUrl
+            self.invokeMode = invokeMode
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1075,6 +1136,7 @@ extension Lambda {
             case creationTime = "CreationTime"
             case functionArn = "FunctionArn"
             case functionUrl = "FunctionUrl"
+            case invokeMode = "InvokeMode"
         }
     }
 
@@ -1363,6 +1425,36 @@ extension Lambda {
         }
     }
 
+    public struct DocumentDBEventSourceConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The name of the collection to consume within the database. If you do not specify a collection, Lambda consumes all collections.
+        public let collectionName: String?
+        ///  The name of the database to consume within the DocumentDB cluster.
+        public let databaseName: String?
+        ///  Determines what DocumentDB sends to your event stream during document update operations. If set to UpdateLookup, DocumentDB sends a delta describing the changes, along with a copy of the entire document. Otherwise, DocumentDB sends only a partial document that contains the changes.
+        public let fullDocument: FullDocument?
+
+        public init(collectionName: String? = nil, databaseName: String? = nil, fullDocument: FullDocument? = nil) {
+            self.collectionName = collectionName
+            self.databaseName = databaseName
+            self.fullDocument = fullDocument
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collectionName, name: "collectionName", parent: name, max: 57)
+            try self.validate(self.collectionName, name: "collectionName", parent: name, min: 1)
+            try self.validate(self.collectionName, name: "collectionName", parent: name, pattern: "^(^(?!(system\\x2e)))(^[_a-zA-Z0-9])([^$]*)$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 63)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[^ /\\.$\\x22]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionName = "CollectionName"
+            case databaseName = "DatabaseName"
+            case fullDocument = "FullDocument"
+        }
+    }
+
     public struct Environment: AWSEncodableShape {
         /// Environment variable key-value pairs. For more information, see Using Lambda environment variables.
         public let variables: [String: String]?
@@ -1439,31 +1531,33 @@ extension Lambda {
         public let amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig?
         /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let batchSize: Int?
-        /// (Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
+        /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
         public let bisectBatchOnFunctionError: Bool?
-        /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+        /// (Kinesis and DynamoDB Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
         public let destinationConfig: DestinationConfig?
+        /// Specific configuration settings for a DocumentDB event source.
+        public let documentDBEventSourceConfig: DocumentDBEventSourceConfig?
         /// The Amazon Resource Name (ARN) of the event source.
         public let eventSourceArn: String?
         /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
         public let filterCriteria: FilterCriteria?
         /// The ARN of the Lambda function.
         public let functionArn: String?
-        /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
+        /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
         /// The date that the event source mapping was last updated or that its state changed.
         public let lastModified: Date?
         /// The result of the last Lambda invocation of your function.
         public let lastProcessingResult: String?
-        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams only) Discard records older than the specified age. The default value is -1,
-        /// which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.
+        /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1,
+        /// which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.  The minimum value that can be set is 60 seconds.
         public let maximumRecordAgeInSeconds: Int?
-        /// (Streams only) Discard records after the specified number of retries. The default value is -1,
+        /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1,
         /// which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
         public let maximumRetryAttempts: Int?
-        /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+        /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
         public let parallelizationFactor: Int?
         ///  (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
         public let queues: [String]?
@@ -1475,7 +1569,7 @@ extension Lambda {
         public let selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig?
         /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
         public let sourceAccessConfigurations: [SourceAccessConfiguration]?
-        /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams.
+        /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
         public let startingPosition: EventSourcePosition?
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
         public let startingPositionTimestamp: Date?
@@ -1485,16 +1579,17 @@ extension Lambda {
         public let stateTransitionReason: String?
         /// The name of the Kafka topic.
         public let topics: [String]?
-        /// (Streams only) The duration in seconds of a processing window. The range is 1–900 seconds.
+        /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
         public let tumblingWindowInSeconds: Int?
         /// The identifier of the event source mapping.
         public let uuid: String?
 
-        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
+        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
+            self.documentDBEventSourceConfig = documentDBEventSourceConfig
             self.eventSourceArn = eventSourceArn
             self.filterCriteria = filterCriteria
             self.functionArn = functionArn
@@ -1524,6 +1619,7 @@ extension Lambda {
             case batchSize = "BatchSize"
             case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
             case destinationConfig = "DestinationConfig"
+            case documentDBEventSourceConfig = "DocumentDBEventSourceConfig"
             case eventSourceArn = "EventSourceArn"
             case filterCriteria = "FilterCriteria"
             case functionArn = "FunctionArn"
@@ -1699,7 +1795,7 @@ extension Lambda {
         public let handler: String?
         /// The function's image configuration values.
         public let imageConfigResponse: ImageConfigResponse?
-        /// The KMS key that's used to encrypt the function's environment variables. This key is returned only if you've configured a customer managed key.
+        /// The KMS key that's used to encrypt the function's environment variables. When Lambda SnapStart is activated, this key is also used to encrypt the function's snapshot. This key is returned only if you've configured a customer managed key.
         public let kmsKeyArn: String?
         /// The date and time that the function was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModified: String?
@@ -1721,7 +1817,7 @@ extension Lambda {
         public let revisionId: String?
         /// The function's execution role.
         public let role: String?
-        /// The runtime environment for the Lambda function.
+        /// The identifier of the function's runtime. Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see Runtime deprecation policy.
         public let runtime: Runtime?
         /// The ARN of the runtime and any errors that occured.
         public let runtimeVersionConfig: RuntimeVersionConfig?
@@ -1824,7 +1920,7 @@ extension Lambda {
     }
 
     public struct FunctionEventInvokeConfig: AWSDecodableShape {
-        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of an SQS queue.    Topic - The ARN of an SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.
+        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of a standard SQS queue.    Topic - The ARN of a standard SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.
         public let destinationConfig: DestinationConfig?
         /// The Amazon Resource Name (ARN) of the function.
         public let functionArn: String?
@@ -1853,7 +1949,7 @@ extension Lambda {
     }
 
     public struct FunctionUrlConfig: AWSDecodableShape {
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let authType: FunctionUrlAuthType
         /// The cross-origin resource sharing (CORS) settings for your function URL.
         public let cors: Cors?
@@ -1863,15 +1959,18 @@ extension Lambda {
         public let functionArn: String
         /// The HTTP URL endpoint for your function.
         public let functionUrl: String
+        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
+        public let invokeMode: InvokeMode?
         /// When the function URL configuration was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModifiedTime: String
 
-        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, lastModifiedTime: String) {
+        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, invokeMode: InvokeMode? = nil, lastModifiedTime: String) {
             self.authType = authType
             self.cors = cors
             self.creationTime = creationTime
             self.functionArn = functionArn
             self.functionUrl = functionUrl
+            self.invokeMode = invokeMode
             self.lastModifiedTime = lastModifiedTime
         }
 
@@ -1881,6 +1980,7 @@ extension Lambda {
             case creationTime = "CreationTime"
             case functionArn = "FunctionArn"
             case functionUrl = "FunctionUrl"
+            case invokeMode = "InvokeMode"
             case lastModifiedTime = "LastModifiedTime"
         }
     }
@@ -2192,7 +2292,7 @@ extension Lambda {
     }
 
     public struct GetFunctionUrlConfigResponse: AWSDecodableShape {
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let authType: FunctionUrlAuthType
         /// The cross-origin resource sharing (CORS) settings for your function URL.
         public let cors: Cors?
@@ -2202,15 +2302,18 @@ extension Lambda {
         public let functionArn: String
         /// The HTTP URL endpoint for your function.
         public let functionUrl: String
+        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results  are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using  the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
+        public let invokeMode: InvokeMode?
         /// When the function URL configuration was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModifiedTime: String
 
-        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, lastModifiedTime: String) {
+        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, invokeMode: InvokeMode? = nil, lastModifiedTime: String) {
             self.authType = authType
             self.cors = cors
             self.creationTime = creationTime
             self.functionArn = functionArn
             self.functionUrl = functionUrl
+            self.invokeMode = invokeMode
             self.lastModifiedTime = lastModifiedTime
         }
 
@@ -2220,6 +2323,7 @@ extension Lambda {
             case creationTime = "CreationTime"
             case functionArn = "FunctionArn"
             case functionUrl = "FunctionUrl"
+            case invokeMode = "InvokeMode"
             case lastModifiedTime = "LastModifiedTime"
         }
     }
@@ -2481,9 +2585,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 170)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^(|[a-zA-Z0-9$_-]+)$")
@@ -2493,17 +2597,21 @@ extension Lambda {
     }
 
     public struct GetRuntimeManagementConfigResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of your function.
+        public let functionArn: String?
         /// The ARN of the runtime the function is configured to use. If the runtime update mode is Manual, the ARN is returned, otherwise null  is returned.
         public let runtimeVersionArn: String?
         /// The current runtime update mode of the function.
         public let updateRuntimeOn: UpdateRuntimeOn?
 
-        public init(runtimeVersionArn: String? = nil, updateRuntimeOn: UpdateRuntimeOn? = nil) {
+        public init(functionArn: String? = nil, runtimeVersionArn: String? = nil, updateRuntimeOn: UpdateRuntimeOn? = nil) {
+            self.functionArn = functionArn
             self.runtimeVersionArn = runtimeVersionArn
             self.updateRuntimeOn = updateRuntimeOn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case functionArn = "FunctionArn"
             case runtimeVersionArn = "RuntimeVersionArn"
             case updateRuntimeOn = "UpdateRuntimeOn"
         }
@@ -2697,6 +2805,120 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
+        }
+    }
+
+    public struct InvokeResponseStreamUpdate: AWSDecodableShape {
+        /// Data returned by your Lambda function.
+        public let payload: AWSBase64Data?
+
+        public init(payload: AWSBase64Data? = nil) {
+            self.payload = payload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payload = "Payload"
+        }
+    }
+
+    public struct InvokeWithResponseStreamCompleteEvent: AWSDecodableShape {
+        /// An error code.
+        public let errorCode: String?
+        /// The details of any returned error.
+        public let errorDetails: String?
+        /// The last 4 KB of the execution log, which is base64-encoded.
+        public let logResult: String?
+
+        public init(errorCode: String? = nil, errorDetails: String? = nil, logResult: String? = nil) {
+            self.errorCode = errorCode
+            self.errorDetails = errorDetails
+            self.logResult = logResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorDetails = "ErrorDetails"
+            case logResult = "LogResult"
+        }
+    }
+
+    public struct InvokeWithResponseStreamRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "payload"
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientContext", location: .header("X-Amz-Client-Context")),
+            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
+            AWSMemberEncoding(label: "invocationType", location: .header("X-Amz-Invocation-Type")),
+            AWSMemberEncoding(label: "logType", location: .header("X-Amz-Log-Type")),
+            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
+        ]
+
+        /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object.
+        public let clientContext: String?
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// Use one of the following options:    RequestResponse (default) – Invoke the function synchronously. Keep the connection open until the function returns a response or times out. The API operation response includes the function response and additional data.    DryRun – Validate parameter values and verify that the IAM user or role has permission to invoke the function.
+        public let invocationType: ResponseStreamingInvocationType?
+        /// Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only.
+        public let logType: LogType?
+        /// The JSON that you want to provide to your Lambda function as input. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
+        public let payload: AWSPayload?
+        /// The alias name.
+        public let qualifier: String?
+
+        public init(clientContext: String? = nil, functionName: String, invocationType: ResponseStreamingInvocationType? = nil, logType: LogType? = nil, payload: AWSPayload? = nil, qualifier: String? = nil) {
+            self.clientContext = clientContext
+            self.functionName = functionName
+            self.invocationType = invocationType
+            self.logType = logType
+            self.payload = payload
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 170)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^(|[a-zA-Z0-9$_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct InvokeWithResponseStreamResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "eventStream"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eventStream", location: .body("EventStream")),
+            AWSMemberEncoding(label: "executedVersion", location: .header("X-Amz-Executed-Version")),
+            AWSMemberEncoding(label: "responseStreamContentType", location: .header("Content-Type")),
+            AWSMemberEncoding(label: "statusCode", location: .statusCode)
+        ]
+
+        /// The stream of response payloads.
+        public let eventStream: InvokeWithResponseStreamResponseEvent?
+        /// The version of the function that executed. When you invoke a function with an alias, this indicates which version the alias resolved to.
+        public let executedVersion: String?
+        /// The type of data the stream is returning.
+        public let responseStreamContentType: String?
+        /// For a successful request, the HTTP status code is in the 200 range. For the RequestResponse invocation type, this status code is 200. For the DryRun invocation type, this status code is 204.
+        public let statusCode: Int?
+
+        public init(eventStream: InvokeWithResponseStreamResponseEvent? = nil, executedVersion: String? = nil, responseStreamContentType: String? = nil, statusCode: Int? = nil) {
+            self.eventStream = eventStream
+            self.executedVersion = executedVersion
+            self.responseStreamContentType = responseStreamContentType
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventStream = "EventStream"
+            case executedVersion = "X-Amz-Executed-Version"
+            case responseStreamContentType = "Content-Type"
+            case statusCode = "StatusCode"
         }
     }
 
@@ -2951,7 +3173,7 @@ extension Lambda {
             AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis – The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams – The ARN of the stream.    Amazon Simple Queue Service – The ARN of the queue.    Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.    Amazon MQ – The ARN of the broker.
+        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis – The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams – The ARN of the stream.    Amazon Simple Queue Service – The ARN of the queue.    Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.    Amazon MQ – The ARN of the broker.    Amazon DocumentDB – The ARN of the DocumentDB change stream.
         public let eventSourceArn: String?
         /// The name of the Lambda function.  Name formats     Function name – MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
@@ -3703,7 +3925,7 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of an SQS queue.    Topic - The ARN of an SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.
+        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of a standard SQS queue.    Topic - The ARN of a standard SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.
         public let destinationConfig: DestinationConfig?
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
@@ -4268,41 +4490,44 @@ extension Lambda {
             AWSMemberEncoding(label: "uuid", location: .uri("UUID"))
         ]
 
-        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis – Default 100. Max 10,000.    Amazon DynamoDB Streams – Default 100. Max 10,000.    Amazon Simple Queue Service – Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka – Default 100. Max 10,000.    Self-managed Apache Kafka – Default 100. Max 10,000.    Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.
+        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis – Default 100. Max 10,000.    Amazon DynamoDB Streams – Default 100. Max 10,000.    Amazon Simple Queue Service – Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka – Default 100. Max 10,000.    Self-managed Apache Kafka – Default 100. Max 10,000.    Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.    DocumentDB – Default 100. Max 10,000.
         public let batchSize: Int?
-        /// (Streams only) If the function returns an error, split the batch in two and retry.
+        /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
-        /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+        /// (Kinesis and DynamoDB Streams only) A standard Amazon SQS queue or standard Amazon SNS topic destination for discarded records.
         public let destinationConfig: DestinationConfig?
+        /// Specific configuration settings for a DocumentDB event source.
+        public let documentDBEventSourceConfig: DocumentDBEventSourceConfig?
         /// When true, the event source mapping is active. When false, Lambda pauses polling and invocation. Default: True
         public let enabled: Bool?
         /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
         public let filterCriteria: FilterCriteria?
         /// The name of the Lambda function.  Name formats     Function name – MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
-        /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
+        /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
-        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams only) Discard records older than the specified age. The default value is infinite (-1).
+        /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
-        /// (Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+        /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
         public let maximumRetryAttempts: Int?
-        /// (Streams only) The number of batches to process from each shard concurrently.
+        /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
         public let parallelizationFactor: Int?
         /// (Amazon SQS only) The scaling configuration for the event source. For more information, see Configuring maximum concurrency for Amazon SQS event sources.
         public let scalingConfig: ScalingConfig?
         /// An array of authentication protocols or VPC components required to secure your event source.
         public let sourceAccessConfigurations: [SourceAccessConfiguration]?
-        /// (Streams only) The duration in seconds of a processing window. The range is between 1 second and 900 seconds.
+        /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
         public let tumblingWindowInSeconds: Int?
         /// The identifier of the event source mapping.
         public let uuid: String
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, filterCriteria: FilterCriteria? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, scalingConfig: ScalingConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, filterCriteria: FilterCriteria? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, scalingConfig: ScalingConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
+            self.documentDBEventSourceConfig = documentDBEventSourceConfig
             self.enabled = enabled
             self.filterCriteria = filterCriteria
             self.functionName = functionName
@@ -4321,6 +4546,7 @@ extension Lambda {
             try self.validate(self.batchSize, name: "batchSize", parent: name, max: 10000)
             try self.validate(self.batchSize, name: "batchSize", parent: name, min: 1)
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
+            try self.documentDBEventSourceConfig?.validate(name: "\(name).documentDBEventSourceConfig")
             try self.filterCriteria?.validate(name: "\(name).filterCriteria")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
@@ -4347,6 +4573,7 @@ extension Lambda {
             case batchSize = "BatchSize"
             case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
             case destinationConfig = "DestinationConfig"
+            case documentDBEventSourceConfig = "DocumentDBEventSourceConfig"
             case enabled = "Enabled"
             case filterCriteria = "FilterCriteria"
             case functionName = "FunctionName"
@@ -4452,7 +4679,7 @@ extension Lambda {
         public let handler: String?
         ///  Container image configuration values that override the values in the container image Docker file.
         public let imageConfig: ImageConfig?
-        /// The ARN of the Key Management Service (KMS) key that's used to encrypt your function's environment variables. If it's not provided, Lambda uses a default service key.
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's environment variables. When Lambda SnapStart is activated, this key is also used to encrypt your function's snapshot. If you don't provide a customer managed key, Lambda uses a default service key.
         public let kmsKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?
@@ -4462,7 +4689,7 @@ extension Lambda {
         public let revisionId: String?
         /// The Amazon Resource Name (ARN) of the function's execution role.
         public let role: String?
-        /// The identifier of the function's runtime. Runtime is required if the deployment package is a .zip file archive.
+        /// The identifier of the function's runtime. Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see Runtime deprecation policy.
         public let runtime: Runtime?
         /// The function's SnapStart setting.
         public let snapStart: SnapStart?
@@ -4550,7 +4777,7 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of an SQS queue.    Topic - The ARN of an SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.
+        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of a standard SQS queue.    Topic - The ARN of a standard SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.
         public let destinationConfig: DestinationConfig?
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
@@ -4596,19 +4823,22 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let authType: FunctionUrlAuthType?
         /// The cross-origin resource sharing (CORS) settings for your function URL.
         public let cors: Cors?
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
+        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results  are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using  the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
+        public let invokeMode: InvokeMode?
         /// The alias name.
         public let qualifier: String?
 
-        public init(authType: FunctionUrlAuthType? = nil, cors: Cors? = nil, functionName: String, qualifier: String? = nil) {
+        public init(authType: FunctionUrlAuthType? = nil, cors: Cors? = nil, functionName: String, invokeMode: InvokeMode? = nil, qualifier: String? = nil) {
             self.authType = authType
             self.cors = cors
             self.functionName = functionName
+            self.invokeMode = invokeMode
             self.qualifier = qualifier
         }
 
@@ -4625,11 +4855,12 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case authType = "AuthType"
             case cors = "Cors"
+            case invokeMode = "InvokeMode"
         }
     }
 
     public struct UpdateFunctionUrlConfigResponse: AWSDecodableShape {
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let authType: FunctionUrlAuthType
         /// The cross-origin resource sharing (CORS) settings for your function URL.
         public let cors: Cors?
@@ -4639,15 +4870,18 @@ extension Lambda {
         public let functionArn: String
         /// The HTTP URL endpoint for your function.
         public let functionUrl: String
+        /// Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results  are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using  the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can request a quota increase.
+        public let invokeMode: InvokeMode?
         /// When the function URL configuration was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModifiedTime: String
 
-        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, lastModifiedTime: String) {
+        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, invokeMode: InvokeMode? = nil, lastModifiedTime: String) {
             self.authType = authType
             self.cors = cors
             self.creationTime = creationTime
             self.functionArn = functionArn
             self.functionUrl = functionUrl
+            self.invokeMode = invokeMode
             self.lastModifiedTime = lastModifiedTime
         }
 
@@ -4657,6 +4891,7 @@ extension Lambda {
             case creationTime = "CreationTime"
             case functionArn = "FunctionArn"
             case functionUrl = "FunctionUrl"
+            case invokeMode = "InvokeMode"
             case lastModifiedTime = "LastModifiedTime"
         }
     }

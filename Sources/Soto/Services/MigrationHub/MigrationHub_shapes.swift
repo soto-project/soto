@@ -808,7 +808,7 @@ extension MigrationHub {
         /// The timestamp when the task was gathered.
         public let updateDateTime: Date
 
-        public init(dryRun: Bool? = nil, migrationTaskName: String, nextUpdateSeconds: Int, progressUpdateStream: String, task: Task, updateDateTime: Date) {
+        public init(dryRun: Bool? = nil, migrationTaskName: String, nextUpdateSeconds: Int = 0, progressUpdateStream: String, task: Task, updateDateTime: Date) {
             self.dryRun = dryRun
             self.migrationTaskName = migrationTaskName
             self.nextUpdateSeconds = nextUpdateSeconds

@@ -55,6 +55,9 @@ public struct IoTDataPlane: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2015-05-28",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "cn-north-1": "data.ats.iot.cn-north-1.amazonaws.com.cn"
+            ],
             variantEndpoints: [
                 [.fips]: .init(endpoints: [
                     "ca-central-1": "data.iot-fips.ca-central-1.amazonaws.com",

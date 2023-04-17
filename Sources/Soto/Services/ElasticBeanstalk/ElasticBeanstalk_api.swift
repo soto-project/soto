@@ -62,6 +62,8 @@ public struct ElasticBeanstalk: AWSService {
                 [.fips]: .init(endpoints: [
                     "us-east-1": "elasticbeanstalk-fips.us-east-1.amazonaws.com",
                     "us-east-2": "elasticbeanstalk-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "elasticbeanstalk.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "elasticbeanstalk.us-gov-west-1.amazonaws.com",
                     "us-west-1": "elasticbeanstalk-fips.us-west-1.amazonaws.com",
                     "us-west-2": "elasticbeanstalk-fips.us-west-2.amazonaws.com"
                 ])

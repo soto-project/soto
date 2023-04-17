@@ -435,7 +435,7 @@ extension BackupStorage {
         /// Upload Id for the in-progress upload.
         public let uploadId: String
 
-        public init(backupJobId: String, checksum: String, checksumAlgorithm: DataChecksumAlgorithm, chunkIndex: Int64, data: AWSPayload, length: Int64, uploadId: String) {
+        public init(backupJobId: String, checksum: String, checksumAlgorithm: DataChecksumAlgorithm, chunkIndex: Int64 = 0, data: AWSPayload, length: Int64 = 0, uploadId: String) {
             self.backupJobId = backupJobId
             self.checksum = checksum
             self.checksumAlgorithm = checksumAlgorithm

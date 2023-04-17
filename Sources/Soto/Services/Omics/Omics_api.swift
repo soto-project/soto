@@ -54,6 +54,20 @@ public struct Omics: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2022-11-28",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "ap-southeast-1": "omics.ap-southeast-1.amazonaws.com",
+                "eu-central-1": "omics.eu-central-1.amazonaws.com",
+                "eu-west-1": "omics.eu-west-1.amazonaws.com",
+                "eu-west-2": "omics.eu-west-2.amazonaws.com",
+                "us-east-1": "omics.us-east-1.amazonaws.com",
+                "us-west-2": "omics.us-west-2.amazonaws.com"
+            ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "omics-fips.us-east-1.amazonaws.com",
+                    "us-west-2": "omics-fips.us-west-2.amazonaws.com"
+                ])
+            ],
             errorType: OmicsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
@@ -333,12 +347,12 @@ public struct Omics: AWSService {
         return self.client.execute(operation: "StartAnnotationImportJob", path: "/import/annotation", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
     }
 
-    /// Starts a read set activation job.
+    /// Activates an archived read set. To reduce storage charges, Amazon Omics archives unused read sets after 30 days.
     public func startReadSetActivationJob(_ input: StartReadSetActivationJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartReadSetActivationJobResponse> {
         return self.client.execute(operation: "StartReadSetActivationJob", path: "/sequencestore/{sequenceStoreId}/activationjob", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
     }
 
-    /// Starts a read set export job.
+    /// Exports a read set to Amazon S3.
     public func startReadSetExportJob(_ input: StartReadSetExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartReadSetExportJobResponse> {
         return self.client.execute(operation: "StartReadSetExportJob", path: "/sequencestore/{sequenceStoreId}/exportjob", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
     }

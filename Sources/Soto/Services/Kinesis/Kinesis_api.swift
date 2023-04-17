@@ -63,6 +63,8 @@ public struct Kinesis: AWSService {
                 [.fips]: .init(endpoints: [
                     "us-east-1": "kinesis-fips.us-east-1.amazonaws.com",
                     "us-east-2": "kinesis-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "kinesis.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "kinesis.us-gov-west-1.amazonaws.com",
                     "us-west-1": "kinesis-fips.us-west-1.amazonaws.com",
                     "us-west-2": "kinesis-fips.us-west-2.amazonaws.com"
                 ])

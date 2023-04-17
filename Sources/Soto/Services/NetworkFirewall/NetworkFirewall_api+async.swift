@@ -46,6 +46,12 @@ extension NetworkFirewall {
         return try await self.client.execute(operation: "CreateRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an Network Firewall TLS inspection configuration. A TLS inspection configuration contains the Certificate Manager certificate references that Network Firewall uses to decrypt and re-encrypt inbound traffic. After you create a TLS inspection configuration, you associate it with a firewall policy. To update the settings for a TLS inspection configuration, use UpdateTLSInspectionConfiguration. To manage a TLS inspection configuration's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about TLS inspection configurations, use ListTLSInspectionConfigurations and DescribeTLSInspectionConfiguration.  For more information about TLS inspection configurations, see Decrypting SSL/TLS traffic with TLS
+    /// inspection configurations in the Network Firewall Developer Guide.
+    public func createTLSInspectionConfiguration(_ input: CreateTLSInspectionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateTLSInspectionConfigurationResponse {
+        return try await self.client.execute(operation: "CreateTLSInspectionConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the specified Firewall and its FirewallStatus. This operation requires the firewall's DeleteProtection flag to be FALSE. You can't revert this operation.  You can check whether a firewall is in use by reviewing the route tables for the Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by calling DescribeFirewall. You define and update the route tables through Amazon VPC. As needed, update the route tables for the zones to remove the firewall endpoints. When the route tables no longer use the firewall endpoints, you can remove the firewall safely. To delete a firewall, remove the delete protection if you need to using UpdateFirewallDeleteProtection, then delete the firewall by calling DeleteFirewall.
     public func deleteFirewall(_ input: DeleteFirewallRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteFirewallResponse {
         return try await self.client.execute(operation: "DeleteFirewall", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -64,6 +70,11 @@ extension NetworkFirewall {
     /// Deletes the specified RuleGroup.
     public func deleteRuleGroup(_ input: DeleteRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteRuleGroupResponse {
         return try await self.client.execute(operation: "DeleteRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified TLSInspectionConfiguration.
+    public func deleteTLSInspectionConfiguration(_ input: DeleteTLSInspectionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteTLSInspectionConfigurationResponse {
+        return try await self.client.execute(operation: "DeleteTLSInspectionConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns the data objects for the specified firewall.
@@ -96,6 +107,11 @@ extension NetworkFirewall {
         return try await self.client.execute(operation: "DescribeRuleGroupMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns the data objects for the specified TLS inspection configuration.
+    public func describeTLSInspectionConfiguration(_ input: DescribeTLSInspectionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeTLSInspectionConfigurationResponse {
+        return try await self.client.execute(operation: "DescribeTLSInspectionConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Removes the specified subnet associations from the firewall. This removes the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing.
     public func disassociateSubnets(_ input: DisassociateSubnetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateSubnetsResponse {
         return try await self.client.execute(operation: "DisassociateSubnets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -114,6 +130,11 @@ extension NetworkFirewall {
     /// Retrieves the metadata for the rule groups that you have defined. Depending on your setting for max results and the number of rule groups, a single call might not return the full list.
     public func listRuleGroups(_ input: ListRuleGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListRuleGroupsResponse {
         return try await self.client.execute(operation: "ListRuleGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the metadata for the TLS inspection configurations that you have defined. Depending on your setting for max results and the number of TLS inspection configurations, a single call might not return the full list.
+    public func listTLSInspectionConfigurations(_ input: ListTLSInspectionConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTLSInspectionConfigurationsResponse {
+        return try await self.client.execute(operation: "ListTLSInspectionConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the tags associated with the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule groups.
@@ -173,6 +194,11 @@ extension NetworkFirewall {
 
     public func updateSubnetChangeProtection(_ input: UpdateSubnetChangeProtectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateSubnetChangeProtectionResponse {
         return try await self.client.execute(operation: "UpdateSubnetChangeProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the TLS inspection configuration settings for the specified TLS inspection configuration. You use a TLS inspection configuration by reference in one or more firewall policies. When you modify a TLS inspection configuration, you modify all firewall policies that use the TLS inspection configuration.  To update a TLS inspection configuration, first call DescribeTLSInspectionConfiguration to retrieve the current TLSInspectionConfiguration object, update the object as needed, and then provide the updated object to this call.
+    public func updateTLSInspectionConfiguration(_ input: UpdateTLSInspectionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateTLSInspectionConfigurationResponse {
+        return try await self.client.execute(operation: "UpdateTLSInspectionConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 
@@ -241,6 +267,28 @@ extension NetworkFirewall {
             command: self.listRuleGroups,
             inputKey: \ListRuleGroupsRequest.nextToken,
             outputKey: \ListRuleGroupsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Retrieves the metadata for the TLS inspection configurations that you have defined. Depending on your setting for max results and the number of TLS inspection configurations, a single call might not return the full list.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listTLSInspectionConfigurationsPaginator(
+        _ input: ListTLSInspectionConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListTLSInspectionConfigurationsRequest, ListTLSInspectionConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listTLSInspectionConfigurations,
+            inputKey: \ListTLSInspectionConfigurationsRequest.nextToken,
+            outputKey: \ListTLSInspectionConfigurationsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

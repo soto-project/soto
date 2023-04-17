@@ -58,6 +58,7 @@ extension Billingconductor {
         case billingEntity = "BILLING_ENTITY"
         case global = "GLOBAL"
         case service = "SERVICE"
+        case sku = "SKU"
         public var description: String { return self.rawValue }
     }
 
@@ -902,6 +903,8 @@ extension Billingconductor {
     }
 
     public struct CustomLineItemVersionListElement: AWSDecodableShape {
+        ///  A list of custom line item Amazon Resource Names (ARNs) to retrieve information.
+        public let arn: String?
         /// The number of resources that are associated with the custom line item.
         public let associationSize: Int64?
         /// The Amazon Resource Name (ARN) of the billing group that the custom line item applies to.
@@ -923,8 +926,11 @@ extension Billingconductor {
         public let productCode: String?
         /// The start billing period of the custom line item version.
         public let startBillingPeriod: String?
+        ///  The inclusive start time.
+        public let startTime: Int64?
 
-        public init(associationSize: Int64? = nil, billingGroupArn: String? = nil, chargeDetails: ListCustomLineItemChargeDetails? = nil, creationTime: Int64? = nil, currencyCode: CurrencyCode? = nil, description: String? = nil, endBillingPeriod: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, productCode: String? = nil, startBillingPeriod: String? = nil) {
+        public init(arn: String? = nil, associationSize: Int64? = nil, billingGroupArn: String? = nil, chargeDetails: ListCustomLineItemChargeDetails? = nil, creationTime: Int64? = nil, currencyCode: CurrencyCode? = nil, description: String? = nil, endBillingPeriod: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, productCode: String? = nil, startBillingPeriod: String? = nil, startTime: Int64? = nil) {
+            self.arn = arn
             self.associationSize = associationSize
             self.billingGroupArn = billingGroupArn
             self.chargeDetails = chargeDetails
@@ -936,9 +942,11 @@ extension Billingconductor {
             self.name = name
             self.productCode = productCode
             self.startBillingPeriod = startBillingPeriod
+            self.startTime = startTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case associationSize = "AssociationSize"
             case billingGroupArn = "BillingGroupArn"
             case chargeDetails = "ChargeDetails"
@@ -950,6 +958,7 @@ extension Billingconductor {
             case name = "Name"
             case productCode = "ProductCode"
             case startBillingPeriod = "StartBillingPeriod"
+            case startTime = "StartTime"
         }
     }
 
@@ -1188,21 +1197,30 @@ extension Billingconductor {
     public struct ListAccountAssociationsFilter: AWSEncodableShape {
         ///  The Amazon Web Services account ID to filter on.
         public let accountId: String?
+        ///  The list of Amazon Web Services IDs to retrieve their associated billing group for a given time range.
+        public let accountIds: [String]?
         ///  MONITORED: linked accounts that are associated to billing groups.  UNMONITORED: linked accounts that are not associated to billing groups.  Billing Group Arn: linked accounts that are associated to the provided Billing Group Arn.
         public let association: String?
 
-        public init(accountId: String? = nil, association: String? = nil) {
+        public init(accountId: String? = nil, accountIds: [String]? = nil, association: String? = nil) {
             self.accountId = accountId
+            self.accountIds = accountIds
             self.association = association
         }
 
         public func validate(name: String) throws {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.accountIds?.forEach {
+                try validate($0, name: "accountIds[]", parent: name, pattern: "^[0-9]{12}$")
+            }
+            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 30)
+            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
             try self.validate(self.association, name: "association", parent: name, pattern: "^((arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[0-9]{12}|MONITORED|UNMONITORED)$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
+            case accountIds = "AccountIds"
             case association = "Association"
         }
     }
@@ -1325,10 +1343,13 @@ extension Billingconductor {
         public let arns: [String]?
         /// The pricing plan Amazon Resource Names (ARNs) to retrieve information.
         public let pricingPlan: String?
+        ///  A list of billing groups to retrieve their current status for a specific time range
+        public let statuses: [BillingGroupStatus]?
 
-        public init(arns: [String]? = nil, pricingPlan: String? = nil) {
+        public init(arns: [String]? = nil, pricingPlan: String? = nil, statuses: [BillingGroupStatus]? = nil) {
             self.arns = arns
             self.pricingPlan = pricingPlan
+            self.statuses = statuses
         }
 
         public func validate(name: String) throws {
@@ -1338,11 +1359,14 @@ extension Billingconductor {
             try self.validate(self.arns, name: "arns", parent: name, max: 100)
             try self.validate(self.arns, name: "arns", parent: name, min: 1)
             try self.validate(self.pricingPlan, name: "pricingPlan", parent: name, pattern: "^arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingplan/[a-zA-Z0-9]{10}$")
+            try self.validate(self.statuses, name: "statuses", parent: name, max: 2)
+            try self.validate(self.statuses, name: "statuses", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case arns = "Arns"
             case pricingPlan = "PricingPlan"
+            case statuses = "Statuses"
         }
     }
 
@@ -2056,6 +2080,8 @@ extension Billingconductor {
         public let modifierPercentage: Double?
         ///  The name of a pricing rule.
         public let name: String?
+        ///  Operation is the specific Amazon Web Services action covered by this line item. This describes the specific usage of the line item.  If the Scope attribute is set to SKU, this attribute indicates which operation the PricingRule is modifying. For example, a value of RunInstances:0202 indicates the operation of running an Amazon EC2 instance.
+        public let operation: String?
         ///  The scope of pricing rule that indicates if it is globally applicable, or if it is service-specific.
         public let scope: PricingRuleScope?
         ///  If the Scope attribute is SERVICE, this attribute indicates which service the PricingRule is applicable for.
@@ -2064,8 +2090,10 @@ extension Billingconductor {
         public let tiering: Tiering?
         ///  The type of pricing rule.
         public let type: PricingRuleType?
+        ///  Usage type is the unit that each service uses to measure the usage of a specific type of resource. If the Scope attribute is set to SKU, this attribute indicates which usage type the PricingRule is modifying. For example, USW2-BoxUsage:m2.2xlarge describes an M2 High Memory Double Extra Large instance in the US West (Oregon) Region.
+        public let usageType: String?
 
-        public init(arn: String? = nil, associatedPricingPlanCount: Int64? = nil, billingEntity: String? = nil, creationTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, modifierPercentage: Double? = nil, name: String? = nil, scope: PricingRuleScope? = nil, service: String? = nil, tiering: Tiering? = nil, type: PricingRuleType? = nil) {
+        public init(arn: String? = nil, associatedPricingPlanCount: Int64? = nil, billingEntity: String? = nil, creationTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, modifierPercentage: Double? = nil, name: String? = nil, operation: String? = nil, scope: PricingRuleScope? = nil, service: String? = nil, tiering: Tiering? = nil, type: PricingRuleType? = nil, usageType: String? = nil) {
             self.arn = arn
             self.associatedPricingPlanCount = associatedPricingPlanCount
             self.billingEntity = billingEntity
@@ -2074,10 +2102,12 @@ extension Billingconductor {
             self.lastModifiedTime = lastModifiedTime
             self.modifierPercentage = modifierPercentage
             self.name = name
+            self.operation = operation
             self.scope = scope
             self.service = service
             self.tiering = tiering
             self.type = type
+            self.usageType = usageType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2089,10 +2119,12 @@ extension Billingconductor {
             case lastModifiedTime = "LastModifiedTime"
             case modifierPercentage = "ModifierPercentage"
             case name = "Name"
+            case operation = "Operation"
             case scope = "Scope"
             case service = "Service"
             case tiering = "Tiering"
             case type = "Type"
+            case usageType = "UsageType"
         }
     }
 

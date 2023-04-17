@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS WellArchitected service.
 ///
-/// Well-Architected Tool  This is the Well-Architected Tool API Reference. The WA Tool API provides programmatic access to the  Well-Architected Tool in the  Amazon Web Services Management Console. For information  about the Well-Architected Tool, see the  Well-Architected Tool User Guide.
+/// Well-Architected Tool This is the Well-Architected Tool API Reference. The WA Tool API provides programmatic access to the  Well-Architected Tool in the  Amazon Web Services Management Console. For information  about the Well-Architected Tool, see the  Well-Architected Tool User Guide.
 public struct WellArchitected: AWSService {
     // MARK: Member variables
 
@@ -68,12 +68,12 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "AssociateLenses", path: "/workloads/{WorkloadId}/associateLenses", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, IAM users, an organization, and organizational units (OUs) in the same Amazon Web Services Region.  Shared access to a lens is not removed until the lens invitation is deleted.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
+    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared.  Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the organization or OU are granted access to the lens. For more information, see Sharing a custom lens in the Well-Architected Tool User Guide.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
     public func createLensShare(_ input: CreateLensShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLensShareOutput> {
         return self.client.execute(operation: "CreateLensShare", path: "/lenses/{LensAlias}/shares", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a new lens version. A lens can have up to 100 versions. After a lens has been imported, create a new lens version to publish it.  The owner of a lens can share the lens with other  Amazon Web Services accounts and IAM users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
+    /// Create a new lens version. A lens can have up to 100 versions. Use this operation to publish a new lens version after you have imported a lens. The LensAlias  is used to identify the lens to be published.  The owner of a lens can share the lens with other  Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
     public func createLensVersion(_ input: CreateLensVersionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLensVersionOutput> {
         return self.client.execute(operation: "CreateLensVersion", path: "/lenses/{LensAlias}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -83,22 +83,22 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "CreateMilestone", path: "/workloads/{WorkloadId}/milestones", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, IAM users, an organization, and organizational units (OUs)  in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide.
+    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs)  in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide.  Either AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also must specify ReviewOwner, even though the parameter is listed as not being required in the following section.
     public func createWorkload(_ input: CreateWorkloadInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkloadOutput> {
         return self.client.execute(operation: "CreateWorkload", path: "/workloads", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a workload share. The owner of a workload can share it with other Amazon Web Services accounts and IAM users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. For more information, see Sharing a Workload in the Well-Architected Tool User Guide.
+    /// Create a workload share. The owner of a workload can share it with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see Sharing a workload in the Well-Architected Tool User Guide.
     public func createWorkloadShare(_ input: CreateWorkloadShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkloadShareOutput> {
         return self.client.execute(operation: "CreateWorkloadShare", path: "/workloads/{WorkloadId}/shares", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Delete an existing lens. Only the owner of a lens can delete it.  After the lens is deleted,  Amazon Web Services accounts and IAM users  that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.    Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
+    /// Delete an existing lens. Only the owner of a lens can delete it.  After the lens is deleted,  Amazon Web Services accounts and users  that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.    Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
     @discardableResult public func deleteLens(_ input: DeleteLensInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteLens", path: "/lenses/{LensAlias}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Delete a lens share. After the lens share is deleted,  Amazon Web Services accounts, IAM users, organizations, and organizational units (OUs)  that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
+    /// Delete a lens share. After the lens share is deleted,  Amazon Web Services accounts, users, organizations, and organizational units (OUs)  that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
     @discardableResult public func deleteLensShare(_ input: DeleteLensShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteLensShare", path: "/lenses/{LensAlias}/shares/{ShareId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -118,7 +118,7 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "DisassociateLenses", path: "/workloads/{WorkloadId}/disassociateLenses", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Export an existing lens. Lenses are defined in JSON. For more information, see JSON format specification  in the Well-Architected Tool User Guide. Only the owner of a lens can export it.                   Disclaimer  Do not include or gather personal identifiable information (PII) of end users or  other identifiable individuals in or via your custom lenses. If your custom  lens or those shared with you and used in your account do include or collect  PII you are responsible for: ensuring that the included PII is processed in accordance  with applicable law, providing adequate privacy notices, and obtaining necessary  consents for processing such data.
+    /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content)  cannot be exported. Lenses are defined in JSON. For more information, see JSON format specification  in the Well-Architected Tool User Guide.   Disclaimer  Do not include or gather personal identifiable information (PII) of end users or  other identifiable individuals in or via your custom lenses. If your custom  lens or those shared with you and used in your account do include or collect  PII you are responsible for: ensuring that the included PII is processed in accordance  with applicable law, providing adequate privacy notices, and obtaining necessary  consents for processing such data.
     public func exportLens(_ input: ExportLensInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExportLensOutput> {
         return self.client.execute(operation: "ExportLens", path: "/lenses/{LensAlias}/export", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -126,6 +126,11 @@ public struct WellArchitected: AWSService {
     /// Get the answer to a specific question in a workload review.
     public func getAnswer(_ input: GetAnswerInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAnswerOutput> {
         return self.client.execute(operation: "GetAnswer", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/answers/{QuestionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get a consolidated report of your workloads. You can optionally choose to include workloads that have been shared with you.
+    public func getConsolidatedReport(_ input: GetConsolidatedReportInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConsolidatedReportOutput> {
+        return self.client.execute(operation: "GetConsolidatedReport", path: "/consolidatedReport", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Get an existing lens.
@@ -158,12 +163,12 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "GetWorkload", path: "/workloads/{WorkloadId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Import a new lens. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with CreateLensVersion  Lenses are defined in JSON. For more information, see JSON format specification  in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB in size.    Disclaimer  Do not include or gather personal identifiable information (PII) of end users or  other identifiable individuals in or via your custom lenses. If your custom  lens or those shared with you and used in your account do include or collect  PII you are responsible for: ensuring that the included PII is processed in accordance  with applicable law, providing adequate privacy notices, and obtaining necessary  consents for processing such data.
+    /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the  LensAlias. If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with CreateLensVersion. Lenses are defined in JSON. For more information, see JSON format specification  in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB in size.   Disclaimer  Do not include or gather personal identifiable information (PII) of end users or  other identifiable individuals in or via your custom lenses. If your custom  lens or those shared with you and used in your account do include or collect  PII you are responsible for: ensuring that the included PII is processed in accordance  with applicable law, providing adequate privacy notices, and obtaining necessary  consents for processing such data.
     public func importLens(_ input: ImportLensInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportLensOutput> {
         return self.client.execute(operation: "ImportLens", path: "/importLens", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List of answers.
+    /// List of answers for a particular workload and lens.
     public func listAnswers(_ input: ListAnswersInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnswersOutput> {
         return self.client.execute(operation: "ListAnswers", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/answers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -183,7 +188,7 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "ListLensReviewImprovements", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/improvements", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List lens reviews.
+    /// List lens reviews for a particular workload.
     public func listLensReviews(_ input: ListLensReviewsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLensReviewsOutput> {
         return self.client.execute(operation: "ListLensReviews", path: "/workloads/{WorkloadId}/lensReviews", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -223,7 +228,7 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "ListWorkloadShares", path: "/workloads/{WorkloadId}/shares", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List workloads. Paginated.
+    /// Paginated list of workloads.
     public func listWorkloads(_ input: ListWorkloadsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWorkloadsOutput> {
         return self.client.execute(operation: "ListWorkloads", path: "/workloadsSummaries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -233,7 +238,7 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "TagResource", path: "/tags/{WorkloadArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes specified tags from a resource.  The WorkloadArn parameter can be either a workload ARN or a custom lens ARN.   To specify multiple tags, use separate tagKeys parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2
+    /// Deletes specified tags from a resource.  The WorkloadArn parameter can be either a workload ARN or a custom lens ARN.  To specify multiple tags, use separate tagKeys parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
         return self.client.execute(operation: "UntagResource", path: "/tags/{WorkloadArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -248,7 +253,7 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "UpdateGlobalSettings", path: "/global-settings", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update lens review.
+    /// Update lens review for a particular workload.
     public func updateLensReview(_ input: UpdateLensReviewInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLensReviewOutput> {
         return self.client.execute(operation: "UpdateLensReview", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -268,7 +273,7 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "UpdateWorkloadShare", path: "/workloads/{WorkloadId}/shares/{ShareId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Upgrade lens review.
+    /// Upgrade lens review for a particular workload.
     @discardableResult public func upgradeLensReview(_ input: UpgradeLensReviewInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpgradeLensReview", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/upgrade", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -286,7 +291,60 @@ extension WellArchitected {
 // MARK: Paginators
 
 extension WellArchitected {
-    /// List of answers.
+    /// Get a consolidated report of your workloads. You can optionally choose to include workloads that have been shared with you.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getConsolidatedReportPaginator<Result>(
+        _ input: GetConsolidatedReportInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetConsolidatedReportOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.getConsolidatedReport,
+            inputKey: \GetConsolidatedReportInput.nextToken,
+            outputKey: \GetConsolidatedReportOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getConsolidatedReportPaginator(
+        _ input: GetConsolidatedReportInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetConsolidatedReportOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.getConsolidatedReport,
+            inputKey: \GetConsolidatedReportInput.nextToken,
+            outputKey: \GetConsolidatedReportOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// List of answers for a particular workload and lens.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -498,7 +556,7 @@ extension WellArchitected {
         )
     }
 
-    /// List lens reviews.
+    /// List lens reviews for a particular workload.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -869,7 +927,7 @@ extension WellArchitected {
         )
     }
 
-    /// List workloads. Paginated.
+    /// Paginated list of workloads.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -919,6 +977,17 @@ extension WellArchitected {
             outputKey: \ListWorkloadsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension WellArchitected.GetConsolidatedReportInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WellArchitected.GetConsolidatedReportInput {
+        return .init(
+            format: self.format,
+            includeSharedResources: self.includeSharedResources,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

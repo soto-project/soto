@@ -63,7 +63,7 @@ public struct ManagedBlockchain: AWSService {
 
     // MARK: API Calls
 
-    ///  The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is  subject to change. We recommend that you use this feature only with  test scenarios, and not in production environments.  Creates a new accessor for use with Managed Blockchain Ethereum nodes. An accessor object is a container that has the information  required for token based access to your Ethereum nodes.
+    /// Creates a new accessor for use with Managed Blockchain Ethereum nodes. An accessor contains information  required for token based access to your Ethereum nodes.
     public func createAccessor(_ input: CreateAccessorInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAccessorOutput> {
         return self.client.execute(operation: "CreateAccessor", path: "/accessors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -88,7 +88,7 @@ public struct ManagedBlockchain: AWSService {
         return self.client.execute(operation: "CreateProposal", path: "/networks/{NetworkId}/proposals", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is  subject to change. We recommend that you use this feature only with  test scenarios, and not in production environments.  Deletes an accessor that your Amazon Web Services account owns. An accessor object is a container that has the  information required for token based access to your Ethereum nodes including, the  BILLING_TOKEN. After an accessor is deleted, the status of the accessor changes  from AVAILABLE to PENDING_DELETION. An accessor in the  PENDING_DELETION state can’t be used for new WebSocket requests or  HTTP requests. However, WebSocket connections that were initiated while the accessor was in the  AVAILABLE state remain open until they expire (up to 2 hours).
+    /// Deletes an accessor that your Amazon Web Services account owns. An accessor object is a container that has the  information required for token based access to your Ethereum nodes including, the  BILLING_TOKEN. After an accessor is deleted, the status of the accessor changes  from AVAILABLE to PENDING_DELETION. An accessor in the  PENDING_DELETION state can’t be used for new WebSocket requests or  HTTP requests. However, WebSocket connections that were initiated while the accessor was in the  AVAILABLE state remain open until they expire (up to 2 hours).
     public func deleteAccessor(_ input: DeleteAccessorInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAccessorOutput> {
         return self.client.execute(operation: "DeleteAccessor", path: "/accessors/{AccessorId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -103,7 +103,7 @@ public struct ManagedBlockchain: AWSService {
         return self.client.execute(operation: "DeleteNode", path: "/networks/{NetworkId}/nodes/{NodeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is  subject to change. We recommend that you use this feature only with  test scenarios, and not in production environments.  Returns detailed information about an accessor. An accessor object is a container that has the  information required for token based access to your Ethereum nodes.
+    /// Returns detailed information about an accessor. An accessor object is a container that has the  information required for token based access to your Ethereum nodes.
     public func getAccessor(_ input: GetAccessorInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAccessorOutput> {
         return self.client.execute(operation: "GetAccessor", path: "/accessors/{AccessorId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -128,7 +128,7 @@ public struct ManagedBlockchain: AWSService {
         return self.client.execute(operation: "GetProposal", path: "/networks/{NetworkId}/proposals/{ProposalId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is  subject to change. We recommend that you use this feature only with  test scenarios, and not in production environments.  Returns a list of the accessors and their properties. Accessor objects are containers that have the  information required for token based access to your Ethereum nodes.
+    /// Returns a list of the accessors and their properties. Accessor objects are containers that have the  information required for token based access to your Ethereum nodes.
     public func listAccessors(_ input: ListAccessorsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccessorsOutput> {
         return self.client.execute(operation: "ListAccessors", path: "/accessors", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -211,7 +211,7 @@ extension ManagedBlockchain {
 // MARK: Paginators
 
 extension ManagedBlockchain {
-    ///  The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is  subject to change. We recommend that you use this feature only with  test scenarios, and not in production environments.  Returns a list of the accessors and their properties. Accessor objects are containers that have the  information required for token based access to your Ethereum nodes.
+    /// Returns a list of the accessors and their properties. Accessor objects are containers that have the  information required for token based access to your Ethereum nodes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

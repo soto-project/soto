@@ -124,7 +124,7 @@ extension ECRPublic {
     public struct BatchDeleteImageRequest: AWSEncodableShape {
         /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
         public let imageIds: [ImageIdentifier]
-        /// The Amazon Web Services account ID that's associated with the registry that contains the image to delete. If you do not specify a registry, the default public registry is assumed.
+        /// The Amazon Web Services account ID, or registry alias, that's associated with the registry that contains the image to delete. If you do not specify a registry, the default public registry is assumed.
         public let registryId: String?
         /// The repository in a public registry that contains the image to delete.
         public let repositoryName: String
@@ -141,7 +141,8 @@ extension ECRPublic {
             }
             try self.validate(self.imageIds, name: "imageIds", parent: name, max: 100)
             try self.validate(self.imageIds, name: "imageIds", parent: name, min: 1)
-            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.registryId, name: "registryId", parent: name, max: 50)
+            try self.validate(self.registryId, name: "registryId", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 205)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")

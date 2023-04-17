@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS SSMContacts service.
 ///
-/// Systems Manager Incident Manager is an incident management console designed to help users mitigate and recover from incidents affecting their Amazon Web Services-hosted applications. An incident is any unplanned interruption or reduction in quality of services.  Incident Manager increases incident resolution by notifying responders of impact, highlighting relevant troubleshooting data, and providing collaboration tools to get services back up and running. To achieve the primary goal of reducing the time-to-resolution of critical incidents, Incident Manager automates response plans and enables responder team escalation.
+/// Systems Manager Incident Manager is an incident management console designed to help users mitigate and recover from incidents affecting their Amazon Web Services-hosted applications. An incident is any unplanned interruption or reduction in quality of services. Incident Manager increases incident resolution by notifying responders of impact, highlighting relevant troubleshooting data, and providing collaboration tools to get services back up and running. To achieve the primary goal of reducing the time-to-resolution of critical incidents, Incident Manager automates response plans and enables responder team escalation.
 public struct SSMContacts: AWSService {
     // MARK: Member variables
 
@@ -84,6 +84,16 @@ public struct SSMContacts: AWSService {
         return self.client.execute(operation: "CreateContactChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a rotation in an on-call schedule.
+    public func createRotation(_ input: CreateRotationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRotationResult> {
+        return self.client.execute(operation: "CreateRotation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates an override for a rotation in an on-call schedule.
+    public func createRotationOverride(_ input: CreateRotationOverrideRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRotationOverrideResult> {
+        return self.client.execute(operation: "CreateRotationOverride", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// To no longer receive Incident Manager engagements to a contact channel, you can deactivate the channel.
     public func deactivateContactChannel(_ input: DeactivateContactChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeactivateContactChannelResult> {
         return self.client.execute(operation: "DeactivateContactChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -97,6 +107,16 @@ public struct SSMContacts: AWSService {
     /// To no longer receive engagements on a contact channel, you can delete the channel from a contact. Deleting the contact channel removes it from the contact's engagement plan. If you delete the only contact channel for a contact, you won't be able to engage that contact during an incident.
     public func deleteContactChannel(_ input: DeleteContactChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteContactChannelResult> {
         return self.client.execute(operation: "DeleteContactChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a rotation from the system. If a rotation belongs to more than one on-call schedule, this operation deletes it from all of them.
+    public func deleteRotation(_ input: DeleteRotationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRotationResult> {
+        return self.client.execute(operation: "DeleteRotation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an existing override for an on-call rotation.
+    public func deleteRotationOverride(_ input: DeleteRotationOverrideRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRotationOverrideResult> {
+        return self.client.execute(operation: "DeleteRotationOverride", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Incident Manager uses engagements to engage contacts and escalation plans during an incident. Use this command to describe the engagement that occurred during an incident.
@@ -124,6 +144,16 @@ public struct SSMContacts: AWSService {
         return self.client.execute(operation: "GetContactPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves information about an on-call rotation.
+    public func getRotation(_ input: GetRotationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRotationResult> {
+        return self.client.execute(operation: "GetRotation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves information about an override to an on-call rotation.
+    public func getRotationOverride(_ input: GetRotationOverrideRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRotationOverrideResult> {
+        return self.client.execute(operation: "GetRotationOverride", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists all contact channels for the specified contact.
     public func listContactChannels(_ input: ListContactChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContactChannelsResult> {
         return self.client.execute(operation: "ListContactChannels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -144,6 +174,11 @@ public struct SSMContacts: AWSService {
         return self.client.execute(operation: "ListPageReceipts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns the resolution path of an engagement. For example, the escalation plan engaged in an incident might target an on-call schedule that includes several contacts in a rotation, but just one contact on-call when the incident starts. The resolution path indicates the hierarchy of escalation plan > on-call schedule > contact.
+    public func listPageResolutions(_ input: ListPageResolutionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPageResolutionsResult> {
+        return self.client.execute(operation: "ListPageResolutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the engagements to a contact's contact channels.
     public func listPagesByContact(_ input: ListPagesByContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPagesByContactResult> {
         return self.client.execute(operation: "ListPagesByContact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -152,6 +187,26 @@ public struct SSMContacts: AWSService {
     /// Lists the engagements to contact channels that occurred by engaging a contact.
     public func listPagesByEngagement(_ input: ListPagesByEngagementRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPagesByEngagementResult> {
         return self.client.execute(operation: "ListPagesByEngagement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of shifts based on rotation configuration parameters.  The Incident Manager primarily uses this operation to populate the Preview calendar. It is not typically run by end users.
+    public func listPreviewRotationShifts(_ input: ListPreviewRotationShiftsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPreviewRotationShiftsResult> {
+        return self.client.execute(operation: "ListPreviewRotationShifts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a list of overrides currently specified for an on-call rotation.
+    public func listRotationOverrides(_ input: ListRotationOverridesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRotationOverridesResult> {
+        return self.client.execute(operation: "ListRotationOverrides", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of shifts generated by an existing rotation in the system.
+    public func listRotationShifts(_ input: ListRotationShiftsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRotationShiftsResult> {
+        return self.client.execute(operation: "ListRotationShifts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a list of on-call rotations.
+    public func listRotations(_ input: ListRotationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRotationsResult> {
+        return self.client.execute(operation: "ListRotations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the tags of an escalation plan or contact.
@@ -197,6 +252,11 @@ public struct SSMContacts: AWSService {
     /// Updates a contact's contact channel.
     public func updateContactChannel(_ input: UpdateContactChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContactChannelResult> {
         return self.client.execute(operation: "UpdateContactChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the information specified for an on-call rotation.
+    public func updateRotation(_ input: UpdateRotationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRotationResult> {
+        return self.client.execute(operation: "UpdateRotation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 
@@ -424,6 +484,59 @@ extension SSMContacts {
         )
     }
 
+    /// Returns the resolution path of an engagement. For example, the escalation plan engaged in an incident might target an on-call schedule that includes several contacts in a rotation, but just one contact on-call when the incident starts. The resolution path indicates the hierarchy of escalation plan > on-call schedule > contact.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listPageResolutionsPaginator<Result>(
+        _ input: ListPageResolutionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListPageResolutionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listPageResolutions,
+            inputKey: \ListPageResolutionsRequest.nextToken,
+            outputKey: \ListPageResolutionsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listPageResolutionsPaginator(
+        _ input: ListPageResolutionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListPageResolutionsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listPageResolutions,
+            inputKey: \ListPageResolutionsRequest.nextToken,
+            outputKey: \ListPageResolutionsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Lists the engagements to a contact's contact channels.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -529,6 +642,218 @@ extension SSMContacts {
             onPage: onPage
         )
     }
+
+    /// Returns a list of shifts based on rotation configuration parameters.  The Incident Manager primarily uses this operation to populate the Preview calendar. It is not typically run by end users.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listPreviewRotationShiftsPaginator<Result>(
+        _ input: ListPreviewRotationShiftsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListPreviewRotationShiftsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listPreviewRotationShifts,
+            inputKey: \ListPreviewRotationShiftsRequest.nextToken,
+            outputKey: \ListPreviewRotationShiftsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listPreviewRotationShiftsPaginator(
+        _ input: ListPreviewRotationShiftsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListPreviewRotationShiftsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listPreviewRotationShifts,
+            inputKey: \ListPreviewRotationShiftsRequest.nextToken,
+            outputKey: \ListPreviewRotationShiftsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Retrieves a list of overrides currently specified for an on-call rotation.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listRotationOverridesPaginator<Result>(
+        _ input: ListRotationOverridesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListRotationOverridesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listRotationOverrides,
+            inputKey: \ListRotationOverridesRequest.nextToken,
+            outputKey: \ListRotationOverridesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listRotationOverridesPaginator(
+        _ input: ListRotationOverridesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListRotationOverridesResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listRotationOverrides,
+            inputKey: \ListRotationOverridesRequest.nextToken,
+            outputKey: \ListRotationOverridesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns a list of shifts generated by an existing rotation in the system.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listRotationShiftsPaginator<Result>(
+        _ input: ListRotationShiftsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListRotationShiftsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listRotationShifts,
+            inputKey: \ListRotationShiftsRequest.nextToken,
+            outputKey: \ListRotationShiftsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listRotationShiftsPaginator(
+        _ input: ListRotationShiftsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListRotationShiftsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listRotationShifts,
+            inputKey: \ListRotationShiftsRequest.nextToken,
+            outputKey: \ListRotationShiftsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Retrieves a list of on-call rotations.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listRotationsPaginator<Result>(
+        _ input: ListRotationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListRotationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listRotations,
+            inputKey: \ListRotationsRequest.nextToken,
+            outputKey: \ListRotationsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listRotationsPaginator(
+        _ input: ListRotationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListRotationsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listRotations,
+            inputKey: \ListRotationsRequest.nextToken,
+            outputKey: \ListRotationsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension SSMContacts.ListContactChannelsRequest: AWSPaginateToken {
@@ -573,6 +898,15 @@ extension SSMContacts.ListPageReceiptsRequest: AWSPaginateToken {
     }
 }
 
+extension SSMContacts.ListPageResolutionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SSMContacts.ListPageResolutionsRequest {
+        return .init(
+            nextToken: token,
+            pageId: self.pageId
+        )
+    }
+}
+
 extension SSMContacts.ListPagesByContactRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSMContacts.ListPagesByContactRequest {
         return .init(
@@ -589,6 +923,56 @@ extension SSMContacts.ListPagesByEngagementRequest: AWSPaginateToken {
             engagementId: self.engagementId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension SSMContacts.ListPreviewRotationShiftsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SSMContacts.ListPreviewRotationShiftsRequest {
+        return .init(
+            endTime: self.endTime,
+            maxResults: self.maxResults,
+            members: self.members,
+            nextToken: token,
+            overrides: self.overrides,
+            recurrence: self.recurrence,
+            rotationStartTime: self.rotationStartTime,
+            startTime: self.startTime,
+            timeZoneId: self.timeZoneId
+        )
+    }
+}
+
+extension SSMContacts.ListRotationOverridesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SSMContacts.ListRotationOverridesRequest {
+        return .init(
+            endTime: self.endTime,
+            maxResults: self.maxResults,
+            nextToken: token,
+            rotationId: self.rotationId,
+            startTime: self.startTime
+        )
+    }
+}
+
+extension SSMContacts.ListRotationShiftsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SSMContacts.ListRotationShiftsRequest {
+        return .init(
+            endTime: self.endTime,
+            maxResults: self.maxResults,
+            nextToken: token,
+            rotationId: self.rotationId,
+            startTime: self.startTime
+        )
+    }
+}
+
+extension SSMContacts.ListRotationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SSMContacts.ListRotationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            rotationNamePrefix: self.rotationNamePrefix
         )
     }
 }

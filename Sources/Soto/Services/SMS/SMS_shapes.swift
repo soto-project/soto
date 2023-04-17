@@ -28,20 +28,20 @@ extension SMS {
     }
 
     public enum AppLaunchStatus: String, CustomStringConvertible, Codable, Sendable {
-        case configurationInvalid = "CONFIGURATION_INVALID"
         case configurationInProgress = "CONFIGURATION_IN_PROGRESS"
+        case configurationInvalid = "CONFIGURATION_INVALID"
         case deltaLaunchFailed = "DELTA_LAUNCH_FAILED"
         case deltaLaunchInProgress = "DELTA_LAUNCH_IN_PROGRESS"
-        case launched = "LAUNCHED"
         case launchFailed = "LAUNCH_FAILED"
         case launchInProgress = "LAUNCH_IN_PROGRESS"
         case launchPending = "LAUNCH_PENDING"
+        case launched = "LAUNCHED"
         case partiallyLaunched = "PARTIALLY_LAUNCHED"
         case readyForConfiguration = "READY_FOR_CONFIGURATION"
         case readyForLaunch = "READY_FOR_LAUNCH"
-        case terminated = "TERMINATED"
         case terminateFailed = "TERMINATE_FAILED"
         case terminateInProgress = "TERMINATE_IN_PROGRESS"
+        case terminated = "TERMINATED"
         case validationInProgress = "VALIDATION_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
@@ -53,8 +53,8 @@ extension SMS {
     }
 
     public enum AppReplicationStatus: String, CustomStringConvertible, Codable, Sendable {
-        case configurationInvalid = "CONFIGURATION_INVALID"
         case configurationInProgress = "CONFIGURATION_IN_PROGRESS"
+        case configurationInvalid = "CONFIGURATION_INVALID"
         case deltaReplicated = "DELTA_REPLICATED"
         case deltaReplicationFailed = "DELTA_REPLICATION_FAILED"
         case deltaReplicationInProgress = "DELTA_REPLICATION_IN_PROGRESS"
@@ -65,9 +65,9 @@ extension SMS {
         case replicationFailed = "REPLICATION_FAILED"
         case replicationInProgress = "REPLICATION_IN_PROGRESS"
         case replicationPending = "REPLICATION_PENDING"
+        case replicationStopFailed = "REPLICATION_STOP_FAILED"
         case replicationStopped = "REPLICATION_STOPPED"
         case replicationStopping = "REPLICATION_STOPPING"
-        case replicationStopFailed = "REPLICATION_STOP_FAILED"
         case validationInProgress = "VALIDATION_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
@@ -75,8 +75,8 @@ extension SMS {
     public enum AppStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "ACTIVE"
         case creating = "CREATING"
-        case deleted = "DELETED"
         case deleteFailed = "DELETE_FAILED"
+        case deleted = "DELETED"
         case deleting = "DELETING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
@@ -88,11 +88,11 @@ extension SMS {
     }
 
     public enum ConnectorCapability: String, CustomStringConvertible, Codable, Sendable {
-        case hypervManager = "HYPERV-MANAGER"
+        case hyperVManager = "HYPERV-MANAGER"
         case scvmm = "SCVMM"
         case smsOptimized = "SMS_OPTIMIZED"
         case snapshotBatching = "SNAPSHOT_BATCHING"
-        case vsphere = "VSPHERE"
+        case vSphere = "VSPHERE"
         public var description: String { return self.rawValue }
     }
 
@@ -178,9 +178,9 @@ extension SMS {
     }
 
     public enum VmManagerType: String, CustomStringConvertible, Codable, Sendable {
-        case hypervManager = "HYPERV-MANAGER"
+        case hyperVManager = "HYPERV-MANAGER"
         case scvmm = "SCVMM"
-        case vsphere = "VSPHERE"
+        case vSphere = "VSPHERE"
         public var description: String { return self.rawValue }
     }
 

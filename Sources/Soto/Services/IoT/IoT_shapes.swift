@@ -711,7 +711,7 @@ extension IoT {
         public let dynamoDB: DynamoDBAction?
         /// Write to a DynamoDB table. This is a new version of the DynamoDB action. It allows you to write each attribute in an MQTT message payload into a separate DynamoDB column.
         public let dynamoDBv2: DynamoDBv2Action?
-        /// Write data to an Amazon OpenSearch Service domain.     The Elasticsearch action can only be used by existing rule actions.  To create a new rule action or to update an existing rule action, use the OpenSearch rule action instead. For more information, see  OpenSearchAction.
+        /// Write data to an Amazon OpenSearch Service domain.  The Elasticsearch action can only be used by existing rule actions.  To create a new rule action or to update an existing rule action, use the OpenSearch rule action instead. For more information, see  OpenSearchAction.
         public let elasticsearch: ElasticsearchAction?
         /// Write to an Amazon Kinesis Firehose stream.
         public let firehose: FirehoseAction?
@@ -865,8 +865,7 @@ extension IoT {
     public struct AddThingToBillingGroupRequest: AWSEncodableShape {
         /// The ARN of the billing group.
         public let billingGroupArn: String?
-        /// The name of the billing group.
-        /// 		        This call is asynchronous. It might take several seconds for the detachment to propagate.
+        /// The name of the billing group.  This call is asynchronous. It might take several seconds for the detachment to propagate.
         public let billingGroupName: String?
         /// The ARN of the thing to be added to the billing group.
         public let thingArn: String?
@@ -1248,17 +1247,10 @@ extension IoT {
     }
 
     public struct AttributePayload: AWSEncodableShape & AWSDecodableShape {
-        /// A JSON string containing up to three key-value pair in JSON format. For example:
-        ///
-        /// 			         {\"attributes\":{\"string1\":\"string2\"}}
-        ///
+        /// A JSON string containing up to three key-value pair in JSON format. For example:  {\"attributes\":{\"string1\":\"string2\"}}
         public let attributes: [String: String]?
         /// Specifies whether the list of attributes provided in the AttributePayload is merged with
-        /// 			the attributes stored in the registry, instead of overwriting them.
-        /// 		       To remove an attribute, call UpdateThing with an empty attribute value.
-        ///
-        /// 			         The merge attribute is only valid when calling UpdateThing or UpdateThingGroup.
-        ///
+        /// 			the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value.  The merge attribute is only valid when calling UpdateThing or UpdateThingGroup.
         public let merge: Bool?
 
         public init(attributes: [String: String]? = nil, merge: Bool? = nil) {
@@ -2466,17 +2458,21 @@ extension IoT {
     }
 
     public struct CloudwatchLogsAction: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether batches of log records will be extracted and uploaded into CloudWatch. Values include true or false (default).
+        public let batchMode: Bool?
         /// The CloudWatch log group to which the action sends data.
         public let logGroupName: String
         /// The IAM role that allows access to the CloudWatch log.
         public let roleArn: String
 
-        public init(logGroupName: String, roleArn: String) {
+        public init(batchMode: Bool? = nil, logGroupName: String, roleArn: String) {
+            self.batchMode = batchMode
             self.logGroupName = logGroupName
             self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case batchMode = "batchMode"
             case logGroupName = "logGroupName"
             case roleArn = "roleArn"
         }
@@ -3051,19 +3047,12 @@ extension IoT {
             AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
         ]
 
-        /// The dynamic thing group index name.
-        ///
-        /// 			         Currently one index is supported: AWS_Things.
-        ///
+        /// The dynamic thing group index name.  Currently one index is supported: AWS_Things.
         public let indexName: String?
-        /// The dynamic thing group search query string.
-        /// 		       See Query Syntax for information about query string syntax.
+        /// The dynamic thing group search query string. See Query Syntax for information about query string syntax.
         public let queryString: String
-        /// The dynamic thing group query version.
-        ///
-        /// 			         Currently one query version is supported: "2017-09-30". If not specified, the
+        /// The dynamic thing group query version.  Currently one query version is supported: "2017-09-30". If not specified, the
         /// 				query version defaults to this value.
-        ///
         public let queryVersion: String?
         /// Metadata which can be used to manage the dynamic thing group.
         public let tags: [Tag]?
@@ -3236,7 +3225,7 @@ extension IoT {
         public let description: String?
         /// The job document. Required if you don't specify a value for documentSource.
         public let document: String?
-        /// Parameters of an Amazon Web Services managed template that you can specify to create the job document.           documentParameters can only be used when creating jobs from Amazon Web Services  managed templates. This parameter can't be used with custom job templates or to  create jobs from them.
+        /// Parameters of an Amazon Web Services managed template that you can specify to create the job document.   documentParameters can only be used when creating jobs from Amazon Web Services  managed templates. This parameter can't be used with custom job templates or to  create jobs from them.
         public let documentParameters: [String: String]?
         /// An S3 link to the job document. Required if you don't specify a value for document.  If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form:  ${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket name and key is the object in the bucket to which you are linking.
         public let documentSource: String?
@@ -3376,12 +3365,14 @@ extension IoT {
         public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
         /// A unique identifier for the job template. We recommend using a UUID. Alpha-numeric  characters, "-", and "_" are valid for use here.
         public let jobTemplateId: String
+        /// Allows you to configure an optional maintenance window for the rollout of a job document to all devices in the target group for a job.
+        public let maintenanceWindows: [MaintenanceWindow]?
         public let presignedUrlConfig: PresignedUrlConfig?
         /// Metadata that can be used to manage the job template.
         public let tags: [Tag]?
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, description: String, document: String? = nil, documentSource: String? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateId: String, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, description: String, document: String? = nil, documentSource: String? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateId: String, maintenanceWindows: [MaintenanceWindow]? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
             self.document = document
@@ -3390,6 +3381,7 @@ extension IoT {
             self.jobExecutionsRetryConfig = jobExecutionsRetryConfig
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
             self.jobTemplateId = jobTemplateId
+            self.maintenanceWindows = maintenanceWindows
             self.presignedUrlConfig = presignedUrlConfig
             self.tags = tags
             self.timeoutConfig = timeoutConfig
@@ -3407,6 +3399,9 @@ extension IoT {
             try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, max: 64)
             try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, min: 1)
             try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.maintenanceWindows?.forEach {
+                try $0.validate(name: "\(name).maintenanceWindows[]")
+            }
             try self.presignedUrlConfig?.validate(name: "\(name).presignedUrlConfig")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -3421,6 +3416,7 @@ extension IoT {
             case jobArn = "jobArn"
             case jobExecutionsRetryConfig = "jobExecutionsRetryConfig"
             case jobExecutionsRolloutConfig = "jobExecutionsRolloutConfig"
+            case maintenanceWindows = "maintenanceWindows"
             case presignedUrlConfig = "presignedUrlConfig"
             case tags = "tags"
             case timeoutConfig = "timeoutConfig"
@@ -4307,15 +4303,11 @@ extension IoT {
         ]
 
         /// The attribute payload, which consists of up to three name/value pairs in a JSON
-        /// 			document. For example:
-        ///
-        /// 			         {\"attributes\":{\"string1\":\"string2\"}}
-        ///
+        /// 			document. For example:  {\"attributes\":{\"string1\":\"string2\"}}
         public let attributePayload: AttributePayload?
         /// The name of the billing group the thing will be added to.
         public let billingGroupName: String?
-        /// The name of the thing to create.
-        /// 		       You can't change a thing's name after you create it. To change a thing's name, you must create a
+        /// The name of the thing to create. You can't change a thing's name after you create it. To change a thing's name, you must create a
         /// 			new thing, give it the new name, and then delete the old thing.
         public let thingName: String
         /// The name of the thing type associated with the new thing.
@@ -6251,10 +6243,12 @@ extension IoT {
         public let jobTemplateArn: String?
         /// The unique identifier of the job template.
         public let jobTemplateId: String?
+        /// Allows you to configure an optional maintenance window for the rollout of a job document to all devices in the target group for a job.
+        public let maintenanceWindows: [MaintenanceWindow]?
         public let presignedUrlConfig: PresignedUrlConfig?
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, createdAt: Date? = nil, description: String? = nil, document: String? = nil, documentSource: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateArn: String? = nil, jobTemplateId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, createdAt: Date? = nil, description: String? = nil, document: String? = nil, documentSource: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateArn: String? = nil, jobTemplateId: String? = nil, maintenanceWindows: [MaintenanceWindow]? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.createdAt = createdAt
             self.description = description
@@ -6264,6 +6258,7 @@ extension IoT {
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
             self.jobTemplateArn = jobTemplateArn
             self.jobTemplateId = jobTemplateId
+            self.maintenanceWindows = maintenanceWindows
             self.presignedUrlConfig = presignedUrlConfig
             self.timeoutConfig = timeoutConfig
         }
@@ -6278,6 +6273,7 @@ extension IoT {
             case jobExecutionsRolloutConfig = "jobExecutionsRolloutConfig"
             case jobTemplateArn = "jobTemplateArn"
             case jobTemplateId = "jobTemplateId"
+            case maintenanceWindows = "maintenanceWindows"
             case presignedUrlConfig = "presignedUrlConfig"
             case timeoutConfig = "timeoutConfig"
         }
@@ -6910,8 +6906,7 @@ extension IoT {
         public let billingGroupName: String?
         /// The default MQTT client ID. For a typical device, the thing name is also used as the default MQTT client ID.
         /// 			Although we don’t require a mapping between a thing's registry name and its use of MQTT client IDs, certificates, or
-        /// 			shadow state, we recommend that you choose a thing name and use it as the MQTT client ID for the registry and the Device Shadow service.
-        /// 		       This lets you better organize your IoT fleet without removing the flexibility of the underlying device certificate model or shadows.
+        /// 			shadow state, we recommend that you choose a thing name and use it as the MQTT client ID for the registry and the Device Shadow service. This lets you better organize your IoT fleet without removing the flexibility of the underlying device certificate model or shadows.
         public let defaultClientId: String?
         /// The ARN of the thing to describe.
         public let thingArn: String?
@@ -6921,12 +6916,9 @@ extension IoT {
         public let thingName: String?
         /// The thing type name.
         public let thingTypeName: String?
-        /// The current version of the thing record in the registry.
-        ///
-        /// 			         To avoid unintentional changes to the information in the registry, you can pass
+        /// The current version of the thing record in the registry.  To avoid unintentional changes to the information in the registry, you can pass
         /// 				the version information in the expectedVersion parameter of the
         /// 					UpdateThing and DeleteThing calls.
-        ///
         public let version: Int64?
 
         public init(attributes: [String: String]? = nil, billingGroupName: String? = nil, defaultClientId: String? = nil, thingArn: String? = nil, thingId: String? = nil, thingName: String? = nil, thingTypeName: String? = nil, version: Int64? = nil) {
@@ -8639,6 +8631,8 @@ extension IoT {
         public let presignedUrlConfig: PresignedUrlConfig?
         /// If the job was updated, provides the reason code for the update.
         public let reasonCode: String?
+        /// Displays the next seven maintenance window occurrences and their start times.
+        public let scheduledJobRollouts: [ScheduledJobRollout]?
         /// The configuration that allows you to schedule a job for a future date and time in addition to specifying the end behavior for each job execution.
         public let schedulingConfig: SchedulingConfig?
         /// The status of the job, one of IN_PROGRESS, CANCELED,  DELETION_IN_PROGRESS or COMPLETED.
@@ -8650,7 +8644,7 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job.  A timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, documentParameters: [String: String]? = nil, forceCanceled: Bool? = nil, isConcurrent: Bool? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, schedulingConfig: SchedulingConfig? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, documentParameters: [String: String]? = nil, forceCanceled: Bool? = nil, isConcurrent: Bool? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, scheduledJobRollouts: [ScheduledJobRollout]? = nil, schedulingConfig: SchedulingConfig? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.comment = comment
             self.completedAt = completedAt
@@ -8669,6 +8663,7 @@ extension IoT {
             self.namespaceId = namespaceId
             self.presignedUrlConfig = presignedUrlConfig
             self.reasonCode = reasonCode
+            self.scheduledJobRollouts = scheduledJobRollouts
             self.schedulingConfig = schedulingConfig
             self.status = status
             self.targets = targets
@@ -8695,6 +8690,7 @@ extension IoT {
             case namespaceId = "namespaceId"
             case presignedUrlConfig = "presignedUrlConfig"
             case reasonCode = "reasonCode"
+            case scheduledJobRollouts = "scheduledJobRollouts"
             case schedulingConfig = "schedulingConfig"
             case status = "status"
             case targets = "targets"
@@ -12108,6 +12104,30 @@ extension IoT {
         }
     }
 
+    public struct MaintenanceWindow: AWSEncodableShape & AWSDecodableShape {
+        /// Displays the duration of the next maintenance window.
+        public let durationInMinutes: Int
+        /// Displays the start time of the next maintenance window.
+        public let startTime: String
+
+        public init(durationInMinutes: Int, startTime: String) {
+            self.durationInMinutes = durationInMinutes
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.durationInMinutes, name: "durationInMinutes", parent: name, max: 1430)
+            try self.validate(self.durationInMinutes, name: "durationInMinutes", parent: name, min: 30)
+            try self.validate(self.startTime, name: "startTime", parent: name, max: 256)
+            try self.validate(self.startTime, name: "startTime", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInMinutes = "durationInMinutes"
+            case startTime = "startTime"
+        }
+    }
+
     public struct ManagedJobTemplateSummary: AWSDecodableShape {
         /// The description for a managed template.
         public let description: String?
@@ -12366,7 +12386,7 @@ extension IoT {
         public let contentType: String?
         /// The base64-encoded binary data used by the sender of the request message to identify which request the response message is for when it's received. For more information, see  Correlation Data from the MQTT Version 5.0 specification.   This binary data must be based64-encoded.   Supports substitution templates.
         public let correlationData: String?
-        /// A user-defined integer value that will persist a message at the message broker for a specified amount of time to ensure that the message will expire if it's no longer relevant to the subscriber. The value of messageExpiry represents the number of seconds before it expires. For more information about the limits of messageExpiry, see Amazon Web Services IoT Core message broker and protocol limits and quotas  from the Amazon Web Services Reference Guide.       Supports substitution templates.
+        /// A user-defined integer value that will persist a message at the message broker for a specified amount of time to ensure that the message will expire if it's no longer relevant to the subscriber. The value of messageExpiry represents the number of seconds before it expires. For more information about the limits of messageExpiry, see Amazon Web Services IoT Core message broker and protocol limits and quotas  from the Amazon Web Services Reference Guide. Supports substitution templates.
         public let messageExpiry: String?
         /// An Enum string value that indicates whether the payload is formatted as UTF-8. Valid values are UNSPECIFIED_BYTES and UTF8_DATA. For more information, see  Payload Format Indicator from the MQTT Version 5.0 specification. Supports substitution templates.
         public let payloadFormatIndicator: String?
@@ -13638,23 +13658,42 @@ extension IoT {
         }
     }
 
+    public struct ScheduledJobRollout: AWSDecodableShape {
+        /// Displays the start times of the next seven maintenance window occurrences.
+        public let startTime: String?
+
+        public init(startTime: String? = nil) {
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "startTime"
+        }
+    }
+
     public struct SchedulingConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the end behavior for all job executions after a job reaches the selected endTime. If endTime is not selected when creating the job, then endBehavior does not apply.
         public let endBehavior: JobEndBehavior?
-        /// The time a job will stop rollout of the job document to all devices in the target group for a job. The endTime must take place no later than two years from the current time and be scheduled a minimum of thirty minutes from the current time. The minimum duration between startTime and endTime is thirty minutes. The maximum duration between startTime and endTime is two years.
+        /// The time a job will stop rollout of the job document to all devices in the target group for a job. The endTime must take place no later than two years from the current time and be scheduled a minimum of thirty minutes from the current time. The minimum duration between startTime and endTime is thirty minutes. The maximum duration between startTime and endTime is two years. The date and time format for the endTime is YYYY-MM-DD for the date and HH:MM for the time.
         public let endTime: String?
-        /// The time a job will begin rollout of the job document to all devices in the target group for a job. The startTime can be scheduled up to a year in advance and must be scheduled a minimum of thirty minutes from the current time.
+        /// An optional configuration within the SchedulingConfig to setup a recurring maintenance window with a predetermined start time and duration for the rollout of a job document to all devices in a target group for a job.
+        public let maintenanceWindows: [MaintenanceWindow]?
+        /// The time a job will begin rollout of the job document to all devices in the target group for a job. The startTime can be scheduled up to a year in advance and must be scheduled a minimum of thirty minutes from the current time. The date and time format for the startTime is YYYY-MM-DD for the date and HH:MM for the time.
         public let startTime: String?
 
-        public init(endBehavior: JobEndBehavior? = nil, endTime: String? = nil, startTime: String? = nil) {
+        public init(endBehavior: JobEndBehavior? = nil, endTime: String? = nil, maintenanceWindows: [MaintenanceWindow]? = nil, startTime: String? = nil) {
             self.endBehavior = endBehavior
             self.endTime = endTime
+            self.maintenanceWindows = maintenanceWindows
             self.startTime = startTime
         }
 
         public func validate(name: String) throws {
             try self.validate(self.endTime, name: "endTime", parent: name, max: 64)
             try self.validate(self.endTime, name: "endTime", parent: name, min: 1)
+            try self.maintenanceWindows?.forEach {
+                try $0.validate(name: "\(name).maintenanceWindows[]")
+            }
             try self.validate(self.startTime, name: "startTime", parent: name, max: 64)
             try self.validate(self.startTime, name: "startTime", parent: name, min: 1)
         }
@@ -13662,6 +13701,7 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case endBehavior = "endBehavior"
             case endTime = "endTime"
+            case maintenanceWindows = "maintenanceWindows"
             case startTime = "startTime"
         }
     }
@@ -15896,18 +15936,12 @@ extension IoT {
 
         /// The expected version of the dynamic thing group to update.
         public let expectedVersion: Int64?
-        /// The dynamic thing group index to update.
-        ///
-        /// 			         Currently one index is supported: AWS_Things.
-        ///
+        /// The dynamic thing group index to update.  Currently one index is supported: AWS_Things.
         public let indexName: String?
         /// The dynamic thing group search query string to update.
         public let queryString: String?
-        /// The dynamic thing group query version to update.
-        ///
-        /// 			         Currently one query version is supported: "2017-09-30". If not specified, the
+        /// The dynamic thing group query version to update.  Currently one query version is supported: "2017-09-30". If not specified, the
         /// 				query version defaults to this value.
-        ///
         public let queryVersion: String?
         /// The name of the dynamic thing group to update.
         public let thingGroupName: String
@@ -16644,11 +16678,7 @@ extension IoT {
         ]
 
         /// A list of thing attributes, a JSON string containing name-value pairs. For
-        /// 			example:
-        ///
-        /// 			         {\"attributes\":{\"name1\":\"value2\"}}
-        ///
-        /// 		       This data is used to add new attributes or update existing attributes.
+        /// 			example:  {\"attributes\":{\"name1\":\"value2\"}}  This data is used to add new attributes or update existing attributes.
         public let attributePayload: AttributePayload?
         /// The expected version of the thing record in the registry. If the version of the
         /// 			record in the registry does not match the expected version specified in the request, the
@@ -16658,8 +16688,7 @@ extension IoT {
         /// Remove a thing type association. If true, the
         /// 			association is removed.
         public let removeThingType: Bool?
-        /// The name of the thing to update.
-        /// 		       You can't change a thing's name. To change a thing's name, you must create a
+        /// The name of the thing to update. You can't change a thing's name. To change a thing's name, you must create a
         /// 			new thing, give it the new name, and then delete the old thing.
         public let thingName: String
         /// The name of the thing type.

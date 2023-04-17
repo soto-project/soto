@@ -87,6 +87,14 @@ extension Location {
         public var description: String { return self.rawValue }
     }
 
+    public enum Status: String, CustomStringConvertible, Codable, Sendable {
+        /// List all active API keys.
+        case active = "Active"
+        /// List all expired API keys.
+        case expired = "Expired"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TravelMode: String, CustomStringConvertible, Codable, Sendable {
         case bicycle = "Bicycle"
         case car = "Car"
@@ -104,12 +112,60 @@ extension Location {
 
     // MARK: Shapes
 
+    public struct ApiKeyFilter: AWSEncodableShape {
+        /// Filter on Active or Expired API keys.
+        public let keyStatus: Status?
+
+        public init(keyStatus: Status? = nil) {
+            self.keyStatus = keyStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyStatus = "KeyStatus"
+        }
+    }
+
+    public struct ApiKeyRestrictions: AWSEncodableShape & AWSDecodableShape {
+        /// A list of allowed actions that an API key resource grants permissions to perform  Currently, the only valid action is geo:GetMap* as an input to the list. For example, ["geo:GetMap*"] is valid but ["geo:GetMapTile"] is not.
+        public let allowActions: [String]
+        /// An optional list of allowed HTTP referers for which requests must originate from. Requests using this API key from other domains will not be allowed. Requirements:   Contain only alphanumeric characters (A–Z, a–z, 0–9) or any symbols in this list $\-._+!*`(),;/?:@=&amp;    May contain a percent (%) if followed by 2 hexadecimal digits (A-F, a-f, 0-9); this is used for URL encoding purposes.   May contain wildcard characters question mark (?) and asterisk (*). Question mark (?) will replace any single character (including hexadecimal digits). Asterisk (*) will replace any multiple characters (including multiple hexadecimal digits).   No spaces allowed. For example, https://example.com.
+        public let allowReferers: [String]?
+        /// A list of allowed resource ARNs that a API key bearer can perform actions on For more information about ARN format, see Amazon Resource Names (ARNs).  In this preview, you can allow only map resources.  Requirements:   Must be prefixed with arn.    partition and service must not be empty and should begin with only alphanumeric characters (A–Z, a–z, 0–9) and contain only alphanumeric numbers, hyphens (-) and periods (.).    region and account-id can be empty or should begin with only alphanumeric characters (A–Z, a–z, 0–9) and contain only alphanumeric numbers, hyphens (-) and periods (.).    resource-id can begin with any character except for forward slash (/) and contain any characters after, including forward slashes to form a path.  resource-id can also include wildcard characters, denoted by an asterisk (*).    arn, partition, service, region, account-id and resource-id must be delimited by a colon (:).   No spaces allowed. For example, arn:aws:geo:region:account-id:map/ExampleMap*.
+        public let allowResources: [String]
+
+        public init(allowActions: [String], allowReferers: [String]? = nil, allowResources: [String]) {
+            self.allowActions = allowActions
+            self.allowReferers = allowReferers
+            self.allowResources = allowResources
+        }
+
+        public func validate(name: String) throws {
+            try self.allowActions.forEach {
+                try validate($0, name: "allowActions[]", parent: name, pattern: "^geo:GetMap\\*$")
+            }
+            try self.allowReferers?.forEach {
+                try validate($0, name: "allowReferers[]", parent: name, max: 253)
+                try validate($0, name: "allowReferers[]", parent: name, pattern: "^([$\\-._+!*\\x{60}(),;/?:@=&\\w]|%([0-9a-fA-F?]{2}|[0-9a-fA-F?]?[*]))+$")
+            }
+            try self.allowResources.forEach {
+                try validate($0, name: "allowResources[]", parent: name, max: 1600)
+                try validate($0, name: "allowResources[]", parent: name, pattern: "^arn(:[a-z0-9]+([.-][a-z0-9]+)*):geo(:([a-z0-9]+([.-][a-z0-9]+)*))(:[0-9]+):((\\*)|([-a-z]+[/][*-._\\w]+))$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowActions = "AllowActions"
+            case allowReferers = "AllowReferers"
+            case allowResources = "AllowResources"
+        }
+    }
+
     public struct AssociateTrackerConsumerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
         ]
 
-        /// The Amazon Resource Name (ARN) for the geofence collection to be associated to tracker resource. Used when you need to specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer
+        /// The Amazon Resource Name (ARN) for the geofence collection to be associated to tracker resource. Used when you need to specify a resource across all Amazon Web Services.   Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer
         public let consumerArn: String
         /// The name of the tracker resource to be associated with a geofence collection.
         public let trackerName: String
@@ -876,7 +932,7 @@ extension Location {
         public let collectionName: String
         /// An optional description for the geofence collection.
         public let description: String?
-        /// A key identifier for an AWS KMS customer managed key. Enter a key ID, key ARN, alias name, or alias ARN.
+        /// A key identifier for an  Amazon Web Services  KMS customer managed key. Enter a key ID, key ARN, alias name, or alias ARN.
         ///
         public let kmsKeyId: String?
         /// No longer used. If included, the only allowed value is RequestBasedUsage.
@@ -933,7 +989,7 @@ extension Location {
     }
 
     public struct CreateGeofenceCollectionResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) for the geofence collection resource. Used when you need to specify a resource across all AWS.    Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollection
+        /// The Amazon Resource Name (ARN) for the geofence collection resource. Used when you need to specify a resource across all Amazon Web Services.    Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollection
         public let collectionArn: String
         /// The name for the geofence collection.
         public let collectionName: String
@@ -951,6 +1007,82 @@ extension Location {
             case collectionArn = "CollectionArn"
             case collectionName = "CollectionName"
             case createTime = "CreateTime"
+        }
+    }
+
+    public struct CreateKeyRequest: AWSEncodableShape {
+        /// An optional description for the API key resource.
+        public let description: String?
+        /// The optional timestamp for when the API key resource will expire in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ. One of NoExpiry or ExpireTime must be set.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var expireTime: Date?
+        /// A custom name for the API key resource. Requirements:   Contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).    Must be a unique API key name.   No spaces allowed. For example, ExampleAPIKey.
+        public let keyName: String
+        /// Optionally set to true to set no expiration time for the API key. One of NoExpiry or ExpireTime must be set.
+        public let noExpiry: Bool?
+        /// The API key restrictions for the API key resource.
+        public let restrictions: ApiKeyRestrictions
+        /// Applies one or more tags to the map resource. A tag is a key-value pair that helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use "aws:" as a prefix for a key.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, expireTime: Date? = nil, keyName: String, noExpiry: Bool? = nil, restrictions: ApiKeyRestrictions, tags: [String: String]? = nil) {
+            self.description = description
+            self.expireTime = expireTime
+            self.keyName = keyName
+            self.noExpiry = noExpiry
+            self.restrictions = restrictions
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.keyName, name: "keyName", parent: name, max: 100)
+            try self.validate(self.keyName, name: "keyName", parent: name, min: 1)
+            try self.validate(self.keyName, name: "keyName", parent: name, pattern: "^[-._\\w]+$")
+            try self.restrictions.validate(name: "\(name).restrictions")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[A-Za-z0-9 _=@:.+-/]*$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case expireTime = "ExpireTime"
+            case keyName = "KeyName"
+            case noExpiry = "NoExpiry"
+            case restrictions = "Restrictions"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateKeyResponse: AWSDecodableShape {
+        /// The timestamp for when the API key resource was created in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var createTime: Date
+        /// The key value/string of an API key. This value is used when making API calls to authorize the call. For example, see GetMapGlyphs.
+        public let key: String
+        /// The Amazon Resource Name (ARN) for the API key resource. Used when you need to specify a resource across all Amazon Web Services.   Format example: arn:aws:geo:region:account-id:key/ExampleKey
+        public let keyArn: String
+        /// The name of the API key resource.
+        public let keyName: String
+
+        public init(createTime: Date, key: String, keyArn: String, keyName: String) {
+            self.createTime = createTime
+            self.key = key
+            self.keyArn = keyArn
+            self.keyName = keyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "CreateTime"
+            case key = "Key"
+            case keyArn = "KeyArn"
+            case keyName = "KeyName"
         }
     }
 
@@ -1012,7 +1144,7 @@ extension Location {
         /// The timestamp for when the map resource was created in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
-        /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:map/ExampleMap
+        /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all Amazon Web Services.   Format example: arn:aws:geo:region:account-id:map/ExampleMap
         public let mapArn: String
         /// The name of the map resource.
         public let mapName: String
@@ -1031,7 +1163,7 @@ extension Location {
     }
 
     public struct CreatePlaceIndexRequest: AWSEncodableShape {
-        /// Specifies the geospatial data provider for the new place index.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Grab – Grab provides place index functionality for Southeast  Asia. For additional information about GrabMaps' coverage, see GrabMaps countries and areas covered.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE details on goecoding coverage.  If you specify HERE Technologies (Here) as the data provider, you may not store results for locations in Japan. For more information, see the AWS Service Terms for Amazon Location Service.    For additional information , see Data providers on the Amazon Location Service Developer Guide.
+        /// Specifies the geospatial data provider for the new place index.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Grab – Grab provides place index functionality for Southeast  Asia. For additional information about GrabMaps' coverage, see GrabMaps countries and areas covered.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE details on goecoding coverage.  If you specify HERE Technologies (Here) as the data provider, you may not store results for locations in Japan. For more information, see the Amazon Web Services Service Terms for Amazon Location Service.    For additional information , see Data providers on the Amazon Location Service Developer Guide.
         public let dataSource: String
         /// Specifies the data storage option requesting Places.
         public let dataSourceConfiguration: DataSourceConfiguration?
@@ -1092,7 +1224,7 @@ extension Location {
         /// The timestamp for when the place index resource was created in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
-        /// The Amazon Resource Name (ARN) for the place index resource. Used to specify a resource across AWS.    Format example: arn:aws:geo:region:account-id:place-index/ExamplePlaceIndex
+        /// The Amazon Resource Name (ARN) for the place index resource. Used to specify a resource across Amazon Web Services.    Format example: arn:aws:geo:region:account-id:place-index/ExamplePlaceIndex
         public let indexArn: String
         /// The name for the place index resource.
         public let indexName: String
@@ -1164,7 +1296,7 @@ extension Location {
     }
 
     public struct CreateRouteCalculatorResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) for the route calculator resource. Use the ARN when you specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:route-calculator/ExampleCalculator
+        /// The Amazon Resource Name (ARN) for the route calculator resource. Use the ARN when you specify a resource across all Amazon Web Services.   Format example: arn:aws:geo:region:account-id:route-calculator/ExampleCalculator
         public let calculatorArn: String
         /// The name of the route calculator resource.    For example, ExampleRouteCalculator.
         public let calculatorName: String
@@ -1188,7 +1320,7 @@ extension Location {
     public struct CreateTrackerRequest: AWSEncodableShape {
         /// An optional description for the tracker resource.
         public let description: String?
-        /// A key identifier for an AWS KMS customer managed key. Enter a key ID, key ARN, alias name, or alias ARN.
+        /// A key identifier for an  Amazon Web Services  KMS customer managed key. Enter a key ID, key ARN, alias name, or alias ARN.
         public let kmsKeyId: String?
         /// Specifies the position filtering for the tracker resource. Valid values:    TimeBased - Location updates are evaluated against linked geofence collections,  but not every location update is stored. If your update frequency is more often than 30 seconds,  only one update per 30 seconds is stored for each unique device ID.     DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are  ignored. Location updates within this area are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map.     AccuracyBased - If the device has moved less than the measured accuracy, location updates are ignored. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This can reduce the effects of GPS noise when displaying device trajectories on a map, and can help control your costs by reducing the number of geofence evaluations.    This field is optional. If not specified, the default value is TimeBased.
         public let positionFiltering: PositionFiltering?
@@ -1254,7 +1386,7 @@ extension Location {
         /// The timestamp for when the tracker resource was created in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
-        /// The Amazon Resource Name (ARN) for the tracker resource. Used when you need to specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:tracker/ExampleTracker
+        /// The Amazon Resource Name (ARN) for the tracker resource. Used when you need to specify a resource across all Amazon Web Services.   Format example: arn:aws:geo:region:account-id:tracker/ExampleTracker
         public let trackerArn: String
         /// The name of the tracker resource.
         public let trackerName: String
@@ -1307,6 +1439,31 @@ extension Location {
     }
 
     public struct DeleteGeofenceCollectionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteKeyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "keyName", location: .uri("KeyName"))
+        ]
+
+        /// The name of the API key to delete.
+        public let keyName: String
+
+        public init(keyName: String) {
+            self.keyName = keyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyName, name: "keyName", parent: name, max: 100)
+            try self.validate(self.keyName, name: "keyName", parent: name, min: 1)
+            try self.validate(self.keyName, name: "keyName", parent: name, pattern: "^[-._\\w]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteKeyResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1432,7 +1589,7 @@ extension Location {
     }
 
     public struct DescribeGeofenceCollectionResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) for the geofence collection resource. Used when you need to specify a resource across all AWS.    Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollection
+        /// The Amazon Resource Name (ARN) for the geofence collection resource. Used when you need to specify a resource across all Amazon Web Services.    Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollection
         public let collectionArn: String
         /// The name of the geofence collection.
         public let collectionName: String
@@ -1441,7 +1598,7 @@ extension Location {
         public var createTime: Date
         /// The optional description for the geofence collection.
         public let description: String
-        /// A key identifier for an AWS KMS customer managed key assigned to the Amazon Location resource
+        /// A key identifier for an  Amazon Web Services  KMS customer managed key assigned to the Amazon Location resource
         public let kmsKeyId: String?
         /// No longer used. Always returns RequestBasedUsage.
         public let pricingPlan: PricingPlan?
@@ -1491,6 +1648,74 @@ extension Location {
         }
     }
 
+    public struct DescribeKeyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "keyName", location: .uri("KeyName"))
+        ]
+
+        /// The name of the API key resource.
+        public let keyName: String
+
+        public init(keyName: String) {
+            self.keyName = keyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyName, name: "keyName", parent: name, max: 100)
+            try self.validate(self.keyName, name: "keyName", parent: name, min: 1)
+            try self.validate(self.keyName, name: "keyName", parent: name, pattern: "^[-._\\w]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeKeyResponse: AWSDecodableShape {
+        /// The timestamp for when the API key resource was created in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var createTime: Date
+        /// The optional description for the API key resource.
+        public let description: String?
+        /// The timestamp for when the API key resource will expire in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var expireTime: Date
+        /// The key value/string of an API key.
+        public let key: String
+        /// The Amazon Resource Name (ARN) for the API key resource. Used when you need to specify a resource across all Amazon Web Services.   Format example: arn:aws:geo:region:account-id:key/ExampleKey
+        public let keyArn: String
+        /// The name of the API key resource.
+        public let keyName: String
+        public let restrictions: ApiKeyRestrictions
+        /// Tags associated with the API key resource.
+        public let tags: [String: String]?
+        /// The timestamp for when the API key resource was last updated in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var updateTime: Date
+
+        public init(createTime: Date, description: String? = nil, expireTime: Date, key: String, keyArn: String, keyName: String, restrictions: ApiKeyRestrictions, tags: [String: String]? = nil, updateTime: Date) {
+            self.createTime = createTime
+            self.description = description
+            self.expireTime = expireTime
+            self.key = key
+            self.keyArn = keyArn
+            self.keyName = keyName
+            self.restrictions = restrictions
+            self.tags = tags
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "CreateTime"
+            case description = "Description"
+            case expireTime = "ExpireTime"
+            case key = "Key"
+            case keyArn = "KeyArn"
+            case keyName = "KeyName"
+            case restrictions = "Restrictions"
+            case tags = "Tags"
+            case updateTime = "UpdateTime"
+        }
+    }
+
     public struct DescribeMapRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
@@ -1522,7 +1747,7 @@ extension Location {
         public let dataSource: String
         /// The optional description for the map resource.
         public let description: String
-        /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:map/ExampleMap
+        /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all Amazon Web Services.   Format example: arn:aws:geo:region:account-id:map/ExampleMap
         public let mapArn: String
         /// The map style selected from an available provider.
         public let mapName: String
@@ -1603,7 +1828,7 @@ extension Location {
         public let dataSourceConfiguration: DataSourceConfiguration
         /// The optional description for the place index resource.
         public let description: String
-        /// The Amazon Resource Name (ARN) for the place index resource. Used to specify a resource across AWS.    Format example: arn:aws:geo:region:account-id:place-index/ExamplePlaceIndex
+        /// The Amazon Resource Name (ARN) for the place index resource. Used to specify a resource across Amazon Web Services.    Format example: arn:aws:geo:region:account-id:place-index/ExamplePlaceIndex
         public let indexArn: String
         /// The name of the place index resource being described.
         public let indexName: String
@@ -1675,7 +1900,7 @@ extension Location {
     }
 
     public struct DescribeRouteCalculatorResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) for the Route calculator resource. Use the ARN when you specify a resource across AWS.   Format example: arn:aws:geo:region:account-id:route-calculator/ExampleCalculator
+        /// The Amazon Resource Name (ARN) for the Route calculator resource. Use the ARN when you specify a resource across Amazon Web Services.   Format example: arn:aws:geo:region:account-id:route-calculator/ExampleCalculator
         public let calculatorArn: String
         /// The name of the route calculator resource being described.
         public let calculatorName: String
@@ -1756,7 +1981,7 @@ extension Location {
         public var createTime: Date
         /// The optional description for the tracker resource.
         public let description: String
-        /// A key identifier for an AWS KMS customer managed key assigned to the Amazon Location resource.
+        /// A key identifier for an Amazon Web Services KMS customer managed key assigned to the Amazon Location resource.
         public let kmsKeyId: String?
         /// The position filtering method of the tracker resource.
         public let positionFiltering: PositionFiltering?
@@ -1766,7 +1991,7 @@ extension Location {
         public let pricingPlanDataSource: String?
         /// The tags associated with the tracker resource.
         public let tags: [String: String]?
-        /// The Amazon Resource Name (ARN) for the tracker resource. Used when you need to specify a resource across all AWS.   Format example: arn:aws:geo:region:account-id:tracker/ExampleTracker
+        /// The Amazon Resource Name (ARN) for the tracker resource. Used when you need to specify a resource across all Amazon Web Services.   Format example: arn:aws:geo:region:account-id:tracker/ExampleTracker
         public let trackerArn: String
         /// The name of the tracker resource.
         public let trackerName: String
@@ -1895,7 +2120,7 @@ extension Location {
             AWSMemberEncoding(label: "trackerName", location: .uri("TrackerName"))
         ]
 
-        /// The Amazon Resource Name (ARN) for the geofence collection to be disassociated from the tracker resource. Used when you need to specify a resource across all AWS.    Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer
+        /// The Amazon Resource Name (ARN) for the geofence collection to be disassociated from the tracker resource. Used when you need to specify a resource across all Amazon Web Services.    Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer
         public let consumerArn: String
         /// The name of the tracker resource to be dissociated from the consumer.
         public let trackerName: String
@@ -2137,23 +2362,28 @@ extension Location {
         public static var _encoding = [
             AWSMemberEncoding(label: "fontStack", location: .uri("FontStack")),
             AWSMemberEncoding(label: "fontUnicodeRange", location: .uri("FontUnicodeRange")),
+            AWSMemberEncoding(label: "key", location: .querystring("key")),
             AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
         ]
 
-        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid fonts stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:   VectorHereContrast – Fira  GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite –  Fira GO Italic | Fira GO Map |  Fira GO Map Bold | Noto Sans CJK JP Bold |  Noto Sans CJK JP Light |  Noto Sans CJK JP Regular    Valid font stacks for GrabMaps styles:   VectorGrabStandardLight, VectorGrabStandardDark –  Noto Sans Regular | Noto Sans Medium | Noto Sans Bold    Valid font stacks for Open Data (Preview) styles:   VectorOpenDataStandardLight –  Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold |  Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic |  Amazon Ember Condensed RC Regular,Noto Sans Regular |  Amazon Ember Condensed RC Bold,Noto Sans Bold     The fonts used by VectorOpenDataStandardLight are combined fonts that use Amazon Ember for most glyphs but Noto Sans  for glyphs unsupported by Amazon Ember.
+        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid fonts stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:   VectorHereContrast – Fira  GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite –  Fira GO Italic | Fira GO Map |  Fira GO Map Bold | Noto Sans CJK JP Bold |  Noto Sans CJK JP Light |  Noto Sans CJK JP Regular    Valid font stacks for GrabMaps styles:   VectorGrabStandardLight, VectorGrabStandardDark –  Noto Sans Regular | Noto Sans Medium | Noto Sans Bold    Valid font stacks for Open Data styles:   VectorOpenDataStandardLight, VectorOpenDataStandardDark, VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark –  Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold |  Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic |  Amazon Ember Condensed RC Regular,Noto Sans Regular |  Amazon Ember Condensed RC Bold,Noto Sans Bold     The fonts used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs but Noto Sans  for glyphs unsupported by Amazon Ember.
         public let fontStack: String
         /// A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0–255 includes all characters from range U+0000 to 00FF. Must be aligned to multiples of 256.
         public let fontUnicodeRange: String
+        /// The optional API key to authorize  the request.
+        public let key: String?
         /// The map resource associated with the glyph ﬁle.
         public let mapName: String
 
-        public init(fontStack: String, fontUnicodeRange: String, mapName: String) {
+        public init(fontStack: String, fontUnicodeRange: String, key: String? = nil, mapName: String) {
             self.fontStack = fontStack
             self.fontUnicodeRange = fontUnicodeRange
+            self.key = key
             self.mapName = mapName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.mapName, name: "mapName", parent: name, max: 100)
             try self.validate(self.mapName, name: "mapName", parent: name, min: 1)
             try self.validate(self.mapName, name: "mapName", parent: name, pattern: "^[-._\\w]+$")
@@ -2168,21 +2398,26 @@ extension Location {
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "blob", location: .body("Blob")),
+            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
             AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
         ]
 
-        /// The blob's content type.
+        /// The glyph, as binary blob.
         public let blob: AWSPayload?
+        /// The HTTP Cache-Control directive for the value.
+        public let cacheControl: String?
         /// The map glyph content type. For example, application/octet-stream.
         public let contentType: String?
 
-        public init(blob: AWSPayload? = nil, contentType: String? = nil) {
+        public init(blob: AWSPayload? = nil, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
+            self.cacheControl = cacheControl
             self.contentType = contentType
         }
 
         private enum CodingKeys: String, CodingKey {
             case blob = "Blob"
+            case cacheControl = "Cache-Control"
             case contentType = "Content-Type"
         }
     }
@@ -2190,20 +2425,25 @@ extension Location {
     public struct GetMapSpritesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fileName", location: .uri("FileName")),
+            AWSMemberEncoding(label: "key", location: .querystring("key")),
             AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
         ]
 
         /// The name of the sprite ﬁle. Use the following ﬁle names for the sprite sheet:    sprites.png     sprites@2x.png for high pixel density displays   For the JSON document containing image offsets. Use the following ﬁle names:    sprites.json     sprites@2x.json for high pixel density displays
         public let fileName: String
+        /// The optional API key to authorize  the request.
+        public let key: String?
         /// The map resource associated with the sprite ﬁle.
         public let mapName: String
 
-        public init(fileName: String, mapName: String) {
+        public init(fileName: String, key: String? = nil, mapName: String) {
             self.fileName = fileName
+            self.key = key
             self.mapName = mapName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.mapName, name: "mapName", parent: name, max: 100)
             try self.validate(self.mapName, name: "mapName", parent: name, min: 1)
             try self.validate(self.mapName, name: "mapName", parent: name, pattern: "^[-._\\w]+$")
@@ -2218,38 +2458,48 @@ extension Location {
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "blob", location: .body("Blob")),
+            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
             AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
         ]
 
         /// Contains the body of the sprite sheet or JSON offset ﬁle.
         public let blob: AWSPayload?
+        /// The HTTP Cache-Control directive for the value.
+        public let cacheControl: String?
         /// The content type of the sprite sheet and offsets. For example, the sprite sheet content type is image/png, and the sprite offset JSON document is application/json.
         public let contentType: String?
 
-        public init(blob: AWSPayload? = nil, contentType: String? = nil) {
+        public init(blob: AWSPayload? = nil, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
+            self.cacheControl = cacheControl
             self.contentType = contentType
         }
 
         private enum CodingKeys: String, CodingKey {
             case blob = "Blob"
+            case cacheControl = "Cache-Control"
             case contentType = "Content-Type"
         }
     }
 
     public struct GetMapStyleDescriptorRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "key", location: .querystring("key")),
             AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
         ]
 
+        /// The optional API key to authorize  the request.
+        public let key: String?
         /// The map resource to retrieve the style descriptor from.
         public let mapName: String
 
-        public init(mapName: String) {
+        public init(key: String? = nil, mapName: String) {
+            self.key = key
             self.mapName = mapName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.mapName, name: "mapName", parent: name, max: 100)
             try self.validate(self.mapName, name: "mapName", parent: name, min: 1)
             try self.validate(self.mapName, name: "mapName", parent: name, pattern: "^[-._\\w]+$")
@@ -2264,33 +2514,41 @@ extension Location {
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "blob", location: .body("Blob")),
+            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
             AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
         ]
 
         /// Contains the body of the style descriptor.
         public let blob: AWSPayload?
+        /// The HTTP Cache-Control directive for the value.
+        public let cacheControl: String?
         /// The style descriptor's content type. For example, application/json.
         public let contentType: String?
 
-        public init(blob: AWSPayload? = nil, contentType: String? = nil) {
+        public init(blob: AWSPayload? = nil, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
+            self.cacheControl = cacheControl
             self.contentType = contentType
         }
 
         private enum CodingKeys: String, CodingKey {
             case blob = "Blob"
+            case cacheControl = "Cache-Control"
             case contentType = "Content-Type"
         }
     }
 
     public struct GetMapTileRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "key", location: .querystring("key")),
             AWSMemberEncoding(label: "mapName", location: .uri("MapName")),
             AWSMemberEncoding(label: "x", location: .uri("X")),
             AWSMemberEncoding(label: "y", location: .uri("Y")),
             AWSMemberEncoding(label: "z", location: .uri("Z"))
         ]
 
+        /// The optional API key to authorize  the request.
+        public let key: String?
         /// The map resource to retrieve the map tiles from.
         public let mapName: String
         /// The X axis value for the map tile.
@@ -2300,7 +2558,8 @@ extension Location {
         /// The zoom value for the map tile.
         public let z: String
 
-        public init(mapName: String, x: String, y: String, z: String) {
+        public init(key: String? = nil, mapName: String, x: String, y: String, z: String) {
+            self.key = key
             self.mapName = mapName
             self.x = x
             self.y = y
@@ -2308,6 +2567,7 @@ extension Location {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.mapName, name: "mapName", parent: name, max: 100)
             try self.validate(self.mapName, name: "mapName", parent: name, min: 1)
             try self.validate(self.mapName, name: "mapName", parent: name, pattern: "^[-._\\w]+$")
@@ -2322,21 +2582,26 @@ extension Location {
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "blob", location: .body("Blob")),
+            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
             AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
         ]
 
         /// Contains Mapbox Vector Tile (MVT) data.
         public let blob: AWSPayload?
+        /// The HTTP Cache-Control directive for the value.
+        public let cacheControl: String?
         /// The map tile's content type. For example, application/vnd.mapbox-vector-tile.
         public let contentType: String?
 
-        public init(blob: AWSPayload? = nil, contentType: String? = nil) {
+        public init(blob: AWSPayload? = nil, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
+            self.cacheControl = cacheControl
             self.contentType = contentType
         }
 
         private enum CodingKeys: String, CodingKey {
             case blob = "Blob"
+            case cacheControl = "Cache-Control"
             case contentType = "Content-Type"
         }
     }
@@ -2533,7 +2798,7 @@ extension Location {
     }
 
     public struct ListGeofenceCollectionsResponse: AWSDecodableShape {
-        /// Lists the geofence collections that exist in your AWS account.
+        /// Lists the geofence collections that exist in your Amazon Web Services account.
         public let entries: [ListGeofenceCollectionsResponseEntry]
         /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
         public let nextToken: String?
@@ -2674,6 +2939,84 @@ extension Location {
         }
     }
 
+    public struct ListKeysRequest: AWSEncodableShape {
+        /// Optionally filter the list to only Active or Expired API keys.
+        public let filter: ApiKeyFilter?
+        /// An optional limit for the number of resources returned in a single call.  Default value: 100
+        public let maxResults: Int?
+        /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.  Default value: null
+        public let nextToken: String?
+
+        public init(filter: ApiKeyFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListKeysResponse: AWSDecodableShape {
+        /// Contains API key resources in your Amazon Web Services account. Details include API key name, allowed referers and timestamp for when the API key will expire.
+        public let entries: [ListKeysResponseEntry]
+        /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
+        public let nextToken: String?
+
+        public init(entries: [ListKeysResponseEntry], nextToken: String? = nil) {
+            self.entries = entries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "Entries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListKeysResponseEntry: AWSDecodableShape {
+        /// The timestamp of when the API key was created, in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var createTime: Date
+        /// The optional description for the API key resource.
+        public let description: String?
+        /// The timestamp for when the API key resource will expire, in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var expireTime: Date
+        /// The name of the API key resource.
+        public let keyName: String
+        public let restrictions: ApiKeyRestrictions
+        /// The timestamp of when the API key was last updated, in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var updateTime: Date
+
+        public init(createTime: Date, description: String? = nil, expireTime: Date, keyName: String, restrictions: ApiKeyRestrictions, updateTime: Date) {
+            self.createTime = createTime
+            self.description = description
+            self.expireTime = expireTime
+            self.keyName = keyName
+            self.restrictions = restrictions
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "CreateTime"
+            case description = "Description"
+            case expireTime = "ExpireTime"
+            case keyName = "KeyName"
+            case restrictions = "Restrictions"
+            case updateTime = "UpdateTime"
+        }
+    }
+
     public struct ListMapsRequest: AWSEncodableShape {
         /// An optional limit for the number of resources returned in a single call.  Default value: 100
         public let maxResults: Int?
@@ -2697,7 +3040,7 @@ extension Location {
     }
 
     public struct ListMapsResponse: AWSDecodableShape {
-        /// Contains a list of maps in your AWS account
+        /// Contains a list of maps in your Amazon Web Services account
         public let entries: [ListMapsResponseEntry]
         /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
         public let nextToken: String?
@@ -2781,7 +3124,7 @@ extension Location {
     }
 
     public struct ListPlaceIndexesResponse: AWSDecodableShape {
-        /// Lists the place index resources that exist in your AWS account
+        /// Lists the place index resources that exist in your Amazon Web Services account
         public let entries: [ListPlaceIndexesResponseEntry]
         /// A pagination token indicating that there are additional pages available. You can use the token in a new request to fetch the next page of results.
         public let nextToken: String?
@@ -2865,7 +3208,7 @@ extension Location {
     }
 
     public struct ListRouteCalculatorsResponse: AWSDecodableShape {
-        /// Lists the route calculator resources that exist in your AWS account
+        /// Lists the route calculator resources that exist in your Amazon Web Services account
         public let entries: [ListRouteCalculatorsResponseEntry]
         /// A pagination token indicating there are additional pages available. You can use the token in a subsequent request to fetch the next set of results.
         public let nextToken: String?
@@ -3031,7 +3374,7 @@ extension Location {
     }
 
     public struct ListTrackersResponse: AWSDecodableShape {
-        /// Contains tracker resources in your AWS account. Details include tracker name, description and timestamps for when the tracker was created and last updated.
+        /// Contains tracker resources in your Amazon Web Services account. Details include tracker name, description and timestamps for when the tracker was created and last updated.
         public let entries: [ListTrackersResponseEntry]
         /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
         public let nextToken: String?
@@ -3093,7 +3436,7 @@ extension Location {
     }
 
     public struct MapConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the map style selected from an available data provider. Valid Esri map styles:    VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri World Streets map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri World Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies map styles:    VectorHereContrast – The HERE Contrast (Berlin) map style is a  high contrast detailed base map of the world that blends 3D and 2D rendering.  The VectorHereContrast style has been renamed from  VectorHereBerlin.  VectorHereBerlin has been deprecated, but will continue to work in  applications that use it.     VectorHereExplore – A default HERE map style containing a  neutral, global map and its features including roads, buildings, landmarks,  and water features. It also now includes a fully designed map of Japan.    VectorHereExploreTruck – A global map containing truck  restrictions and attributes (e.g. width / height / HAZMAT) symbolized with  highlighted segments and icons on top of HERE Explore to support use cases  within transport and logistics.    RasterHereExploreSatellite – A global map containing high resolution satellite imagery.    HybridHereExploreSatellite – A global map displaying the road  network, street names, and city labels over satellite imagery. This style  will automatically retrieve both raster and vector tiles, and your charges  will be based on total tiles retrieved.  Hybrid styles use both vector and raster tiles when rendering the  map that you see. This means that more tiles are retrieved than when using  either vector or raster tiles alone. Your charges will include all tiles  retrieved.    Valid GrabMaps map styles:    VectorGrabStandardLight – The Grab Standard Light  map style provides a basemap with detailed land use coloring,  area names, roads, landmarks, and points of interest covering  Southeast Asia.    VectorGrabStandardDark – The Grab Standard Dark  map style provides a dark variation of the standard basemap  covering Southeast Asia.    Grab provides maps only for countries in Southeast Asia, and is only available  in the Asia Pacific (Singapore) Region (ap-southeast-1). For more information, see GrabMaps countries and area covered.  Valid Open Data (Preview) map styles:    VectorOpenDataStandardLight – The Open Data Standard Light  (preview) map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads,  minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries.  Open Data maps is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Open Data is in preview release.
+        /// Specifies the map style selected from an available data provider. Valid Esri map styles:    VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri World Streets map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri World Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies map styles:    VectorHereContrast – The HERE Contrast (Berlin) map style is a  high contrast detailed base map of the world that blends 3D and 2D rendering.  The VectorHereContrast style has been renamed from  VectorHereBerlin.  VectorHereBerlin has been deprecated, but will continue to work in  applications that use it.     VectorHereExplore – A default HERE map style containing a  neutral, global map and its features including roads, buildings, landmarks,  and water features. It also now includes a fully designed map of Japan.    VectorHereExploreTruck – A global map containing truck  restrictions and attributes (e.g. width / height / HAZMAT) symbolized with  highlighted segments and icons on top of HERE Explore to support use cases  within transport and logistics.    RasterHereExploreSatellite – A global map containing high resolution satellite imagery.    HybridHereExploreSatellite – A global map displaying the road  network, street names, and city labels over satellite imagery. This style  will automatically retrieve both raster and vector tiles, and your charges  will be based on total tiles retrieved.  Hybrid styles use both vector and raster tiles when rendering the  map that you see. This means that more tiles are retrieved than when using  either vector or raster tiles alone. Your charges will include all tiles  retrieved.    Valid GrabMaps map styles:    VectorGrabStandardLight – The Grab Standard Light  map style provides a basemap with detailed land use coloring,  area names, roads, landmarks, and points of interest covering  Southeast Asia.    VectorGrabStandardDark – The Grab Standard Dark  map style provides a dark variation of the standard basemap  covering Southeast Asia.    Grab provides maps only for countries in Southeast Asia, and is only available  in the Asia Pacific (Singapore) Region (ap-southeast-1). For more information, see GrabMaps countries and area covered.  Valid Open Data map styles:    VectorOpenDataStandardLight – The Open Data Standard Light  map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads,  minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries.    VectorOpenDataStandardDark – Open Data Standard Dark is a dark-themed map style that provides a detailed basemap for the world  suitable for website and mobile application use. The map includes highways  major roads, minor roads, railways, water features, cities, parks,  landmarks, building footprints, and administrative boundaries.    VectorOpenDataVisualizationLight – The Open Data  Visualization Light map style is a light-themed style with muted colors and fewer features that aids in understanding overlaid data.    VectorOpenDataVisualizationDark – The Open Data  Visualization Dark map style is a dark-themed style with muted colors and fewer features that aids in understanding overlaid data.
         public let style: String
 
         public init(style: String) {
@@ -3868,7 +4211,7 @@ extension Location {
     }
 
     public struct UpdateGeofenceCollectionResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the updated geofence collection. Used to specify a resource across AWS.   Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollection
+        /// The Amazon Resource Name (ARN) of the updated geofence collection. Used to specify a resource across Amazon Web Services.   Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollection
         public let collectionArn: String
         /// The name of the updated geofence collection.
         public let collectionName: String
@@ -3885,6 +4228,73 @@ extension Location {
         private enum CodingKeys: String, CodingKey {
             case collectionArn = "CollectionArn"
             case collectionName = "CollectionName"
+            case updateTime = "UpdateTime"
+        }
+    }
+
+    public struct UpdateKeyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "keyName", location: .uri("KeyName"))
+        ]
+
+        /// Updates the description for the API key resource.
+        public let description: String?
+        /// Updates the timestamp for when the API key resource will expire in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var expireTime: Date?
+        /// The boolean flag to be included for updating ExpireTime or Restrictions details. Must be set to true to update an API key resource that has been used in the past 7 days.  False if force update is not preferred Default value: False
+        public let forceUpdate: Bool?
+        /// The name of the API key resource to update.
+        public let keyName: String
+        /// Whether the API key should expire. Set to true to set the API key to have no expiration time.
+        public let noExpiry: Bool?
+        /// Updates the API key restrictions for the API key resource.
+        public let restrictions: ApiKeyRestrictions?
+
+        public init(description: String? = nil, expireTime: Date? = nil, forceUpdate: Bool? = nil, keyName: String, noExpiry: Bool? = nil, restrictions: ApiKeyRestrictions? = nil) {
+            self.description = description
+            self.expireTime = expireTime
+            self.forceUpdate = forceUpdate
+            self.keyName = keyName
+            self.noExpiry = noExpiry
+            self.restrictions = restrictions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.keyName, name: "keyName", parent: name, max: 100)
+            try self.validate(self.keyName, name: "keyName", parent: name, min: 1)
+            try self.validate(self.keyName, name: "keyName", parent: name, pattern: "^[-._\\w]+$")
+            try self.restrictions?.validate(name: "\(name).restrictions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case expireTime = "ExpireTime"
+            case forceUpdate = "ForceUpdate"
+            case noExpiry = "NoExpiry"
+            case restrictions = "Restrictions"
+        }
+    }
+
+    public struct UpdateKeyResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the API key resource. Used when you need to specify a resource across all Amazon Web Services.   Format example: arn:aws:geo:region:account-id:key/ExampleKey
+        public let keyArn: String
+        /// The name of the API key resource.
+        public let keyName: String
+        /// The timestamp for when the API key resource was last updated in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var updateTime: Date
+
+        public init(keyArn: String, keyName: String, updateTime: Date) {
+            self.keyArn = keyArn
+            self.keyName = keyName
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyArn = "KeyArn"
+            case keyName = "KeyName"
             case updateTime = "UpdateTime"
         }
     }
@@ -3993,7 +4403,7 @@ extension Location {
     }
 
     public struct UpdatePlaceIndexResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the upated place index resource. Used to specify a resource across AWS.   Format example: arn:aws:geo:region:account-id:place- index/ExamplePlaceIndex
+        /// The Amazon Resource Name (ARN) of the upated place index resource. Used to specify a resource across Amazon Web Services.   Format example: arn:aws:geo:region:account-id:place- index/ExamplePlaceIndex
         public let indexArn: String
         /// The name of the updated place index resource.
         public let indexName: String

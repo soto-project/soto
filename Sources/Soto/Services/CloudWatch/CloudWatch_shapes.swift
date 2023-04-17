@@ -494,7 +494,7 @@ extension CloudWatch {
     }
 
     public struct DeleteAlarmsInput: AWSEncodableShape {
-        /// The alarms to be deleted.
+        /// The alarms to be deleted. Do not enclose the alarm names in quote marks.
         @CustomCoding<StandardArrayCoder>
         public var alarmNames: [String]
 
@@ -1031,9 +1031,12 @@ extension CloudWatch {
     public struct Dimension: AWSEncodableShape & AWSDecodableShape {
         /// The name of the dimension. Dimension names must contain only ASCII characters, must include
         /// 			at least one non-whitespace character, and cannot start with a colon (:).
+        /// 			ASCII
+        /// 			control characters are not supported as part of dimension names.
         public let name: String
         /// The value of the dimension. Dimension values must contain only ASCII characters and must include
-        /// 			at least one non-whitespace character.
+        /// 			at least one non-whitespace character. ASCII
+        /// 			control characters are not supported as part of dimension values.
         public let value: String
 
         public init(name: String, value: String) {
@@ -3164,23 +3167,13 @@ extension CloudWatch {
         /// 			TRUE.
         public let actionsEnabled: Bool?
         /// The actions to execute when this alarm transitions to the ALARM state from any other state.
-        /// 			Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop |
-        /// 			arn:aws:automate:region:ec2:terminate |
-        /// 			arn:aws:automate:region:ec2:recover |
-        /// 			arn:aws:automate:region:ec2:reboot |
-        /// 			arn:aws:sns:region:account-id:sns-topic-name |
-        /// 			arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
-        /// 			| arn:aws:ssm:region:account-id:opsitem:severity
-        /// 			| arn:aws:ssm-incidents::account-id:response-plan:response-plan-name   Valid Values (for use with IAM roles):
-        /// 			arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 |
-        /// 				arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 |
-        /// 				arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 |
-        /// 			arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
+        /// 			Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      SSN notification action:     arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
         @OptionalCustomCoding<StandardArrayCoder>
         public var alarmActions: [String]?
         /// The description for the alarm.
         public let alarmDescription: String?
-        /// The name for the alarm. This name must be unique within the Region.
+        /// The name for the alarm. This name must be unique within the Region. The name must contain only UTF-8
+        /// 			characters, and can't contain ASCII control characters
         public let alarmName: String
         ///  The arithmetic operation to use when comparing the specified statistic and
         /// 			threshold. The specified statistic value is used as the first operand. The values LessThanLowerOrGreaterThanUpperThreshold,
@@ -3211,15 +3204,7 @@ extension CloudWatch {
         /// 			specify either Statistic or ExtendedStatistic, but not both.
         public let extendedStatistic: String?
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state.
-        /// 			Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop |
-        /// 			arn:aws:automate:region:ec2:terminate |
-        /// 			arn:aws:automate:region:ec2:recover |
-        /// 			arn:aws:automate:region:ec2:reboot |
-        /// 			arn:aws:sns:region:account-id:sns-topic-name |
-        /// 			arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles):
-        /// 			>arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 |
-        /// 				arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 |
-        /// 				arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+        /// 			Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      SSN notification action:     arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
         @OptionalCustomCoding<StandardArrayCoder>
         public var insufficientDataActions: [String]?
         /// The name for the metric associated with the alarm. For each PutMetricAlarm
@@ -3240,16 +3225,7 @@ extension CloudWatch {
         /// The namespace for the metric associated specified in MetricName.
         public let namespace: String?
         /// The actions to execute when this alarm transitions to an OK state
-        /// 			from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop |
-        /// 			arn:aws:automate:region:ec2:terminate |
-        /// 			arn:aws:automate:region:ec2:recover |
-        /// 			arn:aws:automate:region:ec2:reboot |
-        /// 			arn:aws:sns:region:account-id:sns-topic-name |
-        /// 			arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles):
-        /// 			arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 |
-        /// 				arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 |
-        /// 				arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 |
-        /// 			    arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
+        /// 			from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      SSN notification action:     arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
         @OptionalCustomCoding<StandardArrayCoder>
         public var okActions: [String]?
         /// The length, in seconds, used each time the metric specified in MetricName is
@@ -3406,7 +3382,8 @@ extension CloudWatch {
         /// The data for the metric. The array can include no more than 1000 metrics per call.
         @CustomCoding<StandardArrayCoder>
         public var metricData: [MetricDatum]
-        /// The namespace for the metric data. To avoid conflicts
+        /// The namespace for the metric data. You can use ASCII characters for the namespace, except for
+        /// 		control characters which are not supported. To avoid conflicts
         /// 			with Amazon Web Services service namespaces, you should not specify a namespace that begins with AWS/
         public let namespace: String
 

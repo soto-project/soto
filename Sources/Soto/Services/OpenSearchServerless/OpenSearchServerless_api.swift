@@ -194,7 +194,7 @@ public struct OpenSearchServerless: AWSService {
         return self.client.execute(operation: "UpdateAccessPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see Autoscaling.
+    /// Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see Managing capacity limits for Amazon OpenSearch Serverless.
     public func updateAccountSettings(_ input: UpdateAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAccountSettingsResponse> {
         return self.client.execute(operation: "UpdateAccountSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -50,11 +50,11 @@ extension CloudFront {
     /// 					values can include HTTP headers, cookies, and URL query strings. CloudFront uses the
     /// 					cache key to find an object in its cache that it can return to the
     /// 					viewer.   The default, minimum, and maximum time to live (TTL) values that you want
-    /// 					objects to stay in the CloudFront cache.   The headers, cookies, and query strings that are included in the cache key are
-    /// 			automatically included in requests that CloudFront sends to the origin. CloudFront sends a request
-    /// 			when it can't find an object in its cache that matches the request's cache key. If you
-    /// 			want to send values to the origin but not include them in the cache
-    /// 			key, use OriginRequestPolicy. For more information about cache policies, see Controlling the cache key in the
+    /// 					objects to stay in the CloudFront cache.   The headers, cookies, and query strings that are included in the cache key are also included
+    /// 			in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an
+    /// 			object in its cache that matches the request's cache key. If you want to send values to
+    /// 			the origin but not include them in the cache key, use
+    /// 			OriginRequestPolicy. For more information about cache policies, see Controlling the cache key in the
     /// 				Amazon CloudFront Developer Guide.
     public func createCachePolicy(_ input: CreateCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateCachePolicyResult {
         return try await self.client.execute(operation: "CreateCachePolicy", path: "/2020-05-31/cache-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -138,8 +138,8 @@ extension CloudFront {
 
     /// Creates a new origin access control in CloudFront. After you create an origin access
     /// 			control, you can add it to an origin in a CloudFront distribution so that CloudFront sends
-    /// 			authenticated (signed) requests to the origin. For an Amazon S3 origin, this makes it possible to block public access to the Amazon S3 bucket
-    /// 			so that viewers (users) can access the content in the bucket only through CloudFront. For more information about using a CloudFront origin access control, see Restricting access to an Amazon S3 origin in the
+    /// 			authenticated (signed) requests to the origin. This makes it possible to block public access to the origin, allowing viewers (users) to
+    /// 			access the origin's content only through CloudFront. For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the
     /// 				Amazon CloudFront Developer Guide.
     public func createOriginAccessControl(_ input: CreateOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateOriginAccessControlResult {
         return try await self.client.execute(operation: "CreateOriginAccessControl", path: "/2020-05-31/origin-access-control", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

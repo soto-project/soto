@@ -84,7 +84,7 @@ public struct ServiceCatalog: AWSService {
         return self.client.execute(operation: "AssociateBudgetWithResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Associates the specified principal ARN with the specified portfolio. If you share the portfolio with principal name sharing enabled, the PrincipalARN association is  included in the share.  The PortfolioID, PrincipalARN, and PrincipalType parameters are required.  You can associate a maximum of 10 Principals with a portfolio using PrincipalType as IAM_PATTERN    When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is  then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin,  but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal  name association for the portfolio. Although this user may not know which principal names are associated through  Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then  Service Catalog recommends using PrincipalType as IAM. With this configuration,  the PrincipalARN must already exist in the recipient account before it can be associated.
+    /// Associates the specified principal ARN with the specified portfolio. If you share the portfolio with principal name sharing enabled, the PrincipalARN association is  included in the share.  The PortfolioID, PrincipalARN, and PrincipalType parameters are required.  You can associate a maximum of 10 Principals with a portfolio using PrincipalType as IAM_PATTERN   When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is  then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin,  but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal  name association for the portfolio. Although this user may not know which principal names are associated through  Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then  Service Catalog recommends using PrincipalType as IAM. With this configuration,  the PrincipalARN must already exist in the recipient account before it can be associated.
     public func associatePrincipalWithPortfolio(_ input: AssociatePrincipalWithPortfolioInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociatePrincipalWithPortfolioOutput> {
         return self.client.execute(operation: "AssociatePrincipalWithPortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -114,7 +114,7 @@ public struct ServiceCatalog: AWSService {
         return self.client.execute(operation: "BatchDisassociateServiceActionFromProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Copies the specified source product to the specified target product or a new product.  You can copy a product to the same account or another account. You can copy a product to the same Region or another Region. If you copy a product to another account, you must first share the product in a portfolio using CreatePortfolioShare. This operation is performed asynchronously. To track the progress of the operation, use DescribeCopyProductStatus.
+    /// Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same Region or another Region. If you copy a product to another account, you must first share the product in a portfolio using CreatePortfolioShare. This operation is performed asynchronously. To track the progress of the operation, use DescribeCopyProductStatus.
     public func copyProduct(_ input: CopyProductInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CopyProductOutput> {
         return self.client.execute(operation: "CopyProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -129,22 +129,22 @@ public struct ServiceCatalog: AWSService {
         return self.client.execute(operation: "CreatePortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares.  AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You can't share a shared resource, including portfolios that contain a shared product. If the portfolio share with the specified account or organization node already exists, this action will have no effect  and will not return an error. To update an existing share, you must use the  UpdatePortfolioShare API instead.    When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is  then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin,  but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal  name association for the portfolio. Although this user may not know which principal names are associated through  Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then  Service Catalog recommends using PrincipalType as IAM. With this configuration,  the PrincipalARN must already exist in the recipient account before it can be associated.
+    /// Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares.  AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You can't share a shared resource, including portfolios that contain a shared product. If the portfolio share with the specified account or organization node already exists, this action will have no effect  and will not return an error. To update an existing share, you must use the  UpdatePortfolioShare API instead.   When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is  then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin,  but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal  name association for the portfolio. Although this user may not know which principal names are associated through  Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then  Service Catalog recommends using PrincipalType as IAM. With this configuration,  the PrincipalARN must already exist in the recipient account before it can be associated.
     public func createPortfolioShare(_ input: CreatePortfolioShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePortfolioShareOutput> {
         return self.client.execute(operation: "CreatePortfolioShare", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a product. A delegated admin is authorized to invoke this command.  The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section.
+    /// Creates a product. A delegated admin is authorized to invoke this command. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section.
     public func createProduct(_ input: CreateProductInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProductOutput> {
         return self.client.execute(operation: "CreateProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a plan.  A plan includes the list of resources to be   created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan for each provisioned product. To create a plan for an existing  provisioned product, the product status must be AVAILABLE or TAINTED. To view the resource changes in the change set, use DescribeProvisionedProductPlan. To create or modify the provisioned product, use ExecuteProvisionedProductPlan.
+    /// Creates a plan. A plan includes the list of resources to be   created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan for each provisioned product. To create a plan for an existing  provisioned product, the product status must be AVAILABLE or TAINTED. To view the resource changes in the change set, use DescribeProvisionedProductPlan. To create or modify the provisioned product, use ExecuteProvisionedProductPlan.
     public func createProvisionedProductPlan(_ input: CreateProvisionedProductPlanInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProvisionedProductPlanOutput> {
         return self.client.execute(operation: "CreateProvisionedProductPlan", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a provisioning artifact (also known as a version) for the specified product.  You cannot create a provisioning artifact for a product that was shared with you.  The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section.
+    /// Creates a provisioning artifact (also known as a version) for the specified product. You cannot create a provisioning artifact for a product that was shared with you. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section.
     public func createProvisioningArtifact(_ input: CreateProvisioningArtifactInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProvisioningArtifactOutput> {
         return self.client.execute(operation: "CreateProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -184,7 +184,7 @@ public struct ServiceCatalog: AWSService {
         return self.client.execute(operation: "DeleteProvisionedProductPlan", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified provisioning artifact (also known as a version) for the specified product.  You cannot delete a provisioning artifact associated with a product that was shared with you.  You cannot delete the last provisioning artifact for a product, because a product must have at  least one provisioning artifact.
+    /// Deletes the specified provisioning artifact (also known as a version) for the specified product. You cannot delete a provisioning artifact associated with a product that was shared with you.  You cannot delete the last provisioning artifact for a product, because a product must have at  least one provisioning artifact.
     public func deleteProvisioningArtifact(_ input: DeleteProvisioningArtifactInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProvisioningArtifactOutput> {
         return self.client.execute(operation: "DeleteProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -224,7 +224,7 @@ public struct ServiceCatalog: AWSService {
         return self.client.execute(operation: "DescribePortfolioShares", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about the specified product.
+    /// Gets information about the specified product.   Running this operation  with administrator access  results  in a failure.  DescribeProductAsAdmin should be used instead.
     public func describeProduct(_ input: DescribeProductInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProductOutput> {
         return self.client.execute(operation: "DescribeProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -259,7 +259,7 @@ public struct ServiceCatalog: AWSService {
         return self.client.execute(operation: "DescribeProvisioningParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about the specified request operation.  Use this operation after calling a request operation (for example, ProvisionProduct,  TerminateProvisionedProduct, or UpdateProvisionedProduct).   If a provisioned product was transferred to a new owner using UpdateProvisionedProductProperties, the new owner  will be able to describe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to  use ListRecordHistory to see the product's history from when he was the owner.
+    /// Gets information about the specified request operation. Use this operation after calling a request operation (for example, ProvisionProduct,  TerminateProvisionedProduct, or UpdateProvisionedProduct).   If a provisioned product was transferred to a new owner using UpdateProvisionedProductProperties, the new owner  will be able to describe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to  use ListRecordHistory to see the product's history from when he was the owner.
     public func describeRecord(_ input: DescribeRecordInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRecordOutput> {
         return self.client.execute(operation: "DescribeRecord", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -334,7 +334,7 @@ public struct ServiceCatalog: AWSService {
         return self.client.execute(operation: "GetProvisionedProductOutputs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Requests the import of a resource as an Service Catalog provisioned product that is associated to an Service Catalog product and provisioning artifact. Once imported, all supported Service Catalog governance actions are supported on the provisioned product. Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets and non-root nested stacks are not supported. The CloudFormation stack must have one of the following statuses to be imported: CREATE_COMPLETE, UPDATE_COMPLETE, UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE, IMPORT_ROLLBACK_COMPLETE. Import of the resource requires that the CloudFormation stack template matches the associated Service Catalog product provisioning artifact.   The user or role that performs this operation must have the cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissions.
+    ///  Requests the import  of a resource  as an Service Catalog provisioned product  that is associated  to an Service Catalog product and provisioning artifact.  Once imported,  all supported governance actions are supported  on the provisioned product.   Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets, and non-root nested stacks are not supported.   The CloudFormation stack must have one  of the following statuses  to be imported: CREATE_COMPLETE, UPDATE_COMPLETE, UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE, and IMPORT_ROLLBACK_COMPLETE.   Import  of the resource requires  that the CloudFormation stack template matches the associated Service Catalog product provisioning artifact.    When you import an existing CloudFormation stack  into a portfolio,  constraints  that are associated  with the product  aren't applied  during the import process.   The constraints are applied  after you call UpdateProvisionedProduct  for the provisioned product.    The user or role  that performs this operation  must have the cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissions.
     public func importAsProvisionedProduct(_ input: ImportAsProvisionedProductInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportAsProvisionedProductOutput> {
         return self.client.execute(operation: "ImportAsProvisionedProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -354,7 +354,7 @@ public struct ServiceCatalog: AWSService {
         return self.client.execute(operation: "ListConstraintsForPortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the paths to the specified product. A path is how the user has access to a specified product, and is necessary when provisioning a product. A path also determines the constraints put on the product.
+    ///  Lists the paths  to the specified product.  A path describes how the user gets access  to a specified product and is necessary  when provisioning a product.  A path also determines the constraints  that are put on a product.  A path is dependent  on a specific product, porfolio, and principal.    When provisioning a product  that's been added  to a portfolio,  you must grant your user, group, or role access  to the portfolio.  For more information,  see Granting users access  in the Service Catalog User Guide.
     public func listLaunchPaths(_ input: ListLaunchPathsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLaunchPathsOutput> {
         return self.client.execute(operation: "ListLaunchPaths", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -429,7 +429,22 @@ public struct ServiceCatalog: AWSService {
         return self.client.execute(operation: "ListTagOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provisions the specified product. A provisioned product is a resourced instance of a product.  For example, provisioning a product based on a CloudFormation template launches a CloudFormation stack and its underlying resources. You can check the status of this request using DescribeRecord. If the request contains a tag key with an empty list of values, there is a tag conflict for that key. Do not include conflicted keys as tags, or this causes the error "Parameter validation failed: Missing required parameter in Tags[N]:Value".
+    ///  Notifies the result  of the provisioning engine execution.
+    public func notifyProvisionProductEngineWorkflowResult(_ input: NotifyProvisionProductEngineWorkflowResultInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<NotifyProvisionProductEngineWorkflowResultOutput> {
+        return self.client.execute(operation: "NotifyProvisionProductEngineWorkflowResult", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Notifies the result  of the terminate engine execution.
+    public func notifyTerminateProvisionedProductEngineWorkflowResult(_ input: NotifyTerminateProvisionedProductEngineWorkflowResultInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<NotifyTerminateProvisionedProductEngineWorkflowResultOutput> {
+        return self.client.execute(operation: "NotifyTerminateProvisionedProductEngineWorkflowResult", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Notifies the result  of the update engine execution.
+    public func notifyUpdateProvisionedProductEngineWorkflowResult(_ input: NotifyUpdateProvisionedProductEngineWorkflowResultInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<NotifyUpdateProvisionedProductEngineWorkflowResultOutput> {
+        return self.client.execute(operation: "NotifyUpdateProvisionedProductEngineWorkflowResult", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Provisions the specified product.   A provisioned product is a resourced instance  of a product.  For example,  provisioning a product  that's based  on an CloudFormation template  launches an CloudFormation stack and its underlying resources. You can check the status  of this request  using DescribeRecord.   If the request contains a tag key  with an empty list  of values,  there's a tag conflict  for that key.  Don't include conflicted keys  as tags,  or this will cause the error "Parameter validation failed: Missing required parameter in Tags[N]:Value".    When provisioning a product  that's been added  to a portfolio,  you must grant your user, group, or role access  to the portfolio.  For more information,  see Granting users access  in the Service Catalog User Guide.
     public func provisionProduct(_ input: ProvisionProductInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ProvisionProductOutput> {
         return self.client.execute(operation: "ProvisionProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -454,7 +469,7 @@ public struct ServiceCatalog: AWSService {
         return self.client.execute(operation: "SearchProductsAsAdmin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about the provisioned products that meet the specified criteria.   To ensure a complete list of provisioned products and remove duplicate products, use sort-by createdTime.  Here is a CLI example:     aws servicecatalog search-provisioned-products --sort-by createdTime
+    /// Gets information about the provisioned products that meet the specified criteria.
     public func searchProvisionedProducts(_ input: SearchProvisionedProductsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchProvisionedProductsOutput> {
         return self.client.execute(operation: "SearchProvisionedProducts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -474,7 +489,7 @@ public struct ServiceCatalog: AWSService {
         return self.client.execute(operation: "UpdatePortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing  or Principal sharing for an existing portfolio share.   The portfolio share cannot be updated if the CreatePortfolioShare operation is IN_PROGRESS, as the share is not available to recipient entities. In this case, you must wait for the portfolio share to be COMPLETED.  You must provide the accountId or organization node in the input, but not both.  If the portfolio is shared to both an external account and an organization node, and both shares need to be updated, you must invoke UpdatePortfolioShare separately for each share type.   This API cannot be used for removing the portfolio share. You must use DeletePortfolioShare API for that action.    When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is  then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin,  but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal  name association for the portfolio. Although this user may not know which principal names are associated through  Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then  Service Catalog recommends using PrincipalType as IAM. With this configuration,  the PrincipalARN must already exist in the recipient account before it can be associated.
+    /// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing  or Principal sharing for an existing portfolio share.  The portfolio share cannot be updated if the CreatePortfolioShare operation is IN_PROGRESS, as the share is not available to recipient entities. In this case, you must wait for the portfolio share to be COMPLETED. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an external account and an organization node, and both shares need to be updated, you must invoke UpdatePortfolioShare separately for each share type.  This API cannot be used for removing the portfolio share. You must use DeletePortfolioShare API for that action.   When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is  then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin,  but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal  name association for the portfolio. Although this user may not know which principal names are associated through  Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then  Service Catalog recommends using PrincipalType as IAM. With this configuration,  the PrincipalARN must already exist in the recipient account before it can be associated.
     public func updatePortfolioShare(_ input: UpdatePortfolioShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePortfolioShareOutput> {
         return self.client.execute(operation: "UpdatePortfolioShare", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -494,7 +509,7 @@ public struct ServiceCatalog: AWSService {
         return self.client.execute(operation: "UpdateProvisionedProductProperties", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the specified provisioning artifact (also known as a version) for the specified product.  You cannot update a provisioning artifact for a product that was shared with you.
+    /// Updates the specified provisioning artifact (also known as a version) for the specified product. You cannot update a provisioning artifact for a product that was shared with you.
     public func updateProvisioningArtifact(_ input: UpdateProvisioningArtifactInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProvisioningArtifactOutput> {
         return self.client.execute(operation: "UpdateProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -787,7 +802,7 @@ extension ServiceCatalog {
         )
     }
 
-    /// Lists the paths to the specified product. A path is how the user has access to a specified product, and is necessary when provisioning a product. A path also determines the constraints put on the product.
+    ///  Lists the paths  to the specified product.  A path describes how the user gets access  to a specified product and is necessary  when provisioning a product.  A path also determines the constraints  that are put on a product.  A path is dependent  on a specific product, porfolio, and principal.    When provisioning a product  that's been added  to a portfolio,  you must grant your user, group, or role access  to the portfolio.  For more information,  see Granting users access  in the Service Catalog User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1476,7 +1491,7 @@ extension ServiceCatalog {
         )
     }
 
-    /// Gets information about the provisioned products that meet the specified criteria.   To ensure a complete list of provisioned products and remove duplicate products, use sort-by createdTime.  Here is a CLI example:     aws servicecatalog search-provisioned-products --sort-by createdTime
+    /// Gets information about the provisioned products that meet the specified criteria.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
