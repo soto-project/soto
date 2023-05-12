@@ -110,6 +110,16 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
             let updateRequest = DynamoDB.UpdateItemCodableInput(key: ["id"], tableName: tableName, updateItem: nameUpdate)
             _ = try await Self.dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
 
+            do {
+                let additionalAttributeNames: [String: String] = ["#age": "age"]
+                let additionalAttributeValues: [String: DynamoDB.AttributeValue] = [":age": .n("33")]
+                let conditionExpression = "#age = :age"
+                let updateRequest = DynamoDB.UpdateItemCodableInput(additionalAttributeNames: additionalAttributeNames, additionalAttributeValues: additionalAttributeValues, key: ["id"], tableName: tableName, updateItem: nameUpdate)
+                _ = try await Self.dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
+                XCTFail("Should have thrown error because conditionExpression is not met")
+            } catch {
+                XCTAssertNotNil(error)
+            }
             let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: tableName)
             let response = try await Self.dynamoDB.getItem(getRequest, type: TestObject.self, logger: TestEnvironment.logger)
 
