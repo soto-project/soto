@@ -349,9 +349,9 @@ extension DynamoDB {
         /// Object containing item key and attributes to update
         public let updateItem: T
 
-        public init(additionalAttributeNames: [String: String]? = nil, additionalAttributeValues: [String: AttributeValue]? = nil, conditionExpression: String? = nil, expressionAttributeNames: [String: String]? = nil, key: [String], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String, updateExpression: String? = nil, updateItem: T) {
-            self.additionalAttributeNames = additionalAttributeNames
-            self.additionalAttributeValues = additionalAttributeValues
+        public init(conditionExpression: String? = nil, expressionAttributeNames: [String: String]? = nil, key: [String], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String, updateExpression: String? = nil, updateItem: T) {
+            self.additionalAttributeNames = nil
+            self.additionalAttributeValues = nil
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = expressionAttributeNames
             self.key = key
@@ -360,6 +360,20 @@ extension DynamoDB {
             self.returnValues = returnValues
             self.tableName = tableName
             self.updateExpression = updateExpression
+            self.updateItem = updateItem
+        }
+
+        public init(additionalAttributeNames: [String: String]?, additionalAttributeValues: [String: AttributeValue]?, conditionExpression: String? = nil, key: [String], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String, updateItem: T) {
+            self.additionalAttributeNames = additionalAttributeNames
+            self.additionalAttributeValues = additionalAttributeValues
+            self.conditionExpression = conditionExpression
+            self.expressionAttributeNames = nil
+            self.key = key
+            self.returnConsumedCapacity = returnConsumedCapacity
+            self.returnItemCollectionMetrics = returnItemCollectionMetrics
+            self.returnValues = returnValues
+            self.tableName = tableName
+            self.updateExpression = nil
             self.updateItem = updateItem
         }
 
