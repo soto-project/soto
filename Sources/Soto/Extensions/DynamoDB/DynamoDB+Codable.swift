@@ -377,7 +377,7 @@ extension DynamoDB {
             let expressionAttributeNames: [String: String]
             if let names = self.expressionAttributeNames, self.updateExpression != nil {
                 expressionAttributeNames = names
-            } else if let additionalAttributeNames {
+            } else if let additionalAttributeNames = additionalAttributeNames {
                 let tmpAttributeNames: [String: String] = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
                 expressionAttributeNames = tmpAttributeNames.merging(additionalAttributeNames, uniquingKeysWith: { _, new in new })
             } else {
@@ -385,7 +385,7 @@ extension DynamoDB {
             }
 
             let expressionAttributeValues: [String: AttributeValue]
-            if let additionalAttributeValues {
+            if let additionalAttributeValues = additionalAttributeValues {
                 let tmpExpressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
                 expressionAttributeValues = tmpExpressionAttributeValues.merging(additionalAttributeValues, uniquingKeysWith: { _, new in new })
             } else {
