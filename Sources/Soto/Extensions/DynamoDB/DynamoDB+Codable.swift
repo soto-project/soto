@@ -327,9 +327,9 @@ extension DynamoDB {
     }
 
     public struct UpdateItemCodableInput<T: Encodable & Sendable>: AWSEncodableShape {
-        /// In case expressionAttributeNames is nil, the content of additionalAttributeNames is merged with the generated expressionAttributeNames dictionary and will override existing values. This can be used to specify complex condtionExpression with not auto-generated attribute names.
+        /// In case expressionAttributeNames is nil, the content of additionalAttributeNames is merged with the generated expressionAttributeNames dictionary and will override existing values. This can be used to specify complex conditionExpression with not auto-generated attribute names.
         public let additionalAttributeNames: [String: String]?
-        /// The content of additionalAttributeValues is merged with expressionAttributeValues dictionary and will override existing values. This can be used to specify complex condtionExpression with not auto-generated attribute values.
+        /// The content of additionalAttributeValues is merged with expressionAttributeValues dictionary and will override existing values. This can be used to specify complex conditionExpression with not auto-generated attribute values.
         public let additionalAttributeValues: [String: AttributeValue]?
         /// A condition that must be satisfied in order for a conditional update to succeed. An expression can contain any of the following:   Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.   Comparison operators: = | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= | BETWEEN | IN      Logical operators: AND | OR | NOT    For more information about condition expressions, see Specifying Conditions in the Amazon DynamoDB Developer Guide.
         public let conditionExpression: String?
