@@ -140,7 +140,7 @@ class S3AsyncTests: XCTestCase {
 
     func testPutGetObjectWithSpecialNameAsync() async throws {
         let name = TestEnvironment.generateResourceName()
-        let filename = "test $filé+!@£$%2F%^&*()_=-[]{}\\|';:\",./?><~`.txt"
+        let filename = "test $filé+!@£$/%^&*()_=-[]{}\\|';:\",./?><~`.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
         try await self.s3Test(bucket: name) {
             let putRequest = S3.PutObjectRequest(
