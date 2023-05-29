@@ -159,9 +159,9 @@ Support development of Soto by becoming a [backer](https://github.com/sponsors/a
 <a href="https://github.com/idelfonsog2">
     <img src="https://avatars1.githubusercontent.com/u/7195235?s=120" width="60px">
 </a>
-<a href="https://github.com/Yasumoto">
-    <img src="https://avatars1.githubusercontent.com/u/48383?s=120" width="60px">
-</a>
 <a href="https://github.com/rausnitz">
     <img src="https://avatars1.githubusercontent.com/u/6132143?s=120" width="60px">
+</a>
+<a href="https://github.com/florentmorin">
+    <img src="https://avatars1.githubusercontent.com/u/1071783?s=120" width="60px">
 </a>
