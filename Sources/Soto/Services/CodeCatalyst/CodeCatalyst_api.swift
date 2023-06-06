@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS CodeCatalyst service.
 ///
-///   Amazon CodeCatalyst is in preview release and subject to change.   Welcome to the Amazon CodeCatalyst API reference. This reference provides descriptions of operations and data types for Amazon CodeCatalyst. You can use the Amazon CodeCatalyst  API to work with the following objects.  Dev Environments and the Amazon Web Services Toolkits, by calling the following:    CreateAccessToken, which creates a personal access token (PAT) for the current user.    CreateDevEnvironment, which creates a Dev Environment,  where you can quickly work on the code stored in the source repositories of your project.    CreateProject which creates a project in a specified space.    CreateSourceRepositoryBranch, which creates a branch in a specified repository where you can work on code.    DeleteDevEnvironment, which deletes a Dev Environment.    GetDevEnvironment, which returns information about a Dev Environment.    GetProject, which returns information about a project.    GetSourceRepositoryCloneUrls, which returns information about the URLs that can be used with a Git client to clone a source repository.    GetSubscription, which returns information about the Amazon Web Services account used for billing purposes  and the billing plan for the space.    GetUserDetails, which returns information about a user in Amazon CodeCatalyst.    ListDevEnvironments, which retrives a list of Dev Environments in a project.    ListProjects, which retrieves a list of projects in a space.    ListSourceRepositories, which retrieves a list of source repositories in a project.    ListSourceRepositoryBranches, which retrieves a list of branches in a source repository.    ListSpaces, which retrieves a list of spaces.    StartDevEnvironment, which starts a specified Dev Environment and puts it into an active state.    StartDevEnvironmentSession, which starts a session to a specified Dev Environment.    StopDevEnvironment, which stops a specified Dev Environment and puts it into an stopped state.    StopDevEnvironmentSession, which stops a session for a specified Dev Environment.    UpdateDevEnvironment, which changes one or more values for a Dev Environment.    VerifySession, which verifies whether the calling user has a valid Amazon CodeCatalyst login and session.   Security, activity, and resource management in Amazon CodeCatalyst, by calling the following:    DeleteAccessToken, which deletes a specified personal access token (PAT).    ListAccessTokens, which lists all personal access tokens (PATs) associated with a user.    ListEventLogs, which retrieves a list of events that occurred during a specified time period in a space.
+/// Welcome to the Amazon CodeCatalyst API reference. This reference provides descriptions of operations and data types for Amazon CodeCatalyst. You can use the Amazon CodeCatalyst  API to work with the following objects.  Dev Environments and the Amazon Web Services Toolkits, by calling the following:    CreateAccessToken, which creates a personal access token (PAT) for the current user.    CreateDevEnvironment, which creates a Dev Environment,  where you can quickly work on the code stored in the source repositories of your project.    CreateProject which creates a project in a specified space.    CreateSourceRepositoryBranch, which creates a branch in a specified repository where you can work on code.    DeleteDevEnvironment, which deletes a Dev Environment.    GetDevEnvironment, which returns information about a Dev Environment.    GetProject, which returns information about a project.    GetSourceRepositoryCloneUrls, which returns information about the URLs that can be used with a Git client to clone a source repository.    GetSpace, which returns information about a space.    GetSubscription, which returns information about the Amazon Web Services account used for billing purposes  and the billing plan for the space.    GetUserDetails, which returns information about a user in Amazon CodeCatalyst.    ListDevEnvironments, which retrieves a list of Dev Environments in a project.    ListDevEnvironmentSessions, which retrieves a list of active Dev Environment sessions in a project.    ListProjects, which retrieves a list of projects in a space.    ListSourceRepositories, which retrieves a list of source repositories in a project.    ListSourceRepositoryBranches, which retrieves a list of branches in a source repository.    ListSpaces, which retrieves a list of spaces.    StartDevEnvironment, which starts a specified Dev Environment and puts it into an active state.    StartDevEnvironmentSession, which starts a session to a specified Dev Environment.    StopDevEnvironment, which stops a specified Dev Environment and puts it into an stopped state.    StopDevEnvironmentSession, which stops a session for a specified Dev Environment.    UpdateDevEnvironment, which changes one or more values for a Dev Environment.    VerifySession, which verifies whether the calling user has a valid Amazon CodeCatalyst login and session.   Security, activity, and resource management in Amazon CodeCatalyst, by calling the following:    DeleteAccessToken, which deletes a specified personal access token (PAT).    ListAccessTokens, which lists all personal access tokens (PATs) associated with a user.    ListEventLogs, which retrieves a list of events that occurred during a specified time period in a space.    If you are using the Amazon CodeCatalyst APIs with an SDK or the CLI, you must configure your computer to work with Amazon CodeCatalyst and single sign-on (SSO). For more information, see Setting up to use the CLI with Amazon CodeCatalyst and the SSO documentation for your SDK.
 public struct CodeCatalyst: AWSService {
     // MARK: Member variables
 
@@ -64,12 +64,12 @@ public struct CodeCatalyst: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password.  It is associated with your user account. You use PATs to access Amazon CodeCatalyst resources such as source repositories from third-party applications  like Git and integrated development environments (IDEs). For more information, see  Managing personal access tokens in Amazon CodeCatalyst.
+    /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password.  It is associated with your user identity for use across all spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst  from resources that include integrated development environments (IDEs) and Git-based source repositories.   PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see  Managing personal access tokens in Amazon CodeCatalyst.
     public func createAccessToken(_ input: CreateAccessTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAccessTokenResponse> {
         return self.client.execute(operation: "CreateAccessToken", path: "/v1/accessTokens", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development Dev Environment that you can use to quickly work on the code stored in the source repositories of your project.    When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically.
+    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment that you can use to quickly work on the code stored  in the source repositories of your project.         When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically.
     public func createDevEnvironment(_ input: CreateDevEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDevEnvironmentResponse> {
         return self.client.execute(operation: "CreateDevEnvironment", path: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -124,12 +124,17 @@ public struct CodeCatalyst: AWSService {
         return self.client.execute(operation: "GetUserDetails", path: "/userDetails", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your user account.
+    /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your Amazon Web Services Builder ID.
     public func listAccessTokens(_ input: ListAccessTokensRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccessTokensResponse> {
         return self.client.execute(operation: "ListAccessTokens", path: "/v1/accessTokens", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrives a list of Dev Environments in a project.
+    /// Retrieves a list of active sessions for a Dev Environment in a project.
+    public func listDevEnvironmentSessions(_ input: ListDevEnvironmentSessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDevEnvironmentSessionsResponse> {
+        return self.client.execute(operation: "ListDevEnvironmentSessions", path: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{devEnvironmentId}/sessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a list of Dev Environments in a project.
     public func listDevEnvironments(_ input: ListDevEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDevEnvironmentsResponse> {
         return self.client.execute(operation: "ListDevEnvironments", path: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -202,7 +207,7 @@ extension CodeCatalyst {
 // MARK: Paginators
 
 extension CodeCatalyst {
-    /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your user account.
+    /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your Amazon Web Services Builder ID.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -255,7 +260,60 @@ extension CodeCatalyst {
         )
     }
 
-    /// Retrives a list of Dev Environments in a project.
+    /// Retrieves a list of active sessions for a Dev Environment in a project.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listDevEnvironmentSessionsPaginator<Result>(
+        _ input: ListDevEnvironmentSessionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListDevEnvironmentSessionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listDevEnvironmentSessions,
+            inputKey: \ListDevEnvironmentSessionsRequest.nextToken,
+            outputKey: \ListDevEnvironmentSessionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listDevEnvironmentSessionsPaginator(
+        _ input: ListDevEnvironmentSessionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListDevEnvironmentSessionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listDevEnvironmentSessions,
+            inputKey: \ListDevEnvironmentSessionsRequest.nextToken,
+            outputKey: \ListDevEnvironmentSessionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Retrieves a list of Dev Environments in a project.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -579,6 +637,18 @@ extension CodeCatalyst.ListAccessTokensRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension CodeCatalyst.ListDevEnvironmentSessionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeCatalyst.ListDevEnvironmentSessionsRequest {
+        return .init(
+            devEnvironmentId: self.devEnvironmentId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            projectName: self.projectName,
+            spaceName: self.spaceName
         )
     }
 }

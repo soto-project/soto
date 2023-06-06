@@ -127,6 +127,11 @@ public struct EMRContainers: AWSService {
         return self.client.execute(operation: "DescribeVirtualCluster", path: "/virtualclusters/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Generate a session token to connect to a managed endpoint.
+    public func getManagedEndpointSessionCredentials(_ input: GetManagedEndpointSessionCredentialsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetManagedEndpointSessionCredentialsResponse> {
+        return self.client.execute(operation: "GetManagedEndpointSessionCredentials", path: "/virtualclusters/{virtualClusterIdentifier}/endpoints/{endpointIdentifier}/credentials", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists job runs based on a set of parameters. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     public func listJobRuns(_ input: ListJobRunsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJobRunsResponse> {
         return self.client.execute(operation: "ListJobRuns", path: "/virtualclusters/{virtualClusterId}/jobruns", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

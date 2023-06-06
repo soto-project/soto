@@ -26,6 +26,11 @@ extension WorkSpacesWeb {
         return try await self.client.execute(operation: "AssociateBrowserSettings", path: "/portals/{portalArn+}/browserSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Associates an IP access settings resource with a web portal.
+    public func associateIpAccessSettings(_ input: AssociateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateIpAccessSettingsResponse {
+        return try await self.client.execute(operation: "AssociateIpAccessSettings", path: "/portals/{portalArn+}/ipAccessSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Associates a network settings resource with a web portal.
     public func associateNetworkSettings(_ input: AssociateNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateNetworkSettingsResponse {
         return try await self.client.execute(operation: "AssociateNetworkSettings", path: "/portals/{portalArn+}/networkSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -54,6 +59,11 @@ extension WorkSpacesWeb {
     /// Creates an identity provider resource that is then associated with a web portal.
     public func createIdentityProvider(_ input: CreateIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateIdentityProviderResponse {
         return try await self.client.execute(operation: "CreateIdentityProvider", path: "/identityProviders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates an IP access settings resource that can be associated with a web portal.
+    public func createIpAccessSettings(_ input: CreateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateIpAccessSettingsResponse {
+        return try await self.client.execute(operation: "CreateIpAccessSettings", path: "/ipAccessSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
@@ -91,6 +101,11 @@ extension WorkSpacesWeb {
         return try await self.client.execute(operation: "DeleteIdentityProvider", path: "/identityProviders/{identityProviderArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes IP access settings.
+    public func deleteIpAccessSettings(_ input: DeleteIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteIpAccessSettingsResponse {
+        return try await self.client.execute(operation: "DeleteIpAccessSettings", path: "/ipAccessSettings/{ipAccessSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes network settings.
     public func deleteNetworkSettings(_ input: DeleteNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteNetworkSettingsResponse {
         return try await self.client.execute(operation: "DeleteNetworkSettings", path: "/networkSettings/{networkSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -121,6 +136,11 @@ extension WorkSpacesWeb {
         return try await self.client.execute(operation: "DisassociateBrowserSettings", path: "/portals/{portalArn+}/browserSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Disassociates IP access settings from a web portal.
+    public func disassociateIpAccessSettings(_ input: DisassociateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateIpAccessSettingsResponse {
+        return try await self.client.execute(operation: "DisassociateIpAccessSettings", path: "/portals/{portalArn+}/ipAccessSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Disassociates network settings from a web portal.
     public func disassociateNetworkSettings(_ input: DisassociateNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateNetworkSettingsResponse {
         return try await self.client.execute(operation: "DisassociateNetworkSettings", path: "/portals/{portalArn+}/networkSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -149,6 +169,11 @@ extension WorkSpacesWeb {
     /// Gets the identity provider.
     public func getIdentityProvider(_ input: GetIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetIdentityProviderResponse {
         return try await self.client.execute(operation: "GetIdentityProvider", path: "/identityProviders/{identityProviderArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the IP access settings.
+    public func getIpAccessSettings(_ input: GetIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetIpAccessSettingsResponse {
+        return try await self.client.execute(operation: "GetIpAccessSettings", path: "/ipAccessSettings/{ipAccessSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets the network settings.
@@ -194,6 +219,11 @@ extension WorkSpacesWeb {
     /// Retrieves a list of identity providers for a specific web portal.
     public func listIdentityProviders(_ input: ListIdentityProvidersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListIdentityProvidersResponse {
         return try await self.client.execute(operation: "ListIdentityProviders", path: "/portals/{portalArn+}/identityProviders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a list of IP access settings.
+    public func listIpAccessSettings(_ input: ListIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListIpAccessSettingsResponse {
+        return try await self.client.execute(operation: "ListIpAccessSettings", path: "/ipAccessSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves a list of network settings.
@@ -249,6 +279,11 @@ extension WorkSpacesWeb {
     /// Updates the identity provider.
     public func updateIdentityProvider(_ input: UpdateIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateIdentityProviderResponse {
         return try await self.client.execute(operation: "UpdateIdentityProvider", path: "/identityProviders/{identityProviderArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates IP access settings.
+    public func updateIpAccessSettings(_ input: UpdateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateIpAccessSettingsResponse {
+        return try await self.client.execute(operation: "UpdateIpAccessSettings", path: "/ipAccessSettings/{ipAccessSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates network settings.
@@ -320,6 +355,28 @@ extension WorkSpacesWeb {
             command: self.listIdentityProviders,
             inputKey: \ListIdentityProvidersRequest.nextToken,
             outputKey: \ListIdentityProvidersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Retrieves a list of IP access settings.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listIpAccessSettingsPaginator(
+        _ input: ListIpAccessSettingsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListIpAccessSettingsRequest, ListIpAccessSettingsResponse> {
+        return .init(
+            input: input,
+            command: self.listIpAccessSettings,
+            inputKey: \ListIpAccessSettingsRequest.nextToken,
+            outputKey: \ListIpAccessSettingsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

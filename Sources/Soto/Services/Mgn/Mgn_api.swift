@@ -58,6 +58,8 @@ public struct Mgn: AWSService {
                 [.fips]: .init(endpoints: [
                     "us-east-1": "mgn-fips.us-east-1.amazonaws.com",
                     "us-east-2": "mgn-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "mgn-fips.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "mgn-fips.us-gov-west-1.amazonaws.com",
                     "us-west-1": "mgn-fips.us-west-1.amazonaws.com",
                     "us-west-2": "mgn-fips.us-west-2.amazonaws.com"
                 ])

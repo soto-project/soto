@@ -21,7 +21,7 @@ import SotoCore
 extension Inspector2 {
     // MARK: Async API Calls
 
-    /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator.
+    /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator.   An HTTP 200 response indicates the association was successfully started, but doesn’t indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account.
     public func associateMember(_ input: AssociateMemberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateMemberResponse {
         return try await self.client.execute(operation: "AssociateMember", path: "/members/associate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -36,6 +36,16 @@ extension Inspector2 {
         return try await self.client.execute(operation: "BatchGetFreeTrialInfo", path: "/freetrialinfo/batchget", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves Amazon Inspector deep inspection activation status of multiple member accounts within your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API.
+    public func batchGetMemberEc2DeepInspectionStatus(_ input: BatchGetMemberEc2DeepInspectionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchGetMemberEc2DeepInspectionStatusResponse {
+        return try await self.client.execute(operation: "BatchGetMemberEc2DeepInspectionStatus", path: "/ec2deepinspectionstatus/member/batch/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Activates or deactivates Amazon Inspector deep inspection for the provided member accounts in your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API.
+    public func batchUpdateMemberEc2DeepInspectionStatus(_ input: BatchUpdateMemberEc2DeepInspectionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchUpdateMemberEc2DeepInspectionStatusResponse {
+        return try await self.client.execute(operation: "BatchUpdateMemberEc2DeepInspectionStatus", path: "/ec2deepinspectionstatus/member/batch/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Cancels the given findings report.
     public func cancelFindingsReport(_ input: CancelFindingsReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CancelFindingsReportResponse {
         return try await self.client.execute(operation: "CancelFindingsReport", path: "/reporting/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -46,7 +56,7 @@ extension Inspector2 {
         return try await self.client.execute(operation: "CreateFilter", path: "/filters/create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a finding report.
+    /// Creates a finding report. By default only ACTIVE findings are returned in the report. To see SUPRESSED or CLOSED findings you must specify a value for the findingStatus filter criteria.
     public func createFindingsReport(_ input: CreateFindingsReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateFindingsReportResponse {
         return try await self.client.execute(operation: "CreateFindingsReport", path: "/reporting/create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -94,6 +104,11 @@ extension Inspector2 {
     /// Retrieves information about the Amazon Inspector delegated administrator for your organization.
     public func getDelegatedAdminAccount(_ input: GetDelegatedAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetDelegatedAdminAccountResponse {
         return try await self.client.execute(operation: "GetDelegatedAdminAccount", path: "/delegatedadminaccounts/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated with your account.
+    public func getEc2DeepInspectionConfiguration(_ input: GetEc2DeepInspectionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEc2DeepInspectionConfigurationResponse {
+        return try await self.client.execute(operation: "GetEc2DeepInspectionConfiguration", path: "/ec2deepinspectionconfiguration/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets the status of a findings report.
@@ -156,6 +171,11 @@ extension Inspector2 {
         return try await self.client.execute(operation: "ListUsageTotals", path: "/usage/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists Amazon Inspector coverage details for a specific vulnerability.
+    public func searchVulnerabilities(_ input: SearchVulnerabilitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SearchVulnerabilitiesResponse {
+        return try await self.client.execute(operation: "SearchVulnerabilities", path: "/vulnerabilities/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Adds tags to a resource.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -171,9 +191,19 @@ extension Inspector2 {
         return try await self.client.execute(operation: "UpdateConfiguration", path: "/configuration/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
+    public func updateEc2DeepInspectionConfiguration(_ input: UpdateEc2DeepInspectionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateEc2DeepInspectionConfigurationResponse {
+        return try await self.client.execute(operation: "UpdateEc2DeepInspectionConfiguration", path: "/ec2deepinspectionconfiguration/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Specifies the action that is to be applied to the findings that match the filter.
     public func updateFilter(_ input: UpdateFilterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateFilterResponse {
         return try await self.client.execute(operation: "UpdateFilter", path: "/filters/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an Amazon Inspector delegated administrator to use this API.
+    public func updateOrgEc2DeepInspectionConfiguration(_ input: UpdateOrgEc2DeepInspectionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateOrgEc2DeepInspectionConfigurationResponse {
+        return try await self.client.execute(operation: "UpdateOrgEc2DeepInspectionConfiguration", path: "/ec2deepinspectionconfiguration/org/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the configurations for your Amazon Inspector organization.
@@ -379,6 +409,28 @@ extension Inspector2 {
             command: self.listUsageTotals,
             inputKey: \ListUsageTotalsRequest.nextToken,
             outputKey: \ListUsageTotalsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists Amazon Inspector coverage details for a specific vulnerability.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchVulnerabilitiesPaginator(
+        _ input: SearchVulnerabilitiesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchVulnerabilitiesRequest, SearchVulnerabilitiesResponse> {
+        return .init(
+            input: input,
+            command: self.searchVulnerabilities,
+            inputKey: \SearchVulnerabilitiesRequest.nextToken,
+            outputKey: \SearchVulnerabilitiesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

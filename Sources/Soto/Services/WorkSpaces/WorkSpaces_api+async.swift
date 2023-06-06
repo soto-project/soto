@@ -221,7 +221,7 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "ImportClientBranding", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Imports the specified Windows 10 Bring Your Own License (BYOL)  image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is  in your Amazon Web Services account, and you must own the image. For more information about  creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
+    /// Imports the specified Windows 10 or 11 Bring Your Own License (BYOL)  image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is  in your Amazon Web Services account, and you must own the image. For more information about  creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
     public func importWorkspaceImage(_ input: ImportWorkspaceImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ImportWorkspaceImageResult {
         return try await self.client.execute(operation: "ImportWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

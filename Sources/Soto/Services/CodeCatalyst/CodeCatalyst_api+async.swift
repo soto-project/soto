@@ -21,12 +21,12 @@ import SotoCore
 extension CodeCatalyst {
     // MARK: Async API Calls
 
-    /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password.  It is associated with your user account. You use PATs to access Amazon CodeCatalyst resources such as source repositories from third-party applications  like Git and integrated development environments (IDEs). For more information, see  Managing personal access tokens in Amazon CodeCatalyst.
+    /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password.  It is associated with your user identity for use across all spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst  from resources that include integrated development environments (IDEs) and Git-based source repositories.   PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see  Managing personal access tokens in Amazon CodeCatalyst.
     public func createAccessToken(_ input: CreateAccessTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateAccessTokenResponse {
         return try await self.client.execute(operation: "CreateAccessToken", path: "/v1/accessTokens", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development Dev Environment that you can use to quickly work on the code stored in the source repositories of your project.    When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically.
+    /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment that you can use to quickly work on the code stored  in the source repositories of your project.         When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically.
     public func createDevEnvironment(_ input: CreateDevEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDevEnvironmentResponse {
         return try await self.client.execute(operation: "CreateDevEnvironment", path: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -81,12 +81,17 @@ extension CodeCatalyst {
         return try await self.client.execute(operation: "GetUserDetails", path: "/userDetails", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your user account.
+    /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your Amazon Web Services Builder ID.
     public func listAccessTokens(_ input: ListAccessTokensRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAccessTokensResponse {
         return try await self.client.execute(operation: "ListAccessTokens", path: "/v1/accessTokens", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrives a list of Dev Environments in a project.
+    /// Retrieves a list of active sessions for a Dev Environment in a project.
+    public func listDevEnvironmentSessions(_ input: ListDevEnvironmentSessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDevEnvironmentSessionsResponse {
+        return try await self.client.execute(operation: "ListDevEnvironmentSessions", path: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments/{devEnvironmentId}/sessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a list of Dev Environments in a project.
     public func listDevEnvironments(_ input: ListDevEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDevEnvironmentsResponse {
         return try await self.client.execute(operation: "ListDevEnvironments", path: "/v1/spaces/{spaceName}/projects/{projectName}/devEnvironments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -151,7 +156,7 @@ extension CodeCatalyst {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CodeCatalyst {
-    /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your user account.
+    /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your Amazon Web Services Builder ID.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -173,7 +178,29 @@ extension CodeCatalyst {
         )
     }
 
-    /// Retrives a list of Dev Environments in a project.
+    /// Retrieves a list of active sessions for a Dev Environment in a project.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listDevEnvironmentSessionsPaginator(
+        _ input: ListDevEnvironmentSessionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListDevEnvironmentSessionsRequest, ListDevEnvironmentSessionsResponse> {
+        return .init(
+            input: input,
+            command: self.listDevEnvironmentSessions,
+            inputKey: \ListDevEnvironmentSessionsRequest.nextToken,
+            outputKey: \ListDevEnvironmentSessionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Retrieves a list of Dev Environments in a project.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

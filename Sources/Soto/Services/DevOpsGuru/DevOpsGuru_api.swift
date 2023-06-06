@@ -65,8 +65,10 @@ public struct DevOpsGuru: AWSService {
             endpoint: endpoint,
             variantEndpoints: [
                 [.fips]: .init(endpoints: [
+                    "ca-central-1": "devops-guru-fips.ca-central-1.amazonaws.com",
                     "us-east-1": "devops-guru-fips.us-east-1.amazonaws.com",
                     "us-east-2": "devops-guru-fips.us-east-2.amazonaws.com",
+                    "us-west-1": "devops-guru-fips.us-west-1.amazonaws.com",
                     "us-west-2": "devops-guru-fips.us-west-2.amazonaws.com"
                 ])
             ],

@@ -1014,8 +1014,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "af-south-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1027,8 +1027,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "ap-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1040,8 +1040,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "ap-northeast-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1053,8 +1053,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "ap-northeast-2",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1066,8 +1066,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "ap-northeast-3",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1079,8 +1079,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "ap-south-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1092,8 +1092,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "ap-southeast-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1105,8 +1105,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "ap-southeast-2",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1118,8 +1118,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "ca-central-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1131,8 +1131,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "eu-central-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1144,8 +1144,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "eu-north-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1157,8 +1157,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "eu-south-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1170,8 +1170,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "eu-west-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1183,8 +1183,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "eu-west-2",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1196,8 +1196,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "eu-west-3",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1209,8 +1209,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "me-south-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1222,8 +1222,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "sa-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1235,8 +1235,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1248,8 +1248,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-east-1",
+                                "UseFIPS": true,
                                 "UseDualStack": false
                             }
                         },
@@ -1261,8 +1261,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-east-2",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1274,8 +1274,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-east-2",
+                                "UseFIPS": true,
                                 "UseDualStack": false
                             }
                         },
@@ -1287,8 +1287,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-west-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1300,8 +1300,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-west-1",
+                                "UseFIPS": true,
                                 "UseDualStack": false
                             }
                         },
@@ -1313,8 +1313,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-west-2",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1326,8 +1326,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-west-2",
+                                "UseFIPS": true,
                                 "UseDualStack": false
                             }
                         },
@@ -1339,8 +1339,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-east-1",
+                                "UseFIPS": true,
                                 "UseDualStack": true
                             }
                         },
@@ -1352,8 +1352,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": true
                             }
                         },
@@ -1365,8 +1365,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "cn-north-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1378,8 +1378,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "cn-northwest-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1391,8 +1391,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "cn-north-1",
+                                "UseFIPS": true,
                                 "UseDualStack": true
                             }
                         },
@@ -1404,8 +1404,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "cn-north-1",
+                                "UseFIPS": true,
                                 "UseDualStack": false
                             }
                         },
@@ -1417,8 +1417,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "cn-north-1",
+                                "UseFIPS": false,
                                 "UseDualStack": true
                             }
                         },
@@ -1430,8 +1430,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-gov-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1443,8 +1443,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-gov-east-1",
+                                "UseFIPS": true,
                                 "UseDualStack": false
                             }
                         },
@@ -1456,8 +1456,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-gov-west-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1469,8 +1469,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-gov-west-1",
+                                "UseFIPS": true,
                                 "UseDualStack": false
                             }
                         },
@@ -1482,8 +1482,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-gov-east-1",
+                                "UseFIPS": true,
                                 "UseDualStack": true
                             }
                         },
@@ -1495,8 +1495,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-gov-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": true
                             }
                         },
@@ -1506,8 +1506,8 @@
                                 "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-iso-east-1",
+                                "UseFIPS": true,
                                 "UseDualStack": true
                             }
                         },
@@ -1519,8 +1519,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-iso-east-1",
+                                "UseFIPS": true,
                                 "UseDualStack": false
                             }
                         },
@@ -1530,8 +1530,8 @@
                                 "error": "DualStack is enabled but this partition does not support DualStack"
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-iso-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": true
                             }
                         },
@@ -1543,8 +1543,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-iso-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1554,8 +1554,8 @@
                                 "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-isob-east-1",
+                                "UseFIPS": true,
                                 "UseDualStack": true
                             }
                         },
@@ -1567,8 +1567,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-isob-east-1",
+                                "UseFIPS": true,
                                 "UseDualStack": false
                             }
                         },
@@ -1578,8 +1578,8 @@
                                 "error": "DualStack is enabled but this partition does not support DualStack"
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-isob-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": true
                             }
                         },
@@ -1591,8 +1591,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-isob-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false
                             }
                         },
@@ -1604,8 +1604,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
@@ -1629,8 +1629,8 @@
                                 "error": "Invalid Configuration: FIPS and custom endpoint are not supported"
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "Region": "us-east-1",
+                                "UseFIPS": true,
                                 "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
@@ -1641,8 +1641,8 @@
                                 "error": "Invalid Configuration: Dualstack and custom endpoint are not supported"
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "Region": "us-east-1",
+                                "UseFIPS": false,
                                 "UseDualStack": true,
                                 "Endpoint": "https://example.com"
                             }
@@ -1730,6 +1730,17 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.glue#Action"
+            }
+        },
+        "com.amazonaws.glue#AdditionalOptionKeys": {
+            "type": "enum",
+            "members": {
+                "CacheOption": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "performanceTuning.caching"
+                    }
+                }
             }
         },
         "com.amazonaws.glue#AdditionalOptions": {
@@ -1928,6 +1939,243 @@
             "traits": {
                 "smithy.api#documentation": "<p>A resource to be created or added already exists.</p>",
                 "smithy.api#error": "client"
+            }
+        },
+        "com.amazonaws.glue#AmazonRedshiftAdvancedOption": {
+            "type": "structure",
+            "members": {
+                "Key": {
+                    "target": "com.amazonaws.glue#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The key for the additional connection option.</p>"
+                    }
+                },
+                "Value": {
+                    "target": "com.amazonaws.glue#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The value for the additional connection option.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies an optional value when connecting to the Redshift cluster.</p>"
+            }
+        },
+        "com.amazonaws.glue#AmazonRedshiftAdvancedOptions": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.glue#AmazonRedshiftAdvancedOption"
+            }
+        },
+        "com.amazonaws.glue#AmazonRedshiftNodeData": {
+            "type": "structure",
+            "members": {
+                "AccessType": {
+                    "target": "com.amazonaws.glue#GenericLimitedString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The access type for the Redshift connection. Can be a direct connection or catalog connections.</p>"
+                    }
+                },
+                "SourceType": {
+                    "target": "com.amazonaws.glue#GenericLimitedString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type to specify whether a specific table is the source or a custom query.</p>"
+                    }
+                },
+                "Connection": {
+                    "target": "com.amazonaws.glue#Option",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Glue connection to the Redshift cluster.</p>"
+                    }
+                },
+                "Schema": {
+                    "target": "com.amazonaws.glue#Option",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Redshift schema name when working with a direct connection.</p>"
+                    }
+                },
+                "Table": {
+                    "target": "com.amazonaws.glue#Option",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Redshift table name when working with a direct connection.</p>"
+                    }
+                },
+                "CatalogDatabase": {
+                    "target": "com.amazonaws.glue#Option",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the Glue Data Catalog database when working with a data catalog.</p>"
+                    }
+                },
+                "CatalogTable": {
+                    "target": "com.amazonaws.glue#Option",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Glue Data Catalog table name when working with a data catalog.</p>"
+                    }
+                },
+                "CatalogRedshiftSchema": {
+                    "target": "com.amazonaws.glue#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Redshift schema name when working with a data catalog.</p>"
+                    }
+                },
+                "CatalogRedshiftTable": {
+                    "target": "com.amazonaws.glue#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The database table to read from.</p>"
+                    }
+                },
+                "TempDir": {
+                    "target": "com.amazonaws.glue#EnclosedInStringProperty",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon S3 path where temporary data can be staged when copying out of the database.</p>"
+                    }
+                },
+                "IamRole": {
+                    "target": "com.amazonaws.glue#Option",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Optional. The role name use when connection to S3. The IAM role ill default to the role on the job when left blank.</p>"
+                    }
+                },
+                "AdvancedOptions": {
+                    "target": "com.amazonaws.glue#AmazonRedshiftAdvancedOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Optional values when connecting to the Redshift cluster.</p>"
+                    }
+                },
+                "SampleQuery": {
+                    "target": "com.amazonaws.glue#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The SQL used to fetch the data from a Redshift sources when the SourceType is 'query'.</p>"
+                    }
+                },
+                "PreAction": {
+                    "target": "com.amazonaws.glue#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The SQL used before a MERGE or APPEND with upsert is run.</p>"
+                    }
+                },
+                "PostAction": {
+                    "target": "com.amazonaws.glue#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The SQL used before a MERGE or APPEND with upsert is run.</p>"
+                    }
+                },
+                "Action": {
+                    "target": "com.amazonaws.glue#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies how writing to a Redshift cluser will occur.</p>"
+                    }
+                },
+                "TablePrefix": {
+                    "target": "com.amazonaws.glue#GenericLimitedString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the prefix to a table.</p>"
+                    }
+                },
+                "Upsert": {
+                    "target": "com.amazonaws.glue#BooleanValue",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>The action used on Redshift sinks when doing an APPEND.</p>"
+                    }
+                },
+                "MergeAction": {
+                    "target": "com.amazonaws.glue#GenericLimitedString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The action used when to detemine how a MERGE in a Redshift sink will be handled.</p>"
+                    }
+                },
+                "MergeWhenMatched": {
+                    "target": "com.amazonaws.glue#GenericLimitedString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The action used when to detemine how a MERGE in a Redshift sink will be handled when an existing record matches a new record.</p>"
+                    }
+                },
+                "MergeWhenNotMatched": {
+                    "target": "com.amazonaws.glue#GenericLimitedString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The action used when to detemine how a MERGE in a Redshift sink will be handled when an existing record doesn't match a new record.</p>"
+                    }
+                },
+                "MergeClause": {
+                    "target": "com.amazonaws.glue#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The SQL used in a custom merge to deal with matching records.</p>"
+                    }
+                },
+                "CrawlerConnection": {
+                    "target": "com.amazonaws.glue#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the name of the connection that is associated with the catalog table used.</p>"
+                    }
+                },
+                "TableSchema": {
+                    "target": "com.amazonaws.glue#OptionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The array of schema output for a given node.</p>"
+                    }
+                },
+                "StagingTable": {
+                    "target": "com.amazonaws.glue#GenericString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the temporary staging table that is used when doing a MERGE or APPEND with upsert.</p>"
+                    }
+                },
+                "SelectedColumns": {
+                    "target": "com.amazonaws.glue#OptionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of column names used to determine a matching record when doing a MERGE or APPEND with upsert.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies an Amazon Redshift node.</p>"
+            }
+        },
+        "com.amazonaws.glue#AmazonRedshiftSource": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NodeName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the Amazon Redshift source.</p>"
+                    }
+                },
+                "Data": {
+                    "target": "com.amazonaws.glue#AmazonRedshiftNodeData",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the data of the Amazon Reshift source node.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies an Amazon Redshift source.</p>"
+            }
+        },
+        "com.amazonaws.glue#AmazonRedshiftTarget": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NodeName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the Amazon Redshift target.</p>"
+                    }
+                },
+                "Data": {
+                    "target": "com.amazonaws.glue#AmazonRedshiftNodeData",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the data of the Amazon Reshift target node.</p>"
+                    }
+                },
+                "Inputs": {
+                    "target": "com.amazonaws.glue#OneInput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The nodes that are inputs to the data target.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies an Amazon Redshift target.</p>"
             }
         },
         "com.amazonaws.glue#ApplyMapping": {
@@ -5016,6 +5264,24 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Specifies a target that writes to a Delta Lake data source in Amazon S3.</p>"
                     }
+                },
+                "AmazonRedshiftSource": {
+                    "target": "com.amazonaws.glue#AmazonRedshiftSource",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies a target that writes to a data source in Amazon Redshift.</p>"
+                    }
+                },
+                "AmazonRedshiftTarget": {
+                    "target": "com.amazonaws.glue#AmazonRedshiftTarget",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies a target that writes to a data target in Amazon Redshift.</p>"
+                    }
+                },
+                "EvaluateDataQualityMultiFrame": {
+                    "target": "com.amazonaws.glue#EvaluateDataQualityMultiFrame",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies your data quality evaluation criteria. Allows multiple input data and returns a collection of Dynamic Frames.</p>"
+                    }
                 }
             },
             "traits": {
@@ -7208,6 +7474,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A list of context words. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data.</p>\n         <p>If no context words are passed only a regular expression is checked.</p>"
                     }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.glue#TagsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of tags applied to the custom entity type.</p>"
+                    }
                 }
             },
             "traits": {
@@ -7768,13 +8040,13 @@
                 "DefaultArguments": {
                     "target": "com.amazonaws.glue#GenericMap",
                     "traits": {
-                        "smithy.api#documentation": "<p>The default arguments for this job.</p>\n         <p>You can specify arguments here that your own job-execution script\n      consumes, as well as arguments that Glue itself consumes.</p>\n         <p>Job arguments may be logged. Do not pass plaintext secrets as arguments.\n    Retrieve secrets from a Glue Connection, Secrets Manager or\n    other secret management mechanism if you intend to keep them within the Job.\n    </p>\n         <p>For information about how to specify and consume your own Job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling Glue APIs in Python</a> topic in the developer guide.</p>\n         <p>For information about the key-value pairs that Glue consumes to set up your job, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by Glue</a> topic in the developer guide.</p>"
+                        "smithy.api#documentation": "<p>The default arguments for every run of this job, specified as name-value pairs.</p>\n         <p>You can specify arguments here that your own job-execution script\n      consumes, as well as arguments that Glue itself consumes.</p>\n         <p>Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets\n      from a Glue Connection, Secrets Manager or other secret management\n      mechanism if you intend to keep them within the Job. </p>\n         <p>For information about how to specify and consume your own Job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling Glue APIs in Python</a> topic in the developer guide.</p>\n         <p>For information about the arguments you can provide to this field when configuring Spark jobs,\n     see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by Glue</a> topic in the developer guide.</p>\n         <p>For information about the arguments you can provide to this field when configuring Ray\n      jobs, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-job-parameters.html\">Using\n      job parameters in Ray jobs</a> in the developer guide.</p>"
                     }
                 },
                 "NonOverridableArguments": {
                     "target": "com.amazonaws.glue#GenericMap",
                     "traits": {
-                        "smithy.api#documentation": "<p>Non-overridable arguments for this job, specified as name-value pairs.</p>"
+                        "smithy.api#documentation": "<p>Arguments for this job that are not overridden when providing job arguments\n      in a job run, specified as name-value pairs.</p>"
                     }
                 },
                 "Connections": {
@@ -7809,7 +8081,7 @@
                 "MaxCapacity": {
                     "target": "com.amazonaws.glue#NullableDouble",
                     "traits": {
-                        "smithy.api#documentation": "<p>For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure\n       of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory.\n       For more information, see the <a href=\"https://aws.amazon.com/glue/pricing/\">Glue\n         pricing page</a>.</p>\n         <p>Do not set <code>Max Capacity</code> if using <code>WorkerType</code> and <code>NumberOfWorkers</code>.</p>\n         <p>The value that can be allocated for <code>MaxCapacity</code> depends on whether you are\n      running a Python shell job or an Apache Spark ETL job:</p>\n         <ul>\n            <li>\n               <p>When you specify a Python shell job (<code>JobCommand.Name</code>=\"pythonshell\"), you can\n          allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.</p>\n            </li>\n            <li>\n               <p>When you specify an Apache Spark ETL job (<code>JobCommand.Name</code>=\"glueetl\") or Apache \n         Spark streaming ETL job (<code>JobCommand.Name</code>=\"gluestreaming\"), you can allocate a minimum of 2 DPUs. \n         The default is 10 DPUs. This job type cannot have a fractional DPU allocation.</p>\n            </li>\n         </ul>\n         <p>For Glue version 2.0 jobs, you cannot instead specify a <code>Maximum capacity</code>. Instead, you should specify a <code>Worker type</code> and the <code>Number of workers</code>.</p>"
+                        "smithy.api#documentation": "<p>For Glue version 1.0 or earlier jobs, using the standard worker type, the number of\n      Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is\n      a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB\n      of memory. For more information, see the <a href=\"https://aws.amazon.com/glue/pricing/\">\n      Glue pricing page</a>.</p>\n         <p>For Glue version 2.0+ jobs, you cannot specify a <code>Maximum capacity</code>.\n      Instead, you should specify a <code>Worker type</code> and the <code>Number of workers</code>.</p>\n         <p>Do not set <code>MaxCapacity</code> if using <code>WorkerType</code> and <code>NumberOfWorkers</code>.</p>\n         <p>The value that can be allocated for <code>MaxCapacity</code> depends on whether you are\n      running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL\n      job:</p>\n         <ul>\n            <li>\n               <p>When you specify a Python shell job (<code>JobCommand.Name</code>=\"pythonshell\"), you can\n          allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.</p>\n            </li>\n            <li>\n               <p>When you specify an Apache Spark ETL job (<code>JobCommand.Name</code>=\"glueetl\") or Apache \n        Spark streaming ETL job (<code>JobCommand.Name</code>=\"gluestreaming\"), you can allocate from 2 to 100 DPUs. \n        The default is 10 DPUs. This job type cannot have a fractional DPU allocation.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "SecurityConfiguration": {
@@ -7833,7 +8105,7 @@
                 "GlueVersion": {
                     "target": "com.amazonaws.glue#GlueVersionString",
                     "traits": {
-                        "smithy.api#documentation": "<p>Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark. </p>\n         <p>For more information about the available Glue versions and corresponding Spark and Python versions, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/add-job.html\">Glue version</a> in the developer guide.</p>\n         <p>Jobs that are created without specifying a Glue version default to Glue 0.9.</p>"
+                        "smithy.api#documentation": "<p>In Spark jobs, <code>GlueVersion</code> determines the versions of Apache Spark and Python\n      that Glue available in a job. The Python version indicates the version\n      supported for jobs of type Spark. </p>\n         <p>Ray jobs should set <code>GlueVersion</code> to <code>4.0</code> or greater. However,\n    the versions of Ray, Python and additional libraries available in your Ray job are determined\n    by the <code>Runtime</code> parameter of the Job command.</p>\n         <p>For more information about the available Glue versions and corresponding\n      Spark and Python versions, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/add-job.html\">Glue version</a> in the developer\n      guide.</p>\n         <p>Jobs that are created without specifying a Glue version default to Glue 0.9.</p>"
                     }
                 },
                 "NumberOfWorkers": {
@@ -7845,7 +8117,7 @@
                 "WorkerType": {
                     "target": "com.amazonaws.glue#WorkerType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.</p>\n         <ul>\n            <li>\n               <p>For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.</p>\n            </li>\n            <li>\n               <p>For the <code>G.1X</code> worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.2X</code> worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>The type of predefined worker that is allocated when a job runs. Accepts a value of\n      Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.</p>\n         <ul>\n            <li>\n               <p>For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.</p>\n            </li>\n            <li>\n               <p>For the <code>G.1X</code> worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.2X</code> worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>Z.2X</code> worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m\n          emory, 128 GB disk), and provides up to 8 Ray workers based on the\n          autoscaler.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "CodeGenConfigurationNodes": {
@@ -9403,6 +9675,24 @@
                 "smithy.api#pattern": "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$"
             }
         },
+        "com.amazonaws.glue#DQAdditionalOptions": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.glue#AdditionalOptionKeys"
+            },
+            "value": {
+                "target": "com.amazonaws.glue#GenericString"
+            }
+        },
+        "com.amazonaws.glue#DQDLAliases": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.glue#NodeName"
+            },
+            "value": {
+                "target": "com.amazonaws.glue#EnclosedInStringProperty"
+            }
+        },
         "com.amazonaws.glue#DQDLString": {
             "type": "string",
             "traits": {
@@ -9868,6 +10158,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A pass or fail status for the rule.</p>"
                     }
+                },
+                "EvaluatedMetrics": {
+                    "target": "com.amazonaws.glue#EvaluatedMetricsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A map of metrics associated with the evaluation of the rule.</p>"
+                    }
                 }
             },
             "traits": {
@@ -10105,6 +10401,12 @@
                         "smithy.api#documentation": "<p>The name of the database where the Glue table exists.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "CatalogId": {
+                    "target": "com.amazonaws.glue#NameString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The catalog id where the Glue table exists.</p>"
+                    }
                 }
             },
             "traits": {
@@ -10124,6 +10426,15 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>A data source (an Glue table) for which you want data quality results.</p>"
+            }
+        },
+        "com.amazonaws.glue#DataSourceMap": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.glue#NameString"
+            },
+            "value": {
+                "target": "com.amazonaws.glue#DataSource"
             }
         },
         "com.amazonaws.glue#Database": {
@@ -12527,6 +12838,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>This field is not used and will be deprecated in future release.</p>"
                     }
+                },
+                "OutputSchemas": {
+                    "target": "com.amazonaws.glue#GlueSchemas",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the data schema for the dynamic transform.</p>"
+                    }
                 }
             },
             "traits": {
@@ -12838,6 +13155,68 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Specifies your data quality evaluation criteria.</p>"
+            }
+        },
+        "com.amazonaws.glue#EvaluateDataQualityMultiFrame": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NodeName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the data quality evaluation.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Inputs": {
+                    "target": "com.amazonaws.glue#ManyInputs",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The inputs of your data quality evaluation. The first input in this list is the primary data source.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "AdditionalDataSources": {
+                    "target": "com.amazonaws.glue#DQDLAliases",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The aliases of all data sources except primary.</p>"
+                    }
+                },
+                "Ruleset": {
+                    "target": "com.amazonaws.glue#DQDLString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ruleset for your data quality evaluation.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "PublishingOptions": {
+                    "target": "com.amazonaws.glue#DQResultsPublishingOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Options to configure how your results are published.</p>"
+                    }
+                },
+                "AdditionalOptions": {
+                    "target": "com.amazonaws.glue#DQAdditionalOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Options to configure runtime behavior of the transform.</p>"
+                    }
+                },
+                "StopJobOnFailureOptions": {
+                    "target": "com.amazonaws.glue#DQStopJobOnFailureOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Options to configure how your job will stop if your data quality evaluation fails.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies your data quality evaluation criteria.</p>"
+            }
+        },
+        "com.amazonaws.glue#EvaluatedMetricsMap": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.glue#NameString"
+            },
+            "value": {
+                "target": "com.amazonaws.glue#NullableDouble"
             }
         },
         "com.amazonaws.glue#EvaluationMetrics": {
@@ -14992,6 +15371,12 @@
                     "target": "com.amazonaws.glue#DataQualityResultIdList",
                     "traits": {
                         "smithy.api#documentation": "<p>A list of result IDs for the data quality results for the run.</p>"
+                    }
+                },
+                "AdditionalDataSources": {
+                    "target": "com.amazonaws.glue#DataSourceMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A map of reference strings to additional data sources you can specify for an evaluation run.</p>"
                     }
                 }
             },
@@ -20148,13 +20533,13 @@
                 "DefaultArguments": {
                     "target": "com.amazonaws.glue#GenericMap",
                     "traits": {
-                        "smithy.api#documentation": "<p>The default arguments for this job, specified as name-value pairs.</p>\n         <p>You can specify arguments here that your own job-execution script\n      consumes, as well as arguments that Glue itself consumes.</p>\n         <p>For information about how to specify and consume your own Job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling Glue APIs in Python</a> topic in the developer guide.</p>\n         <p>For information about the key-value pairs that Glue consumes to set up your job, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by Glue</a> topic in the developer guide.</p>"
+                        "smithy.api#documentation": "<p>The default arguments for every run of this job, specified as name-value pairs.</p>\n         <p>You can specify arguments here that your own job-execution script\n      consumes, as well as arguments that Glue itself consumes.</p>\n         <p>Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets\n      from a Glue Connection, Secrets Manager or other secret management\n      mechanism if you intend to keep them within the Job. </p>\n         <p>For information about how to specify and consume your own Job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling Glue APIs in Python</a> topic in the developer guide.</p>\n         <p>For information about the arguments you can provide to this field when configuring Spark jobs,\n     see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by Glue</a> topic in the developer guide.</p>\n         <p>For information about the arguments you can provide to this field when configuring Ray\n      jobs, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-job-parameters.html\">Using\n      job parameters in Ray jobs</a> in the developer guide.</p>"
                     }
                 },
                 "NonOverridableArguments": {
                     "target": "com.amazonaws.glue#GenericMap",
                     "traits": {
-                        "smithy.api#documentation": "<p>Non-overridable arguments for this job, specified as name-value pairs.</p>"
+                        "smithy.api#documentation": "<p>Arguments for this job that are not overridden when providing job arguments\n      in a job run, specified as name-value pairs.</p>"
                     }
                 },
                 "Connections": {
@@ -20189,13 +20574,13 @@
                 "MaxCapacity": {
                     "target": "com.amazonaws.glue#NullableDouble",
                     "traits": {
-                        "smithy.api#documentation": "<p>For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure\n      of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory.\n      For more information, see the <a href=\"https://aws.amazon.com/glue/pricing/\">Glue\n      pricing page</a>.</p>\n         <p>Do not set <code>Max Capacity</code> if using <code>WorkerType</code> and <code>NumberOfWorkers</code>.</p>\n         <p>The value that can be allocated for <code>MaxCapacity</code> depends on whether you are\n      running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL\n      job:</p>\n         <ul>\n            <li>\n               <p>When you specify a Python shell job (<code>JobCommand.Name</code>=\"pythonshell\"), you can\n          allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.</p>\n            </li>\n            <li>\n               <p>When you specify an Apache Spark ETL job (<code>JobCommand.Name</code>=\"glueetl\") or Apache \n            Spark streaming ETL job (<code>JobCommand.Name</code>=\"gluestreaming\"), you can allocate from 2 to 100 DPUs. \n            The default is 10 DPUs. This job type cannot have a fractional DPU allocation.</p>\n            </li>\n         </ul>\n         <p>For Glue version 2.0 jobs, you cannot instead specify a <code>Maximum capacity</code>. Instead, you should specify a <code>Worker type</code> and the <code>Number of workers</code>.</p>"
+                        "smithy.api#documentation": "<p>For Glue version 1.0 or earlier jobs, using the standard worker type, the number of\n      Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is\n      a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB\n      of memory. For more information, see the <a href=\"https://aws.amazon.com/glue/pricing/\">\n        Glue pricing page</a>.</p>\n         <p>For Glue version 2.0 or later jobs, you cannot specify a <code>Maximum capacity</code>.\n      Instead, you should specify a <code>Worker type</code> and the <code>Number of workers</code>.</p>\n         <p>Do not set <code>MaxCapacity</code> if using <code>WorkerType</code> and <code>NumberOfWorkers</code>.</p>\n         <p>The value that can be allocated for <code>MaxCapacity</code> depends on whether you are\n      running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL\n      job:</p>\n         <ul>\n            <li>\n               <p>When you specify a Python shell job (<code>JobCommand.Name</code>=\"pythonshell\"), you can\n          allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.</p>\n            </li>\n            <li>\n               <p>When you specify an Apache Spark ETL job (<code>JobCommand.Name</code>=\"glueetl\") or Apache \n            Spark streaming ETL job (<code>JobCommand.Name</code>=\"gluestreaming\"), you can allocate from 2 to 100 DPUs. \n            The default is 10 DPUs. This job type cannot have a fractional DPU allocation.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "WorkerType": {
                     "target": "com.amazonaws.glue#WorkerType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.</p>\n         <ul>\n            <li>\n               <p>For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.</p>\n            </li>\n            <li>\n               <p>For the <code>G.1X</code> worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.2X</code> worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>The type of predefined worker that is allocated when a job runs. Accepts a value of\n      Standard, G.1X, G.2X, G.4X, G.8X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.</p>\n         <ul>\n            <li>\n               <p>For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.</p>\n            </li>\n            <li>\n               <p>For the <code>G.1X</code> worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.2X</code> worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.4X</code> worker type, each worker maps to 4 DPU (16 vCPU, 64 GB of memory, 256 GB disk), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).</p>\n            </li>\n            <li>\n               <p>For the <code>G.8X</code> worker type, each worker maps to 8 DPU (32 vCPU, 128 GB of memory, 512 GB disk), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the <code>G.4X</code> worker type.</p>\n            </li>\n            <li>\n               <p>For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>Z.2X</code> worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m\n          emory, 128 GB disk), and provides a default of 8 Ray workers (1 per vCPU).</p>\n            </li>\n         </ul>"
                     }
                 },
                 "NumberOfWorkers": {
@@ -20219,7 +20604,7 @@
                 "GlueVersion": {
                     "target": "com.amazonaws.glue#GlueVersionString",
                     "traits": {
-                        "smithy.api#documentation": "<p>Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark. </p>\n         <p>For more information about the available Glue versions and corresponding Spark and Python versions, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/add-job.html\">Glue version</a> in the developer guide.</p>\n         <p>Jobs that are created without specifying a Glue version default to Glue 0.9.</p>"
+                        "smithy.api#documentation": "<p>In Spark jobs, <code>GlueVersion</code> determines the versions of Apache Spark and Python\n      that Glue available in a job. The Python version indicates the version\n      supported for jobs of type Spark. </p>\n         <p>Ray jobs should set <code>GlueVersion</code> to <code>4.0</code> or greater. However,\n    the versions of Ray, Python and additional libraries available in your Ray job are determined\n    by the <code>Runtime</code> parameter of the Job command.</p>\n         <p>For more information about the available Glue versions and corresponding\n      Spark and Python versions, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/add-job.html\">Glue version</a> in the developer\n      guide.</p>\n         <p>Jobs that are created without specifying a Glue version default to Glue 0.9.</p>"
                     }
                 },
                 "CodeGenConfigurationNodes": {
@@ -20341,7 +20726,7 @@
                 "Name": {
                     "target": "com.amazonaws.glue#GenericString",
                     "traits": {
-                        "smithy.api#documentation": "<p>The name of the job command. For an Apache Spark ETL job, this must be\n      <code>glueetl</code>. For a Python shell job, it must be <code>pythonshell</code>. \n      For an Apache Spark streaming ETL job, this must be <code>gluestreaming</code>.</p>"
+                        "smithy.api#documentation": "<p>The name of the job command. For an Apache Spark ETL job, this must be\n      <code>glueetl</code>. For a Python shell job, it must be <code>pythonshell</code>. \n      For an Apache Spark streaming ETL job, this must be <code>gluestreaming</code>. For a Ray job,\n      this must be <code>glueray</code>.</p>"
                     }
                 },
                 "ScriptLocation": {
@@ -20354,6 +20739,12 @@
                     "target": "com.amazonaws.glue#PythonVersionString",
                     "traits": {
                         "smithy.api#documentation": "<p>The Python version being used to run a Python shell job. Allowed values are 2 or 3.</p>"
+                    }
+                },
+                "Runtime": {
+                    "target": "com.amazonaws.glue#RuntimeNameString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>In Ray jobs, Runtime is used to specify the versions of Ray, Python and additional\n      libraries available in your environment. This field is not used in other job types. For\n      supported runtime environment values, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-runtimes.html\">Working with Ray jobs</a>\n      in the Glue Developer Guide.</p>"
                     }
                 }
             },
@@ -20451,7 +20842,7 @@
                 "Arguments": {
                     "target": "com.amazonaws.glue#GenericMap",
                     "traits": {
-                        "smithy.api#documentation": "<p>The job arguments associated with this run. For this job run, they replace the default arguments set in the job definition itself.</p>\n         <p>You can specify arguments here that your own job-execution script\n      consumes, as well as arguments that Glue itself consumes.</p>\n         <p>For information about how to specify and consume your own job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling Glue APIs in Python</a> topic in the developer guide.</p>\n         <p>For information about the key-value pairs that Glue consumes to set up your job, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by Glue</a> topic in the developer guide.</p>"
+                        "smithy.api#documentation": "<p>The job arguments associated with this run. For this job run, they replace the default\n      arguments set in the job definition itself.</p>\n         <p>You can specify arguments here that your own job-execution script\n      consumes, as well as arguments that Glue itself consumes.</p>\n         <p>Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets\n      from a Glue Connection, Secrets Manager or other secret management\n      mechanism if you intend to keep them within the Job. </p>\n         <p>For information about how to specify and consume your own Job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling Glue APIs in Python</a> topic in the developer guide.</p>\n         <p>For information about the arguments you can provide to this field when configuring Spark jobs,\n     see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by Glue</a> topic in the developer guide.</p>\n         <p>For information about the arguments you can provide to this field when configuring Ray\n      jobs, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-job-parameters.html\">Using\n      job parameters in Ray jobs</a> in the developer guide.</p>"
                     }
                 },
                 "ErrorMessage": {
@@ -20492,13 +20883,13 @@
                 "MaxCapacity": {
                     "target": "com.amazonaws.glue#NullableDouble",
                     "traits": {
-                        "smithy.api#documentation": "<p>The number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure\n      of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory.\n      For more information, see the <a href=\"https://aws.amazon.com/glue/pricing/\">Glue\n        pricing page</a>.</p>\n         <p>Do not set <code>Max Capacity</code> if using <code>WorkerType</code> and <code>NumberOfWorkers</code>.</p>\n         <p>The value that can be allocated for <code>MaxCapacity</code> depends on whether you are\n      running a Python shell job or an Apache Spark ETL job:</p>\n         <ul>\n            <li>\n               <p>When you specify a Python shell job (<code>JobCommand.Name</code>=\"pythonshell\"), you can\n        allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.</p>\n            </li>\n            <li>\n               <p>When you specify an Apache Spark ETL job (<code>JobCommand.Name</code>=\"glueetl\"), you can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>For Glue version 1.0 or earlier jobs, using the standard worker type, the number of\n      Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is\n      a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB\n      of memory. For more information, see the <a href=\"https://aws.amazon.com/glue/pricing/\">\n        Glue pricing page</a>.</p>\n         <p>For Glue version 2.0+ jobs, you cannot specify a <code>Maximum capacity</code>.\n      Instead, you should specify a <code>Worker type</code> and the <code>Number of workers</code>.</p>\n         <p>Do not set <code>MaxCapacity</code> if using <code>WorkerType</code> and <code>NumberOfWorkers</code>.</p>\n         <p>The value that can be allocated for <code>MaxCapacity</code> depends on whether you are\n      running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL\n      job:</p>\n         <ul>\n            <li>\n               <p>When you specify a Python shell job (<code>JobCommand.Name</code>=\"pythonshell\"), you can\n          allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.</p>\n            </li>\n            <li>\n               <p>When you specify an Apache Spark ETL job (<code>JobCommand.Name</code>=\"glueetl\") or Apache \n        Spark streaming ETL job (<code>JobCommand.Name</code>=\"gluestreaming\"), you can allocate from 2 to 100 DPUs. \n        The default is 10 DPUs. This job type cannot have a fractional DPU allocation.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "WorkerType": {
                     "target": "com.amazonaws.glue#WorkerType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.</p>\n         <ul>\n            <li>\n               <p>For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.</p>\n            </li>\n            <li>\n               <p>For the <code>G.1X</code> worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.</p>\n            </li>\n            <li>\n               <p>For the <code>G.2X</code> worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.</p>\n            </li>\n            <li>\n               <p>For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>The type of predefined worker that is allocated when a job runs. Accepts a value of\n      Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.</p>\n         <ul>\n            <li>\n               <p>For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.</p>\n            </li>\n            <li>\n               <p>For the <code>G.1X</code> worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.2X</code> worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>Z.2X</code> worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m\n          emory, 128 GB disk), and provides up to 8 Ray workers (one per vCPU) based on the\n          autoscaler.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "NumberOfWorkers": {
@@ -20528,7 +20919,7 @@
                 "GlueVersion": {
                     "target": "com.amazonaws.glue#GlueVersionString",
                     "traits": {
-                        "smithy.api#documentation": "<p>Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark. </p>\n         <p>For more information about the available Glue versions and corresponding Spark and Python versions, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/add-job.html\">Glue version</a> in the developer guide.</p>\n         <p>Jobs that are created without specifying a Glue version default to Glue 0.9.</p>"
+                        "smithy.api#documentation": "<p>In Spark jobs, <code>GlueVersion</code> determines the versions of Apache Spark and Python\n      that Glue available in a job. The Python version indicates the version\n      supported for jobs of type Spark. </p>\n         <p>Ray jobs should set <code>GlueVersion</code> to <code>4.0</code> or greater. However,\n    the versions of Ray, Python and additional libraries available in your Ray job are determined\n    by the <code>Runtime</code> parameter of the Job command.</p>\n         <p>For more information about the available Glue versions and corresponding\n      Spark and Python versions, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/add-job.html\">Glue version</a> in the developer\n      guide.</p>\n         <p>Jobs that are created without specifying a Glue version default to Glue 0.9.</p>"
                     }
                 },
                 "DPUSeconds": {
@@ -20649,13 +21040,13 @@
                 "DefaultArguments": {
                     "target": "com.amazonaws.glue#GenericMap",
                     "traits": {
-                        "smithy.api#documentation": "<p>The default arguments for this job.</p>\n         <p>You can specify arguments here that your own job-execution script\n      consumes, as well as arguments that Glue itself consumes.</p>\n         <p>For information about how to specify and consume your own Job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling Glue APIs in Python</a> topic in the developer guide.</p>\n         <p>For information about the key-value pairs that Glue consumes to set up your job, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by Glue</a> topic in the developer guide.</p>"
+                        "smithy.api#documentation": "<p>The default arguments for every run of this job, specified as name-value pairs.</p>\n         <p>You can specify arguments here that your own job-execution script\n      consumes, as well as arguments that Glue itself consumes.</p>\n         <p>Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets\n      from a Glue Connection, Secrets Manager or other secret management\n      mechanism if you intend to keep them within the Job. </p>\n         <p>For information about how to specify and consume your own Job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling Glue APIs in Python</a> topic in the developer guide.</p>\n         <p>For information about the arguments you can provide to this field when configuring Spark jobs,\n     see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by Glue</a> topic in the developer guide.</p>\n         <p>For information about the arguments you can provide to this field when configuring Ray\n      jobs, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-job-parameters.html\">Using\n      job parameters in Ray jobs</a> in the developer guide.</p>"
                     }
                 },
                 "NonOverridableArguments": {
                     "target": "com.amazonaws.glue#GenericMap",
                     "traits": {
-                        "smithy.api#documentation": "<p>Non-overridable arguments for this job, specified as name-value pairs.</p>"
+                        "smithy.api#documentation": "<p>Arguments for this job that are not overridden when providing job arguments\n      in a job run, specified as name-value pairs.</p>"
                     }
                 },
                 "Connections": {
@@ -20690,13 +21081,13 @@
                 "MaxCapacity": {
                     "target": "com.amazonaws.glue#NullableDouble",
                     "traits": {
-                        "smithy.api#documentation": "<p>For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure\n     of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the <a href=\"https://aws.amazon.com/glue/pricing/\">Glue pricing page</a>.</p>\n         <p>Do not set <code>Max Capacity</code> if using <code>WorkerType</code> and <code>NumberOfWorkers</code>.</p>\n         <p>The value that can be allocated for <code>MaxCapacity</code> depends on whether you are\n      running a Python shell job or an Apache Spark ETL job:</p>\n         <ul>\n            <li>\n               <p>When you specify a Python shell job (<code>JobCommand.Name</code>=\"pythonshell\"), you can\n          allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.</p>\n            </li>\n            <li>\n               <p>When you specify an Apache Spark ETL job (<code>JobCommand.Name</code>=\"glueetl\") or Apache \n           Spark streaming ETL job (<code>JobCommand.Name</code>=\"gluestreaming\"), you can allocate a minimum of 2 DPUs. \n           The default is 10 DPUs. This job type cannot have a fractional DPU allocation.</p>\n            </li>\n         </ul>\n         <p>For Glue version 2.0 jobs, you cannot instead specify a <code>Maximum capacity</code>. Instead, you should specify a <code>Worker type</code> and the <code>Number of workers</code>.</p>"
+                        "smithy.api#documentation": "<p>For Glue version 1.0 or earlier jobs, using the standard worker type, the number of\n      Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is\n      a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB\n      of memory. For more information, see the <a href=\"https://aws.amazon.com/glue/pricing/\">\n      Glue pricing page</a>.</p>\n         <p>For Glue version 2.0+ jobs, you cannot specify a <code>Maximum capacity</code>.\n      Instead, you should specify a <code>Worker type</code> and the <code>Number of workers</code>.</p>\n         <p>Do not set <code>MaxCapacity</code> if using <code>WorkerType</code> and <code>NumberOfWorkers</code>.</p>\n         <p>The value that can be allocated for <code>MaxCapacity</code> depends on whether you are\n      running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL\n      job:</p>\n         <ul>\n            <li>\n               <p>When you specify a Python shell job (<code>JobCommand.Name</code>=\"pythonshell\"), you can\n          allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.</p>\n            </li>\n            <li>\n               <p>When you specify an Apache Spark ETL job (<code>JobCommand.Name</code>=\"glueetl\") or Apache \n        Spark streaming ETL job (<code>JobCommand.Name</code>=\"gluestreaming\"), you can allocate from 2 to 100 DPUs. \n        The default is 10 DPUs. This job type cannot have a fractional DPU allocation.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "WorkerType": {
                     "target": "com.amazonaws.glue#WorkerType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.</p>\n         <ul>\n            <li>\n               <p>For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.</p>\n            </li>\n            <li>\n               <p>For the <code>G.1X</code> worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.2X</code> worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>The type of predefined worker that is allocated when a job runs. Accepts a value of\n      Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.</p>\n         <ul>\n            <li>\n               <p>For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.</p>\n            </li>\n            <li>\n               <p>For the <code>G.1X</code> worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.2X</code> worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>Z.2X</code> worker type, each worker maps to 2 M-DPU (8vCPU, 64 GB of m\n          emory, 128 GB disk), and provides up to 8 Ray workers based on the\n          autoscaler.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "NumberOfWorkers": {
@@ -20720,7 +21111,7 @@
                 "GlueVersion": {
                     "target": "com.amazonaws.glue#GlueVersionString",
                     "traits": {
-                        "smithy.api#documentation": "<p>Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark. </p>\n         <p>For more information about the available Glue versions and corresponding Spark and Python versions, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/add-job.html\">Glue version</a> in the developer guide.</p>"
+                        "smithy.api#documentation": "<p>In Spark jobs, <code>GlueVersion</code> determines the versions of Apache Spark and Python\n      that Glue available in a job. The Python version indicates the version\n      supported for jobs of type Spark. </p>\n         <p>Ray jobs should set <code>GlueVersion</code> to <code>4.0</code> or greater. However,\n    the versions of Ray, Python and additional libraries available in your Ray job are determined\n    by the <code>Runtime</code> parameter of the Job command.</p>\n         <p>For more information about the available Glue versions and corresponding\n      Spark and Python versions, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/add-job.html\">Glue version</a> in the developer\n      guide.</p>\n         <p>Jobs that are created without specifying a Glue version default to Glue 0.9.</p>"
                     }
                 },
                 "CodeGenConfigurationNodes": {
@@ -21661,6 +22052,12 @@
                     "target": "com.amazonaws.glue#PageSize",
                     "traits": {
                         "smithy.api#documentation": "<p>The maximum number of results to return.</p>"
+                    }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.glue#TagsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of key-value pair tags.</p>"
                     }
                 }
             },
@@ -23849,6 +24246,38 @@
             "traits": {
                 "smithy.api#documentation": "<p>The operation timed out.</p>",
                 "smithy.api#error": "client"
+            }
+        },
+        "com.amazonaws.glue#Option": {
+            "type": "structure",
+            "members": {
+                "Value": {
+                    "target": "com.amazonaws.glue#EnclosedInStringProperty",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the value of the option.</p>"
+                    }
+                },
+                "Label": {
+                    "target": "com.amazonaws.glue#EnclosedInStringProperty",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the label of the option.</p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.glue#EnclosedInStringProperty",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the description of the option.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies an option value.</p>"
+            }
+        },
+        "com.amazonaws.glue#OptionList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.glue#Option"
             }
         },
         "com.amazonaws.glue#OracleSQLCatalogSource": {
@@ -26222,6 +26651,16 @@
             },
             "traits": {
                 "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.glue#RuntimeNameString": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 64
+                },
+                "smithy.api#pattern": ".*"
             }
         },
         "com.amazonaws.glue#S3CatalogDeltaSource": {
@@ -28938,6 +29377,12 @@
                         "smithy.api#documentation": "<p>A list of ruleset names.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "AdditionalDataSources": {
+                    "target": "com.amazonaws.glue#DataSourceMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A map of reference strings to additional data sources you can specify for an evaluation run.</p>"
+                    }
                 }
             },
             "traits": {
@@ -29143,7 +29588,7 @@
                 "Arguments": {
                     "target": "com.amazonaws.glue#GenericMap",
                     "traits": {
-                        "smithy.api#documentation": "<p>The job arguments specifically for this run. For this job run, they replace the default arguments set in the job definition itself.</p>\n         <p>You can specify arguments here that your own job-execution script\n      consumes, as well as arguments that Glue itself consumes.</p>\n         <p>Job arguments may be logged. Do not pass plaintext secrets as arguments.\n    Retrieve secrets from a Glue Connection, Secrets Manager or\n    other secret management mechanism if you intend to keep them within the Job.\n    </p>\n         <p>For information about how to specify and consume your own Job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling Glue APIs in Python</a> topic in the developer guide.</p>\n         <p>For information about the key-value pairs that Glue consumes to set up your job, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by Glue</a> topic in the developer guide.</p>"
+                        "smithy.api#documentation": "<p>The job arguments associated with this run. For this job run, they replace the default\n      arguments set in the job definition itself.</p>\n         <p>You can specify arguments here that your own job-execution script\n      consumes, as well as arguments that Glue itself consumes.</p>\n         <p>Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets\n      from a Glue Connection, Secrets Manager or other secret management\n      mechanism if you intend to keep them within the Job. </p>\n         <p>For information about how to specify and consume your own Job arguments, see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html\">Calling Glue APIs in Python</a> topic in the developer guide.</p>\n         <p>For information about the arguments you can provide to this field when configuring Spark jobs,\n     see the <a href=\"https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html\">Special Parameters Used by Glue</a> topic in the developer guide.</p>\n         <p>For information about the arguments you can provide to this field when configuring Ray\n      jobs, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-job-parameters.html\">Using\n      job parameters in Ray jobs</a> in the developer guide.</p>"
                     }
                 },
                 "AllocatedCapacity": {
@@ -29165,7 +29610,7 @@
                 "MaxCapacity": {
                     "target": "com.amazonaws.glue#NullableDouble",
                     "traits": {
-                        "smithy.api#documentation": "<p>The number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure\n      of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory.\n      For more information, see the <a href=\"https://aws.amazon.com/glue/pricing/\">Glue\n        pricing page</a>.</p>\n         <p>Do not set <code>Max Capacity</code> if using <code>WorkerType</code> and <code>NumberOfWorkers</code>.</p>\n         <p>The value that can be allocated for <code>MaxCapacity</code> depends on whether you are\n      running a Python shell job, or an Apache Spark ETL job:</p>\n         <ul>\n            <li>\n               <p>When you specify a Python shell job (<code>JobCommand.Name</code>=\"pythonshell\"), you can\n        allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.</p>\n            </li>\n            <li>\n               <p>When you specify an Apache Spark ETL job (<code>JobCommand.Name</code>=\"glueetl\"), you can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>For Glue version 1.0 or earlier jobs, using the standard worker type, the number of\n      Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is\n      a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB\n      of memory. For more information, see the <a href=\"https://aws.amazon.com/glue/pricing/\">\n        Glue pricing page</a>.</p>\n         <p>For Glue version 2.0+ jobs, you cannot specify a <code>Maximum capacity</code>.\n      Instead, you should specify a <code>Worker type</code> and the <code>Number of workers</code>.</p>\n         <p>Do not set <code>MaxCapacity</code> if using <code>WorkerType</code> and <code>NumberOfWorkers</code>.</p>\n         <p>The value that can be allocated for <code>MaxCapacity</code> depends on whether you are\n      running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL\n      job:</p>\n         <ul>\n            <li>\n               <p>When you specify a Python shell job (<code>JobCommand.Name</code>=\"pythonshell\"), you can\n          allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.</p>\n            </li>\n            <li>\n               <p>When you specify an Apache Spark ETL job (<code>JobCommand.Name</code>=\"glueetl\") or Apache \n        Spark streaming ETL job (<code>JobCommand.Name</code>=\"gluestreaming\"), you can allocate from 2 to 100 DPUs. \n        The default is 10 DPUs. This job type cannot have a fractional DPU allocation.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "SecurityConfiguration": {
@@ -29183,7 +29628,7 @@
                 "WorkerType": {
                     "target": "com.amazonaws.glue#WorkerType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.</p>\n         <ul>\n            <li>\n               <p>For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.</p>\n            </li>\n            <li>\n               <p>For the <code>G.1X</code> worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.</p>\n            </li>\n            <li>\n               <p>For the <code>G.2X</code> worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.</p>\n            </li>\n            <li>\n               <p>For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>The type of predefined worker that is allocated when a job runs. Accepts a value of\n      Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.</p>\n         <ul>\n            <li>\n               <p>For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.</p>\n            </li>\n            <li>\n               <p>For the <code>G.1X</code> worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.2X</code> worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.</p>\n            </li>\n            <li>\n               <p>For the <code>Z.2X</code> worker type, each worker maps to 2 DPU (8vCPU, 64 GB of m\n          emory, 128 GB disk), and provides up to 8 Ray workers (one per vCPU) based on the\n          autoscaler.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "NumberOfWorkers": {
@@ -33777,6 +34222,24 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "G.025X"
+                    }
+                },
+                "G_4X": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "G.4X"
+                    }
+                },
+                "G_8X": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "G.8X"
+                    }
+                },
+                "Z_2X": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Z.2X"
                     }
                 }
             }

@@ -54,6 +54,21 @@ public struct Kafka: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-11-14",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "us-gov-east-1": "kafka.us-gov-east-1.amazonaws.com",
+                "us-gov-west-1": "kafka.us-gov-west-1.amazonaws.com"
+            ],
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "kafka-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "kafka-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "kafka-fips.us-east-2.amazonaws.com",
+                    "us-gov-east-1": "kafka.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "kafka.us-gov-west-1.amazonaws.com",
+                    "us-west-1": "kafka-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "kafka-fips.us-west-2.amazonaws.com"
+                ])
+            ],
             errorType: KafkaErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
@@ -88,14 +103,29 @@ public struct Kafka: AWSService {
         return self.client.execute(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a new MSK VPC connection.
+    public func createVpcConnection(_ input: CreateVpcConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVpcConnectionResponse> {
+        return self.client.execute(operation: "CreateVpcConnection", path: "/v1/vpc-connection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
     public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteClusterResponse> {
         return self.client.execute(operation: "DeleteCluster", path: "/v1/clusters/{ClusterArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
+    public func deleteClusterPolicy(_ input: DeleteClusterPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteClusterPolicyResponse> {
+        return self.client.execute(operation: "DeleteClusterPolicy", path: "/v1/clusters/{ClusterArn}/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes an MSK Configuration.
     public func deleteConfiguration(_ input: DeleteConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConfigurationResponse> {
         return self.client.execute(operation: "DeleteConfiguration", path: "/v1/configurations/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a MSK VPC connection.
+    public func deleteVpcConnection(_ input: DeleteVpcConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVpcConnectionResponse> {
+        return self.client.execute(operation: "DeleteVpcConnection", path: "/v1/vpc-connection/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
@@ -123,14 +153,29 @@ public struct Kafka: AWSService {
         return self.client.execute(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{Arn}/revisions/{Revision}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a description of this MSK VPC connection.
+    public func describeVpcConnection(_ input: DescribeVpcConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVpcConnectionResponse> {
+        return self.client.execute(operation: "DescribeVpcConnection", path: "/v1/vpc-connection/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// A list of brokers that a client application can use to bootstrap.
     public func getBootstrapBrokers(_ input: GetBootstrapBrokersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBootstrapBrokersResponse> {
         return self.client.execute(operation: "GetBootstrapBrokers", path: "/v1/clusters/{ClusterArn}/bootstrap-brokers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
+    public func getClusterPolicy(_ input: GetClusterPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetClusterPolicyResponse> {
+        return self.client.execute(operation: "GetClusterPolicy", path: "/v1/clusters/{ClusterArn}/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets the Apache Kafka versions to which you can update the MSK cluster.
     public func getCompatibleKafkaVersions(_ input: GetCompatibleKafkaVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCompatibleKafkaVersionsResponse> {
         return self.client.execute(operation: "GetCompatibleKafkaVersions", path: "/v1/compatible-kafka-versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of all the VPC connections in this Region.
+    public func listClientVpcConnections(_ input: ListClientVpcConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListClientVpcConnectionsResponse> {
+        return self.client.execute(operation: "ListClientVpcConnections", path: "/v1/clusters/{ClusterArn}/client-vpc-connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
@@ -178,9 +223,24 @@ public struct Kafka: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/v1/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a list of all the VPC connections in this Region.
+    public func listVpcConnections(_ input: ListVpcConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVpcConnectionsResponse> {
+        return self.client.execute(operation: "ListVpcConnections", path: "/v1/vpc-connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request.
+    public func putClusterPolicy(_ input: PutClusterPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutClusterPolicyResponse> {
+        return self.client.execute(operation: "PutClusterPolicy", path: "/v1/clusters/{ClusterArn}/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Reboots brokers.
     public func rebootBroker(_ input: RebootBrokerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RebootBrokerResponse> {
         return self.client.execute(operation: "RebootBroker", path: "/v1/clusters/{ClusterArn}/reboot-broker", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns empty response.
+    public func rejectClientVpcConnection(_ input: RejectClientVpcConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectClientVpcConnectionResponse> {
+        return self.client.execute(operation: "RejectClientVpcConnection", path: "/v1/clusters/{ClusterArn}/client-vpc-connection", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Adds tags to the specified MSK resource.
@@ -256,6 +316,59 @@ extension Kafka {
 // MARK: Paginators
 
 extension Kafka {
+    /// Returns a list of all the VPC connections in this Region.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listClientVpcConnectionsPaginator<Result>(
+        _ input: ListClientVpcConnectionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListClientVpcConnectionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listClientVpcConnections,
+            inputKey: \ListClientVpcConnectionsRequest.nextToken,
+            outputKey: \ListClientVpcConnectionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listClientVpcConnectionsPaginator(
+        _ input: ListClientVpcConnectionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListClientVpcConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listClientVpcConnections,
+            inputKey: \ListClientVpcConnectionsRequest.nextToken,
+            outputKey: \ListClientVpcConnectionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -679,6 +792,69 @@ extension Kafka {
             onPage: onPage
         )
     }
+
+    /// Returns a list of all the VPC connections in this Region.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listVpcConnectionsPaginator<Result>(
+        _ input: ListVpcConnectionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListVpcConnectionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listVpcConnections,
+            inputKey: \ListVpcConnectionsRequest.nextToken,
+            outputKey: \ListVpcConnectionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listVpcConnectionsPaginator(
+        _ input: ListVpcConnectionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListVpcConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listVpcConnections,
+            inputKey: \ListVpcConnectionsRequest.nextToken,
+            outputKey: \ListVpcConnectionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+}
+
+extension Kafka.ListClientVpcConnectionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Kafka.ListClientVpcConnectionsRequest {
+        return .init(
+            clusterArn: self.clusterArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
 }
 
 extension Kafka.ListClusterOperationsRequest: AWSPaginateToken {
@@ -754,6 +930,15 @@ extension Kafka.ListScramSecretsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kafka.ListScramSecretsRequest {
         return .init(
             clusterArn: self.clusterArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Kafka.ListVpcConnectionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Kafka.ListVpcConnectionsRequest {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )

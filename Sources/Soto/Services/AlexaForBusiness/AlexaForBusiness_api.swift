@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS AlexaForBusiness service.
 ///
-/// Alexa for Business helps you use Alexa in your organization. Alexa for Business provides you with the tools to manage Alexa devices, enroll your users, and assign skills, at scale. You can build your own context-aware voice skills using the Alexa Skills Kit and the Alexa for Business API operations. You can also make these available as private skills for your organization. Alexa for Business makes it efficient to voice-enable your products and services, thus providing context-aware voice experiences for your customers. Device makers building with the Alexa Voice Service (AVS) can create fully integrated solutions, register their products with Alexa for Business, and manage them as shared devices in their organization.
+/// Alexa for Business has been retired and is no longer supported.
 public struct AlexaForBusiness: AWSService {
     // MARK: Member variables
 
@@ -65,381 +65,457 @@ public struct AlexaForBusiness: AWSService {
     // MARK: API Calls
 
     /// Associates a skill with the organization under the customer's AWS account. If a skill is private, the user implicitly accepts access to this skill during enablement.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func approveSkill(_ input: ApproveSkillRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ApproveSkillResponse> {
         return self.client.execute(operation: "ApproveSkill", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Associates a contact with a given address book.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func associateContactWithAddressBook(_ input: AssociateContactWithAddressBookRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateContactWithAddressBookResponse> {
         return self.client.execute(operation: "AssociateContactWithAddressBook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Associates a device with the specified network profile.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func associateDeviceWithNetworkProfile(_ input: AssociateDeviceWithNetworkProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateDeviceWithNetworkProfileResponse> {
         return self.client.execute(operation: "AssociateDeviceWithNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Associates a device with a given room. This applies all the settings from the room profile to the device, and all the skills in any skill groups added to that room. This operation requires the device to be online, or else a manual sync is required.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func associateDeviceWithRoom(_ input: AssociateDeviceWithRoomRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateDeviceWithRoomResponse> {
         return self.client.execute(operation: "AssociateDeviceWithRoom", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Associates a skill group with a given room. This enables all skills in the associated skill group on all devices in the room.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func associateSkillGroupWithRoom(_ input: AssociateSkillGroupWithRoomRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateSkillGroupWithRoomResponse> {
         return self.client.execute(operation: "AssociateSkillGroupWithRoom", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Associates a skill with a skill group.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func associateSkillWithSkillGroup(_ input: AssociateSkillWithSkillGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateSkillWithSkillGroupResponse> {
         return self.client.execute(operation: "AssociateSkillWithSkillGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Makes a private skill available for enrolled users to enable on their devices.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func associateSkillWithUsers(_ input: AssociateSkillWithUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateSkillWithUsersResponse> {
         return self.client.execute(operation: "AssociateSkillWithUsers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates an address book with the specified details.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createAddressBook(_ input: CreateAddressBookRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAddressBookResponse> {
         return self.client.execute(operation: "CreateAddressBook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a recurring schedule for usage reports to deliver to the specified S3 location with a specified daily or weekly interval.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createBusinessReportSchedule(_ input: CreateBusinessReportScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBusinessReportScheduleResponse> {
         return self.client.execute(operation: "CreateBusinessReportSchedule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Adds a new conference provider under the user's AWS account.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createConferenceProvider(_ input: CreateConferenceProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConferenceProviderResponse> {
         return self.client.execute(operation: "CreateConferenceProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a contact with the specified details.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createContact(_ input: CreateContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateContactResponse> {
         return self.client.execute(operation: "CreateContact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a gateway group with the specified details.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createGatewayGroup(_ input: CreateGatewayGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGatewayGroupResponse> {
         return self.client.execute(operation: "CreateGatewayGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a network profile with the specified details.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createNetworkProfile(_ input: CreateNetworkProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNetworkProfileResponse> {
         return self.client.execute(operation: "CreateNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a new room profile with the specified details.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createProfile(_ input: CreateProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProfileResponse> {
         return self.client.execute(operation: "CreateProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a room with the specified details.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createRoom(_ input: CreateRoomRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRoomResponse> {
         return self.client.execute(operation: "CreateRoom", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a skill group with a specified name and description.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createSkillGroup(_ input: CreateSkillGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSkillGroupResponse> {
         return self.client.execute(operation: "CreateSkillGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a user.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserResponse> {
         return self.client.execute(operation: "CreateUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes an address book by the address book ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteAddressBook(_ input: DeleteAddressBookRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAddressBookResponse> {
         return self.client.execute(operation: "DeleteAddressBook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the recurring report delivery schedule with the specified schedule ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteBusinessReportSchedule(_ input: DeleteBusinessReportScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBusinessReportScheduleResponse> {
         return self.client.execute(operation: "DeleteBusinessReportSchedule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a conference provider.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteConferenceProvider(_ input: DeleteConferenceProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConferenceProviderResponse> {
         return self.client.execute(operation: "DeleteConferenceProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a contact by the contact ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteContact(_ input: DeleteContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteContactResponse> {
         return self.client.execute(operation: "DeleteContact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes a device from Alexa For Business.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteDevice(_ input: DeleteDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDeviceResponse> {
         return self.client.execute(operation: "DeleteDevice", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// When this action is called for a specified shared device, it allows authorized users to delete the device's entire previous history of voice input data and associated response data. This action can be called once every 24 hours for a specific shared device.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteDeviceUsageData(_ input: DeleteDeviceUsageDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDeviceUsageDataResponse> {
         return self.client.execute(operation: "DeleteDeviceUsageData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a gateway group.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteGatewayGroup(_ input: DeleteGatewayGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGatewayGroupResponse> {
         return self.client.execute(operation: "DeleteGatewayGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a network profile by the network profile ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteNetworkProfile(_ input: DeleteNetworkProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNetworkProfileResponse> {
         return self.client.execute(operation: "DeleteNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a room profile by the profile ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteProfile(_ input: DeleteProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProfileResponse> {
         return self.client.execute(operation: "DeleteProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a room by the room ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteRoom(_ input: DeleteRoomRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRoomResponse> {
         return self.client.execute(operation: "DeleteRoom", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes room skill parameter details by room, skill, and parameter key ID.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteRoomSkillParameter(_ input: DeleteRoomSkillParameterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRoomSkillParameterResponse> {
         return self.client.execute(operation: "DeleteRoomSkillParameter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Unlinks a third-party account from a skill.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteSkillAuthorization(_ input: DeleteSkillAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSkillAuthorizationResponse> {
         return self.client.execute(operation: "DeleteSkillAuthorization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a skill group by skill group ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteSkillGroup(_ input: DeleteSkillGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSkillGroupResponse> {
         return self.client.execute(operation: "DeleteSkillGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a specified user by user ARN and enrollment ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteUserResponse> {
         return self.client.execute(operation: "DeleteUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Disassociates a contact from a given address book.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func disassociateContactFromAddressBook(_ input: DisassociateContactFromAddressBookRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateContactFromAddressBookResponse> {
         return self.client.execute(operation: "DisassociateContactFromAddressBook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Disassociates a device from its current room. The device continues to be connected to the Wi-Fi network and is still registered to the account. The device settings and skills are removed from the room.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func disassociateDeviceFromRoom(_ input: DisassociateDeviceFromRoomRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateDeviceFromRoomResponse> {
         return self.client.execute(operation: "DisassociateDeviceFromRoom", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Disassociates a skill from a skill group.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func disassociateSkillFromSkillGroup(_ input: DisassociateSkillFromSkillGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateSkillFromSkillGroupResponse> {
         return self.client.execute(operation: "DisassociateSkillFromSkillGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Makes a private skill unavailable for enrolled users and prevents them from enabling it on their devices.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func disassociateSkillFromUsers(_ input: DisassociateSkillFromUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateSkillFromUsersResponse> {
         return self.client.execute(operation: "DisassociateSkillFromUsers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Disassociates a skill group from a specified room. This disables all skills in the skill group on all devices in the room.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func disassociateSkillGroupFromRoom(_ input: DisassociateSkillGroupFromRoomRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateSkillGroupFromRoomResponse> {
         return self.client.execute(operation: "DisassociateSkillGroupFromRoom", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Forgets smart home appliances associated to a room.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func forgetSmartHomeAppliances(_ input: ForgetSmartHomeAppliancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ForgetSmartHomeAppliancesResponse> {
         return self.client.execute(operation: "ForgetSmartHomeAppliances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets address the book details by the address book ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getAddressBook(_ input: GetAddressBookRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAddressBookResponse> {
         return self.client.execute(operation: "GetAddressBook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the existing conference preferences.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getConferencePreference(_ input: GetConferencePreferenceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConferencePreferenceResponse> {
         return self.client.execute(operation: "GetConferencePreference", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets details about a specific conference provider.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getConferenceProvider(_ input: GetConferenceProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConferenceProviderResponse> {
         return self.client.execute(operation: "GetConferenceProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets the contact details by the contact ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getContact(_ input: GetContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetContactResponse> {
         return self.client.execute(operation: "GetContact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets the details of a device by device ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getDevice(_ input: GetDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeviceResponse> {
         return self.client.execute(operation: "GetDevice", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the details of a gateway.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getGateway(_ input: GetGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGatewayResponse> {
         return self.client.execute(operation: "GetGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the details of a gateway group.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getGatewayGroup(_ input: GetGatewayGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGatewayGroupResponse> {
         return self.client.execute(operation: "GetGatewayGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the configured values for the user enrollment invitation email template.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getInvitationConfiguration(_ input: GetInvitationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInvitationConfigurationResponse> {
         return self.client.execute(operation: "GetInvitationConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets the network profile details by the network profile ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getNetworkProfile(_ input: GetNetworkProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkProfileResponse> {
         return self.client.execute(operation: "GetNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets the details of a room profile by profile ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getProfile(_ input: GetProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetProfileResponse> {
         return self.client.execute(operation: "GetProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets room details by room ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getRoom(_ input: GetRoomRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRoomResponse> {
         return self.client.execute(operation: "GetRoom", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets room skill parameter details by room, skill, and parameter key ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getRoomSkillParameter(_ input: GetRoomSkillParameterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRoomSkillParameterResponse> {
         return self.client.execute(operation: "GetRoomSkillParameter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets skill group details by skill group ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func getSkillGroup(_ input: GetSkillGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSkillGroupResponse> {
         return self.client.execute(operation: "GetSkillGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the details of the schedules that a user configured. A download URL of the report associated with each schedule is returned every time this action is called. A new download URL is returned each time, and is valid for 24 hours.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listBusinessReportSchedules(_ input: ListBusinessReportSchedulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBusinessReportSchedulesResponse> {
         return self.client.execute(operation: "ListBusinessReportSchedules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists conference providers under a specific AWS account.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listConferenceProviders(_ input: ListConferenceProvidersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConferenceProvidersResponse> {
         return self.client.execute(operation: "ListConferenceProviders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the device event history, including device connection status, for up to 30 days.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listDeviceEvents(_ input: ListDeviceEventsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeviceEventsResponse> {
         return self.client.execute(operation: "ListDeviceEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves a list of gateway group summaries. Use GetGatewayGroup to retrieve details of a specific gateway group.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listGatewayGroups(_ input: ListGatewayGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGatewayGroupsResponse> {
         return self.client.execute(operation: "ListGatewayGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves a list of gateway summaries. Use GetGateway to retrieve details of a specific gateway. An optional gateway group ARN can be provided to only retrieve gateway summaries of gateways that are associated with that gateway group ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listGateways(_ input: ListGatewaysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGatewaysResponse> {
         return self.client.execute(operation: "ListGateways", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all enabled skills in a specific skill group.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSkills(_ input: ListSkillsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSkillsResponse> {
         return self.client.execute(operation: "ListSkills", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all categories in the Alexa skill store.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSkillsStoreCategories(_ input: ListSkillsStoreCategoriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSkillsStoreCategoriesResponse> {
         return self.client.execute(operation: "ListSkillsStoreCategories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all skills in the Alexa skill store by category.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSkillsStoreSkillsByCategory(_ input: ListSkillsStoreSkillsByCategoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSkillsStoreSkillsByCategoryResponse> {
         return self.client.execute(operation: "ListSkillsStoreSkillsByCategory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all of the smart home appliances associated with a room.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSmartHomeAppliances(_ input: ListSmartHomeAppliancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSmartHomeAppliancesResponse> {
         return self.client.execute(operation: "ListSmartHomeAppliances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all tags for the specified resource.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsResponse> {
         return self.client.execute(operation: "ListTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Sets the conference preferences on a specific conference provider at the account level.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func putConferencePreference(_ input: PutConferencePreferenceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutConferencePreferenceResponse> {
         return self.client.execute(operation: "PutConferencePreference", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Configures the email template for the user enrollment invitation with the specified attributes.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func putInvitationConfiguration(_ input: PutInvitationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutInvitationConfigurationResponse> {
         return self.client.execute(operation: "PutInvitationConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates room skill parameter details by room, skill, and parameter key ID. Not all skills have a room skill parameter.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func putRoomSkillParameter(_ input: PutRoomSkillParameterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRoomSkillParameterResponse> {
         return self.client.execute(operation: "PutRoomSkillParameter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Links a user's account to a third-party skill provider. If this API operation is called by an assumed IAM role, the skill being linked must be a private skill. Also, the skill must be owned by the AWS account that assumed the IAM role.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func putSkillAuthorization(_ input: PutSkillAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutSkillAuthorizationResponse> {
         return self.client.execute(operation: "PutSkillAuthorization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Registers an Alexa-enabled device built by an Original Equipment Manufacturer (OEM) using Alexa Voice Service (AVS).
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func registerAVSDevice(_ input: RegisterAVSDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterAVSDeviceResponse> {
         return self.client.execute(operation: "RegisterAVSDevice", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Disassociates a skill from the organization under a user's AWS account. If the skill is a private skill, it moves to an AcceptStatus of PENDING. Any private or public skill that is rejected can be added later by calling the ApproveSkill API.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func rejectSkill(_ input: RejectSkillRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectSkillResponse> {
         return self.client.execute(operation: "RejectSkill", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Determines the details for the room from which a skill request was invoked. This operation is used by skill developers. To query ResolveRoom from an Alexa skill, the skill ID needs to be authorized. When the skill is using an AWS Lambda function, the skill is automatically authorized when you publish your skill as a private skill to your AWS account. Skills that are hosted using a custom web service must be manually authorized. To get your skill authorized, contact AWS Support with your AWS account ID that queries the ResolveRoom API and skill ID.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func resolveRoom(_ input: ResolveRoomRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResolveRoomResponse> {
         return self.client.execute(operation: "ResolveRoom", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Revokes an invitation and invalidates the enrollment URL.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func revokeInvitation(_ input: RevokeInvitationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RevokeInvitationResponse> {
         return self.client.execute(operation: "RevokeInvitation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Searches address books and lists the ones that meet a set of filter and sort criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchAddressBooks(_ input: SearchAddressBooksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchAddressBooksResponse> {
         return self.client.execute(operation: "SearchAddressBooks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Searches contacts and lists the ones that meet a set of filter and sort criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchContacts(_ input: SearchContactsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchContactsResponse> {
         return self.client.execute(operation: "SearchContacts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Searches devices and lists the ones that meet a set of filter criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchDevices(_ input: SearchDevicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchDevicesResponse> {
         return self.client.execute(operation: "SearchDevices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Searches network profiles and lists the ones that meet a set of filter and sort criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchNetworkProfiles(_ input: SearchNetworkProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchNetworkProfilesResponse> {
         return self.client.execute(operation: "SearchNetworkProfiles", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Searches room profiles and lists the ones that meet a set of filter criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchProfiles(_ input: SearchProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchProfilesResponse> {
         return self.client.execute(operation: "SearchProfiles", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Searches rooms and lists the ones that meet a set of filter and sort criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchRooms(_ input: SearchRoomsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchRoomsResponse> {
         return self.client.execute(operation: "SearchRooms", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Searches skill groups and lists the ones that meet a set of filter and sort criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchSkillGroups(_ input: SearchSkillGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchSkillGroupsResponse> {
         return self.client.execute(operation: "SearchSkillGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Searches users and lists the ones that meet a set of filter and sort criteria.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchUsers(_ input: SearchUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchUsersResponse> {
         return self.client.execute(operation: "SearchUsers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -450,81 +526,97 @@ public struct AlexaForBusiness: AWSService {
     }
 
     /// Sends an enrollment invitation email with a URL to a user. The URL is valid for 30 days or until you call this operation again, whichever comes first.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func sendInvitation(_ input: SendInvitationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendInvitationResponse> {
         return self.client.execute(operation: "SendInvitation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Resets a device and its account to the known default settings. This clears all information and settings set by previous users in the following ways:   Bluetooth - This unpairs all bluetooth devices paired with your echo device.   Volume - This resets the echo device's volume to the default value.   Notifications - This clears all notifications from your echo device.   Lists - This clears all to-do items from your echo device.   Settings - This internally syncs the room's profile (if the device is assigned to a room), contacts, address books, delegation access for account linking, and communications (if enabled on the room profile).
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func startDeviceSync(_ input: StartDeviceSyncRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDeviceSyncResponse> {
         return self.client.execute(operation: "StartDeviceSync", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Initiates the discovery of any smart home appliances associated with the room.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func startSmartHomeApplianceDiscovery(_ input: StartSmartHomeApplianceDiscoveryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSmartHomeApplianceDiscoveryResponse> {
         return self.client.execute(operation: "StartSmartHomeApplianceDiscovery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Adds metadata tags to a specified resource.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
         return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes metadata tags from a specified resource.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates address book details by the address book ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateAddressBook(_ input: UpdateAddressBookRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAddressBookResponse> {
         return self.client.execute(operation: "UpdateAddressBook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the configuration of the report delivery schedule with the specified schedule ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateBusinessReportSchedule(_ input: UpdateBusinessReportScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBusinessReportScheduleResponse> {
         return self.client.execute(operation: "UpdateBusinessReportSchedule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates an existing conference provider's settings.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateConferenceProvider(_ input: UpdateConferenceProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConferenceProviderResponse> {
         return self.client.execute(operation: "UpdateConferenceProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the contact details by the contact ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateContact(_ input: UpdateContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContactResponse> {
         return self.client.execute(operation: "UpdateContact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the device name by device ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateDevice(_ input: UpdateDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDeviceResponse> {
         return self.client.execute(operation: "UpdateDevice", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the details of a gateway. If any optional field is not provided, the existing corresponding value is left unmodified.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateGateway(_ input: UpdateGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGatewayResponse> {
         return self.client.execute(operation: "UpdateGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the details of a gateway group. If any optional field is not provided, the existing corresponding value is left unmodified.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateGatewayGroup(_ input: UpdateGatewayGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGatewayGroupResponse> {
         return self.client.execute(operation: "UpdateGatewayGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates a network profile by the network profile ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateNetworkProfile(_ input: UpdateNetworkProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNetworkProfileResponse> {
         return self.client.execute(operation: "UpdateNetworkProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates an existing room profile by room profile ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateProfile(_ input: UpdateProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProfileResponse> {
         return self.client.execute(operation: "UpdateProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates room details by room ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateRoom(_ input: UpdateRoomRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRoomResponse> {
         return self.client.execute(operation: "UpdateRoom", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates skill group details by skill group ARN.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func updateSkillGroup(_ input: UpdateSkillGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSkillGroupResponse> {
         return self.client.execute(operation: "UpdateSkillGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -554,6 +646,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listBusinessReportSchedulesPaginator<Result>(
         _ input: ListBusinessReportSchedulesRequest,
         _ initialValue: Result,
@@ -579,6 +672,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listBusinessReportSchedulesPaginator(
         _ input: ListBusinessReportSchedulesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -607,6 +701,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listConferenceProvidersPaginator<Result>(
         _ input: ListConferenceProvidersRequest,
         _ initialValue: Result,
@@ -632,6 +727,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listConferenceProvidersPaginator(
         _ input: ListConferenceProvidersRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -660,6 +756,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listDeviceEventsPaginator<Result>(
         _ input: ListDeviceEventsRequest,
         _ initialValue: Result,
@@ -685,6 +782,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listDeviceEventsPaginator(
         _ input: ListDeviceEventsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -713,6 +811,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listGatewayGroupsPaginator<Result>(
         _ input: ListGatewayGroupsRequest,
         _ initialValue: Result,
@@ -738,6 +837,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listGatewayGroupsPaginator(
         _ input: ListGatewayGroupsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -766,6 +866,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listGatewaysPaginator<Result>(
         _ input: ListGatewaysRequest,
         _ initialValue: Result,
@@ -791,6 +892,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listGatewaysPaginator(
         _ input: ListGatewaysRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -819,6 +921,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSkillsPaginator<Result>(
         _ input: ListSkillsRequest,
         _ initialValue: Result,
@@ -844,6 +947,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSkillsPaginator(
         _ input: ListSkillsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -872,6 +976,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSkillsStoreCategoriesPaginator<Result>(
         _ input: ListSkillsStoreCategoriesRequest,
         _ initialValue: Result,
@@ -897,6 +1002,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSkillsStoreCategoriesPaginator(
         _ input: ListSkillsStoreCategoriesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -925,6 +1031,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSkillsStoreSkillsByCategoryPaginator<Result>(
         _ input: ListSkillsStoreSkillsByCategoryRequest,
         _ initialValue: Result,
@@ -950,6 +1057,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSkillsStoreSkillsByCategoryPaginator(
         _ input: ListSkillsStoreSkillsByCategoryRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -978,6 +1086,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSmartHomeAppliancesPaginator<Result>(
         _ input: ListSmartHomeAppliancesRequest,
         _ initialValue: Result,
@@ -1003,6 +1112,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listSmartHomeAppliancesPaginator(
         _ input: ListSmartHomeAppliancesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1031,6 +1141,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listTagsPaginator<Result>(
         _ input: ListTagsRequest,
         _ initialValue: Result,
@@ -1056,6 +1167,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func listTagsPaginator(
         _ input: ListTagsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1084,6 +1196,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchAddressBooksPaginator<Result>(
         _ input: SearchAddressBooksRequest,
         _ initialValue: Result,
@@ -1109,6 +1222,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchAddressBooksPaginator(
         _ input: SearchAddressBooksRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1137,6 +1251,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchContactsPaginator<Result>(
         _ input: SearchContactsRequest,
         _ initialValue: Result,
@@ -1162,6 +1277,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchContactsPaginator(
         _ input: SearchContactsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1190,6 +1306,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchDevicesPaginator<Result>(
         _ input: SearchDevicesRequest,
         _ initialValue: Result,
@@ -1215,6 +1332,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchDevicesPaginator(
         _ input: SearchDevicesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1243,6 +1361,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchNetworkProfilesPaginator<Result>(
         _ input: SearchNetworkProfilesRequest,
         _ initialValue: Result,
@@ -1268,6 +1387,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchNetworkProfilesPaginator(
         _ input: SearchNetworkProfilesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1296,6 +1416,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchProfilesPaginator<Result>(
         _ input: SearchProfilesRequest,
         _ initialValue: Result,
@@ -1321,6 +1442,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchProfilesPaginator(
         _ input: SearchProfilesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1349,6 +1471,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchRoomsPaginator<Result>(
         _ input: SearchRoomsRequest,
         _ initialValue: Result,
@@ -1374,6 +1497,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchRoomsPaginator(
         _ input: SearchRoomsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1402,6 +1526,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchSkillGroupsPaginator<Result>(
         _ input: SearchSkillGroupsRequest,
         _ initialValue: Result,
@@ -1427,6 +1552,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchSkillGroupsPaginator(
         _ input: SearchSkillGroupsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -1455,6 +1581,7 @@ extension AlexaForBusiness {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchUsersPaginator<Result>(
         _ input: SearchUsersRequest,
         _ initialValue: Result,
@@ -1480,6 +1607,7 @@ extension AlexaForBusiness {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Alexa For Business is no longer supported")
     public func searchUsersPaginator(
         _ input: SearchUsersRequest,
         logger: Logger = AWSClient.loggingDisabled,

@@ -107,6 +107,7 @@ extension FraudDetector {
     }
 
     /// Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud Detector.
+    /// 	  If deleteAuditHistory is True, event data is available through search for up to 30 seconds after the delete operation is completed.
     public func deleteEvent(_ input: DeleteEventRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteEventResult {
         return try await self.client.execute(operation: "DeleteEvent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

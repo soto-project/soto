@@ -21,6 +21,11 @@ import SotoCore
 extension Omics {
     // MARK: Async API Calls
 
+    ///  Stops a multipart upload.
+    public func abortMultipartReadSetUpload(_ input: AbortMultipartReadSetUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AbortMultipartReadSetUploadResponse {
+        return try await self.client.execute(operation: "AbortMultipartReadSetUpload", path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/abort", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
+    }
+
     /// Deletes one or more read sets.
     public func batchDeleteReadSet(_ input: BatchDeleteReadSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchDeleteReadSetResponse {
         return try await self.client.execute(operation: "BatchDeleteReadSet", path: "/sequencestore/{sequenceStoreId}/readset/batch/delete", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
@@ -41,9 +46,19 @@ extension Omics {
         return try await self.client.execute(operation: "CancelVariantImportJob", path: "/import/variant/{jobId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
     }
 
+    ///  Concludes a multipart upload once you have uploaded all the components.
+    public func completeMultipartReadSetUpload(_ input: CompleteMultipartReadSetUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CompleteMultipartReadSetUploadResponse {
+        return try await self.client.execute(operation: "CompleteMultipartReadSetUpload", path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/complete", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "storage-", logger: logger, on: eventLoop)
+    }
+
     /// Creates an annotation store.
     public func createAnnotationStore(_ input: CreateAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateAnnotationStoreResponse {
         return try await self.client.execute(operation: "CreateAnnotationStore", path: "/annotationStore", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
+    }
+
+    ///  Begins a multipart read set upload.
+    public func createMultipartReadSetUpload(_ input: CreateMultipartReadSetUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateMultipartReadSetUploadResponse {
+        return try await self.client.execute(operation: "CreateMultipartReadSetUpload", path: "/sequencestore/{sequenceStoreId}/upload", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
     }
 
     /// Creates a reference store.
@@ -211,6 +226,11 @@ extension Omics {
         return try await self.client.execute(operation: "ListAnnotationStores", path: "/annotationStores", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
     }
 
+    ///  Lists all multipart read set uploads and their statuses.
+    public func listMultipartReadSetUploads(_ input: ListMultipartReadSetUploadsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListMultipartReadSetUploadsResponse {
+        return try await self.client.execute(operation: "ListMultipartReadSetUploads", path: "/sequencestore/{sequenceStoreId}/uploads", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
+    }
+
     /// Retrieves a list of read set activation jobs.
     public func listReadSetActivationJobs(_ input: ListReadSetActivationJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListReadSetActivationJobsResponse {
         return try await self.client.execute(operation: "ListReadSetActivationJobs", path: "/sequencestore/{sequenceStoreId}/activationjobs", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
@@ -224,6 +244,11 @@ extension Omics {
     /// Retrieves a list of read set import jobs.
     public func listReadSetImportJobs(_ input: ListReadSetImportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListReadSetImportJobsResponse {
         return try await self.client.execute(operation: "ListReadSetImportJobs", path: "/sequencestore/{sequenceStoreId}/importjobs", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
+    }
+
+    ///  This operation will list all parts in a requested multipart upload for a sequence store.
+    public func listReadSetUploadParts(_ input: ListReadSetUploadPartsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListReadSetUploadPartsResponse {
+        return try await self.client.execute(operation: "ListReadSetUploadParts", path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/parts", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
     }
 
     /// Retrieves a list of read sets.
@@ -351,6 +376,11 @@ extension Omics {
         return try await self.client.execute(operation: "UpdateWorkflow", path: "/workflow/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger, on: eventLoop)
     }
 
+    ///  This operation uploads a specific part of a read set. If you upload a new part using a previously used part number, the previously uploaded part will be overwritten.
+    public func uploadReadSetPart(_ input: UploadReadSetPartRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UploadReadSetPartResponse {
+        return try await self.client.execute(operation: "UploadReadSetPart", path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/part", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "storage-", logger: logger, on: eventLoop)
+    }
+
     // MARK: Streaming Async API Calls
 
     /// Gets a file from a read set.
@@ -407,6 +437,28 @@ extension Omics {
             command: self.listAnnotationStores,
             inputKey: \ListAnnotationStoresRequest.nextToken,
             outputKey: \ListAnnotationStoresResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists all multipart read set uploads and their statuses.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listMultipartReadSetUploadsPaginator(
+        _ input: ListMultipartReadSetUploadsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListMultipartReadSetUploadsRequest, ListMultipartReadSetUploadsResponse> {
+        return .init(
+            input: input,
+            command: self.listMultipartReadSetUploads,
+            inputKey: \ListMultipartReadSetUploadsRequest.nextToken,
+            outputKey: \ListMultipartReadSetUploadsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -473,6 +525,28 @@ extension Omics {
             command: self.listReadSetImportJobs,
             inputKey: \ListReadSetImportJobsRequest.nextToken,
             outputKey: \ListReadSetImportJobsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  This operation will list all parts in a requested multipart upload for a sequence store.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listReadSetUploadPartsPaginator(
+        _ input: ListReadSetUploadPartsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListReadSetUploadPartsRequest, ListReadSetUploadPartsResponse> {
+        return .init(
+            input: input,
+            command: self.listReadSetUploadParts,
+            inputKey: \ListReadSetUploadPartsRequest.nextToken,
+            outputKey: \ListReadSetUploadPartsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

@@ -36,6 +36,16 @@ extension Athena {
         return try await self.client.execute(operation: "BatchGetQueryExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Cancels the capacity reservation with the specified name. Cancelled reservations remain in your account and will be deleted 45 days after cancellation. During the 45 days, you cannot re-purpose or reuse a reservation that has been cancelled, but you can refer to its tags and view it for historical reference.
+    public func cancelCapacityReservation(_ input: CancelCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CancelCapacityReservationOutput {
+        return try await self.client.execute(operation: "CancelCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a capacity reservation with the specified name and number of requested data processing units.
+    public func createCapacityReservation(_ input: CreateCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateCapacityReservationOutput {
+        return try await self.client.execute(operation: "CreateCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates (registers) a data catalog with the specified name and properties. Catalogs created are visible to all users of the same Amazon Web Services account.
     public func createDataCatalog(_ input: CreateDataCatalogInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDataCatalogOutput {
         return try await self.client.execute(operation: "CreateDataCatalog", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -64,6 +74,11 @@ extension Athena {
     /// Creates a workgroup with the specified name. A workgroup can be an Apache Spark enabled workgroup or an Athena SQL workgroup.
     public func createWorkGroup(_ input: CreateWorkGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateWorkGroupOutput {
         return try await self.client.execute(operation: "CreateWorkGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a cancelled capacity reservation. A reservation must be cancelled before it can be deleted. A deleted reservation is immediately removed from your account and can no longer be referenced, including by its ARN. A deleted reservation cannot be called by GetCapacityReservation, and  deleted reservations do not appear in the output of ListCapacityReservations.
+    public func deleteCapacityReservation(_ input: DeleteCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteCapacityReservationOutput {
+        return try await self.client.execute(operation: "DeleteCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a data catalog.
@@ -109,6 +124,16 @@ extension Athena {
     /// Gets the status of a current calculation.
     public func getCalculationExecutionStatus(_ input: GetCalculationExecutionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetCalculationExecutionStatusResponse {
         return try await self.client.execute(operation: "GetCalculationExecutionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the capacity assignment configuration for a capacity reservation, if one exists.
+    public func getCapacityAssignmentConfiguration(_ input: GetCapacityAssignmentConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetCapacityAssignmentConfigurationOutput {
+        return try await self.client.execute(operation: "GetCapacityAssignmentConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about the capacity reservation with the specified name.
+    public func getCapacityReservation(_ input: GetCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetCapacityReservationOutput {
+        return try await self.client.execute(operation: "GetCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns the specified data catalog.
@@ -186,6 +211,11 @@ extension Athena {
         return try await self.client.execute(operation: "ListCalculationExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the capacity reservations for the current account.
+    public func listCapacityReservations(_ input: ListCapacityReservationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListCapacityReservationsOutput {
+        return try await self.client.execute(operation: "ListCapacityReservations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the data catalogs in the current Amazon Web Services account.  In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
     public func listDataCatalogs(_ input: ListDataCatalogsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDataCatalogsOutput {
         return try await self.client.execute(operation: "ListDataCatalogs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -241,7 +271,7 @@ extension Athena {
         return try await self.client.execute(operation: "ListTableMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the tags associated with an Athena workgroup or data catalog resource.
+    /// Lists the tags associated with an Athena resource.
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceOutput {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -249,6 +279,11 @@ extension Athena {
     /// Lists available workgroups for the account.
     public func listWorkGroups(_ input: ListWorkGroupsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListWorkGroupsOutput {
         return try await self.client.execute(operation: "ListWorkGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Puts a new capacity assignment configuration for a specified capacity reservation. If a capacity assignment configuration already exists for the capacity reservation, replaces the existing capacity assignment configuration.
+    public func putCapacityAssignmentConfiguration(_ input: PutCapacityAssignmentConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutCapacityAssignmentConfigurationOutput {
+        return try await self.client.execute(operation: "PutCapacityAssignmentConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request.
@@ -276,7 +311,7 @@ extension Athena {
         return try await self.client.execute(operation: "StopQueryExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups or data catalogs in your account. For best practices, see Tagging Best Practices. Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
+    /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups, data catalogs, or capacity reservations by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter the resources in your account. For best practices, see Tagging Best Practices. Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceOutput {
         return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -286,9 +321,14 @@ extension Athena {
         return try await self.client.execute(operation: "TerminateSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes one or more tags from a data catalog or workgroup resource.
+    /// Removes one or more tags from an Athena resource.
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UntagResourceOutput {
         return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the number of requested data processing units for the capacity reservation with the specified name.
+    public func updateCapacityReservation(_ input: UpdateCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateCapacityReservationOutput {
+        return try await self.client.execute(operation: "UpdateCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the data catalog that has the specified name.
@@ -387,6 +427,28 @@ extension Athena {
             command: self.listCalculationExecutions,
             inputKey: \ListCalculationExecutionsRequest.nextToken,
             outputKey: \ListCalculationExecutionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists the capacity reservations for the current account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listCapacityReservationsPaginator(
+        _ input: ListCapacityReservationsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListCapacityReservationsInput, ListCapacityReservationsOutput> {
+        return .init(
+            input: input,
+            command: self.listCapacityReservations,
+            inputKey: \ListCapacityReservationsInput.nextToken,
+            outputKey: \ListCapacityReservationsOutput.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -590,7 +652,7 @@ extension Athena {
         )
     }
 
-    /// Lists the tags associated with an Athena workgroup or data catalog resource.
+    /// Lists the tags associated with an Athena resource.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

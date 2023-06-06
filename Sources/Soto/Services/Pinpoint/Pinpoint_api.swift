@@ -415,6 +415,21 @@ public struct Pinpoint: AWSService {
         return self.client.execute(operation: "GetJourneyExecutionMetrics", path: "/v1/apps/{ApplicationId}/journeys/{JourneyId}/execution-metrics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey activity.
+    public func getJourneyRunExecutionActivityMetrics(_ input: GetJourneyRunExecutionActivityMetricsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJourneyRunExecutionActivityMetricsResponse> {
+        return self.client.execute(operation: "GetJourneyRunExecutionActivityMetrics", path: "/v1/apps/{ApplicationId}/journeys/{JourneyId}/runs/{RunId}/activities/{JourneyActivityId}/execution-metrics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey.
+    public func getJourneyRunExecutionMetrics(_ input: GetJourneyRunExecutionMetricsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJourneyRunExecutionMetricsResponse> {
+        return self.client.execute(operation: "GetJourneyRunExecutionMetrics", path: "/v1/apps/{ApplicationId}/journeys/{JourneyId}/runs/{RunId}/execution-metrics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provides information about the runs of a journey.
+    public func getJourneyRuns(_ input: GetJourneyRunsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJourneyRunsResponse> {
+        return self.client.execute(operation: "GetJourneyRuns", path: "/v1/apps/{ApplicationId}/journeys/{JourneyId}/runs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
     public func getPushTemplate(_ input: GetPushTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPushTemplateResponse> {
         return self.client.execute(operation: "GetPushTemplate", path: "/v1/templates/{TemplateName}/push", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

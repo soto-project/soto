@@ -77,10 +77,11 @@ extension QuickSight {
         return try await self.client.execute(operation: "CreateGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an assignment with one specified IAM policy, identified by its Amazon Resource Name
-    /// 			(ARN). This policy assignment is attached to the specified groups or users of Amazon QuickSight.
-    /// 			Assignment names are unique per Amazon Web Services account. To avoid overwriting rules in other namespaces,
-    /// 			use assignment names that are unique.
+    /// Creates an assignment with one specified IAM policy, identified by its
+    /// 			Amazon Resource Name (ARN). This policy assignment is attached to the specified groups
+    /// 			or users of Amazon QuickSight. Assignment names are unique per Amazon Web Services
+    /// 			account. To avoid overwriting rules in other namespaces, use assignment names that are
+    /// 			unique.
     public func createIAMPolicyAssignment(_ input: CreateIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateIAMPolicyAssignmentResponse {
         return try await self.client.execute(operation: "CreateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -131,6 +132,21 @@ extension QuickSight {
     /// Creates a theme alias for a theme.
     public func createThemeAlias(_ input: CreateThemeAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateThemeAliasResponse {
         return try await self.client.execute(operation: "CreateThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new Q topic.
+    public func createTopic(_ input: CreateTopicRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateTopicResponse {
+        return try await self.client.execute(operation: "CreateTopic", path: "/accounts/{AwsAccountId}/topics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a topic refresh schedule.
+    public func createTopicRefreshSchedule(_ input: CreateTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateTopicRefreshScheduleResponse {
+        return try await self.client.execute(operation: "CreateTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new VPC connection.
+    public func createVPCConnection(_ input: CreateVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateVPCConnectionResponse {
+        return try await self.client.execute(operation: "CreateVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes all Amazon QuickSight customizations in this Amazon Web Services Region for the specified Amazon Web Services account and Amazon QuickSight namespace.
@@ -227,6 +243,16 @@ extension QuickSight {
         return try await self.client.execute(operation: "DeleteThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a topic.
+    public func deleteTopic(_ input: DeleteTopicRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteTopicResponse {
+        return try await self.client.execute(operation: "DeleteTopic", path: "/accounts/{AwsAccountId}/topics/{TopicId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a topic refresh schedule.
+    public func deleteTopicRefreshSchedule(_ input: DeleteTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteTopicRefreshScheduleResponse {
+        return try await self.client.execute(operation: "DeleteTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the Amazon QuickSight user that is associated with the identity of the
     /// 			IAM user or role that's making the call. The IAM user
     /// 			isn't deleted as a result of this call.
@@ -237,6 +263,11 @@ extension QuickSight {
     /// Deletes a user identified by its principal ID.
     public func deleteUserByPrincipalId(_ input: DeleteUserByPrincipalIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteUserByPrincipalIdResponse {
         return try await self.client.execute(operation: "DeleteUserByPrincipalId", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/user-principals/{PrincipalId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a VPC connection.
+    public func deleteVPCConnection(_ input: DeleteVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteVPCConnectionResponse {
+        return try await self.client.execute(operation: "DeleteVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Amazon QuickSight namespace in an Amazon Web Services Region. The Amazon QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included.  To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.     Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you subscribe to Amazon QuickSight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use Amazon QuickSight in any supported Amazon Web Services Region.     Amazon Web Services Region - In each Amazon Web Services Region where you sign in to Amazon QuickSight at least once, Amazon QuickSight acts as a separate instance of the same service. If you have a user directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have access to Amazon QuickSight in any Amazon Web Services Region, unless they are constrained to a namespace.  To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the CLI, you can use one of the following options:   Use command line options.    Use named profiles.    Run aws configure to change your default Amazon Web Services Region. Use Enter to key the same settings for your keys. For more information, see Configuring the CLI.      Namespace - A QuickSight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same Amazon Web Services account and Amazon Web Services Region.    Applied customizations -  Within an Amazon Web Services Region, a set of Amazon QuickSight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account. All settings are isolated to a single Amazon Web Services Region. To apply them in other Amazon Web Services Regions, run the CreateAccountCustomization command in each Amazon Web Services Region where you want to apply the same customizations.
@@ -267,6 +298,16 @@ extension QuickSight {
     /// Provides the read and write permissions for an analysis.
     public func describeAnalysisPermissions(_ input: DescribeAnalysisPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAnalysisPermissionsResponse {
         return try await self.client.execute(operation: "DescribeAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes an existing export job. Poll job descriptions after a job starts to know the status of the job. When a job succeeds, a URL is provided to download the exported assets' data from. Download URLs are valid for five minutes after they are generated. You can call the DescribeAssetBundleExportJob API for a new download URL as needed. Job descriptions are available for 14 days after the job starts.
+    public func describeAssetBundleExportJob(_ input: DescribeAssetBundleExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAssetBundleExportJobResponse {
+        return try await self.client.execute(operation: "DescribeAssetBundleExportJob", path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs/{AssetBundleExportJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes an existing import job. Poll job descriptions after starting a job to know when it has succeeded or failed. Job descriptions are available for 14 days after job starts.
+    public func describeAssetBundleImportJob(_ input: DescribeAssetBundleImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAssetBundleImportJobResponse {
+        return try await self.client.execute(operation: "DescribeAssetBundleImportJob", path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs/{AssetBundleImportJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Provides a summary for a dashboard.
@@ -336,7 +377,8 @@ extension QuickSight {
         return try await self.client.execute(operation: "DescribeGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes an existing IAM policy assignment, as specified by the assignment name.
+    /// Describes an existing IAM policy assignment, as specified by the
+    /// 			assignment name.
     public func describeIAMPolicyAssignment(_ input: DescribeIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeIAMPolicyAssignmentResponse {
         return try await self.client.execute(operation: "DescribeIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -399,9 +441,34 @@ extension QuickSight {
         return try await self.client.execute(operation: "DescribeThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes a topic.
+    public func describeTopic(_ input: DescribeTopicRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeTopicResponse {
+        return try await self.client.execute(operation: "DescribeTopic", path: "/accounts/{AwsAccountId}/topics/{TopicId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the permissions of a topic.
+    public func describeTopicPermissions(_ input: DescribeTopicPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeTopicPermissionsResponse {
+        return try await self.client.execute(operation: "DescribeTopicPermissions", path: "/accounts/{AwsAccountId}/topics/{TopicId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the status of a topic refresh.
+    public func describeTopicRefresh(_ input: DescribeTopicRefreshRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeTopicRefreshResponse {
+        return try await self.client.execute(operation: "DescribeTopicRefresh", path: "/accounts/{AwsAccountId}/topics/{TopicId}/refresh/{RefreshId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a topic refresh schedule.
+    public func describeTopicRefreshSchedule(_ input: DescribeTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeTopicRefreshScheduleResponse {
+        return try await self.client.execute(operation: "DescribeTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns information about a user, given the user name.
     public func describeUser(_ input: DescribeUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeUserResponse {
         return try await self.client.execute(operation: "DescribeUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes a VPC connection.
+    public func describeVPCConnection(_ input: DescribeVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVPCConnectionResponse {
+        return try await self.client.execute(operation: "DescribeVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Generates an embed URL that you can use to embed an Amazon QuickSight dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   For more information, see Embedded Analytics in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
@@ -427,6 +494,16 @@ extension QuickSight {
     /// Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account.
     public func listAnalyses(_ input: ListAnalysesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAnalysesResponse {
         return try await self.client.execute(operation: "ListAnalyses", path: "/accounts/{AwsAccountId}/analyses", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleExportJobs only returns the most recent job that uses the repeated job ID.
+    public func listAssetBundleExportJobs(_ input: ListAssetBundleExportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAssetBundleExportJobsResponse {
+        return try await self.client.execute(operation: "ListAssetBundleExportJobs", path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all asset bundle import jobs that have taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleImportJobs only returns the most recent job that uses the repeated job ID.
+    public func listAssetBundleImportJobs(_ input: ListAssetBundleImportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAssetBundleImportJobsResponse {
+        return try await self.client.execute(operation: "ListAssetBundleImportJobs", path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all the versions of the dashboards in the Amazon QuickSight subscription.
@@ -469,14 +546,20 @@ extension QuickSight {
         return try await self.client.execute(operation: "ListGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists IAM policy assignments in the current Amazon QuickSight account.
+    /// Lists the
+    /// 			IAM policy assignments in the current Amazon QuickSight
+    /// 			account.
     public func listIAMPolicyAssignments(_ input: ListIAMPolicyAssignmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListIAMPolicyAssignmentsResponse {
-        return try await self.client.execute(operation: "ListIAMPolicyAssignments", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+        return try await self.client.execute(operation: "ListIAMPolicyAssignments", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/v2/iam-policy-assignments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all the IAM policy assignments, including the Amazon Resource Names (ARNs) for the IAM
-    /// 			policies assigned to the specified user and group or groups that the user belongs
-    /// 			to.
+    /// Lists all of
+    /// 			the IAM policy assignments, including the Amazon
+    /// 			Resource Names
+    /// 			(ARNs),
+    /// 			for the IAM policies assigned to the specified user and
+    /// 			group,
+    /// 			or groups that the user belongs to.
     public func listIAMPolicyAssignmentsForUser(_ input: ListIAMPolicyAssignmentsForUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListIAMPolicyAssignmentsForUserResponse {
         return try await self.client.execute(operation: "ListIAMPolicyAssignmentsForUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/iam-policy-assignments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -531,6 +614,16 @@ extension QuickSight {
         return try await self.client.execute(operation: "ListThemes", path: "/accounts/{AwsAccountId}/themes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists all of the refresh schedules for a topic.
+    public func listTopicRefreshSchedules(_ input: ListTopicRefreshSchedulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTopicRefreshSchedulesResponse {
+        return try await self.client.execute(operation: "ListTopicRefreshSchedules", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all of the topics within an account.
+    public func listTopics(_ input: ListTopicsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTopicsResponse {
+        return try await self.client.execute(operation: "ListTopics", path: "/accounts/{AwsAccountId}/topics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of.
     public func listUserGroups(_ input: ListUserGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListUserGroupsResponse {
         return try await self.client.execute(operation: "ListUserGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -539,6 +632,12 @@ extension QuickSight {
     /// Returns a list of all of the Amazon QuickSight users belonging to this account.
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListUsersResponse {
         return try await self.client.execute(operation: "ListUsers", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all of the VPC connections in the current set Amazon Web Services Region of an
+    /// 				Amazon Web Services account.
+    public func listVPCConnections(_ input: ListVPCConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListVPCConnectionsResponse {
+        return try await self.client.execute(operation: "ListVPCConnections", path: "/accounts/{AwsAccountId}/vpc-connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates or updates the dataset refresh properties for the dataset.
@@ -586,6 +685,16 @@ extension QuickSight {
         return try await self.client.execute(operation: "SearchGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups-search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon QuickSight account can run up to 10 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
+    public func startAssetBundleExportJob(_ input: StartAssetBundleExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartAssetBundleExportJobResponse {
+        return try await self.client.execute(operation: "StartAssetBundleExportJob", path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs/export", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon QuickSight assets into an Amazon QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon QuickSight account. Each Amazon QuickSight account can run up to 10 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
+    public func startAssetBundleImportJob(_ input: StartAssetBundleImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartAssetBundleImportJobResponse {
+        return try await self.client.execute(operation: "StartAssetBundleImportJob", path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs/import", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource.  Tags can help you organize and categorize your resources. You can also use them to
     /// 			scope user permissions, by granting a user permission to access or change only resources
     /// 			with certain tag values. You can use the TagResource operation with a
@@ -593,7 +702,7 @@ extension QuickSight {
     /// 			is appended to the list of tags associated with the resource. If you specify a tag key
     /// 			that is already associated with the resource, the new tag value that you specify
     /// 			replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data
-    /// 			set, data source, dashboard, and template.  Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for
+    /// 			set, data source, dashboard, template, and topic.  Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for
     /// 			the following:   You can't use tags to track costs for Amazon QuickSight. This isn't
     /// 				possible because you can't tag the resources that Amazon QuickSight costs are based
     /// 				on, for example Amazon QuickSight storage capacity (SPICE), number of users, type
@@ -677,15 +786,17 @@ extension QuickSight {
         return try await self.client.execute(operation: "UpdateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an existing IAM policy assignment. This operation updates only the optional
-    /// 			parameter or parameters that are specified in the request.
-    /// 		    This overwrites all of the users included in Identities.
-    ///
+    /// Updates an existing IAM policy assignment. This operation updates only
+    /// 			the optional parameter or parameters that are specified in the request. This overwrites
+    /// 			all of the users included in Identities.
     public func updateIAMPolicyAssignment(_ input: UpdateIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateIAMPolicyAssignmentResponse {
         return try await self.client.execute(operation: "UpdateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the content and status of IP rules. To use this operation, you need to provide the entire map of rules. You can use the DescribeIpRestriction operation to get the current rule map.
+    /// Updates the content and status of IP rules. To use this operation, you
+    /// 			must
+    /// 			provide the entire map of rules. You can use the DescribeIpRestriction
+    /// 			operation to get the current rule map.
     public func updateIpRestriction(_ input: UpdateIpRestrictionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateIpRestrictionResponse {
         return try await self.client.execute(operation: "UpdateIpRestriction", path: "/accounts/{AwsAccountId}/ip-restriction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -732,9 +843,29 @@ extension QuickSight {
         return try await self.client.execute(operation: "UpdateThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates a topic.
+    public func updateTopic(_ input: UpdateTopicRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateTopicResponse {
+        return try await self.client.execute(operation: "UpdateTopic", path: "/accounts/{AwsAccountId}/topics/{TopicId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the permissions of a topic.
+    public func updateTopicPermissions(_ input: UpdateTopicPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateTopicPermissionsResponse {
+        return try await self.client.execute(operation: "UpdateTopicPermissions", path: "/accounts/{AwsAccountId}/topics/{TopicId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a topic refresh schedule.
+    public func updateTopicRefreshSchedule(_ input: UpdateTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateTopicRefreshScheduleResponse {
+        return try await self.client.execute(operation: "UpdateTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates an Amazon QuickSight user.
     public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateUserResponse {
         return try await self.client.execute(operation: "UpdateUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a VPC connection.
+    public func updateVPCConnection(_ input: UpdateVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateVPCConnectionResponse {
+        return try await self.client.execute(operation: "UpdateVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 
@@ -759,6 +890,50 @@ extension QuickSight {
             command: self.listAnalyses,
             inputKey: \ListAnalysesRequest.nextToken,
             outputKey: \ListAnalysesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleExportJobs only returns the most recent job that uses the repeated job ID.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAssetBundleExportJobsPaginator(
+        _ input: ListAssetBundleExportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAssetBundleExportJobsRequest, ListAssetBundleExportJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listAssetBundleExportJobs,
+            inputKey: \ListAssetBundleExportJobsRequest.nextToken,
+            outputKey: \ListAssetBundleExportJobsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists all asset bundle import jobs that have taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleImportJobs only returns the most recent job that uses the repeated job ID.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAssetBundleImportJobsPaginator(
+        _ input: ListAssetBundleImportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAssetBundleImportJobsRequest, ListAssetBundleImportJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listAssetBundleImportJobs,
+            inputKey: \ListAssetBundleImportJobsRequest.nextToken,
+            outputKey: \ListAssetBundleImportJobsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -1001,6 +1176,51 @@ extension QuickSight {
             command: self.listThemes,
             inputKey: \ListThemesRequest.nextToken,
             outputKey: \ListThemesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists all of the topics within an account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listTopicsPaginator(
+        _ input: ListTopicsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListTopicsRequest, ListTopicsResponse> {
+        return .init(
+            input: input,
+            command: self.listTopics,
+            inputKey: \ListTopicsRequest.nextToken,
+            outputKey: \ListTopicsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists all of the VPC connections in the current set Amazon Web Services Region of an
+    /// 				Amazon Web Services account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listVPCConnectionsPaginator(
+        _ input: ListVPCConnectionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListVPCConnectionsRequest, ListVPCConnectionsResponse> {
+        return .init(
+            input: input,
+            command: self.listVPCConnections,
+            inputKey: \ListVPCConnectionsRequest.nextToken,
+            outputKey: \ListVPCConnectionsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

@@ -69,6 +69,16 @@ public struct AppSync: AWSService {
         return self.client.execute(operation: "AssociateApi", path: "/v1/domainnames/{domainName}/apiassociation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an association between a Merged API and source API using the source API's identifier.
+    public func associateMergedGraphqlApi(_ input: AssociateMergedGraphqlApiRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateMergedGraphqlApiResponse> {
+        return self.client.execute(operation: "AssociateMergedGraphqlApi", path: "/v1/sourceApis/{sourceApiIdentifier}/mergedApiAssociations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates an association between a Merged API and source API using the Merged API's identifier.
+    public func associateSourceGraphqlApi(_ input: AssociateSourceGraphqlApiRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateSourceGraphqlApiResponse> {
+        return self.client.execute(operation: "AssociateSourceGraphqlApi", path: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a cache for the GraphQL API.
     public func createApiCache(_ input: CreateApiCacheRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateApiCacheResponse> {
         return self.client.execute(operation: "CreateApiCache", path: "/v1/apis/{apiId}/ApiCaches", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -154,6 +164,16 @@ public struct AppSync: AWSService {
         return self.client.execute(operation: "DisassociateApi", path: "/v1/domainnames/{domainName}/apiassociation", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes an association between a Merged API and source API using the source API's identifier and the association ID.
+    public func disassociateMergedGraphqlApi(_ input: DisassociateMergedGraphqlApiRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateMergedGraphqlApiResponse> {
+        return self.client.execute(operation: "DisassociateMergedGraphqlApi", path: "/v1/sourceApis/{sourceApiIdentifier}/mergedApiAssociations/{associationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an association between a Merged API and source API using the Merged API's identifier and the association ID.
+    public func disassociateSourceGraphqlApi(_ input: DisassociateSourceGraphqlApiRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateSourceGraphqlApiResponse> {
+        return self.client.execute(operation: "DisassociateSourceGraphqlApi", path: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Evaluates the given code and returns the response. The code definition requirements depend on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and response functions. The request function takes the incoming request after a GraphQL operation is parsed and converts it into a request configuration for the selected data source operation. The response function interprets responses from the data source and maps it to the shape of the GraphQL field output type.
     public func evaluateCode(_ input: EvaluateCodeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EvaluateCodeResponse> {
         return self.client.execute(operation: "EvaluateCode", path: "/v1/dataplane-evaluatecode", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -214,6 +234,11 @@ public struct AppSync: AWSService {
         return self.client.execute(operation: "GetSchemaCreationStatus", path: "/v1/apis/{apiId}/schemacreation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves a SourceApiAssociation object.
+    public func getSourceApiAssociation(_ input: GetSourceApiAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSourceApiAssociationResponse> {
+        return self.client.execute(operation: "GetSourceApiAssociation", path: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves a Type object.
     public func getType(_ input: GetTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTypeResponse> {
         return self.client.execute(operation: "GetType", path: "/v1/apis/{apiId}/types/{typeName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -254,6 +279,11 @@ public struct AppSync: AWSService {
         return self.client.execute(operation: "ListResolversByFunction", path: "/v1/apis/{apiId}/functions/{functionId}/resolvers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the SourceApiAssociationSummary data.
+    public func listSourceApiAssociations(_ input: ListSourceApiAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSourceApiAssociationsResponse> {
+        return self.client.execute(operation: "ListSourceApiAssociations", path: "/v1/apis/{apiId}/sourceApiAssociations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the tags for a resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/v1/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -264,9 +294,19 @@ public struct AppSync: AWSService {
         return self.client.execute(operation: "ListTypes", path: "/v1/apis/{apiId}/types", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists Type objects by the source API association ID.
+    public func listTypesByAssociation(_ input: ListTypesByAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTypesByAssociationResponse> {
+        return self.client.execute(operation: "ListTypesByAssociation", path: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}/types", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Adds a new schema to your GraphQL API. This operation is asynchronous. Use  to determine when it has completed.
     public func startSchemaCreation(_ input: StartSchemaCreationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSchemaCreationResponse> {
         return self.client.execute(operation: "StartSchemaCreation", path: "/v1/apis/{apiId}/schemacreation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Initiates a merge operation. Returns a status that shows the result of the merge operation.
+    public func startSchemaMerge(_ input: StartSchemaMergeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSchemaMergeResponse> {
+        return self.client.execute(operation: "StartSchemaMerge", path: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}/merge", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Tags a resource with user-supplied tags.
@@ -312,6 +352,11 @@ public struct AppSync: AWSService {
     /// Updates a Resolver object.
     public func updateResolver(_ input: UpdateResolverRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResolverResponse> {
         return self.client.execute(operation: "UpdateResolver", path: "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates some of the configuration choices of a particular source API association.
+    public func updateSourceApiAssociation(_ input: UpdateSourceApiAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSourceApiAssociationResponse> {
+        return self.client.execute(operation: "UpdateSourceApiAssociation", path: "/v1/mergedApis/{mergedApiIdentifier}/sourceApiAssociations/{associationId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates a Type object.

@@ -21,7 +21,7 @@
 ///
 ///  Introduction  The Amazon Interactive Video Service (IVS) stage API is REST compatible, using a standard HTTP
 /// 	  API and an AWS EventBridge event stream for responses. JSON is used for both requests and responses,
-/// 	  including errors.  Terminology: The IVS stage API sometimes is referred to as the IVS RealTime API.  Resources  The following resources contain information about your IVS live stream (see Getting Started with Amazon IVS):    Stage — A stage is a virtual space where multiple participants can exchange audio and video in real time.    Tagging  A tag is a metadata label that you assign to an AWS resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See Tagging AWS Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS stages has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your AWS resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see Access Tags). The Amazon IVS stage API has these tag-related endpoints: TagResource, UntagResource, and ListTagsForResource. The following resource supports tagging: Stage. At most 50 tags can be applied to a resource.  Stages Endpoints     CreateParticipantToken — Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire.    CreateStage — Creates a new stage (and optionally participant tokens).    DeleteStage — Shuts down and deletes the specified stage (disconnecting all participants).    DisconnectParticipant — Disconnects a specified participant and revokes the participant permanently from a specified stage.    GetStage — Gets information for the specified stage.    ListStages — Gets summary information about all stages in your account, in the AWS region where the API request is processed.    UpdateStage — Updates a stage’s configuration.    Tags Endpoints     ListTagsForResource — Gets information about AWS tags for the specified ARN.    TagResource — Adds or updates tags for the AWS resource with the specified ARN.    UntagResource — Removes tags from the resource with the specified ARN.
+/// 	  including errors.  Terminology:   The IVS stage API sometimes is referred to as the IVS RealTime API.   A participant token is an authorization token used to publish/subscribe to a stage.   A participant object represents participants (people) in the stage and contains information about them. When a token is created, it includes a participant ID; when a participant uses that token to join a stage, the participant is associated with that participant ID There is a 1:1 mapping between participant tokens and participants.    Resources  The following resources contain information about your IVS live stream (see Getting Started with Amazon IVS):    Stage — A stage is a virtual space where multiple participants can exchange audio and video in real time.    Tagging  A tag is a metadata label that you assign to an AWS resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See Tagging AWS Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS stages has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your AWS resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see Access Tags). The Amazon IVS stage API has these tag-related endpoints: TagResource, UntagResource, and ListTagsForResource. The following resource supports tagging: Stage. At most 50 tags can be applied to a resource.  Stages Endpoints     CreateParticipantToken — Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire.    CreateStage — Creates a new stage (and optionally participant tokens).    DeleteStage — Shuts down and deletes the specified stage (disconnecting all participants).    DisconnectParticipant — Disconnects a specified participant and revokes the participant permanently from a specified stage.    GetParticipant — Gets information about the specified participant token.    GetStage — Gets information for the specified stage.    GetStageSession — Gets information for the specified stage session.    ListParticipantEvents — Lists events for a specified participant that occurred during a specified stage session.    ListParticipants — Lists all participants in a specified stage session.    ListStages — Gets summary information about all stages in your account, in the AWS region where the API request is processed.    ListStageSessions — Gets all sessions for a specified stage.    UpdateStage — Updates a stage’s configuration.    Tags Endpoints     ListTagsForResource — Gets information about AWS tags for the specified ARN.    TagResource — Adds or updates tags for the AWS resource with the specified ARN.    UntagResource — Removes tags from the resource with the specified ARN.
 public struct IVSRealTime: AWSService {
     // MARK: Member variables
 
@@ -66,8 +66,7 @@ public struct IVSRealTime: AWSService {
 
     // MARK: API Calls
 
-    /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire.
-    /// 	        Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application.
+    /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application.
     public func createParticipantToken(_ input: CreateParticipantTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateParticipantTokenResponse> {
         return self.client.execute(operation: "CreateParticipantToken", path: "/CreateParticipantToken", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -87,9 +86,34 @@ public struct IVSRealTime: AWSService {
         return self.client.execute(operation: "DisconnectParticipant", path: "/DisconnectParticipant", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets information about the specified participant token.
+    public func getParticipant(_ input: GetParticipantRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetParticipantResponse> {
+        return self.client.execute(operation: "GetParticipant", path: "/GetParticipant", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets information for the specified stage.
     public func getStage(_ input: GetStageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStageResponse> {
         return self.client.execute(operation: "GetStage", path: "/GetStage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets information for the specified stage session.
+    public func getStageSession(_ input: GetStageSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStageSessionResponse> {
+        return self.client.execute(operation: "GetStageSession", path: "/GetStageSession", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists events for a specified participant that occurred during a specified stage session.
+    public func listParticipantEvents(_ input: ListParticipantEventsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListParticipantEventsResponse> {
+        return self.client.execute(operation: "ListParticipantEvents", path: "/ListParticipantEvents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all participants in a specified stage session.
+    public func listParticipants(_ input: ListParticipantsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListParticipantsResponse> {
+        return self.client.execute(operation: "ListParticipants", path: "/ListParticipants", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets all sessions for a specified stage.
+    public func listStageSessions(_ input: ListStageSessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStageSessionsResponse> {
+        return self.client.execute(operation: "ListStageSessions", path: "/ListStageSessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets summary information about all stages in your account, in the AWS region where the API request is processed.
@@ -130,6 +154,165 @@ extension IVSRealTime {
 // MARK: Paginators
 
 extension IVSRealTime {
+    /// Lists events for a specified participant that occurred during a specified stage session.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listParticipantEventsPaginator<Result>(
+        _ input: ListParticipantEventsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListParticipantEventsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listParticipantEvents,
+            inputKey: \ListParticipantEventsRequest.nextToken,
+            outputKey: \ListParticipantEventsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listParticipantEventsPaginator(
+        _ input: ListParticipantEventsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListParticipantEventsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listParticipantEvents,
+            inputKey: \ListParticipantEventsRequest.nextToken,
+            outputKey: \ListParticipantEventsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists all participants in a specified stage session.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listParticipantsPaginator<Result>(
+        _ input: ListParticipantsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListParticipantsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listParticipants,
+            inputKey: \ListParticipantsRequest.nextToken,
+            outputKey: \ListParticipantsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listParticipantsPaginator(
+        _ input: ListParticipantsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListParticipantsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listParticipants,
+            inputKey: \ListParticipantsRequest.nextToken,
+            outputKey: \ListParticipantsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Gets all sessions for a specified stage.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listStageSessionsPaginator<Result>(
+        _ input: ListStageSessionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListStageSessionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listStageSessions,
+            inputKey: \ListStageSessionsRequest.nextToken,
+            outputKey: \ListStageSessionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listStageSessionsPaginator(
+        _ input: ListStageSessionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListStageSessionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listStageSessions,
+            inputKey: \ListStageSessionsRequest.nextToken,
+            outputKey: \ListStageSessionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Gets summary information about all stages in your account, in the AWS region where the API request is processed.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -180,6 +363,42 @@ extension IVSRealTime {
             outputKey: \ListStagesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension IVSRealTime.ListParticipantEventsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IVSRealTime.ListParticipantEventsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            participantId: self.participantId,
+            sessionId: self.sessionId,
+            stageArn: self.stageArn
+        )
+    }
+}
+
+extension IVSRealTime.ListParticipantsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IVSRealTime.ListParticipantsRequest {
+        return .init(
+            filterByPublished: self.filterByPublished,
+            filterByState: self.filterByState,
+            filterByUserId: self.filterByUserId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sessionId: self.sessionId,
+            stageArn: self.stageArn
+        )
+    }
+}
+
+extension IVSRealTime.ListStageSessionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IVSRealTime.ListStageSessionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            stageArn: self.stageArn
         )
     }
 }

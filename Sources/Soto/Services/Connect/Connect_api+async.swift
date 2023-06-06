@@ -21,6 +21,11 @@ import SotoCore
 extension Connect {
     // MARK: Async API Calls
 
+    /// Activates an evaluation form in the specified Amazon Connect instance. After the evaluation form is activated, it is available to start new evaluations based on the form.
+    public func activateEvaluationForm(_ input: ActivateEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ActivateEvaluationFormResponse {
+        return try await self.client.execute(operation: "ActivateEvaluationForm", path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/activate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Associates an approved origin to an Amazon Connect instance.
     public func associateApprovedOrigin(_ input: AssociateApprovedOriginRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "AssociateApprovedOrigin", path: "/instance/{InstanceId}/approved-origin", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -91,6 +96,11 @@ extension Connect {
         return try await self.client.execute(operation: "CreateContactFlowModule", path: "/contact-flow-modules/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an evaluation form in the specified Amazon Connect instance. The form can be used to define questions related to agent performance, and create sections to organize such questions.  Question and section identifiers cannot be duplicated within the same evaluation form.
+    public func createEvaluationForm(_ input: CreateEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateEvaluationFormResponse {
+        return try await self.client.execute(operation: "CreateEvaluationForm", path: "/evaluation-forms/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Creates hours of operation.
     public func createHoursOfOperation(_ input: CreateHoursOfOperationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateHoursOfOperationResponse {
         return try await self.client.execute(operation: "CreateHoursOfOperation", path: "/hours-of-operations/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -106,6 +116,16 @@ extension Connect {
     /// Creates an Amazon Web Services resource association with an Amazon Connect instance.
     public func createIntegrationAssociation(_ input: CreateIntegrationAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateIntegrationAssociationResponse {
         return try await self.client.execute(operation: "CreateIntegrationAssociation", path: "/instance/{InstanceId}/integration-associations", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Adds a new participant into an on-going chat contact. For more information, see Customize chat flow experiences by integrating custom participants.
+    public func createParticipant(_ input: CreateParticipantRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateParticipantResponse {
+        return try await self.client.execute(operation: "CreateParticipant", path: "/contact/create-participant", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Amazon Connect Administrator's Guide.
+    public func createPrompt(_ input: CreatePromptRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreatePromptResponse {
+        return try await self.client.execute(operation: "CreatePrompt", path: "/prompts/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Creates a new queue for the specified Amazon Connect instance.  If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the OutboundCallerConfig request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
@@ -163,6 +183,16 @@ extension Connect {
         return try await self.client.execute(operation: "CreateVocabulary", path: "/vocabulary/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deactivates an evaluation form in the specified Amazon Connect instance. After a form is deactivated, it is no longer available for users to start new evaluations based on the form.
+    public func deactivateEvaluationForm(_ input: DeactivateEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeactivateEvaluationFormResponse {
+        return try await self.client.execute(operation: "DeactivateEvaluationForm", path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/deactivate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a contact evaluation in the specified Amazon Connect instance.
+    public func deleteContactEvaluation(_ input: DeleteContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "DeleteContactEvaluation", path: "/contact-evaluations/{InstanceId}/{EvaluationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a flow for the specified Amazon Connect instance.
     public func deleteContactFlow(_ input: DeleteContactFlowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteContactFlowResponse {
         return try await self.client.execute(operation: "DeleteContactFlow", path: "/contact-flows/{InstanceId}/{ContactFlowId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -171,6 +201,11 @@ extension Connect {
     /// Deletes the specified flow module.
     public func deleteContactFlowModule(_ input: DeleteContactFlowModuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteContactFlowModuleResponse {
         return try await self.client.execute(operation: "DeleteContactFlowModule", path: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an evaluation form in the specified Amazon Connect instance.    If the version property is provided, only the specified version of the evaluation form is deleted.   If no version is provided, then the full form (all versions) is deleted.
+    public func deleteEvaluationForm(_ input: DeleteEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "DeleteEvaluationForm", path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes an hours of operation.
@@ -188,6 +223,11 @@ extension Connect {
     /// Deletes an Amazon Web Services resource association from an Amazon Connect instance. The association must not have any use cases associated with it.
     public func deleteIntegrationAssociation(_ input: DeleteIntegrationAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteIntegrationAssociation", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a prompt.
+    public func deletePrompt(_ input: DeletePromptRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "DeletePrompt", path: "/prompts/{InstanceId}/{PromptId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a quick connect.
@@ -245,6 +285,11 @@ extension Connect {
         return try await self.client.execute(operation: "DescribeContact", path: "/contacts/{InstanceId}/{ContactId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes a contact evaluation in the specified Amazon Connect instance.
+    public func describeContactEvaluation(_ input: DescribeContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeContactEvaluationResponse {
+        return try await self.client.execute(operation: "DescribeContactEvaluation", path: "/contact-evaluations/{InstanceId}/{EvaluationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Describes the specified flow. You can also create and update flows using the Amazon Connect Flow language.
     public func describeContactFlow(_ input: DescribeContactFlowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeContactFlowResponse {
         return try await self.client.execute(operation: "DescribeContactFlow", path: "/contact-flows/{InstanceId}/{ContactFlowId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -253,6 +298,11 @@ extension Connect {
     /// Describes the specified flow module.
     public func describeContactFlowModule(_ input: DescribeContactFlowModuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeContactFlowModuleResponse {
         return try await self.client.execute(operation: "DescribeContactFlowModule", path: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes an evaluation form in the specified Amazon Connect instance. If the version property is not provided, the latest version of the evaluation form is described.
+    public func describeEvaluationForm(_ input: DescribeEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeEvaluationFormResponse {
+        return try await self.client.execute(operation: "DescribeEvaluationForm", path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the hours of operation.
@@ -278,6 +328,11 @@ extension Connect {
     /// Gets details and status of a phone number that’s claimed to your Amazon Connect instance or traffic distribution group.  If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     public func describePhoneNumber(_ input: DescribePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribePhoneNumberResponse {
         return try await self.client.execute(operation: "DescribePhoneNumber", path: "/phone-number/{PhoneNumberId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the prompt.
+    public func describePrompt(_ input: DescribePromptRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribePromptResponse {
+        return try await self.client.execute(operation: "DescribePrompt", path: "/prompts/{InstanceId}/{PromptId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified queue.
@@ -405,9 +460,14 @@ extension Connect {
         return try await self.client.execute(operation: "GetMetricData", path: "/metrics/historical/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 14 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.  This API is not available in the Amazon Web Services GovCloud (US) Regions.
+    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.  This API is not available in the Amazon Web Services GovCloud (US) Regions.
     public func getMetricDataV2(_ input: GetMetricDataV2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetMetricDataV2Response {
         return try await self.client.execute(operation: "GetMetricDataV2", path: "/metrics/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the prompt file.
+    public func getPromptFile(_ input: GetPromptFileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPromptFileResponse {
+        return try await self.client.execute(operation: "GetPromptFile", path: "/prompts/{InstanceId}/{PromptId}/file", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets details about a specific task template in the specified Amazon Connect instance.
@@ -435,6 +495,11 @@ extension Connect {
         return try await self.client.execute(operation: "ListBots", path: "/instance/{InstanceId}/bots", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists contact evaluations in the specified Amazon Connect instance.
+    public func listContactEvaluations(_ input: ListContactEvaluationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListContactEvaluationsResponse {
+        return try await self.client.execute(operation: "ListContactEvaluations", path: "/contact-evaluations/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Provides information about the flow modules for the specified Amazon Connect instance.
     public func listContactFlowModules(_ input: ListContactFlowModulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListContactFlowModulesResponse {
         return try await self.client.execute(operation: "ListContactFlowModules", path: "/contact-flow-modules-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -453,6 +518,16 @@ extension Connect {
     /// Lists the default vocabularies for the specified Amazon Connect instance.
     public func listDefaultVocabularies(_ input: ListDefaultVocabulariesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDefaultVocabulariesResponse {
         return try await self.client.execute(operation: "ListDefaultVocabularies", path: "/default-vocabulary-summary/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists versions of an evaluation form in the specified Amazon Connect instance.
+    public func listEvaluationFormVersions(_ input: ListEvaluationFormVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEvaluationFormVersionsResponse {
+        return try await self.client.execute(operation: "ListEvaluationFormVersions", path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists evaluation forms in the specified Amazon Connect instance.
+    public func listEvaluationForms(_ input: ListEvaluationFormsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEvaluationFormsResponse {
+        return try await self.client.execute(operation: "ListEvaluationForms", path: "/evaluation-forms/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
@@ -640,6 +715,11 @@ extension Connect {
         return try await self.client.execute(operation: "StartChatContact", path: "/contact/chat", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Starts an empty evaluation in the specified Amazon Connect instance, using the given evaluation form for the particular contact. The evaluation form version used for the contact evaluation corresponds to the currently activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started.   Evaluations created through the public API do not contain answer values suggested from automation.
+    public func startContactEvaluation(_ input: StartContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartContactEvaluationResponse {
+        return try await self.client.execute(operation: "StartContactEvaluation", path: "/contact-evaluations/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Starts recording the contact:    If the API is called before the agent joins the call, recording starts when the agent joins the call.   If the API is called after the agent joins the call, recording starts at the time of the API call.   StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such as when collecting sensitive information (for example, a credit card number), use SuspendContactRecording and ResumeContactRecording. You can use this API to override the recording behavior configured in the Set recording behavior block. Only voice recordings are supported at this time.
     public func startContactRecording(_ input: StartContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartContactRecordingResponse {
         return try await self.client.execute(operation: "StartContactRecording", path: "/contact/start-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -673,6 +753,11 @@ extension Connect {
     ///  Ends message streaming on a specified contact. To restart message streaming on that contact, call the StartContactStreaming API.
     public func stopContactStreaming(_ input: StopContactStreamingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StopContactStreamingResponse {
         return try await self.client.execute(operation: "StopContactStreaming", path: "/contact/stop-streaming", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Submits a contact evaluation in the specified Amazon Connect instance. Answers included in the request are merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({}) to the question identifier.  If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
+    public func submitContactEvaluation(_ input: SubmitContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SubmitContactEvaluationResponse {
+        return try await self.client.execute(operation: "SubmitContactEvaluation", path: "/contact-evaluations/{InstanceId}/{EvaluationId}/submit", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// When a contact is being recorded, this API suspends recording the call. For example, you might suspend the call recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording.  The period of time that the recording is suspended is filled with silence in the final recording.  Only voice recordings are supported at this time.
@@ -710,6 +795,11 @@ extension Connect {
         return try await self.client.execute(operation: "UpdateContactAttributes", path: "/contact/attributes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates details about a contact evaluation in the specified Amazon Connect instance. A contact evaluation must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An answer or note can be deleted by passing an empty object ({}) to the question identifier.
+    public func updateContactEvaluation(_ input: UpdateContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateContactEvaluationResponse {
+        return try await self.client.execute(operation: "UpdateContactEvaluation", path: "/contact-evaluations/{InstanceId}/{EvaluationId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates the specified flow. You can also create and update flows using the Amazon Connect Flow language.
     public func updateContactFlowContent(_ input: UpdateContactFlowContentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateContactFlowContentResponse {
         return try await self.client.execute(operation: "UpdateContactFlowContent", path: "/contact-flows/{InstanceId}/{ContactFlowId}/content", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -740,6 +830,11 @@ extension Connect {
         return try await self.client.execute(operation: "UpdateContactSchedule", path: "/contact/schedule", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates details about a specific evaluation form version in the specified Amazon Connect instance. Question and section identifiers cannot be duplicated within the same evaluation form. This operation does not support partial updates. Instead it does a full update of evaluation form content.
+    public func updateEvaluationForm(_ input: UpdateEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateEvaluationFormResponse {
+        return try await self.client.execute(operation: "UpdateEvaluationForm", path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation.
     public func updateHoursOfOperation(_ input: UpdateHoursOfOperationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "UpdateHoursOfOperation", path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -760,9 +855,14 @@ extension Connect {
         return try await self.client.execute(operation: "UpdateParticipantRoleConfig", path: "/contact/participant-role-config/{InstanceId}/{ContactId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region.  You can call DescribePhoneNumber API to verify the status of a previous UpdatePhoneNumber operation.
+    /// Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region.  After using this API, you must verify that the phone number is attached to the correct flow in the target instance or traffic distribution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It doesn't migrate the flow configuration of the phone number, too. You can call DescribePhoneNumber API to verify the status of a previous UpdatePhoneNumber operation.
     public func updatePhoneNumber(_ input: UpdatePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdatePhoneNumberResponse {
         return try await self.client.execute(operation: "UpdatePhoneNumber", path: "/phone-number/{PhoneNumberId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a prompt.
+    public func updatePrompt(_ input: UpdatePromptRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdatePromptResponse {
+        return try await self.client.execute(operation: "UpdatePrompt", path: "/prompts/{InstanceId}/{PromptId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation for the specified queue.
@@ -946,7 +1046,7 @@ extension Connect {
         )
     }
 
-    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 14 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.  This API is not available in the Amazon Web Services GovCloud (US) Regions.
+    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.  This API is not available in the Amazon Web Services GovCloud (US) Regions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1029,6 +1129,28 @@ extension Connect {
             command: self.listBots,
             inputKey: \ListBotsRequest.nextToken,
             outputKey: \ListBotsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists contact evaluations in the specified Amazon Connect instance.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listContactEvaluationsPaginator(
+        _ input: ListContactEvaluationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListContactEvaluationsRequest, ListContactEvaluationsResponse> {
+        return .init(
+            input: input,
+            command: self.listContactEvaluations,
+            inputKey: \ListContactEvaluationsRequest.nextToken,
+            outputKey: \ListContactEvaluationsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -1117,6 +1239,50 @@ extension Connect {
             command: self.listDefaultVocabularies,
             inputKey: \ListDefaultVocabulariesRequest.nextToken,
             outputKey: \ListDefaultVocabulariesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists versions of an evaluation form in the specified Amazon Connect instance.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEvaluationFormVersionsPaginator(
+        _ input: ListEvaluationFormVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEvaluationFormVersionsRequest, ListEvaluationFormVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listEvaluationFormVersions,
+            inputKey: \ListEvaluationFormVersionsRequest.nextToken,
+            outputKey: \ListEvaluationFormVersionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists evaluation forms in the specified Amazon Connect instance.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEvaluationFormsPaginator(
+        _ input: ListEvaluationFormsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEvaluationFormsRequest, ListEvaluationFormsResponse> {
+        return .init(
+            input: input,
+            command: self.listEvaluationForms,
+            inputKey: \ListEvaluationFormsRequest.nextToken,
+            outputKey: \ListEvaluationFormsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

@@ -75,6 +75,11 @@ public struct DataSync: AWSService {
 
     // MARK: API Calls
 
+    /// Creates an Amazon Web Services resource for an on-premises storage system that you want DataSync Discovery to collect information about.
+    public func addStorageSystem(_ input: AddStorageSystemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddStorageSystemResponse> {
+        return self.client.execute(operation: "AddStorageSystem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger, on: eventLoop)
+    }
+
     /// Stops an DataSync task execution that's in progress. The transfer of some files are abruptly interrupted. File contents that're transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution using the same task and allow it to finish, file content on the destination will be complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, DataSync successfully completes the transfer when you start the next task execution.
     public func cancelTaskExecution(_ input: CancelTaskExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelTaskExecutionResponse> {
         return self.client.execute(operation: "CancelTaskExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -125,7 +130,7 @@ public struct DataSync: AWSService {
         return self.client.execute(operation: "CreateLocationObjectStorage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an endpoint for an Amazon S3 bucket that DataSync can access for a transfer. For more information, see Create an Amazon S3 location.
+    /// A location is an endpoint for an Amazon S3 bucket. DataSync can use the location as a source or destination for copying data.  Before you create your location, make sure that you read the following sections:    Storage class considerations with Amazon S3 locations     Evaluating S3 request costs when using DataSync     For more information, see Creating an Amazon S3 location.
     public func createLocationS3(_ input: CreateLocationS3Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLocationS3Response> {
         return self.client.execute(operation: "CreateLocationS3", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -135,7 +140,7 @@ public struct DataSync: AWSService {
         return self.client.execute(operation: "CreateLocationSmb", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, a destination location, and the preferences for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options).
+    /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, a destination location, and the preferences for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options).  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
     public func createTask(_ input: CreateTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTaskResponse> {
         return self.client.execute(operation: "CreateTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -158,6 +163,11 @@ public struct DataSync: AWSService {
     /// Returns metadata about an DataSync agent, such as its name, endpoint type, and status.
     public func describeAgent(_ input: DescribeAgentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAgentResponse> {
         return self.client.execute(operation: "DescribeAgent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about a DataSync discovery job.
+    public func describeDiscoveryJob(_ input: DescribeDiscoveryJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDiscoveryJobResponse> {
+        return self.client.execute(operation: "DescribeDiscoveryJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger, on: eventLoop)
     }
 
     /// Returns metadata about your DataSync location for an Amazon EFS file system.
@@ -210,6 +220,21 @@ public struct DataSync: AWSService {
         return self.client.execute(operation: "DescribeLocationSmb", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about an on-premises storage system that you're using with DataSync Discovery.
+    public func describeStorageSystem(_ input: DescribeStorageSystemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStorageSystemResponse> {
+        return self.client.execute(operation: "DescribeStorageSystem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger, on: eventLoop)
+    }
+
+    /// Returns information, including performance data and capacity usage, which DataSync Discovery collects about a specific resource in your-premises storage system.
+    public func describeStorageSystemResourceMetrics(_ input: DescribeStorageSystemResourceMetricsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStorageSystemResourceMetricsResponse> {
+        return self.client.execute(operation: "DescribeStorageSystemResourceMetrics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger, on: eventLoop)
+    }
+
+    /// Returns information that DataSync Discovery collects about resources in your on-premises storage system.
+    public func describeStorageSystemResources(_ input: DescribeStorageSystemResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStorageSystemResourcesResponse> {
+        return self.client.execute(operation: "DescribeStorageSystemResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger, on: eventLoop)
+    }
+
     /// Returns metadata about a task.
     public func describeTask(_ input: DescribeTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTaskResponse> {
         return self.client.execute(operation: "DescribeTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -220,14 +245,29 @@ public struct DataSync: AWSService {
         return self.client.execute(operation: "DescribeTaskExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates recommendations about where to migrate your data to in Amazon Web Services. Recommendations are generated based on information that DataSync Discovery collects about your on-premises storage system's resources. For more information, see Recommendations provided by DataSync Discovery. Once generated, you can view your recommendations by using the DescribeStorageSystemResources operation.  If your discovery job completes successfully, you don't need to use this operation. DataSync Discovery generates the recommendations for you automatically.
+    public func generateRecommendations(_ input: GenerateRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GenerateRecommendationsResponse> {
+        return self.client.execute(operation: "GenerateRecommendations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of DataSync agents that belong to an Amazon Web Services account in the Amazon Web Services Region specified in the request. With pagination, you can reduce the number of agents returned in a response. If you get a truncated list of agents in a response, the response contains a marker that you can specify in your next request to fetch the next page of agents.  ListAgents is eventually consistent. This means the result of running the operation might not reflect that you just created or deleted an agent. For example, if you create an agent with CreateAgent and then immediately run ListAgents, that agent might not show up in the list right away. In situations like this, you can always confirm whether an agent has been created (or deleted) by using DescribeAgent.
     public func listAgents(_ input: ListAgentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAgentsResponse> {
         return self.client.execute(operation: "ListAgents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Provides a list of the existing discovery jobs in the Amazon Web Services Region and Amazon Web Services account where you're using DataSync Discovery.
+    public func listDiscoveryJobs(_ input: ListDiscoveryJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDiscoveryJobsResponse> {
+        return self.client.execute(operation: "ListDiscoveryJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
     public func listLocations(_ input: ListLocationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLocationsResponse> {
         return self.client.execute(operation: "ListLocations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the on-premises storage systems that you're using with DataSync Discovery.
+    public func listStorageSystems(_ input: ListStorageSystemsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStorageSystemsResponse> {
+        return self.client.execute(operation: "ListStorageSystems", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger, on: eventLoop)
     }
 
     /// Returns all the tags associated with an Amazon Web Services resource.
@@ -245,9 +285,24 @@ public struct DataSync: AWSService {
         return self.client.execute(operation: "ListTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts an DataSync task. For each task, you can only run one task execution at a time. There are several phases to a task execution. For more information, see Task execution statuses.
+    /// Permanently removes a storage system resource from DataSync Discovery, including the associated discovery jobs, collected data, and recommendations.
+    public func removeStorageSystem(_ input: RemoveStorageSystemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveStorageSystemResponse> {
+        return self.client.execute(operation: "RemoveStorageSystem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger, on: eventLoop)
+    }
+
+    /// Runs a DataSync discovery job on your on-premises storage system. If you haven't added the storage system to DataSync Discovery yet, do this first by using the AddStorageSystem operation.
+    public func startDiscoveryJob(_ input: StartDiscoveryJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDiscoveryJobResponse> {
+        return self.client.execute(operation: "StartDiscoveryJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger, on: eventLoop)
+    }
+
+    /// Starts an DataSync task. For each task, you can only run one task execution at a time. There are several phases to a task execution. For more information, see Task execution statuses.  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
     public func startTaskExecution(_ input: StartTaskExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartTaskExecutionResponse> {
         return self.client.execute(operation: "StartTaskExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Stops a running DataSync discovery job. You can stop a discovery job anytime. A job that's stopped before it's scheduled to end likely will provide you some information about your on-premises storage system resources. To get recommendations for a stopped job, you must use the GenerateRecommendations operation.
+    public func stopDiscoveryJob(_ input: StopDiscoveryJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopDiscoveryJobResponse> {
+        return self.client.execute(operation: "StopDiscoveryJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger, on: eventLoop)
     }
 
     /// Applies a tag to an Amazon Web Services resource. Tags are key-value pairs that can help you manage, filter, and search for your resources. These include DataSync resources, such as locations, tasks, and task executions.
@@ -265,6 +320,11 @@ public struct DataSync: AWSService {
         return self.client.execute(operation: "UpdateAgent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Edits a DataSync discovery job configuration.
+    public func updateDiscoveryJob(_ input: UpdateDiscoveryJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDiscoveryJobResponse> {
+        return self.client.execute(operation: "UpdateDiscoveryJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger, on: eventLoop)
+    }
+
     /// Updates some parameters of a previously created location for a Hadoop Distributed File System cluster.
     public func updateLocationHdfs(_ input: UpdateLocationHdfsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLocationHdfsResponse> {
         return self.client.execute(operation: "UpdateLocationHdfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -280,9 +340,14 @@ public struct DataSync: AWSService {
         return self.client.execute(operation: "UpdateLocationObjectStorage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates some of the parameters of a previously created location for Server Message Block (SMB) file system access. For information about creating an SMB location, see  Creating a location for SMB.
+    /// Updates some of the parameters of a previously created location for Server Message Block (SMB) file system access. For information about creating an SMB location, see Creating a location for SMB.
     public func updateLocationSmb(_ input: UpdateLocationSmbRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLocationSmbResponse> {
         return self.client.execute(operation: "UpdateLocationSmb", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies some configurations of an on-premises storage system resource that you're using with DataSync Discovery.
+    public func updateStorageSystem(_ input: UpdateStorageSystemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateStorageSystemResponse> {
+        return self.client.execute(operation: "UpdateStorageSystem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger, on: eventLoop)
     }
 
     /// Updates the metadata associated with a task.
@@ -290,7 +355,7 @@ public struct DataSync: AWSService {
         return self.client.execute(operation: "UpdateTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates execution of a task. You can modify bandwidth throttling for a task execution that is running or queued. For more information, see Adjusting Bandwidth Throttling for a Task Execution.  The only Option that can be modified by UpdateTaskExecution  is  BytesPerSecond .
+    /// Modifies a running DataSync task.  Currently, the only Option that you can modify with UpdateTaskExecution is  BytesPerSecond , which throttles bandwidth for a running or queued task.
     public func updateTaskExecution(_ input: UpdateTaskExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTaskExecutionResponse> {
         return self.client.execute(operation: "UpdateTaskExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -308,6 +373,112 @@ extension DataSync {
 // MARK: Paginators
 
 extension DataSync {
+    /// Returns information, including performance data and capacity usage, which DataSync Discovery collects about a specific resource in your-premises storage system.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeStorageSystemResourceMetricsPaginator<Result>(
+        _ input: DescribeStorageSystemResourceMetricsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeStorageSystemResourceMetricsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeStorageSystemResourceMetrics,
+            inputKey: \DescribeStorageSystemResourceMetricsRequest.nextToken,
+            outputKey: \DescribeStorageSystemResourceMetricsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeStorageSystemResourceMetricsPaginator(
+        _ input: DescribeStorageSystemResourceMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeStorageSystemResourceMetricsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeStorageSystemResourceMetrics,
+            inputKey: \DescribeStorageSystemResourceMetricsRequest.nextToken,
+            outputKey: \DescribeStorageSystemResourceMetricsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Returns information that DataSync Discovery collects about resources in your on-premises storage system.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeStorageSystemResourcesPaginator<Result>(
+        _ input: DescribeStorageSystemResourcesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeStorageSystemResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeStorageSystemResources,
+            inputKey: \DescribeStorageSystemResourcesRequest.nextToken,
+            outputKey: \DescribeStorageSystemResourcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeStorageSystemResourcesPaginator(
+        _ input: DescribeStorageSystemResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeStorageSystemResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeStorageSystemResources,
+            inputKey: \DescribeStorageSystemResourcesRequest.nextToken,
+            outputKey: \DescribeStorageSystemResourcesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Returns a list of DataSync agents that belong to an Amazon Web Services account in the Amazon Web Services Region specified in the request. With pagination, you can reduce the number of agents returned in a response. If you get a truncated list of agents in a response, the response contains a marker that you can specify in your next request to fetch the next page of agents.  ListAgents is eventually consistent. This means the result of running the operation might not reflect that you just created or deleted an agent. For example, if you create an agent with CreateAgent and then immediately run ListAgents, that agent might not show up in the list right away. In situations like this, you can always confirm whether an agent has been created (or deleted) by using DescribeAgent.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -361,6 +532,59 @@ extension DataSync {
         )
     }
 
+    /// Provides a list of the existing discovery jobs in the Amazon Web Services Region and Amazon Web Services account where you're using DataSync Discovery.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listDiscoveryJobsPaginator<Result>(
+        _ input: ListDiscoveryJobsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListDiscoveryJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listDiscoveryJobs,
+            inputKey: \ListDiscoveryJobsRequest.nextToken,
+            outputKey: \ListDiscoveryJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listDiscoveryJobsPaginator(
+        _ input: ListDiscoveryJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListDiscoveryJobsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listDiscoveryJobs,
+            inputKey: \ListDiscoveryJobsRequest.nextToken,
+            outputKey: \ListDiscoveryJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -409,6 +633,59 @@ extension DataSync {
             command: self.listLocations,
             inputKey: \ListLocationsRequest.nextToken,
             outputKey: \ListLocationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists the on-premises storage systems that you're using with DataSync Discovery.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listStorageSystemsPaginator<Result>(
+        _ input: ListStorageSystemsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListStorageSystemsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listStorageSystems,
+            inputKey: \ListStorageSystemsRequest.nextToken,
+            outputKey: \ListStorageSystemsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listStorageSystemsPaginator(
+        _ input: ListStorageSystemsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListStorageSystemsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listStorageSystems,
+            inputKey: \ListStorageSystemsRequest.nextToken,
+            outputKey: \ListStorageSystemsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -574,6 +851,33 @@ extension DataSync {
     }
 }
 
+extension DataSync.DescribeStorageSystemResourceMetricsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DataSync.DescribeStorageSystemResourceMetricsRequest {
+        return .init(
+            discoveryJobArn: self.discoveryJobArn,
+            endTime: self.endTime,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceId: self.resourceId,
+            resourceType: self.resourceType,
+            startTime: self.startTime
+        )
+    }
+}
+
+extension DataSync.DescribeStorageSystemResourcesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DataSync.DescribeStorageSystemResourcesRequest {
+        return .init(
+            discoveryJobArn: self.discoveryJobArn,
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceIds: self.resourceIds,
+            resourceType: self.resourceType
+        )
+    }
+}
+
 extension DataSync.ListAgentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataSync.ListAgentsRequest {
         return .init(
@@ -583,10 +887,29 @@ extension DataSync.ListAgentsRequest: AWSPaginateToken {
     }
 }
 
+extension DataSync.ListDiscoveryJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DataSync.ListDiscoveryJobsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            storageSystemArn: self.storageSystemArn
+        )
+    }
+}
+
 extension DataSync.ListLocationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataSync.ListLocationsRequest {
         return .init(
             filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension DataSync.ListStorageSystemsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DataSync.ListStorageSystemsRequest {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )

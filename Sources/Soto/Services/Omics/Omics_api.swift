@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Omics service.
 ///
-/// This is the Amazon Omics API Reference. For an introduction to the service, see What is Amazon Omics? in the Amazon Omics Developer Guide.
+/// This is the Amazon Omics API Reference. For an introduction to the service, see What is Amazon Omics? in the Amazon Omics User Guide.
 public struct Omics: AWSService {
     // MARK: Member variables
 
@@ -77,6 +77,11 @@ public struct Omics: AWSService {
 
     // MARK: API Calls
 
+    ///  Stops a multipart upload.
+    public func abortMultipartReadSetUpload(_ input: AbortMultipartReadSetUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AbortMultipartReadSetUploadResponse> {
+        return self.client.execute(operation: "AbortMultipartReadSetUpload", path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/abort", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
+    }
+
     /// Deletes one or more read sets.
     public func batchDeleteReadSet(_ input: BatchDeleteReadSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteReadSetResponse> {
         return self.client.execute(operation: "BatchDeleteReadSet", path: "/sequencestore/{sequenceStoreId}/readset/batch/delete", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
@@ -97,9 +102,19 @@ public struct Omics: AWSService {
         return self.client.execute(operation: "CancelVariantImportJob", path: "/import/variant/{jobId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
     }
 
+    ///  Concludes a multipart upload once you have uploaded all the components.
+    public func completeMultipartReadSetUpload(_ input: CompleteMultipartReadSetUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CompleteMultipartReadSetUploadResponse> {
+        return self.client.execute(operation: "CompleteMultipartReadSetUpload", path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/complete", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "storage-", logger: logger, on: eventLoop)
+    }
+
     /// Creates an annotation store.
     public func createAnnotationStore(_ input: CreateAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAnnotationStoreResponse> {
         return self.client.execute(operation: "CreateAnnotationStore", path: "/annotationStore", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
+    }
+
+    ///  Begins a multipart read set upload.
+    public func createMultipartReadSetUpload(_ input: CreateMultipartReadSetUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMultipartReadSetUploadResponse> {
+        return self.client.execute(operation: "CreateMultipartReadSetUpload", path: "/sequencestore/{sequenceStoreId}/upload", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
     }
 
     /// Creates a reference store.
@@ -267,6 +282,11 @@ public struct Omics: AWSService {
         return self.client.execute(operation: "ListAnnotationStores", path: "/annotationStores", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger, on: eventLoop)
     }
 
+    ///  Lists all multipart read set uploads and their statuses.
+    public func listMultipartReadSetUploads(_ input: ListMultipartReadSetUploadsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMultipartReadSetUploadsResponse> {
+        return self.client.execute(operation: "ListMultipartReadSetUploads", path: "/sequencestore/{sequenceStoreId}/uploads", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
+    }
+
     /// Retrieves a list of read set activation jobs.
     public func listReadSetActivationJobs(_ input: ListReadSetActivationJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListReadSetActivationJobsResponse> {
         return self.client.execute(operation: "ListReadSetActivationJobs", path: "/sequencestore/{sequenceStoreId}/activationjobs", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
@@ -280,6 +300,11 @@ public struct Omics: AWSService {
     /// Retrieves a list of read set import jobs.
     public func listReadSetImportJobs(_ input: ListReadSetImportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListReadSetImportJobsResponse> {
         return self.client.execute(operation: "ListReadSetImportJobs", path: "/sequencestore/{sequenceStoreId}/importjobs", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
+    }
+
+    ///  This operation will list all parts in a requested multipart upload for a sequence store.
+    public func listReadSetUploadParts(_ input: ListReadSetUploadPartsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListReadSetUploadPartsResponse> {
+        return self.client.execute(operation: "ListReadSetUploadParts", path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/parts", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger, on: eventLoop)
     }
 
     /// Retrieves a list of read sets.
@@ -405,6 +430,11 @@ public struct Omics: AWSService {
     /// Updates a workflow.
     @discardableResult public func updateWorkflow(_ input: UpdateWorkflowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateWorkflow", path: "/workflow/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger, on: eventLoop)
+    }
+
+    ///  This operation uploads a specific part of a read set. If you upload a new part using a previously used part number, the previously uploaded part will be overwritten.
+    public func uploadReadSetPart(_ input: UploadReadSetPartRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UploadReadSetPartResponse> {
+        return self.client.execute(operation: "UploadReadSetPart", path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/part", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "storage-", logger: logger, on: eventLoop)
     }
 
     // MARK: Streaming API Calls
@@ -533,6 +563,59 @@ extension Omics {
             command: self.listAnnotationStores,
             inputKey: \ListAnnotationStoresRequest.nextToken,
             outputKey: \ListAnnotationStoresResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists all multipart read set uploads and their statuses.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listMultipartReadSetUploadsPaginator<Result>(
+        _ input: ListMultipartReadSetUploadsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListMultipartReadSetUploadsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listMultipartReadSetUploads,
+            inputKey: \ListMultipartReadSetUploadsRequest.nextToken,
+            outputKey: \ListMultipartReadSetUploadsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listMultipartReadSetUploadsPaginator(
+        _ input: ListMultipartReadSetUploadsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListMultipartReadSetUploadsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listMultipartReadSetUploads,
+            inputKey: \ListMultipartReadSetUploadsRequest.nextToken,
+            outputKey: \ListMultipartReadSetUploadsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -692,6 +775,59 @@ extension Omics {
             command: self.listReadSetImportJobs,
             inputKey: \ListReadSetImportJobsRequest.nextToken,
             outputKey: \ListReadSetImportJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  This operation will list all parts in a requested multipart upload for a sequence store.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listReadSetUploadPartsPaginator<Result>(
+        _ input: ListReadSetUploadPartsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListReadSetUploadPartsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listReadSetUploadParts,
+            inputKey: \ListReadSetUploadPartsRequest.nextToken,
+            outputKey: \ListReadSetUploadPartsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listReadSetUploadPartsPaginator(
+        _ input: ListReadSetUploadPartsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListReadSetUploadPartsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listReadSetUploadParts,
+            inputKey: \ListReadSetUploadPartsRequest.nextToken,
+            outputKey: \ListReadSetUploadPartsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1303,6 +1439,16 @@ extension Omics.ListAnnotationStoresRequest: AWSPaginateToken {
     }
 }
 
+extension Omics.ListMultipartReadSetUploadsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Omics.ListMultipartReadSetUploadsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sequenceStoreId: self.sequenceStoreId
+        )
+    }
+}
+
 extension Omics.ListReadSetActivationJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Omics.ListReadSetActivationJobsRequest {
         return .init(
@@ -1332,6 +1478,19 @@ extension Omics.ListReadSetImportJobsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sequenceStoreId: self.sequenceStoreId
+        )
+    }
+}
+
+extension Omics.ListReadSetUploadPartsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Omics.ListReadSetUploadPartsRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            partSource: self.partSource,
+            sequenceStoreId: self.sequenceStoreId,
+            uploadId: self.uploadId
         )
     }
 }
@@ -1406,7 +1565,8 @@ extension Omics.ListRunsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             name: self.name,
             runGroupId: self.runGroupId,
-            startingToken: token
+            startingToken: token,
+            status: self.status
         )
     }
 }

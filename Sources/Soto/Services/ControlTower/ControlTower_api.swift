@@ -60,6 +60,7 @@ public struct ControlTower: AWSService {
                     "ca-central-1": "controltower-fips.ca-central-1.amazonaws.com",
                     "us-east-1": "controltower-fips.us-east-1.amazonaws.com",
                     "us-east-2": "controltower-fips.us-east-2.amazonaws.com",
+                    "us-west-1": "controltower-fips.us-west-1.amazonaws.com",
                     "us-west-2": "controltower-fips.us-west-2.amazonaws.com"
                 ])
             ],
