@@ -108,6 +108,7 @@ class SNSTests: XCTestCase {
     }
 
     func testError() {
+        guard !TestEnvironment.isUsingLocalstack else { return }
         let response = Self.sns.getTopicAttributes(.init(topicArn: "arn:sns:invalid"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
