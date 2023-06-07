@@ -71,6 +71,12 @@ public struct Route53Resolver: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-04-01",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-gov-east-1": "route53resolver.us-gov-east-1.amazonaws.com",
+                    "us-gov-west-1": "route53resolver.us-gov-west-1.amazonaws.com"
+                ])
+            ],
             errorType: Route53ResolverErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

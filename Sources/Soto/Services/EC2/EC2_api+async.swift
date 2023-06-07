@@ -203,7 +203,7 @@ extension EC2 {
         return try await self.client.execute(operation: "AttachNetworkInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. One or more trust providers can be attached to an Amazon Web Services Verified Access instance.
+    /// Attaches the specified Amazon Web Services Verified Access trust provider to the specified Amazon Web Services Verified Access instance.
     public func attachVerifiedAccessTrustProvider(_ input: AttachVerifiedAccessTrustProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AttachVerifiedAccessTrustProviderResult {
         return try await self.client.execute(operation: "AttachVerifiedAccessTrustProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -723,7 +723,7 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateVerifiedAccessEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// An Amazon Web Services Verified Access group is a collection of Amazon Web Services Verified Access endpoints who's associated applications have similar security requirements. Each instance within an Amazon Web Services Verified Access group shares an Amazon Web Services Verified Access policy. For example, you can group all Amazon Web Services Verified Access instances associated with “sales” applications together and use one common Amazon Web Services Verified Access policy.
+    /// An Amazon Web Services Verified Access group is a collection of Amazon Web Services Verified Access endpoints who's associated applications have similar security requirements. Each instance within a Verified Access group shares an Verified Access policy. For example, you can group all Verified Access instances associated with "sales" applications together and use one common Verified Access policy.
     public func createVerifiedAccessGroup(_ input: CreateVerifiedAccessGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateVerifiedAccessGroupResult {
         return try await self.client.execute(operation: "CreateVerifiedAccessGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -733,7 +733,7 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateVerifiedAccessInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. When an application request is made, the identity information sent by the trust provider will be evaluated by Amazon Web Services Verified Access, before allowing or denying the application request.
+    /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. When an application request is made, the identity information sent by the trust provider is evaluated by Verified Access before allowing or denying the application request.
     public func createVerifiedAccessTrustProvider(_ input: CreateVerifiedAccessTrustProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateVerifiedAccessTrustProviderResult {
         return try await self.client.execute(operation: "CreateVerifiedAccessTrustProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1833,27 +1833,27 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeTrunkInterfaceAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describe Amazon Web Services Verified Access endpoints.
+    /// Describes the specified Amazon Web Services Verified Access endpoints.
     public func describeVerifiedAccessEndpoints(_ input: DescribeVerifiedAccessEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVerifiedAccessEndpointsResult {
         return try await self.client.execute(operation: "DescribeVerifiedAccessEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describe details of existing Verified Access groups.
+    /// Describes the specified Verified Access groups.
     public func describeVerifiedAccessGroups(_ input: DescribeVerifiedAccessGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVerifiedAccessGroupsResult {
         return try await self.client.execute(operation: "DescribeVerifiedAccessGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the current logging configuration for the Amazon Web Services Verified Access instances.
+    /// Describes the specified Amazon Web Services Verified Access instances.
     public func describeVerifiedAccessInstanceLoggingConfigurations(_ input: DescribeVerifiedAccessInstanceLoggingConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVerifiedAccessInstanceLoggingConfigurationsResult {
         return try await self.client.execute(operation: "DescribeVerifiedAccessInstanceLoggingConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describe Verified Access instances.
+    /// Describes the specified Amazon Web Services Verified Access instances.
     public func describeVerifiedAccessInstances(_ input: DescribeVerifiedAccessInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVerifiedAccessInstancesResult {
         return try await self.client.execute(operation: "DescribeVerifiedAccessInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describe details of existing Verified Access trust providers.
+    /// Describes the specified Amazon Web Services Verified Access trust providers.
     public func describeVerifiedAccessTrustProviders(_ input: DescribeVerifiedAccessTrustProvidersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVerifiedAccessTrustProvidersResult {
         return try await self.client.execute(operation: "DescribeVerifiedAccessTrustProviders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1960,7 +1960,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DetachNetworkInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Detach a trust provider from an Amazon Web Services Verified Access instance.
+    /// Detaches the specified Amazon Web Services Verified Access trust provider from the specified Amazon Web Services Verified Access instance.
     public func detachVerifiedAccessTrustProvider(_ input: DetachVerifiedAccessTrustProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetachVerifiedAccessTrustProviderResult {
         return try await self.client.execute(operation: "DetachVerifiedAccessTrustProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2570,7 +2570,7 @@ extension EC2 {
         return try await self.client.execute(operation: "ModifyImageAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time.  Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance in a VPC can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNetworkInterfaceAttribute action. To modify some attributes, the instance must be stopped. For more information, see Modify a stopped instance in the Amazon EC2 User Guide.
+    /// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time.  Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNetworkInterfaceAttribute action. To modify some attributes, the instance must be stopped. For more information, see Modify a stopped instance in the Amazon EC2 User Guide.
     public func modifyInstanceAttribute(_ input: ModifyInstanceAttributeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "ModifyInstanceAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2663,7 +2663,7 @@ extension EC2 {
     }
 
     /// Modifies the configuration of your Reserved Instances, such as the Availability Zone,  instance count, or instance type. The Reserved Instances to be modified must be identical,  except for Availability Zone, network platform, and instance type. For more information, see Modifying Reserved
-    /// 				Instances in the Amazon EC2 User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 				Instances in the Amazon EC2 User Guide.
     public func modifyReservedInstances(_ input: ModifyReservedInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyReservedInstancesResult {
         return try await self.client.execute(operation: "ModifyReservedInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2723,27 +2723,27 @@ extension EC2 {
         return try await self.client.execute(operation: "ModifyTransitGatewayVpcAttachment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the configuration of an Amazon Web Services Verified Access endpoint.
+    /// Modifies the configuration of the specified Amazon Web Services Verified Access endpoint.
     public func modifyVerifiedAccessEndpoint(_ input: ModifyVerifiedAccessEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVerifiedAccessEndpointResult {
         return try await self.client.execute(operation: "ModifyVerifiedAccessEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the specified Verified Access endpoint policy.
+    /// Modifies the specified Amazon Web Services Verified Access endpoint policy.
     public func modifyVerifiedAccessEndpointPolicy(_ input: ModifyVerifiedAccessEndpointPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVerifiedAccessEndpointPolicyResult {
         return try await self.client.execute(operation: "ModifyVerifiedAccessEndpointPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the specified Verified Access group configuration.
+    /// Modifies the specified Amazon Web Services Verified Access group configuration.
     public func modifyVerifiedAccessGroup(_ input: ModifyVerifiedAccessGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVerifiedAccessGroupResult {
         return try await self.client.execute(operation: "ModifyVerifiedAccessGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the specified Verified Access group policy.
+    /// Modifies the specified Amazon Web Services Verified Access group policy.
     public func modifyVerifiedAccessGroupPolicy(_ input: ModifyVerifiedAccessGroupPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVerifiedAccessGroupPolicyResult {
         return try await self.client.execute(operation: "ModifyVerifiedAccessGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the configuration of the specified Verified Access instance.
+    /// Modifies the configuration of the specified Amazon Web Services Verified Access instance.
     public func modifyVerifiedAccessInstance(_ input: ModifyVerifiedAccessInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVerifiedAccessInstanceResult {
         return try await self.client.execute(operation: "ModifyVerifiedAccessInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2868,7 +2868,7 @@ extension EC2 {
 
     /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower  hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings
     /// 			that match your specifications. After you've purchased a Reserved Instance, you can check for your
-    /// 			new Reserved Instance with DescribeReservedInstances. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. For more information, see Reserved Instances and  	   Reserved Instance Marketplace  	   in the Amazon EC2 User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 			new Reserved Instance with DescribeReservedInstances. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. For more information, see Reserved Instances and  	   Reserved Instance Marketplace  	   in the Amazon EC2 User Guide.
     public func purchaseReservedInstancesOffering(_ input: PurchaseReservedInstancesOfferingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PurchaseReservedInstancesOfferingResult {
         return try await self.client.execute(operation: "PurchaseReservedInstancesOffering", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2998,7 +2998,7 @@ extension EC2 {
         return try await self.client.execute(operation: "RequestSpotFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a Spot Instance request. For more information, see Spot Instance requests in the Amazon EC2 User Guide for Linux Instances.  We strongly discourage using the RequestSpotInstances API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see Which is the best Spot request method to use? in the Amazon EC2 User Guide for Linux Instances.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide for Linux Instances.
+    /// Creates a Spot Instance request. For more information, see Spot Instance requests in the Amazon EC2 User Guide for Linux Instances.  We strongly discourage using the RequestSpotInstances API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see Which is the best Spot request method to use? in the Amazon EC2 User Guide for Linux Instances.
     public func requestSpotInstances(_ input: RequestSpotInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RequestSpotInstancesResult {
         return try await self.client.execute(operation: "RequestSpotInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -3079,7 +3079,7 @@ extension EC2 {
         return try await self.client.execute(operation: "RevokeSecurityGroupIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Launches the specified number of instances using an AMI for which you have permissions. You can specify a number of options, or leave the default options. The following rules apply:   [EC2-VPC] If you don't specify a subnet ID, we choose a default subnet from your default VPC for you. If you don't have a default VPC, you must specify a subnet ID in the request.   [EC2-Classic] If don't specify an Availability Zone, we choose one for you.   Some instance types must be launched into a VPC. If you do not have a default VPC, or if you do not specify a subnet ID, the request fails. For more information, see Instance types available only in a VPC.   [EC2-VPC] All instances have a network interface with a primary private IPv4 address. If you don't specify this address, we choose one from the IPv4 range of your subnet.   Not all instance types support IPv6 addresses. For more information, see Instance types.   If you don't specify a security group ID, we use the default security group. For more information, see Security groups.   If any of the AMIs have a product code attached for which the user has not subscribed, the request fails.   You can create a launch template, which is a resource that contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify the launch template instead of specifying the launch parameters. To ensure faster instance launches, break up large requests into smaller batches. For example, create five separate launch requests for 100 instances each instead of one launch request for 500 instances. An instance is ready for you to use when it's in the running state. You can check the state of your instance using DescribeInstances. You can tag instances and EBS volumes during launch, after launch, or both. For more information, see CreateTags and Tagging your Amazon EC2 resources. Linux instances have access to the public key of the key pair at boot. You can use this key to provide secure access to the instance. Amazon EC2 public images use this feature to provide secure access without passwords. For more information, see Key pairs. For troubleshooting, see What to do if an instance immediately terminates, and Troubleshooting connecting to your instance.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide.
+    /// Launches the specified number of instances using an AMI for which you have permissions. You can specify a number of options, or leave the default options. The following rules apply:   If you don't specify a subnet ID, we choose a default subnet from your default VPC for you. If you don't have a default VPC, you must specify a subnet ID in the request.   All instances have a network interface with a primary private IPv4 address. If you don't specify this address, we choose one from the IPv4 range of your subnet.   Not all instance types support IPv6 addresses. For more information, see Instance types.   If you don't specify a security group ID, we use the default security group. For more information, see Security groups.   If any of the AMIs have a product code attached for which the user has not subscribed, the request fails.   You can create a launch template, which is a resource that contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify the launch template instead of specifying the launch parameters. To ensure faster instance launches, break up large requests into smaller batches. For example, create five separate launch requests for 100 instances each instead of one launch request for 500 instances. An instance is ready for you to use when it's in the running state. You can check the state of your instance using DescribeInstances. You can tag instances and EBS volumes during launch, after launch, or both. For more information, see CreateTags and Tagging your Amazon EC2 resources. Linux instances have access to the public key of the key pair at boot. You can use this key to provide secure access to the instance. Amazon EC2 public images use this feature to provide secure access without passwords. For more information, see Key pairs. For troubleshooting, see What to do if an instance immediately terminates, and Troubleshooting connecting to your instance.
     public func runInstances(_ input: RunInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> Reservation {
         return try await self.client.execute(operation: "RunInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -5274,7 +5274,7 @@ extension EC2 {
         )
     }
 
-    /// Describe Amazon Web Services Verified Access endpoints.
+    /// Describes the specified Amazon Web Services Verified Access endpoints.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -5296,7 +5296,7 @@ extension EC2 {
         )
     }
 
-    /// Describe details of existing Verified Access groups.
+    /// Describes the specified Verified Access groups.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -5318,7 +5318,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the current logging configuration for the Amazon Web Services Verified Access instances.
+    /// Describes the specified Amazon Web Services Verified Access instances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -5340,7 +5340,7 @@ extension EC2 {
         )
     }
 
-    /// Describe Verified Access instances.
+    /// Describes the specified Amazon Web Services Verified Access instances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -5362,7 +5362,7 @@ extension EC2 {
         )
     }
 
-    /// Describe details of existing Verified Access trust providers.
+    /// Describes the specified Amazon Web Services Verified Access trust providers.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -5885,6 +5885,28 @@ extension EC2 {
             command: self.getManagedPrefixListEntries,
             inputKey: \GetManagedPrefixListEntriesRequest.nextToken,
             outputKey: \GetManagedPrefixListEntriesResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Gets the findings for the specified Network Access Scope analysis.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getNetworkInsightsAccessScopeAnalysisFindingsPaginator(
+        _ input: GetNetworkInsightsAccessScopeAnalysisFindingsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetNetworkInsightsAccessScopeAnalysisFindingsRequest, GetNetworkInsightsAccessScopeAnalysisFindingsResult> {
+        return .init(
+            input: input,
+            command: self.getNetworkInsightsAccessScopeAnalysisFindings,
+            inputKey: \GetNetworkInsightsAccessScopeAnalysisFindingsRequest.nextToken,
+            outputKey: \GetNetworkInsightsAccessScopeAnalysisFindingsResult.nextToken,
             logger: logger,
             on: eventLoop
         )

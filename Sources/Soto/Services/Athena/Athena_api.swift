@@ -84,6 +84,14 @@ public struct Athena: AWSService {
                     "us-west-1": "athena.us-west-1.api.aws",
                     "us-west-2": "athena.us-west-2.api.aws"
                 ]),
+                [.dualstack, .fips]: .init(endpoints: [
+                    "us-east-1": "athena-fips.us-east-1.api.aws",
+                    "us-east-2": "athena-fips.us-east-2.api.aws",
+                    "us-gov-east-1": "athena-fips.us-gov-east-1.api.aws",
+                    "us-gov-west-1": "athena-fips.us-gov-west-1.api.aws",
+                    "us-west-1": "athena-fips.us-west-1.api.aws",
+                    "us-west-2": "athena-fips.us-west-2.api.aws"
+                ]),
                 [.fips]: .init(endpoints: [
                     "us-east-1": "athena-fips.us-east-1.amazonaws.com",
                     "us-east-2": "athena-fips.us-east-2.amazonaws.com",
@@ -117,6 +125,16 @@ public struct Athena: AWSService {
         return self.client.execute(operation: "BatchGetQueryExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Cancels the capacity reservation with the specified name. Cancelled reservations remain in your account and will be deleted 45 days after cancellation. During the 45 days, you cannot re-purpose or reuse a reservation that has been cancelled, but you can refer to its tags and view it for historical reference.
+    public func cancelCapacityReservation(_ input: CancelCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelCapacityReservationOutput> {
+        return self.client.execute(operation: "CancelCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a capacity reservation with the specified name and number of requested data processing units.
+    public func createCapacityReservation(_ input: CreateCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCapacityReservationOutput> {
+        return self.client.execute(operation: "CreateCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates (registers) a data catalog with the specified name and properties. Catalogs created are visible to all users of the same Amazon Web Services account.
     public func createDataCatalog(_ input: CreateDataCatalogInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDataCatalogOutput> {
         return self.client.execute(operation: "CreateDataCatalog", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -145,6 +163,11 @@ public struct Athena: AWSService {
     /// Creates a workgroup with the specified name. A workgroup can be an Apache Spark enabled workgroup or an Athena SQL workgroup.
     public func createWorkGroup(_ input: CreateWorkGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkGroupOutput> {
         return self.client.execute(operation: "CreateWorkGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a cancelled capacity reservation. A reservation must be cancelled before it can be deleted. A deleted reservation is immediately removed from your account and can no longer be referenced, including by its ARN. A deleted reservation cannot be called by GetCapacityReservation, and  deleted reservations do not appear in the output of ListCapacityReservations.
+    public func deleteCapacityReservation(_ input: DeleteCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCapacityReservationOutput> {
+        return self.client.execute(operation: "DeleteCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a data catalog.
@@ -190,6 +213,16 @@ public struct Athena: AWSService {
     /// Gets the status of a current calculation.
     public func getCalculationExecutionStatus(_ input: GetCalculationExecutionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCalculationExecutionStatusResponse> {
         return self.client.execute(operation: "GetCalculationExecutionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the capacity assignment configuration for a capacity reservation, if one exists.
+    public func getCapacityAssignmentConfiguration(_ input: GetCapacityAssignmentConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCapacityAssignmentConfigurationOutput> {
+        return self.client.execute(operation: "GetCapacityAssignmentConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about the capacity reservation with the specified name.
+    public func getCapacityReservation(_ input: GetCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCapacityReservationOutput> {
+        return self.client.execute(operation: "GetCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns the specified data catalog.
@@ -267,6 +300,11 @@ public struct Athena: AWSService {
         return self.client.execute(operation: "ListCalculationExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the capacity reservations for the current account.
+    public func listCapacityReservations(_ input: ListCapacityReservationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCapacityReservationsOutput> {
+        return self.client.execute(operation: "ListCapacityReservations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the data catalogs in the current Amazon Web Services account.  In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
     public func listDataCatalogs(_ input: ListDataCatalogsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDataCatalogsOutput> {
         return self.client.execute(operation: "ListDataCatalogs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -322,7 +360,7 @@ public struct Athena: AWSService {
         return self.client.execute(operation: "ListTableMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the tags associated with an Athena workgroup or data catalog resource.
+    /// Lists the tags associated with an Athena resource.
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
         return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -330,6 +368,11 @@ public struct Athena: AWSService {
     /// Lists available workgroups for the account.
     public func listWorkGroups(_ input: ListWorkGroupsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWorkGroupsOutput> {
         return self.client.execute(operation: "ListWorkGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Puts a new capacity assignment configuration for a specified capacity reservation. If a capacity assignment configuration already exists for the capacity reservation, replaces the existing capacity assignment configuration.
+    public func putCapacityAssignmentConfiguration(_ input: PutCapacityAssignmentConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutCapacityAssignmentConfigurationOutput> {
+        return self.client.execute(operation: "PutCapacityAssignmentConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request.
@@ -357,7 +400,7 @@ public struct Athena: AWSService {
         return self.client.execute(operation: "StopQueryExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups or data catalogs in your account. For best practices, see Tagging Best Practices. Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
+    /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups, data catalogs, or capacity reservations by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter the resources in your account. For best practices, see Tagging Best Practices. Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
         return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -367,9 +410,14 @@ public struct Athena: AWSService {
         return self.client.execute(operation: "TerminateSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes one or more tags from a data catalog or workgroup resource.
+    /// Removes one or more tags from an Athena resource.
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
         return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the number of requested data processing units for the capacity reservation with the specified name.
+    public func updateCapacityReservation(_ input: UpdateCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCapacityReservationOutput> {
+        return self.client.execute(operation: "UpdateCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the data catalog that has the specified name.
@@ -569,6 +617,59 @@ extension Athena {
             command: self.listCalculationExecutions,
             inputKey: \ListCalculationExecutionsRequest.nextToken,
             outputKey: \ListCalculationExecutionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Lists the capacity reservations for the current account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCapacityReservationsPaginator<Result>(
+        _ input: ListCapacityReservationsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCapacityReservationsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listCapacityReservations,
+            inputKey: \ListCapacityReservationsInput.nextToken,
+            outputKey: \ListCapacityReservationsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCapacityReservationsPaginator(
+        _ input: ListCapacityReservationsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCapacityReservationsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listCapacityReservations,
+            inputKey: \ListCapacityReservationsInput.nextToken,
+            outputKey: \ListCapacityReservationsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1051,7 +1152,7 @@ extension Athena {
         )
     }
 
-    /// Lists the tags associated with an Athena workgroup or data catalog resource.
+    /// Lists the tags associated with an Athena resource.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1184,6 +1285,15 @@ extension Athena.ListCalculationExecutionsRequest: AWSPaginateToken {
             nextToken: token,
             sessionId: self.sessionId,
             stateFilter: self.stateFilter
+        )
+    }
+}
+
+extension Athena.ListCapacityReservationsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Athena.ListCapacityReservationsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

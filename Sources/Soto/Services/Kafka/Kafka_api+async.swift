@@ -46,14 +46,29 @@ extension Kafka {
         return try await self.client.execute(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a new MSK VPC connection.
+    public func createVpcConnection(_ input: CreateVpcConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateVpcConnectionResponse {
+        return try await self.client.execute(operation: "CreateVpcConnection", path: "/v1/vpc-connection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
     public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteClusterResponse {
         return try await self.client.execute(operation: "DeleteCluster", path: "/v1/clusters/{ClusterArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
+    public func deleteClusterPolicy(_ input: DeleteClusterPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteClusterPolicyResponse {
+        return try await self.client.execute(operation: "DeleteClusterPolicy", path: "/v1/clusters/{ClusterArn}/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes an MSK Configuration.
     public func deleteConfiguration(_ input: DeleteConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteConfigurationResponse {
         return try await self.client.execute(operation: "DeleteConfiguration", path: "/v1/configurations/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a MSK VPC connection.
+    public func deleteVpcConnection(_ input: DeleteVpcConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteVpcConnectionResponse {
+        return try await self.client.execute(operation: "DeleteVpcConnection", path: "/v1/vpc-connection/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
@@ -81,14 +96,29 @@ extension Kafka {
         return try await self.client.execute(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{Arn}/revisions/{Revision}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a description of this MSK VPC connection.
+    public func describeVpcConnection(_ input: DescribeVpcConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVpcConnectionResponse {
+        return try await self.client.execute(operation: "DescribeVpcConnection", path: "/v1/vpc-connection/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// A list of brokers that a client application can use to bootstrap.
     public func getBootstrapBrokers(_ input: GetBootstrapBrokersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetBootstrapBrokersResponse {
         return try await self.client.execute(operation: "GetBootstrapBrokers", path: "/v1/clusters/{ClusterArn}/bootstrap-brokers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
+    public func getClusterPolicy(_ input: GetClusterPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetClusterPolicyResponse {
+        return try await self.client.execute(operation: "GetClusterPolicy", path: "/v1/clusters/{ClusterArn}/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets the Apache Kafka versions to which you can update the MSK cluster.
     public func getCompatibleKafkaVersions(_ input: GetCompatibleKafkaVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetCompatibleKafkaVersionsResponse {
         return try await self.client.execute(operation: "GetCompatibleKafkaVersions", path: "/v1/compatible-kafka-versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of all the VPC connections in this Region.
+    public func listClientVpcConnections(_ input: ListClientVpcConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListClientVpcConnectionsResponse {
+        return try await self.client.execute(operation: "ListClientVpcConnections", path: "/v1/clusters/{ClusterArn}/client-vpc-connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
@@ -136,9 +166,24 @@ extension Kafka {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/v1/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a list of all the VPC connections in this Region.
+    public func listVpcConnections(_ input: ListVpcConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListVpcConnectionsResponse {
+        return try await self.client.execute(operation: "ListVpcConnections", path: "/v1/vpc-connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request.
+    public func putClusterPolicy(_ input: PutClusterPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutClusterPolicyResponse {
+        return try await self.client.execute(operation: "PutClusterPolicy", path: "/v1/clusters/{ClusterArn}/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Reboots brokers.
     public func rebootBroker(_ input: RebootBrokerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RebootBrokerResponse {
         return try await self.client.execute(operation: "RebootBroker", path: "/v1/clusters/{ClusterArn}/reboot-broker", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns empty response.
+    public func rejectClientVpcConnection(_ input: RejectClientVpcConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RejectClientVpcConnectionResponse {
+        return try await self.client.execute(operation: "RejectClientVpcConnection", path: "/v1/clusters/{ClusterArn}/client-vpc-connection", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Adds tags to the specified MSK resource.
@@ -206,6 +251,28 @@ extension Kafka {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Kafka {
+    /// Returns a list of all the VPC connections in this Region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listClientVpcConnectionsPaginator(
+        _ input: ListClientVpcConnectionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListClientVpcConnectionsRequest, ListClientVpcConnectionsResponse> {
+        return .init(
+            input: input,
+            command: self.listClientVpcConnections,
+            inputKey: \ListClientVpcConnectionsRequest.nextToken,
+            outputKey: \ListClientVpcConnectionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     /// Return PaginatorSequence for operation.
     ///
@@ -377,6 +444,28 @@ extension Kafka {
             command: self.listScramSecrets,
             inputKey: \ListScramSecretsRequest.nextToken,
             outputKey: \ListScramSecretsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Returns a list of all the VPC connections in this Region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listVpcConnectionsPaginator(
+        _ input: ListVpcConnectionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListVpcConnectionsRequest, ListVpcConnectionsResponse> {
+        return .init(
+            input: input,
+            command: self.listVpcConnections,
+            inputKey: \ListVpcConnectionsRequest.nextToken,
+            outputKey: \ListVpcConnectionsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

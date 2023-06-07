@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS FraudDetector service.
 ///
-/// This is the Amazon Fraud Detector API Reference. This guide is for developers who need detailed information about Amazon Fraud Detector API actions, data types, and errors. For more information about Amazon Fraud Detector features, see the Amazon Fraud Detector User Guide. We provide the Query API as well as AWS software development kits (SDK) for Amazon Fraud Detector in Java and Python programming languages. The Amazon Fraud Detector Query API provides HTTPS requests that use the HTTP verb GET or POST and a Query parameter Action. AWS SDK provides libraries,  sample code, tutorials, and other resources for software developers who prefer to build applications using language-specific APIs instead of submitting a request over  HTTP or HTTPS. These libraries provide basic functions that automatically take care of tasks such as cryptographically signing your requests, retrying requests, and  handling error responses, so that it is easier for you to get started. For more information about the AWS SDKs, see Tools to build on AWS.
+/// This is the Amazon Fraud Detector API Reference. This guide is for developers who need detailed information about Amazon Fraud Detector API actions, data types, and errors. For more information about Amazon Fraud Detector features, see the Amazon Fraud Detector User Guide. We provide the Query API as well as AWS software development kits (SDK) for Amazon Fraud Detector in Java and Python programming languages. The Amazon Fraud Detector Query API provides HTTPS requests that use the HTTP verb GET or POST and a Query parameter Action. AWS SDK provides libraries,  sample code, tutorials, and other resources for software developers who prefer to build applications using language-specific APIs instead of submitting a request over  HTTP or HTTPS. These libraries provide basic functions that automatically take care of tasks such as cryptographically signing your requests, retrying requests, and  handling error responses, so that it is easier for you to get started. For more information about the AWS SDKs, go to Tools to build on AWS page,  scroll down to the SDK section, and choose plus (+) sign to expand the section.
 public struct FraudDetector: AWSService {
     // MARK: Member variables
 
@@ -151,6 +151,7 @@ public struct FraudDetector: AWSService {
     }
 
     /// Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud Detector.
+    /// 	  If deleteAuditHistory is True, event data is available through search for up to 30 seconds after the delete operation is completed.
     public func deleteEvent(_ input: DeleteEventRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEventResult> {
         return self.client.execute(operation: "DeleteEvent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

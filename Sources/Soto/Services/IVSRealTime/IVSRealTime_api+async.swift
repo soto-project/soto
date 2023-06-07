@@ -21,8 +21,7 @@ import SotoCore
 extension IVSRealTime {
     // MARK: Async API Calls
 
-    /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire.
-    /// 	        Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application.
+    /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application.
     public func createParticipantToken(_ input: CreateParticipantTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateParticipantTokenResponse {
         return try await self.client.execute(operation: "CreateParticipantToken", path: "/CreateParticipantToken", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -42,9 +41,34 @@ extension IVSRealTime {
         return try await self.client.execute(operation: "DisconnectParticipant", path: "/DisconnectParticipant", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets information about the specified participant token.
+    public func getParticipant(_ input: GetParticipantRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetParticipantResponse {
+        return try await self.client.execute(operation: "GetParticipant", path: "/GetParticipant", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets information for the specified stage.
     public func getStage(_ input: GetStageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetStageResponse {
         return try await self.client.execute(operation: "GetStage", path: "/GetStage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets information for the specified stage session.
+    public func getStageSession(_ input: GetStageSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetStageSessionResponse {
+        return try await self.client.execute(operation: "GetStageSession", path: "/GetStageSession", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists events for a specified participant that occurred during a specified stage session.
+    public func listParticipantEvents(_ input: ListParticipantEventsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListParticipantEventsResponse {
+        return try await self.client.execute(operation: "ListParticipantEvents", path: "/ListParticipantEvents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all participants in a specified stage session.
+    public func listParticipants(_ input: ListParticipantsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListParticipantsResponse {
+        return try await self.client.execute(operation: "ListParticipants", path: "/ListParticipants", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets all sessions for a specified stage.
+    public func listStageSessions(_ input: ListStageSessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListStageSessionsResponse {
+        return try await self.client.execute(operation: "ListStageSessions", path: "/ListStageSessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets summary information about all stages in your account, in the AWS region where the API request is processed.
@@ -77,6 +101,72 @@ extension IVSRealTime {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IVSRealTime {
+    /// Lists events for a specified participant that occurred during a specified stage session.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listParticipantEventsPaginator(
+        _ input: ListParticipantEventsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListParticipantEventsRequest, ListParticipantEventsResponse> {
+        return .init(
+            input: input,
+            command: self.listParticipantEvents,
+            inputKey: \ListParticipantEventsRequest.nextToken,
+            outputKey: \ListParticipantEventsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists all participants in a specified stage session.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listParticipantsPaginator(
+        _ input: ListParticipantsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListParticipantsRequest, ListParticipantsResponse> {
+        return .init(
+            input: input,
+            command: self.listParticipants,
+            inputKey: \ListParticipantsRequest.nextToken,
+            outputKey: \ListParticipantsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Gets all sessions for a specified stage.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listStageSessionsPaginator(
+        _ input: ListStageSessionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListStageSessionsRequest, ListStageSessionsResponse> {
+        return .init(
+            input: input,
+            command: self.listStageSessions,
+            inputKey: \ListStageSessionsRequest.nextToken,
+            outputKey: \ListStageSessionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     /// Gets summary information about all stages in your account, in the AWS region where the API request is processed.
     /// Return PaginatorSequence for operation.
     ///

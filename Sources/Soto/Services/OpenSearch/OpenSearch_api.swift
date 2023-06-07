@@ -164,6 +164,16 @@ public struct OpenSearch: AWSService {
         return self.client.execute(operation: "DescribeDomainConfig", path: "/2021-01-01/opensearch/domain/{DomainName}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about domain and node health, the standby Availability Zone, number of nodes per Availability Zone, and shard count per node.
+    public func describeDomainHealth(_ input: DescribeDomainHealthRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainHealthResponse> {
+        return self.client.execute(operation: "DescribeDomainHealth", path: "/2021-01-01/opensearch/domain/{DomainName}/health", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about domain and nodes, including data nodes, master nodes, ultrawarm nodes, Availability Zone(s), standby nodes, node configurations, and node states.
+    public func describeDomainNodes(_ input: DescribeDomainNodesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainNodesResponse> {
+        return self.client.execute(operation: "DescribeDomainNodes", path: "/2021-01-01/opensearch/domain/{DomainName}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns domain configuration information about the specified Amazon OpenSearch Service domains.
     public func describeDomains(_ input: DescribeDomainsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainsResponse> {
         return self.client.execute(operation: "DescribeDomains", path: "/2021-01-01/opensearch/domain-info", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -219,7 +229,7 @@ public struct OpenSearch: AWSService {
         return self.client.execute(operation: "GetCompatibleVersions", path: "/2021-01-01/opensearch/compatibleVersions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time and commit message. For more information, see Custom packages for Amazon OpenSearch Service.
+    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the  package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service.
     public func getPackageVersionHistory(_ input: GetPackageVersionHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPackageVersionHistoryResponse> {
         return self.client.execute(operation: "GetPackageVersionHistory", path: "/2021-01-01/packages/{PackageID}/history", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -309,7 +319,7 @@ public struct OpenSearch: AWSService {
         return self.client.execute(operation: "StartServiceSoftwareUpdate", path: "/2021-01-01/opensearch/serviceSoftwareUpdate/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.
+    /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.sl
     public func updateDomainConfig(_ input: UpdateDomainConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDomainConfigResponse> {
         return self.client.execute(operation: "UpdateDomainConfig", path: "/2021-01-01/opensearch/domain/{DomainName}/config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -665,7 +675,7 @@ extension OpenSearch {
         )
     }
 
-    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time and commit message. For more information, see Custom packages for Amazon OpenSearch Service.
+    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the  package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1132,8 +1142,10 @@ extension OpenSearch.ListInstanceTypeDetailsRequest: AWSPaginateToken {
         return .init(
             domainName: self.domainName,
             engineVersion: self.engineVersion,
+            instanceType: self.instanceType,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            retrieveAZs: self.retrieveAZs
         )
     }
 }

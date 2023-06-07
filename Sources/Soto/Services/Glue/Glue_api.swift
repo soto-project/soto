@@ -3369,7 +3369,8 @@ extension Glue.ListCustomEntityTypesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.ListCustomEntityTypesRequest {
         return .init(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            tags: self.tags
         )
     }
 }

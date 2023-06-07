@@ -74,6 +74,7 @@ public struct IoTSecureTunneling: AWSService {
                     "eu-west-1": "api.tunneling.iot-fips.eu-west-1.amazonaws.com",
                     "eu-west-2": "api.tunneling.iot-fips.eu-west-2.amazonaws.com",
                     "eu-west-3": "api.tunneling.iot-fips.eu-west-3.amazonaws.com",
+                    "me-central-1": "api.tunneling.iot-fips.me-central-1.amazonaws.com",
                     "me-south-1": "api.tunneling.iot-fips.me-south-1.amazonaws.com",
                     "sa-east-1": "api.tunneling.iot-fips.sa-east-1.amazonaws.com",
                     "us-east-1": "api.tunneling.iot-fips.us-east-1.amazonaws.com",

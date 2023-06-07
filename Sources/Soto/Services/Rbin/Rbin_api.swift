@@ -61,6 +61,8 @@ public struct Rbin: AWSService {
                     "us-east-2": "rbin-fips.us-east-2.amazonaws.com",
                     "us-gov-east-1": "rbin-fips.us-gov-east-1.amazonaws.com",
                     "us-gov-west-1": "rbin-fips.us-gov-west-1.amazonaws.com",
+                    "us-iso-east-1": "rbin-fips.us-iso-east-1.c2s.ic.gov",
+                    "us-isob-east-1": "rbin-fips.us-isob-east-1.sc2s.sgov.gov",
                     "us-west-1": "rbin-fips.us-west-1.amazonaws.com",
                     "us-west-2": "rbin-fips.us-west-2.amazonaws.com"
                 ])

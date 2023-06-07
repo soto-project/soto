@@ -97,6 +97,11 @@ extension Translate {
         return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Translates the input document from the source language to the target language.     This synchronous operation supports plain text or HTML for the input document.  TranslateDocument supports translations from English to any supported language,  and from any supported language to English. Therefore, specify either the source language code or the target language code as “en” (English).    TranslateDocument does not support language auto-detection.  If you set the Formality parameter, the request will fail if the target language does  not support formality. For a list of target languages that support formality, see Setting formality.
+    public func translateDocument(_ input: TranslateDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TranslateDocumentResponse {
+        return try await self.client.execute(operation: "TranslateDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Translates input text from the source language to the target language. For a list of available languages and language codes, see Supported languages.
     public func translateText(_ input: TranslateTextRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TranslateTextResponse {
         return try await self.client.execute(operation: "TranslateText", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

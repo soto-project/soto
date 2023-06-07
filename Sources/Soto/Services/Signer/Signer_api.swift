@@ -69,6 +69,14 @@ public struct Signer: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-08-25",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "us-east-1": "signer-fips.us-east-1.amazonaws.com",
+                    "us-east-2": "signer-fips.us-east-2.amazonaws.com",
+                    "us-west-1": "signer-fips.us-west-1.amazonaws.com",
+                    "us-west-2": "signer-fips.us-west-2.amazonaws.com"
+                ])
+            ],
             errorType: SignerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

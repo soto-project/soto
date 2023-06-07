@@ -55,8 +55,6 @@ public struct ResourceExplorer2: AWSService {
             apiVersion: "2022-07-28",
             endpoint: endpoint,
             serviceEndpoints: [
-                "af-south-1": "resource-explorer-2.af-south-1.api.aws",
-                "ap-east-1": "resource-explorer-2.ap-east-1.api.aws",
                 "ap-northeast-1": "resource-explorer-2.ap-northeast-1.api.aws",
                 "ap-northeast-2": "resource-explorer-2.ap-northeast-2.api.aws",
                 "ap-northeast-3": "resource-explorer-2.ap-northeast-3.api.aws",
@@ -84,8 +82,6 @@ public struct ResourceExplorer2: AWSService {
             ],
             variantEndpoints: [
                 [.fips]: .init(endpoints: [
-                    "af-south-1": "resource-explorer-2-fips.af-south-1.api.aws",
-                    "ap-east-1": "resource-explorer-2-fips.ap-east-1.api.aws",
                     "ap-northeast-1": "resource-explorer-2-fips.ap-northeast-1.api.aws",
                     "ap-northeast-2": "resource-explorer-2-fips.ap-northeast-2.api.aws",
                     "ap-northeast-3": "resource-explorer-2-fips.ap-northeast-3.api.aws",

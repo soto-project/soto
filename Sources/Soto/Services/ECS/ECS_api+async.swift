@@ -371,7 +371,14 @@ extension ECS {
     /// 				containerInsights is turned on, any new clusters that are created will
     /// 			have Container Insights turned on unless you disable it during cluster creation. For
     /// 			more information, see CloudWatch
-    /// 				Container Insights in the Amazon Elastic Container Service Developer Guide.
+    /// 				Container Insights in the Amazon Elastic Container Service Developer Guide. Amazon ECS is introducing tagging authorization for resource creation. Users must have
+    /// 			permissions for actions that create the resource, such as ecsCreateCluster.
+    /// 			If tags are specified when you create a resource, Amazon Web Services performs additional
+    /// 			authorization to verify if users or roles have permissions to create tags. Therefore,
+    /// 			you must grant explicit permissions to use the ecs:TagResource action. For
+    /// 			more information, see Grant
+    /// 				permission to tag resources on creation in the Amazon ECS Developer
+    /// 					Guide.
     public func putAccountSetting(_ input: PutAccountSettingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutAccountSettingResponse {
         return try await self.client.execute(operation: "PutAccountSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -78,6 +78,7 @@ public struct WAFRegional: AWSService {
                 "eu-west-1": "waf-regional.eu-west-1.amazonaws.com",
                 "eu-west-2": "waf-regional.eu-west-2.amazonaws.com",
                 "eu-west-3": "waf-regional.eu-west-3.amazonaws.com",
+                "fips-il-central-1": "waf-regional-fips.il-central-1.amazonaws.com",
                 "me-central-1": "waf-regional.me-central-1.amazonaws.com",
                 "me-south-1": "waf-regional.me-south-1.amazonaws.com",
                 "sa-east-1": "waf-regional.sa-east-1.amazonaws.com",

@@ -54,6 +54,13 @@ public struct CustomerProfiles: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-08-15",
             endpoint: endpoint,
+            variantEndpoints: [
+                [.fips]: .init(endpoints: [
+                    "ca-central-1": "profile-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "profile-fips.us-east-1.amazonaws.com",
+                    "us-west-2": "profile-fips.us-west-2.amazonaws.com"
+                ])
+            ],
             errorType: CustomerProfilesErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
@@ -66,6 +73,11 @@ public struct CustomerProfiles: AWSService {
     /// Associates a new key value with a specific profile, such as a Contact Record ContactId. A profile object can have a single unique key and any number of additional keys that can be used to identify the profile that it belongs to.
     public func addProfileKey(_ input: AddProfileKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddProfileKeyResponse> {
         return self.client.execute(operation: "AddProfileKey", path: "/domains/{DomainName}/profiles/keys", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new calculated attribute definition. After creation, new object data ingested  into Customer Profiles will be included in the calculated attribute, which can be retrieved  for a profile using the GetCalculatedAttributeForProfile API.  Defining a calculated attribute makes it available for all profiles within a domain. Each  calculated attribute can only reference one ObjectType and at most, two fields  from that ObjectType.
+    public func createCalculatedAttributeDefinition(_ input: CreateCalculatedAttributeDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCalculatedAttributeDefinitionResponse> {
+        return self.client.execute(operation: "CreateCalculatedAttributeDefinition", path: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain. Use this API or UpdateDomain to enable identity resolution: set Matching to true.  To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply.
@@ -82,6 +94,11 @@ public struct CustomerProfiles: AWSService {
     /// Creates a standard profile. A standard profile represents the following attributes for a customer profile in a domain.
     public func createProfile(_ input: CreateProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProfileResponse> {
         return self.client.execute(operation: "CreateProfile", path: "/domains/{DomainName}/profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an existing calculated attribute definition. Note that deleting a default calculated attribute  is possible, however once deleted, you will be unable to undo that action and will need to recreate it on  your own using the CreateCalculatedAttributeDefinition API if you want it back.
+    public func deleteCalculatedAttributeDefinition(_ input: DeleteCalculatedAttributeDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCalculatedAttributeDefinitionResponse> {
+        return self.client.execute(operation: "DeleteCalculatedAttributeDefinition", path: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a specific domain and all of its customer data, such as customer profile attributes and their related objects.
@@ -122,6 +139,16 @@ public struct CustomerProfiles: AWSService {
     /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sample, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list.  You can't view which profiles are matched and would be merged.  We strongly recommend you use this API to do a dry run of the automerging process before running the Identity Resolution Job. Include at least two matching attributes. If your matching list includes too few attributes (such as only FirstName or only LastName), there may be a large number of matches. This increases the chances of erroneous merges.
     public func getAutoMergingPreview(_ input: GetAutoMergingPreviewRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAutoMergingPreviewResponse> {
         return self.client.execute(operation: "GetAutoMergingPreview", path: "/domains/{DomainName}/identity-resolution-jobs/auto-merging-preview", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provides more information on a calculated attribute definition for Customer Profiles.
+    public func getCalculatedAttributeDefinition(_ input: GetCalculatedAttributeDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCalculatedAttributeDefinitionResponse> {
+        return self.client.execute(operation: "GetCalculatedAttributeDefinition", path: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieve a calculated attribute for a customer profile.
+    public func getCalculatedAttributeForProfile(_ input: GetCalculatedAttributeForProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCalculatedAttributeForProfileResponse> {
+        return self.client.execute(operation: "GetCalculatedAttributeForProfile", path: "/domains/{DomainName}/profile/{ProfileId}/calculated-attributes/{CalculatedAttributeName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about a specific domain.
@@ -172,6 +199,16 @@ public struct CustomerProfiles: AWSService {
     /// Lists all of the integrations associated to a specific URI in the AWS account.
     public func listAccountIntegrations(_ input: ListAccountIntegrationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccountIntegrationsResponse> {
         return self.client.execute(operation: "ListAccountIntegrations", path: "/integrations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists calculated attribute definitions for Customer Profiles
+    public func listCalculatedAttributeDefinitions(_ input: ListCalculatedAttributeDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCalculatedAttributeDefinitionsResponse> {
+        return self.client.execute(operation: "ListCalculatedAttributeDefinitions", path: "/domains/{DomainName}/calculated-attributes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieve a list of calculated attributes for a customer profile.
+    public func listCalculatedAttributesForProfile(_ input: ListCalculatedAttributesForProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCalculatedAttributesForProfileResponse> {
+        return self.client.execute(operation: "ListCalculatedAttributesForProfile", path: "/domains/{DomainName}/profile/{ProfileId}/calculated-attributes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of all the domains for an AWS account that have been created.
@@ -247,6 +284,11 @@ public struct CustomerProfiles: AWSService {
     /// Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing  the date range of a calculated attribute will not trigger inclusion of historical data greater than the  current date range.
+    public func updateCalculatedAttributeDefinition(_ input: UpdateCalculatedAttributeDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCalculatedAttributeDefinitionResponse> {
+        return self.client.execute(operation: "UpdateCalculatedAttributeDefinition", path: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the properties of a domain, including creating or selecting a dead letter queue or an encryption key. After a domain is created, the name can’t be changed. Use this API or CreateDomain to enable identity resolution: set Matching to true.  To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply.  To add or remove tags on an existing Domain, see TagResource/UntagResource.

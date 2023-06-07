@@ -256,19 +256,19 @@ extension IoTWireless {
         return try await self.client.execute(operation: "GetPartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get the position information for a given resource.  This action is no longer supported. Calls to retrieve the position information should use the GetResourcePosition  API operation instead.
+    /// Get the position information for a given resource.  This action is no longer supported. Calls to retrieve the position information should use the GetResourcePosition API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     public func getPosition(_ input: GetPositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPositionResponse {
         return try await self.client.execute(operation: "GetPosition", path: "/positions/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get position configuration for a given resource.  This action is no longer supported. Calls to retrieve the position configuration should use the GetResourcePosition  API operation instead.
+    /// Get position configuration for a given resource.  This action is no longer supported. Calls to retrieve the position configuration should use the GetResourcePosition API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     public func getPositionConfiguration(_ input: GetPositionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPositionConfigurationResponse {
         return try await self.client.execute(operation: "GetPositionConfiguration", path: "/position-configurations/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is  resolved using solvers that are provided by third-party vendors.
+    /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is resolved using solvers that are provided by third-party vendors.
     public func getPositionEstimate(_ input: GetPositionEstimateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPositionEstimateResponse {
         return try await self.client.execute(operation: "GetPositionEstimate", path: "/position-estimate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -388,7 +388,7 @@ extension IoTWireless {
         return try await self.client.execute(operation: "ListPartnerAccounts", path: "/partner-accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List position configurations for a given resource, such as positioning solvers.  This action is no longer supported. Calls to retrieve position information should use the GetResourcePosition  API operation instead.
+    /// List position configurations for a given resource, such as positioning solvers.  This action is no longer supported. Calls to retrieve position information should use the GetResourcePosition API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     public func listPositionConfigurations(_ input: ListPositionConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPositionConfigurationsResponse {
         return try await self.client.execute(operation: "ListPositionConfigurations", path: "/position-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -435,7 +435,7 @@ extension IoTWireless {
         return try await self.client.execute(operation: "PutPositionConfiguration", path: "/position-configurations/{ResourceIdentifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway  or a wireless device. A limit of 200 log level override can be set per account.
+    /// Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway or a wireless device. A limit of 200 log level override can be set per account.
     public func putResourceLogLevel(_ input: PutResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutResourceLogLevelResponse {
         return try await self.client.execute(operation: "PutResourceLogLevel", path: "/log-levels/{ResourceIdentifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -708,7 +708,7 @@ extension IoTWireless {
         )
     }
 
-    /// List position configurations for a given resource, such as positioning solvers.  This action is no longer supported. Calls to retrieve position information should use the GetResourcePosition  API operation instead.
+    /// List position configurations for a given resource, such as positioning solvers.  This action is no longer supported. Calls to retrieve position information should use the GetResourcePosition API operation instead.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

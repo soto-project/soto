@@ -351,6 +351,11 @@ extension SESv2 {
         return try await self.client.execute(operation: "PutDedicatedIpInPool", path: "/v2/email/dedicated-ips/{Ip}/pool", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Used to convert a dedicated IP pool to a different scaling mode.   MANAGED pools cannot be converted to STANDARD scaling mode.
+    public func putDedicatedIpPoolScalingAttributes(_ input: PutDedicatedIpPoolScalingAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutDedicatedIpPoolScalingAttributesResponse {
+        return try await self.client.execute(operation: "PutDedicatedIpPoolScalingAttributes", path: "/v2/email/dedicated-ip-pools/{PoolName}/scaling", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     public func putDedicatedIpWarmupAttributes(_ input: PutDedicatedIpWarmupAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutDedicatedIpWarmupAttributesResponse {
         return try await self.client.execute(operation: "PutDedicatedIpWarmupAttributes", path: "/v2/email/dedicated-ips/{Ip}/warmup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

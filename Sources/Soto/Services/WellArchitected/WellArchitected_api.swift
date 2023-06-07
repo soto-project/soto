@@ -248,7 +248,7 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "UpdateAnswer", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/answers/{QuestionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates whether the Amazon Web Services account is opted into organization sharing features.
+    /// Updates whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
     @discardableResult public func updateGlobalSettings(_ input: UpdateGlobalSettingsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateGlobalSettings", path: "/global-settings", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

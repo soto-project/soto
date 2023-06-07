@@ -341,6 +341,11 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "ListThreatIntelSets", path: "/detector/{DetectorId}/threatintelset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Initiates the malware scan. Invoking this API will automatically create the Service-linked role  in  the corresponding account.
+    public func startMalwareScan(_ input: StartMalwareScanRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMalwareScanResponse> {
+        return self.client.execute(operation: "StartMalwareScan", path: "/malware-scan/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the StopMonitoringMembers operation.
     public func startMonitoringMembers(_ input: StartMonitoringMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMonitoringMembersResponse> {
         return self.client.execute(operation: "StartMonitoringMembers", path: "/detector/{DetectorId}/member/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

@@ -260,6 +260,11 @@ public struct SecurityHub: AWSService {
         return self.client.execute(operation: "GetFindingAggregator", path: "/findingAggregator/get/{FindingAggregatorArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Returns history for a Security Hub finding in the last 90 days. The history includes changes made to any fields in  the Amazon Web Services Security Finding Format (ASFF).
+    public func getFindingHistory(_ input: GetFindingHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFindingHistoryResponse> {
+        return self.client.execute(operation: "GetFindingHistory", path: "/findingHistory/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of findings that match the specified criteria. If finding aggregation is enabled, then when you call GetFindings from the aggregation Region, the results include all of the matching findings from both the aggregation Region and the linked Regions.
     public func getFindings(_ input: GetFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFindingsResponse> {
         return self.client.execute(operation: "GetFindings", path: "/findings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -654,6 +659,59 @@ extension SecurityHub {
             command: self.getEnabledStandards,
             inputKey: \GetEnabledStandardsRequest.nextToken,
             outputKey: \GetEnabledStandardsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns history for a Security Hub finding in the last 90 days. The history includes changes made to any fields in  the Amazon Web Services Security Finding Format (ASFF).
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getFindingHistoryPaginator<Result>(
+        _ input: GetFindingHistoryRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetFindingHistoryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.getFindingHistory,
+            inputKey: \GetFindingHistoryRequest.nextToken,
+            outputKey: \GetFindingHistoryResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getFindingHistoryPaginator(
+        _ input: GetFindingHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetFindingHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.getFindingHistory,
+            inputKey: \GetFindingHistoryRequest.nextToken,
+            outputKey: \GetFindingHistoryResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1182,6 +1240,18 @@ extension SecurityHub.GetEnabledStandardsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             standardsSubscriptionArns: self.standardsSubscriptionArns
+        )
+    }
+}
+
+extension SecurityHub.GetFindingHistoryRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SecurityHub.GetFindingHistoryRequest {
+        return .init(
+            endTime: self.endTime,
+            findingIdentifier: self.findingIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime
         )
     }
 }

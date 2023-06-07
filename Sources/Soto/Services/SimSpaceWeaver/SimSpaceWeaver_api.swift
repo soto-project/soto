@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS SimSpaceWeaver service.
 ///
-/// Amazon Web Services SimSpace Weaver (SimSpace Weaver) is a managed service that you can use to build and operate large-scale  spatial simulations in the Amazon Web Services Cloud. For example, you can create a digital twin of a city, crowd simulations with millions of people and objects, and massilvely-multiplayer games with hundreds of thousands of connected players. For more information about SimSpace Weaver, see the  Amazon Web Services SimSpace Weaver User Guide . This API reference describes the API operations and data types that you can use to communicate directly with SimSpace Weaver. SimSpace Weaver also provides the SimSpace Weaver app SDK, which you use for app development. The SimSpace Weaver app SDK API reference is included in the SimSpace Weaver app SDK documentation, which is part of the SimSpace Weaver app SDK distributable package.
+/// SimSpace Weaver (SimSpace Weaver) is a managed service that you can use to build and operate large-scale  spatial simulations in the Amazon Web Services Cloud. For example, you can create a digital twin of a city, crowd simulations with millions of people and objects, and massively multiplayer games with hundreds of thousands of connected players. For more information about SimSpace Weaver, see the  SimSpace Weaver User Guide . This API reference describes the API operations and data types that you can use to communicate directly with SimSpace Weaver. SimSpace Weaver also provides the SimSpace Weaver app SDK, which you use for app development. The SimSpace Weaver app SDK API reference is included in the SimSpace Weaver app SDK documentation. This documentation is part of the SimSpace Weaver app SDK distributable package.
 public struct SimSpaceWeaver: AWSService {
     // MARK: Member variables
 
@@ -63,12 +63,17 @@ public struct SimSpaceWeaver: AWSService {
 
     // MARK: API Calls
 
+    /// Creates a snapshot of the specified simulation.  A snapshot is a file that contains simulation state data at a specific time. The state data saved in a snapshot includes entity data from the State Fabric,  the simulation configuration specified in the schema, and the clock tick number.  You can use the snapshot to initialize a new simulation.  For more information about snapshots, see Snapshots in the SimSpace Weaver User Guide.  You specify a Destination when you create a snapshot. The Destination is the name of an Amazon S3 bucket and an optional ObjectKeyPrefix. The ObjectKeyPrefix is usually the name of a folder in the bucket. SimSpace Weaver creates a  snapshot folder inside the Destination and  places the snapshot file there. The snapshot file is an Amazon S3 object. It has an object key with the form:  object-key-prefix/snapshot/simulation-name-YYMMdd-HHmm-ss.zip, where:      YY is the 2-digit year     MM is the 2-digit month     dd is the 2-digit day of the month     HH is the 2-digit hour (24-hour clock)     mm is the 2-digit minutes     ss is the 2-digit seconds
+    public func createSnapshot(_ input: CreateSnapshotInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSnapshotOutput> {
+        return self.client.execute(operation: "CreateSnapshot", path: "/createsnapshot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the instance of the given custom app.
     public func deleteApp(_ input: DeleteAppInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppOutput> {
         return self.client.execute(operation: "DeleteApp", path: "/deleteapp", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes all SimSpace Weaver resources assigned to the given simulation.  Your simulation uses resources in other Amazon Web Services services. This API operation doesn't delete resources in other Amazon Web Services services.
+    /// Deletes all SimSpace Weaver resources assigned to the given simulation.  Your simulation uses resources in other Amazon Web Services. This API operation doesn't delete resources in other Amazon Web Services.
     public func deleteSimulation(_ input: DeleteSimulationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSimulationOutput> {
         return self.client.execute(operation: "DeleteSimulation", path: "/deletesimulation", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -108,7 +113,7 @@ public struct SimSpaceWeaver: AWSService {
         return self.client.execute(operation: "StartClock", path: "/startclock", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts a simulation with the given name and schema.
+    /// Starts a simulation with the given name. You must choose to start your simulation from a schema or from a snapshot. For more information about the schema, see the schema reference  in the SimSpace Weaver User Guide. For more information about snapshots, see Snapshots in the SimSpace Weaver User Guide.
     public func startSimulation(_ input: StartSimulationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSimulationOutput> {
         return self.client.execute(operation: "StartSimulation", path: "/startsimulation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -123,7 +128,7 @@ public struct SimSpaceWeaver: AWSService {
         return self.client.execute(operation: "StopClock", path: "/stopclock", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Stops the given simulation.  You can't restart a simulation after you stop it.  If you need to restart a simulation, you must stop it, delete it,  and start a new instance of it.
+    /// Stops the given simulation.  You can't restart a simulation after you stop it. If you want to restart a simulation, then you must stop it, delete it, and start a new instance of it.
     public func stopSimulation(_ input: StopSimulationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopSimulationOutput> {
         return self.client.execute(operation: "StopSimulation", path: "/stopsimulation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

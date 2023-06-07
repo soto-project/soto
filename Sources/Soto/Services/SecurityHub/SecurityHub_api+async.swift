@@ -208,6 +208,11 @@ extension SecurityHub {
         return try await self.client.execute(operation: "GetFindingAggregator", path: "/findingAggregator/get/{FindingAggregatorArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Returns history for a Security Hub finding in the last 90 days. The history includes changes made to any fields in  the Amazon Web Services Security Finding Format (ASFF).
+    public func getFindingHistory(_ input: GetFindingHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetFindingHistoryResponse {
+        return try await self.client.execute(operation: "GetFindingHistory", path: "/findingHistory/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of findings that match the specified criteria. If finding aggregation is enabled, then when you call GetFindings from the aggregation Region, the results include all of the matching findings from both the aggregation Region and the linked Regions.
     public func getFindings(_ input: GetFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetFindingsResponse {
         return try await self.client.execute(operation: "GetFindings", path: "/findings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -439,6 +444,28 @@ extension SecurityHub {
             command: self.getEnabledStandards,
             inputKey: \GetEnabledStandardsRequest.nextToken,
             outputKey: \GetEnabledStandardsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns history for a Security Hub finding in the last 90 days. The history includes changes made to any fields in  the Amazon Web Services Security Finding Format (ASFF).
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getFindingHistoryPaginator(
+        _ input: GetFindingHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetFindingHistoryRequest, GetFindingHistoryResponse> {
+        return .init(
+            input: input,
+            command: self.getFindingHistory,
+            inputKey: \GetFindingHistoryRequest.nextToken,
+            outputKey: \GetFindingHistoryResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

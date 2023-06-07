@@ -410,7 +410,7 @@ public struct CloudWatch: AWSService {
     /// 			creates the necessary service-linked role for you. The service-linked roles
     /// 			are called AWSServiceRoleForCloudWatchEvents and
     /// 			AWSServiceRoleForCloudWatchAlarms_ActionSSM.
-    /// 			For more information, see Amazon Web Services service-linked role.  Cross-account alarms  You can set an alarm on metrics in the current account, or in another
+    /// 			For more information, see Amazon Web Services service-linked role. Each PutMetricAlarm action has a maximum uncompressed payload of 120 KB.  Cross-account alarms  You can set an alarm on metrics in the current account, or in another
     /// 			account. To create a cross-account alarm that watches a metric in a different account, you must have completed the following
     /// 			pre-requisites:   The account where the metrics are located (the sharing account) must
     /// 				already have a sharing role named CloudWatch-CrossAccountSharingRole. If it does not already
