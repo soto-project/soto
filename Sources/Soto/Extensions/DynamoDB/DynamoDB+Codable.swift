@@ -363,9 +363,10 @@ extension DynamoDB {
             self.updateItem = updateItem
         }
 
-        public init(additionalAttributeNames: [String: String]?, additionalAttributeValues: [String: AttributeValue]?, conditionExpression: String? = nil, key: [String], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String, updateItem: T) {
-            self.additionalAttributeNames = additionalAttributeNames
-            self.additionalAttributeValues = additionalAttributeValues
+        public init<AdditionalAttributes: Encodable>(additionalAttributes: AdditionalAttributes, conditionExpression: String? = nil, key: [String], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String, updateItem: T) throws {
+            let attributes = try DynamoDBEncoder().encode(additionalAttributes)
+            self.additionalAttributeNames = .init(attributes.keys.map { ("#\($0)", $0) }) { first, _ in return first }
+            self.additionalAttributeValues = .init(attributes.map { (":\($0.key)", $0.value) }) { first, _ in return first }
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = nil
             self.key = key
