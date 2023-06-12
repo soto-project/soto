@@ -116,7 +116,7 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
             do {
                 let additionalAttributes = AdditionalAttributes(age: 33)
                 let conditionExpression = "#age = :age"
-                let updateRequest = try DynamoDB.UpdateItemCodableInput(additionalAttributes: additionalAttributes, key: ["id"], tableName: tableName, updateItem: nameUpdate)
+                let updateRequest = try DynamoDB.UpdateItemCodableInput(additionalAttributes: additionalAttributes, conditionExpression: conditionExpression, key: ["id"], tableName: tableName, updateItem: nameUpdate)
                 _ = try await Self.dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
                 XCTFail("Should have thrown error because conditionExpression is not met")
             } catch {
