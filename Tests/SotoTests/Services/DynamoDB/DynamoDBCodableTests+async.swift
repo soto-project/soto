@@ -96,11 +96,9 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
             let name: String
             let surname: String
         }
-        
         struct AdditionalAttributes: Codable {
             let age: Int
         }
-        
         let id = UUID().uuidString
         let test = TestObject(id: id, name: "John", surname: "Smith", age: 32, address: "1 Park Lane", pets: ["cat", "dog"])
         let nameUpdate = NameUpdate(id: id, name: "David", surname: "Jones")
