@@ -96,6 +96,9 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
             let name: String
             let surname: String
         }
+        struct AdditionalAttributes: Codable {
+            let age: Int
+        }
         let id = UUID().uuidString
         let test = TestObject(id: id, name: "John", surname: "Smith", age: 32, address: "1 Park Lane", pets: ["cat", "dog"])
         let nameUpdate = NameUpdate(id: id, name: "David", surname: "Jones")
@@ -110,6 +113,15 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
             let updateRequest = DynamoDB.UpdateItemCodableInput(key: ["id"], tableName: tableName, updateItem: nameUpdate)
             _ = try await Self.dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
 
+            do {
+                let additionalAttributes = AdditionalAttributes(age: 33)
+                let conditionExpression = "#age = :age"
+                let updateRequest = try DynamoDB.UpdateItemCodableInput(additionalAttributes: additionalAttributes, conditionExpression: conditionExpression, key: ["id"], tableName: tableName, updateItem: nameUpdate)
+                _ = try await Self.dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
+                XCTFail("Should have thrown error because conditionExpression is not met")
+            } catch {
+                XCTAssertNotNil(error)
+            }
             let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: tableName)
             let response = try await Self.dynamoDB.getItem(getRequest, type: TestObject.self, logger: TestEnvironment.logger)
 

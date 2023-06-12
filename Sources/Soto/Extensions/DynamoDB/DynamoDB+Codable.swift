@@ -327,6 +327,10 @@ extension DynamoDB {
     }
 
     public struct UpdateItemCodableInput<T: Encodable & Sendable>: AWSEncodableShape {
+        /// In case expressionAttributeNames is nil, the content of additionalAttributeNames is merged with the generated expressionAttributeNames dictionary and will override existing values. This can be used to specify complex conditionExpression with not auto-generated attribute names.
+        public let additionalAttributeNames: [String: String]?
+        /// The content of additionalAttributeValues is merged with expressionAttributeValues dictionary and will override existing values. This can be used to specify complex conditionExpression with not auto-generated attribute values.
+        public let additionalAttributeValues: [String: AttributeValue]?
         /// A condition that must be satisfied in order for a conditional update to succeed. An expression can contain any of the following:   Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.   Comparison operators: = | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= | BETWEEN | IN      Logical operators: AND | OR | NOT    For more information about condition expressions, see Specifying Conditions in the Amazon DynamoDB Developer Guide.
         public let conditionExpression: String?
         /// One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide.) To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information about expression attribute names, see Specifying Item Attributes in the Amazon DynamoDB Developer Guide.
@@ -346,6 +350,8 @@ extension DynamoDB {
         public let updateItem: T
 
         public init(conditionExpression: String? = nil, expressionAttributeNames: [String: String]? = nil, key: [String], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String, updateExpression: String? = nil, updateItem: T) {
+            self.additionalAttributeNames = nil
+            self.additionalAttributeValues = nil
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = expressionAttributeNames
             self.key = key
@@ -354,6 +360,21 @@ extension DynamoDB {
             self.returnValues = returnValues
             self.tableName = tableName
             self.updateExpression = updateExpression
+            self.updateItem = updateItem
+        }
+
+        public init<AdditionalAttributes: Encodable>(additionalAttributes: AdditionalAttributes, conditionExpression: String? = nil, key: [String], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String, updateItem: T) throws {
+            let attributes = try DynamoDBEncoder().encode(additionalAttributes)
+            self.additionalAttributeNames = .init(attributes.keys.map { ("#\($0)", $0) }) { first, _ in return first }
+            self.additionalAttributeValues = .init(attributes.map { (":\($0.key)", $0.value) }) { first, _ in return first }
+            self.conditionExpression = conditionExpression
+            self.expressionAttributeNames = nil
+            self.key = key
+            self.returnConsumedCapacity = returnConsumedCapacity
+            self.returnItemCollectionMetrics = returnItemCollectionMetrics
+            self.returnValues = returnValues
+            self.tableName = tableName
+            self.updateExpression = nil
             self.updateItem = updateItem
         }
 
@@ -371,10 +392,20 @@ extension DynamoDB {
             let expressionAttributeNames: [String: String]
             if let names = self.expressionAttributeNames, self.updateExpression != nil {
                 expressionAttributeNames = names
+            } else if let additionalAttributeNames = additionalAttributeNames {
+                let tmpAttributeNames: [String: String] = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
+                expressionAttributeNames = tmpAttributeNames.merging(additionalAttributeNames, uniquingKeysWith: { _, new in new })
             } else {
                 expressionAttributeNames = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
             }
-            let expressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
+
+            let expressionAttributeValues: [String: AttributeValue]
+            if let additionalAttributeValues = additionalAttributeValues {
+                let tmpExpressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
+                expressionAttributeValues = tmpExpressionAttributeValues.merging(additionalAttributeValues, uniquingKeysWith: { _, new in new })
+            } else {
+                expressionAttributeValues = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
+            }
             // construct update expression, if one if not already supplied
             let updateExpression: String
             if let inputUpdateExpression = self.updateExpression {
