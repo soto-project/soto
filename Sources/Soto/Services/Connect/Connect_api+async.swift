@@ -460,7 +460,7 @@ extension Connect {
         return try await self.client.execute(operation: "GetMetricData", path: "/metrics/historical/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.  This API is not available in the Amazon Web Services GovCloud (US) Regions.
+    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
     public func getMetricDataV2(_ input: GetMetricDataV2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetMetricDataV2Response {
         return try await self.client.execute(operation: "GetMetricDataV2", path: "/metrics/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -685,9 +685,24 @@ extension Connect {
         return try await self.client.execute(operation: "SearchAvailablePhoneNumbers", path: "/phone-number/search-available", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Searches the hours of operation in an Amazon Connect instance, with optional filtering.
+    public func searchHoursOfOperations(_ input: SearchHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SearchHoursOfOperationsResponse {
+        return try await self.client.execute(operation: "SearchHoursOfOperations", path: "/search-hours-of-operations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Searches prompts in an Amazon Connect instance, with optional filtering.
+    public func searchPrompts(_ input: SearchPromptsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SearchPromptsResponse {
+        return try await self.client.execute(operation: "SearchPrompts", path: "/search-prompts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Searches queues in an Amazon Connect instance, with optional filtering.
     public func searchQueues(_ input: SearchQueuesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SearchQueuesResponse {
         return try await self.client.execute(operation: "SearchQueues", path: "/search-queues", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Searches quick connects in an Amazon Connect instance, with optional filtering.
+    public func searchQuickConnects(_ input: SearchQuickConnectsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SearchQuickConnectsResponse {
+        return try await self.client.execute(operation: "SearchQuickConnects", path: "/search-quick-connects", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Searches routing profiles in an Amazon Connect instance, with optional filtering.
@@ -1046,7 +1061,7 @@ extension Connect {
         )
     }
 
-    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.  This API is not available in the Amazon Web Services GovCloud (US) Regions.
+    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1838,6 +1853,50 @@ extension Connect {
         )
     }
 
+    /// Searches the hours of operation in an Amazon Connect instance, with optional filtering.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchHoursOfOperationsPaginator(
+        _ input: SearchHoursOfOperationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchHoursOfOperationsRequest, SearchHoursOfOperationsResponse> {
+        return .init(
+            input: input,
+            command: self.searchHoursOfOperations,
+            inputKey: \SearchHoursOfOperationsRequest.nextToken,
+            outputKey: \SearchHoursOfOperationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Searches prompts in an Amazon Connect instance, with optional filtering.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchPromptsPaginator(
+        _ input: SearchPromptsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchPromptsRequest, SearchPromptsResponse> {
+        return .init(
+            input: input,
+            command: self.searchPrompts,
+            inputKey: \SearchPromptsRequest.nextToken,
+            outputKey: \SearchPromptsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Searches queues in an Amazon Connect instance, with optional filtering.
     /// Return PaginatorSequence for operation.
     ///
@@ -1855,6 +1914,28 @@ extension Connect {
             command: self.searchQueues,
             inputKey: \SearchQueuesRequest.nextToken,
             outputKey: \SearchQueuesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Searches quick connects in an Amazon Connect instance, with optional filtering.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchQuickConnectsPaginator(
+        _ input: SearchQuickConnectsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchQuickConnectsRequest, SearchQuickConnectsResponse> {
+        return .init(
+            input: input,
+            command: self.searchQuickConnects,
+            inputKey: \SearchQuickConnectsRequest.nextToken,
+            outputKey: \SearchQuickConnectsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

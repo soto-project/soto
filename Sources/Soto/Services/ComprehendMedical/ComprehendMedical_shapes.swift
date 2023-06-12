@@ -123,6 +123,7 @@ extension ComprehendMedical {
 
     public enum ICD10CMRelationshipType: String, CustomStringConvertible, Codable, Sendable {
         case overlap = "OVERLAP"
+        case quality = "QUALITY"
         case systemOrganSite = "SYSTEM_ORGAN_SITE"
         public var description: String { return self.rawValue }
     }
@@ -167,6 +168,7 @@ extension ComprehendMedical {
         case frequency = "FREQUENCY"
         case negative = "NEGATIVE"
         case overlap = "OVERLAP"
+        case quality = "QUALITY"
         case rate = "RATE"
         case routeOrMode = "ROUTE_OR_MODE"
         case strength = "STRENGTH"
@@ -174,6 +176,7 @@ extension ComprehendMedical {
         case testUnit = "TEST_UNIT"
         case testUnits = "TEST_UNITS"
         case testValue = "TEST_VALUE"
+        case usage = "USAGE"
         case withDosage = "WITH_DOSAGE"
         public var description: String { return self.rawValue }
     }
@@ -202,6 +205,7 @@ extension ComprehendMedical {
 
     public enum RxNormTraitName: String, CustomStringConvertible, Codable, Sendable {
         case negation = "NEGATION"
+        case pastHistory = "PAST_HISTORY"
         public var description: String { return self.rawValue }
     }
 
@@ -235,6 +239,7 @@ extension ComprehendMedical {
         case direction = "DIRECTION"
         case quality = "QUALITY"
         case systemOrganSite = "SYSTEM_ORGAN_SITE"
+        case testUnit = "TEST_UNIT"
         case testUnits = "TEST_UNITS"
         case testValue = "TEST_VALUE"
         public var description: String { return self.rawValue }

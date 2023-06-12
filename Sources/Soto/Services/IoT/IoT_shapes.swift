@@ -449,6 +449,19 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum PackageVersionAction: String, CustomStringConvertible, Codable, Sendable {
+        case deprecate = "DEPRECATE"
+        case publish = "PUBLISH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PackageVersionStatus: String, CustomStringConvertible, Codable, Sendable {
+        case deprecated = "DEPRECATED"
+        case draft = "DRAFT"
+        case published = "PUBLISHED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PolicyTemplateName: String, CustomStringConvertible, Codable, Sendable {
         case blankPolicy = "BLANK_POLICY"
         public var description: String { return self.rawValue }
@@ -3235,11 +3248,13 @@ extension IoT {
         public let abortConfig: AbortConfig?
         /// A short text description of the job.
         public let description: String?
+        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the  job successfully completes.   Note:The following Length Constraints relates to a single string.  Up to five strings are allowed.
+        public let destinationPackageVersions: [String]?
         /// The job document. Required if you don't specify a value for documentSource.
         public let document: String?
         /// Parameters of an Amazon Web Services managed template that you can specify to create the job document.   documentParameters can only be used when creating jobs from Amazon Web Services  managed templates. This parameter can't be used with custom job templates or to  create jobs from them.
         public let documentParameters: [String: String]?
-        /// An S3 link, or S3 object URL, to the job document. The link is an Amazon S3 object URL and is required if you don't specify a value for document. For example, --document-source https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0. For more information, see Methods for accessing a bucket.
+        /// An S3 link, or S3 object URL, to the job document. The link is an Amazon S3 object URL and is required if you don't specify a value for document. For example, --document-source https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0  For more information, see Methods for accessing a bucket.
         public let documentSource: String?
         /// Allows you to create the criteria to retry a job.
         public let jobExecutionsRetryConfig: JobExecutionsRetryConfig?
@@ -3264,9 +3279,10 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job. The timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the time expires, it will be  automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, description: String? = nil, document: String? = nil, documentParameters: [String: String]? = nil, documentSource: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, jobTemplateArn: String? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, schedulingConfig: SchedulingConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, description: String? = nil, destinationPackageVersions: [String]? = nil, document: String? = nil, documentParameters: [String: String]? = nil, documentSource: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, jobTemplateArn: String? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, schedulingConfig: SchedulingConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
+            self.destinationPackageVersions = destinationPackageVersions
             self.document = document
             self.documentParameters = documentParameters
             self.documentSource = documentSource
@@ -3287,6 +3303,11 @@ extension IoT {
             try self.abortConfig?.validate(name: "\(name).abortConfig")
             try self.validate(self.description, name: "description", parent: name, max: 2028)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]+$")
+            try self.destinationPackageVersions?.forEach {
+                try validate($0, name: "destinationPackageVersions[]", parent: name, max: 1600)
+                try validate($0, name: "destinationPackageVersions[]", parent: name, min: 1)
+                try validate($0, name: "destinationPackageVersions[]", parent: name, pattern: "^arn:[!-~]+$")
+            }
             try self.validate(self.document, name: "document", parent: name, max: 32768)
             try self.documentParameters?.forEach {
                 try validate($0.key, name: "documentParameters.key", parent: name, max: 128)
@@ -3321,6 +3342,7 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case abortConfig = "abortConfig"
             case description = "description"
+            case destinationPackageVersions = "destinationPackageVersions"
             case document = "document"
             case documentParameters = "documentParameters"
             case documentSource = "documentSource"
@@ -3366,6 +3388,8 @@ extension IoT {
         public let abortConfig: AbortConfig?
         /// A description of the job document.
         public let description: String
+        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes.   Note:The following Length Constraints relates to a single string.  Up to five strings are allowed.
+        public let destinationPackageVersions: [String]?
         /// The job document. Required if you don't specify a value for documentSource.
         public let document: String?
         /// An S3 link to the job document to use in the template. Required if you don't specify a value for document.  If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form:  ${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket name and key is the object in the bucket to which you are linking.
@@ -3384,9 +3408,10 @@ extension IoT {
         public let tags: [Tag]?
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, description: String, document: String? = nil, documentSource: String? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateId: String, maintenanceWindows: [MaintenanceWindow]? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, description: String, destinationPackageVersions: [String]? = nil, document: String? = nil, documentSource: String? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateId: String, maintenanceWindows: [MaintenanceWindow]? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
+            self.destinationPackageVersions = destinationPackageVersions
             self.document = document
             self.documentSource = documentSource
             self.jobArn = jobArn
@@ -3403,6 +3428,11 @@ extension IoT {
             try self.abortConfig?.validate(name: "\(name).abortConfig")
             try self.validate(self.description, name: "description", parent: name, max: 2028)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]+$")
+            try self.destinationPackageVersions?.forEach {
+                try validate($0, name: "destinationPackageVersions[]", parent: name, max: 1600)
+                try validate($0, name: "destinationPackageVersions[]", parent: name, min: 1)
+                try validate($0, name: "destinationPackageVersions[]", parent: name, pattern: "^arn:[!-~]+$")
+            }
             try self.validate(self.document, name: "document", parent: name, max: 32768)
             try self.validate(self.documentSource, name: "documentSource", parent: name, max: 1350)
             try self.validate(self.documentSource, name: "documentSource", parent: name, min: 1)
@@ -3423,6 +3453,7 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case abortConfig = "abortConfig"
             case description = "description"
+            case destinationPackageVersions = "destinationPackageVersions"
             case document = "document"
             case documentSource = "documentSource"
             case jobArn = "jobArn"
@@ -3664,6 +3695,175 @@ extension IoT {
             case otaUpdateArn = "otaUpdateArn"
             case otaUpdateId = "otaUpdateId"
             case otaUpdateStatus = "otaUpdateStatus"
+        }
+    }
+
+    public struct CreatePackageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "packageName", location: .uri("packageName"))
+        ]
+
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// A summary of the package being created. This can be used to outline the package's contents or purpose.
+        public let description: String?
+        /// The name of the new package.
+        public let packageName: String
+        /// Metadata that can be used to manage the package.
+        public let tags: [String: String]?
+
+        public init(clientToken: String? = CreatePackageRequest.idempotencyToken(), description: String? = nil, packageName: String, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.packageName = packageName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]+$")
+            try self.validate(self.packageName, name: "packageName", parent: name, max: 128)
+            try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
+            try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreatePackageResponse: AWSDecodableShape {
+        /// The package description.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) for the package.
+        public let packageArn: String?
+        /// The name of the package.
+        public let packageName: String?
+
+        public init(description: String? = nil, packageArn: String? = nil, packageName: String? = nil) {
+            self.description = description
+            self.packageArn = packageArn
+            self.packageName = packageName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case packageArn = "packageArn"
+            case packageName = "packageName"
+        }
+    }
+
+    public struct CreatePackageVersionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "packageName", location: .uri("packageName")),
+            AWSMemberEncoding(label: "versionName", location: .uri("versionName"))
+        ]
+
+        /// Metadata that can be used to define a package version’s configuration. For example, the S3 file location, configuration options that are being sent to the device or fleet. The combined size of all the attributes on a package version is limited to 3KB.
+        public let attributes: [String: String]?
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// A summary of the package version being created. This can be used to outline the package's contents or purpose.
+        public let description: String?
+        /// The name of the associated package.
+        public let packageName: String
+        /// Metadata that can be used to manage the package version.
+        public let tags: [String: String]?
+        /// The name of the new package version.
+        public let versionName: String
+
+        public init(attributes: [String: String]? = nil, clientToken: String? = CreatePackageVersionRequest.idempotencyToken(), description: String? = nil, packageName: String, tags: [String: String]? = nil, versionName: String) {
+            self.attributes = attributes
+            self.clientToken = clientToken
+            self.description = description
+            self.packageName = packageName
+            self.tags = tags
+            self.versionName = versionName
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes?.forEach {
+                try validate($0.key, name: "attributes.key", parent: name, min: 1)
+                try validate($0.key, name: "attributes.key", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, pattern: "^[^\\p{C}]+$")
+            }
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]+$")
+            try self.validate(self.packageName, name: "packageName", parent: name, max: 128)
+            try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
+            try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 64)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case description = "description"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreatePackageVersionResponse: AWSDecodableShape {
+        /// Metadata that were added to the package version that can be used to define a package version’s configuration.
+        public let attributes: [String: String]?
+        /// The package version description.
+        public let description: String?
+        /// Error reason for a package version failure during creation or update.
+        public let errorReason: String?
+        /// The name of the associated package.
+        public let packageName: String?
+        /// The Amazon Resource Name (ARN) for the package.
+        public let packageVersionArn: String?
+        /// The status of the package version. For more information, see Package version lifecycle.
+        public let status: PackageVersionStatus?
+        /// The name of the new package version.
+        public let versionName: String?
+
+        public init(attributes: [String: String]? = nil, description: String? = nil, errorReason: String? = nil, packageName: String? = nil, packageVersionArn: String? = nil, status: PackageVersionStatus? = nil, versionName: String? = nil) {
+            self.attributes = attributes
+            self.description = description
+            self.errorReason = errorReason
+            self.packageName = packageName
+            self.packageVersionArn = packageVersionArn
+            self.status = status
+            self.versionName = versionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case description = "description"
+            case errorReason = "errorReason"
+            case packageName = "packageName"
+            case packageVersionArn = "packageVersionArn"
+            case status = "status"
+            case versionName = "versionName"
         }
     }
 
@@ -4941,6 +5141,77 @@ extension IoT {
     }
 
     public struct DeleteOTAUpdateResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeletePackageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "packageName", location: .uri("packageName"))
+        ]
+
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The name of the target package.
+        public let packageName: String
+
+        public init(clientToken: String? = DeletePackageRequest.idempotencyToken(), packageName: String) {
+            self.clientToken = clientToken
+            self.packageName = packageName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.packageName, name: "packageName", parent: name, max: 128)
+            try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
+            try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePackageResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeletePackageVersionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "packageName", location: .uri("packageName")),
+            AWSMemberEncoding(label: "versionName", location: .uri("versionName"))
+        ]
+
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The name of the associated package.
+        public let packageName: String
+        /// The name of the target package version.
+        public let versionName: String
+
+        public init(clientToken: String? = DeletePackageVersionRequest.idempotencyToken(), packageName: String, versionName: String) {
+            self.clientToken = clientToken
+            self.packageName = packageName
+            self.versionName = versionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.packageName, name: "packageName", parent: name, max: 128)
+            try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
+            try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 64)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePackageVersionResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -6247,6 +6518,8 @@ extension IoT {
         public let createdAt: Date?
         /// A description of the job template.
         public let description: String?
+        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes.   Note:The following Length Constraints relates to a single string.  Up to five strings are allowed.
+        public let destinationPackageVersions: [String]?
         /// The job document.
         public let document: String?
         /// An S3 link to the job document.
@@ -6263,10 +6536,11 @@ extension IoT {
         public let presignedUrlConfig: PresignedUrlConfig?
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, createdAt: Date? = nil, description: String? = nil, document: String? = nil, documentSource: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateArn: String? = nil, jobTemplateId: String? = nil, maintenanceWindows: [MaintenanceWindow]? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, createdAt: Date? = nil, description: String? = nil, destinationPackageVersions: [String]? = nil, document: String? = nil, documentSource: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateArn: String? = nil, jobTemplateId: String? = nil, maintenanceWindows: [MaintenanceWindow]? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.createdAt = createdAt
             self.description = description
+            self.destinationPackageVersions = destinationPackageVersions
             self.document = document
             self.documentSource = documentSource
             self.jobExecutionsRetryConfig = jobExecutionsRetryConfig
@@ -6282,6 +6556,7 @@ extension IoT {
             case abortConfig = "abortConfig"
             case createdAt = "createdAt"
             case description = "description"
+            case destinationPackageVersions = "destinationPackageVersions"
             case document = "document"
             case documentSource = "documentSource"
             case jobExecutionsRetryConfig = "jobExecutionsRetryConfig"
@@ -7972,6 +8247,150 @@ extension IoT {
         }
     }
 
+    public struct GetPackageConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetPackageConfigurationResponse: AWSDecodableShape {
+        /// The version that is associated to a specific job.
+        public let versionUpdateByJobsConfig: VersionUpdateByJobsConfig?
+
+        public init(versionUpdateByJobsConfig: VersionUpdateByJobsConfig? = nil) {
+            self.versionUpdateByJobsConfig = versionUpdateByJobsConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case versionUpdateByJobsConfig = "versionUpdateByJobsConfig"
+        }
+    }
+
+    public struct GetPackageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "packageName", location: .uri("packageName"))
+        ]
+
+        /// The name of the target package.
+        public let packageName: String
+
+        public init(packageName: String) {
+            self.packageName = packageName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.packageName, name: "packageName", parent: name, max: 128)
+            try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
+            try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPackageResponse: AWSDecodableShape {
+        /// The date the package was created.
+        public let creationDate: Date?
+        /// The name of the default package version.
+        public let defaultVersionName: String?
+        /// The package description.
+        public let description: String?
+        /// The date when the package was last updated.
+        public let lastModifiedDate: Date?
+        /// The ARN for the package.
+        public let packageArn: String?
+        /// The name of the package.
+        public let packageName: String?
+
+        public init(creationDate: Date? = nil, defaultVersionName: String? = nil, description: String? = nil, lastModifiedDate: Date? = nil, packageArn: String? = nil, packageName: String? = nil) {
+            self.creationDate = creationDate
+            self.defaultVersionName = defaultVersionName
+            self.description = description
+            self.lastModifiedDate = lastModifiedDate
+            self.packageArn = packageArn
+            self.packageName = packageName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case defaultVersionName = "defaultVersionName"
+            case description = "description"
+            case lastModifiedDate = "lastModifiedDate"
+            case packageArn = "packageArn"
+            case packageName = "packageName"
+        }
+    }
+
+    public struct GetPackageVersionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "packageName", location: .uri("packageName")),
+            AWSMemberEncoding(label: "versionName", location: .uri("versionName"))
+        ]
+
+        /// The name of the associated package.
+        public let packageName: String
+        /// The name of the target package version.
+        public let versionName: String
+
+        public init(packageName: String, versionName: String) {
+            self.packageName = packageName
+            self.versionName = versionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.packageName, name: "packageName", parent: name, max: 128)
+            try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
+            try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 64)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPackageVersionResponse: AWSDecodableShape {
+        /// Metadata that were added to the package version that can be used to define a package version’s configuration.
+        public let attributes: [String: String]?
+        /// The date when the package version was created.
+        public let creationDate: Date?
+        /// The package version description.
+        public let description: String?
+        /// Error reason for a package version failure during creation or update.
+        public let errorReason: String?
+        /// The date when the package version was last updated.
+        public let lastModifiedDate: Date?
+        /// The name of the package.
+        public let packageName: String?
+        /// The ARN for the package version.
+        public let packageVersionArn: String?
+        /// The status associated to the package version. For more information, see Package version lifecycle.
+        public let status: PackageVersionStatus?
+        /// The name of the package version.
+        public let versionName: String?
+
+        public init(attributes: [String: String]? = nil, creationDate: Date? = nil, description: String? = nil, errorReason: String? = nil, lastModifiedDate: Date? = nil, packageName: String? = nil, packageVersionArn: String? = nil, status: PackageVersionStatus? = nil, versionName: String? = nil) {
+            self.attributes = attributes
+            self.creationDate = creationDate
+            self.description = description
+            self.errorReason = errorReason
+            self.lastModifiedDate = lastModifiedDate
+            self.packageName = packageName
+            self.packageVersionArn = packageVersionArn
+            self.status = status
+            self.versionName = versionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case creationDate = "creationDate"
+            case description = "description"
+            case errorReason = "errorReason"
+            case lastModifiedDate = "lastModifiedDate"
+            case packageName = "packageName"
+            case packageVersionArn = "packageVersionArn"
+            case status = "status"
+            case versionName = "versionName"
+        }
+    }
+
     public struct GetPercentilesRequest: AWSEncodableShape {
         /// The field to aggregate.
         public let aggregationField: String?
@@ -8620,6 +9039,8 @@ extension IoT {
         public let createdAt: Date?
         /// A short text description of the job.
         public let description: String?
+        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes.   Note:The following Length Constraints relates to a single string.  Up to five strings are allowed.
+        public let destinationPackageVersions: [String]?
         /// A key-value map that pairs the patterns that need to be replaced in a managed  template job document schema. You can use the description of each key as a guidance  to specify the inputs during runtime when creating a job.   documentParameters can only be used when creating jobs from Amazon Web Services  managed templates. This parameter can't be used with custom job templates or to  create jobs from them.
         public let documentParameters: [String: String]?
         /// Will be true if the job was canceled with the optional force parameter set to  true.
@@ -8659,12 +9080,13 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job.  A timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, documentParameters: [String: String]? = nil, forceCanceled: Bool? = nil, isConcurrent: Bool? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, scheduledJobRollouts: [ScheduledJobRollout]? = nil, schedulingConfig: SchedulingConfig? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, destinationPackageVersions: [String]? = nil, documentParameters: [String: String]? = nil, forceCanceled: Bool? = nil, isConcurrent: Bool? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, scheduledJobRollouts: [ScheduledJobRollout]? = nil, schedulingConfig: SchedulingConfig? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.comment = comment
             self.completedAt = completedAt
             self.createdAt = createdAt
             self.description = description
+            self.destinationPackageVersions = destinationPackageVersions
             self.documentParameters = documentParameters
             self.forceCanceled = forceCanceled
             self.isConcurrent = isConcurrent
@@ -8692,6 +9114,7 @@ extension IoT {
             case completedAt = "completedAt"
             case createdAt = "createdAt"
             case description = "description"
+            case destinationPackageVersions = "destinationPackageVersions"
             case documentParameters = "documentParameters"
             case forceCanceled = "forceCanceled"
             case isConcurrent = "isConcurrent"
@@ -10566,6 +10989,99 @@ extension IoT {
         }
     }
 
+    public struct ListPackageVersionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "packageName", location: .uri("packageName")),
+            AWSMemberEncoding(label: "status", location: .querystring("status"))
+        ]
+
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The name of the target package.
+        public let packageName: String
+        /// The status of the package version. For more information, see Package version lifecycle.
+        public let status: PackageVersionStatus?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, packageName: String, status: PackageVersionStatus? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.packageName = packageName
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.packageName, name: "packageName", parent: name, max: 128)
+            try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
+            try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPackageVersionsResponse: AWSDecodableShape {
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// Lists the package versions associated to the package.
+        public let packageVersionSummaries: [PackageVersionSummary]?
+
+        public init(nextToken: String? = nil, packageVersionSummaries: [PackageVersionSummary]? = nil) {
+            self.nextToken = nextToken
+            self.packageVersionSummaries = packageVersionSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case packageVersionSummaries = "packageVersionSummaries"
+        }
+    }
+
+    public struct ListPackagesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The maximum number of results returned at one time.
+        public let maxResults: Int?
+        /// The token for the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPackagesResponse: AWSDecodableShape {
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The software package summary.
+        public let packageSummaries: [PackageSummary]?
+
+        public init(nextToken: String? = nil, packageSummaries: [PackageSummary]? = nil) {
+            self.nextToken = nextToken
+            self.packageSummaries = packageSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case packageSummaries = "packageSummaries"
+        }
+    }
+
     public struct ListPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
@@ -12132,7 +12648,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.validate(self.durationInMinutes, name: "durationInMinutes", parent: name, max: 1430)
-            try self.validate(self.durationInMinutes, name: "durationInMinutes", parent: name, min: 30)
+            try self.validate(self.durationInMinutes, name: "durationInMinutes", parent: name, min: 1)
             try self.validate(self.startTime, name: "startTime", parent: name, max: 256)
             try self.validate(self.startTime, name: "startTime", parent: name, min: 1)
         }
@@ -12664,6 +13180,60 @@ extension IoT {
             case transferDate = "transferDate"
             case transferMessage = "transferMessage"
             case transferredTo = "transferredTo"
+        }
+    }
+
+    public struct PackageSummary: AWSDecodableShape {
+        /// The date that the package was created.
+        public let creationDate: Date?
+        /// The name of the default package version.
+        public let defaultVersionName: String?
+        /// The date that the package was last updated.
+        public let lastModifiedDate: Date?
+        /// The name for the target package.
+        public let packageName: String?
+
+        public init(creationDate: Date? = nil, defaultVersionName: String? = nil, lastModifiedDate: Date? = nil, packageName: String? = nil) {
+            self.creationDate = creationDate
+            self.defaultVersionName = defaultVersionName
+            self.lastModifiedDate = lastModifiedDate
+            self.packageName = packageName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case defaultVersionName = "defaultVersionName"
+            case lastModifiedDate = "lastModifiedDate"
+            case packageName = "packageName"
+        }
+    }
+
+    public struct PackageVersionSummary: AWSDecodableShape {
+        /// The date that the package version was created.
+        public let creationDate: Date?
+        /// The date that the package version was last updated.
+        public let lastModifiedDate: Date?
+        /// The name of the associated software package.
+        public let packageName: String?
+        /// The status of the package version. For more information, see Package version lifecycle.
+        public let status: PackageVersionStatus?
+        /// The name of the target package version.
+        public let versionName: String?
+
+        public init(creationDate: Date? = nil, lastModifiedDate: Date? = nil, packageName: String? = nil, status: PackageVersionStatus? = nil, versionName: String? = nil) {
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.packageName = packageName
+            self.status = status
+            self.versionName = versionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case lastModifiedDate = "lastModifiedDate"
+            case packageName = "packageName"
+            case status = "status"
+            case versionName = "versionName"
         }
     }
 
@@ -16244,6 +16814,147 @@ extension IoT {
         }
     }
 
+    public struct UpdatePackageConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken"))
+        ]
+
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// Configuration to manage job's package version reporting. This updates the thing's reserved named shadow that the job targets.
+        public let versionUpdateByJobsConfig: VersionUpdateByJobsConfig?
+
+        public init(clientToken: String? = UpdatePackageConfigurationRequest.idempotencyToken(), versionUpdateByJobsConfig: VersionUpdateByJobsConfig? = nil) {
+            self.clientToken = clientToken
+            self.versionUpdateByJobsConfig = versionUpdateByJobsConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.versionUpdateByJobsConfig?.validate(name: "\(name).versionUpdateByJobsConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case versionUpdateByJobsConfig = "versionUpdateByJobsConfig"
+        }
+    }
+
+    public struct UpdatePackageConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdatePackageRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "packageName", location: .uri("packageName"))
+        ]
+
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The name of the default package version.  Note: You cannot name a defaultVersion and set unsetDefaultVersion equal to true at the same time.
+        public let defaultVersionName: String?
+        /// The package description.
+        public let description: String?
+        /// The name of the target package.
+        public let packageName: String
+        /// Indicates whether you want to remove the named default package version from the software package.  Set as true to remove the default package version.   Note: You cannot name a defaultVersion and set unsetDefaultVersion equal to true at the same time.
+        public let unsetDefaultVersion: Bool?
+
+        public init(clientToken: String? = UpdatePackageRequest.idempotencyToken(), defaultVersionName: String? = nil, description: String? = nil, packageName: String, unsetDefaultVersion: Bool? = nil) {
+            self.clientToken = clientToken
+            self.defaultVersionName = defaultVersionName
+            self.description = description
+            self.packageName = packageName
+            self.unsetDefaultVersion = unsetDefaultVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.defaultVersionName, name: "defaultVersionName", parent: name, max: 64)
+            try self.validate(self.defaultVersionName, name: "defaultVersionName", parent: name, min: 1)
+            try self.validate(self.defaultVersionName, name: "defaultVersionName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]+$")
+            try self.validate(self.packageName, name: "packageName", parent: name, max: 128)
+            try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
+            try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultVersionName = "defaultVersionName"
+            case description = "description"
+            case unsetDefaultVersion = "unsetDefaultVersion"
+        }
+    }
+
+    public struct UpdatePackageResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdatePackageVersionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "packageName", location: .uri("packageName")),
+            AWSMemberEncoding(label: "versionName", location: .uri("versionName"))
+        ]
+
+        /// The status that the package version should be assigned. For more information, see Package version lifecycle.
+        public let action: PackageVersionAction?
+        /// Metadata that can be used to define a package version’s configuration. For example, the S3 file location, configuration options that are being sent to the device or fleet.   Note: Attributes can be updated only when the package version is in a draft state. The combined size of all the attributes on a package version is limited to 3KB.
+        public let attributes: [String: String]?
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The package version description.
+        public let description: String?
+        /// The name of the associated software package.
+        public let packageName: String
+        /// The name of the target package version.
+        public let versionName: String
+
+        public init(action: PackageVersionAction? = nil, attributes: [String: String]? = nil, clientToken: String? = UpdatePackageVersionRequest.idempotencyToken(), description: String? = nil, packageName: String, versionName: String) {
+            self.action = action
+            self.attributes = attributes
+            self.clientToken = clientToken
+            self.description = description
+            self.packageName = packageName
+            self.versionName = versionName
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes?.forEach {
+                try validate($0.key, name: "attributes.key", parent: name, min: 1)
+                try validate($0.key, name: "attributes.key", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, pattern: "^[^\\p{C}]+$")
+            }
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]+$")
+            try self.validate(self.packageName, name: "packageName", parent: name, max: 128)
+            try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
+            try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 64)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case attributes = "attributes"
+            case description = "description"
+        }
+    }
+
+    public struct UpdatePackageVersionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateProvisioningTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "templateName", location: .uri("templateName"))
@@ -16855,6 +17566,28 @@ extension IoT {
         }
     }
 
+    public struct VersionUpdateByJobsConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the Job is enabled or not.
+        public let enabled: Bool?
+        /// The Amazon Resource Name (ARN) of the role that grants permission to the IoT jobs service to update the reserved named shadow when the job successfully completes.
+        public let roleArn: String?
+
+        public init(enabled: Bool? = nil, roleArn: String? = nil) {
+            self.enabled = enabled
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case roleArn = "roleArn"
+        }
+    }
+
     public struct ViolationEvent: AWSDecodableShape {
         /// The behavior that was violated.
         public let behavior: Behavior?
@@ -17037,6 +17770,7 @@ public struct IoTErrorType: AWSErrorType {
         case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case resourceRegistrationFailureException = "ResourceRegistrationFailureException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case serviceUnavailableException = "ServiceUnavailableException"
         case sqlParseException = "SqlParseException"
         case taskAlreadyExistsException = "TaskAlreadyExistsException"
@@ -17044,6 +17778,7 @@ public struct IoTErrorType: AWSErrorType {
         case transferAlreadyCompletedException = "TransferAlreadyCompletedException"
         case transferConflictException = "TransferConflictException"
         case unauthorizedException = "UnauthorizedException"
+        case validationException = "ValidationException"
         case versionConflictException = "VersionConflictException"
         case versionsLimitExceededException = "VersionsLimitExceededException"
     }
@@ -17110,6 +17845,8 @@ public struct IoTErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The resource registration failed.
     public static var resourceRegistrationFailureException: Self { .init(.resourceRegistrationFailureException) }
+    /// A limit has been exceeded.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The service is temporarily unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// The Rule-SQL expression can't be parsed correctly.
@@ -17124,6 +17861,8 @@ public struct IoTErrorType: AWSErrorType {
     public static var transferConflictException: Self { .init(.transferConflictException) }
     /// You are not authorized to perform this operation.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
+    /// The request is not valid.
+    public static var validationException: Self { .init(.validationException) }
     /// An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     public static var versionConflictException: Self { .init(.versionConflictException) }
     /// The number of policy versions exceeds the limit.

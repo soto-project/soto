@@ -22,19 +22,18 @@
 /// AWS Signer is a fully managed code signing service to help you ensure the trust and
 /// 			integrity of your code.
 /// 		       AWS Signer supports the following applications:
-/// 		       With code signing for AWS Lambda, you can sign AWS Lambda
-/// 			deployment packages. Integrated support is provided for Amazon S3, Amazon CloudWatch,
-/// 			and AWS CloudTrail. In order to sign code, you create a signing profile and then use
-/// 			Signer to sign Lambda zip files in S3.
-///
-/// 		       With code signing for IoT, you can sign code for any IoT device that is
-/// 			supported by AWS. IoT code signing is available for Amazon FreeRTOS and AWS IoT Device Management, and is
-/// 			integrated with AWS Certificate Manager (ACM). In order to sign
-/// 			code, you import a third-party code signing certificate using ACM, and use that to
-/// 			sign updates in Amazon FreeRTOS and AWS IoT Device Management.
-/// 		       For more information about AWS Signer, see the AWS Signer Developer Guide.
-///
-///
+/// 		       With code signing for AWS Lambda, you can sign AWS
+/// 				Lambda deployment packages. Integrated support is provided for Amazon S3, Amazon
+/// 				CloudWatch, and AWS CloudTrail. In order
+/// 			to sign code, you create a signing profile and then use Signer to sign Lambda zip files
+/// 			in S3.
+/// 		       With code signing for IoT, you can sign code for any IoT device that is supported by AWS.
+/// 			IoT code signing is available for Amazon FreeRTOS and AWS IoT Device Management, and is integrated with AWS Certificate Manager (ACM). In order to sign code, you import a third-party code signing
+/// 			certificate using ACM, and use that to sign updates in Amazon FreeRTOS and AWS IoT Device Management.
+/// 		       With code signing for
+/// 			containers …(TBD)
+/// 		       For more information about AWS Signer, see the AWS Signer Developer
+/// 			Guide.
 public struct Signer: AWSService {
     // MARK: Member variables
 
@@ -99,11 +98,18 @@ public struct Signer: AWSService {
         return self.client.execute(operation: "CancelSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about a specific code signing job. You specify the job by using
-    /// 			the jobId value that is returned by the StartSigningJob
+    /// Returns information about a specific code signing job. You specify the job by using the
+    /// 				jobId value that is returned by the StartSigningJob
     /// 			operation.
     public func describeSigningJob(_ input: DescribeSigningJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSigningJobResponse> {
         return self.client.execute(operation: "DescribeSigningJob", path: "/signing-jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the
+    /// 			revocation status of one or more of the signing profile, signing job, and signing
+    /// 			certificate.
+    public func getRevocationStatus(_ input: GetRevocationStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRevocationStatusResponse> {
+        return self.client.execute(operation: "GetRevocationStatus", path: "/revocations", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "verification.", logger: logger, on: eventLoop)
     }
 
     /// Returns information on a specific signing platform.
@@ -161,7 +167,8 @@ public struct Signer: AWSService {
     }
 
     /// Creates a signing profile. A signing profile is a code signing template that can be used to
-    /// 			carry out a pre-defined signing job. For more information, see http://docs.aws.amazon.com/signer/latest/developerguide/gs-profile.html
+    /// 			carry out a pre-defined signing job.
+    ///
     public func putSigningProfile(_ input: PutSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutSigningProfileResponse> {
         return self.client.execute(operation: "PutSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -184,11 +191,17 @@ public struct Signer: AWSService {
         return self.client.execute(operation: "RevokeSigningProfile", path: "/signing-profiles/{profileName}/revoke", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Signs a binary
+    /// 			payload and returns a signature envelope.
+    public func signPayload(_ input: SignPayloadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SignPayloadResponse> {
+        return self.client.execute(operation: "SignPayload", path: "/signing-jobs/with-payload", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Initiates a signing job to be performed on the code provided. Signing jobs are
     /// 			viewable by the ListSigningJobs operation for two years after they are
     /// 			performed. Note the following requirements:
     ///
-    /// 				            You must create an Amazon S3 source bucket. For more information, see Create a Bucket in the
+    /// 				            You must create an Amazon S3 source bucket. For more information, see Creating a Bucket in the
     /// 						Amazon S3 Getting Started Guide.
     ///
     /// 				           Your S3 source bucket must be version enabled.
@@ -204,7 +217,7 @@ public struct Signer: AWSService {
     ///
     /// 		       You can call the DescribeSigningJob and the ListSigningJobs actions after you call
     /// 			StartSigningJob.
-    /// 		       For a Java example that shows how to use this action, see http://docs.aws.amazon.com/acm/latest/userguide/
+    /// 		       For a Java example that shows how to use this action, see StartSigningJob.
     public func startSigningJob(_ input: StartSigningJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSigningJobResponse> {
         return self.client.execute(operation: "StartSigningJob", path: "/signing-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

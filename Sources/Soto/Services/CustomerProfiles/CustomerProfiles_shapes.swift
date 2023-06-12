@@ -38,6 +38,18 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventStreamDestinationStatus: String, CustomStringConvertible, Codable, Sendable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventStreamState: String, CustomStringConvertible, Codable, Sendable {
+        case running = "RUNNING"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FieldContentType: String, CustomStringConvertible, Codable, Sendable {
         case emailAddress = "EMAIL_ADDRESS"
         case name = "NAME"
@@ -977,6 +989,70 @@ extension CustomerProfiles {
         }
     }
 
+    public struct CreateEventStreamRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "eventStreamName", location: .uri("EventStreamName"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The name of the event stream.
+        public let eventStreamName: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// The StreamARN of the destination to deliver profile events to. For example,  arn:aws:kinesis:region:account-id:stream/stream-name
+        public let uri: String
+
+        public init(domainName: String, eventStreamName: String, tags: [String: String]? = nil, uri: String) {
+            self.domainName = domainName
+            self.eventStreamName = eventStreamName
+            self.tags = tags
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.eventStreamName, name: "eventStreamName", parent: name, max: 64)
+            try self.validate(self.eventStreamName, name: "eventStreamName", parent: name, min: 1)
+            try self.validate(self.eventStreamName, name: "eventStreamName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.uri, name: "uri", parent: name, max: 255)
+            try self.validate(self.uri, name: "uri", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case uri = "Uri"
+        }
+    }
+
+    public struct CreateEventStreamResponse: AWSDecodableShape {
+        /// A unique identifier for the event stream.
+        public let eventStreamArn: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(eventStreamArn: String, tags: [String: String]? = nil) {
+            self.eventStreamArn = eventStreamArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventStreamArn = "EventStreamArn"
+            case tags = "Tags"
+        }
+    }
+
     public struct CreateIntegrationWorkflowRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
@@ -1285,6 +1361,38 @@ extension CustomerProfiles {
         }
     }
 
+    public struct DeleteEventStreamRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "eventStreamName", location: .uri("EventStreamName"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The name of the event stream
+        public let eventStreamName: String
+
+        public init(domainName: String, eventStreamName: String) {
+            self.domainName = domainName
+            self.eventStreamName = eventStreamName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.eventStreamName, name: "eventStreamName", parent: name, max: 64)
+            try self.validate(self.eventStreamName, name: "eventStreamName", parent: name, min: 1)
+            try self.validate(self.eventStreamName, name: "eventStreamName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteEventStreamResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
@@ -1546,6 +1654,27 @@ extension CustomerProfiles {
         public init() {}
     }
 
+    public struct DestinationSummary: AWSDecodableShape {
+        /// The status of enabling the Kinesis stream as a destination for export.
+        public let status: EventStreamDestinationStatus
+        /// The timestamp when the status last changed to UNHEALHY.
+        public let unhealthySince: Date?
+        /// The StreamARN of the destination to deliver profile events to. For example,  arn:aws:kinesis:region:account-id:stream/stream-name.
+        public let uri: String
+
+        public init(status: EventStreamDestinationStatus, unhealthySince: Date? = nil, uri: String) {
+            self.status = status
+            self.unhealthySince = unhealthySince
+            self.uri = uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case unhealthySince = "UnhealthySince"
+            case uri = "Uri"
+        }
+    }
+
     public struct DomainStats: AWSDecodableShape {
         /// The number of profiles that you are currently paying for in the domain. If you have more than 100 objects associated with a single profile, that profile counts as two profiles. If you have more than 200 objects, that profile counts as three, and so on.
         public let meteringProfileCount: Int64?
@@ -1568,6 +1697,68 @@ extension CustomerProfiles {
             case objectCount = "ObjectCount"
             case profileCount = "ProfileCount"
             case totalSize = "TotalSize"
+        }
+    }
+
+    public struct EventStreamDestinationDetails: AWSDecodableShape {
+        /// The human-readable string that corresponds to the error or success while enabling the streaming destination.
+        public let message: String?
+        /// The status of enabling the Kinesis stream as a destination for export.
+        public let status: EventStreamDestinationStatus
+        /// The timestamp when the status last changed to UNHEALHY.
+        public let unhealthySince: Date?
+        /// The StreamARN of the destination to deliver profile events to. For example,  arn:aws:kinesis:region:account-id:stream/stream-name.
+        public let uri: String
+
+        public init(message: String? = nil, status: EventStreamDestinationStatus, unhealthySince: Date? = nil, uri: String) {
+            self.message = message
+            self.status = status
+            self.unhealthySince = unhealthySince
+            self.uri = uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case status = "Status"
+            case unhealthySince = "UnhealthySince"
+            case uri = "Uri"
+        }
+    }
+
+    public struct EventStreamSummary: AWSDecodableShape {
+        /// Summary information about the Kinesis data stream.
+        public let destinationSummary: DestinationSummary?
+        /// The unique name of the domain.
+        public let domainName: String
+        /// A unique identifier for the event stream.
+        public let eventStreamArn: String
+        /// The name of the event stream.
+        public let eventStreamName: String
+        /// The operational state of destination stream for export.
+        public let state: EventStreamState
+        /// The timestamp when the State changed to STOPPED.
+        public let stoppedSince: Date?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(destinationSummary: DestinationSummary? = nil, domainName: String, eventStreamArn: String, eventStreamName: String, state: EventStreamState, stoppedSince: Date? = nil, tags: [String: String]? = nil) {
+            self.destinationSummary = destinationSummary
+            self.domainName = domainName
+            self.eventStreamArn = eventStreamArn
+            self.eventStreamName = eventStreamName
+            self.state = state
+            self.stoppedSince = stoppedSince
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationSummary = "DestinationSummary"
+            case domainName = "DomainName"
+            case eventStreamArn = "EventStreamArn"
+            case eventStreamName = "EventStreamName"
+            case state = "State"
+            case stoppedSince = "StoppedSince"
+            case tags = "Tags"
         }
     }
 
@@ -2048,6 +2239,71 @@ extension CustomerProfiles {
             case lastUpdatedAt = "LastUpdatedAt"
             case matching = "Matching"
             case stats = "Stats"
+            case tags = "Tags"
+        }
+    }
+
+    public struct GetEventStreamRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "eventStreamName", location: .uri("EventStreamName"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The name of the event stream provided during create operations.
+        public let eventStreamName: String
+
+        public init(domainName: String, eventStreamName: String) {
+            self.domainName = domainName
+            self.eventStreamName = eventStreamName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.eventStreamName, name: "eventStreamName", parent: name, max: 64)
+            try self.validate(self.eventStreamName, name: "eventStreamName", parent: name, min: 1)
+            try self.validate(self.eventStreamName, name: "eventStreamName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetEventStreamResponse: AWSDecodableShape {
+        /// The timestamp of when the export was created.
+        public let createdAt: Date
+        /// Details regarding the Kinesis stream.
+        public let destinationDetails: EventStreamDestinationDetails
+        /// The unique name of the domain.
+        public let domainName: String
+        /// A unique identifier for the event stream.
+        public let eventStreamArn: String
+        /// The operational state of destination stream for export.
+        public let state: EventStreamState
+        /// The timestamp when the State changed to STOPPED.
+        public let stoppedSince: Date?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(createdAt: Date, destinationDetails: EventStreamDestinationDetails, domainName: String, eventStreamArn: String, state: EventStreamState, stoppedSince: Date? = nil, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.destinationDetails = destinationDetails
+            self.domainName = domainName
+            self.eventStreamArn = eventStreamArn
+            self.state = state
+            self.stoppedSince = stoppedSince
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case destinationDetails = "DestinationDetails"
+            case domainName = "DomainName"
+            case eventStreamArn = "EventStreamArn"
+            case state = "State"
+            case stoppedSince = "StoppedSince"
             case tags = "Tags"
         }
     }
@@ -2934,6 +3190,56 @@ extension CustomerProfiles {
         public let nextToken: String?
 
         public init(items: [ListDomainItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEventStreamsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of objects returned per page.
+        public let maxResults: Int?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListEventStreamsResponse: AWSDecodableShape {
+        /// Contains summary information about an EventStream.
+        public let items: [EventStreamSummary]?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(items: [EventStreamSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }

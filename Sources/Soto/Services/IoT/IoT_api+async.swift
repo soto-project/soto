@@ -117,7 +117,7 @@ extension IoT {
         return try await self.client.execute(operation: "CreateBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an X.509 certificate using the specified certificate signing request.  Requires permission to access the CreateCertificateFromCsr action.   The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-25 or NIST P-384 curves.  For supported certificates, consult  Certificate signing algorithms supported by IoT.    Reusing the same certificate signing request (CSR) results in a distinct certificate.  You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. In the following commands, we assume that a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is:   $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}  This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr Amazon Web Services CLI command to create a certificate for the corresponding CSR.  You can also run the aws iot create-certificate-from-csr part of the command in parallel to speed up the certificate creation process:  $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}   On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is:  > ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_}   On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is:  > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
+    /// Creates an X.509 certificate using the specified certificate signing request.  Requires permission to access the CreateCertificateFromCsr action.   The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256 or NIST P-384 curves.  For supported certificates, consult  Certificate signing algorithms supported by IoT.    Reusing the same certificate signing request (CSR) results in a distinct certificate.  You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. In the following commands, we assume that a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is:   $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}  This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr Amazon Web Services CLI command to create a certificate for the corresponding CSR.  You can also run the aws iot create-certificate-from-csr part of the command in parallel to speed up the certificate creation process:  $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}   On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is:  > ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_}   On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is:  > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
     public func createCertificateFromCsr(_ input: CreateCertificateFromCsrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateCertificateFromCsrResponse {
         return try await self.client.execute(operation: "CreateCertificateFromCsr", path: "/certificates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -170,6 +170,16 @@ extension IoT {
     /// Creates an IoT OTA update on a target group of things or groups. Requires permission to access the CreateOTAUpdate action.
     public func createOTAUpdate(_ input: CreateOTAUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateOTAUpdateResponse {
         return try await self.client.execute(operation: "CreateOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates an IoT software package that can be deployed to your fleet. Requires permission to access the CreatePackage and GetIndexingConfiguration actions.
+    public func createPackage(_ input: CreatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreatePackageResponse {
+        return try await self.client.execute(operation: "CreatePackage", path: "/packages/{packageName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new version for an existing IoT software package. Requires permission to access the CreatePackageVersion and GetIndexingConfiguration actions.
+    public func createPackageVersion(_ input: CreatePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreatePackageVersionResponse {
+        return try await self.client.execute(operation: "CreatePackageVersion", path: "/packages/{packageName}/versions/{versionName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates an IoT policy. The created policy is the default version for the policy. This operation creates a policy version with a version identifier of 1 and sets 1 as the policy's default version. Requires permission to access the CreatePolicy action.
@@ -325,6 +335,16 @@ extension IoT {
     /// Delete an OTA update. Requires permission to access the DeleteOTAUpdate action.
     public func deleteOTAUpdate(_ input: DeleteOTAUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteOTAUpdateResponse {
         return try await self.client.execute(operation: "DeleteOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a specific version from a software package.  Note: All package versions must be deleted before deleting the software package. Requires permission to access the DeletePackageVersion action.
+    public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeletePackageResponse {
+        return try await self.client.execute(operation: "DeletePackage", path: "/packages/{packageName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a specific version from a software package.  Note: If a package version is designated as default, you must remove the designation from the package using the UpdatePackage action.
+    public func deletePackageVersion(_ input: DeletePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeletePackageVersionResponse {
+        return try await self.client.execute(operation: "DeletePackageVersion", path: "/packages/{packageName}/versions/{versionName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the DeletePolicyVersion action to delete all non-default versions of the policy; use the DetachPolicy action to detach the policy from any certificate; and then use the DeletePolicy action to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it.  Because of the distributed nature of Amazon Web Services, it can take up to five minutes after a policy is detached before it's ready to be deleted.  Requires permission to access the DeletePolicy action.
@@ -649,6 +669,21 @@ extension IoT {
         return try await self.client.execute(operation: "GetOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets information about the specified software package. Requires permission to access the GetPackage action.
+    public func getPackage(_ input: GetPackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPackageResponse {
+        return try await self.client.execute(operation: "GetPackage", path: "/packages/{packageName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets information about the specified software package's configuration. Requires permission to access the GetPackageConfiguration action.
+    public func getPackageConfiguration(_ input: GetPackageConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPackageConfigurationResponse {
+        return try await self.client.execute(operation: "GetPackageConfiguration", path: "/package-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets information about the specified package version.  Requires permission to access the GetPackageVersion action.
+    public func getPackageVersion(_ input: GetPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPackageVersionResponse {
+        return try await self.client.execute(operation: "GetPackageVersion", path: "/packages/{packageName}/versions/{versionName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Groups the aggregated values that match the query into percentile groupings. The default  percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own  when you call GetPercentiles. This function returns a value for each  percentile group specified (or the default percentile groupings). The percentile group  "1" contains the aggregated field value that occurs in approximately one percent of the  values that match the query. The percentile group "5" contains the aggregated field value  that occurs in approximately five percent of the values that match the query, and so on.  The result is an approximation, the more values that match the query, the more accurate  the percentile values. Requires permission to access the GetPercentiles action.
     public func getPercentiles(_ input: GetPercentilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPercentilesResponse {
         return try await self.client.execute(operation: "GetPercentiles", path: "/indices/percentiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -827,6 +862,16 @@ extension IoT {
     /// Lists certificates that are being transferred but not yet accepted. Requires permission to access the ListOutgoingCertificates action.
     public func listOutgoingCertificates(_ input: ListOutgoingCertificatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListOutgoingCertificatesResponse {
         return try await self.client.execute(operation: "ListOutgoingCertificates", path: "/certificates-out-going", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the software package versions associated to the account. Requires permission to access the ListPackageVersions action.
+    public func listPackageVersions(_ input: ListPackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPackageVersionsResponse {
+        return try await self.client.execute(operation: "ListPackageVersions", path: "/packages/{packageName}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the software packages associated to the account. Requires permission to access the ListPackages action.
+    public func listPackages(_ input: ListPackagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPackagesResponse {
+        return try await self.client.execute(operation: "ListPackages", path: "/packages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists your policies. Requires permission to access the ListPolicies action.
@@ -1185,6 +1230,21 @@ extension IoT {
     /// Updates the definition for the specified mitigation action. Requires permission to access the UpdateMitigationAction action.
     public func updateMitigationAction(_ input: UpdateMitigationActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateMitigationActionResponse {
         return try await self.client.execute(operation: "UpdateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the supported fields for a specific package. Requires permission to access the UpdatePackage and GetIndexingConfiguration actions.
+    public func updatePackage(_ input: UpdatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdatePackageResponse {
+        return try await self.client.execute(operation: "UpdatePackage", path: "/packages/{packageName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the package configuration. Requires permission to access the UpdatePackageConfiguration and iam:PassRole actions.
+    public func updatePackageConfiguration(_ input: UpdatePackageConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdatePackageConfigurationResponse {
+        return try await self.client.execute(operation: "UpdatePackageConfiguration", path: "/package-configuration", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the supported fields for a specific package version. Requires permission to access the UpdatePackageVersion and GetIndexingConfiguration actions.
+    public func updatePackageVersion(_ input: UpdatePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdatePackageVersionResponse {
+        return try await self.client.execute(operation: "UpdatePackageVersion", path: "/packages/{packageName}/versions/{versionName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates a provisioning template. Requires permission to access the UpdateProvisioningTemplate action.
@@ -1875,6 +1935,50 @@ extension IoT {
             command: self.listOutgoingCertificates,
             inputKey: \ListOutgoingCertificatesRequest.marker,
             outputKey: \ListOutgoingCertificatesResponse.nextMarker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists the software package versions associated to the account. Requires permission to access the ListPackageVersions action.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listPackageVersionsPaginator(
+        _ input: ListPackageVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListPackageVersionsRequest, ListPackageVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listPackageVersions,
+            inputKey: \ListPackageVersionsRequest.nextToken,
+            outputKey: \ListPackageVersionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists the software packages associated to the account. Requires permission to access the ListPackages action.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listPackagesPaginator(
+        _ input: ListPackagesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListPackagesRequest, ListPackagesResponse> {
+        return .init(
+            input: input,
+            command: self.listPackages,
+            inputKey: \ListPackagesRequest.nextToken,
+            outputKey: \ListPackagesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

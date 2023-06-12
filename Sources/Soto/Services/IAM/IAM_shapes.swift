@@ -587,7 +587,7 @@ extension IAM {
         public func validate(name: String) throws {
             try self.validate(self.accountAlias, name: "accountAlias", parent: name, max: 63)
             try self.validate(self.accountAlias, name: "accountAlias", parent: name, min: 3)
-            try self.validate(self.accountAlias, name: "accountAlias", parent: name, pattern: "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$")
+            try self.validate(self.accountAlias, name: "accountAlias", parent: name, pattern: "^[a-z0-9]([a-z0-9]|-(?!-)){1,61}[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -612,7 +612,7 @@ extension IAM {
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[\\w+=,.@-]+$")
             try self.validate(self.path, name: "path", parent: name, max: 512)
             try self.validate(self.path, name: "path", parent: name, min: 1)
-            try self.validate(self.path, name: "path", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F)$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -655,7 +655,7 @@ extension IAM {
             try self.validate(self.instanceProfileName, name: "instanceProfileName", parent: name, pattern: "^[\\w+=,.@-]+$")
             try self.validate(self.path, name: "path", parent: name, max: 512)
             try self.validate(self.path, name: "path", parent: name, min: 1)
-            try self.validate(self.path, name: "path", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F)$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F)$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -922,12 +922,12 @@ extension IAM {
             try self.validate(self.assumeRolePolicyDocument, name: "assumeRolePolicyDocument", parent: name, min: 1)
             try self.validate(self.assumeRolePolicyDocument, name: "assumeRolePolicyDocument", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]*$")
             try self.validate(self.maxSessionDuration, name: "maxSessionDuration", parent: name, max: 43200)
             try self.validate(self.maxSessionDuration, name: "maxSessionDuration", parent: name, min: 3600)
             try self.validate(self.path, name: "path", parent: name, max: 512)
             try self.validate(self.path, name: "path", parent: name, min: 1)
-            try self.validate(self.path, name: "path", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F)$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F)$")
             try self.validate(self.permissionsBoundary, name: "permissionsBoundary", parent: name, max: 2048)
             try self.validate(self.permissionsBoundary, name: "permissionsBoundary", parent: name, min: 20)
             try self.validate(self.roleName, name: "roleName", parent: name, max: 64)
@@ -1037,7 +1037,7 @@ extension IAM {
             try self.validate(self.customSuffix, name: "customSuffix", parent: name, min: 1)
             try self.validate(self.customSuffix, name: "customSuffix", parent: name, pattern: "^[\\w+=,.@-]+$")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1117,7 +1117,7 @@ extension IAM {
         public func validate(name: String) throws {
             try self.validate(self.path, name: "path", parent: name, max: 512)
             try self.validate(self.path, name: "path", parent: name, min: 1)
-            try self.validate(self.path, name: "path", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F)$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F)$")
             try self.validate(self.permissionsBoundary, name: "permissionsBoundary", parent: name, max: 2048)
             try self.validate(self.permissionsBoundary, name: "permissionsBoundary", parent: name, min: 20)
             try self.tags?.forEach {
@@ -1168,7 +1168,7 @@ extension IAM {
         public func validate(name: String) throws {
             try self.validate(self.path, name: "path", parent: name, max: 512)
             try self.validate(self.path, name: "path", parent: name, min: 1)
-            try self.validate(self.path, name: "path", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F)$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F)$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1260,7 +1260,7 @@ extension IAM {
         public func validate(name: String) throws {
             try self.validate(self.accountAlias, name: "accountAlias", parent: name, max: 63)
             try self.validate(self.accountAlias, name: "accountAlias", parent: name, min: 3)
-            try self.validate(self.accountAlias, name: "accountAlias", parent: name, pattern: "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$")
+            try self.validate(self.accountAlias, name: "accountAlias", parent: name, pattern: "^[a-z0-9]([a-z0-9]|-(?!-)){1,61}[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3500,7 +3500,7 @@ extension IAM {
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
             try self.validate(self.pathPrefix, name: "pathPrefix", parent: name, max: 512)
             try self.validate(self.pathPrefix, name: "pathPrefix", parent: name, min: 1)
-            try self.validate(self.pathPrefix, name: "pathPrefix", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F)$")
+            try self.validate(self.pathPrefix, name: "pathPrefix", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F)$")
             try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
             try self.validate(self.policyArn, name: "policyArn", parent: name, min: 20)
         }
@@ -7064,7 +7064,7 @@ extension IAM {
             try self.validate(self.newGroupName, name: "newGroupName", parent: name, pattern: "^[\\w+=,.@-]+$")
             try self.validate(self.newPath, name: "newPath", parent: name, max: 512)
             try self.validate(self.newPath, name: "newPath", parent: name, min: 1)
-            try self.validate(self.newPath, name: "newPath", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F)$")
+            try self.validate(self.newPath, name: "newPath", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7144,7 +7144,7 @@ extension IAM {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]*$")
             try self.validate(self.roleName, name: "roleName", parent: name, max: 64)
             try self.validate(self.roleName, name: "roleName", parent: name, min: 1)
             try self.validate(self.roleName, name: "roleName", parent: name, pattern: "^[\\w+=,.@-]+$")
@@ -7185,7 +7185,7 @@ extension IAM {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]*$")
             try self.validate(self.maxSessionDuration, name: "maxSessionDuration", parent: name, max: 43200)
             try self.validate(self.maxSessionDuration, name: "maxSessionDuration", parent: name, min: 3600)
             try self.validate(self.roleName, name: "roleName", parent: name, max: 64)
@@ -7288,7 +7288,7 @@ extension IAM {
         public func validate(name: String) throws {
             try self.validate(self.newPath, name: "newPath", parent: name, max: 512)
             try self.validate(self.newPath, name: "newPath", parent: name, min: 1)
-            try self.validate(self.newPath, name: "newPath", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F)$")
+            try self.validate(self.newPath, name: "newPath", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F)$")
             try self.validate(self.newServerCertificateName, name: "newServerCertificateName", parent: name, max: 128)
             try self.validate(self.newServerCertificateName, name: "newServerCertificateName", parent: name, min: 1)
             try self.validate(self.newServerCertificateName, name: "newServerCertificateName", parent: name, pattern: "^[\\w+=,.@-]+$")
@@ -7381,7 +7381,7 @@ extension IAM {
         public func validate(name: String) throws {
             try self.validate(self.newPath, name: "newPath", parent: name, max: 512)
             try self.validate(self.newPath, name: "newPath", parent: name, min: 1)
-            try self.validate(self.newPath, name: "newPath", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F)$")
+            try self.validate(self.newPath, name: "newPath", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F)$")
             try self.validate(self.newUserName, name: "newUserName", parent: name, max: 64)
             try self.validate(self.newUserName, name: "newUserName", parent: name, min: 1)
             try self.validate(self.newUserName, name: "newUserName", parent: name, pattern: "^[\\w+=,.@-]+$")
@@ -7469,7 +7469,7 @@ extension IAM {
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.path, name: "path", parent: name, max: 512)
             try self.validate(self.path, name: "path", parent: name, min: 1)
-            try self.validate(self.path, name: "path", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F)$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F)$")
             try self.validate(self.privateKey, name: "privateKey", parent: name, max: 16384)
             try self.validate(self.privateKey, name: "privateKey", parent: name, min: 1)
             try self.validate(self.privateKey, name: "privateKey", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
@@ -7644,7 +7644,7 @@ extension IAM {
     }
 
     public struct VirtualMFADevice: AWSDecodableShape {
-        ///  The base32 seed defined as specified in RFC3548. The Base32StringSeed is base64-encoded.
+        ///  The base32 seed defined as specified in RFC3548. The Base32StringSeed is base32-encoded.
         public let base32StringSeed: AWSBase64Data?
         /// The date and time on which the virtual MFA device was enabled.
         public let enableDate: Date?

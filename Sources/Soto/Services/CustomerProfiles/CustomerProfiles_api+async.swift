@@ -36,6 +36,11 @@ extension CustomerProfiles {
         return try await self.client.execute(operation: "CreateDomain", path: "/domains/{DomainName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and  updated through Amazon Connect Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and  Amazon Web Services account as the customer profiles domain
+    public func createEventStream(_ input: CreateEventStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateEventStreamResponse {
+        return try await self.client.execute(operation: "CreateEventStream", path: "/domains/{DomainName}/event-streams/{EventStreamName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// 	Creates an integration workflow. An integration workflow is an async process which ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
     ///
     public func createIntegrationWorkflow(_ input: CreateIntegrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateIntegrationWorkflowResponse {
@@ -55,6 +60,11 @@ extension CustomerProfiles {
     /// Deletes a specific domain and all of its customer data, such as customer profile attributes and their related objects.
     public func deleteDomain(_ input: DeleteDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteDomainResponse {
         return try await self.client.execute(operation: "DeleteDomain", path: "/domains/{DomainName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Disables and deletes the specified event stream.
+    public func deleteEventStream(_ input: DeleteEventStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteEventStreamResponse {
+        return try await self.client.execute(operation: "DeleteEventStream", path: "/domains/{DomainName}/event-streams/{EventStreamName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes an integration from a specific domain.
@@ -105,6 +115,11 @@ extension CustomerProfiles {
     /// Returns information about a specific domain.
     public func getDomain(_ input: GetDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetDomainResponse {
         return try await self.client.execute(operation: "GetDomain", path: "/domains/{DomainName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about the specified event stream in a specific domain.
+    public func getEventStream(_ input: GetEventStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEventStreamResponse {
+        return try await self.client.execute(operation: "GetEventStream", path: "/domains/{DomainName}/event-streams/{EventStreamName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about an Identity Resolution Job in a specific domain.  Identity Resolution Jobs are set up using the Amazon Connect admin console. For more information, see Use Identity Resolution to consolidate similar profiles.
@@ -165,6 +180,11 @@ extension CustomerProfiles {
     /// Returns a list of all the domains for an AWS account that have been created.
     public func listDomains(_ input: ListDomainsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDomainsResponse {
         return try await self.client.execute(operation: "ListDomains", path: "/domains", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of all the event streams in a specific domain.
+    public func listEventStreams(_ input: ListEventStreamsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEventStreamsResponse {
+        return try await self.client.execute(operation: "ListEventStreams", path: "/domains/{DomainName}/event-streams", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all of the Identity Resolution Jobs in your domain. The response sorts the list by JobStartTime.
@@ -250,5 +270,32 @@ extension CustomerProfiles {
     /// Updates the properties of a profile. The ProfileId is required for updating a customer profile. When calling the UpdateProfile API, specifying an empty string value means that any existing value will be removed. Not specifying a string value means that any value already there will be kept.
     public func updateProfile(_ input: UpdateProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateProfileResponse {
         return try await self.client.execute(operation: "UpdateProfile", path: "/domains/{DomainName}/profiles", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+}
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension CustomerProfiles {
+    /// Returns a list of all the event streams in a specific domain.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEventStreamsPaginator(
+        _ input: ListEventStreamsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEventStreamsRequest, ListEventStreamsResponse> {
+        return .init(
+            input: input,
+            command: self.listEventStreams,
+            inputKey: \ListEventStreamsRequest.nextToken,
+            outputKey: \ListEventStreamsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
     }
 }

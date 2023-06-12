@@ -687,7 +687,7 @@ extension DirectConnect {
         public let encryptionMode: String?
         /// Indicates whether the connection supports a secondary BGP peer in the same address family (IPv4/IPv6).
         public let hasLogicalRedundancy: HasLogicalRedundancy?
-        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        /// Indicates whether jumbo frames are supported.
         public let jumboFrameCapable: Bool?
         /// The ID of the LAG.
         public let lagId: String?
@@ -2012,7 +2012,7 @@ extension DirectConnect {
         public let interconnectName: String?
         /// The state of the interconnect. The following are the possible values:    requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The interconnect is approved, and is being initialized.    available: The network link is up, and the interconnect is ready for use.    down: The network link is down.    deleting: The interconnect is being deleted.    deleted: The interconnect is deleted.    unknown: The state of the interconnect is not available.
         public let interconnectState: InterconnectState?
-        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        /// Indicates whether jumbo frames are supported.
         public let jumboFrameCapable: Bool?
         /// The ID of the LAG.
         public let lagId: String?
@@ -2094,7 +2094,7 @@ extension DirectConnect {
         public let encryptionMode: String?
         /// Indicates whether the LAG supports a secondary BGP peer in the same address family (IPv4/IPv6).
         public let hasLogicalRedundancy: HasLogicalRedundancy?
-        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        /// Indicates whether jumbo frames are supported.
         public let jumboFrameCapable: Bool?
         /// The ID of the LAG.
         public let lagId: String?
@@ -3076,7 +3076,7 @@ extension DirectConnect {
         public let customerRouterConfig: String?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
-        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        /// Indicates whether jumbo frames are supported.
         public let jumboFrameCapable: Bool?
         /// The location of the connection.
         public let location: String?

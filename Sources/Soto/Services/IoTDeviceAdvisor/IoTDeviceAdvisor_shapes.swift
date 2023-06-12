@@ -687,7 +687,7 @@ extension IoTDeviceAdvisor {
         public let isLongDurationTest: Bool?
         /// Sets the MQTT protocol that is configured in the suite definition.
         public let `protocol`: `Protocol`?
-        /// Gets the test suite root group. This is a required parameter.
+        /// Gets the test suite root group. This is a required parameter. For updating or creating the latest qualification suite,  if intendedForQualification is set to true,  rootGroup can be an empty string. If intendedForQualification is false,  rootGroup cannot be an empty string. If rootGroup is empty, and  intendedForQualification is set to true,  all the qualification tests are included, and the configuration is default.  For a qualification suite, the minimum length is 0, and the maximum is 2048.  For a  non-qualification suite, the minimum length is 1, and the maximum is 2048.
         public let rootGroup: String
         /// Gets the suite definition name. This is a required parameter.
         public let suiteDefinitionName: String
@@ -710,7 +710,6 @@ extension IoTDeviceAdvisor {
             }
             try self.validate(self.devices, name: "devices", parent: name, max: 2)
             try self.validate(self.rootGroup, name: "rootGroup", parent: name, max: 2048)
-            try self.validate(self.rootGroup, name: "rootGroup", parent: name, min: 1)
             try self.validate(self.suiteDefinitionName, name: "suiteDefinitionName", parent: name, max: 256)
             try self.validate(self.suiteDefinitionName, name: "suiteDefinitionName", parent: name, min: 1)
         }
@@ -847,7 +846,7 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
-        /// The resource ARN of an IoT Device Advisor resource.  This can be SuiteDefinition ARN or SuiteRun ARN.
+        /// The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
         public let resourceArn: String
         /// The tags to be attached to the IoT Device Advisor resource.
         public let tags: [String: String]
@@ -932,7 +931,7 @@ extension IoTDeviceAdvisor {
         public let failure: String?
         /// Provides the test case scenario status. Status is one of the following:    PASS: Test passed.    FAIL: Test failed.    PENDING: Test has not started running but is scheduled.    RUNNING: Test is running.    STOPPING: Test is performing cleanup steps. You will see this status only if you stop a suite run.    STOPPED Test is stopped. You will see this status only if you stop a suite run.    PASS_WITH_WARNINGS: Test passed with warnings.    ERORR: Test faced an error when running due to an internal issue.
         public let status: TestCaseScenarioStatus?
-        ///
+        /// Provides test case scenario system messages if any.
         public let systemMessage: String?
         /// Provides test case scenario ID.
         public let testCaseScenarioId: String?

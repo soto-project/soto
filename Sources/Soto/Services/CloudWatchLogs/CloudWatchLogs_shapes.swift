@@ -50,9 +50,19 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
+    public enum InheritedProperty: String, CustomStringConvertible, Codable, Sendable {
+        case accountDataProtection = "ACCOUNT_DATA_PROTECTION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OrderBy: String, CustomStringConvertible, Codable, Sendable {
         case lastEventTime = "LastEventTime"
         case logStreamName = "LogStreamName"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable {
+        case dataProtectionPolicy = "DATA_PROTECTION_POLICY"
         public var description: String { return self.rawValue }
     }
 
@@ -64,6 +74,11 @@ extension CloudWatchLogs {
         case scheduled = "Scheduled"
         case timeout = "Timeout"
         case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Scope: String, CustomStringConvertible, Codable, Sendable {
+        case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
@@ -99,6 +114,39 @@ extension CloudWatchLogs {
     }
 
     // MARK: Shapes
+
+    public struct AccountPolicy: AWSDecodableShape {
+        /// The Amazon Web Services account ID that the policy applies to.
+        public let accountId: String?
+        /// The date and time that this policy was most recently updated.
+        public let lastUpdatedTime: Int64?
+        /// The policy document for this account policy. The JSON specified in policyDocument can be up to 30,720 characters.
+        public let policyDocument: String?
+        /// The name of the account policy.
+        public let policyName: String?
+        /// The type of policy for this account policy.
+        public let policyType: PolicyType?
+        /// The scope of the account policy.
+        public let scope: Scope?
+
+        public init(accountId: String? = nil, lastUpdatedTime: Int64? = nil, policyDocument: String? = nil, policyName: String? = nil, policyType: PolicyType? = nil, scope: Scope? = nil) {
+            self.accountId = accountId
+            self.lastUpdatedTime = lastUpdatedTime
+            self.policyDocument = policyDocument
+            self.policyName = policyName
+            self.policyType = policyType
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case policyDocument = "policyDocument"
+            case policyName = "policyName"
+            case policyType = "policyType"
+            case scope = "scope"
+        }
+    }
 
     public struct AssociateKmsKeyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. This must be a symmetric KMS key. For more information, see Amazon Resource Names and Using Symmetric and Asymmetric Keys.
@@ -267,6 +315,23 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case logGroupName = "logGroupName"
             case logStreamName = "logStreamName"
+        }
+    }
+
+    public struct DeleteAccountPolicyRequest: AWSEncodableShape {
+        /// The name of the policy to delete.
+        public let policyName: String
+        /// The type of policy to delete. Currently, the only valid value is DATA_PROTECTION_POLICY.
+        public let policyType: PolicyType
+
+        public init(policyName: String, policyType: PolicyType) {
+            self.policyName = policyName
+            self.policyType = policyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case policyType = "policyType"
         }
     }
 
@@ -467,6 +532,49 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct DescribeAccountPoliciesRequest: AWSEncodableShape {
+        /// If you are using an account that is set up as a monitoring account for CloudWatch unified cross-account observability, you can use this to specify the account ID of a source account. If you do,  the operation returns the account policy for the specified account. Currently, you can specify only one account ID in this parameter. If you omit this parameter, only the policy in the current account is returned.
+        public let accountIdentifiers: [String]?
+        /// Use this parameter to limit the returned policies to only the policy with the name that you specify.
+        public let policyName: String?
+        /// Use this parameter to limit the returned policies to only the policies that match the policy type that you specify. Currently, the only valid value is DATA_PROTECTION_POLICY.
+        public let policyType: PolicyType
+
+        public init(accountIdentifiers: [String]? = nil, policyName: String? = nil, policyType: PolicyType) {
+            self.accountIdentifiers = accountIdentifiers
+            self.policyName = policyName
+            self.policyType = policyType
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIdentifiers?.forEach {
+                try validate($0, name: "accountIdentifiers[]", parent: name, max: 12)
+                try validate($0, name: "accountIdentifiers[]", parent: name, min: 12)
+                try validate($0, name: "accountIdentifiers[]", parent: name, pattern: "^\\d{12}$")
+            }
+            try self.validate(self.accountIdentifiers, name: "accountIdentifiers", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIdentifiers = "accountIdentifiers"
+            case policyName = "policyName"
+            case policyType = "policyType"
+        }
+    }
+
+    public struct DescribeAccountPoliciesResponse: AWSDecodableShape {
+        /// An array of structures that contain information about the CloudWatch Logs account policies that match  the specified filters.
+        public let accountPolicies: [AccountPolicy]?
+
+        public init(accountPolicies: [AccountPolicy]? = nil) {
+            self.accountPolicies = accountPolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountPolicies = "accountPolicies"
+        }
+    }
+
     public struct DescribeDestinationsRequest: AWSEncodableShape {
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
         public let destinationNamePrefix: String?
@@ -566,14 +674,14 @@ extension CloudWatchLogs {
         /// When includeLinkedAccounts is set to True, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
         public let accountIdentifiers: [String]?
         /// If you are using a monitoring account, set this to True to have the operation return log groups in  the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers
-        ///  contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account.   If you specify includeLinkedAccounts in your request, then metricFilterCount, retentionInDays, and storedBytes are not included in the response.
+        ///  contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account.
         public let includeLinkedAccounts: Bool?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
         /// If you specify a string for this parameter, the operation returns only log groups that have names
         /// that match the string based on a case-sensitive substring search. For example, if you specify Foo, log groups
         /// named FooBar, aws/Foo, and GroupFoo would match, but foo,
-        /// F/o/o and Froo would not match.   logGroupNamePattern and logGroupNamePrefix are mutually exclusive.  Only one  of these parameters can be passed.
+        /// F/o/o and Froo would not match. If you specify logGroupNamePattern in your request, then only arn, creationTime, and logGroupName are included in the response.    logGroupNamePattern and logGroupNamePrefix are mutually exclusive.  Only one  of these parameters can be passed.
         public let logGroupNamePattern: String?
         /// The prefix to match.   logGroupNamePrefix and logGroupNamePattern are mutually exclusive.  Only one  of these parameters can be passed.
         public let logGroupNamePrefix: String?
@@ -1442,7 +1550,7 @@ extension CloudWatchLogs {
         public let results: [[ResultField]]?
         /// Includes the number of log events scanned by the query, the number of log events that matched the  query criteria, and the total number of bytes in the log events that were scanned. These values reflect the full raw results of the query.
         public let statistics: QueryStatistics?
-        /// The status of the most recent running of the query. Possible values are Cancelled,  Complete, Failed, Running, Scheduled,  Timeout, and Unknown. Queries time out after 15 minutes of runtime. To avoid having your queries time out, reduce the time range being searched or partition your query into a number of queries.
+        /// The status of the most recent running of the query. Possible values are Cancelled,  Complete, Failed, Running, Scheduled,  Timeout, and Unknown. Queries time out after 60 minutes of runtime. To avoid having your queries time out, reduce the time range being searched or partition your query into a number of queries.
         public let status: QueryStatus?
 
         public init(results: [[ResultField]]? = nil, statistics: QueryStatistics? = nil, status: QueryStatus? = nil) {
@@ -1459,7 +1567,7 @@ extension CloudWatchLogs {
     }
 
     public struct InputLogEvent: AWSEncodableShape {
-        /// The raw event message.
+        /// The raw event message. Each log event can be no larger than 256 KB.
         public let message: String
         /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let timestamp: Int64
@@ -1551,6 +1659,8 @@ extension CloudWatchLogs {
         public let creationTime: Int64?
         /// Displays whether this log group has a protection policy, or whether it had one in the past. For more information, see  PutDataProtectionPolicy.
         public let dataProtectionStatus: DataProtectionStatus?
+        /// Displays all the properties that this log group has inherited from account-level  settings.
+        public let inheritedProperties: [InheritedProperty]?
         /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data.
         public let kmsKeyId: String?
         /// The name of the log group.
@@ -1561,10 +1671,11 @@ extension CloudWatchLogs {
         /// The number of bytes stored.
         public let storedBytes: Int64?
 
-        public init(arn: String? = nil, creationTime: Int64? = nil, dataProtectionStatus: DataProtectionStatus? = nil, kmsKeyId: String? = nil, logGroupName: String? = nil, metricFilterCount: Int? = nil, retentionInDays: Int? = nil, storedBytes: Int64? = nil) {
+        public init(arn: String? = nil, creationTime: Int64? = nil, dataProtectionStatus: DataProtectionStatus? = nil, inheritedProperties: [InheritedProperty]? = nil, kmsKeyId: String? = nil, logGroupName: String? = nil, metricFilterCount: Int? = nil, retentionInDays: Int? = nil, storedBytes: Int64? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.dataProtectionStatus = dataProtectionStatus
+            self.inheritedProperties = inheritedProperties
             self.kmsKeyId = kmsKeyId
             self.logGroupName = logGroupName
             self.metricFilterCount = metricFilterCount
@@ -1576,6 +1687,7 @@ extension CloudWatchLogs {
             case arn = "arn"
             case creationTime = "creationTime"
             case dataProtectionStatus = "dataProtectionStatus"
+            case inheritedProperties = "inheritedProperties"
             case kmsKeyId = "kmsKeyId"
             case logGroupName = "logGroupName"
             case metricFilterCount = "metricFilterCount"
@@ -1769,10 +1881,48 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct PutAccountPolicyRequest: AWSEncodableShape {
+        /// Specify the data protection policy, in JSON. This policy must include two JSON blocks:   The first block must include both a DataIdentifer array and an  Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see  Types of data that you can mask. The Operation property with an Audit action is required to find the  sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more  destinations to send audit findings to. If you specify destinations such as log groups,  Kinesis Data Firehose streams, and S3 buckets, they must already exist.   The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the  data, and it must  contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.   For an example data protection policy, see the Examples section on this page.  The contents of the two DataIdentifer arrays must match exactly.  In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is different than the  operation's policyName parameter, and is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters.
+        public let policyDocument: String
+        /// A name for the policy. This must be unique within the account.
+        public let policyName: String
+        /// Currently the only valid value for this parameter is DATA_PROTECTION_POLICY.
+        public let policyType: PolicyType
+        /// Currently the only valid value for this parameter is GLOBAL, which specifies that the data  protection policy applies to all log groups in the account. If you omit this parameter, the default of GLOBAL is used.
+        public let scope: Scope?
+
+        public init(policyDocument: String, policyName: String, policyType: PolicyType, scope: Scope? = nil) {
+            self.policyDocument = policyDocument
+            self.policyName = policyName
+            self.policyType = policyType
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "policyDocument"
+            case policyName = "policyName"
+            case policyType = "policyType"
+            case scope = "scope"
+        }
+    }
+
+    public struct PutAccountPolicyResponse: AWSDecodableShape {
+        /// The account policy that you created.
+        public let accountPolicy: AccountPolicy?
+
+        public init(accountPolicy: AccountPolicy? = nil) {
+            self.accountPolicy = accountPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountPolicy = "accountPolicy"
+        }
+    }
+
     public struct PutDataProtectionPolicyRequest: AWSEncodableShape {
         /// Specify either the log group name or log group ARN.
         public let logGroupIdentifier: String
-        /// Specify the data protection policy, in JSON. This policy must include two JSON blocks:   The first block must include both a DataIdentifer array and an  Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see  Types of data that you can mask. The Operation property with an Audit action is required to find the  sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more  destinations to send audit findings to. If you specify destinations such as log groups,  Kinesis Data Firehose streams, and S3 buckets, they must already exist.   The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the  data, and it must  contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.   For an example data protection policy, see the Examples section on this page.  The contents of two DataIdentifer arrays must match exactly.
+        /// Specify the data protection policy, in JSON. This policy must include two JSON blocks:   The first block must include both a DataIdentifer array and an  Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see  Types of data that you can mask. The Operation property with an Audit action is required to find the  sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more  destinations to send audit findings to. If you specify destinations such as log groups,  Kinesis Data Firehose streams, and S3 buckets, they must already exist.   The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the  data, and it must  contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.   For an example data protection policy, see the Examples section on this page.  The contents of the two DataIdentifer arrays must match exactly.  In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters.
         public let policyDocument: String
 
         public init(logGroupIdentifier: String, policyDocument: String) {
@@ -1818,7 +1968,7 @@ extension CloudWatchLogs {
         public let accessPolicy: String
         /// A name for an existing destination.
         public let destinationName: String
-        /// Specify true if you are updating an existing destination policy to grant permission to an organization ID instead of granting permission to individual AWS accounts. Before you update a destination policy this way, you must first update the subscription filters in the accounts that send logs to this destination. If you do not, the subscription filters might stop working. By specifying true for forceUpdate, you are affirming that you have already updated the subscription  filters. For more information, see  Updating an existing cross-account subscription  If you omit this parameter, the default of false is used.
+        /// Specify true if you are updating an existing destination policy to grant permission to an organization ID instead of granting permission to individual Amazon Web Services accounts. Before you update a destination policy this way, you must first update the subscription filters in the accounts that send logs to this destination. If you do not, the subscription filters might stop working. By specifying true for forceUpdate, you are affirming that you have already updated the subscription  filters. For more information, see  Updating an existing cross-account subscription  If you omit this parameter, the default of false is used.
         public let forceUpdate: Bool?
 
         public init(accessPolicy: String, destinationName: String, forceUpdate: Bool? = nil) {

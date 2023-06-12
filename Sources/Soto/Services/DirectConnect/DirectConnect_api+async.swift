@@ -331,7 +331,7 @@ extension DirectConnect {
         return try await self.client.execute(operation: "UpdateLag", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating  the connection disrupts network connectivity for all virtual interfaces associated with  the connection for up to 30 seconds. To check whether your connection supports jumbo  frames, call DescribeConnections. To check whether your virtual q interface supports jumbo frames, call DescribeVirtualInterfaces.
+    /// Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating  the connection disrupts network connectivity for all virtual interfaces associated with  the connection for up to 30 seconds. To check whether your connection supports jumbo  frames, call DescribeConnections. To check whether your virtual  interface supports jumbo frames, call DescribeVirtualInterfaces.
     public func updateVirtualInterfaceAttributes(_ input: UpdateVirtualInterfaceAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> VirtualInterface {
         return try await self.client.execute(operation: "UpdateVirtualInterfaceAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

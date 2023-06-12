@@ -1842,7 +1842,7 @@ extension Connect {
         public let initialContactId: String?
         /// Indicates how the contact was initiated.
         public let initiationMethod: ContactInitiationMethod?
-        /// The date and time this contact was initiated, in UTC time. For INBOUND, this is when the contact arrived. For OUTBOUND, this is when the agent began dialing. For CALLBACK, this is when the callback contact was created. For TRANSFER and QUEUE_TRANSFER, this is when the transfer was initiated. For API, this is when the request arrived.
+        /// The date and time this contact was initiated, in UTC time. For INBOUND, this is when the contact arrived. For OUTBOUND, this is when the agent began dialing. For CALLBACK, this is when the callback contact was created. For TRANSFER and QUEUE_TRANSFER, this is when the transfer was initiated. For API, this is when the request arrived. For EXTERNAL_OUTBOUND, this is when the agent started  dialing the external participant. For MONITOR, this is when the supervisor started  listening to a contact.
         public let initiationTimestamp: Date?
         /// The timestamp when contact was last updated.
         public let lastUpdateTimestamp: Date?
@@ -6995,6 +6995,39 @@ extension Connect {
         }
     }
 
+    public struct HoursOfOperationSearchCriteria: AWSEncodableShape {
+        /// A list of conditions which would be applied together with an AND condition.
+        public let andConditions: [HoursOfOperationSearchCriteria]?
+        /// A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [HoursOfOperationSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name,  description, timezone, and resourceID.
+        public let stringCondition: StringCondition?
+
+        public init(andConditions: [HoursOfOperationSearchCriteria]? = nil, orConditions: [HoursOfOperationSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case orConditions = "OrConditions"
+            case stringCondition = "StringCondition"
+        }
+    }
+
+    public struct HoursOfOperationSearchFilter: AWSEncodableShape {
+        public let tagFilter: ControlPlaneTagFilter?
+
+        public init(tagFilter: ControlPlaneTagFilter? = nil) {
+            self.tagFilter = tagFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagFilter = "TagFilter"
+        }
+    }
+
     public struct HoursOfOperationSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the hours of operation.
         public let arn: String?
@@ -9573,7 +9606,7 @@ extension Connect {
     }
 
     public struct Prompt: AWSDecodableShape {
-        /// A description for the prompt.
+        /// The description of the prompt.
         public let description: String?
         /// The name of the prompt.
         public let name: String?
@@ -9598,6 +9631,39 @@ extension Connect {
             case promptARN = "PromptARN"
             case promptId = "PromptId"
             case tags = "Tags"
+        }
+    }
+
+    public struct PromptSearchCriteria: AWSEncodableShape {
+        /// A list of conditions which would be applied together with an AND condition.
+        public let andConditions: [PromptSearchCriteria]?
+        /// A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [PromptSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name,  description, and resourceID.
+        public let stringCondition: StringCondition?
+
+        public init(andConditions: [PromptSearchCriteria]? = nil, orConditions: [PromptSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case orConditions = "OrConditions"
+            case stringCondition = "StringCondition"
+        }
+    }
+
+    public struct PromptSearchFilter: AWSEncodableShape {
+        public let tagFilter: ControlPlaneTagFilter?
+
+        public init(tagFilter: ControlPlaneTagFilter? = nil) {
+            self.tagFilter = tagFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagFilter = "TagFilter"
         }
     }
 
@@ -9762,6 +9828,7 @@ extension Connect {
         public let orConditions: [QueueSearchCriteria]?
         /// The type of queue.
         public let queueTypeCondition: SearchableQueueType?
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name,  description, and resourceID.
         public let stringCondition: StringCondition?
 
         public init(andConditions: [QueueSearchCriteria]? = nil, orConditions: [QueueSearchCriteria]? = nil, queueTypeCondition: SearchableQueueType? = nil, stringCondition: StringCondition? = nil) {
@@ -9877,6 +9944,39 @@ extension Connect {
             case queueConfig = "QueueConfig"
             case quickConnectType = "QuickConnectType"
             case userConfig = "UserConfig"
+        }
+    }
+
+    public struct QuickConnectSearchCriteria: AWSEncodableShape {
+        /// A list of conditions which would be applied together with an AND condition.
+        public let andConditions: [QuickConnectSearchCriteria]?
+        /// A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [QuickConnectSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name,  description, and resourceID.
+        public let stringCondition: StringCondition?
+
+        public init(andConditions: [QuickConnectSearchCriteria]? = nil, orConditions: [QuickConnectSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case orConditions = "OrConditions"
+            case stringCondition = "StringCondition"
+        }
+    }
+
+    public struct QuickConnectSearchFilter: AWSEncodableShape {
+        public let tagFilter: ControlPlaneTagFilter?
+
+        public init(tagFilter: ControlPlaneTagFilter? = nil) {
+            self.tagFilter = tagFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagFilter = "TagFilter"
         }
     }
 
@@ -10224,6 +10324,7 @@ extension Connect {
         public let andConditions: [RoutingProfileSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
         public let orConditions: [RoutingProfileSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name,  description, and resourceID.
         public let stringCondition: StringCondition?
 
         public init(andConditions: [RoutingProfileSearchCriteria]? = nil, orConditions: [RoutingProfileSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
@@ -10511,6 +10612,126 @@ extension Connect {
         }
     }
 
+    public struct SearchHoursOfOperationsRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The search criteria to be used to return hours of operations.
+        public let searchCriteria: HoursOfOperationSearchCriteria?
+        /// Filters to be applied to search results.
+        public let searchFilter: HoursOfOperationSearchFilter?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: HoursOfOperationSearchCriteria? = nil, searchFilter: HoursOfOperationSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchHoursOfOperationsResponse: AWSDecodableShape {
+        /// The total number of hours of operations which matched your search query.
+        public let approximateTotalCount: Int64?
+        /// Information about the hours of operations.
+        public let hoursOfOperations: [HoursOfOperation]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(approximateTotalCount: Int64? = nil, hoursOfOperations: [HoursOfOperation]? = nil, nextToken: String? = nil) {
+            self.approximateTotalCount = approximateTotalCount
+            self.hoursOfOperations = hoursOfOperations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateTotalCount = "ApproximateTotalCount"
+            case hoursOfOperations = "HoursOfOperations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchPromptsRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The search criteria to be used to return prompts.
+        public let searchCriteria: PromptSearchCriteria?
+        /// Filters to be applied to search results.
+        public let searchFilter: PromptSearchFilter?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: PromptSearchCriteria? = nil, searchFilter: PromptSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchPromptsResponse: AWSDecodableShape {
+        /// The total number of quick connects which matched your search query.
+        public let approximateTotalCount: Int64?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// Information about the prompts.
+        public let prompts: [Prompt]?
+
+        public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, prompts: [Prompt]? = nil) {
+            self.approximateTotalCount = approximateTotalCount
+            self.nextToken = nextToken
+            self.prompts = prompts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateTotalCount = "ApproximateTotalCount"
+            case nextToken = "NextToken"
+            case prompts = "Prompts"
+        }
+    }
+
     public struct SearchQueuesRequest: AWSEncodableShape {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
@@ -10568,6 +10789,66 @@ extension Connect {
             case approximateTotalCount = "ApproximateTotalCount"
             case nextToken = "NextToken"
             case queues = "Queues"
+        }
+    }
+
+    public struct SearchQuickConnectsRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The search criteria to be used to return quick connects.
+        public let searchCriteria: QuickConnectSearchCriteria?
+        /// Filters to be applied to search results.
+        public let searchFilter: QuickConnectSearchFilter?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: QuickConnectSearchCriteria? = nil, searchFilter: QuickConnectSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchQuickConnectsResponse: AWSDecodableShape {
+        /// The total number of quick connects which matched your search query.
+        public let approximateTotalCount: Int64?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// Information about the quick connects.
+        public let quickConnects: [QuickConnect]?
+
+        public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, quickConnects: [QuickConnect]? = nil) {
+            self.approximateTotalCount = approximateTotalCount
+            self.nextToken = nextToken
+            self.quickConnects = quickConnects
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateTotalCount = "ApproximateTotalCount"
+            case nextToken = "NextToken"
+            case quickConnects = "QuickConnects"
         }
     }
 
@@ -14049,7 +14330,7 @@ extension Connect {
         public let hierarchyGroupCondition: HierarchyGroupCondition?
         /// A list of conditions which would be applied together with an OR condition.
         public let orConditions: [UserSearchCriteria]?
-        /// A leaf node condition which can be used to specify a string condition.
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name,  description, and resourceID.
         public let stringCondition: StringCondition?
 
         public init(andConditions: [UserSearchCriteria]? = nil, hierarchyGroupCondition: HierarchyGroupCondition? = nil, orConditions: [UserSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
