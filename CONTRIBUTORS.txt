@@ -10,6 +10,7 @@ needs to be listed here.
 ### Contributors - Soto
 
 - Adam Fowler <adamfowler71@gmail.com>
+- Andrea Scuderi <andreascuderi@ymail.com>
 - Fabian Fett <fabianfett@mac.com>
 - Joe Smith <yasumoto7@gmail.com>
 - Jonathan McAllister <jonny.mcallister@leagueheads.com>
@@ -29,9 +30,11 @@ needs to be listed here.
 - Jonathan McAllister <jonny.mcallister@leagueheads.com>
 - Kyle Ishie <kyle@kyleishie.com>
 - Luis Padron <heyluispadron@gmail.com>
+- Martin Redington <mildm8nnered@gmail.com>
 - Oliver O'Neill <oliveroneill@users.noreply.github.com>
 - Roland Möller <moeller.rol@gmail.com>
 - Sébastien Stormacq <sebastien.stormacq@gmail.com>
+- Tim Condon <0xtimc@gmail.com>
 - Yifei Teng <tengyifei@users.noreply.github.com>
 - Yuki Takei <yuki@miketokyo.com>
 - giginet <giginet.net@gmail.com>
