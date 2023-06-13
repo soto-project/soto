@@ -234,6 +234,31 @@ extension EMRContainers {
         }
     }
 
+    public struct ContainerLogRotationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of files to keep in container after rotation.
+        public let maxFilesToKeep: Int
+        /// The file size at which to rotate logs. Minimum of 2KB, Maximum of 2GB.
+        public let rotationSize: String
+
+        public init(maxFilesToKeep: Int, rotationSize: String) {
+            self.maxFilesToKeep = maxFilesToKeep
+            self.rotationSize = rotationSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxFilesToKeep, name: "maxFilesToKeep", parent: name, max: 50)
+            try self.validate(self.maxFilesToKeep, name: "maxFilesToKeep", parent: name, min: 1)
+            try self.validate(self.rotationSize, name: "rotationSize", parent: name, max: 12)
+            try self.validate(self.rotationSize, name: "rotationSize", parent: name, min: 3)
+            try self.validate(self.rotationSize, name: "rotationSize", parent: name, pattern: "^\\d+(\\.\\d+)?[KMG][Bb]?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxFilesToKeep = "maxFilesToKeep"
+            case rotationSize = "rotationSize"
+        }
+    }
+
     public struct ContainerProvider: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the container cluster.
         public let id: String
@@ -289,7 +314,7 @@ extension EMRContainers {
             try self.jobTemplateData.validate(name: "\(name).jobTemplateData")
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 3)
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z0-9-]*):kms:([a-zA-Z0-9]+-?)+:(\\d{12})?:key\\/[(0-9a-zA-Z)-?]+|\\$\\{[a-zA-Z]\\w*\\})$")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z0-9-]*):kms:.+:(\\d{12})?:key\\/[(0-9a-zA-Z)-?]+|\\$\\{[a-zA-Z]\\w*\\})$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
@@ -1501,24 +1526,29 @@ extension EMRContainers {
     public struct MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Monitoring configurations for CloudWatch.
         public let cloudWatchMonitoringConfiguration: CloudWatchMonitoringConfiguration?
+        /// Enable or disable container log rotation.
+        public let containerLogRotationConfiguration: ContainerLogRotationConfiguration?
         /// Monitoring configurations for the persistent application UI.
         public let persistentAppUI: PersistentAppUI?
         /// Amazon S3 configuration for monitoring log publishing.
         public let s3MonitoringConfiguration: S3MonitoringConfiguration?
 
-        public init(cloudWatchMonitoringConfiguration: CloudWatchMonitoringConfiguration? = nil, persistentAppUI: PersistentAppUI? = nil, s3MonitoringConfiguration: S3MonitoringConfiguration? = nil) {
+        public init(cloudWatchMonitoringConfiguration: CloudWatchMonitoringConfiguration? = nil, containerLogRotationConfiguration: ContainerLogRotationConfiguration? = nil, persistentAppUI: PersistentAppUI? = nil, s3MonitoringConfiguration: S3MonitoringConfiguration? = nil) {
             self.cloudWatchMonitoringConfiguration = cloudWatchMonitoringConfiguration
+            self.containerLogRotationConfiguration = containerLogRotationConfiguration
             self.persistentAppUI = persistentAppUI
             self.s3MonitoringConfiguration = s3MonitoringConfiguration
         }
 
         public func validate(name: String) throws {
             try self.cloudWatchMonitoringConfiguration?.validate(name: "\(name).cloudWatchMonitoringConfiguration")
+            try self.containerLogRotationConfiguration?.validate(name: "\(name).containerLogRotationConfiguration")
             try self.s3MonitoringConfiguration?.validate(name: "\(name).s3MonitoringConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchMonitoringConfiguration = "cloudWatchMonitoringConfiguration"
+            case containerLogRotationConfiguration = "containerLogRotationConfiguration"
             case persistentAppUI = "persistentAppUI"
             case s3MonitoringConfiguration = "s3MonitoringConfiguration"
         }

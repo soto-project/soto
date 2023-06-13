@@ -85,6 +85,11 @@ public struct CustomerProfiles: AWSService {
         return self.client.execute(operation: "CreateDomain", path: "/domains/{DomainName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and  updated through Amazon Connect Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and  Amazon Web Services account as the customer profiles domain
+    public func createEventStream(_ input: CreateEventStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEventStreamResponse> {
+        return self.client.execute(operation: "CreateEventStream", path: "/domains/{DomainName}/event-streams/{EventStreamName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// 	Creates an integration workflow. An integration workflow is an async process which ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
     ///
     public func createIntegrationWorkflow(_ input: CreateIntegrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIntegrationWorkflowResponse> {
@@ -104,6 +109,11 @@ public struct CustomerProfiles: AWSService {
     /// Deletes a specific domain and all of its customer data, such as customer profile attributes and their related objects.
     public func deleteDomain(_ input: DeleteDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDomainResponse> {
         return self.client.execute(operation: "DeleteDomain", path: "/domains/{DomainName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Disables and deletes the specified event stream.
+    public func deleteEventStream(_ input: DeleteEventStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEventStreamResponse> {
+        return self.client.execute(operation: "DeleteEventStream", path: "/domains/{DomainName}/event-streams/{EventStreamName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes an integration from a specific domain.
@@ -154,6 +164,11 @@ public struct CustomerProfiles: AWSService {
     /// Returns information about a specific domain.
     public func getDomain(_ input: GetDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDomainResponse> {
         return self.client.execute(operation: "GetDomain", path: "/domains/{DomainName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about the specified event stream in a specific domain.
+    public func getEventStream(_ input: GetEventStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEventStreamResponse> {
+        return self.client.execute(operation: "GetEventStream", path: "/domains/{DomainName}/event-streams/{EventStreamName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about an Identity Resolution Job in a specific domain.  Identity Resolution Jobs are set up using the Amazon Connect admin console. For more information, see Use Identity Resolution to consolidate similar profiles.
@@ -214,6 +229,11 @@ public struct CustomerProfiles: AWSService {
     /// Returns a list of all the domains for an AWS account that have been created.
     public func listDomains(_ input: ListDomainsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainsResponse> {
         return self.client.execute(operation: "ListDomains", path: "/domains", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of all the event streams in a specific domain.
+    public func listEventStreams(_ input: ListEventStreamsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEventStreamsResponse> {
+        return self.client.execute(operation: "ListEventStreams", path: "/domains/{DomainName}/event-streams", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all of the Identity Resolution Jobs in your domain. The response sorts the list by JobStartTime.
@@ -308,5 +328,72 @@ extension CustomerProfiles {
     public init(from: CustomerProfiles, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
+    }
+}
+
+// MARK: Paginators
+
+extension CustomerProfiles {
+    /// Returns a list of all the event streams in a specific domain.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listEventStreamsPaginator<Result>(
+        _ input: ListEventStreamsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListEventStreamsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listEventStreams,
+            inputKey: \ListEventStreamsRequest.nextToken,
+            outputKey: \ListEventStreamsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listEventStreamsPaginator(
+        _ input: ListEventStreamsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListEventStreamsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listEventStreams,
+            inputKey: \ListEventStreamsRequest.nextToken,
+            outputKey: \ListEventStreamsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+}
+
+extension CustomerProfiles.ListEventStreamsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListEventStreamsRequest {
+        return .init(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }

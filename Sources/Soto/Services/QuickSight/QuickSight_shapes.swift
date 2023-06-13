@@ -1032,6 +1032,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum PivotTableFieldCollapseState: String, CustomStringConvertible, Codable, Sendable {
+        case collapsed = "COLLAPSED"
+        case expanded = "EXPANDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PivotTableMetricPlacement: String, CustomStringConvertible, Codable, Sendable {
         case column = "COLUMN"
         case row = "ROW"
@@ -1062,6 +1068,13 @@ extension QuickSight {
         case dimension = "DIMENSION"
         case inherit = "INHERIT"
         case measure = "MEASURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RadarChartAxesRangeScale: String, CustomStringConvertible, Codable, Sendable {
+        case auto = "AUTO"
+        case independent = "INDEPENDENT"
+        case shared = "SHARED"
         public var description: String { return self.rawValue }
     }
 
@@ -2908,9 +2921,9 @@ extension QuickSight {
     }
 
     public struct AssetBundleImportJobDataSourceCredentials: AWSEncodableShape & AWSDecodableShape {
-        /// A username and password credential pair to be used to create the imported data source. Leave this field blank if you are using an Secrets Manager Secret to provide credentials.
+        /// A username and password credential pair to be used to create the imported data source. Keep this field blank if you are using a Secrets Manager secret to provide credentials.
         public let credentialPair: AssetBundleImportJobDataSourceCredentialPair?
-        /// The ARN of the Secrets Manager Secret to be used to create the imported data source leave this field blank if you aren't using a Secret in place of a credential pair.
+        /// The ARN of the Secrets Manager secret that's used to create the imported data source. Keep this field blank, unless you are using a secret in place of a credential pair.
         public let secretArn: String?
 
         public init(credentialPair: AssetBundleImportJobDataSourceCredentialPair? = nil, secretArn: String? = nil) {
@@ -3070,7 +3083,7 @@ extension QuickSight {
         public let dataSetId: String
         /// A partial identifier for the specific RefreshSchedule resource being overridden. This structure is used together with the DataSetId structure.
         public let scheduleId: String
-        /// An override for the StartAfterDateTime of a RefreshSchedule to ensure that the StartAfterDateTime is set to a time that takes place in the future.
+        /// An override for the StartAfterDateTime of a RefreshSchedule. Make sure that the StartAfterDateTime is set to a time that takes place in the future.
         public let startAfterDateTime: Date?
 
         public init(dataSetId: String, scheduleId: String, startAfterDateTime: Date? = nil) {
@@ -3151,15 +3164,15 @@ extension QuickSight {
     }
 
     public struct AssetBundleImportJobVPCConnectionOverrideParameters: AWSEncodableShape & AWSDecodableShape {
-        /// An optional override of dns resolvers to be used by the VPC connection.
+        /// An optional override of DNS resolvers to be used by the VPC connection.
         public let dnsResolvers: [String]?
         /// A new name for the VPC connection.
         public let name: String?
         /// An optional override of the role ARN to be used by the VPC connection.
         public let roleArn: String?
-        /// A new security group ID for the VPC connection you are importing. This field is required if you are importing the VPC connection from another Amazon Web Services account or region.
+        /// A new security group ID for the VPC connection you are importing. This field is required if you are importing the VPC connection from another Amazon Web Services account or Region.
         public let securityGroupIds: [String]?
-        /// A list of  new subnet IDs for the VPC connection you are importing. This field is required if you are importing the VPC connection from another Amazon Web Services account or region.
+        /// A list of new subnet IDs for the VPC connection you are importing. This field is required if you are importing the VPC connection from another Amazon Web Services account or Region.
         public let subnetIds: [String]?
         /// The ID of the VPC Connection to apply overrides to.
         public let vpcConnectionId: String
@@ -3212,9 +3225,9 @@ extension QuickSight {
     }
 
     public struct AssetBundleImportSource: AWSEncodableShape {
-        /// The bytes of the Base64 encoded asset bundle import zip file. This file can't exceed 20MB. If you are calling the APIs from the Amazon Web Services Java, JavaScript, Python, or PHP SDKs, the SDK encodes Base64 automatically to allow the direct setting of the zip file's bytes. If you are using a SDK of a different language or are receiving related errors, try to Base64 encode your data.
+        /// The bytes of the base64 encoded asset bundle import zip file. This file can't exceed 20 MB. If you are calling the API operations from the Amazon Web Services SDK for Java, JavaScript, Python, or PHP, the SDK encodes base64 automatically to allow the direct setting of the zip file's bytes. If you are using an SDK for a different language or receiving related errors, try to base64 encode your data.
         public let body: AWSBase64Data?
-        /// The Amazon S3 uri for an asset bundle import file that exists in an Amazon S3 bucket that the caller has read access to. The file must be a zip format file and can't exceed 20MB.
+        /// The Amazon S3 URI for an asset bundle import file that exists in an Amazon S3 bucket that the caller has read access to. The file must be a zip format file and can't exceed 20 MB.
         public let s3Uri: String?
 
         public init(body: AWSBase64Data? = nil, s3Uri: String? = nil) {
@@ -3234,9 +3247,9 @@ extension QuickSight {
     }
 
     public struct AssetBundleImportSourceDescription: AWSDecodableShape {
-        /// A HTTPS download URL for the provided asset bundle that you optionally provided at the start of the import job. This URL is valid for 5 minutes after issuance. Call DescribeAssetBundleExportJob again for a fresh URL if needed. The downloaded asset bundle is a .qs zip file.
+        /// An HTTPS download URL for the provided asset bundle that you optionally provided at the start of the import job. This URL is valid for five minutes after issuance. Call DescribeAssetBundleExportJob again for a fresh URL if needed. The downloaded asset bundle is a .qs zip file.
         public let body: String?
-        /// The Amazon S3 uri that you provided at the start of the import job.
+        /// The Amazon S3 URI that you provided at the start of the import job.
         public let s3Uri: String?
 
         public init(body: String? = nil, s3Uri: String? = nil) {
@@ -11498,7 +11511,7 @@ extension QuickSight {
         public let exportFormat: AssetBundleExportFormat?
         /// The include dependencies flag.
         public let includeAllDependencies: Bool?
-        /// Indicates tha status of a job through its queueing and execution. Poll this DescribeAssetBundleExportApi until JobStatus is either SUCCESSFUL or FAILED.
+        /// Indicates the status of a job through its queuing and execution. Poll this DescribeAssetBundleExportApi until JobStatus is either SUCCESSFUL or FAILED.
         public let jobStatus: AssetBundleExportJobStatus?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -11587,7 +11600,7 @@ extension QuickSight {
         public let errors: [AssetBundleImportJobError]?
         /// The failure action for the import job.
         public let failureAction: AssetBundleImportFailureAction?
-        /// Indicates tha status of a job through its queueing and execution. Poll this DescribeAssetBundleImport API until JobStatus returns one of the following values.    SUCCESSFUL     FAILED     FAILED_ROLLBACK_COMPLETED     FAILED_ROLLBACK_ERROR
+        /// Indicates the status of a job through its queuing and execution. Poll the DescribeAssetBundleImport API until JobStatus returns one of the following values:    SUCCESSFUL     FAILED     FAILED_ROLLBACK_COMPLETED     FAILED_ROLLBACK_ERROR
         public let jobStatus: AssetBundleImportJobStatus?
         /// Optional overrides to be applied to the resource configuration before import.
         public let overrideParameters: AssetBundleImportJobOverrideParameters?
@@ -22223,24 +22236,29 @@ extension QuickSight {
         public let fieldId: String
         /// The scope of the cell for conditional formatting.
         public let scope: PivotTableConditionalFormattingScope?
+        /// A list of cell scopes for conditional formatting.
+        public let scopes: [PivotTableConditionalFormattingScope]?
         /// The text format of the cell for conditional formatting.
         public let textFormat: TextConditionalFormat?
 
-        public init(fieldId: String, scope: PivotTableConditionalFormattingScope? = nil, textFormat: TextConditionalFormat? = nil) {
+        public init(fieldId: String, scope: PivotTableConditionalFormattingScope? = nil, scopes: [PivotTableConditionalFormattingScope]? = nil, textFormat: TextConditionalFormat? = nil) {
             self.fieldId = fieldId
             self.scope = scope
+            self.scopes = scopes
             self.textFormat = textFormat
         }
 
         public func validate(name: String) throws {
             try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
             try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.validate(self.scopes, name: "scopes", parent: name, max: 3)
             try self.textFormat?.validate(name: "\(name).textFormat")
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldId = "FieldId"
             case scope = "Scope"
+            case scopes = "Scopes"
             case textFormat = "TextFormat"
         }
     }
@@ -22360,6 +22378,51 @@ extension QuickSight {
         }
     }
 
+    public struct PivotTableFieldCollapseStateOption: AWSEncodableShape & AWSDecodableShape {
+        /// The state of the field target of a pivot table. Choose one of the following options:    COLLAPSED     EXPANDED
+        public let state: PivotTableFieldCollapseState?
+        /// A tagged-union object that sets the collapse state.
+        public let target: PivotTableFieldCollapseStateTarget
+
+        public init(state: PivotTableFieldCollapseState? = nil, target: PivotTableFieldCollapseStateTarget) {
+            self.state = state
+            self.target = target
+        }
+
+        public func validate(name: String) throws {
+            try self.target.validate(name: "\(name).target")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case target = "Target"
+        }
+    }
+
+    public struct PivotTableFieldCollapseStateTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The data path of the pivot table's header. Used to set the collapse state.
+        public let fieldDataPathValues: [DataPathValue]?
+        /// The field ID of the pivot table that the collapse state needs to be set to.
+        public let fieldId: String?
+
+        public init(fieldDataPathValues: [DataPathValue]? = nil, fieldId: String? = nil) {
+            self.fieldDataPathValues = fieldDataPathValues
+            self.fieldId = fieldId
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldDataPathValues?.forEach {
+                try $0.validate(name: "\(name).fieldDataPathValues[]")
+            }
+            try self.validate(self.fieldDataPathValues, name: "fieldDataPathValues", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldDataPathValues = "FieldDataPathValues"
+            case fieldId = "FieldId"
+        }
+    }
+
     public struct PivotTableFieldOption: AWSEncodableShape & AWSDecodableShape {
         /// The custom label of the pivot table field.
         public let customLabel: String?
@@ -22389,17 +22452,23 @@ extension QuickSight {
     }
 
     public struct PivotTableFieldOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The collapse state options for the pivot table field options.
+        public let collapseStateOptions: [PivotTableFieldCollapseStateOption]?
         /// The data path options for the pivot table field options.
         public let dataPathOptions: [PivotTableDataPathOption]?
         /// The selected field options for the pivot table field options.
         public let selectedFieldOptions: [PivotTableFieldOption]?
 
-        public init(dataPathOptions: [PivotTableDataPathOption]? = nil, selectedFieldOptions: [PivotTableFieldOption]? = nil) {
+        public init(collapseStateOptions: [PivotTableFieldCollapseStateOption]? = nil, dataPathOptions: [PivotTableDataPathOption]? = nil, selectedFieldOptions: [PivotTableFieldOption]? = nil) {
+            self.collapseStateOptions = collapseStateOptions
             self.dataPathOptions = dataPathOptions
             self.selectedFieldOptions = selectedFieldOptions
         }
 
         public func validate(name: String) throws {
+            try self.collapseStateOptions?.forEach {
+                try $0.validate(name: "\(name).collapseStateOptions[]")
+            }
             try self.dataPathOptions?.forEach {
                 try $0.validate(name: "\(name).dataPathOptions[]")
             }
@@ -22411,6 +22480,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case collapseStateOptions = "CollapseStateOptions"
             case dataPathOptions = "DataPathOptions"
             case selectedFieldOptions = "SelectedFieldOptions"
         }
@@ -22944,6 +23014,8 @@ extension QuickSight {
         public let alternateBandEvenColor: String?
         /// The color of the odd-numbered alternate bands of a radar chart.
         public let alternateBandOddColor: String?
+        /// The axis behavior options of a radar chart.
+        public let axesRangeScale: RadarChartAxesRangeScale?
         /// The base sreies settings of a radar chart.
         public let baseSeriesSettings: RadarChartSeriesSettings?
         /// The category axis of a radar chart.
@@ -22967,10 +23039,11 @@ extension QuickSight {
         /// The palette (chart color) display setup of the visual.
         public let visualPalette: VisualPalette?
 
-        public init(alternateBandColorsVisibility: Visibility? = nil, alternateBandEvenColor: String? = nil, alternateBandOddColor: String? = nil, baseSeriesSettings: RadarChartSeriesSettings? = nil, categoryAxis: AxisDisplayOptions? = nil, categoryLabelOptions: ChartAxisLabelOptions? = nil, colorAxis: AxisDisplayOptions? = nil, colorLabelOptions: ChartAxisLabelOptions? = nil, fieldWells: RadarChartFieldWells? = nil, legend: LegendOptions? = nil, shape: RadarChartShape? = nil, sortConfiguration: RadarChartSortConfiguration? = nil, startAngle: Double? = nil, visualPalette: VisualPalette? = nil) {
+        public init(alternateBandColorsVisibility: Visibility? = nil, alternateBandEvenColor: String? = nil, alternateBandOddColor: String? = nil, axesRangeScale: RadarChartAxesRangeScale? = nil, baseSeriesSettings: RadarChartSeriesSettings? = nil, categoryAxis: AxisDisplayOptions? = nil, categoryLabelOptions: ChartAxisLabelOptions? = nil, colorAxis: AxisDisplayOptions? = nil, colorLabelOptions: ChartAxisLabelOptions? = nil, fieldWells: RadarChartFieldWells? = nil, legend: LegendOptions? = nil, shape: RadarChartShape? = nil, sortConfiguration: RadarChartSortConfiguration? = nil, startAngle: Double? = nil, visualPalette: VisualPalette? = nil) {
             self.alternateBandColorsVisibility = alternateBandColorsVisibility
             self.alternateBandEvenColor = alternateBandEvenColor
             self.alternateBandOddColor = alternateBandOddColor
+            self.axesRangeScale = axesRangeScale
             self.baseSeriesSettings = baseSeriesSettings
             self.categoryAxis = categoryAxis
             self.categoryLabelOptions = categoryLabelOptions
@@ -23003,6 +23076,7 @@ extension QuickSight {
             case alternateBandColorsVisibility = "AlternateBandColorsVisibility"
             case alternateBandEvenColor = "AlternateBandEvenColor"
             case alternateBandOddColor = "AlternateBandOddColor"
+            case axesRangeScale = "AxesRangeScale"
             case baseSeriesSettings = "BaseSeriesSettings"
             case categoryAxis = "CategoryAxis"
             case categoryLabelOptions = "CategoryLabelOptions"
@@ -25949,7 +26023,7 @@ extension QuickSight {
         public let cloudFormationOverridePropertyConfiguration: AssetBundleCloudFormationOverridePropertyConfiguration?
         /// The export data format.
         public let exportFormat: AssetBundleExportFormat
-        /// A Boolean that determines whether all dependencies of each resource ARN are recursively exported with the job. For example, say you provided a Dashboard ARN to the ResourceArns parameter. If you set IncludeAllDependencies to TRUE, any theme, dataset, and dataource resource that is a dependency of the dashboard is also exported.
+        /// A Boolean that determines whether all dependencies of each resource ARN are recursively exported with the job. For example, say you provided a Dashboard ARN to the ResourceArns parameter. If you set IncludeAllDependencies to TRUE, any theme, dataset, and data source resource that is a dependency of the dashboard is also exported.
         public let includeAllDependencies: Bool?
         /// An array of resource ARNs to export. The following resources are supported.    Analysis     Dashboard     DataSet     DataSource     RefreshSchedule     Theme     VPCConnection    The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
         public let resourceArns: [String]
@@ -26024,7 +26098,7 @@ extension QuickSight {
         public let assetBundleImportSource: AssetBundleImportSource
         /// The ID of the Amazon Web Services account to import assets into.
         public let awsAccountId: String
-        /// The failure action for the import job. If you choose ROLLBACK, failed  import jobs will attempt to  undo any asset changes caused by the failed job. If you choose DO_NOTHING, failed import jobs will not attempt to roll back any asset changes caused by the failed job, possibly leaving the Amazon QuickSight account in an inconsistent state.
+        /// The failure action for the import job. If you choose ROLLBACK, failed  import jobs will attempt to  undo any asset changes caused by the failed job. If you choose DO_NOTHING, failed import jobs will not attempt to roll back any asset changes caused by the failed job, possibly keeping the Amazon QuickSight account in an inconsistent state.
         public let failureAction: AssetBundleImportFailureAction?
         /// Optional overrides to be applied to the resource configuration before import.
         public let overrideParameters: AssetBundleImportJobOverrideParameters?

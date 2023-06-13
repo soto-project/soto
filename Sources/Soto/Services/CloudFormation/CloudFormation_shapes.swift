@@ -337,6 +337,7 @@ extension CloudFormation {
         case inoperable = "INOPERABLE"
         case pending = "PENDING"
         case running = "RUNNING"
+        case skippedSuspendedAccount = "SKIPPED_SUSPENDED_ACCOUNT"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
@@ -853,7 +854,7 @@ extension CloudFormation {
     }
 
     public struct ContinueUpdateRollbackInput: AWSEncodableShape {
-        /// A unique identifier for this ContinueUpdateRollback request. Specify this token if you plan to retry requests so that CloudFormationknows that you're not attempting to continue the rollback to a stack with the same name. You might retry ContinueUpdateRollback requests to ensure that CloudFormation successfully received them.
+        /// A unique identifier for this ContinueUpdateRollback request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to continue the rollback to a stack with the same name. You might retry ContinueUpdateRollback requests to ensure that CloudFormation successfully received them.
         public let clientRequestToken: String?
         /// A list of the logical IDs of the resources that CloudFormation skips during the continue update rollback operation. You can specify only resources that are in the UPDATE_FAILED state because a rollback failed. You can't specify resources that are in the UPDATE_FAILED state for other reasons, for example, because an update was canceled. To check why a resource update failed, use the DescribeStackResources action, and view the resource status reason.  Specify this property to skip rolling back resources that CloudFormation can't successfully roll back. We recommend that you  troubleshoot resources before skipping them. CloudFormation sets the status of the specified resources to UPDATE_COMPLETE and continues to roll back the stack. After the rollback is complete, the state of the skipped resources will be inconsistent with the state of the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable.  Specify the minimum number of resources required to successfully roll back your stack. For example, a failed resource update might cause dependent resources to fail. In this case, it might not be necessary to skip the dependent resources. To skip resources that are part of nested stacks, use the following format: NestedStackName.ResourceLogicalID. If you want to specify the logical ID of a stack resource (Type: AWS::CloudFormation::Stack) in the ResourcesToSkip list, then its corresponding embedded stack must be in one of the following states: DELETE_IN_PROGRESS, DELETE_COMPLETE, or DELETE_FAILED.  Don't confuse a child stack's name with its corresponding logical ID defined in the parent stack. For an example of a continue update rollback operation with nested stacks, see Using ResourcesToSkip to recover a nested stacks hierarchy.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -901,7 +902,7 @@ extension CloudFormation {
         public var capabilities: [Capability]?
         /// The name of the change set. The name must be unique among all change sets that are associated with the specified stack. A change set name can contain only alphanumeric, case sensitive characters, and hyphens. It must start with an alphabetical character and can't exceed 128 characters.
         public let changeSetName: String
-        /// The type of change set operation. To create a change set for a new stack, specify CREATE. To create a change set for an existing stack, specify UPDATE. To create a change set for an import operation, specify IMPORT. If you create a change set for a new stack, CloudFormation creates a stack with a unique stack ID, but no template or resources. The stack will be in the  REVIEW_IN_PROGRESS state until you execute the change set. By default, CloudFormation specifies UPDATE. You can't use the UPDATE type to create a change set for a new stack or the CREATE type to create a change set for an existing stack.
+        /// The type of change set operation. To create a change set for a new stack, specify CREATE. To create a change set for an existing stack, specify UPDATE. To create a change set for an import operation, specify IMPORT. If you create a change set for a new stack, CloudFormation creates a stack with a unique stack ID, but no template or resources. The stack will be in the REVIEW_IN_PROGRESS state until you execute the change set. By default, CloudFormation specifies UPDATE. You can't use the UPDATE type to create a change set for a new stack or the CREATE type to create a change set for an existing stack.
         public let changeSetType: ChangeSetType?
         /// A unique identifier for this CreateChangeSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create another change set with the same name. You might retry CreateChangeSet requests to ensure that CloudFormation successfully received them.
         public let clientToken: String?
@@ -2321,7 +2322,7 @@ extension CloudFormation {
         public let autoUpdate: Bool?
         /// A JSON string that represent the current configuration data for the extension in this account and Region. To set the configuration data for an extension, use SetTypeConfiguration. For more information, see Configuring extensions at the account level in the CloudFormation User Guide.
         public let configurationSchema: String?
-        /// The ID of the default version of the extension. The default version is used when the extension version isn't specified. This applies only to private extensions you have registered in your account. For public extensions, both those provided by Amazon Web Services and published by third parties, CloudFormation returns null. For more information, see RegisterType. To set the default version of an extension, use  SetTypeDefaultVersion .
+        /// The ID of the default version of the extension. The default version is used when the extension version isn't specified. This applies only to private extensions you have registered in your account. For public extensions, both those provided by Amazon Web Services and published by third parties, CloudFormation returns null. For more information, see RegisterType. To set the default version of an extension, use SetTypeDefaultVersion.
         public let defaultVersionId: String?
         /// The deprecation status of the extension version. Valid values include:    LIVE: The extension is activated or registered and can be used in CloudFormation operations, dependent on its provisioning behavior and visibility scope.    DEPRECATED: The extension has been deactivated or deregistered and can no longer be used in CloudFormation operations.   For public third-party extensions, CloudFormation returns null.
         public let deprecatedStatus: DeprecatedStatus?
@@ -2329,7 +2330,7 @@ extension CloudFormation {
         public let description: String?
         /// The URL of a page providing detailed documentation for this extension.
         public let documentationUrl: String?
-        /// The Amazon Resource Name (ARN) of the IAM execution role used to register the extension. This applies only to private extensions you have registered in your account. For more information, see RegisterType. If the registered extension calls any Amazon Web Services APIs, you must create an  IAM execution role that includes the necessary permissions to call those Amazon Web Services APIs, and provision that execution role in your account. CloudFormation then assumes that execution role to provide your extension with the appropriate credentials.
+        /// The Amazon Resource Name (ARN) of the IAM execution role used to register the extension. This applies only to private extensions you have registered in your account. For more information, see RegisterType. If the registered extension calls any Amazon Web Services APIs, you must create an  IAM execution role  that includes the necessary permissions to call those Amazon Web Services APIs, and provision that execution role in your account. CloudFormation then assumes that execution role to provide your extension with the appropriate credentials.
         public let executionRoleArn: String?
         /// Whether the extension is activated in the account and Region. This only applies to public third-party extensions. For all other extensions, CloudFormation returns null.
         public let isActivated: Bool?
@@ -2433,7 +2434,7 @@ extension CloudFormation {
     }
 
     public struct DescribeTypeRegistrationInput: AWSEncodableShape {
-        /// The identifier for this registration request. This registration token is generated by CloudFormation when you initiate a registration request using  RegisterType .
+        /// The identifier for this registration request. This registration token is generated by CloudFormation when you initiate a registration request using RegisterType.
         public let registrationToken: String
 
         public init(registrationToken: String) {
@@ -2583,7 +2584,7 @@ extension CloudFormation {
     }
 
     public struct DetectStackSetDriftOutput: AWSDecodableShape {
-        /// The ID of the drift detection stack set operation. You can use this operation ID with  DescribeStackSetOperation to monitor the progress of the drift detection operation.
+        /// The ID of the drift detection stack set operation. You can use this operation ID with DescribeStackSetOperation to monitor the progress of the drift detection operation.
         public let operationId: String?
 
         public init(operationId: String? = nil) {
@@ -3404,7 +3405,7 @@ extension CloudFormation {
     public struct ListTypeRegistrationsOutput: AWSDecodableShape {
         /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
         public let nextToken: String?
-        /// A list of extension registration tokens. Use  DescribeTypeRegistration to return detailed information about a type registration request.
+        /// A list of extension registration tokens. Use DescribeTypeRegistration to return detailed information about a type registration request.
         @OptionalCustomCoding<StandardArrayCoder>
         public var registrationTokenList: [String]?
 
@@ -3661,7 +3662,7 @@ extension CloudFormation {
         public let parameterKey: String?
         /// The input value associated with the parameter.
         public let parameterValue: String?
-        /// Read-only. The value that corresponds to a SSM parameter key. This field is returned only for  SSM parameter types in the template.
+        /// Read-only. The value that corresponds to a SSM parameter key. This field is returned only for SSM parameter types in the template.
         public let resolvedValue: String?
         /// During a stack update, use the existing parameter value that the stack is using for a given parameter key. If you specify true, do not specify a parameter value.
         public let usePreviousValue: Bool?
@@ -3909,7 +3910,7 @@ extension CloudFormation {
     public struct RegisterTypeInput: AWSEncodableShape {
         /// A unique identifier that acts as an idempotency key for this registration request. Specifying a client request token prevents CloudFormation from generating more than one version of an extension from the same registration request, even if the request is submitted multiple times.
         public let clientRequestToken: String?
-        /// The Amazon Resource Name (ARN) of the IAM role for CloudFormation to assume when invoking the extension. For CloudFormation to assume the specified execution role, the role must contain a trust relationship with the CloudFormation service principle (resources.cloudformation.amazonaws.com). For more information about adding trust relationships, see Modifying a role trust policy in the Identity and Access Management User Guide. If your extension calls Amazon Web Services APIs in any of its handlers, you must create an  IAM execution role that includes the necessary permissions to call those Amazon Web Services APIs, and provision that execution role in your account. When CloudFormation needs to invoke the resource type handler, CloudFormation assumes this execution role to create a temporary session token, which it then passes to the resource type handler, thereby supplying your resource type with the appropriate credentials.
+        /// The Amazon Resource Name (ARN) of the IAM role for CloudFormation to assume when invoking the extension. For CloudFormation to assume the specified execution role, the role must contain a trust relationship with the CloudFormation service principle (resources.cloudformation.amazonaws.com). For more information about adding trust relationships, see Modifying a role trust policy in the Identity and Access Management User Guide. If your extension calls Amazon Web Services APIs in any of its handlers, you must create an  IAM execution role  that includes the necessary permissions to call those Amazon Web Services APIs, and provision that execution role in your account. When CloudFormation needs to invoke the resource type handler, CloudFormation assumes this execution role to create a temporary session token, which it then passes to the resource type handler, thereby supplying your resource type with the appropriate credentials.
         public let executionRoleArn: String?
         /// Specifies logging configuration information for an extension.
         public let loggingConfig: LoggingConfig?
@@ -3955,7 +3956,7 @@ extension CloudFormation {
     }
 
     public struct RegisterTypeOutput: AWSDecodableShape {
-        /// The identifier for this registration request. Use this registration token when calling  DescribeTypeRegistration , which returns information about the status and IDs of the extension registration.
+        /// The identifier for this registration request. Use this registration token when calling DescribeTypeRegistration, which returns information about the status and IDs of the extension registration.
         public let registrationToken: String?
 
         public init(registrationToken: String? = nil) {
@@ -4653,7 +4654,7 @@ extension CloudFormation {
     }
 
     public struct StackInstanceComprehensiveStatus: AWSDecodableShape {
-        ///    CANCELLED: The operation in the specified account and Region has been canceled. This is either because a user has stopped the stack set operation, or because the failure tolerance of the stack set operation has been exceeded.    FAILED: The operation in the specified account and Region failed. If the stack set operation fails in enough accounts within a Region, the failure tolerance for the stack set operation as a whole might be exceeded.    INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.    PENDING: The operation in the specified account and Region has yet to start.    RUNNING: The operation in the specified account and Region is currently in progress.    SUCCEEDED: The operation in the specified account and Region completed successfully.
+        ///    CANCELLED: The operation in the specified account and Region has been canceled. This is either because a user has stopped the stack set operation, or because the failure tolerance of the stack set operation has been exceeded.    FAILED: The operation in the specified account and Region failed. If the stack set operation fails in enough accounts within a Region, the failure tolerance for the stack set operation as a whole might be exceeded.    INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.    PENDING: The operation in the specified account and Region has yet to start.    RUNNING: The operation in the specified account and Region is currently in progress.    SKIPPED_SUSPENDED_ACCOUNT: The operation in the specified account and Region has been skipped because the account was suspended at the time of the operation.    SUCCEEDED: The operation in the specified account and Region completed successfully.
         public let detailedStatus: StackInstanceDetailedStatus?
 
         public init(detailedStatus: StackInstanceDetailedStatus? = nil) {
@@ -5180,7 +5181,7 @@ extension CloudFormation {
         public let maxConcurrentPercentage: Int?
         /// The concurrency type of deploying StackSets operations in Regions, could be in parallel or one Region at a time.
         public let regionConcurrencyType: RegionConcurrencyType?
-        /// The order of the Regions in where you want to perform the stack operation.
+        /// The order of the Regions where you want to perform the stack operation.
         @OptionalCustomCoding<StandardArrayCoder>
         public var regionOrder: [String]?
 
@@ -5646,7 +5647,7 @@ extension CloudFormation {
     }
 
     public struct TypeSummary: AWSDecodableShape {
-        /// The ID of the default version of the extension. The default version is used when the extension version isn't specified. This applies only to private extensions you have registered in your account. For public extensions, both those provided by Amazon and published by third parties, CloudFormation returns null. For more information, see RegisterType. To set the default version of an extension, use  SetTypeDefaultVersion .
+        /// The ID of the default version of the extension. The default version is used when the extension version isn't specified. This applies only to private extensions you have registered in your account. For public extensions, both those provided by Amazon and published by third parties, CloudFormation returns null. For more information, see RegisterType. To set the default version of an extension, use SetTypeDefaultVersion.
         public let defaultVersionId: String?
         /// The description of the extension.
         public let description: String?

@@ -509,7 +509,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "GetMetricData", path: "/metrics/historical/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.  This API is not available in the Amazon Web Services GovCloud (US) Regions.
+    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
     public func getMetricDataV2(_ input: GetMetricDataV2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMetricDataV2Response> {
         return self.client.execute(operation: "GetMetricDataV2", path: "/metrics/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -734,9 +734,24 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "SearchAvailablePhoneNumbers", path: "/phone-number/search-available", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Searches the hours of operation in an Amazon Connect instance, with optional filtering.
+    public func searchHoursOfOperations(_ input: SearchHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchHoursOfOperationsResponse> {
+        return self.client.execute(operation: "SearchHoursOfOperations", path: "/search-hours-of-operations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Searches prompts in an Amazon Connect instance, with optional filtering.
+    public func searchPrompts(_ input: SearchPromptsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchPromptsResponse> {
+        return self.client.execute(operation: "SearchPrompts", path: "/search-prompts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Searches queues in an Amazon Connect instance, with optional filtering.
     public func searchQueues(_ input: SearchQueuesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchQueuesResponse> {
         return self.client.execute(operation: "SearchQueues", path: "/search-queues", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Searches quick connects in an Amazon Connect instance, with optional filtering.
+    public func searchQuickConnects(_ input: SearchQuickConnectsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchQuickConnectsResponse> {
+        return self.client.execute(operation: "SearchQuickConnects", path: "/search-quick-connects", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Searches routing profiles in an Amazon Connect instance, with optional filtering.
@@ -1196,7 +1211,7 @@ extension Connect {
         )
     }
 
-    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.  This API is not available in the Amazon Web Services GovCloud (US) Regions.
+    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3104,6 +3119,112 @@ extension Connect {
         )
     }
 
+    /// Searches the hours of operation in an Amazon Connect instance, with optional filtering.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchHoursOfOperationsPaginator<Result>(
+        _ input: SearchHoursOfOperationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchHoursOfOperationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.searchHoursOfOperations,
+            inputKey: \SearchHoursOfOperationsRequest.nextToken,
+            outputKey: \SearchHoursOfOperationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchHoursOfOperationsPaginator(
+        _ input: SearchHoursOfOperationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchHoursOfOperationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.searchHoursOfOperations,
+            inputKey: \SearchHoursOfOperationsRequest.nextToken,
+            outputKey: \SearchHoursOfOperationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Searches prompts in an Amazon Connect instance, with optional filtering.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchPromptsPaginator<Result>(
+        _ input: SearchPromptsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchPromptsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.searchPrompts,
+            inputKey: \SearchPromptsRequest.nextToken,
+            outputKey: \SearchPromptsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchPromptsPaginator(
+        _ input: SearchPromptsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchPromptsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.searchPrompts,
+            inputKey: \SearchPromptsRequest.nextToken,
+            outputKey: \SearchPromptsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Searches queues in an Amazon Connect instance, with optional filtering.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -3152,6 +3273,59 @@ extension Connect {
             command: self.searchQueues,
             inputKey: \SearchQueuesRequest.nextToken,
             outputKey: \SearchQueuesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Searches quick connects in an Amazon Connect instance, with optional filtering.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchQuickConnectsPaginator<Result>(
+        _ input: SearchQuickConnectsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchQuickConnectsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.searchQuickConnects,
+            inputKey: \SearchQuickConnectsRequest.nextToken,
+            outputKey: \SearchQuickConnectsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchQuickConnectsPaginator(
+        _ input: SearchQuickConnectsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchQuickConnectsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.searchQuickConnects,
+            inputKey: \SearchQuickConnectsRequest.nextToken,
+            outputKey: \SearchQuickConnectsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3801,8 +3975,44 @@ extension Connect.SearchAvailablePhoneNumbersRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.SearchHoursOfOperationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchHoursOfOperationsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )
+    }
+}
+
+extension Connect.SearchPromptsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchPromptsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )
+    }
+}
+
 extension Connect.SearchQueuesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.SearchQueuesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )
+    }
+}
+
+extension Connect.SearchQuickConnectsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchQuickConnectsRequest {
         return .init(
             instanceId: self.instanceId,
             maxResults: self.maxResults,

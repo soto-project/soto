@@ -155,6 +155,12 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConversationLogsInputModeFilter: String, CustomStringConvertible, Codable, Sendable {
+        case speech = "Speech"
+        case text = "Text"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CustomVocabularyStatus: String, CustomStringConvertible, Codable, Sendable {
         case creating = "Creating"
         case deleting = "Deleting"
@@ -216,6 +222,7 @@ extension LexModelsV2 {
     }
 
     public enum ImportExportFileFormat: String, CustomStringConvertible, Codable, Sendable {
+        case csv = "CSV"
         case lexJson = "LexJson"
         case tsv = "TSV"
         public var description: String { return self.rawValue }
@@ -236,6 +243,7 @@ extension LexModelsV2 {
         case bot = "Bot"
         case botLocale = "BotLocale"
         case customVocabulary = "CustomVocabulary"
+        case testSet = "TestSet"
         public var description: String { return self.rawValue }
     }
 
@@ -372,6 +380,87 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum TestExecutionApiMode: String, CustomStringConvertible, Codable, Sendable {
+        case nonStreaming = "NonStreaming"
+        case streaming = "Streaming"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestExecutionModality: String, CustomStringConvertible, Codable, Sendable {
+        case audio = "Audio"
+        case text = "Text"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestExecutionSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+        case creationDateTime = "CreationDateTime"
+        case testSetName = "TestSetName"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestExecutionStatus: String, CustomStringConvertible, Codable, Sendable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case pending = "Pending"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        case waiting = "Waiting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestResultMatchStatus: String, CustomStringConvertible, Codable, Sendable {
+        case executionError = "ExecutionError"
+        case matched = "Matched"
+        case mismatched = "Mismatched"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestResultTypeFilter: String, CustomStringConvertible, Codable, Sendable {
+        case conversationLevelTestResults = "ConversationLevelTestResults"
+        case intentClassificationTestResults = "IntentClassificationTestResults"
+        case overallTestResults = "OverallTestResults"
+        case slotResolutionTestResults = "SlotResolutionTestResults"
+        case utteranceLevelResults = "UtteranceLevelResults"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestSetDiscrepancyReportStatus: String, CustomStringConvertible, Codable, Sendable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestSetGenerationStatus: String, CustomStringConvertible, Codable, Sendable {
+        case failed = "Failed"
+        case generating = "Generating"
+        case pending = "Pending"
+        case ready = "Ready"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestSetModality: String, CustomStringConvertible, Codable, Sendable {
+        case audio = "Audio"
+        case text = "Text"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestSetSortAttribute: String, CustomStringConvertible, Codable, Sendable {
+        case lastUpdatedDateTime = "LastUpdatedDateTime"
+        case testSetName = "TestSetName"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestSetStatus: String, CustomStringConvertible, Codable, Sendable {
+        case deleting = "Deleting"
+        case importing = "Importing"
+        case pendingAnnotation = "PendingAnnotation"
+        case ready = "Ready"
+        case validationError = "ValidationError"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TimeDimension: String, CustomStringConvertible, Codable, Sendable {
         case days = "Days"
         case hours = "Hours"
@@ -392,6 +481,19 @@ extension LexModelsV2 {
 
     // MARK: Shapes
 
+    public struct ActiveContext: AWSDecodableShape {
+        /// The name of active context.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
     public struct AdvancedRecognitionSetting: AWSEncodableShape & AWSDecodableShape {
         /// Enables using the slot values as a custom vocabulary for recognizing user utterances.
         public let audioRecognitionStrategy: AudioRecognitionStrategy?
@@ -402,6 +504,47 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case audioRecognitionStrategy = "audioRecognitionStrategy"
+        }
+    }
+
+    public struct AgentTurnResult: AWSDecodableShape {
+        /// The actual agent prompt for the agent turn in a test set execution.
+        public let actualAgentPrompt: String?
+        /// The actual elicited slot for the agent turn in a test set execution.
+        public let actualElicitedSlot: String?
+        /// The actual intent for the agent turn in a test set execution.
+        public let actualIntent: String?
+        public let errorDetails: ExecutionErrorDetails?
+        /// The expected agent prompt for the agent turn in a test set execution.
+        public let expectedAgentPrompt: String
+
+        public init(actualAgentPrompt: String? = nil, actualElicitedSlot: String? = nil, actualIntent: String? = nil, errorDetails: ExecutionErrorDetails? = nil, expectedAgentPrompt: String) {
+            self.actualAgentPrompt = actualAgentPrompt
+            self.actualElicitedSlot = actualElicitedSlot
+            self.actualIntent = actualIntent
+            self.errorDetails = errorDetails
+            self.expectedAgentPrompt = expectedAgentPrompt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actualAgentPrompt = "actualAgentPrompt"
+            case actualElicitedSlot = "actualElicitedSlot"
+            case actualIntent = "actualIntent"
+            case errorDetails = "errorDetails"
+            case expectedAgentPrompt = "expectedAgentPrompt"
+        }
+    }
+
+    public struct AgentTurnSpecification: AWSDecodableShape {
+        /// The agent prompt for the agent turn in a test set.
+        public let agentPrompt: String
+
+        public init(agentPrompt: String) {
+            self.agentPrompt = agentPrompt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentPrompt = "agentPrompt"
         }
     }
 
@@ -921,6 +1064,36 @@ extension LexModelsV2 {
         }
     }
 
+    public struct BotAliasTestExecutionTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The bot alias Id of the bot alias used in the test set execution.
+        public let botAliasId: String
+        /// The bot Id of the bot alias used in the test set execution.
+        public let botId: String
+        /// The locale Id of the bot alias used in the test set execution.
+        public let localeId: String
+
+        public init(botAliasId: String, botId: String, localeId: String) {
+            self.botAliasId = botAliasId
+            self.botId = botId
+            self.localeId = localeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botAliasId, name: "botAliasId", parent: name, max: 10)
+            try self.validate(self.botAliasId, name: "botAliasId", parent: name, min: 10)
+            try self.validate(self.botAliasId, name: "botAliasId", parent: name, pattern: "^(\\bTSTALIASID\\b|[0-9a-zA-Z]+)$")
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAliasId = "botAliasId"
+            case botId = "botId"
+            case localeId = "localeId"
+        }
+    }
+
     public struct BotExportSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The identifier of the bot assigned by Amazon Lex.
         public let botId: String
@@ -1003,7 +1176,7 @@ extension LexModelsV2 {
         public func validate(name: String) throws {
             try self.validate(self.botName, name: "botName", parent: name, max: 100)
             try self.validate(self.botName, name: "botName", parent: name, min: 1)
-            try self.validate(self.botName, name: "botName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.botName, name: "botName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.botTags?.forEach {
                 try validate($0.key, name: "botTags.key", parent: name, max: 128)
                 try validate($0.key, name: "botTags.key", parent: name, min: 1)
@@ -1232,7 +1405,7 @@ extension LexModelsV2 {
             try self.validate(self.botMemberId, name: "botMemberId", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.botMemberName, name: "botMemberName", parent: name, max: 100)
             try self.validate(self.botMemberName, name: "botMemberName", parent: name, min: 1)
-            try self.validate(self.botMemberName, name: "botMemberName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.botMemberName, name: "botMemberName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.validate(self.botMemberVersion, name: "botMemberVersion", parent: name, max: 5)
             try self.validate(self.botMemberVersion, name: "botMemberVersion", parent: name, min: 1)
             try self.validate(self.botMemberVersion, name: "botMemberVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
@@ -1680,7 +1853,7 @@ extension LexModelsV2 {
             try self.condition.validate(name: "\(name).condition")
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.nextStep.validate(name: "\(name).nextStep")
             try self.response?.validate(name: "\(name).response")
         }
@@ -1723,6 +1896,116 @@ extension LexModelsV2 {
         }
     }
 
+    public struct ConversationLevelIntentClassificationResultItem: AWSDecodableShape {
+        /// The intent name used in the evaluation of intent level success or failure.
+        public let intentName: String
+        /// The number of times the specific intent is used in the evaluation of intent level success or failure.
+        public let matchResult: TestResultMatchStatus
+
+        public init(intentName: String, matchResult: TestResultMatchStatus) {
+            self.intentName = intentName
+            self.matchResult = matchResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intentName = "intentName"
+            case matchResult = "matchResult"
+        }
+    }
+
+    public struct ConversationLevelResultDetail: AWSDecodableShape {
+        /// The success or failure of the streaming of the conversation.
+        public let endToEndResult: TestResultMatchStatus
+        /// The speech transcription success or failure details of the conversation.
+        public let speechTranscriptionResult: TestResultMatchStatus?
+
+        public init(endToEndResult: TestResultMatchStatus, speechTranscriptionResult: TestResultMatchStatus? = nil) {
+            self.endToEndResult = endToEndResult
+            self.speechTranscriptionResult = speechTranscriptionResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endToEndResult = "endToEndResult"
+            case speechTranscriptionResult = "speechTranscriptionResult"
+        }
+    }
+
+    public struct ConversationLevelSlotResolutionResultItem: AWSDecodableShape {
+        /// The intents used in the slots list for the slot resolution details.
+        public let intentName: String
+        /// The number of matching slots used in the slots listings for the slot resolution evaluation.
+        public let matchResult: TestResultMatchStatus
+        /// The slot name in the slots list for the slot resolution details.
+        public let slotName: String
+
+        public init(intentName: String, matchResult: TestResultMatchStatus, slotName: String) {
+            self.intentName = intentName
+            self.matchResult = matchResult
+            self.slotName = slotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intentName = "intentName"
+            case matchResult = "matchResult"
+            case slotName = "slotName"
+        }
+    }
+
+    public struct ConversationLevelTestResultItem: AWSDecodableShape {
+        /// The conversation Id of the test result evaluation item.
+        public let conversationId: String
+        /// The end-to-end success or failure of the test result evaluation item.
+        public let endToEndResult: TestResultMatchStatus
+        /// The intent classification of the test result evaluation item.
+        public let intentClassificationResults: [ConversationLevelIntentClassificationResultItem]
+        /// The slot success or failure of the test result evaluation item.
+        public let slotResolutionResults: [ConversationLevelSlotResolutionResultItem]
+        /// The speech transcription success or failure of the test result evaluation item.
+        public let speechTranscriptionResult: TestResultMatchStatus?
+
+        public init(conversationId: String, endToEndResult: TestResultMatchStatus, intentClassificationResults: [ConversationLevelIntentClassificationResultItem], slotResolutionResults: [ConversationLevelSlotResolutionResultItem], speechTranscriptionResult: TestResultMatchStatus? = nil) {
+            self.conversationId = conversationId
+            self.endToEndResult = endToEndResult
+            self.intentClassificationResults = intentClassificationResults
+            self.slotResolutionResults = slotResolutionResults
+            self.speechTranscriptionResult = speechTranscriptionResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conversationId = "conversationId"
+            case endToEndResult = "endToEndResult"
+            case intentClassificationResults = "intentClassificationResults"
+            case slotResolutionResults = "slotResolutionResults"
+            case speechTranscriptionResult = "speechTranscriptionResult"
+        }
+    }
+
+    public struct ConversationLevelTestResults: AWSDecodableShape {
+        /// The item list in the test set results data at the conversation level.
+        public let items: [ConversationLevelTestResultItem]
+
+        public init(items: [ConversationLevelTestResultItem]) {
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+        }
+    }
+
+    public struct ConversationLevelTestResultsFilterBy: AWSEncodableShape {
+        /// The selection of matched or mismatched end-to-end status to filter test set results data at the conversation level.
+        public let endToEndResult: TestResultMatchStatus?
+
+        public init(endToEndResult: TestResultMatchStatus? = nil) {
+            self.endToEndResult = endToEndResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endToEndResult = "endToEndResult"
+        }
+    }
+
     public struct ConversationLogSettings: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 settings for logging audio to an S3 bucket.
         public let audioLogSettings: [AudioLogSetting]?
@@ -1750,6 +2033,61 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case audioLogSettings = "audioLogSettings"
             case textLogSettings = "textLogSettings"
+        }
+    }
+
+    public struct ConversationLogsDataSource: AWSEncodableShape & AWSDecodableShape {
+        /// The bot alias Id from the conversation logs.
+        public let botAliasId: String
+        /// The bot Id from the conversation logs.
+        public let botId: String
+        /// The filter for the data source of the conversation log.
+        public let filter: ConversationLogsDataSourceFilterBy
+        /// The locale Id of the conversation log.
+        public let localeId: String
+
+        public init(botAliasId: String, botId: String, filter: ConversationLogsDataSourceFilterBy, localeId: String) {
+            self.botAliasId = botAliasId
+            self.botId = botId
+            self.filter = filter
+            self.localeId = localeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botAliasId, name: "botAliasId", parent: name, max: 10)
+            try self.validate(self.botAliasId, name: "botAliasId", parent: name, min: 10)
+            try self.validate(self.botAliasId, name: "botAliasId", parent: name, pattern: "^(\\bTSTALIASID\\b|[0-9a-zA-Z]+)$")
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAliasId = "botAliasId"
+            case botId = "botId"
+            case filter = "filter"
+            case localeId = "localeId"
+        }
+    }
+
+    public struct ConversationLogsDataSourceFilterBy: AWSEncodableShape & AWSDecodableShape {
+        /// The end time for the conversation log.
+        public let endTime: Date
+        /// The selection to filter by input mode for the conversation logs.
+        public let inputMode: ConversationLogsInputModeFilter
+        /// The start time for the conversation log.
+        public let startTime: Date
+
+        public init(endTime: Date, inputMode: ConversationLogsInputModeFilter, startTime: Date) {
+            self.endTime = endTime
+            self.inputMode = inputMode
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case inputMode = "inputMode"
+            case startTime = "startTime"
         }
     }
 
@@ -1792,7 +2130,7 @@ extension LexModelsV2 {
             try self.validate(self.botAliasLocaleSettings, name: "botAliasLocaleSettings", parent: name, min: 1)
             try self.validate(self.botAliasName, name: "botAliasName", parent: name, max: 100)
             try self.validate(self.botAliasName, name: "botAliasName", parent: name, min: 1)
-            try self.validate(self.botAliasName, name: "botAliasName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.botAliasName, name: "botAliasName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.validate(self.botId, name: "botId", parent: name, max: 10)
             try self.validate(self.botId, name: "botId", parent: name, min: 10)
             try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
@@ -2004,7 +2342,7 @@ extension LexModelsV2 {
             try self.validate(self.botMembers, name: "botMembers", parent: name, max: 10)
             try self.validate(self.botName, name: "botName", parent: name, max: 100)
             try self.validate(self.botName, name: "botName", parent: name, min: 1)
-            try self.validate(self.botName, name: "botName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.botName, name: "botName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.botTags?.forEach {
                 try validate($0.key, name: "botTags.key", parent: name, max: 128)
                 try validate($0.key, name: "botTags.key", parent: name, min: 1)
@@ -2228,7 +2566,7 @@ extension LexModelsV2 {
 
         /// The identifier of the bot associated with this intent.
         public let botId: String
-        /// The identifier of the version of the bot associated with this intent.
+        /// The version of the bot associated with this intent.
         public let botVersion: String
         /// A description of the intent. Use the description to help identify the intent in lists.
         public let description: String?
@@ -2293,7 +2631,7 @@ extension LexModelsV2 {
             try self.intentConfirmationSetting?.validate(name: "\(name).intentConfirmationSetting")
             try self.validate(self.intentName, name: "intentName", parent: name, max: 100)
             try self.validate(self.intentName, name: "intentName", parent: name, min: 1)
-            try self.validate(self.intentName, name: "intentName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.intentName, name: "intentName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.kendraConfiguration?.validate(name: "\(name).kendraConfiguration")
             try self.outputContexts?.forEach {
                 try $0.validate(name: "\(name).outputContexts[]")
@@ -2320,7 +2658,7 @@ extension LexModelsV2 {
     public struct CreateIntentResponse: AWSDecodableShape {
         /// The identifier of the bot associated with the intent.
         public let botId: String?
-        /// The identifier of the version of the bot associated with the intent.
+        /// The version of the bot associated with the intent.
         public let botVersion: String?
         /// A timestamp of the date and time that the intent was created.
         public let creationDateTime: Date?
@@ -2451,7 +2789,7 @@ extension LexModelsV2 {
         public let effect: Effect
         /// The identifier of the revision of the policy to edit. If this revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you don't specify a revision, Amazon Lex overwrites the contents of the policy with the new values.
         public let expectedRevisionId: String?
-        /// An IAM principal, such as an IAM users, IAM roles, or AWS services that is allowed or denied access to a resource. For more information, see AWS JSON policy elements: Principal.
+        /// An IAM principal, such as an IAM user, IAM role,  or Amazon Web Services services that is allowed or denied access to a resource. For more information, see Amazon Web Services JSON policy elements: Principal.
         public let principal: [Principal]
         /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
         public let resourceArn: String
@@ -2489,7 +2827,7 @@ extension LexModelsV2 {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
-            try self.validate(self.statementId, name: "statementId", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.statementId, name: "statementId", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2536,7 +2874,7 @@ extension LexModelsV2 {
         public let intentId: String
         /// The identifier of the language and locale that the slot will be used in. The string must match one of the supported locales. All of the bots, intents, slot types used by the slot must have the same locale. For more information, see Supported languages.
         public let localeId: String
-        /// Indicates whether the slot returns multiple values in one response. Multi-value slots are only available in the en-US locale. If you set this value to true in any other locale, Amazon Lex throws a ValidationException.  If the multipleValuesSetting is not set, the default value is false.
+        /// Indicates whether the slot returns multiple values in one response. Multi-value slots are only available in the en-US locale.  If you set this value to true in any other locale, Amazon Lex throws a ValidationException.  If the multipleValuesSetting is not set, the default value is false.
         public let multipleValuesSetting: MultipleValuesSetting?
         /// Determines how slot values are used in Amazon CloudWatch logs. If the value of the obfuscationSetting parameter is DefaultObfuscation, slot values are obfuscated in the log output. If the value is None, the actual value is present in the log output. The default is to obfuscate values in the CloudWatch logs.
         public let obfuscationSetting: ObfuscationSetting?
@@ -2576,7 +2914,7 @@ extension LexModelsV2 {
             try self.validate(self.intentId, name: "intentId", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.slotName, name: "slotName", parent: name, max: 100)
             try self.validate(self.slotName, name: "slotName", parent: name, min: 1)
-            try self.validate(self.slotName, name: "slotName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.slotName, name: "slotName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, max: 25)
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, min: 1)
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, pattern: "^((AMAZON\\.)[a-zA-Z_]+?|[0-9a-zA-Z]+)$")
@@ -2677,11 +3015,11 @@ extension LexModelsV2 {
         public let localeId: String
         /// The built-in slot type used as a parent of this slot type. When you define a parent slot type, the new slot type has the configuration of the parent slot type. Only AMAZON.AlphaNumeric is supported.
         public let parentSlotTypeSignature: String?
-        /// The name for the slot. A slot type name must be unique within the account.
+        /// The name for the slot. A slot type name must be unique within the intent.
         public let slotTypeName: String
         /// A list of SlotTypeValue objects that defines the values that the slot type can take. Each value can have a list of synonyms, additional values that help train the machine learning model about the values that it resolves for a slot.
         public let slotTypeValues: [SlotTypeValue]?
-        /// Determines the strategy that Amazon Lex uses to select a value from the list of possible values. The field can be set to one of the following values:    OriginalValue - Returns the value entered by the user, if the user value is similar to the slot value.    TopResolution - If there is a resolution list for the slot, return the first value in the resolution list. If there is no resolution list, return null.   If you don't specify the valueSelectionSetting parameter, the default is OriginalValue.
+        /// Determines the strategy that Amazon Lex uses to select a value from the list of possible values. The field can be set to one of the following values:    ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value.    TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list. If there is no resolution list, return null.   If you don't specify the valueSelectionSetting parameter, the default is ORIGINAL_VALUE.
         public let valueSelectionSetting: SlotValueSelectionSetting?
 
         public init(botId: String, botVersion: String, compositeSlotTypeSetting: CompositeSlotTypeSetting? = nil, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, localeId: String, parentSlotTypeSignature: String? = nil, slotTypeName: String, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
@@ -2709,7 +3047,7 @@ extension LexModelsV2 {
             try self.externalSourceSetting?.validate(name: "\(name).externalSourceSetting")
             try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, max: 100)
             try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, min: 1)
-            try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.slotTypeValues?.forEach {
                 try $0.validate(name: "\(name).slotTypeValues[]")
             }
@@ -2783,6 +3121,58 @@ extension LexModelsV2 {
             case slotTypeName = "slotTypeName"
             case slotTypeValues = "slotTypeValues"
             case valueSelectionSetting = "valueSelectionSetting"
+        }
+    }
+
+    public struct CreateTestSetDiscrepancyReportRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "testSetId", location: .uri("testSetId"))
+        ]
+
+        /// The target bot for the test set discrepancy report.
+        public let target: TestSetDiscrepancyReportResourceTarget
+        /// The test set Id for the test set discrepancy report.
+        public let testSetId: String
+
+        public init(target: TestSetDiscrepancyReportResourceTarget, testSetId: String) {
+            self.target = target
+            self.testSetId = testSetId
+        }
+
+        public func validate(name: String) throws {
+            try self.target.validate(name: "\(name).target")
+            try self.validate(self.testSetId, name: "testSetId", parent: name, max: 10)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, min: 10)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case target = "target"
+        }
+    }
+
+    public struct CreateTestSetDiscrepancyReportResponse: AWSDecodableShape {
+        /// The creation date and time for the test set discrepancy report.
+        public let creationDateTime: Date?
+        /// The target bot for the test set discrepancy report.
+        public let target: TestSetDiscrepancyReportResourceTarget?
+        /// The unique identifier of the test set discrepancy report to describe.
+        public let testSetDiscrepancyReportId: String?
+        /// The test set Id for the test set discrepancy report.
+        public let testSetId: String?
+
+        public init(creationDateTime: Date? = nil, target: TestSetDiscrepancyReportResourceTarget? = nil, testSetDiscrepancyReportId: String? = nil, testSetId: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.target = target
+            self.testSetDiscrepancyReportId = testSetDiscrepancyReportId
+            self.testSetId = testSetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case target = "target"
+            case testSetDiscrepancyReportId = "testSetDiscrepancyReportId"
+            case testSetId = "testSetId"
         }
     }
 
@@ -3472,7 +3862,7 @@ extension LexModelsV2 {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
-            try self.validate(self.statementId, name: "statementId", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.statementId, name: "statementId", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3579,6 +3969,27 @@ extension LexModelsV2 {
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, max: 10)
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, min: 10)
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTestSetRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "testSetId", location: .uri("testSetId"))
+        ]
+
+        /// The test set Id of the test set to be deleted.
+        public let testSetId: String
+
+        public init(testSetId: String) {
+            self.testSetId = testSetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.testSetId, name: "testSetId", parent: name, max: 10)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, min: 10)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, pattern: "^[0-9a-zA-Z]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3717,7 +4128,7 @@ extension LexModelsV2 {
 
         /// The identifier of the bot associated with the locale.
         public let botId: String
-        /// The identifier of the version of the bot associated with the locale.
+        /// The version of the bot associated with the locale.
         public let botVersion: String
         /// The unique identifier of the locale to describe. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
@@ -3747,7 +4158,7 @@ extension LexModelsV2 {
         public let botLocaleHistoryEvents: [BotLocaleHistoryEvent]?
         /// The status of the bot. If the status is Failed, the reasons for the failure are listed in the failureReasons field.
         public let botLocaleStatus: BotLocaleStatus?
-        /// The identifier of the version of the bot associated with the locale.
+        /// The version of the bot associated with the locale.
         public let botVersion: String?
         /// The date and time that the locale was created.
         public let creationDateTime: Date?
@@ -4317,6 +4728,7 @@ extension LexModelsV2 {
         public let dialogCodeHook: DialogCodeHookSettings?
         /// The Lambda function called when the intent is complete and ready for fulfillment.
         public let fulfillmentCodeHook: FulfillmentCodeHookSettings?
+        /// Configuration setting for a response sent to the user before Amazon Lex starts eliciting slots.
         public let initialResponseSetting: InitialResponseSetting?
         /// A list of contexts that must be active for the intent to be considered for sending to the user.
         public let inputContexts: [InputContext]?
@@ -4639,6 +5051,286 @@ extension LexModelsV2 {
         }
     }
 
+    public struct DescribeTestExecutionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "testExecutionId", location: .uri("testExecutionId"))
+        ]
+
+        /// The execution Id of the test set execution.
+        public let testExecutionId: String
+
+        public init(testExecutionId: String) {
+            self.testExecutionId = testExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.testExecutionId, name: "testExecutionId", parent: name, max: 10)
+            try self.validate(self.testExecutionId, name: "testExecutionId", parent: name, min: 10)
+            try self.validate(self.testExecutionId, name: "testExecutionId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeTestExecutionResponse: AWSDecodableShape {
+        /// Indicates whether we use streaming or non-streaming APIs are used for  the test set execution. For streaming, StartConversation  Amazon Lex Runtime API is used. Whereas for non-streaming, RecognizeUtterance  and RecognizeText Amazon Lex Runtime API is used.
+        public let apiMode: TestExecutionApiMode?
+        /// The execution creation date and time for the test set execution.
+        public let creationDateTime: Date?
+        /// Reasons for the failure of the test set execution.
+        public let failureReasons: [String]?
+        /// The date and time of the last update for the execution.
+        public let lastUpdatedDateTime: Date?
+        /// The target bot for the test set execution details.
+        public let target: TestExecutionTarget?
+        /// The execution Id for the test set execution.
+        public let testExecutionId: String?
+        /// Indicates whether test set is audio or text.
+        public let testExecutionModality: TestExecutionModality?
+        /// The test execution status for the test execution.
+        public let testExecutionStatus: TestExecutionStatus?
+        /// The test set Id for the test set execution.
+        public let testSetId: String?
+        /// The test set name of the test set execution.
+        public let testSetName: String?
+
+        public init(apiMode: TestExecutionApiMode? = nil, creationDateTime: Date? = nil, failureReasons: [String]? = nil, lastUpdatedDateTime: Date? = nil, target: TestExecutionTarget? = nil, testExecutionId: String? = nil, testExecutionModality: TestExecutionModality? = nil, testExecutionStatus: TestExecutionStatus? = nil, testSetId: String? = nil, testSetName: String? = nil) {
+            self.apiMode = apiMode
+            self.creationDateTime = creationDateTime
+            self.failureReasons = failureReasons
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.target = target
+            self.testExecutionId = testExecutionId
+            self.testExecutionModality = testExecutionModality
+            self.testExecutionStatus = testExecutionStatus
+            self.testSetId = testSetId
+            self.testSetName = testSetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiMode = "apiMode"
+            case creationDateTime = "creationDateTime"
+            case failureReasons = "failureReasons"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case target = "target"
+            case testExecutionId = "testExecutionId"
+            case testExecutionModality = "testExecutionModality"
+            case testExecutionStatus = "testExecutionStatus"
+            case testSetId = "testSetId"
+            case testSetName = "testSetName"
+        }
+    }
+
+    public struct DescribeTestSetDiscrepancyReportRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "testSetDiscrepancyReportId", location: .uri("testSetDiscrepancyReportId"))
+        ]
+
+        /// The unique identifier of the test set discrepancy report.
+        public let testSetDiscrepancyReportId: String
+
+        public init(testSetDiscrepancyReportId: String) {
+            self.testSetDiscrepancyReportId = testSetDiscrepancyReportId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.testSetDiscrepancyReportId, name: "testSetDiscrepancyReportId", parent: name, max: 10)
+            try self.validate(self.testSetDiscrepancyReportId, name: "testSetDiscrepancyReportId", parent: name, min: 10)
+            try self.validate(self.testSetDiscrepancyReportId, name: "testSetDiscrepancyReportId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeTestSetDiscrepancyReportResponse: AWSDecodableShape {
+        /// The time and date of creation for the test set discrepancy report.
+        public let creationDateTime: Date?
+        /// The failure report for the test set discrepancy report generation action.
+        public let failureReasons: [String]?
+        /// The date and time of the last update for the test set discrepancy report.
+        public let lastUpdatedDataTime: Date?
+        /// The target bot location for the test set discrepancy report.
+        public let target: TestSetDiscrepancyReportResourceTarget?
+        /// Pre-signed Amazon S3 URL to download the test set discrepancy report.
+        public let testSetDiscrepancyRawOutputUrl: String?
+        /// The unique identifier of the test set discrepancy report to describe.
+        public let testSetDiscrepancyReportId: String?
+        /// The status for the test set discrepancy report.
+        public let testSetDiscrepancyReportStatus: TestSetDiscrepancyReportStatus?
+        /// The top 200 error results from the test set discrepancy report.
+        public let testSetDiscrepancyTopErrors: TestSetDiscrepancyErrors?
+        /// The test set Id for the test set discrepancy report.
+        public let testSetId: String?
+
+        public init(creationDateTime: Date? = nil, failureReasons: [String]? = nil, lastUpdatedDataTime: Date? = nil, target: TestSetDiscrepancyReportResourceTarget? = nil, testSetDiscrepancyRawOutputUrl: String? = nil, testSetDiscrepancyReportId: String? = nil, testSetDiscrepancyReportStatus: TestSetDiscrepancyReportStatus? = nil, testSetDiscrepancyTopErrors: TestSetDiscrepancyErrors? = nil, testSetId: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.failureReasons = failureReasons
+            self.lastUpdatedDataTime = lastUpdatedDataTime
+            self.target = target
+            self.testSetDiscrepancyRawOutputUrl = testSetDiscrepancyRawOutputUrl
+            self.testSetDiscrepancyReportId = testSetDiscrepancyReportId
+            self.testSetDiscrepancyReportStatus = testSetDiscrepancyReportStatus
+            self.testSetDiscrepancyTopErrors = testSetDiscrepancyTopErrors
+            self.testSetId = testSetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case failureReasons = "failureReasons"
+            case lastUpdatedDataTime = "lastUpdatedDataTime"
+            case target = "target"
+            case testSetDiscrepancyRawOutputUrl = "testSetDiscrepancyRawOutputUrl"
+            case testSetDiscrepancyReportId = "testSetDiscrepancyReportId"
+            case testSetDiscrepancyReportStatus = "testSetDiscrepancyReportStatus"
+            case testSetDiscrepancyTopErrors = "testSetDiscrepancyTopErrors"
+            case testSetId = "testSetId"
+        }
+    }
+
+    public struct DescribeTestSetGenerationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "testSetGenerationId", location: .uri("testSetGenerationId"))
+        ]
+
+        /// The unique identifier of the test set generation.
+        public let testSetGenerationId: String
+
+        public init(testSetGenerationId: String) {
+            self.testSetGenerationId = testSetGenerationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.testSetGenerationId, name: "testSetGenerationId", parent: name, max: 10)
+            try self.validate(self.testSetGenerationId, name: "testSetGenerationId", parent: name, min: 10)
+            try self.validate(self.testSetGenerationId, name: "testSetGenerationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeTestSetGenerationResponse: AWSDecodableShape {
+        /// The creation date and time for the test set generation.
+        public let creationDateTime: Date?
+        /// The test set description for the test set generation.
+        public let description: String?
+        /// The reasons the test set generation failed.
+        public let failureReasons: [String]?
+        /// The data source of the test set used for the test set generation.
+        public let generationDataSource: TestSetGenerationDataSource?
+        /// The date and time of the last update for the test set generation.
+        public let lastUpdatedDateTime: Date?
+        ///  The roleARN of the test set used for the test set generation.
+        public let roleArn: String?
+        /// The Amazon S3 storage location for the test set generation.
+        public let storageLocation: TestSetStorageLocation?
+        /// The unique identifier of the test set generation.
+        public let testSetGenerationId: String?
+        /// The status for the test set generation.
+        public let testSetGenerationStatus: TestSetGenerationStatus?
+        /// The unique identifier for the test set created for the generated test set.
+        public let testSetId: String?
+        /// The test set name for the generated test set.
+        public let testSetName: String?
+
+        public init(creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generationDataSource: TestSetGenerationDataSource? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil, storageLocation: TestSetStorageLocation? = nil, testSetGenerationId: String? = nil, testSetGenerationStatus: TestSetGenerationStatus? = nil, testSetId: String? = nil, testSetName: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.description = description
+            self.failureReasons = failureReasons
+            self.generationDataSource = generationDataSource
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.roleArn = roleArn
+            self.storageLocation = storageLocation
+            self.testSetGenerationId = testSetGenerationId
+            self.testSetGenerationStatus = testSetGenerationStatus
+            self.testSetId = testSetId
+            self.testSetName = testSetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case failureReasons = "failureReasons"
+            case generationDataSource = "generationDataSource"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case roleArn = "roleArn"
+            case storageLocation = "storageLocation"
+            case testSetGenerationId = "testSetGenerationId"
+            case testSetGenerationStatus = "testSetGenerationStatus"
+            case testSetId = "testSetId"
+            case testSetName = "testSetName"
+        }
+    }
+
+    public struct DescribeTestSetRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "testSetId", location: .uri("testSetId"))
+        ]
+
+        /// The test set Id for the test set request.
+        public let testSetId: String
+
+        public init(testSetId: String) {
+            self.testSetId = testSetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.testSetId, name: "testSetId", parent: name, max: 10)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, min: 10)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeTestSetResponse: AWSDecodableShape {
+        /// The creation date and time for the test set data.
+        public let creationDateTime: Date?
+        /// The description of the test set.
+        public let description: String?
+        /// The date and time for the last update of the test set data.
+        public let lastUpdatedDateTime: Date?
+        /// Indicates whether the test set is audio or text data.
+        public let modality: TestSetModality?
+        /// The total number of agent and user turn in the test set.
+        public let numTurns: Int?
+        /// The roleARN used for any operation in the test set to access  resources in the Amazon Web Services account.
+        public let roleArn: String?
+        /// The status of the test set.
+        public let status: TestSetStatus?
+        /// The Amazon S3 storage location for the test set data.
+        public let storageLocation: TestSetStorageLocation?
+        /// The test set Id for the test set response.
+        public let testSetId: String?
+        /// The test set name of the test set.
+        public let testSetName: String?
+
+        public init(creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, modality: TestSetModality? = nil, numTurns: Int? = nil, roleArn: String? = nil, status: TestSetStatus? = nil, storageLocation: TestSetStorageLocation? = nil, testSetId: String? = nil, testSetName: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.description = description
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.modality = modality
+            self.numTurns = numTurns
+            self.roleArn = roleArn
+            self.status = status
+            self.storageLocation = storageLocation
+            self.testSetId = testSetId
+            self.testSetName = testSetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case modality = "modality"
+            case numTurns = "numTurns"
+            case roleArn = "roleArn"
+            case status = "status"
+            case storageLocation = "storageLocation"
+            case testSetId = "testSetId"
+            case testSetName = "testSetName"
+        }
+    }
+
     public struct DialogAction: AWSEncodableShape & AWSDecodableShape {
         /// If the dialog action is ElicitSlot, defines the slot to elicit from the user.
         public let slotToElicit: String?
@@ -4656,7 +5348,7 @@ extension LexModelsV2 {
         public func validate(name: String) throws {
             try self.validate(self.slotToElicit, name: "slotToElicit", parent: name, max: 100)
             try self.validate(self.slotToElicit, name: "slotToElicit", parent: name, min: 1)
-            try self.validate(self.slotToElicit, name: "slotToElicit", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.slotToElicit, name: "slotToElicit", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4686,7 +5378,7 @@ extension LexModelsV2 {
         public func validate(name: String) throws {
             try self.validate(self.invocationLabel, name: "invocationLabel", parent: name, max: 100)
             try self.validate(self.invocationLabel, name: "invocationLabel", parent: name, min: 1)
-            try self.validate(self.invocationLabel, name: "invocationLabel", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.invocationLabel, name: "invocationLabel", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.postCodeHookSpecification.validate(name: "\(name).postCodeHookSpecification")
         }
 
@@ -4752,7 +5444,7 @@ extension LexModelsV2 {
         public func validate(name: String) throws {
             try self.validate(self.invocationLabel, name: "invocationLabel", parent: name, max: 100)
             try self.validate(self.invocationLabel, name: "invocationLabel", parent: name, min: 1)
-            try self.validate(self.invocationLabel, name: "invocationLabel", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.invocationLabel, name: "invocationLabel", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4787,6 +5479,23 @@ extension LexModelsV2 {
             case associatedTranscriptsPassword = "associatedTranscriptsPassword"
             case botLocaleExportPassword = "botLocaleExportPassword"
             case kmsKeyArn = "kmsKeyArn"
+        }
+    }
+
+    public struct ExecutionErrorDetails: AWSDecodableShape {
+        /// The error code for the error.
+        public let errorCode: String
+        /// The message describing the error.
+        public let errorMessage: String
+
+        public init(errorCode: String, errorMessage: String) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -4828,23 +5537,28 @@ extension LexModelsV2 {
         public let botLocaleExportSpecification: BotLocaleExportSpecification?
         /// The parameters required to export a custom vocabulary.
         public let customVocabularyExportSpecification: CustomVocabularyExportSpecification?
+        /// Specifications for the test set that is exported as a resource.
+        public let testSetExportSpecification: TestSetExportSpecification?
 
-        public init(botExportSpecification: BotExportSpecification? = nil, botLocaleExportSpecification: BotLocaleExportSpecification? = nil, customVocabularyExportSpecification: CustomVocabularyExportSpecification? = nil) {
+        public init(botExportSpecification: BotExportSpecification? = nil, botLocaleExportSpecification: BotLocaleExportSpecification? = nil, customVocabularyExportSpecification: CustomVocabularyExportSpecification? = nil, testSetExportSpecification: TestSetExportSpecification? = nil) {
             self.botExportSpecification = botExportSpecification
             self.botLocaleExportSpecification = botLocaleExportSpecification
             self.customVocabularyExportSpecification = customVocabularyExportSpecification
+            self.testSetExportSpecification = testSetExportSpecification
         }
 
         public func validate(name: String) throws {
             try self.botExportSpecification?.validate(name: "\(name).botExportSpecification")
             try self.botLocaleExportSpecification?.validate(name: "\(name).botLocaleExportSpecification")
             try self.customVocabularyExportSpecification?.validate(name: "\(name).customVocabularyExportSpecification")
+            try self.testSetExportSpecification?.validate(name: "\(name).testSetExportSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
             case botExportSpecification = "botExportSpecification"
             case botLocaleExportSpecification = "botLocaleExportSpecification"
             case customVocabularyExportSpecification = "customVocabularyExportSpecification"
+            case testSetExportSpecification = "testSetExportSpecification"
         }
     }
 
@@ -4971,7 +5685,7 @@ extension LexModelsV2 {
         public let allowInterrupt: Bool?
         /// The delay between when the Lambda fulfillment function starts running and the start message is played. If the Lambda function returns before the delay is over, the start message isn't played.
         public let delayInSeconds: Int
-        /// One to 5 message groups that contain start messages. Amazon Lex chooses one of the messages to play to the user.
+        /// 1 - 5 message groups that contain start messages. Amazon Lex chooses one of the messages to play to the user.
         public let messageGroups: [MessageGroup]
 
         public init(allowInterrupt: Bool? = nil, delayInSeconds: Int, messageGroups: [MessageGroup]) {
@@ -5002,7 +5716,7 @@ extension LexModelsV2 {
         public let allowInterrupt: Bool?
         /// The frequency that a message is sent to the user. When the period ends, Amazon Lex chooses a message from the message groups and plays it to the user. If the fulfillment Lambda returns before the first period ends, an update message is not played to the user.
         public let frequencyInSeconds: Int
-        /// One to 5 message groups that contain update messages. Amazon Lex chooses one of the messages to play to the user.
+        /// 1 - 5 message groups that contain update messages. Amazon Lex chooses one of the messages to play to the user.
         public let messageGroups: [MessageGroup]
 
         public init(allowInterrupt: Bool? = nil, frequencyInSeconds: Int, messageGroups: [MessageGroup]) {
@@ -5060,6 +5774,44 @@ extension LexModelsV2 {
         }
     }
 
+    public struct GetTestExecutionArtifactsUrlRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "testExecutionId", location: .uri("testExecutionId"))
+        ]
+
+        /// The unique identifier of the completed test execution.
+        public let testExecutionId: String
+
+        public init(testExecutionId: String) {
+            self.testExecutionId = testExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.testExecutionId, name: "testExecutionId", parent: name, max: 10)
+            try self.validate(self.testExecutionId, name: "testExecutionId", parent: name, min: 10)
+            try self.validate(self.testExecutionId, name: "testExecutionId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTestExecutionArtifactsUrlResponse: AWSDecodableShape {
+        /// The pre-signed Amazon S3 URL to download completed test execution.
+        public let downloadArtifactsUrl: String?
+        /// The unique identifier of the completed test execution.
+        public let testExecutionId: String?
+
+        public init(downloadArtifactsUrl: String? = nil, testExecutionId: String? = nil) {
+            self.downloadArtifactsUrl = downloadArtifactsUrl
+            self.testExecutionId = testExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case downloadArtifactsUrl = "downloadArtifactsUrl"
+            case testExecutionId = "testExecutionId"
+        }
+    }
+
     public struct GrammarSlotTypeSetting: AWSEncodableShape & AWSDecodableShape {
         /// The source of the grammar used to create the slot type.
         public let source: GrammarSlotTypeSource?
@@ -5078,11 +5830,11 @@ extension LexModelsV2 {
     }
 
     public struct GrammarSlotTypeSource: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon KMS key required to decrypt the contents of the grammar, if any.
+        /// The KMS key required to decrypt the contents of the grammar, if any.
         public let kmsKeyArn: String?
-        /// The name of the S3 bucket that contains the grammar source.
+        /// The name of the Amazon S3 bucket that contains the grammar source.
         public let s3BucketName: String
-        /// The path to the grammar in the S3 bucket.
+        /// The path to the grammar in the Amazon S3 bucket.
         public let s3ObjectKey: String
 
         public init(kmsKeyArn: String? = nil, s3BucketName: String, s3ObjectKey: String) {
@@ -5185,23 +5937,28 @@ extension LexModelsV2 {
         /// Parameters for importing a bot locale.
         public let botLocaleImportSpecification: BotLocaleImportSpecification?
         public let customVocabularyImportSpecification: CustomVocabularyImportSpecification?
+        /// Specifications for the test set that is imported.
+        public let testSetImportResourceSpecification: TestSetImportResourceSpecification?
 
-        public init(botImportSpecification: BotImportSpecification? = nil, botLocaleImportSpecification: BotLocaleImportSpecification? = nil, customVocabularyImportSpecification: CustomVocabularyImportSpecification? = nil) {
+        public init(botImportSpecification: BotImportSpecification? = nil, botLocaleImportSpecification: BotLocaleImportSpecification? = nil, customVocabularyImportSpecification: CustomVocabularyImportSpecification? = nil, testSetImportResourceSpecification: TestSetImportResourceSpecification? = nil) {
             self.botImportSpecification = botImportSpecification
             self.botLocaleImportSpecification = botLocaleImportSpecification
             self.customVocabularyImportSpecification = customVocabularyImportSpecification
+            self.testSetImportResourceSpecification = testSetImportResourceSpecification
         }
 
         public func validate(name: String) throws {
             try self.botImportSpecification?.validate(name: "\(name).botImportSpecification")
             try self.botLocaleImportSpecification?.validate(name: "\(name).botLocaleImportSpecification")
             try self.customVocabularyImportSpecification?.validate(name: "\(name).customVocabularyImportSpecification")
+            try self.testSetImportResourceSpecification?.validate(name: "\(name).testSetImportResourceSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
             case botImportSpecification = "botImportSpecification"
             case botLocaleImportSpecification = "botLocaleImportSpecification"
             case customVocabularyImportSpecification = "customVocabularyImportSpecification"
+            case testSetImportResourceSpecification = "testSetImportResourceSpecification"
         }
     }
 
@@ -5303,11 +6060,87 @@ extension LexModelsV2 {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
+        }
+    }
+
+    public struct InputSessionStateSpecification: AWSDecodableShape {
+        /// Active contexts for the session state.
+        public let activeContexts: [ActiveContext]?
+        /// Runtime hints for the session state.
+        public let runtimeHints: RuntimeHints?
+        /// Session attributes for the session state.
+        public let sessionAttributes: [String: String]?
+
+        public init(activeContexts: [ActiveContext]? = nil, runtimeHints: RuntimeHints? = nil, sessionAttributes: [String: String]? = nil) {
+            self.activeContexts = activeContexts
+            self.runtimeHints = runtimeHints
+            self.sessionAttributes = sessionAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeContexts = "activeContexts"
+            case runtimeHints = "runtimeHints"
+            case sessionAttributes = "sessionAttributes"
+        }
+    }
+
+    public struct IntentClassificationTestResultItem: AWSDecodableShape {
+        /// The name of the intent.
+        public let intentName: String
+        /// Indicates whether the conversation involves multiple turns or not.
+        public let multiTurnConversation: Bool
+        /// The result of the intent classification test.
+        public let resultCounts: IntentClassificationTestResultItemCounts
+
+        public init(intentName: String, multiTurnConversation: Bool, resultCounts: IntentClassificationTestResultItemCounts) {
+            self.intentName = intentName
+            self.multiTurnConversation = multiTurnConversation
+            self.resultCounts = resultCounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intentName = "intentName"
+            case multiTurnConversation = "multiTurnConversation"
+            case resultCounts = "resultCounts"
+        }
+    }
+
+    public struct IntentClassificationTestResultItemCounts: AWSDecodableShape {
+        /// The number of matched and mismatched results for intent recognition for the intent.
+        public let intentMatchResultCounts: [TestResultMatchStatus: Int]
+        /// The number of matched, mismatched, and execution error results for speech transcription for the intent.
+        public let speechTranscriptionResultCounts: [TestResultMatchStatus: Int]?
+        /// The total number of results in the intent classification test.
+        public let totalResultCount: Int
+
+        public init(intentMatchResultCounts: [TestResultMatchStatus: Int], speechTranscriptionResultCounts: [TestResultMatchStatus: Int]? = nil, totalResultCount: Int) {
+            self.intentMatchResultCounts = intentMatchResultCounts
+            self.speechTranscriptionResultCounts = speechTranscriptionResultCounts
+            self.totalResultCount = totalResultCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intentMatchResultCounts = "intentMatchResultCounts"
+            case speechTranscriptionResultCounts = "speechTranscriptionResultCounts"
+            case totalResultCount = "totalResultCount"
+        }
+    }
+
+    public struct IntentClassificationTestResults: AWSDecodableShape {
+        /// A list of the results for the intent classification test.
+        public let items: [IntentClassificationTestResultItem]
+
+        public init(items: [IntentClassificationTestResultItem]) {
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
         }
     }
 
@@ -5446,10 +6279,44 @@ extension LexModelsV2 {
         }
     }
 
+    public struct IntentLevelSlotResolutionTestResultItem: AWSDecodableShape {
+        /// The name of the intent that was recognized.
+        public let intentName: String
+        /// Indicates whether the conversation involves multiple turns or not.
+        public let multiTurnConversation: Bool
+        /// The results for the slot resolution in the test execution result.
+        public let slotResolutionResults: [SlotResolutionTestResultItem]
+
+        public init(intentName: String, multiTurnConversation: Bool, slotResolutionResults: [SlotResolutionTestResultItem]) {
+            self.intentName = intentName
+            self.multiTurnConversation = multiTurnConversation
+            self.slotResolutionResults = slotResolutionResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intentName = "intentName"
+            case multiTurnConversation = "multiTurnConversation"
+            case slotResolutionResults = "slotResolutionResults"
+        }
+    }
+
+    public struct IntentLevelSlotResolutionTestResults: AWSDecodableShape {
+        /// Indicates the items for the slot level resolution for the intents.
+        public let items: [IntentLevelSlotResolutionTestResultItem]
+
+        public init(items: [IntentLevelSlotResolutionTestResultItem]) {
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+        }
+    }
+
     public struct IntentOverride: AWSEncodableShape & AWSDecodableShape {
         /// The name of the intent. Only required when you're switching intents.
         public let name: String?
-        /// A map of all of the slot value overrides for the intent. The name of the slot maps to the value of the slot. Slots that are not included in the map aren't overridden.,
+        /// A map of all of the slot value overrides for the intent. The name of the slot maps to the value of the slot. Slots that are not included in the map aren't overridden.
         public let slots: [String: SlotValueOverride]?
 
         public init(name: String? = nil, slots: [String: SlotValueOverride]? = nil) {
@@ -5460,11 +6327,11 @@ extension LexModelsV2 {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.slots?.forEach {
                 try validate($0.key, name: "slots.key", parent: name, max: 100)
                 try validate($0.key, name: "slots.key", parent: name, min: 1)
-                try validate($0.key, name: "slots.key", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+                try validate($0.key, name: "slots.key", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
                 try $0.value.validate(name: "\(name).slots[\"\($0.key)\"]")
             }
         }
@@ -6763,6 +7630,194 @@ extension LexModelsV2 {
         }
     }
 
+    public struct ListTestExecutionResultItemsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "testExecutionId", location: .uri("testExecutionId"))
+        ]
+
+        /// The maximum number of test execution result items to return in each  page. If there are fewer results than the max page size, only the actual  number of results are returned.
+        public let maxResults: Int?
+        /// If the response from the ListTestExecutionResultItems operation  contains more results than specified in the maxResults parameter,  a token is returned in the response. Use that token in the nextToken  parameter to return the next page of results.
+        public let nextToken: String?
+        /// The filter for the list of results from the test set execution.
+        public let resultFilterBy: TestExecutionResultFilterBy
+        /// The unique identifier of the test execution to list the result items.
+        public let testExecutionId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resultFilterBy: TestExecutionResultFilterBy, testExecutionId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resultFilterBy = resultFilterBy
+            self.testExecutionId = testExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.testExecutionId, name: "testExecutionId", parent: name, max: 10)
+            try self.validate(self.testExecutionId, name: "testExecutionId", parent: name, min: 10)
+            try self.validate(self.testExecutionId, name: "testExecutionId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resultFilterBy = "resultFilterBy"
+        }
+    }
+
+    public struct ListTestExecutionResultItemsResponse: AWSDecodableShape {
+        /// A token that indicates whether there are more results to return in a response to the ListTestExecutionResultItems operation. If the  nextToken field is present, you send the contents as the  nextToken parameter of a ListTestExecutionResultItems  operation request to get the next page of results.
+        public let nextToken: String?
+        /// The list of results from the test execution.
+        public let testExecutionResults: TestExecutionResultItems?
+
+        public init(nextToken: String? = nil, testExecutionResults: TestExecutionResultItems? = nil) {
+            self.nextToken = nextToken
+            self.testExecutionResults = testExecutionResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case testExecutionResults = "testExecutionResults"
+        }
+    }
+
+    public struct ListTestExecutionsRequest: AWSEncodableShape {
+        /// The maximum number of test executions to return in each page. If there are  fewer results than the max page size, only the actual number of results are  returned.
+        public let maxResults: Int?
+        /// If the response from the ListTestExecutions operation contains more results  than specified in the maxResults parameter, a token is returned in the response.  Use that token in the nextToken parameter to return the next page of results.
+        public let nextToken: String?
+        /// The sort order of the test set executions.
+        public let sortBy: TestExecutionSortBy?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: TestExecutionSortBy? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+        }
+    }
+
+    public struct ListTestExecutionsResponse: AWSDecodableShape {
+        /// A token that indicates whether there are more results to return in a response to  the ListTestExecutions operation. If the nextToken field is present, you send the  contents as the nextToken parameter of a ListTestExecutions operation request to  get the next page of results.
+        public let nextToken: String?
+        /// The list of test executions.
+        public let testExecutions: [TestExecutionSummary]?
+
+        public init(nextToken: String? = nil, testExecutions: [TestExecutionSummary]? = nil) {
+            self.nextToken = nextToken
+            self.testExecutions = testExecutions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case testExecutions = "testExecutions"
+        }
+    }
+
+    public struct ListTestSetRecordsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "testSetId", location: .uri("testSetId"))
+        ]
+
+        /// The maximum number of test set records to return in each page. If there are  fewer records than the max page size, only the actual number of records are  returned.
+        public let maxResults: Int?
+        /// If the response from the ListTestSetRecords operation contains more results  than specified in the maxResults parameter, a token is returned in the response.  Use that token in the nextToken parameter to return the next page of results.
+        public let nextToken: String?
+        /// The identifier of the test set to list its test set records.
+        public let testSetId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, testSetId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.testSetId = testSetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, max: 10)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, min: 10)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListTestSetRecordsResponse: AWSDecodableShape {
+        /// A token that indicates whether there are more records to return in a response to the ListTestSetRecords operation. If the nextToken field is present, you  send the contents as the nextToken parameter of a ListTestSetRecords operation  request to get the next page of records.
+        public let nextToken: String?
+        /// The list of records from the test set.
+        public let testSetRecords: [TestSetTurnRecord]?
+
+        public init(nextToken: String? = nil, testSetRecords: [TestSetTurnRecord]? = nil) {
+            self.nextToken = nextToken
+            self.testSetRecords = testSetRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case testSetRecords = "testSetRecords"
+        }
+    }
+
+    public struct ListTestSetsRequest: AWSEncodableShape {
+        /// The maximum number of test sets to return in each page. If there are fewer  results than the max page size, only the actual number of results are returned.
+        public let maxResults: Int?
+        /// If the response from the ListTestSets operation contains more results than  specified in the maxResults parameter, a token is returned in the response. Use  that token in the nextToken parameter to return the next page of results.
+        public let nextToken: String?
+        /// The sort order for the list of test sets.
+        public let sortBy: TestSetSortBy?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: TestSetSortBy? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+        }
+    }
+
+    public struct ListTestSetsResponse: AWSDecodableShape {
+        /// A token that indicates whether there are more results to return in a response  to the ListTestSets operation. If the nextToken field is present, you send the  contents as the nextToken parameter of a ListTestSets operation request to get  the next page of results.
+        public let nextToken: String?
+        /// The selected test sets in a list of test sets.
+        public let testSets: [TestSetSummary]?
+
+        public init(nextToken: String? = nil, testSets: [TestSetSummary]? = nil) {
+            self.nextToken = nextToken
+            self.testSets = testSets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case testSets = "testSets"
+        }
+    }
+
     public struct Message: AWSEncodableShape & AWSDecodableShape {
         /// A message in a custom format defined by the client application.
         public let customPayload: CustomPayload?
@@ -6893,7 +7948,7 @@ extension LexModelsV2 {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.validate(self.timeToLiveInSeconds, name: "timeToLiveInSeconds", parent: name, max: 86400)
             try self.validate(self.timeToLiveInSeconds, name: "timeToLiveInSeconds", parent: name, min: 5)
             try self.validate(self.turnsToLive, name: "turnsToLive", parent: name, max: 20)
@@ -6904,6 +7959,44 @@ extension LexModelsV2 {
             case name = "name"
             case timeToLiveInSeconds = "timeToLiveInSeconds"
             case turnsToLive = "turnsToLive"
+        }
+    }
+
+    public struct OverallTestResultItem: AWSDecodableShape {
+        /// The number of results that succeeded.
+        public let endToEndResultCounts: [TestResultMatchStatus: Int]
+        /// Indicates whether the conversation contains multiple turns or not.
+        public let multiTurnConversation: Bool
+        /// The number of speech transcription results in the overall test.
+        public let speechTranscriptionResultCounts: [TestResultMatchStatus: Int]?
+        /// The total number of overall results in the result of the test execution.
+        public let totalResultCount: Int
+
+        public init(endToEndResultCounts: [TestResultMatchStatus: Int], multiTurnConversation: Bool, speechTranscriptionResultCounts: [TestResultMatchStatus: Int]? = nil, totalResultCount: Int) {
+            self.endToEndResultCounts = endToEndResultCounts
+            self.multiTurnConversation = multiTurnConversation
+            self.speechTranscriptionResultCounts = speechTranscriptionResultCounts
+            self.totalResultCount = totalResultCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endToEndResultCounts = "endToEndResultCounts"
+            case multiTurnConversation = "multiTurnConversation"
+            case speechTranscriptionResultCounts = "speechTranscriptionResultCounts"
+            case totalResultCount = "totalResultCount"
+        }
+    }
+
+    public struct OverallTestResults: AWSDecodableShape {
+        /// A list of the overall test results.
+        public let items: [OverallTestResultItem]
+
+        public init(items: [OverallTestResultItem]) {
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
         }
     }
 
@@ -7075,7 +8168,7 @@ extension LexModelsV2 {
     public struct Principal: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the principal.
         public let arn: String?
-        /// The name of the AWS service that should allowed or denied access to an Amazon Lex action.
+        /// The name of the Amazon Web Services service that should allowed or denied access to an Amazon Lex action.
         public let service: String?
 
         public init(arn: String? = nil, service: String? = nil) {
@@ -7238,8 +8331,51 @@ extension LexModelsV2 {
         }
     }
 
+    public struct RuntimeHintDetails: AWSDecodableShape {
+        /// One or more strings that Amazon Lex should look for in the input to the bot. Each phrase is given preference when deciding on slot values.
+        public let runtimeHintValues: [RuntimeHintValue]?
+        /// A map of constituent sub slot names inside a composite slot in the intent and the phrases  that should be added for each sub slot. Inside each composite slot hints, this structure provides  a mechanism to add granular sub slot phrases. Only sub slot hints are supported for composite slots.  The intent name, composite slot name and the constituent sub slot names must exist.
+        public let subSlotHints: [String: RuntimeHintDetails]?
+
+        public init(runtimeHintValues: [RuntimeHintValue]? = nil, subSlotHints: [String: RuntimeHintDetails]? = nil) {
+            self.runtimeHintValues = runtimeHintValues
+            self.subSlotHints = subSlotHints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runtimeHintValues = "runtimeHintValues"
+            case subSlotHints = "subSlotHints"
+        }
+    }
+
+    public struct RuntimeHintValue: AWSDecodableShape {
+        /// The phrase that Amazon Lex should look for in the user's input to the bot.
+        public let phrase: String
+
+        public init(phrase: String) {
+            self.phrase = phrase
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case phrase = "phrase"
+        }
+    }
+
+    public struct RuntimeHints: AWSDecodableShape {
+        /// A list of the slots in the intent that should have runtime hints added, and the phrases that should be added for each slot. The first level of the slotHints map is the name of the intent. The second level is the name of the slot within the intent. For more information, see Using hints to improve accuracy. The intent name and slot name must exist.
+        public let slotHints: [String: [String: RuntimeHintDetails]]?
+
+        public init(slotHints: [String: [String: RuntimeHintDetails]]? = nil) {
+            self.slotHints = slotHints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slotHints = "slotHints"
+        }
+    }
+
     public struct S3BucketLogDestination: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of an AWS Key Management Service (KMS) key for encrypting audio log files stored in an S3 bucket.
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services Key Management Service (KMS) key for encrypting audio log files stored in an S3 bucket.
         public let kmsKeyArn: String?
         /// The S3 prefix to assign to audio log files.
         public let logPrefix: String
@@ -7592,7 +8728,7 @@ extension LexModelsV2 {
     }
 
     public struct SlotPriority: AWSEncodableShape & AWSDecodableShape {
-        /// The priority that a slot should be elicited.
+        /// The priority that Amazon Lex should apply to the slot.
         public let priority: Int
         /// The unique identifier of the slot.
         public let slotId: String
@@ -7613,6 +8749,44 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case priority = "priority"
             case slotId = "slotId"
+        }
+    }
+
+    public struct SlotResolutionTestResultItem: AWSDecodableShape {
+        /// A result for slot resolution in the results of a test execution.
+        public let resultCounts: SlotResolutionTestResultItemCounts
+        /// The name of the slot.
+        public let slotName: String
+
+        public init(resultCounts: SlotResolutionTestResultItemCounts, slotName: String) {
+            self.resultCounts = resultCounts
+            self.slotName = slotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultCounts = "resultCounts"
+            case slotName = "slotName"
+        }
+    }
+
+    public struct SlotResolutionTestResultItemCounts: AWSDecodableShape {
+        /// The number of matched and mismatched results for slot resolution for the slot.
+        public let slotMatchResultCounts: [TestResultMatchStatus: Int]
+        /// The number of matched, mismatched and execution error results for speech transcription for the slot.
+        public let speechTranscriptionResultCounts: [TestResultMatchStatus: Int]?
+        /// The total number of results.
+        public let totalResultCount: Int
+
+        public init(slotMatchResultCounts: [TestResultMatchStatus: Int], speechTranscriptionResultCounts: [TestResultMatchStatus: Int]? = nil, totalResultCount: Int) {
+            self.slotMatchResultCounts = slotMatchResultCounts
+            self.speechTranscriptionResultCounts = speechTranscriptionResultCounts
+            self.totalResultCount = totalResultCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slotMatchResultCounts = "slotMatchResultCounts"
+            case speechTranscriptionResultCounts = "speechTranscriptionResultCounts"
+            case totalResultCount = "totalResultCount"
         }
     }
 
@@ -7738,7 +8912,7 @@ extension LexModelsV2 {
         public let lastUpdatedDateTime: Date?
         /// If the slot type is derived from a built-on slot type, the name of the parent slot type.
         public let parentSlotTypeSignature: String?
-        /// Indicates the type of the slot type.    Custom - A slot type that you created using custom values. For more information, see Creating custom slot types.    Extended - A slot type created by extending the AMAZON.AlphaNumeric built-in slot type. For more information, see AMAZON.AlphaNumeric.    ExternalGrammar - A slot type using a custom GRXML grammar to define values. For more information, see Using a custom grammar slot type.
+        /// Indicates the type of the slot type.    Custom - A slot type that you created using custom values. For more information, see Creating custom slot types.    Extended - A slot type created by extending the AMAZON.AlphaNumeric built-in slot type. For more information, see  AMAZON.AlphaNumeric .    ExternalGrammar - A slot type using a custom GRXML grammar to define values. For more information, see Using a custom grammar slot type.
         public let slotTypeCategory: SlotTypeCategory?
         /// The unique identifier assigned to the slot type.
         public let slotTypeId: String?
@@ -7875,7 +9049,7 @@ extension LexModelsV2 {
     }
 
     public struct SlotValueRegexFilter: AWSEncodableShape & AWSDecodableShape {
-        /// A regular expression used to validate the value of a slot. Use a standard regular expression. Amazon Lex supports the following characters in the regular expression:    A-Z, a-z   0-9   Unicode characters ("\ u")   Represent Unicode characters with four digits, for example "\u0041" or "\u005A".  The following regular expression operators are not supported:    Infinite repeaters: *, +, or {x,} with no upper bound.   Wild card (.)
+        /// A regular expression used to validate the value of a slot. Use a standard regular expression. Amazon Lex supports the following characters in the regular expression:    A-Z, a-z   0-9   Unicode characters ("\⁠u")   Represent Unicode characters with four digits, for example "\⁠u0041" or "\⁠u005A".  The following regular expression operators are not supported:    Infinite repeaters: *, +, or {x,} with no upper bound.   Wild card (.)
         public let pattern: String
 
         public init(pattern: String) {
@@ -7893,11 +9067,11 @@ extension LexModelsV2 {
     }
 
     public struct SlotValueSelectionSetting: AWSEncodableShape & AWSDecodableShape {
-        /// Provides settings that enable advanced recognition settings for slot values.
+        /// Provides settings that enable advanced recognition settings for slot values. You can use this to enable using slot values as a custom vocabulary for recognizing user utterances.
         public let advancedRecognitionSetting: AdvancedRecognitionSetting?
         /// A regular expression used to validate the value of a slot.
         public let regexFilter: SlotValueRegexFilter?
-        /// Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:   OriginalValue - Returns the value entered by the user, if the user value is similar to the slot value.   TopResolution - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.   If you don't specify the valueSelectionStrategy, the default is OriginalValue.
+        /// Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:    ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value.    TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.   If you don't specify the valueSelectionStrategy, the  default is ORIGINAL_VALUE.
         public let resolutionStrategy: SlotValueResolutionStrategy
 
         public init(advancedRecognitionSetting: AdvancedRecognitionSetting? = nil, regexFilter: SlotValueRegexFilter? = nil, resolutionStrategy: SlotValueResolutionStrategy) {
@@ -8088,6 +9262,170 @@ extension LexModelsV2 {
         }
     }
 
+    public struct StartTestExecutionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "testSetId", location: .uri("testSetId"))
+        ]
+
+        /// Indicates whether we use streaming or non-streaming APIs for the test set  execution. For streaming, StartConversation Runtime API is used. Whereas, for  non-streaming, RecognizeUtterance and RecognizeText Amazon Lex  Runtime API are used.
+        public let apiMode: TestExecutionApiMode
+        /// The target bot for the test set execution.
+        public let target: TestExecutionTarget
+        /// Indicates whether audio or text is used.
+        public let testExecutionModality: TestExecutionModality?
+        /// The test set Id for the test set execution.
+        public let testSetId: String
+
+        public init(apiMode: TestExecutionApiMode, target: TestExecutionTarget, testExecutionModality: TestExecutionModality? = nil, testSetId: String) {
+            self.apiMode = apiMode
+            self.target = target
+            self.testExecutionModality = testExecutionModality
+            self.testSetId = testSetId
+        }
+
+        public func validate(name: String) throws {
+            try self.target.validate(name: "\(name).target")
+            try self.validate(self.testSetId, name: "testSetId", parent: name, max: 10)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, min: 10)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiMode = "apiMode"
+            case target = "target"
+            case testExecutionModality = "testExecutionModality"
+        }
+    }
+
+    public struct StartTestExecutionResponse: AWSDecodableShape {
+        /// Indicates whether we use streaming or non-streaming APIs for the test set  execution. For streaming, StartConversation Amazon Lex Runtime API is used. Whereas  for non-streaming, RecognizeUtterance and RecognizeText Amazon Lex Runtime API are used.
+        public let apiMode: TestExecutionApiMode?
+        /// The creation date and time for the test set execution.
+        public let creationDateTime: Date?
+        /// The target bot for the test set execution.
+        public let target: TestExecutionTarget?
+        /// The unique identifier of the test set execution.
+        public let testExecutionId: String?
+        /// Indicates whether audio or text is used.
+        public let testExecutionModality: TestExecutionModality?
+        /// The test set Id for the test set execution.
+        public let testSetId: String?
+
+        public init(apiMode: TestExecutionApiMode? = nil, creationDateTime: Date? = nil, target: TestExecutionTarget? = nil, testExecutionId: String? = nil, testExecutionModality: TestExecutionModality? = nil, testSetId: String? = nil) {
+            self.apiMode = apiMode
+            self.creationDateTime = creationDateTime
+            self.target = target
+            self.testExecutionId = testExecutionId
+            self.testExecutionModality = testExecutionModality
+            self.testSetId = testSetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiMode = "apiMode"
+            case creationDateTime = "creationDateTime"
+            case target = "target"
+            case testExecutionId = "testExecutionId"
+            case testExecutionModality = "testExecutionModality"
+            case testSetId = "testSetId"
+        }
+    }
+
+    public struct StartTestSetGenerationRequest: AWSEncodableShape {
+        /// The test set description for the test set generation request.
+        public let description: String?
+        /// The data source for the test set generation.
+        public let generationDataSource: TestSetGenerationDataSource
+        /// The roleARN used for any operation in the test set to access  resources in the Amazon Web Services account.
+        public let roleArn: String
+        /// The Amazon S3 storage location for the test set generation.
+        public let storageLocation: TestSetStorageLocation
+        /// The test set name for the test set generation request.
+        public let testSetName: String
+        /// A list of tags to add to the test set. You can only add tags when you import/generate a new test set. You can't use the UpdateTestSet operation to update tags. To update tags, use the TagResource operation.
+        public let testSetTags: [String: String]?
+
+        public init(description: String? = nil, generationDataSource: TestSetGenerationDataSource, roleArn: String, storageLocation: TestSetStorageLocation, testSetName: String, testSetTags: [String: String]? = nil) {
+            self.description = description
+            self.generationDataSource = generationDataSource
+            self.roleArn = roleArn
+            self.storageLocation = storageLocation
+            self.testSetName = testSetName
+            self.testSetTags = testSetTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.generationDataSource.validate(name: "\(name).generationDataSource")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::[0-9]{12}:role/.*$")
+            try self.storageLocation.validate(name: "\(name).storageLocation")
+            try self.validate(self.testSetName, name: "testSetName", parent: name, max: 100)
+            try self.validate(self.testSetName, name: "testSetName", parent: name, min: 1)
+            try self.validate(self.testSetName, name: "testSetName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+            try self.testSetTags?.forEach {
+                try validate($0.key, name: "testSetTags.key", parent: name, max: 128)
+                try validate($0.key, name: "testSetTags.key", parent: name, min: 1)
+                try validate($0.value, name: "testSetTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.testSetTags, name: "testSetTags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case generationDataSource = "generationDataSource"
+            case roleArn = "roleArn"
+            case storageLocation = "storageLocation"
+            case testSetName = "testSetName"
+            case testSetTags = "testSetTags"
+        }
+    }
+
+    public struct StartTestSetGenerationResponse: AWSDecodableShape {
+        ///  The creation date and time for the test set generation.
+        public let creationDateTime: Date?
+        /// The description used for the test set generation.
+        public let description: String?
+        ///  The data source for the test set generation.
+        public let generationDataSource: TestSetGenerationDataSource?
+        /// The roleARN used for any operation in the test set to access resources  in the Amazon Web Services account.
+        public let roleArn: String?
+        /// The Amazon S3 storage location for the test set generation.
+        public let storageLocation: TestSetStorageLocation?
+        /// The unique identifier of the test set generation to describe.
+        public let testSetGenerationId: String?
+        ///  The status for the test set generation.
+        public let testSetGenerationStatus: TestSetGenerationStatus?
+        /// The test set name used for the test set generation.
+        public let testSetName: String?
+        /// A list of tags that was used for the test set that is being generated.
+        public let testSetTags: [String: String]?
+
+        public init(creationDateTime: Date? = nil, description: String? = nil, generationDataSource: TestSetGenerationDataSource? = nil, roleArn: String? = nil, storageLocation: TestSetStorageLocation? = nil, testSetGenerationId: String? = nil, testSetGenerationStatus: TestSetGenerationStatus? = nil, testSetName: String? = nil, testSetTags: [String: String]? = nil) {
+            self.creationDateTime = creationDateTime
+            self.description = description
+            self.generationDataSource = generationDataSource
+            self.roleArn = roleArn
+            self.storageLocation = storageLocation
+            self.testSetGenerationId = testSetGenerationId
+            self.testSetGenerationStatus = testSetGenerationStatus
+            self.testSetName = testSetName
+            self.testSetTags = testSetTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case generationDataSource = "generationDataSource"
+            case roleArn = "roleArn"
+            case storageLocation = "storageLocation"
+            case testSetGenerationId = "testSetGenerationId"
+            case testSetGenerationStatus = "testSetGenerationStatus"
+            case testSetName = "testSetName"
+            case testSetTags = "testSetTags"
+        }
+    }
+
     public struct StillWaitingResponseSpecification: AWSEncodableShape & AWSDecodableShape {
         /// Indicates that the user can interrupt the response by speaking while the message is being played.
         public let allowInterrupt: Bool?
@@ -8210,7 +9548,7 @@ extension LexModelsV2 {
             try self.slotSpecifications?.forEach {
                 try validate($0.key, name: "slotSpecifications.key", parent: name, max: 100)
                 try validate($0.key, name: "slotSpecifications.key", parent: name, min: 1)
-                try validate($0.key, name: "slotSpecifications.key", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+                try validate($0.key, name: "slotSpecifications.key", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
                 try $0.value.validate(name: "\(name).slotSpecifications[\"\($0.key)\"]")
             }
             try self.validate(self.slotSpecifications, name: "slotSpecifications", parent: name, max: 6)
@@ -8236,7 +9574,7 @@ extension LexModelsV2 {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, max: 25)
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, min: 1)
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, pattern: "^((AMAZON\\.)[a-zA-Z_]+?|[0-9a-zA-Z]+)$")
@@ -8309,6 +9647,491 @@ extension LexModelsV2 {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TestExecutionResultFilterBy: AWSEncodableShape {
+        /// Contains information about the method for filtering Conversation level test results.
+        public let conversationLevelTestResultsFilterBy: ConversationLevelTestResultsFilterBy?
+        /// Specifies which results to filter. See Test result details">Test results details  for details about different types of results.
+        public let resultTypeFilter: TestResultTypeFilter
+
+        public init(conversationLevelTestResultsFilterBy: ConversationLevelTestResultsFilterBy? = nil, resultTypeFilter: TestResultTypeFilter) {
+            self.conversationLevelTestResultsFilterBy = conversationLevelTestResultsFilterBy
+            self.resultTypeFilter = resultTypeFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conversationLevelTestResultsFilterBy = "conversationLevelTestResultsFilterBy"
+            case resultTypeFilter = "resultTypeFilter"
+        }
+    }
+
+    public struct TestExecutionResultItems: AWSDecodableShape {
+        /// Results related to conversations in the test set, including metrics about success and failure of conversations and intent and slot failures.
+        public let conversationLevelTestResults: ConversationLevelTestResults?
+        /// Intent recognition results aggregated by intent name. The aggregated results contain success and failure rates of intent recognition, speech transcriptions, and end-to-end conversations.
+        public let intentClassificationTestResults: IntentClassificationTestResults?
+        /// Slot resolution results aggregated by intent and slot name. The aggregated results contain success and failure rates of slot resolution, speech transcriptions, and end-to-end conversations
+        public let intentLevelSlotResolutionTestResults: IntentLevelSlotResolutionTestResults?
+        /// Overall results for the test execution, including the breakdown of conversations and  single-input utterances.
+        public let overallTestResults: OverallTestResults?
+        /// Results related to utterances in the test set.
+        public let utteranceLevelTestResults: UtteranceLevelTestResults?
+
+        public init(conversationLevelTestResults: ConversationLevelTestResults? = nil, intentClassificationTestResults: IntentClassificationTestResults? = nil, intentLevelSlotResolutionTestResults: IntentLevelSlotResolutionTestResults? = nil, overallTestResults: OverallTestResults? = nil, utteranceLevelTestResults: UtteranceLevelTestResults? = nil) {
+            self.conversationLevelTestResults = conversationLevelTestResults
+            self.intentClassificationTestResults = intentClassificationTestResults
+            self.intentLevelSlotResolutionTestResults = intentLevelSlotResolutionTestResults
+            self.overallTestResults = overallTestResults
+            self.utteranceLevelTestResults = utteranceLevelTestResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conversationLevelTestResults = "conversationLevelTestResults"
+            case intentClassificationTestResults = "intentClassificationTestResults"
+            case intentLevelSlotResolutionTestResults = "intentLevelSlotResolutionTestResults"
+            case overallTestResults = "overallTestResults"
+            case utteranceLevelTestResults = "utteranceLevelTestResults"
+        }
+    }
+
+    public struct TestExecutionSortBy: AWSEncodableShape {
+        /// Specifies whether to sort the test set executions by the date and time at which the test sets were created.
+        public let attribute: TestExecutionSortAttribute
+        /// Specifies whether to sort in ascending or descending order.
+        public let order: SortOrder
+
+        public init(attribute: TestExecutionSortAttribute, order: SortOrder) {
+            self.attribute = attribute
+            self.order = order
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "attribute"
+            case order = "order"
+        }
+    }
+
+    public struct TestExecutionSummary: AWSDecodableShape {
+        /// Specifies whether the API mode for the test execution is streaming  or non-streaming.
+        public let apiMode: TestExecutionApiMode?
+        /// The date and time at which the test execution was created.
+        public let creationDateTime: Date?
+        /// The date and time at which the test execution was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// Contains information about the bot used for the test execution..
+        public let target: TestExecutionTarget?
+        /// The unique identifier of the test execution.
+        public let testExecutionId: String?
+        /// Specifies whether the data used for the test execution is written or spoken.
+        public let testExecutionModality: TestExecutionModality?
+        /// The current status of the test execution.
+        public let testExecutionStatus: TestExecutionStatus?
+        /// The unique identifier of the test set used in the test execution.
+        public let testSetId: String?
+        /// The name of the test set used in the test execution.
+        public let testSetName: String?
+
+        public init(apiMode: TestExecutionApiMode? = nil, creationDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, target: TestExecutionTarget? = nil, testExecutionId: String? = nil, testExecutionModality: TestExecutionModality? = nil, testExecutionStatus: TestExecutionStatus? = nil, testSetId: String? = nil, testSetName: String? = nil) {
+            self.apiMode = apiMode
+            self.creationDateTime = creationDateTime
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.target = target
+            self.testExecutionId = testExecutionId
+            self.testExecutionModality = testExecutionModality
+            self.testExecutionStatus = testExecutionStatus
+            self.testSetId = testSetId
+            self.testSetName = testSetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiMode = "apiMode"
+            case creationDateTime = "creationDateTime"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case target = "target"
+            case testExecutionId = "testExecutionId"
+            case testExecutionModality = "testExecutionModality"
+            case testExecutionStatus = "testExecutionStatus"
+            case testSetId = "testSetId"
+            case testSetName = "testSetName"
+        }
+    }
+
+    public struct TestExecutionTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Contains information about the bot alias used for the test execution.
+        public let botAliasTarget: BotAliasTestExecutionTarget?
+
+        public init(botAliasTarget: BotAliasTestExecutionTarget? = nil) {
+            self.botAliasTarget = botAliasTarget
+        }
+
+        public func validate(name: String) throws {
+            try self.botAliasTarget?.validate(name: "\(name).botAliasTarget")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAliasTarget = "botAliasTarget"
+        }
+    }
+
+    public struct TestSetDiscrepancyErrors: AWSDecodableShape {
+        /// Contains information about discrepancies found for intents between the test set and the bot.
+        public let intentDiscrepancies: [TestSetIntentDiscrepancyItem]
+        /// Contains information about discrepancies found for slots between the test set and the bot.
+        public let slotDiscrepancies: [TestSetSlotDiscrepancyItem]
+
+        public init(intentDiscrepancies: [TestSetIntentDiscrepancyItem], slotDiscrepancies: [TestSetSlotDiscrepancyItem]) {
+            self.intentDiscrepancies = intentDiscrepancies
+            self.slotDiscrepancies = slotDiscrepancies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intentDiscrepancies = "intentDiscrepancies"
+            case slotDiscrepancies = "slotDiscrepancies"
+        }
+    }
+
+    public struct TestSetDiscrepancyReportBotAliasTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier for the bot associated with the bot alias.
+        public let botAliasId: String
+        /// The unique identifier for the bot alias.
+        public let botId: String
+        /// The unique identifier of the locale associated with the bot alias.
+        public let localeId: String
+
+        public init(botAliasId: String, botId: String, localeId: String) {
+            self.botAliasId = botAliasId
+            self.botId = botId
+            self.localeId = localeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botAliasId, name: "botAliasId", parent: name, max: 10)
+            try self.validate(self.botAliasId, name: "botAliasId", parent: name, min: 10)
+            try self.validate(self.botAliasId, name: "botAliasId", parent: name, pattern: "^(\\bTSTALIASID\\b|[0-9a-zA-Z]+)$")
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAliasId = "botAliasId"
+            case botId = "botId"
+            case localeId = "localeId"
+        }
+    }
+
+    public struct TestSetDiscrepancyReportResourceTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Contains information about the bot alias used as the resource for the test set discrepancy report.
+        public let botAliasTarget: TestSetDiscrepancyReportBotAliasTarget?
+
+        public init(botAliasTarget: TestSetDiscrepancyReportBotAliasTarget? = nil) {
+            self.botAliasTarget = botAliasTarget
+        }
+
+        public func validate(name: String) throws {
+            try self.botAliasTarget?.validate(name: "\(name).botAliasTarget")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAliasTarget = "botAliasTarget"
+        }
+    }
+
+    public struct TestSetExportSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the test set.
+        public let testSetId: String
+
+        public init(testSetId: String) {
+            self.testSetId = testSetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.testSetId, name: "testSetId", parent: name, max: 10)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, min: 10)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case testSetId = "testSetId"
+        }
+    }
+
+    public struct TestSetGenerationDataSource: AWSEncodableShape & AWSDecodableShape {
+        /// Contains information about the bot from which the conversation logs are sourced.
+        public let conversationLogsDataSource: ConversationLogsDataSource?
+
+        public init(conversationLogsDataSource: ConversationLogsDataSource? = nil) {
+            self.conversationLogsDataSource = conversationLogsDataSource
+        }
+
+        public func validate(name: String) throws {
+            try self.conversationLogsDataSource?.validate(name: "\(name).conversationLogsDataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conversationLogsDataSource = "conversationLogsDataSource"
+        }
+    }
+
+    public struct TestSetImportInputLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon S3 bucket.
+        public let s3BucketName: String
+        /// The path inside the Amazon S3 bucket pointing to the test-set CSV file.
+        public let s3Path: String
+
+        public init(s3BucketName: String, s3Path: String) {
+            self.s3BucketName = s3BucketName
+            self.s3Path = s3Path
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 63)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 3)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+            try self.validate(self.s3Path, name: "s3Path", parent: name, max: 1024)
+            try self.validate(self.s3Path, name: "s3Path", parent: name, min: 1)
+            try self.validate(self.s3Path, name: "s3Path", parent: name, pattern: "^[\\.\\-\\!\\*\\_\\'\\(\\)a-zA-Z0-9][\\.\\-\\!\\*\\_\\'\\(\\)\\/a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketName = "s3BucketName"
+            case s3Path = "s3Path"
+        }
+    }
+
+    public struct TestSetImportResourceSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The description of the test set.
+        public let description: String?
+        /// Contains information about the input location from where test-set should be imported.
+        public let importInputLocation: TestSetImportInputLocation
+        /// Specifies whether the test-set being imported contains written or spoken data.
+        public let modality: TestSetModality
+        /// The Amazon Resource Name (ARN) of an IAM role that has permission to access the test set.
+        public let roleArn: String
+        /// Contains information about the location that Amazon Lex uses to store the test-set.
+        public let storageLocation: TestSetStorageLocation
+        /// The name of the test set.
+        public let testSetName: String
+        /// A list of tags to add to the test set. You can only add tags when you import/generate a new test set. You can't use the UpdateTestSet operation to update tags. To update tags, use the TagResource operation.
+        public let testSetTags: [String: String]?
+
+        public init(description: String? = nil, importInputLocation: TestSetImportInputLocation, modality: TestSetModality, roleArn: String, storageLocation: TestSetStorageLocation, testSetName: String, testSetTags: [String: String]? = nil) {
+            self.description = description
+            self.importInputLocation = importInputLocation
+            self.modality = modality
+            self.roleArn = roleArn
+            self.storageLocation = storageLocation
+            self.testSetName = testSetName
+            self.testSetTags = testSetTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.importInputLocation.validate(name: "\(name).importInputLocation")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::[0-9]{12}:role/.*$")
+            try self.storageLocation.validate(name: "\(name).storageLocation")
+            try self.validate(self.testSetName, name: "testSetName", parent: name, max: 100)
+            try self.validate(self.testSetName, name: "testSetName", parent: name, min: 1)
+            try self.validate(self.testSetName, name: "testSetName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+            try self.testSetTags?.forEach {
+                try validate($0.key, name: "testSetTags.key", parent: name, max: 128)
+                try validate($0.key, name: "testSetTags.key", parent: name, min: 1)
+                try validate($0.value, name: "testSetTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.testSetTags, name: "testSetTags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case importInputLocation = "importInputLocation"
+            case modality = "modality"
+            case roleArn = "roleArn"
+            case storageLocation = "storageLocation"
+            case testSetName = "testSetName"
+            case testSetTags = "testSetTags"
+        }
+    }
+
+    public struct TestSetIntentDiscrepancyItem: AWSDecodableShape {
+        /// The error message for a discrepancy for an intent between the test set and the bot.
+        public let errorMessage: String
+        /// The name of the intent in the discrepancy report.
+        public let intentName: String
+
+        public init(errorMessage: String, intentName: String) {
+            self.errorMessage = errorMessage
+            self.intentName = intentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case intentName = "intentName"
+        }
+    }
+
+    public struct TestSetSlotDiscrepancyItem: AWSDecodableShape {
+        /// The error message for a discrepancy for an intent between the test set and the bot.
+        public let errorMessage: String
+        /// The name of the intent associated with the slot in the discrepancy report.
+        public let intentName: String
+        /// The name of the slot in the discrepancy report.
+        public let slotName: String
+
+        public init(errorMessage: String, intentName: String, slotName: String) {
+            self.errorMessage = errorMessage
+            self.intentName = intentName
+            self.slotName = slotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case intentName = "intentName"
+            case slotName = "slotName"
+        }
+    }
+
+    public struct TestSetSortBy: AWSEncodableShape {
+        /// Specifies whether to sort the test sets by name or by the time they were last updated.
+        public let attribute: TestSetSortAttribute
+        /// Specifies whether to sort in ascending or descending order.
+        public let order: SortOrder
+
+        public init(attribute: TestSetSortAttribute, order: SortOrder) {
+            self.attribute = attribute
+            self.order = order
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "attribute"
+            case order = "order"
+        }
+    }
+
+    public struct TestSetStorageLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services Key Management Service (KMS) key for encrypting the test set.
+        public let kmsKeyArn: String?
+        /// The name of the Amazon S3 bucket in which the test set is stored.
+        public let s3BucketName: String
+        /// The path inside the Amazon S3 bucket where the test set is stored.
+        public let s3Path: String
+
+        public init(kmsKeyArn: String? = nil, s3BucketName: String, s3Path: String) {
+            self.kmsKeyArn = kmsKeyArn
+            self.s3BucketName = s3BucketName
+            self.s3Path = s3Path
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:[\\w\\-]+:kms:[\\w\\-]+:[\\d]{12}:(?:key\\/[\\w\\-]+|alias\\/[a-zA-Z0-9:\\/_\\-]{1,256})$")
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 63)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 3)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+            try self.validate(self.s3Path, name: "s3Path", parent: name, max: 1024)
+            try self.validate(self.s3Path, name: "s3Path", parent: name, min: 1)
+            try self.validate(self.s3Path, name: "s3Path", parent: name, pattern: "^[\\.\\-\\!\\*\\_\\'\\(\\)a-zA-Z0-9][\\.\\-\\!\\*\\_\\'\\(\\)\\/a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "kmsKeyArn"
+            case s3BucketName = "s3BucketName"
+            case s3Path = "s3Path"
+        }
+    }
+
+    public struct TestSetSummary: AWSDecodableShape {
+        /// The date and time at which the test set was created.
+        public let creationDateTime: Date?
+        /// The description of the test set.
+        public let description: String?
+        /// The date and time at which the test set was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// Specifies whether the test set contains written or spoken data.
+        public let modality: TestSetModality?
+        /// The number of turns in the test set.
+        public let numTurns: Int?
+        /// The Amazon Resource Name (ARN) of an IAM role that has permission to access the test set.
+        public let roleArn: String?
+        /// The status of the test set.
+        public let status: TestSetStatus?
+        /// Contains information about the location at which the test set is stored.
+        public let storageLocation: TestSetStorageLocation?
+        /// The unique identifier of the test set.
+        public let testSetId: String?
+        /// The name of the test set.
+        public let testSetName: String?
+
+        public init(creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, modality: TestSetModality? = nil, numTurns: Int? = nil, roleArn: String? = nil, status: TestSetStatus? = nil, storageLocation: TestSetStorageLocation? = nil, testSetId: String? = nil, testSetName: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.description = description
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.modality = modality
+            self.numTurns = numTurns
+            self.roleArn = roleArn
+            self.status = status
+            self.storageLocation = storageLocation
+            self.testSetId = testSetId
+            self.testSetName = testSetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case modality = "modality"
+            case numTurns = "numTurns"
+            case roleArn = "roleArn"
+            case status = "status"
+            case storageLocation = "storageLocation"
+            case testSetId = "testSetId"
+            case testSetName = "testSetName"
+        }
+    }
+
+    public struct TestSetTurnRecord: AWSDecodableShape {
+        /// The unique identifier for the conversation associated with the turn.
+        public let conversationId: String?
+        /// The record number associated with the turn.
+        public let recordNumber: Int64
+        /// The number of turns that has elapsed up to that turn.
+        public let turnNumber: Int?
+        /// Contains information about the agent or user turn depending upon type of turn.
+        public let turnSpecification: TurnSpecification
+
+        public init(conversationId: String? = nil, recordNumber: Int64, turnNumber: Int? = nil, turnSpecification: TurnSpecification) {
+            self.conversationId = conversationId
+            self.recordNumber = recordNumber
+            self.turnNumber = turnNumber
+            self.turnSpecification = turnSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conversationId = "conversationId"
+            case recordNumber = "recordNumber"
+            case turnNumber = "turnNumber"
+            case turnSpecification = "turnSpecification"
+        }
+    }
+
+    public struct TestSetTurnResult: AWSDecodableShape {
+        /// Contains information about the agent messages in the turn.
+        public let agent: AgentTurnResult?
+        /// Contains information about the user messages in the turn.
+        public let user: UserTurnResult?
+
+        public init(agent: AgentTurnResult? = nil, user: UserTurnResult? = nil) {
+            self.agent = agent
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agent = "agent"
+            case user = "user"
+        }
     }
 
     public struct TextInputSpecification: AWSEncodableShape & AWSDecodableShape {
@@ -8395,6 +10218,23 @@ extension LexModelsV2 {
         }
     }
 
+    public struct TurnSpecification: AWSDecodableShape {
+        /// Contains information about the agent messages in the turn.
+        public let agentTurn: AgentTurnSpecification?
+        /// Contains information about the user messages in the turn.
+        public let userTurn: UserTurnSpecification?
+
+        public init(agentTurn: AgentTurnSpecification? = nil, userTurn: UserTurnSpecification? = nil) {
+            self.agentTurn = agentTurn
+            self.userTurn = userTurn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentTurn = "agentTurn"
+            case userTurn = "userTurn"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceARN", location: .uri("resourceARN")),
@@ -8471,7 +10311,7 @@ extension LexModelsV2 {
             try self.validate(self.botAliasLocaleSettings, name: "botAliasLocaleSettings", parent: name, min: 1)
             try self.validate(self.botAliasName, name: "botAliasName", parent: name, max: 100)
             try self.validate(self.botAliasName, name: "botAliasName", parent: name, min: 1)
-            try self.validate(self.botAliasName, name: "botAliasName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.botAliasName, name: "botAliasName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.validate(self.botId, name: "botId", parent: name, max: 10)
             try self.validate(self.botId, name: "botId", parent: name, min: 10)
             try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
@@ -8782,7 +10622,7 @@ extension LexModelsV2 {
             try self.validate(self.botMembers, name: "botMembers", parent: name, max: 10)
             try self.validate(self.botName, name: "botName", parent: name, max: 100)
             try self.validate(self.botName, name: "botName", parent: name, min: 1)
-            try self.validate(self.botName, name: "botName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.botName, name: "botName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 86400)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
@@ -8934,6 +10774,7 @@ extension LexModelsV2 {
         public let dialogCodeHook: DialogCodeHookSettings?
         /// The new Lambda function to call when all of the intents required slots are provided and the intent is ready for fulfillment.
         public let fulfillmentCodeHook: FulfillmentCodeHookSettings?
+        /// Configuration settings for a response sent to the user before Amazon Lex starts eliciting slots.
         public let initialResponseSetting: InitialResponseSetting?
         /// A new list of contexts that must be active in order for Amazon Lex to consider the intent.
         public let inputContexts: [InputContext]?
@@ -8999,7 +10840,7 @@ extension LexModelsV2 {
             try self.validate(self.intentId, name: "intentId", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.intentName, name: "intentName", parent: name, max: 100)
             try self.validate(self.intentName, name: "intentName", parent: name, min: 1)
-            try self.validate(self.intentName, name: "intentName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.intentName, name: "intentName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.kendraConfiguration?.validate(name: "\(name).kendraConfiguration")
             try self.outputContexts?.forEach {
                 try $0.validate(name: "\(name).outputContexts[]")
@@ -9040,6 +10881,7 @@ extension LexModelsV2 {
         public let dialogCodeHook: DialogCodeHookSettings?
         /// The updated Lambda function called when the intent is ready for fulfillment.
         public let fulfillmentCodeHook: FulfillmentCodeHookSettings?
+        /// Configuration settings for a response sent to the user before Amazon Lex starts eliciting slots.
         public let initialResponseSetting: InitialResponseSetting?
         /// The updated list of contexts that must be active for the intent to be considered by Amazon Lex.
         public let inputContexts: [InputContext]?
@@ -9226,7 +11068,7 @@ extension LexModelsV2 {
             try self.validate(self.slotId, name: "slotId", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.slotName, name: "slotName", parent: name, max: 100)
             try self.validate(self.slotName, name: "slotName", parent: name, min: 1)
-            try self.validate(self.slotName, name: "slotName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.slotName, name: "slotName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, max: 25)
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, min: 1)
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, pattern: "^((AMAZON\\.)[a-zA-Z_]+?|[0-9a-zA-Z]+)$")
@@ -9248,7 +11090,7 @@ extension LexModelsV2 {
     public struct UpdateSlotResponse: AWSDecodableShape {
         /// The identifier of the bot that contains the slot.
         public let botId: String?
-        /// The identifier of the slot version that contains the slot. Will always be DRAFT.
+        /// The version of the bot that contains the slot. Will always be DRAFT.
         public let botVersion: String?
         /// The timestamp of the date and time that the slot was created.
         public let creationDateTime: Date?
@@ -9369,7 +11211,7 @@ extension LexModelsV2 {
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, max: 100)
             try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, min: 1)
-            try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.slotTypeValues?.forEach {
                 try $0.validate(name: "\(name).slotTypeValues[]")
             }
@@ -9449,6 +11291,230 @@ extension LexModelsV2 {
         }
     }
 
+    public struct UpdateTestSetRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "testSetId", location: .uri("testSetId"))
+        ]
+
+        /// The new test set description.
+        public let description: String?
+        /// The test set Id for which update test operation to be performed.
+        public let testSetId: String
+        /// The new test set name.
+        public let testSetName: String
+
+        public init(description: String? = nil, testSetId: String, testSetName: String) {
+            self.description = description
+            self.testSetId = testSetId
+            self.testSetName = testSetName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, max: 10)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, min: 10)
+            try self.validate(self.testSetId, name: "testSetId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.testSetName, name: "testSetName", parent: name, max: 100)
+            try self.validate(self.testSetName, name: "testSetName", parent: name, min: 1)
+            try self.validate(self.testSetName, name: "testSetName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case testSetName = "testSetName"
+        }
+    }
+
+    public struct UpdateTestSetResponse: AWSDecodableShape {
+        /// The creation date and time for the updated test set.
+        public let creationDateTime: Date?
+        /// The test set description for the updated test set.
+        public let description: String?
+        ///  The date and time of the last update for the updated test set.
+        public let lastUpdatedDateTime: Date?
+        /// Indicates whether audio or text is used for the updated test set.
+        public let modality: TestSetModality?
+        /// The number of conversation turns from the updated test set.
+        public let numTurns: Int?
+        /// The roleARN used for any operation in the test set to access  resources in the Amazon Web Services account.
+        public let roleArn: String?
+        /// The status for the updated test set.
+        public let status: TestSetStatus?
+        /// The Amazon S3 storage location for the updated test set.
+        public let storageLocation: TestSetStorageLocation?
+        /// The test set Id for which update test operation to be performed.
+        public let testSetId: String?
+        /// The test set name for the updated test set.
+        public let testSetName: String?
+
+        public init(creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, modality: TestSetModality? = nil, numTurns: Int? = nil, roleArn: String? = nil, status: TestSetStatus? = nil, storageLocation: TestSetStorageLocation? = nil, testSetId: String? = nil, testSetName: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.description = description
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.modality = modality
+            self.numTurns = numTurns
+            self.roleArn = roleArn
+            self.status = status
+            self.storageLocation = storageLocation
+            self.testSetId = testSetId
+            self.testSetName = testSetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case modality = "modality"
+            case numTurns = "numTurns"
+            case roleArn = "roleArn"
+            case status = "status"
+            case storageLocation = "storageLocation"
+            case testSetId = "testSetId"
+            case testSetName = "testSetName"
+        }
+    }
+
+    public struct UserTurnInputSpecification: AWSDecodableShape {
+        /// Request attributes of the user turn.
+        public let requestAttributes: [String: String]?
+        /// Contains information about the session state in the input.
+        public let sessionState: InputSessionStateSpecification?
+        /// The utterance input in the user turn.
+        public let utteranceInput: UtteranceInputSpecification
+
+        public init(requestAttributes: [String: String]? = nil, sessionState: InputSessionStateSpecification? = nil, utteranceInput: UtteranceInputSpecification) {
+            self.requestAttributes = requestAttributes
+            self.sessionState = sessionState
+            self.utteranceInput = utteranceInput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestAttributes = "requestAttributes"
+            case sessionState = "sessionState"
+            case utteranceInput = "utteranceInput"
+        }
+    }
+
+    public struct UserTurnIntentOutput: AWSDecodableShape {
+        /// The name of the intent.
+        public let name: String
+        /// The slots associated with the intent.
+        public let slots: [String: UserTurnSlotOutput]?
+
+        public init(name: String, slots: [String: UserTurnSlotOutput]? = nil) {
+            self.name = name
+            self.slots = slots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case slots = "slots"
+        }
+    }
+
+    public struct UserTurnOutputSpecification: AWSDecodableShape {
+        /// The contexts that are active in the turn.
+        public let activeContexts: [ActiveContext]?
+        /// Contains information about the intent.
+        public let intent: UserTurnIntentOutput
+        /// The transcript that is output for the user turn by the test execution.
+        public let transcript: String?
+
+        public init(activeContexts: [ActiveContext]? = nil, intent: UserTurnIntentOutput, transcript: String? = nil) {
+            self.activeContexts = activeContexts
+            self.intent = intent
+            self.transcript = transcript
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeContexts = "activeContexts"
+            case intent = "intent"
+            case transcript = "transcript"
+        }
+    }
+
+    public struct UserTurnResult: AWSDecodableShape {
+        /// Contains information about the actual output for the user turn.
+        public let actualOutput: UserTurnOutputSpecification?
+        /// Contains information about the results related to the conversation associated with the user turn.
+        public let conversationLevelResult: ConversationLevelResultDetail?
+        /// Specifies whether the expected and actual outputs match or not, or if there is an error in execution.
+        public let endToEndResult: TestResultMatchStatus?
+        public let errorDetails: ExecutionErrorDetails?
+        /// Contains information about the expected output for the user turn.
+        public let expectedOutput: UserTurnOutputSpecification
+        /// Contains information about the user messages in the turn in the input.
+        public let input: UserTurnInputSpecification
+        /// Specifies whether the expected and actual intents match or not.
+        public let intentMatchResult: TestResultMatchStatus?
+        /// Specifies whether the expected and actual slots match or not.
+        public let slotMatchResult: TestResultMatchStatus?
+        /// Specifies whether the expected and actual speech transcriptions match or not, or if there is an error in execution.
+        public let speechTranscriptionResult: TestResultMatchStatus?
+
+        public init(actualOutput: UserTurnOutputSpecification? = nil, conversationLevelResult: ConversationLevelResultDetail? = nil, endToEndResult: TestResultMatchStatus? = nil, errorDetails: ExecutionErrorDetails? = nil, expectedOutput: UserTurnOutputSpecification, input: UserTurnInputSpecification, intentMatchResult: TestResultMatchStatus? = nil, slotMatchResult: TestResultMatchStatus? = nil, speechTranscriptionResult: TestResultMatchStatus? = nil) {
+            self.actualOutput = actualOutput
+            self.conversationLevelResult = conversationLevelResult
+            self.endToEndResult = endToEndResult
+            self.errorDetails = errorDetails
+            self.expectedOutput = expectedOutput
+            self.input = input
+            self.intentMatchResult = intentMatchResult
+            self.slotMatchResult = slotMatchResult
+            self.speechTranscriptionResult = speechTranscriptionResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actualOutput = "actualOutput"
+            case conversationLevelResult = "conversationLevelResult"
+            case endToEndResult = "endToEndResult"
+            case errorDetails = "errorDetails"
+            case expectedOutput = "expectedOutput"
+            case input = "input"
+            case intentMatchResult = "intentMatchResult"
+            case slotMatchResult = "slotMatchResult"
+            case speechTranscriptionResult = "speechTranscriptionResult"
+        }
+    }
+
+    public struct UserTurnSlotOutput: AWSDecodableShape {
+        /// A list of items mapping the name of the subslots to information about those subslots.
+        public let subSlots: [String: UserTurnSlotOutput]?
+        /// The value output by the slot recognition.
+        public let value: String?
+        /// Values that are output by the slot recognition.
+        public let values: [UserTurnSlotOutput]?
+
+        public init(subSlots: [String: UserTurnSlotOutput]? = nil, value: String? = nil, values: [UserTurnSlotOutput]? = nil) {
+            self.subSlots = subSlots
+            self.value = value
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subSlots = "subSlots"
+            case value = "value"
+            case values = "values"
+        }
+    }
+
+    public struct UserTurnSpecification: AWSDecodableShape {
+        /// Contains results about the expected output for the user turn.
+        public let expected: UserTurnOutputSpecification
+        /// Contains information about the user messages in the turn in the input.
+        public let input: UserTurnInputSpecification
+
+        public init(expected: UserTurnOutputSpecification, input: UserTurnInputSpecification) {
+            self.expected = expected
+            self.input = input
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expected = "expected"
+            case input = "input"
+        }
+    }
+
     public struct UtteranceAggregationDuration: AWSEncodableShape & AWSDecodableShape {
         /// The desired time window for aggregating utterances.
         public let relativeAggregationDuration: RelativeAggregationDuration
@@ -9463,6 +11529,70 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case relativeAggregationDuration = "relativeAggregationDuration"
+        }
+    }
+
+    public struct UtteranceAudioInputSpecification: AWSDecodableShape {
+        /// Amazon S3 file pointing to the audio.
+        public let audioFileS3Location: String
+
+        public init(audioFileS3Location: String) {
+            self.audioFileS3Location = audioFileS3Location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioFileS3Location = "audioFileS3Location"
+        }
+    }
+
+    public struct UtteranceInputSpecification: AWSDecodableShape {
+        /// Contains information about the audio input for an utterance.
+        public let audioInput: UtteranceAudioInputSpecification?
+        /// A text input transcription of the utterance. It is only applicable for test-sets containing text data.
+        public let textInput: String?
+
+        public init(audioInput: UtteranceAudioInputSpecification? = nil, textInput: String? = nil) {
+            self.audioInput = audioInput
+            self.textInput = textInput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioInput = "audioInput"
+            case textInput = "textInput"
+        }
+    }
+
+    public struct UtteranceLevelTestResultItem: AWSDecodableShape {
+        /// The unique identifier for the conversation associated with the result.
+        public let conversationId: String?
+        /// The record number of the result.
+        public let recordNumber: Int64
+        /// Contains information about the turn associated with the result.
+        public let turnResult: TestSetTurnResult
+
+        public init(conversationId: String? = nil, recordNumber: Int64, turnResult: TestSetTurnResult) {
+            self.conversationId = conversationId
+            self.recordNumber = recordNumber
+            self.turnResult = turnResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conversationId = "conversationId"
+            case recordNumber = "recordNumber"
+            case turnResult = "turnResult"
+        }
+    }
+
+    public struct UtteranceLevelTestResults: AWSDecodableShape {
+        /// Contains information about an utterance in the results of the test set execution.
+        public let items: [UtteranceLevelTestResultItem]
+
+        public init(items: [UtteranceLevelTestResultItem]) {
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
         }
     }
 

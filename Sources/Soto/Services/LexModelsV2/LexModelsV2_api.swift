@@ -132,6 +132,11 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "CreateSlotType", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/slottypes", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Create a report that describes the differences between the bot and the test set.
+    public func createTestSetDiscrepancyReport(_ input: CreateTestSetDiscrepancyReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTestSetDiscrepancyReportResponse> {
+        return self.client.execute(operation: "CreateTestSetDiscrepancyReport", path: "/testsets/{testSetId}/testsetdiscrepancy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets a pre-signed S3 write URL that you use to upload the zip archive when importing a bot or a bot locale.
     public func createUploadUrl(_ input: CreateUploadUrlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUploadUrlResponse> {
         return self.client.execute(operation: "CreateUploadUrl", path: "/createuploadurl", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -197,6 +202,11 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "DeleteSlotType", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/slottypes/{slotTypeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// The action to delete the selected test set.
+    @discardableResult public func deleteTestSet(_ input: DeleteTestSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteTestSet", path: "/testsets/{testSetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the ListAggregatedUtterances operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted immediately. Utterances stored for use with the ListAggregatedUtterances operation are deleted after 15 days.
     public func deleteUtterances(_ input: DeleteUtterancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteUtterancesResponse> {
         return self.client.execute(operation: "DeleteUtterances", path: "/bots/{botId}/utterances", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -260,6 +270,31 @@ public struct LexModelsV2: AWSService {
     /// Gets metadata information about a slot type.
     public func describeSlotType(_ input: DescribeSlotTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSlotTypeResponse> {
         return self.client.execute(operation: "DescribeSlotType", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/slottypes/{slotTypeId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets metadata information about the test execution.
+    public func describeTestExecution(_ input: DescribeTestExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTestExecutionResponse> {
+        return self.client.execute(operation: "DescribeTestExecution", path: "/testexecutions/{testExecutionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets metadata information about the test set.
+    public func describeTestSet(_ input: DescribeTestSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTestSetResponse> {
+        return self.client.execute(operation: "DescribeTestSet", path: "/testsets/{testSetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets metadata information about the test set discrepancy report.
+    public func describeTestSetDiscrepancyReport(_ input: DescribeTestSetDiscrepancyReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTestSetDiscrepancyReportResponse> {
+        return self.client.execute(operation: "DescribeTestSetDiscrepancyReport", path: "/testsetdiscrepancy/{testSetDiscrepancyReportId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets metadata information about the test set generation.
+    public func describeTestSetGeneration(_ input: DescribeTestSetGenerationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTestSetGenerationResponse> {
+        return self.client.execute(operation: "DescribeTestSetGeneration", path: "/testsetgenerations/{testSetGenerationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// The pre-signed Amazon S3 URL to download the test execution result artifacts.
+    public func getTestExecutionArtifactsUrl(_ input: GetTestExecutionArtifactsUrlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTestExecutionArtifactsUrlResponse> {
+        return self.client.execute(operation: "GetTestExecutionArtifactsUrl", path: "/testexecutions/{testExecutionId}/artifacturl", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and activated the associated intent. A missed utterance was not recognized by the bot and didn't activate an intent. Utterances can be aggregated for a bot alias or for a bot version, but not both at the same time. Utterances statistics are not generated under the following conditions:   The childDirected field was set to true when the bot was created.   You are using slot obfuscation with one or more slots.   You opted out of participating in improving Amazon Lex.
@@ -342,6 +377,26 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceARN}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets a list of test execution result items.
+    public func listTestExecutionResultItems(_ input: ListTestExecutionResultItemsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTestExecutionResultItemsResponse> {
+        return self.client.execute(operation: "ListTestExecutionResultItems", path: "/testexecutions/{testExecutionId}/results", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// The list of test set executions.
+    public func listTestExecutions(_ input: ListTestExecutionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTestExecutionsResponse> {
+        return self.client.execute(operation: "ListTestExecutions", path: "/testexecutions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// The list of test set records.
+    public func listTestSetRecords(_ input: ListTestSetRecordsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTestSetRecordsResponse> {
+        return self.client.execute(operation: "ListTestSetRecords", path: "/testsets/{testSetId}/records", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// The list of the test sets
+    public func listTestSets(_ input: ListTestSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTestSetsResponse> {
+        return self.client.execute(operation: "ListTestSets", path: "/testsets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Search for associated transcripts that meet the specified criteria.
     public func searchAssociatedTranscripts(_ input: SearchAssociatedTranscriptsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchAssociatedTranscriptsResponse> {
         return self.client.execute(operation: "SearchAssociatedTranscripts", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/botrecommendations/{botRecommendationId}/associatedtranscripts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -355,6 +410,16 @@ public struct LexModelsV2: AWSService {
     /// Starts importing a bot, bot locale, or custom vocabulary from a zip archive that you uploaded to an S3 bucket.
     public func startImport(_ input: StartImportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartImportResponse> {
         return self.client.execute(operation: "StartImport", path: "/imports", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// The action to start test set execution.
+    public func startTestExecution(_ input: StartTestExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartTestExecutionResponse> {
+        return self.client.execute(operation: "StartTestExecution", path: "/testsets/{testSetId}/testexecutions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// The action to start the generation of test set.
+    public func startTestSetGeneration(_ input: StartTestSetGenerationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartTestSetGenerationResponse> {
+        return self.client.execute(operation: "StartTestSetGeneration", path: "/testsetgenerations", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Stop an already running Bot Recommendation request.
@@ -415,6 +480,11 @@ public struct LexModelsV2: AWSService {
     /// Updates the configuration of an existing slot type.
     public func updateSlotType(_ input: UpdateSlotTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSlotTypeResponse> {
         return self.client.execute(operation: "UpdateSlotType", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/slottypes/{slotTypeId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// The action to update the test set.
+    public func updateTestSet(_ input: UpdateTestSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTestSetResponse> {
+        return self.client.execute(operation: "UpdateTestSet", path: "/testsets/{testSetId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 
@@ -1224,6 +1294,218 @@ extension LexModelsV2 {
             onPage: onPage
         )
     }
+
+    /// Gets a list of test execution result items.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listTestExecutionResultItemsPaginator<Result>(
+        _ input: ListTestExecutionResultItemsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListTestExecutionResultItemsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listTestExecutionResultItems,
+            inputKey: \ListTestExecutionResultItemsRequest.nextToken,
+            outputKey: \ListTestExecutionResultItemsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listTestExecutionResultItemsPaginator(
+        _ input: ListTestExecutionResultItemsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListTestExecutionResultItemsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listTestExecutionResultItems,
+            inputKey: \ListTestExecutionResultItemsRequest.nextToken,
+            outputKey: \ListTestExecutionResultItemsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// The list of test set executions.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listTestExecutionsPaginator<Result>(
+        _ input: ListTestExecutionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListTestExecutionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listTestExecutions,
+            inputKey: \ListTestExecutionsRequest.nextToken,
+            outputKey: \ListTestExecutionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listTestExecutionsPaginator(
+        _ input: ListTestExecutionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListTestExecutionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listTestExecutions,
+            inputKey: \ListTestExecutionsRequest.nextToken,
+            outputKey: \ListTestExecutionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// The list of test set records.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listTestSetRecordsPaginator<Result>(
+        _ input: ListTestSetRecordsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListTestSetRecordsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listTestSetRecords,
+            inputKey: \ListTestSetRecordsRequest.nextToken,
+            outputKey: \ListTestSetRecordsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listTestSetRecordsPaginator(
+        _ input: ListTestSetRecordsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListTestSetRecordsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listTestSetRecords,
+            inputKey: \ListTestSetRecordsRequest.nextToken,
+            outputKey: \ListTestSetRecordsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// The list of the test sets
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listTestSetsPaginator<Result>(
+        _ input: ListTestSetsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListTestSetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listTestSets,
+            inputKey: \ListTestSetsRequest.nextToken,
+            outputKey: \ListTestSetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listTestSetsPaginator(
+        _ input: ListTestSetsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListTestSetsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listTestSets,
+            inputKey: \ListTestSetsRequest.nextToken,
+            outputKey: \ListTestSetsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension LexModelsV2.ListAggregatedUtterancesRequest: AWSPaginateToken {
@@ -1410,6 +1692,47 @@ extension LexModelsV2.ListSlotsRequest: AWSPaginateToken {
             filters: self.filters,
             intentId: self.intentId,
             localeId: self.localeId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy
+        )
+    }
+}
+
+extension LexModelsV2.ListTestExecutionResultItemsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListTestExecutionResultItemsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resultFilterBy: self.resultFilterBy,
+            testExecutionId: self.testExecutionId
+        )
+    }
+}
+
+extension LexModelsV2.ListTestExecutionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListTestExecutionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy
+        )
+    }
+}
+
+extension LexModelsV2.ListTestSetRecordsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListTestSetRecordsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            testSetId: self.testSetId
+        )
+    }
+}
+
+extension LexModelsV2.ListTestSetsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListTestSetsRequest {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token,
             sortBy: self.sortBy

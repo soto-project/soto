@@ -53,7 +53,7 @@ extension IoTDataPlane {
         public func validate(name: String) throws {
             try self.validate(self.shadowName, name: "shadowName", parent: name, max: 64)
             try self.validate(self.shadowName, name: "shadowName", parent: name, min: 1)
-            try self.validate(self.shadowName, name: "shadowName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
+            try self.validate(self.shadowName, name: "shadowName", parent: name, pattern: "^[$a-zA-Z0-9:_-]+$")
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
@@ -141,7 +141,7 @@ extension IoTDataPlane {
         public func validate(name: String) throws {
             try self.validate(self.shadowName, name: "shadowName", parent: name, max: 64)
             try self.validate(self.shadowName, name: "shadowName", parent: name, min: 1)
-            try self.validate(self.shadowName, name: "shadowName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
+            try self.validate(self.shadowName, name: "shadowName", parent: name, pattern: "^[$a-zA-Z0-9:_-]+$")
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
@@ -367,7 +367,7 @@ extension IoTDataPlane {
         public func validate(name: String) throws {
             try self.validate(self.shadowName, name: "shadowName", parent: name, max: 64)
             try self.validate(self.shadowName, name: "shadowName", parent: name, min: 1)
-            try self.validate(self.shadowName, name: "shadowName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
+            try self.validate(self.shadowName, name: "shadowName", parent: name, pattern: "^[$a-zA-Z0-9:_-]+$")
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")

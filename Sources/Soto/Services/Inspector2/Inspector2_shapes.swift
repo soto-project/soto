@@ -1370,6 +1370,23 @@ extension Inspector2 {
         }
     }
 
+    public struct CoverageDateFilter: AWSEncodableShape {
+        /// A timestamp representing the end of the time period to filter results by.
+        public let endInclusive: Date?
+        /// A timestamp representing the start of the time period to filter results by.
+        public let startInclusive: Date?
+
+        public init(endInclusive: Date? = nil, startInclusive: Date? = nil) {
+            self.endInclusive = endInclusive
+            self.startInclusive = startInclusive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endInclusive = "endInclusive"
+            case startInclusive = "startInclusive"
+        }
+    }
+
     public struct CoverageFilterCriteria: AWSEncodableShape {
         /// An array of Amazon Web Services account IDs to return coverage statistics for.
         public let accountId: [CoverageStringFilter]?
@@ -1385,9 +1402,11 @@ extension Inspector2 {
         public let lambdaFunctionRuntime: [CoverageStringFilter]?
         /// Returns coverage statistics for AWS Lambda functions filtered by tag.
         public let lambdaFunctionTags: [CoverageMapFilter]?
+        /// Filters Amazon Web Services resources based on whether Amazon Inspector has checked them for vulnerabilities within the specified time range.
+        public let lastScannedAt: [CoverageDateFilter]?
         /// An array of Amazon Web Services resource IDs to return coverage statistics for.
         public let resourceId: [CoverageStringFilter]?
-        /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE or AWS_ECR_REPOSITORY.
+        /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION or AWS_ECR_REPOSITORY.
         public let resourceType: [CoverageStringFilter]?
         /// The scan status code to filter on.
         public let scanStatusCode: [CoverageStringFilter]?
@@ -1396,7 +1415,7 @@ extension Inspector2 {
         /// An array of Amazon Inspector scan types to return coverage statistics for.
         public let scanType: [CoverageStringFilter]?
 
-        public init(accountId: [CoverageStringFilter]? = nil, ec2InstanceTags: [CoverageMapFilter]? = nil, ecrImageTags: [CoverageStringFilter]? = nil, ecrRepositoryName: [CoverageStringFilter]? = nil, lambdaFunctionName: [CoverageStringFilter]? = nil, lambdaFunctionRuntime: [CoverageStringFilter]? = nil, lambdaFunctionTags: [CoverageMapFilter]? = nil, resourceId: [CoverageStringFilter]? = nil, resourceType: [CoverageStringFilter]? = nil, scanStatusCode: [CoverageStringFilter]? = nil, scanStatusReason: [CoverageStringFilter]? = nil, scanType: [CoverageStringFilter]? = nil) {
+        public init(accountId: [CoverageStringFilter]? = nil, ec2InstanceTags: [CoverageMapFilter]? = nil, ecrImageTags: [CoverageStringFilter]? = nil, ecrRepositoryName: [CoverageStringFilter]? = nil, lambdaFunctionName: [CoverageStringFilter]? = nil, lambdaFunctionRuntime: [CoverageStringFilter]? = nil, lambdaFunctionTags: [CoverageMapFilter]? = nil, lastScannedAt: [CoverageDateFilter]? = nil, resourceId: [CoverageStringFilter]? = nil, resourceType: [CoverageStringFilter]? = nil, scanStatusCode: [CoverageStringFilter]? = nil, scanStatusReason: [CoverageStringFilter]? = nil, scanType: [CoverageStringFilter]? = nil) {
             self.accountId = accountId
             self.ec2InstanceTags = ec2InstanceTags
             self.ecrImageTags = ecrImageTags
@@ -1404,6 +1423,7 @@ extension Inspector2 {
             self.lambdaFunctionName = lambdaFunctionName
             self.lambdaFunctionRuntime = lambdaFunctionRuntime
             self.lambdaFunctionTags = lambdaFunctionTags
+            self.lastScannedAt = lastScannedAt
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.scanStatusCode = scanStatusCode
@@ -1447,6 +1467,8 @@ extension Inspector2 {
             }
             try self.validate(self.lambdaFunctionTags, name: "lambdaFunctionTags", parent: name, max: 10)
             try self.validate(self.lambdaFunctionTags, name: "lambdaFunctionTags", parent: name, min: 1)
+            try self.validate(self.lastScannedAt, name: "lastScannedAt", parent: name, max: 10)
+            try self.validate(self.lastScannedAt, name: "lastScannedAt", parent: name, min: 1)
             try self.resourceId?.forEach {
                 try $0.validate(name: "\(name).resourceId[]")
             }
@@ -1482,6 +1504,7 @@ extension Inspector2 {
             case lambdaFunctionName = "lambdaFunctionName"
             case lambdaFunctionRuntime = "lambdaFunctionRuntime"
             case lambdaFunctionTags = "lambdaFunctionTags"
+            case lastScannedAt = "lastScannedAt"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
             case scanStatusCode = "scanStatusCode"
@@ -1541,6 +1564,8 @@ extension Inspector2 {
     public struct CoveredResource: AWSDecodableShape {
         /// The Amazon Web Services account ID of the covered resource.
         public let accountId: String
+        /// The date and time the resource was last checked for vulnerabilities.
+        public let lastScannedAt: Date?
         /// The ID of the covered resource.
         public let resourceId: String
         /// An object that contains details about the metadata.
@@ -1552,8 +1577,9 @@ extension Inspector2 {
         /// The Amazon Inspector scan type covering the resource.
         public let scanType: ScanType
 
-        public init(accountId: String, resourceId: String, resourceMetadata: ResourceScanMetadata? = nil, resourceType: CoverageResourceType, scanStatus: ScanStatus? = nil, scanType: ScanType) {
+        public init(accountId: String, lastScannedAt: Date? = nil, resourceId: String, resourceMetadata: ResourceScanMetadata? = nil, resourceType: CoverageResourceType, scanStatus: ScanStatus? = nil, scanType: ScanType) {
             self.accountId = accountId
+            self.lastScannedAt = lastScannedAt
             self.resourceId = resourceId
             self.resourceMetadata = resourceMetadata
             self.resourceType = resourceType
@@ -1563,6 +1589,7 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
+            case lastScannedAt = "lastScannedAt"
             case resourceId = "resourceId"
             case resourceMetadata = "resourceMetadata"
             case resourceType = "resourceType"

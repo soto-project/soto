@@ -34,11 +34,18 @@ extension Signer {
         return try await self.client.execute(operation: "CancelSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about a specific code signing job. You specify the job by using
-    /// 			the jobId value that is returned by the StartSigningJob
+    /// Returns information about a specific code signing job. You specify the job by using the
+    /// 				jobId value that is returned by the StartSigningJob
     /// 			operation.
     public func describeSigningJob(_ input: DescribeSigningJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeSigningJobResponse {
         return try await self.client.execute(operation: "DescribeSigningJob", path: "/signing-jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the
+    /// 			revocation status of one or more of the signing profile, signing job, and signing
+    /// 			certificate.
+    public func getRevocationStatus(_ input: GetRevocationStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetRevocationStatusResponse {
+        return try await self.client.execute(operation: "GetRevocationStatus", path: "/revocations", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "verification.", logger: logger, on: eventLoop)
     }
 
     /// Returns information on a specific signing platform.
@@ -96,7 +103,8 @@ extension Signer {
     }
 
     /// Creates a signing profile. A signing profile is a code signing template that can be used to
-    /// 			carry out a pre-defined signing job. For more information, see http://docs.aws.amazon.com/signer/latest/developerguide/gs-profile.html
+    /// 			carry out a pre-defined signing job.
+    ///
     public func putSigningProfile(_ input: PutSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutSigningProfileResponse {
         return try await self.client.execute(operation: "PutSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -119,11 +127,17 @@ extension Signer {
         return try await self.client.execute(operation: "RevokeSigningProfile", path: "/signing-profiles/{profileName}/revoke", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Signs a binary
+    /// 			payload and returns a signature envelope.
+    public func signPayload(_ input: SignPayloadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SignPayloadResponse {
+        return try await self.client.execute(operation: "SignPayload", path: "/signing-jobs/with-payload", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Initiates a signing job to be performed on the code provided. Signing jobs are
     /// 			viewable by the ListSigningJobs operation for two years after they are
     /// 			performed. Note the following requirements:
     ///
-    /// 				            You must create an Amazon S3 source bucket. For more information, see Create a Bucket in the
+    /// 				            You must create an Amazon S3 source bucket. For more information, see Creating a Bucket in the
     /// 						Amazon S3 Getting Started Guide.
     ///
     /// 				           Your S3 source bucket must be version enabled.
@@ -139,7 +153,7 @@ extension Signer {
     ///
     /// 		       You can call the DescribeSigningJob and the ListSigningJobs actions after you call
     /// 			StartSigningJob.
-    /// 		       For a Java example that shows how to use this action, see http://docs.aws.amazon.com/acm/latest/userguide/
+    /// 		       For a Java example that shows how to use this action, see StartSigningJob.
     public func startSigningJob(_ input: StartSigningJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartSigningJobResponse {
         return try await self.client.execute(operation: "StartSigningJob", path: "/signing-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

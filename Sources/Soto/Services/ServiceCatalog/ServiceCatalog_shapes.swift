@@ -368,9 +368,9 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The ARN of the principal (user, role, or group). The supported value is a fully defined  IAM ARN  if the  PrincipalType is IAM. If the PrincipalType is IAM_PATTERN,  the supported value is an IAM ARN without an AccountID in the following format:  arn:partition:iam:::resource-type/resource-id  The resource-id can be either of the following:   Fully formed, for example arn:aws:iam:::role/resource-name or  arn:aws:iam:::role/resource-path/resource-name    A wildcard ARN. The wildcard ARN accepts IAM_PATTERN values with a  "*" or "?" in the resource-id segment of the ARN, for example arn:partition:service:::resource-type/resource-path/resource-name.  The new symbols are exclusive to the resource-path and resource-name  and cannot be used to replace the resource-type or other  ARN values.    Examples of an acceptable wildcard ARN:   arn:aws:iam:::role/ResourceName_*   arn:aws:iam:::role/*/ResourceName_?   Examples of an unacceptable wildcard ARN:   arn:aws:iam:::*/ResourceName   You can associate multiple IAM_PATTERNs even if the account has no principal  with that name.     The ARN path and principal name allow unlimited wildcard characters.    The "?"  wildcard character matches zero or one of any character. This is similar to  ".?" in regular  regex context.   The "*" wildcard character matches any number of any characters. This is similar ".*"  in regular  regex context.   In the IAM Principal ARNs format (arn:partition:iam:::resource-type/resource-path/resource-name),  valid resource-type values include user/, group/, or role/.  The "?" and "*"  are allowed only after the resource-type, in the resource-id segment.  You can use special characters anywhere within the resource-id.   The "*" also matches the "/" character, allowing paths to be formed within the  resource-id.  For example, arn:aws:iam:::role/*/ResourceName_? matches both arn:aws:iam:::role/pathA/pathB/ResourceName_1  and  arn:aws:iam:::role/pathA/ResourceName_1.
+        /// The ARN of the principal (user, role, or group). If the PrincipalType is IAM, the supported value is a  fully defined  IAM Amazon Resource Name (ARN).  If the PrincipalType is IAM_PATTERN,  the supported value is an IAM ARN without an AccountID in the following format:  arn:partition:iam:::resource-type/resource-id  The ARN resource-id can be either:   A fully formed resource-id. For example, arn:aws:iam:::role/resource-name or  arn:aws:iam:::role/resource-path/resource-name    A wildcard ARN. The wildcard ARN accepts IAM_PATTERN values with a  "*" or "?" in the resource-id segment of the ARN. For example arn:partition:service:::resource-type/resource-path/resource-name.  The new symbols are exclusive to the resource-path and resource-name  and cannot replace the resource-type or other  ARN values.  The ARN path and principal name allow unlimited wildcard characters.   Examples of an acceptable wildcard ARN:   arn:aws:iam:::role/ResourceName_*   arn:aws:iam:::role/*/ResourceName_?   Examples of an unacceptable wildcard ARN:   arn:aws:iam:::*/ResourceName   You can associate multiple IAM_PATTERNs even if the account has no principal  with that name.  The "?" wildcard character matches zero or one of any character. This is similar to ".?" in regular  regex context. The "*" wildcard character matches any number of any characters.  This is similar to ".*" in regular regex context. In the IAM Principal ARN format (arn:partition:iam:::resource-type/resource-path/resource-name),  valid resource-type values include user/, group/,  or role/.  The "?" and "*" characters are allowed only after the resource-type in the resource-id segment.  You can use special characters anywhere within the resource-id.  The "*" character also matches the "/" character, allowing paths to be formed within the  resource-id. For example, arn:aws:iam:::role/*/ResourceName_?  matches both arn:aws:iam:::role/pathA/pathB/ResourceName_1  and  arn:aws:iam:::role/pathA/ResourceName_1.
         public let principalARN: String
-        /// The principal type. The supported value is IAM if you use a fully defined ARN,  or IAM_PATTERN if you use an ARN with no accountID, with or without wildcard characters.
+        /// The principal type. The supported value is IAM if you use a fully defined Amazon Resource Name  (ARN), or IAM_PATTERN if you use an ARN with no accountID,  with or without wildcard characters.
         public let principalType: PrincipalType
 
         public init(acceptLanguage: String? = nil, portfolioId: String, principalARN: String, principalType: PrincipalType) {
@@ -2093,6 +2093,8 @@ extension ServiceCatalog {
     public struct DescribeProvisioningArtifactInput: AWSEncodableShape {
         /// The language code.    jp - Japanese    zh - Chinese
         public let acceptLanguage: String?
+        /// Indicates if the API call response does or does not include additional details about the provisioning parameters.
+        public let includeProvisioningArtifactParameters: Bool?
         /// The product identifier.
         public let productId: String?
         /// The product name.
@@ -2104,8 +2106,9 @@ extension ServiceCatalog {
         /// Indicates whether a verbose level of detail is enabled.
         public let verbose: Bool?
 
-        public init(acceptLanguage: String? = nil, productId: String? = nil, productName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, verbose: Bool? = nil) {
+        public init(acceptLanguage: String? = nil, includeProvisioningArtifactParameters: Bool? = nil, productId: String? = nil, productName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, verbose: Bool? = nil) {
             self.acceptLanguage = acceptLanguage
+            self.includeProvisioningArtifactParameters = includeProvisioningArtifactParameters
             self.productId = productId
             self.productName = productName
             self.provisioningArtifactId = provisioningArtifactId
@@ -2127,6 +2130,7 @@ extension ServiceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
+            case includeProvisioningArtifactParameters = "IncludeProvisioningArtifactParameters"
             case productId = "ProductId"
             case productName = "ProductName"
             case provisioningArtifactId = "ProvisioningArtifactId"
@@ -2140,18 +2144,22 @@ extension ServiceCatalog {
         public let info: [String: String]?
         /// Information about the provisioning artifact.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
+        /// Information about the parameters used to provision the product.
+        public let provisioningArtifactParameters: [ProvisioningArtifactParameter]?
         /// The status of the current request.
         public let status: Status?
 
-        public init(info: [String: String]? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, status: Status? = nil) {
+        public init(info: [String: String]? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, status: Status? = nil) {
             self.info = info
             self.provisioningArtifactDetail = provisioningArtifactDetail
+            self.provisioningArtifactParameters = provisioningArtifactParameters
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case info = "Info"
             case provisioningArtifactDetail = "ProvisioningArtifactDetail"
+            case provisioningArtifactParameters = "ProvisioningArtifactParameters"
             case status = "Status"
         }
     }

@@ -56,6 +56,18 @@ extension TimestreamWrite {
         public var description: String { return self.rawValue }
     }
 
+    public enum PartitionKeyEnforcementLevel: String, CustomStringConvertible, Codable, Sendable {
+        case optional = "OPTIONAL"
+        case required = "REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PartitionKeyType: String, CustomStringConvertible, Codable, Sendable {
+        case dimension = "DIMENSION"
+        case measure = "MEASURE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum S3EncryptionOption: String, CustomStringConvertible, Codable, Sendable {
         case sseKms = "SSE_KMS"
         case sseS3 = "SSE_S3"
@@ -315,15 +327,18 @@ extension TimestreamWrite {
         public let magneticStoreWriteProperties: MagneticStoreWriteProperties?
         /// The duration for which your time-series data must be stored in the memory store and the magnetic store.
         public let retentionProperties: RetentionProperties?
+        ///  The schema of the table.
+        public let schema: Schema?
         /// The name of the Timestream table.
         public let tableName: String
         ///  A list of key-value pairs to label the table.
         public let tags: [Tag]?
 
-        public init(databaseName: String, magneticStoreWriteProperties: MagneticStoreWriteProperties? = nil, retentionProperties: RetentionProperties? = nil, tableName: String, tags: [Tag]? = nil) {
+        public init(databaseName: String, magneticStoreWriteProperties: MagneticStoreWriteProperties? = nil, retentionProperties: RetentionProperties? = nil, schema: Schema? = nil, tableName: String, tags: [Tag]? = nil) {
             self.databaseName = databaseName
             self.magneticStoreWriteProperties = magneticStoreWriteProperties
             self.retentionProperties = retentionProperties
+            self.schema = schema
             self.tableName = tableName
             self.tags = tags
         }
@@ -332,6 +347,7 @@ extension TimestreamWrite {
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.magneticStoreWriteProperties?.validate(name: "\(name).magneticStoreWriteProperties")
             try self.retentionProperties?.validate(name: "\(name).retentionProperties")
+            try self.schema?.validate(name: "\(name).schema")
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -343,6 +359,7 @@ extension TimestreamWrite {
             case databaseName = "DatabaseName"
             case magneticStoreWriteProperties = "MagneticStoreWriteProperties"
             case retentionProperties = "RetentionProperties"
+            case schema = "Schema"
             case tableName = "TableName"
             case tags = "Tags"
         }
@@ -974,7 +991,7 @@ extension TimestreamWrite {
         public let name: String
         /// Contains the data type of the MeasureValue for the time-series data point.
         public let type: MeasureValueType
-        ///  The value for the MeasureValue.
+        ///  The value for the MeasureValue. For information, see Data types.
         public let value: String
 
         public init(name: String, type: MeasureValueType, value: String) {
@@ -1076,6 +1093,31 @@ extension TimestreamWrite {
         }
     }
 
+    public struct PartitionKey: AWSEncodableShape & AWSDecodableShape {
+        ///  The level of enforcement for the specification of a dimension key in ingested records. Options are REQUIRED (dimension key must be specified) and OPTIONAL (dimension key does not have to be specified).
+        public let enforcementInRecord: PartitionKeyEnforcementLevel?
+        ///  The name of the attribute used for a dimension key.
+        public let name: String?
+        ///  The type of the partition key. Options are DIMENSION (dimension key) and MEASURE (measure key).
+        public let type: PartitionKeyType
+
+        public init(enforcementInRecord: PartitionKeyEnforcementLevel? = nil, name: String? = nil, type: PartitionKeyType) {
+            self.enforcementInRecord = enforcementInRecord
+            self.name = name
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enforcementInRecord = "EnforcementInRecord"
+            case name = "Name"
+            case type = "Type"
+        }
+    }
+
     public struct Record: AWSEncodableShape {
         /// Contains the list of dimensions for time-series data points.
         public let dimensions: [Dimension]?
@@ -1085,7 +1127,7 @@ extension TimestreamWrite {
         public let measureValue: String?
         ///  Contains the list of MeasureValue for time-series data points.  This is only allowed for type MULTI. For scalar values, use MeasureValue attribute of the record directly.
         public let measureValues: [MeasureValue]?
-        ///  Contains the data type of the measure value for the time-series data point. Default type is DOUBLE.
+        ///  Contains the data type of the measure value for the time-series data point. Default type is DOUBLE. For more information, see Data types.
         public let measureValueType: MeasureValueType?
         ///  Contains the time at which the measure value for the data point was collected. The time value plus the unit provides the time elapsed since the epoch. For example, if the time value is 12345 and the unit is ms, then 12345 ms have elapsed since the epoch.
         public let time: String?
@@ -1285,6 +1327,26 @@ extension TimestreamWrite {
         }
     }
 
+    public struct Schema: AWSEncodableShape & AWSDecodableShape {
+        /// A non-empty list of partition keys defining the attributes used to partition the table data. The order of the list determines the partition hierarchy. The name and type of each partition key as well as the partition key order cannot be changed after the table is created. However, the enforcement level of each partition key can be changed.
+        public let compositePartitionKey: [PartitionKey]?
+
+        public init(compositePartitionKey: [PartitionKey]? = nil) {
+            self.compositePartitionKey = compositePartitionKey
+        }
+
+        public func validate(name: String) throws {
+            try self.compositePartitionKey?.forEach {
+                try $0.validate(name: "\(name).compositePartitionKey[]")
+            }
+            try self.validate(self.compositePartitionKey, name: "compositePartitionKey", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compositePartitionKey = "CompositePartitionKey"
+        }
+    }
+
     public struct Table: AWSDecodableShape {
         /// The Amazon Resource Name that uniquely identifies this table.
         public let arn: String?
@@ -1298,18 +1360,21 @@ extension TimestreamWrite {
         public let magneticStoreWriteProperties: MagneticStoreWriteProperties?
         /// The retention duration for the memory store and magnetic store.
         public let retentionProperties: RetentionProperties?
+        ///  The schema of the table.
+        public let schema: Schema?
         /// The name of the Timestream table.
         public let tableName: String?
         /// The current state of the table:    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.
         public let tableStatus: TableStatus?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, lastUpdatedTime: Date? = nil, magneticStoreWriteProperties: MagneticStoreWriteProperties? = nil, retentionProperties: RetentionProperties? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, lastUpdatedTime: Date? = nil, magneticStoreWriteProperties: MagneticStoreWriteProperties? = nil, retentionProperties: RetentionProperties? = nil, schema: Schema? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.databaseName = databaseName
             self.lastUpdatedTime = lastUpdatedTime
             self.magneticStoreWriteProperties = magneticStoreWriteProperties
             self.retentionProperties = retentionProperties
+            self.schema = schema
             self.tableName = tableName
             self.tableStatus = tableStatus
         }
@@ -1321,6 +1386,7 @@ extension TimestreamWrite {
             case lastUpdatedTime = "LastUpdatedTime"
             case magneticStoreWriteProperties = "MagneticStoreWriteProperties"
             case retentionProperties = "RetentionProperties"
+            case schema = "Schema"
             case tableName = "TableName"
             case tableStatus = "TableStatus"
         }
@@ -1451,25 +1517,30 @@ extension TimestreamWrite {
         public let magneticStoreWriteProperties: MagneticStoreWriteProperties?
         /// The retention duration of the memory store and the magnetic store.
         public let retentionProperties: RetentionProperties?
+        ///  The schema of the table.
+        public let schema: Schema?
         /// The name of the Timestream table.
         public let tableName: String
 
-        public init(databaseName: String, magneticStoreWriteProperties: MagneticStoreWriteProperties? = nil, retentionProperties: RetentionProperties? = nil, tableName: String) {
+        public init(databaseName: String, magneticStoreWriteProperties: MagneticStoreWriteProperties? = nil, retentionProperties: RetentionProperties? = nil, schema: Schema? = nil, tableName: String) {
             self.databaseName = databaseName
             self.magneticStoreWriteProperties = magneticStoreWriteProperties
             self.retentionProperties = retentionProperties
+            self.schema = schema
             self.tableName = tableName
         }
 
         public func validate(name: String) throws {
             try self.magneticStoreWriteProperties?.validate(name: "\(name).magneticStoreWriteProperties")
             try self.retentionProperties?.validate(name: "\(name).retentionProperties")
+            try self.schema?.validate(name: "\(name).schema")
         }
 
         private enum CodingKeys: String, CodingKey {
             case databaseName = "DatabaseName"
             case magneticStoreWriteProperties = "MagneticStoreWriteProperties"
             case retentionProperties = "RetentionProperties"
+            case schema = "Schema"
             case tableName = "TableName"
         }
     }

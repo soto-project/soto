@@ -513,12 +513,12 @@ extension ACMPCA {
         /// 			authorities.
         public let idempotencyToken: String?
         /// Specifies a cryptographic key management compliance standard used for handling CA
-        /// 			keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER  Note: FIPS_140_2_LEVEL_3_OR_HIGHER is not supported in the following
-        /// 			Regions:   ap-northeast-3   ap-southeast-3   When creating a CA in these Regions, you must provide
-        /// 				FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for
-        /// 				KeyStorageSecurityStandard. Failure to do this results in an
-        /// 				InvalidArgsException with the message, "A certificate authority cannot
-        /// 			be created in this region with the specified security standard."
+        /// 			keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER  Some Amazon Web Services Regions do not support the default. When creating a CA in these Regions, you
+        /// 				must provide FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for
+        /// 					KeyStorageSecurityStandard. Failure to do this results in an
+        /// 					InvalidArgsException with the message, "A certificate authority
+        /// 				cannot be created in this region with the specified security standard." For information about security standard support in various Regions, see Storage
+        /// 					and security compliance of Amazon Web Services Private CA private keys.
         public let keyStorageSecurityStandard: KeyStorageSecurityStandard?
         /// Contains information to enable Online Certificate Status Protocol (OCSP) support, to
         /// 			enable a certificate revocation list (CRL), to enable both, or to enable neither. The
@@ -1328,8 +1328,8 @@ extension ACMPCA {
         /// 			call, Amazon Web Services Private CA recognizes that you are requesting multiple certificates.
         public let idempotencyToken: String?
         /// The name of the algorithm that will be used to sign the certificate to be issued.  This parameter should not be confused with the SigningAlgorithm parameter
-        /// 			used to sign a CSR in the CreateCertificateAuthority action.  The specified signing algorithm family (RSA or ECDSA) much match the algorithm
-        /// 				family of the CA's secret key.
+        /// 			used to sign a CSR in the CreateCertificateAuthority action.  The specified signing algorithm family (RSA or ECDSA) must match the algorithm family of
+        /// 				the CA's secret key.
         public let signingAlgorithm: SigningAlgorithm
         /// Specifies a custom configuration template to use when issuing a certificate. If this
         /// 			parameter is not provided, Amazon Web Services Private CA defaults to the
@@ -1359,7 +1359,8 @@ extension ACMPCA {
         /// 			the “Not Before” value.  Unlike the Validity parameter, the ValidityNotBefore
         /// 			parameter is optional. The ValidityNotBefore value is expressed as an explicit date and time,
         /// 			using the Validity type value ABSOLUTE. For more information,
-        /// 			see Validity in this API reference and Validity
+        /// 			see Validity in
+        /// 			this API reference and Validity
         /// 			in RFC 5280.
         public let validityNotBefore: Validity?
 

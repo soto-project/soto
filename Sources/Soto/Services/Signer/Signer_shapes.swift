@@ -104,7 +104,7 @@ extension Signer {
         public func validate(name: String) throws {
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
-            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
+            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}$")
             try self.validate(self.profileVersion, name: "profileVersion", parent: name, max: 10)
             try self.validate(self.profileVersion, name: "profileVersion", parent: name, min: 10)
             try self.validate(self.profileVersion, name: "profileVersion", parent: name, pattern: "^[a-zA-Z0-9]{10}$")
@@ -147,7 +147,7 @@ extension Signer {
         public func validate(name: String) throws {
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
-            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
+            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -286,6 +286,61 @@ extension Signer {
         }
     }
 
+    public struct GetRevocationStatusRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "certificateHashes", location: .querystring("certificateHashes")),
+            AWSMemberEncoding(label: "jobArn", location: .querystring("jobArn")),
+            AWSMemberEncoding(label: "platformId", location: .querystring("platformId")),
+            AWSMemberEncoding(label: "profileVersionArn", location: .querystring("profileVersionArn")),
+            AWSMemberEncoding(label: "signatureTimestamp", location: .querystring("signatureTimestamp"))
+        ]
+
+        /// A list of composite signed hashes that identify certificates.
+        /// 		       A certificate identifier consists of a subject certificate TBS hash (signed by the
+        /// 			parent CA) combined with a parent CA TBS hash (signed by the parent CA’s CA). Root
+        /// 			certificates are defined as their own CA.
+        public let certificateHashes: [String]
+        /// The ARN of a signing job.
+        public let jobArn: String
+        /// The ID of a signing platform.
+        public let platformId: String
+        /// The version of a signing profile.
+        public let profileVersionArn: String
+        /// The timestamp of the signature that validates the profile or job.
+        public let signatureTimestamp: Date
+
+        public init(certificateHashes: [String], jobArn: String, platformId: String, profileVersionArn: String, signatureTimestamp: Date) {
+            self.certificateHashes = certificateHashes
+            self.jobArn = jobArn
+            self.platformId = platformId
+            self.profileVersionArn = profileVersionArn
+            self.signatureTimestamp = signatureTimestamp
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobArn, name: "jobArn", parent: name, max: 2048)
+            try self.validate(self.jobArn, name: "jobArn", parent: name, min: 20)
+            try self.validate(self.profileVersionArn, name: "profileVersionArn", parent: name, max: 2048)
+            try self.validate(self.profileVersionArn, name: "profileVersionArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRevocationStatusResponse: AWSDecodableShape {
+        /// A list of revoked entities (including one or more of the signing profile ARN, signing
+        /// 			job ID, and certificate hash) supplied as input to the API.
+        public let revokedEntities: [String]?
+
+        public init(revokedEntities: [String]? = nil) {
+            self.revokedEntities = revokedEntities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revokedEntities = "revokedEntities"
+        }
+    }
+
     public struct GetSigningPlatformRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "platformId", location: .uri("platformId"))
@@ -367,7 +422,7 @@ extension Signer {
         public func validate(name: String) throws {
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
-            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
+            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}$")
             try self.validate(self.profileOwner, name: "profileOwner", parent: name, max: 12)
             try self.validate(self.profileOwner, name: "profileOwner", parent: name, min: 12)
             try self.validate(self.profileOwner, name: "profileOwner", parent: name, pattern: "^[0-9]{12}$")
@@ -478,7 +533,7 @@ extension Signer {
         public func validate(name: String) throws {
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
-            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
+            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -797,7 +852,7 @@ extension Signer {
         public func validate(name: String) throws {
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
-            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
+            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -862,7 +917,7 @@ extension Signer {
         public func validate(name: String) throws {
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
-            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
+            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -939,7 +994,7 @@ extension Signer {
         public func validate(name: String) throws {
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
-            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
+            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}$")
             try self.validate(self.profileVersion, name: "profileVersion", parent: name, max: 10)
             try self.validate(self.profileVersion, name: "profileVersion", parent: name, min: 10)
             try self.validate(self.profileVersion, name: "profileVersion", parent: name, pattern: "^[a-zA-Z0-9]{10}$")
@@ -1010,9 +1065,71 @@ extension Signer {
         }
     }
 
+    public struct SignPayloadRequest: AWSEncodableShape {
+        /// Specifies the object digest (hash) to sign.
+        public let payload: AWSBase64Data
+        /// Payload content type
+        public let payloadFormat: String
+        /// The name of the signing profile.
+        public let profileName: String
+        /// The AWS account ID of the profile owner.
+        public let profileOwner: String?
+
+        public init(payload: AWSBase64Data, payloadFormat: String, profileName: String, profileOwner: String? = nil) {
+            self.payload = payload
+            self.payloadFormat = payloadFormat
+            self.profileName = profileName
+            self.profileOwner = profileOwner
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.payload, name: "payload", parent: name, max: 4096)
+            try self.validate(self.payload, name: "payload", parent: name, min: 1)
+            try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
+            try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
+            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}$")
+            try self.validate(self.profileOwner, name: "profileOwner", parent: name, max: 12)
+            try self.validate(self.profileOwner, name: "profileOwner", parent: name, min: 12)
+            try self.validate(self.profileOwner, name: "profileOwner", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payload = "payload"
+            case payloadFormat = "payloadFormat"
+            case profileName = "profileName"
+            case profileOwner = "profileOwner"
+        }
+    }
+
+    public struct SignPayloadResponse: AWSDecodableShape {
+        /// Unique identifier of the signing job.
+        public let jobId: String?
+        /// The AWS account ID of the job owner.
+        public let jobOwner: String?
+        /// Information including the signing profile ARN and the signing job ID. Clients use
+        /// 			metadata to signature records, for example, as annotations added to the signature
+        /// 			manifest inside an OCI registry.
+        public let metadata: [String: String]?
+        /// A cryptographic signature.
+        public let signature: AWSBase64Data?
+
+        public init(jobId: String? = nil, jobOwner: String? = nil, metadata: [String: String]? = nil, signature: AWSBase64Data? = nil) {
+            self.jobId = jobId
+            self.jobOwner = jobOwner
+            self.metadata = metadata
+            self.signature = signature
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case jobOwner = "jobOwner"
+            case metadata = "metadata"
+            case signature = "signature"
+        }
+    }
+
     public struct SignatureValidityPeriod: AWSEncodableShape & AWSDecodableShape {
-        /// The time unit for signature
-        /// 			validity.
+        /// The time unit for signature validity.
         public let type: ValidityType?
         /// The numerical value of the time unit for signature validity.
         public let value: Int?
@@ -1206,7 +1323,7 @@ extension Signer {
         public let maxSizeInMB: Int?
         /// Any partner entities linked to a code signing platform.
         public let partner: String?
-        /// The ID of a code signing; platform.
+        /// The ID of a code signing platform.
         public let platformId: String?
         /// Indicates whether revocation is supported for the platform.
         public let revocationSupported: Bool?
@@ -1378,7 +1495,7 @@ extension Signer {
         public func validate(name: String) throws {
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
-            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
+            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}$")
             try self.validate(self.profileOwner, name: "profileOwner", parent: name, max: 12)
             try self.validate(self.profileOwner, name: "profileOwner", parent: name, min: 12)
             try self.validate(self.profileOwner, name: "profileOwner", parent: name, pattern: "^[0-9]{12}$")
@@ -1529,7 +1646,8 @@ public struct SignerErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The client is making a request that exceeds service limits.
     public static var serviceLimitExceededException: Self { .init(.serviceLimitExceededException) }
-    /// The request was denied due to request throttling. Instead of this error, TooManyRequestsException should be used.
+    /// The request was denied due to request throttling.
+    /// 		       Instead of this error, TooManyRequestsException should be used.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The allowed number of job-signing requests has been exceeded.
     /// 		       This error supersedes the error ThrottlingException.

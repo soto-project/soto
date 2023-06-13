@@ -1184,12 +1184,15 @@ extension Athena {
         public let defaultExecutorDpuSize: Int?
         /// The maximum number of DPUs that can run concurrently.
         public let maxConcurrentDpus: Int
+        /// Specifies custom jar files and Spark properties for use cases like cluster encryption, table formats, and general Spark tuning.
+        public let sparkProperties: [String: String]?
 
-        public init(additionalConfigs: [String: String]? = nil, coordinatorDpuSize: Int? = nil, defaultExecutorDpuSize: Int? = nil, maxConcurrentDpus: Int) {
+        public init(additionalConfigs: [String: String]? = nil, coordinatorDpuSize: Int? = nil, defaultExecutorDpuSize: Int? = nil, maxConcurrentDpus: Int, sparkProperties: [String: String]? = nil) {
             self.additionalConfigs = additionalConfigs
             self.coordinatorDpuSize = coordinatorDpuSize
             self.defaultExecutorDpuSize = defaultExecutorDpuSize
             self.maxConcurrentDpus = maxConcurrentDpus
+            self.sparkProperties = sparkProperties
         }
 
         public func validate(name: String) throws {
@@ -1205,6 +1208,12 @@ extension Athena {
             try self.validate(self.defaultExecutorDpuSize, name: "defaultExecutorDpuSize", parent: name, min: 1)
             try self.validate(self.maxConcurrentDpus, name: "maxConcurrentDpus", parent: name, max: 5000)
             try self.validate(self.maxConcurrentDpus, name: "maxConcurrentDpus", parent: name, min: 2)
+            try self.sparkProperties?.forEach {
+                try validate($0.key, name: "sparkProperties.key", parent: name, max: 255)
+                try validate($0.key, name: "sparkProperties.key", parent: name, min: 1)
+                try validate($0.key, name: "sparkProperties.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "sparkProperties[\"\($0.key)\"]", parent: name, max: 51200)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1212,6 +1221,7 @@ extension Athena {
             case coordinatorDpuSize = "CoordinatorDpuSize"
             case defaultExecutorDpuSize = "DefaultExecutorDpuSize"
             case maxConcurrentDpus = "MaxConcurrentDpus"
+            case sparkProperties = "SparkProperties"
         }
     }
 
@@ -4264,7 +4274,7 @@ extension Athena {
         public let additionalConfiguration: String?
         /// The upper data usage limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
         public let bytesScannedCutoffPerQuery: Int64?
-        /// Specifies the KMS key that is used to encrypt the user's data stores in Athena.
+        /// Specifies the KMS key that is used to encrypt the user's data stores in Athena. This setting does not apply to Athena SQL workgroups.
         public let customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration?
         /// Enforces a minimal level of encryption for the workgroup for query and calculation results that are written to Amazon S3. When enabled, workgroup users can set encryption only to the minimum level set by the administrator or higher when they submit queries. The EnforceWorkGroupConfiguration setting takes precedence over the EnableMinimumEncryptionConfiguration flag. This means that if EnforceWorkGroupConfiguration is true, the EnableMinimumEncryptionConfiguration flag is ignored, and the workgroup configuration for encryption is used.
         public let enableMinimumEncryptionConfiguration: Bool?
@@ -4338,7 +4348,7 @@ extension Athena {
         public let publishCloudWatchMetricsEnabled: Bool?
         /// Indicates that the data usage control limit per query is removed. WorkGroupConfiguration$BytesScannedCutoffPerQuery
         public let removeBytesScannedCutoffPerQuery: Bool?
-        /// Removes content encryption configuration for a workgroup.
+        /// Removes content encryption configuration from an Apache Spark-enabled Athena workgroup.
         public let removeCustomerContentEncryptionConfiguration: Bool?
         /// If set to true, allows members assigned to a workgroup to specify Amazon S3 Requester Pays buckets in queries. If set to false, workgroup members cannot query data from Requester Pays buckets, and queries that retrieve data from Requester Pays buckets cause an error. The default is false. For more information about Requester Pays buckets, see Requester Pays Buckets in the Amazon Simple Storage Service Developer Guide.
         public let requesterPaysEnabled: Bool?
