@@ -108,23 +108,18 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
         let id = UUID().uuidString
         let test = TestObject(id: id, name: "John", surname: "Smith", age: 32, address: "1 Park Lane", pets: ["cat", "dog"])
         let nameUpdate = NameUpdate(id: id, name: "David", surname: "Jones")
-
         let tableName = TestEnvironment.generateResourceName()
         do {
             _ = try await self.createTable(name: tableName)
-
             let putRequest = DynamoDB.PutItemCodableInput(item: test, tableName: tableName)
             _ = try await Self.dynamoDB.putItem(putRequest, logger: TestEnvironment.logger)
-
             let updateRequest = DynamoDB.UpdateItemCodableInput(key: ["id"], tableName: tableName, updateItem: nameUpdate)
             _ = try await Self.dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
-
             let additionalAttributes1 = AdditionalAttributes(oldAge: 32)
             let conditionExpression1 = "attribute_exists(#id) AND #age = :oldAge"
             let nameUpdateWithAge1 = NameUpdateWithAge(id: id, name: "David", surname: "Jones", age: 33)
             let updateRequest1 = try DynamoDB.UpdateItemCodableInput(additionalAttributes: additionalAttributes1, conditionExpression: conditionExpression1, key: ["id"], tableName: tableName, updateItem: nameUpdateWithAge1)
             _ = try await Self.dynamoDB.updateItem(updateRequest1, logger: TestEnvironment.logger)
-    
             do {
                 let additionalAttributes = AdditionalAttributes(oldAge: 34)
                 let conditionExpression = "attribute_exists(#id) AND #age = :oldAge"
