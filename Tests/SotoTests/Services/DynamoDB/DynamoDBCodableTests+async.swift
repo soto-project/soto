@@ -135,7 +135,7 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
 
             XCTAssertEqual("David", response.item?.name)
             XCTAssertEqual("Jones", response.item?.surname)
-            XCTAssertEqual(32, response.item?.age)
+            XCTAssertEqual(33, response.item?.age)
             XCTAssertEqual("1 Park Lane", response.item?.address)
             XCTAssertEqual(["cat", "dog"], response.item?.pets)
         } catch {
