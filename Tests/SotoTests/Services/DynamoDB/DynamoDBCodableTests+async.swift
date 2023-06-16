@@ -96,27 +96,35 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
             let name: String
             let surname: String
         }
-        struct AdditionalAttributes: Codable {
+        struct NameUpdateWithAge: Codable {
+            let id: String
+            let name: String
+            let surname: String
             let age: Int
+        }
+        struct AdditionalAttributes: Codable {
+            let oldAge: Int
         }
         let id = UUID().uuidString
         let test = TestObject(id: id, name: "John", surname: "Smith", age: 32, address: "1 Park Lane", pets: ["cat", "dog"])
         let nameUpdate = NameUpdate(id: id, name: "David", surname: "Jones")
-
         let tableName = TestEnvironment.generateResourceName()
         do {
             _ = try await self.createTable(name: tableName)
-
             let putRequest = DynamoDB.PutItemCodableInput(item: test, tableName: tableName)
             _ = try await Self.dynamoDB.putItem(putRequest, logger: TestEnvironment.logger)
-
             let updateRequest = DynamoDB.UpdateItemCodableInput(key: ["id"], tableName: tableName, updateItem: nameUpdate)
             _ = try await Self.dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
-
+            let additionalAttributes1 = AdditionalAttributes(oldAge: 32)
+            let conditionExpression1 = "attribute_exists(#id) AND #age = :oldAge"
+            let nameUpdateWithAge1 = NameUpdateWithAge(id: id, name: "David", surname: "Jones", age: 33)
+            let updateRequest1 = try DynamoDB.UpdateItemCodableInput(additionalAttributes: additionalAttributes1, conditionExpression: conditionExpression1, key: ["id"], tableName: tableName, updateItem: nameUpdateWithAge1)
+            _ = try await Self.dynamoDB.updateItem(updateRequest1, logger: TestEnvironment.logger)
             do {
-                let additionalAttributes = AdditionalAttributes(age: 33)
-                let conditionExpression = "#age = :age"
-                let updateRequest = try DynamoDB.UpdateItemCodableInput(additionalAttributes: additionalAttributes, conditionExpression: conditionExpression, key: ["id"], tableName: tableName, updateItem: nameUpdate)
+                let additionalAttributes = AdditionalAttributes(oldAge: 34)
+                let conditionExpression = "attribute_exists(#id) AND #age = :oldAge"
+                let nameUpdateWithAge = NameUpdateWithAge(id: id, name: "David", surname: "Jones", age: 35)
+                let updateRequest = try DynamoDB.UpdateItemCodableInput(additionalAttributes: additionalAttributes, conditionExpression: conditionExpression, key: ["id"], tableName: tableName, updateItem: nameUpdateWithAge)
                 _ = try await Self.dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
                 XCTFail("Should have thrown error because conditionExpression is not met")
             } catch {
@@ -127,7 +135,7 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
 
             XCTAssertEqual("David", response.item?.name)
             XCTAssertEqual("Jones", response.item?.surname)
-            XCTAssertEqual(32, response.item?.age)
+            XCTAssertEqual(33, response.item?.age)
             XCTAssertEqual("1 Park Lane", response.item?.address)
             XCTAssertEqual(["cat", "dog"], response.item?.pets)
         } catch {
