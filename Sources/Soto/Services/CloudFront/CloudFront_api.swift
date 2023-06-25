@@ -82,8 +82,9 @@ public struct CloudFront: AWSService {
     /// 			to set up the target distribution, prerequisites that you must complete, and other
     /// 			restrictions, see Moving an alternate domain name to a different
     /// 				distribution in the Amazon CloudFront Developer Guide.
-    @discardableResult public func associateAlias(_ input: AssociateAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "AssociateAlias", path: "/2020-05-31/distribution/{TargetDistributionId}/associate-alias", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateAlias(_ input: AssociateAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "AssociateAlias", path: "/2020-05-31/distribution/{TargetDistributionId}/associate-alias", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a staging distribution using the configuration of the provided primary
@@ -92,8 +93,9 @@ public struct CloudFront: AWSService {
     /// 			to modify the staging distribution's configuration. Then you can use
     /// 				CreateContinuousDeploymentPolicy to incrementally move traffic to the
     /// 			staging distribution.
-    public func copyDistribution(_ input: CopyDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CopyDistributionResult> {
-        return self.client.execute(operation: "CopyDistribution", path: "/2020-05-31/distribution/{PrimaryDistributionId}/copy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func copyDistribution(_ input: CopyDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyDistributionResult {
+        return try await self.client.execute(operation: "CopyDistribution", path: "/2020-05-31/distribution/{PrimaryDistributionId}/copy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors.
@@ -108,8 +110,9 @@ public struct CloudFront: AWSService {
     /// 			the origin but not include them in the cache key, use
     /// 			OriginRequestPolicy. For more information about cache policies, see Controlling the cache key in the
     /// 				Amazon CloudFront Developer Guide.
-    public func createCachePolicy(_ input: CreateCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCachePolicyResult> {
-        return self.client.execute(operation: "CreateCachePolicy", path: "/2020-05-31/cache-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCachePolicy(_ input: CreateCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCachePolicyResult {
+        return try await self.client.execute(operation: "CreateCachePolicy", path: "/2020-05-31/cache-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new origin access identity. If you're using Amazon S3 for your origin, you can
@@ -117,8 +120,9 @@ public struct CloudFront: AWSService {
     /// 			instead of the Amazon S3 URL. For more information about how to use origin access identities,
     /// 			see Serving Private
     /// 				Content through CloudFront in the Amazon CloudFront Developer Guide.
-    public func createCloudFrontOriginAccessIdentity(_ input: CreateCloudFrontOriginAccessIdentityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCloudFrontOriginAccessIdentityResult> {
-        return self.client.execute(operation: "CreateCloudFrontOriginAccessIdentity", path: "/2020-05-31/origin-access-identity/cloudfront", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCloudFrontOriginAccessIdentity(_ input: CreateCloudFrontOriginAccessIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCloudFrontOriginAccessIdentityResult {
+        return try await self.client.execute(operation: "CreateCloudFrontOriginAccessIdentity", path: "/2020-05-31/origin-access-identity/cloudfront", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a continuous deployment policy that distributes traffic for a custom domain
@@ -128,28 +132,33 @@ public struct CloudFront: AWSService {
     /// 			deployment policy to incrementally move traffic to the staging distribution. This
     /// 			workflow enables you to test changes to a distribution's configuration before moving all
     /// 			of your domain's production traffic to the new configuration.
-    public func createContinuousDeploymentPolicy(_ input: CreateContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateContinuousDeploymentPolicyResult> {
-        return self.client.execute(operation: "CreateContinuousDeploymentPolicy", path: "/2020-05-31/continuous-deployment-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createContinuousDeploymentPolicy(_ input: CreateContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContinuousDeploymentPolicyResult {
+        return try await self.client.execute(operation: "CreateContinuousDeploymentPolicy", path: "/2020-05-31/continuous-deployment-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a CloudFront distribution.
-    public func createDistribution(_ input: CreateDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDistributionResult> {
-        return self.client.execute(operation: "CreateDistribution", path: "/2020-05-31/distribution", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDistribution(_ input: CreateDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDistributionResult {
+        return try await self.client.execute(operation: "CreateDistribution", path: "/2020-05-31/distribution", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a new distribution with tags.
-    public func createDistributionWithTags(_ input: CreateDistributionWithTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDistributionWithTagsResult> {
-        return self.client.execute(operation: "CreateDistributionWithTags", path: "/2020-05-31/distribution?WithTags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDistributionWithTags(_ input: CreateDistributionWithTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDistributionWithTagsResult {
+        return try await self.client.execute(operation: "CreateDistributionWithTags", path: "/2020-05-31/distribution?WithTags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a new field-level encryption configuration.
-    public func createFieldLevelEncryptionConfig(_ input: CreateFieldLevelEncryptionConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFieldLevelEncryptionConfigResult> {
-        return self.client.execute(operation: "CreateFieldLevelEncryptionConfig", path: "/2020-05-31/field-level-encryption", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createFieldLevelEncryptionConfig(_ input: CreateFieldLevelEncryptionConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFieldLevelEncryptionConfigResult {
+        return try await self.client.execute(operation: "CreateFieldLevelEncryptionConfig", path: "/2020-05-31/field-level-encryption", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a field-level encryption profile.
-    public func createFieldLevelEncryptionProfile(_ input: CreateFieldLevelEncryptionProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFieldLevelEncryptionProfileResult> {
-        return self.client.execute(operation: "CreateFieldLevelEncryptionProfile", path: "/2020-05-31/field-level-encryption-profile", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createFieldLevelEncryptionProfile(_ input: CreateFieldLevelEncryptionProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFieldLevelEncryptionProfileResult {
+        return try await self.client.execute(operation: "CreateFieldLevelEncryptionProfile", path: "/2020-05-31/field-level-encryption-profile", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a CloudFront function. To create a function, you provide the function code and some configuration information
@@ -160,13 +169,15 @@ public struct CloudFront: AWSService {
     /// 				PublishFunction to copy the function from the DEVELOPMENT
     /// 			stage to LIVE. When it's live, you can attach the function to a
     /// 			distribution's cache behavior, using the function's ARN.
-    public func createFunction(_ input: CreateFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFunctionResult> {
-        return self.client.execute(operation: "CreateFunction", path: "/2020-05-31/function", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createFunction(_ input: CreateFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFunctionResult {
+        return try await self.client.execute(operation: "CreateFunction", path: "/2020-05-31/function", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a new invalidation.
-    public func createInvalidation(_ input: CreateInvalidationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInvalidationResult> {
-        return self.client.execute(operation: "CreateInvalidation", path: "/2020-05-31/distribution/{DistributionId}/invalidation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createInvalidation(_ input: CreateInvalidationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInvalidationResult {
+        return try await self.client.execute(operation: "CreateInvalidation", path: "/2020-05-31/distribution/{DistributionId}/invalidation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a key group that you can use with CloudFront signed URLs and signed cookies. To create a key group, you must specify at least one public key for the key group.
@@ -177,15 +188,17 @@ public struct CloudFront: AWSService {
     /// 			URL or cookie contains information about which public key CloudFront should use to verify the
     /// 			signature. For more information, see Serving private content in the
     /// 				Amazon CloudFront Developer Guide.
-    public func createKeyGroup(_ input: CreateKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateKeyGroupResult> {
-        return self.client.execute(operation: "CreateKeyGroup", path: "/2020-05-31/key-group", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createKeyGroup(_ input: CreateKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKeyGroupResult {
+        return try await self.client.execute(operation: "CreateKeyGroup", path: "/2020-05-31/key-group", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Enables additional CloudWatch metrics for the specified CloudFront distribution. The
     /// 			additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in
     /// 			the Amazon CloudFront Developer Guide.
-    public func createMonitoringSubscription(_ input: CreateMonitoringSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMonitoringSubscriptionResult> {
-        return self.client.execute(operation: "CreateMonitoringSubscription", path: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createMonitoringSubscription(_ input: CreateMonitoringSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMonitoringSubscriptionResult {
+        return try await self.client.execute(operation: "CreateMonitoringSubscription", path: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new origin access control in CloudFront. After you create an origin access
@@ -193,8 +206,9 @@ public struct CloudFront: AWSService {
     /// 			authenticated (signed) requests to the origin. This makes it possible to block public access to the origin, allowing viewers (users) to
     /// 			access the origin's content only through CloudFront. For more information about using a CloudFront origin access control, see Restricting access to an Amazon Web Services origin in the
     /// 				Amazon CloudFront Developer Guide.
-    public func createOriginAccessControl(_ input: CreateOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateOriginAccessControlResult> {
-        return self.client.execute(operation: "CreateOriginAccessControl", path: "/2020-05-31/origin-access-control", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createOriginAccessControl(_ input: CreateOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOriginAccessControlResult {
+        return try await self.client.execute(operation: "CreateOriginAccessControl", path: "/2020-05-31/origin-access-control", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache
@@ -210,20 +224,23 @@ public struct CloudFront: AWSService {
     /// 			request. If you want to send values to the origin and also include them in the cache
     /// 			key, use CachePolicy. For more information about origin request policies, see Controlling origin requests in the
     /// 				Amazon CloudFront Developer Guide.
-    public func createOriginRequestPolicy(_ input: CreateOriginRequestPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateOriginRequestPolicyResult> {
-        return self.client.execute(operation: "CreateOriginRequestPolicy", path: "/2020-05-31/origin-request-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createOriginRequestPolicy(_ input: CreateOriginRequestPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOriginRequestPolicyResult {
+        return try await self.client.execute(operation: "CreateOriginRequestPolicy", path: "/2020-05-31/origin-request-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Uploads a public key to CloudFront that you can use with signed URLs and signed cookies, or with field-level encryption.
-    public func createPublicKey(_ input: CreatePublicKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePublicKeyResult> {
-        return self.client.execute(operation: "CreatePublicKey", path: "/2020-05-31/public-key", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createPublicKey(_ input: CreatePublicKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePublicKeyResult {
+        return try await self.client.execute(operation: "CreatePublicKey", path: "/2020-05-31/public-key", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a real-time log configuration. After you create a real-time log configuration, you can attach it to one or more cache
     /// 			behaviors to send real-time log data to the specified Amazon Kinesis data stream. For more information about real-time log configurations, see Real-time logs in the
     /// 				Amazon CloudFront Developer Guide.
-    public func createRealtimeLogConfig(_ input: CreateRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRealtimeLogConfigResult> {
-        return self.client.execute(operation: "CreateRealtimeLogConfig", path: "/2020-05-31/realtime-log-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createRealtimeLogConfig(_ input: CreateRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRealtimeLogConfigResult {
+        return try await self.client.execute(operation: "CreateRealtimeLogConfig", path: "/2020-05-31/realtime-log-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a response headers policy. A response headers policy contains information about a set of HTTP headers. To create a
@@ -234,22 +251,25 @@ public struct CloudFront: AWSService {
     /// 			requests that match the cache behavior. CloudFront adds or removes response headers according
     /// 			to the configuration of the response headers policy. For more information, see Adding or removing HTTP headers in CloudFront responses in the
     /// 			Amazon CloudFront Developer Guide.
-    public func createResponseHeadersPolicy(_ input: CreateResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResponseHeadersPolicyResult> {
-        return self.client.execute(operation: "CreateResponseHeadersPolicy", path: "/2020-05-31/response-headers-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createResponseHeadersPolicy(_ input: CreateResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResponseHeadersPolicyResult {
+        return try await self.client.execute(operation: "CreateResponseHeadersPolicy", path: "/2020-05-31/response-headers-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP)
     /// 			distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion
     /// 			forum.
-    public func createStreamingDistribution(_ input: CreateStreamingDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStreamingDistributionResult> {
-        return self.client.execute(operation: "CreateStreamingDistribution", path: "/2020-05-31/streaming-distribution", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createStreamingDistribution(_ input: CreateStreamingDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStreamingDistributionResult {
+        return try await self.client.execute(operation: "CreateStreamingDistribution", path: "/2020-05-31/streaming-distribution", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP)
     /// 			distributions on December 31, 2020. For more information, read the announcement on the Amazon CloudFront discussion
     /// 			forum.
-    public func createStreamingDistributionWithTags(_ input: CreateStreamingDistributionWithTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStreamingDistributionWithTagsResult> {
-        return self.client.execute(operation: "CreateStreamingDistributionWithTags", path: "/2020-05-31/streaming-distribution?WithTags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createStreamingDistributionWithTags(_ input: CreateStreamingDistributionWithTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStreamingDistributionWithTagsResult {
+        return try await self.client.execute(operation: "CreateStreamingDistributionWithTags", path: "/2020-05-31/streaming-distribution?WithTags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update
@@ -257,35 +277,41 @@ public struct CloudFront: AWSService {
     /// 			cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get
     /// 			these values, you can use ListCachePolicies or
     /// 			GetCachePolicy.
-    @discardableResult public func deleteCachePolicy(_ input: DeleteCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteCachePolicy", path: "/2020-05-31/cache-policy/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCachePolicy(_ input: DeleteCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteCachePolicy", path: "/2020-05-31/cache-policy/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete an origin access identity.
-    @discardableResult public func deleteCloudFrontOriginAccessIdentity(_ input: DeleteCloudFrontOriginAccessIdentityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteCloudFrontOriginAccessIdentity", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCloudFrontOriginAccessIdentity(_ input: DeleteCloudFrontOriginAccessIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteCloudFrontOriginAccessIdentity", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that's attached to a primary
     /// 			distribution. First update your distribution to remove the continuous deployment policy,
     /// 			then you can delete the policy.
-    @discardableResult public func deleteContinuousDeploymentPolicy(_ input: DeleteContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteContinuousDeploymentPolicy", path: "/2020-05-31/continuous-deployment-policy/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteContinuousDeploymentPolicy(_ input: DeleteContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteContinuousDeploymentPolicy", path: "/2020-05-31/continuous-deployment-policy/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete a distribution.
-    @discardableResult public func deleteDistribution(_ input: DeleteDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDistribution", path: "/2020-05-31/distribution/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDistribution(_ input: DeleteDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteDistribution", path: "/2020-05-31/distribution/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Remove a field-level encryption configuration.
-    @discardableResult public func deleteFieldLevelEncryptionConfig(_ input: DeleteFieldLevelEncryptionConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteFieldLevelEncryptionConfig", path: "/2020-05-31/field-level-encryption/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteFieldLevelEncryptionConfig(_ input: DeleteFieldLevelEncryptionConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteFieldLevelEncryptionConfig", path: "/2020-05-31/field-level-encryption/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Remove a field-level encryption profile.
-    @discardableResult public func deleteFieldLevelEncryptionProfile(_ input: DeleteFieldLevelEncryptionProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteFieldLevelEncryptionProfile", path: "/2020-05-31/field-level-encryption-profile/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteFieldLevelEncryptionProfile(_ input: DeleteFieldLevelEncryptionProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteFieldLevelEncryptionProfile", path: "/2020-05-31/field-level-encryption-profile/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a CloudFront function. You cannot delete a function if it's associated with a cache behavior. First, update
@@ -293,8 +319,9 @@ public struct CloudFront: AWSService {
     /// 			delete the function. To delete a function, you must provide the function's name and version
     /// 				(ETag value). To get these values, you can use
     /// 				ListFunctions and DescribeFunction.
-    @discardableResult public func deleteFunction(_ input: DeleteFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteFunction", path: "/2020-05-31/function/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteFunction(_ input: DeleteFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteFunction", path: "/2020-05-31/function/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a key group. You cannot delete a key group that is referenced in a cache behavior. First update
@@ -302,21 +329,24 @@ public struct CloudFront: AWSService {
     /// 			group. To delete a key group, you must provide the key group's identifier and version. To get
     /// 			these values, use ListKeyGroups followed by GetKeyGroup or
     /// 				GetKeyGroupConfig.
-    @discardableResult public func deleteKeyGroup(_ input: DeleteKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteKeyGroup", path: "/2020-05-31/key-group/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteKeyGroup(_ input: DeleteKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteKeyGroup", path: "/2020-05-31/key-group/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disables additional CloudWatch metrics for the specified CloudFront
     /// 			distribution.
-    public func deleteMonitoringSubscription(_ input: DeleteMonitoringSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMonitoringSubscriptionResult> {
-        return self.client.execute(operation: "DeleteMonitoringSubscription", path: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteMonitoringSubscription(_ input: DeleteMonitoringSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMonitoringSubscriptionResult {
+        return try await self.client.execute(operation: "DeleteMonitoringSubscription", path: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, update all
     /// 			distributions to remove the origin access control from all origins, then delete the
     /// 			origin access control.
-    @discardableResult public func deleteOriginAccessControl(_ input: DeleteOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteOriginAccessControl", path: "/2020-05-31/origin-access-control/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteOriginAccessControl(_ input: DeleteOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteOriginAccessControl", path: "/2020-05-31/origin-access-control/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors.
@@ -324,13 +354,15 @@ public struct CloudFront: AWSService {
     /// 			behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's identifier and
     /// 			version. To get the identifier, you can use ListOriginRequestPolicies or
     /// 				GetOriginRequestPolicy.
-    @discardableResult public func deleteOriginRequestPolicy(_ input: DeleteOriginRequestPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteOriginRequestPolicy", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteOriginRequestPolicy(_ input: DeleteOriginRequestPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteOriginRequestPolicy", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Remove a public key you previously added to CloudFront.
-    @discardableResult public func deletePublicKey(_ input: DeletePublicKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeletePublicKey", path: "/2020-05-31/public-key/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deletePublicKey(_ input: DeletePublicKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeletePublicKey", path: "/2020-05-31/public-key/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it's attached to a cache behavior.
@@ -338,8 +370,9 @@ public struct CloudFront: AWSService {
     /// 			behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration's name or
     /// 			its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront
     /// 			uses the name to identify the real-time log configuration to delete.
-    @discardableResult public func deleteRealtimeLogConfig(_ input: DeleteRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteRealtimeLogConfig", path: "/2020-05-31/delete-realtime-log-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRealtimeLogConfig(_ input: DeleteRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteRealtimeLogConfig", path: "/2020-05-31/delete-realtime-log-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior.
@@ -347,8 +380,9 @@ public struct CloudFront: AWSService {
     /// 			behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and
     /// 			version. To get these values, you can use ListResponseHeadersPolicies or
     /// 				GetResponseHeadersPolicy.
-    @discardableResult public func deleteResponseHeadersPolicy(_ input: DeleteResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteResponseHeadersPolicy", path: "/2020-05-31/response-headers-policy/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteResponseHeadersPolicy(_ input: DeleteResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteResponseHeadersPolicy", path: "/2020-05-31/response-headers-policy/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API,
@@ -371,16 +405,18 @@ public struct CloudFront: AWSService {
     /// 						Distribution Config request in Step 2.   Review the response to your DELETE Streaming Distribution request
     /// 					to confirm that the distribution was successfully deleted.   For information about deleting a distribution using the CloudFront console, see Deleting a
     /// 				Distribution in the Amazon CloudFront Developer Guide.
-    @discardableResult public func deleteStreamingDistribution(_ input: DeleteStreamingDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteStreamingDistribution", path: "/2020-05-31/streaming-distribution/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteStreamingDistribution(_ input: DeleteStreamingDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteStreamingDistribution", path: "/2020-05-31/streaming-distribution/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets configuration information and metadata about a CloudFront function, but not the
     /// 			function's code. To get a function's code, use GetFunction. To get configuration information and metadata about a function, you must provide the
     /// 			function's name and stage. To get these values, you can use
     /// 			ListFunctions.
-    public func describeFunction(_ input: DescribeFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFunctionResult> {
-        return self.client.execute(operation: "DescribeFunction", path: "/2020-05-31/function/{Name}/describe", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeFunction(_ input: DescribeFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFunctionResult {
+        return try await self.client.execute(operation: "DescribeFunction", path: "/2020-05-31/function/{Name}/describe", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a cache policy, including the following metadata:   The policy's identifier.   The date and time when the policy was last modified.   To get a cache policy, you must provide the policy's identifier. If the cache policy
@@ -388,8 +424,9 @@ public struct CloudFront: AWSService {
     /// 			using ListDistributions or GetDistribution. If the cache
     /// 			policy is not attached to a cache behavior, you can get the identifier using
     /// 				ListCachePolicies.
-    public func getCachePolicy(_ input: GetCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCachePolicyResult> {
-        return self.client.execute(operation: "GetCachePolicy", path: "/2020-05-31/cache-policy/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCachePolicy(_ input: GetCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCachePolicyResult {
+        return try await self.client.execute(operation: "GetCachePolicy", path: "/2020-05-31/cache-policy/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the
@@ -397,71 +434,84 @@ public struct CloudFront: AWSService {
     /// 			identifier using ListDistributions or GetDistribution. If the
     /// 			cache policy is not attached to a cache behavior, you can get the identifier using
     /// 				ListCachePolicies.
-    public func getCachePolicyConfig(_ input: GetCachePolicyConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCachePolicyConfigResult> {
-        return self.client.execute(operation: "GetCachePolicyConfig", path: "/2020-05-31/cache-policy/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCachePolicyConfig(_ input: GetCachePolicyConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCachePolicyConfigResult {
+        return try await self.client.execute(operation: "GetCachePolicyConfig", path: "/2020-05-31/cache-policy/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the information about an origin access identity.
-    public func getCloudFrontOriginAccessIdentity(_ input: GetCloudFrontOriginAccessIdentityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCloudFrontOriginAccessIdentityResult> {
-        return self.client.execute(operation: "GetCloudFrontOriginAccessIdentity", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCloudFrontOriginAccessIdentity(_ input: GetCloudFrontOriginAccessIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCloudFrontOriginAccessIdentityResult {
+        return try await self.client.execute(operation: "GetCloudFrontOriginAccessIdentity", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the configuration information about an origin access identity.
-    public func getCloudFrontOriginAccessIdentityConfig(_ input: GetCloudFrontOriginAccessIdentityConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCloudFrontOriginAccessIdentityConfigResult> {
-        return self.client.execute(operation: "GetCloudFrontOriginAccessIdentityConfig", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCloudFrontOriginAccessIdentityConfig(_ input: GetCloudFrontOriginAccessIdentityConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCloudFrontOriginAccessIdentityConfigResult {
+        return try await self.client.execute(operation: "GetCloudFrontOriginAccessIdentityConfig", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a continuous deployment policy, including metadata (the policy's identifier and
     /// 			the date and time when the policy was last modified).
-    public func getContinuousDeploymentPolicy(_ input: GetContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetContinuousDeploymentPolicyResult> {
-        return self.client.execute(operation: "GetContinuousDeploymentPolicy", path: "/2020-05-31/continuous-deployment-policy/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getContinuousDeploymentPolicy(_ input: GetContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContinuousDeploymentPolicyResult {
+        return try await self.client.execute(operation: "GetContinuousDeploymentPolicy", path: "/2020-05-31/continuous-deployment-policy/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets configuration information about a continuous deployment policy.
-    public func getContinuousDeploymentPolicyConfig(_ input: GetContinuousDeploymentPolicyConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetContinuousDeploymentPolicyConfigResult> {
-        return self.client.execute(operation: "GetContinuousDeploymentPolicyConfig", path: "/2020-05-31/continuous-deployment-policy/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getContinuousDeploymentPolicyConfig(_ input: GetContinuousDeploymentPolicyConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContinuousDeploymentPolicyConfigResult {
+        return try await self.client.execute(operation: "GetContinuousDeploymentPolicyConfig", path: "/2020-05-31/continuous-deployment-policy/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the information about a distribution.
-    public func getDistribution(_ input: GetDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDistributionResult> {
-        return self.client.execute(operation: "GetDistribution", path: "/2020-05-31/distribution/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDistribution(_ input: GetDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDistributionResult {
+        return try await self.client.execute(operation: "GetDistribution", path: "/2020-05-31/distribution/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the configuration information about a distribution.
-    public func getDistributionConfig(_ input: GetDistributionConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDistributionConfigResult> {
-        return self.client.execute(operation: "GetDistributionConfig", path: "/2020-05-31/distribution/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDistributionConfig(_ input: GetDistributionConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDistributionConfigResult {
+        return try await self.client.execute(operation: "GetDistributionConfig", path: "/2020-05-31/distribution/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the field-level encryption configuration information.
-    public func getFieldLevelEncryption(_ input: GetFieldLevelEncryptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFieldLevelEncryptionResult> {
-        return self.client.execute(operation: "GetFieldLevelEncryption", path: "/2020-05-31/field-level-encryption/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFieldLevelEncryption(_ input: GetFieldLevelEncryptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFieldLevelEncryptionResult {
+        return try await self.client.execute(operation: "GetFieldLevelEncryption", path: "/2020-05-31/field-level-encryption/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the field-level encryption configuration information.
-    public func getFieldLevelEncryptionConfig(_ input: GetFieldLevelEncryptionConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFieldLevelEncryptionConfigResult> {
-        return self.client.execute(operation: "GetFieldLevelEncryptionConfig", path: "/2020-05-31/field-level-encryption/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFieldLevelEncryptionConfig(_ input: GetFieldLevelEncryptionConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFieldLevelEncryptionConfigResult {
+        return try await self.client.execute(operation: "GetFieldLevelEncryptionConfig", path: "/2020-05-31/field-level-encryption/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the field-level encryption profile information.
-    public func getFieldLevelEncryptionProfile(_ input: GetFieldLevelEncryptionProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFieldLevelEncryptionProfileResult> {
-        return self.client.execute(operation: "GetFieldLevelEncryptionProfile", path: "/2020-05-31/field-level-encryption-profile/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFieldLevelEncryptionProfile(_ input: GetFieldLevelEncryptionProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFieldLevelEncryptionProfileResult {
+        return try await self.client.execute(operation: "GetFieldLevelEncryptionProfile", path: "/2020-05-31/field-level-encryption-profile/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the field-level encryption profile configuration information.
-    public func getFieldLevelEncryptionProfileConfig(_ input: GetFieldLevelEncryptionProfileConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFieldLevelEncryptionProfileConfigResult> {
-        return self.client.execute(operation: "GetFieldLevelEncryptionProfileConfig", path: "/2020-05-31/field-level-encryption-profile/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFieldLevelEncryptionProfileConfig(_ input: GetFieldLevelEncryptionProfileConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFieldLevelEncryptionProfileConfigResult {
+        return try await self.client.execute(operation: "GetFieldLevelEncryptionProfileConfig", path: "/2020-05-31/field-level-encryption-profile/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the code of a CloudFront function. To get configuration information and metadata about
     /// 			a function, use DescribeFunction. To get a function's code, you must provide the function's name and stage. To get these
     /// 			values, you can use ListFunctions.
-    public func getFunction(_ input: GetFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFunctionResult> {
-        return self.client.execute(operation: "GetFunction", path: "/2020-05-31/function/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFunction(_ input: GetFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFunctionResult {
+        return try await self.client.execute(operation: "GetFunction", path: "/2020-05-31/function/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the information about an invalidation.
-    public func getInvalidation(_ input: GetInvalidationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInvalidationResult> {
-        return self.client.execute(operation: "GetInvalidation", path: "/2020-05-31/distribution/{DistributionId}/invalidation/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getInvalidation(_ input: GetInvalidationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvalidationResult {
+        return try await self.client.execute(operation: "GetInvalidation", path: "/2020-05-31/distribution/{DistributionId}/invalidation/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a key group, including the date and time when the key group was last
@@ -470,8 +520,9 @@ public struct CloudFront: AWSService {
     /// 			using ListDistributions or GetDistribution. If the key group
     /// 			is not referenced in a cache behavior, you can get the identifier using
     /// 				ListKeyGroups.
-    public func getKeyGroup(_ input: GetKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetKeyGroupResult> {
-        return self.client.execute(operation: "GetKeyGroup", path: "/2020-05-31/key-group/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getKeyGroup(_ input: GetKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKeyGroupResult {
+        return try await self.client.execute(operation: "GetKeyGroup", path: "/2020-05-31/key-group/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the
@@ -479,24 +530,28 @@ public struct CloudFront: AWSService {
     /// 			identifier using ListDistributions or GetDistribution. If the
     /// 			key group is not referenced in a cache behavior, you can get the identifier using
     /// 				ListKeyGroups.
-    public func getKeyGroupConfig(_ input: GetKeyGroupConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetKeyGroupConfigResult> {
-        return self.client.execute(operation: "GetKeyGroupConfig", path: "/2020-05-31/key-group/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getKeyGroupConfig(_ input: GetKeyGroupConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKeyGroupConfigResult {
+        return try await self.client.execute(operation: "GetKeyGroupConfig", path: "/2020-05-31/key-group/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about whether additional CloudWatch metrics are enabled for the
     /// 			specified CloudFront distribution.
-    public func getMonitoringSubscription(_ input: GetMonitoringSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMonitoringSubscriptionResult> {
-        return self.client.execute(operation: "GetMonitoringSubscription", path: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMonitoringSubscription(_ input: GetMonitoringSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMonitoringSubscriptionResult {
+        return try await self.client.execute(operation: "GetMonitoringSubscription", path: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a CloudFront origin access control, including its unique identifier.
-    public func getOriginAccessControl(_ input: GetOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOriginAccessControlResult> {
-        return self.client.execute(operation: "GetOriginAccessControl", path: "/2020-05-31/origin-access-control/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getOriginAccessControl(_ input: GetOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOriginAccessControlResult {
+        return try await self.client.execute(operation: "GetOriginAccessControl", path: "/2020-05-31/origin-access-control/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a CloudFront origin access control configuration.
-    public func getOriginAccessControlConfig(_ input: GetOriginAccessControlConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOriginAccessControlConfigResult> {
-        return self.client.execute(operation: "GetOriginAccessControlConfig", path: "/2020-05-31/origin-access-control/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getOriginAccessControlConfig(_ input: GetOriginAccessControlConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOriginAccessControlConfigResult {
+        return try await self.client.execute(operation: "GetOriginAccessControlConfig", path: "/2020-05-31/origin-access-control/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets an origin request policy, including the following metadata:   The policy's identifier.   The date and time when the policy was last modified.   To get an origin request policy, you must provide the policy's identifier. If the
@@ -505,8 +560,9 @@ public struct CloudFront: AWSService {
     /// 			GetDistribution. If the origin request policy is not attached to a cache
     /// 			behavior, you can get the identifier using
     /// 			ListOriginRequestPolicies.
-    public func getOriginRequestPolicy(_ input: GetOriginRequestPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOriginRequestPolicyResult> {
-        return self.client.execute(operation: "GetOriginRequestPolicy", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getOriginRequestPolicy(_ input: GetOriginRequestPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOriginRequestPolicyResult {
+        return try await self.client.execute(operation: "GetOriginRequestPolicy", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy's
@@ -515,25 +571,29 @@ public struct CloudFront: AWSService {
     /// 				GetDistribution. If the origin request policy is not attached to a
     /// 			cache behavior, you can get the identifier using
     /// 			ListOriginRequestPolicies.
-    public func getOriginRequestPolicyConfig(_ input: GetOriginRequestPolicyConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOriginRequestPolicyConfigResult> {
-        return self.client.execute(operation: "GetOriginRequestPolicyConfig", path: "/2020-05-31/origin-request-policy/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getOriginRequestPolicyConfig(_ input: GetOriginRequestPolicyConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOriginRequestPolicyConfigResult {
+        return try await self.client.execute(operation: "GetOriginRequestPolicyConfig", path: "/2020-05-31/origin-request-policy/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a public key.
-    public func getPublicKey(_ input: GetPublicKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPublicKeyResult> {
-        return self.client.execute(operation: "GetPublicKey", path: "/2020-05-31/public-key/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPublicKey(_ input: GetPublicKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPublicKeyResult {
+        return try await self.client.execute(operation: "GetPublicKey", path: "/2020-05-31/public-key/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a public key configuration.
-    public func getPublicKeyConfig(_ input: GetPublicKeyConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPublicKeyConfigResult> {
-        return self.client.execute(operation: "GetPublicKeyConfig", path: "/2020-05-31/public-key/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPublicKeyConfig(_ input: GetPublicKeyConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPublicKeyConfigResult {
+        return try await self.client.execute(operation: "GetPublicKeyConfig", path: "/2020-05-31/public-key/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a real-time log configuration. To get a real-time log configuration, you can provide the configuration's name or its
     /// 			Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront
     /// 			uses the name to identify the real-time log configuration to get.
-    public func getRealtimeLogConfig(_ input: GetRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRealtimeLogConfigResult> {
-        return self.client.execute(operation: "GetRealtimeLogConfig", path: "/2020-05-31/get-realtime-log-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getRealtimeLogConfig(_ input: GetRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRealtimeLogConfigResult {
+        return try await self.client.execute(operation: "GetRealtimeLogConfig", path: "/2020-05-31/get-realtime-log-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a response headers policy, including metadata (the policy's identifier and the
@@ -543,8 +603,9 @@ public struct CloudFront: AWSService {
     /// 			GetDistribution. If the response headers policy is not attached to a cache
     /// 			behavior, you can get the identifier using
     /// 			ListResponseHeadersPolicies.
-    public func getResponseHeadersPolicy(_ input: GetResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResponseHeadersPolicyResult> {
-        return self.client.execute(operation: "GetResponseHeadersPolicy", path: "/2020-05-31/response-headers-policy/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getResponseHeadersPolicy(_ input: GetResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResponseHeadersPolicyResult {
+        return try await self.client.execute(operation: "GetResponseHeadersPolicy", path: "/2020-05-31/response-headers-policy/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's
@@ -553,19 +614,22 @@ public struct CloudFront: AWSService {
     /// 				GetDistribution. If the response headers policy is not attached to a
     /// 			cache behavior, you can get the identifier using
     /// 				ListResponseHeadersPolicies.
-    public func getResponseHeadersPolicyConfig(_ input: GetResponseHeadersPolicyConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResponseHeadersPolicyConfigResult> {
-        return self.client.execute(operation: "GetResponseHeadersPolicyConfig", path: "/2020-05-31/response-headers-policy/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getResponseHeadersPolicyConfig(_ input: GetResponseHeadersPolicyConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResponseHeadersPolicyConfigResult {
+        return try await self.client.execute(operation: "GetResponseHeadersPolicyConfig", path: "/2020-05-31/response-headers-policy/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a specified RTMP distribution, including the distribution
     /// 			configuration.
-    public func getStreamingDistribution(_ input: GetStreamingDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStreamingDistributionResult> {
-        return self.client.execute(operation: "GetStreamingDistribution", path: "/2020-05-31/streaming-distribution/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getStreamingDistribution(_ input: GetStreamingDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStreamingDistributionResult {
+        return try await self.client.execute(operation: "GetStreamingDistribution", path: "/2020-05-31/streaming-distribution/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the configuration information about a streaming distribution.
-    public func getStreamingDistributionConfig(_ input: GetStreamingDistributionConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStreamingDistributionConfigResult> {
-        return self.client.execute(operation: "GetStreamingDistributionConfig", path: "/2020-05-31/streaming-distribution/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getStreamingDistributionConfig(_ input: GetStreamingDistributionConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStreamingDistributionConfigResult {
+        return try await self.client.execute(operation: "GetStreamingDistributionConfig", path: "/2020-05-31/streaming-distribution/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by
@@ -574,13 +638,15 @@ public struct CloudFront: AWSService {
     /// 			default maximum, the response is paginated. To get the next page of items, send a
     /// 			subsequent request that specifies the NextMarker value from the current
     /// 			response as the Marker value in the subsequent request.
-    public func listCachePolicies(_ input: ListCachePoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCachePoliciesResult> {
-        return self.client.execute(operation: "ListCachePolicies", path: "/2020-05-31/cache-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCachePolicies(_ input: ListCachePoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCachePoliciesResult {
+        return try await self.client.execute(operation: "ListCachePolicies", path: "/2020-05-31/cache-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists origin access identities.
-    public func listCloudFrontOriginAccessIdentities(_ input: ListCloudFrontOriginAccessIdentitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCloudFrontOriginAccessIdentitiesResult> {
-        return self.client.execute(operation: "ListCloudFrontOriginAccessIdentities", path: "/2020-05-31/origin-access-identity/cloudfront", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCloudFrontOriginAccessIdentities(_ input: ListCloudFrontOriginAccessIdentitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCloudFrontOriginAccessIdentitiesResult {
+        return try await self.client.execute(operation: "ListCloudFrontOriginAccessIdentities", path: "/2020-05-31/origin-access-identity/cloudfront", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a list of aliases (also called CNAMEs or alternate domain names) that conflict or
@@ -603,8 +669,9 @@ public struct CloudFront: AWSService {
     /// 			default maximum, the response is paginated. To get the next page of items, send a
     /// 			subsequent request that specifies the NextMarker value from the current
     /// 			response as the Marker value in the subsequent request.
-    public func listConflictingAliases(_ input: ListConflictingAliasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConflictingAliasesResult> {
-        return self.client.execute(operation: "ListConflictingAliases", path: "/2020-05-31/conflicting-alias", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listConflictingAliases(_ input: ListConflictingAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConflictingAliasesResult {
+        return try await self.client.execute(operation: "ListConflictingAliases", path: "/2020-05-31/conflicting-alias", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a list of the continuous deployment policies in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
@@ -612,13 +679,15 @@ public struct CloudFront: AWSService {
     /// 			default maximum, the response is paginated. To get the next page of items, send a
     /// 			subsequent request that specifies the NextMarker value from the current
     /// 			response as the Marker value in the subsequent request.
-    public func listContinuousDeploymentPolicies(_ input: ListContinuousDeploymentPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContinuousDeploymentPoliciesResult> {
-        return self.client.execute(operation: "ListContinuousDeploymentPolicies", path: "/2020-05-31/continuous-deployment-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listContinuousDeploymentPolicies(_ input: ListContinuousDeploymentPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContinuousDeploymentPoliciesResult {
+        return try await self.client.execute(operation: "ListContinuousDeploymentPolicies", path: "/2020-05-31/continuous-deployment-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List CloudFront distributions.
-    public func listDistributions(_ input: ListDistributionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDistributionsResult> {
-        return self.client.execute(operation: "ListDistributions", path: "/2020-05-31/distribution", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDistributions(_ input: ListDistributionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsResult {
+        return try await self.client.execute(operation: "ListDistributions", path: "/2020-05-31/distribution", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a list of distribution IDs for distributions that have a cache behavior that's
@@ -627,8 +696,9 @@ public struct CloudFront: AWSService {
     /// 			default maximum, the response is paginated. To get the next page of items, send a
     /// 			subsequent request that specifies the NextMarker value from the current
     /// 			response as the Marker value in the subsequent request.
-    public func listDistributionsByCachePolicyId(_ input: ListDistributionsByCachePolicyIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDistributionsByCachePolicyIdResult> {
-        return self.client.execute(operation: "ListDistributionsByCachePolicyId", path: "/2020-05-31/distributionsByCachePolicyId/{CachePolicyId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDistributionsByCachePolicyId(_ input: ListDistributionsByCachePolicyIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByCachePolicyIdResult {
+        return try await self.client.execute(operation: "ListDistributionsByCachePolicyId", path: "/2020-05-31/distributionsByCachePolicyId/{CachePolicyId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a list of distribution IDs for distributions that have a cache behavior that
@@ -637,8 +707,9 @@ public struct CloudFront: AWSService {
     /// 			default maximum, the response is paginated. To get the next page of items, send a
     /// 			subsequent request that specifies the NextMarker value from the current
     /// 			response as the Marker value in the subsequent request.
-    public func listDistributionsByKeyGroup(_ input: ListDistributionsByKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDistributionsByKeyGroupResult> {
-        return self.client.execute(operation: "ListDistributionsByKeyGroup", path: "/2020-05-31/distributionsByKeyGroupId/{KeyGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDistributionsByKeyGroup(_ input: ListDistributionsByKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByKeyGroupResult {
+        return try await self.client.execute(operation: "ListDistributionsByKeyGroup", path: "/2020-05-31/distributionsByKeyGroupId/{KeyGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a list of distribution IDs for distributions that have a cache behavior that's
@@ -647,8 +718,9 @@ public struct CloudFront: AWSService {
     /// 			default maximum, the response is paginated. To get the next page of items, send a
     /// 			subsequent request that specifies the NextMarker value from the current
     /// 			response as the Marker value in the subsequent request.
-    public func listDistributionsByOriginRequestPolicyId(_ input: ListDistributionsByOriginRequestPolicyIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDistributionsByOriginRequestPolicyIdResult> {
-        return self.client.execute(operation: "ListDistributionsByOriginRequestPolicyId", path: "/2020-05-31/distributionsByOriginRequestPolicyId/{OriginRequestPolicyId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDistributionsByOriginRequestPolicyId(_ input: ListDistributionsByOriginRequestPolicyIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByOriginRequestPolicyIdResult {
+        return try await self.client.execute(operation: "ListDistributionsByOriginRequestPolicyId", path: "/2020-05-31/distributionsByOriginRequestPolicyId/{OriginRequestPolicyId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a list of distributions that have a cache behavior that's associated with the
@@ -659,8 +731,9 @@ public struct CloudFront: AWSService {
     /// 			default maximum, the response is paginated. To get the next page of items, send a
     /// 			subsequent request that specifies the NextMarker value from the current
     /// 			response as the Marker value in the subsequent request.
-    public func listDistributionsByRealtimeLogConfig(_ input: ListDistributionsByRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDistributionsByRealtimeLogConfigResult> {
-        return self.client.execute(operation: "ListDistributionsByRealtimeLogConfig", path: "/2020-05-31/distributionsByRealtimeLogConfig", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDistributionsByRealtimeLogConfig(_ input: ListDistributionsByRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByRealtimeLogConfigResult {
+        return try await self.client.execute(operation: "ListDistributionsByRealtimeLogConfig", path: "/2020-05-31/distributionsByRealtimeLogConfig", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a list of distribution IDs for distributions that have a cache behavior that's
@@ -669,25 +742,29 @@ public struct CloudFront: AWSService {
     /// 			default maximum, the response is paginated. To get the next page of items, send a
     /// 			subsequent request that specifies the NextMarker value from the current
     /// 			response as the Marker value in the subsequent request.
-    public func listDistributionsByResponseHeadersPolicyId(_ input: ListDistributionsByResponseHeadersPolicyIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDistributionsByResponseHeadersPolicyIdResult> {
-        return self.client.execute(operation: "ListDistributionsByResponseHeadersPolicyId", path: "/2020-05-31/distributionsByResponseHeadersPolicyId/{ResponseHeadersPolicyId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDistributionsByResponseHeadersPolicyId(_ input: ListDistributionsByResponseHeadersPolicyIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByResponseHeadersPolicyIdResult {
+        return try await self.client.execute(operation: "ListDistributionsByResponseHeadersPolicyId", path: "/2020-05-31/distributionsByResponseHeadersPolicyId/{ResponseHeadersPolicyId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the distributions that are associated with a specified WAF web ACL.
-    public func listDistributionsByWebACLId(_ input: ListDistributionsByWebACLIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDistributionsByWebACLIdResult> {
-        return self.client.execute(operation: "ListDistributionsByWebACLId", path: "/2020-05-31/distributionsByWebACLId/{WebACLId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDistributionsByWebACLId(_ input: ListDistributionsByWebACLIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByWebACLIdResult {
+        return try await self.client.execute(operation: "ListDistributionsByWebACLId", path: "/2020-05-31/distributionsByWebACLId/{WebACLId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List all field-level encryption configurations that have been created in CloudFront for this
     /// 			account.
-    public func listFieldLevelEncryptionConfigs(_ input: ListFieldLevelEncryptionConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFieldLevelEncryptionConfigsResult> {
-        return self.client.execute(operation: "ListFieldLevelEncryptionConfigs", path: "/2020-05-31/field-level-encryption", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listFieldLevelEncryptionConfigs(_ input: ListFieldLevelEncryptionConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFieldLevelEncryptionConfigsResult {
+        return try await self.client.execute(operation: "ListFieldLevelEncryptionConfigs", path: "/2020-05-31/field-level-encryption", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Request a list of field-level encryption profiles that have been created in CloudFront for
     /// 			this account.
-    public func listFieldLevelEncryptionProfiles(_ input: ListFieldLevelEncryptionProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFieldLevelEncryptionProfilesResult> {
-        return self.client.execute(operation: "ListFieldLevelEncryptionProfiles", path: "/2020-05-31/field-level-encryption-profile", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listFieldLevelEncryptionProfiles(_ input: ListFieldLevelEncryptionProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFieldLevelEncryptionProfilesResult {
+        return try await self.client.execute(operation: "ListFieldLevelEncryptionProfiles", path: "/2020-05-31/field-level-encryption-profile", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a list of all CloudFront functions in your Amazon Web Services account. You can optionally apply a filter to return only the functions that are in the
@@ -696,13 +773,15 @@ public struct CloudFront: AWSService {
     /// 			default maximum, the response is paginated. To get the next page of items, send a
     /// 			subsequent request that specifies the NextMarker value from the current
     /// 			response as the Marker value in the subsequent request.
-    public func listFunctions(_ input: ListFunctionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionsResult> {
-        return self.client.execute(operation: "ListFunctions", path: "/2020-05-31/function", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listFunctions(_ input: ListFunctionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFunctionsResult {
+        return try await self.client.execute(operation: "ListFunctions", path: "/2020-05-31/function", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists invalidation batches.
-    public func listInvalidations(_ input: ListInvalidationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInvalidationsResult> {
-        return self.client.execute(operation: "ListInvalidations", path: "/2020-05-31/distribution/{DistributionId}/invalidation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listInvalidations(_ input: ListInvalidationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvalidationsResult {
+        return try await self.client.execute(operation: "ListInvalidations", path: "/2020-05-31/distribution/{DistributionId}/invalidation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If
@@ -710,8 +789,9 @@ public struct CloudFront: AWSService {
     /// 			default maximum, the response is paginated. To get the next page of items, send a
     /// 			subsequent request that specifies the NextMarker value from the current
     /// 			response as the Marker value in the subsequent request.
-    public func listKeyGroups(_ input: ListKeyGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListKeyGroupsResult> {
-        return self.client.execute(operation: "ListKeyGroups", path: "/2020-05-31/key-group", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listKeyGroups(_ input: ListKeyGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKeyGroupsResult {
+        return try await self.client.execute(operation: "ListKeyGroups", path: "/2020-05-31/key-group", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the list of CloudFront origin access controls in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
@@ -719,8 +799,9 @@ public struct CloudFront: AWSService {
     /// 			default maximum, the response is paginated. To get the next page of items, send another
     /// 			request that specifies the NextMarker value from the current response as
     /// 			the Marker value in the next request.
-    public func listOriginAccessControls(_ input: ListOriginAccessControlsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOriginAccessControlsResult> {
-        return self.client.execute(operation: "ListOriginAccessControls", path: "/2020-05-31/origin-access-control", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listOriginAccessControls(_ input: ListOriginAccessControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOriginAccessControlsResult {
+        return try await self.client.execute(operation: "ListOriginAccessControls", path: "/2020-05-31/origin-access-control", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by
@@ -729,13 +810,15 @@ public struct CloudFront: AWSService {
     /// 			default maximum, the response is paginated. To get the next page of items, send a
     /// 			subsequent request that specifies the NextMarker value from the current
     /// 			response as the Marker value in the subsequent request.
-    public func listOriginRequestPolicies(_ input: ListOriginRequestPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOriginRequestPoliciesResult> {
-        return self.client.execute(operation: "ListOriginRequestPolicies", path: "/2020-05-31/origin-request-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listOriginRequestPolicies(_ input: ListOriginRequestPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOriginRequestPoliciesResult {
+        return try await self.client.execute(operation: "ListOriginRequestPolicies", path: "/2020-05-31/origin-request-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List all public keys that have been added to CloudFront for this account.
-    public func listPublicKeys(_ input: ListPublicKeysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPublicKeysResult> {
-        return self.client.execute(operation: "ListPublicKeys", path: "/2020-05-31/public-key", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPublicKeys(_ input: ListPublicKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPublicKeysResult {
+        return try await self.client.execute(operation: "ListPublicKeys", path: "/2020-05-31/public-key", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If
@@ -743,8 +826,9 @@ public struct CloudFront: AWSService {
     /// 			default maximum, the response is paginated. To get the next page of items, send a
     /// 			subsequent request that specifies the NextMarker value from the current
     /// 			response as the Marker value in the subsequent request.
-    public func listRealtimeLogConfigs(_ input: ListRealtimeLogConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRealtimeLogConfigsResult> {
-        return self.client.execute(operation: "ListRealtimeLogConfigs", path: "/2020-05-31/realtime-log-config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRealtimeLogConfigs(_ input: ListRealtimeLogConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRealtimeLogConfigsResult {
+        return try await self.client.execute(operation: "ListRealtimeLogConfigs", path: "/2020-05-31/realtime-log-config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a list of response headers policies. You can optionally apply a filter to get only the managed policies created by Amazon Web Services,
@@ -753,18 +837,21 @@ public struct CloudFront: AWSService {
     /// 			default maximum, the response is paginated. To get the next page of items, send a
     /// 			subsequent request that specifies the NextMarker value from the current
     /// 			response as the Marker value in the subsequent request.
-    public func listResponseHeadersPolicies(_ input: ListResponseHeadersPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResponseHeadersPoliciesResult> {
-        return self.client.execute(operation: "ListResponseHeadersPolicies", path: "/2020-05-31/response-headers-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listResponseHeadersPolicies(_ input: ListResponseHeadersPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResponseHeadersPoliciesResult {
+        return try await self.client.execute(operation: "ListResponseHeadersPolicies", path: "/2020-05-31/response-headers-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List streaming distributions.
-    public func listStreamingDistributions(_ input: ListStreamingDistributionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStreamingDistributionsResult> {
-        return self.client.execute(operation: "ListStreamingDistributions", path: "/2020-05-31/streaming-distribution", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listStreamingDistributions(_ input: ListStreamingDistributionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStreamingDistributionsResult {
+        return try await self.client.execute(operation: "ListStreamingDistributions", path: "/2020-05-31/streaming-distribution", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List tags for a CloudFront resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResult> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/2020-05-31/tagging", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResult {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/2020-05-31/tagging", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Publishes a CloudFront function by copying the function code from the
@@ -775,13 +862,15 @@ public struct CloudFront: AWSService {
     /// 			(ARN). To publish a function, you must provide the function's name and version
     /// 				(ETag value). To get these values, you can use
     /// 				ListFunctions and DescribeFunction.
-    public func publishFunction(_ input: PublishFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PublishFunctionResult> {
-        return self.client.execute(operation: "PublishFunction", path: "/2020-05-31/function/{Name}/publish", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func publishFunction(_ input: PublishFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PublishFunctionResult {
+        return try await self.client.execute(operation: "PublishFunction", path: "/2020-05-31/function/{Name}/publish", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Add tags to a CloudFront resource.
-    @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/2020-05-31/tagging?Operation=Tag", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "TagResource", path: "/2020-05-31/tagging?Operation=Tag", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Tests a CloudFront function. To test a function, you provide an event object that represents
@@ -792,13 +881,15 @@ public struct CloudFront: AWSService {
     /// 			testing functions, see Testing functions in the Amazon CloudFront Developer Guide. To test a function, you provide the function's name and version (ETag
     /// 			value) along with the event object. To get the function's name and version, you can use
     /// 				ListFunctions and DescribeFunction.
-    public func testFunction(_ input: TestFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestFunctionResult> {
-        return self.client.execute(operation: "TestFunction", path: "/2020-05-31/function/{Name}/test", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func testFunction(_ input: TestFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestFunctionResult {
+        return try await self.client.execute(operation: "TestFunction", path: "/2020-05-31/function/{Name}/test", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Remove tags from a CloudFront resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/2020-05-31/tagging?Operation=Untag", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UntagResource", path: "/2020-05-31/tagging?Operation=Untag", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the
@@ -807,13 +898,15 @@ public struct CloudFront: AWSService {
     /// 					update.   Call UpdateCachePolicy by providing the entire cache policy
     /// 					configuration, including the fields that you modified and those that you
     /// 					didn't.
-    public func updateCachePolicy(_ input: UpdateCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCachePolicyResult> {
-        return self.client.execute(operation: "UpdateCachePolicy", path: "/2020-05-31/cache-policy/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateCachePolicy(_ input: UpdateCachePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCachePolicyResult {
+        return try await self.client.execute(operation: "UpdateCachePolicy", path: "/2020-05-31/cache-policy/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update an origin access identity.
-    public func updateCloudFrontOriginAccessIdentity(_ input: UpdateCloudFrontOriginAccessIdentityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCloudFrontOriginAccessIdentityResult> {
-        return self.client.execute(operation: "UpdateCloudFrontOriginAccessIdentity", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateCloudFrontOriginAccessIdentity(_ input: UpdateCloudFrontOriginAccessIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCloudFrontOriginAccessIdentityResult {
+        return try await self.client.execute(operation: "UpdateCloudFrontOriginAccessIdentity", path: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a continuous deployment policy. You can update a continuous deployment policy
@@ -826,8 +919,9 @@ public struct CloudFront: AWSService {
     /// 					that you want to update.   Use UpdateContinuousDeploymentPolicy, providing the entire
     /// 					continuous deployment policy configuration, including the fields that you
     /// 					modified and those that you didn't.
-    public func updateContinuousDeploymentPolicy(_ input: UpdateContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContinuousDeploymentPolicyResult> {
-        return self.client.execute(operation: "UpdateContinuousDeploymentPolicy", path: "/2020-05-31/continuous-deployment-policy/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateContinuousDeploymentPolicy(_ input: UpdateContinuousDeploymentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContinuousDeploymentPolicyResult {
+        return try await self.client.execute(operation: "UpdateContinuousDeploymentPolicy", path: "/2020-05-31/continuous-deployment-policy/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the configuration for a CloudFront distribution. The update process includes getting the current distribution configuration, updating
@@ -843,8 +937,9 @@ public struct CloudFront: AWSService {
     /// 					values that you specify in an UpdateDistribution request are not
     /// 					merged into your existing configuration. Make sure to include all fields: the
     /// 					ones that you modified and also the ones that you didn't.
-    public func updateDistribution(_ input: UpdateDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDistributionResult> {
-        return self.client.execute(operation: "UpdateDistribution", path: "/2020-05-31/distribution/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDistribution(_ input: UpdateDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDistributionResult {
+        return try await self.client.execute(operation: "UpdateDistribution", path: "/2020-05-31/distribution/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Copies the staging distribution's configuration to its corresponding primary
@@ -856,26 +951,30 @@ public struct CloudFront: AWSService {
     /// 			verifying that it works as intended, you can use this operation to copy the staging
     /// 			distribution's configuration to the primary distribution. This action will disable the
     /// 			continuous deployment policy and move your domain's traffic back to the primary distribution.
-    public func updateDistributionWithStagingConfig(_ input: UpdateDistributionWithStagingConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDistributionWithStagingConfigResult> {
-        return self.client.execute(operation: "UpdateDistributionWithStagingConfig", path: "/2020-05-31/distribution/{Id}/promote-staging-config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDistributionWithStagingConfig(_ input: UpdateDistributionWithStagingConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDistributionWithStagingConfigResult {
+        return try await self.client.execute(operation: "UpdateDistributionWithStagingConfig", path: "/2020-05-31/distribution/{Id}/promote-staging-config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update a field-level encryption configuration.
-    public func updateFieldLevelEncryptionConfig(_ input: UpdateFieldLevelEncryptionConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFieldLevelEncryptionConfigResult> {
-        return self.client.execute(operation: "UpdateFieldLevelEncryptionConfig", path: "/2020-05-31/field-level-encryption/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateFieldLevelEncryptionConfig(_ input: UpdateFieldLevelEncryptionConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFieldLevelEncryptionConfigResult {
+        return try await self.client.execute(operation: "UpdateFieldLevelEncryptionConfig", path: "/2020-05-31/field-level-encryption/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update a field-level encryption profile.
-    public func updateFieldLevelEncryptionProfile(_ input: UpdateFieldLevelEncryptionProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFieldLevelEncryptionProfileResult> {
-        return self.client.execute(operation: "UpdateFieldLevelEncryptionProfile", path: "/2020-05-31/field-level-encryption-profile/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateFieldLevelEncryptionProfile(_ input: UpdateFieldLevelEncryptionProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFieldLevelEncryptionProfileResult {
+        return try await self.client.execute(operation: "UpdateFieldLevelEncryptionProfile", path: "/2020-05-31/field-level-encryption-profile/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You
     /// 			cannot update a function's name. To update a function, you provide the function's name and version (ETag
     /// 			value) along with the updated function code. To get the name and version, you can use
     /// 				ListFunctions and DescribeFunction.
-    public func updateFunction(_ input: UpdateFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFunctionResult> {
-        return self.client.execute(operation: "UpdateFunction", path: "/2020-05-31/function/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateFunction(_ input: UpdateFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFunctionResult {
+        return try await self.client.execute(operation: "UpdateFunction", path: "/2020-05-31/function/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a key group. When you update a key group, all the fields are updated with the values provided in
@@ -884,13 +983,15 @@ public struct CloudFront: AWSService {
     /// 						GetKeyGroupConfig.   Locally modify the fields in the key group that you want to update. For
     /// 					example, add or remove public key IDs.   Call UpdateKeyGroup with the entire key group object, including
     /// 					the fields that you modified and those that you didn't.
-    public func updateKeyGroup(_ input: UpdateKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateKeyGroupResult> {
-        return self.client.execute(operation: "UpdateKeyGroup", path: "/2020-05-31/key-group/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateKeyGroup(_ input: UpdateKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKeyGroupResult {
+        return try await self.client.execute(operation: "UpdateKeyGroup", path: "/2020-05-31/key-group/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a CloudFront origin access control.
-    public func updateOriginAccessControl(_ input: UpdateOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateOriginAccessControlResult> {
-        return self.client.execute(operation: "UpdateOriginAccessControl", path: "/2020-05-31/origin-access-control/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateOriginAccessControl(_ input: UpdateOriginAccessControlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOriginAccessControlResult {
+        return try await self.client.execute(operation: "UpdateOriginAccessControl", path: "/2020-05-31/origin-access-control/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated
@@ -900,14 +1001,16 @@ public struct CloudFront: AWSService {
     /// 					want to update.   Call UpdateOriginRequestPolicy by providing the entire origin
     /// 					request policy configuration, including the fields that you modified and those
     /// 					that you didn't.
-    public func updateOriginRequestPolicy(_ input: UpdateOriginRequestPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateOriginRequestPolicyResult> {
-        return self.client.execute(operation: "UpdateOriginRequestPolicy", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateOriginRequestPolicy(_ input: UpdateOriginRequestPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOriginRequestPolicyResult {
+        return try await self.client.execute(operation: "UpdateOriginRequestPolicy", path: "/2020-05-31/origin-request-policy/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update public key information. Note that the only value you can change is the
     /// 			comment.
-    public func updatePublicKey(_ input: UpdatePublicKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePublicKeyResult> {
-        return self.client.execute(operation: "UpdatePublicKey", path: "/2020-05-31/public-key/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updatePublicKey(_ input: UpdatePublicKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePublicKeyResult {
+        return try await self.client.execute(operation: "UpdatePublicKey", path: "/2020-05-31/public-key/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the
@@ -918,8 +1021,9 @@ public struct CloudFront: AWSService {
     /// 					real-time log configuration, including the parameters that you modified and
     /// 					those that you didn't.   You cannot update a real-time log configuration's Name or
     /// 				ARN.
-    public func updateRealtimeLogConfig(_ input: UpdateRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRealtimeLogConfigResult> {
-        return self.client.execute(operation: "UpdateRealtimeLogConfig", path: "/2020-05-31/realtime-log-config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateRealtimeLogConfig(_ input: UpdateRealtimeLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRealtimeLogConfigResult {
+        return try await self.client.execute(operation: "UpdateRealtimeLogConfig", path: "/2020-05-31/realtime-log-config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a response headers policy. When you update a response headers policy, the entire policy is replaced. You cannot
@@ -929,13 +1033,15 @@ public struct CloudFront: AWSService {
     /// 					to update.   Call UpdateResponseHeadersPolicy, providing the entire response
     /// 					headers policy configuration, including the fields that you modified and those
     /// 					that you didn't.
-    public func updateResponseHeadersPolicy(_ input: UpdateResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResponseHeadersPolicyResult> {
-        return self.client.execute(operation: "UpdateResponseHeadersPolicy", path: "/2020-05-31/response-headers-policy/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateResponseHeadersPolicy(_ input: UpdateResponseHeadersPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResponseHeadersPolicyResult {
+        return try await self.client.execute(operation: "UpdateResponseHeadersPolicy", path: "/2020-05-31/response-headers-policy/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update a streaming distribution.
-    public func updateStreamingDistribution(_ input: UpdateStreamingDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateStreamingDistributionResult> {
-        return self.client.execute(operation: "UpdateStreamingDistribution", path: "/2020-05-31/streaming-distribution/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateStreamingDistribution(_ input: UpdateStreamingDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStreamingDistributionResult {
+        return try await self.client.execute(operation: "UpdateStreamingDistribution", path: "/2020-05-31/streaming-distribution/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -950,216 +1056,81 @@ extension CloudFront {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CloudFront {
     /// Lists origin access identities.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listCloudFrontOriginAccessIdentitiesPaginator<Result>(
-        _ input: ListCloudFrontOriginAccessIdentitiesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListCloudFrontOriginAccessIdentitiesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listCloudFrontOriginAccessIdentities,
-            inputKey: \ListCloudFrontOriginAccessIdentitiesRequest.marker,
-            outputKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.nextMarker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCloudFrontOriginAccessIdentitiesPaginator(
         _ input: ListCloudFrontOriginAccessIdentitiesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListCloudFrontOriginAccessIdentitiesResult, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCloudFrontOriginAccessIdentitiesRequest, ListCloudFrontOriginAccessIdentitiesResult> {
+        return .init(
             input: input,
             command: self.listCloudFrontOriginAccessIdentities,
             inputKey: \ListCloudFrontOriginAccessIdentitiesRequest.marker,
             outputKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.nextMarker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List CloudFront distributions.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDistributionsPaginator<Result>(
-        _ input: ListDistributionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDistributionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDistributions,
-            inputKey: \ListDistributionsRequest.marker,
-            outputKey: \ListDistributionsResult.distributionList?.nextMarker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDistributionsPaginator(
         _ input: ListDistributionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDistributionsResult, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDistributionsRequest, ListDistributionsResult> {
+        return .init(
             input: input,
             command: self.listDistributions,
             inputKey: \ListDistributionsRequest.marker,
             outputKey: \ListDistributionsResult.distributionList?.nextMarker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists invalidation batches.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listInvalidationsPaginator<Result>(
-        _ input: ListInvalidationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListInvalidationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listInvalidations,
-            inputKey: \ListInvalidationsRequest.marker,
-            outputKey: \ListInvalidationsResult.invalidationList?.nextMarker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listInvalidationsPaginator(
         _ input: ListInvalidationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListInvalidationsResult, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInvalidationsRequest, ListInvalidationsResult> {
+        return .init(
             input: input,
             command: self.listInvalidations,
             inputKey: \ListInvalidationsRequest.marker,
             outputKey: \ListInvalidationsResult.invalidationList?.nextMarker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List streaming distributions.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listStreamingDistributionsPaginator<Result>(
-        _ input: ListStreamingDistributionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListStreamingDistributionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listStreamingDistributions,
-            inputKey: \ListStreamingDistributionsRequest.marker,
-            outputKey: \ListStreamingDistributionsResult.streamingDistributionList?.nextMarker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listStreamingDistributionsPaginator(
         _ input: ListStreamingDistributionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListStreamingDistributionsResult, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStreamingDistributionsRequest, ListStreamingDistributionsResult> {
+        return .init(
             input: input,
             command: self.listStreamingDistributions,
             inputKey: \ListStreamingDistributionsRequest.marker,
             outputKey: \ListStreamingDistributionsResult.streamingDistributionList?.nextMarker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }
@@ -1203,14 +1174,13 @@ extension CloudFront.ListStreamingDistributionsRequest: AWSPaginateToken {
 
 // MARK: Waiters
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CloudFront {
-    /// Wait until a distribution is deployed.
     public func waitUntilDistributionDeployed(
         _ input: GetDistributionRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("distribution.status", expected: "Deployed")),
@@ -1218,16 +1188,14 @@ extension CloudFront {
             minDelayTime: .seconds(60),
             command: self.getDistribution
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until an invalidation has completed.
     public func waitUntilInvalidationCompleted(
         _ input: GetInvalidationRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("invalidation.status", expected: "Completed")),
@@ -1235,16 +1203,14 @@ extension CloudFront {
             minDelayTime: .seconds(20),
             command: self.getInvalidation
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a streaming distribution is deployed.
     public func waitUntilStreamingDistributionDeployed(
         _ input: GetStreamingDistributionRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("streamingDistribution.status", expected: "Deployed")),
@@ -1252,6 +1218,6 @@ extension CloudFront {
             minDelayTime: .seconds(60),
             command: self.getStreamingDistribution
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 }

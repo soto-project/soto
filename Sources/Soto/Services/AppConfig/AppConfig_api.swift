@@ -70,219 +70,262 @@ public struct AppConfig: AWSService {
     // MARK: API Calls
 
     /// Creates an application. In AppConfig, an application is simply an organizational construct like a folder. This organizational construct has a relationship with some unit of executable code. For example, you could create an application called MyMobileApp to organize and manage configuration data for a mobile application installed by your users.
-    public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Application> {
-        return self.client.execute(operation: "CreateApplication", path: "/applications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Application {
+        return try await self.client.execute(operation: "CreateApplication", path: "/applications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a configuration profile, which is information that enables AppConfig to access the configuration source. Valid configuration sources include the following:   Configuration data in YAML, JSON, and other formats stored in the AppConfig hosted configuration store   Configuration data stored as objects in an Amazon Simple Storage Service (Amazon S3) bucket   Pipelines stored in CodePipeline   Secrets stored in Secrets Manager   Standard and secure string parameters stored in Amazon Web Services Systems Manager Parameter Store   Configuration data in SSM documents stored in the Systems Manager document store   A configuration profile includes the following information:   The URI location of the configuration data.   The Identity and Access Management (IAM) role that provides access to the configuration data.   A validator for the configuration data. Available validators include either a JSON Schema or an Amazon Web Services Lambda function.   For more information, see Create a Configuration and a Configuration Profile in the AppConfig User Guide.
-    public func createConfigurationProfile(_ input: CreateConfigurationProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigurationProfile> {
-        return self.client.execute(operation: "CreateConfigurationProfile", path: "/applications/{ApplicationId}/configurationprofiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createConfigurationProfile(_ input: CreateConfigurationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigurationProfile {
+        return try await self.client.execute(operation: "CreateConfigurationProfile", path: "/applications/{ApplicationId}/configurationprofiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a deployment strategy that defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.
-    public func createDeploymentStrategy(_ input: CreateDeploymentStrategyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeploymentStrategy> {
-        return self.client.execute(operation: "CreateDeploymentStrategy", path: "/deploymentstrategies", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDeploymentStrategy(_ input: CreateDeploymentStrategyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeploymentStrategy {
+        return try await self.client.execute(operation: "CreateDeploymentStrategy", path: "/deploymentstrategies", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an environment. For each application, you define one or more environments. An environment is a deployment group of AppConfig targets, such as applications in a Beta or Production environment. You can also define environments for application subcomponents such as the Web, Mobile and Back-end components for your application. You can configure Amazon CloudWatch alarms for each environment. The system monitors alarms during a configuration deployment. If an alarm is triggered, the system rolls back the configuration.
-    public func createEnvironment(_ input: CreateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Environment> {
-        return self.client.execute(operation: "CreateEnvironment", path: "/applications/{ApplicationId}/environments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createEnvironment(_ input: CreateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Environment {
+        return try await self.client.execute(operation: "CreateEnvironment", path: "/applications/{ApplicationId}/environments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an AppConfig extension. An extension augments your ability to inject logic or behavior at different points during the AppConfig workflow of creating or deploying a configuration. You can create your own extensions or use the Amazon Web Services authored extensions provided by AppConfig. For most use cases, to create your own extension, you must create an Lambda function to perform any computation and processing defined in the extension. For more information about extensions, see Working with AppConfig extensions in the AppConfig User Guide.
-    public func createExtension(_ input: CreateExtensionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Extension> {
-        return self.client.execute(operation: "CreateExtension", path: "/extensions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createExtension(_ input: CreateExtensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Extension {
+        return try await self.client.execute(operation: "CreateExtension", path: "/extensions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// When you create an extension or configure an Amazon Web Services authored extension, you associate the extension with an AppConfig application, environment, or configuration profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS Amazon Web Services authored extension and receive notifications on an Amazon SNS topic anytime a configuration deployment is started for a specific application. Defining which extension to associate with an AppConfig resource is called an extension association. An extension association is a specified relationship between an extension and an AppConfig resource, such as an application or a configuration profile. For more information about extensions and associations, see Working with AppConfig extensions in the AppConfig User Guide.
-    public func createExtensionAssociation(_ input: CreateExtensionAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExtensionAssociation> {
-        return self.client.execute(operation: "CreateExtensionAssociation", path: "/extensionassociations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createExtensionAssociation(_ input: CreateExtensionAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExtensionAssociation {
+        return try await self.client.execute(operation: "CreateExtensionAssociation", path: "/extensionassociations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new configuration in the AppConfig hosted configuration store.
-    public func createHostedConfigurationVersion(_ input: CreateHostedConfigurationVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<HostedConfigurationVersion> {
-        return self.client.execute(operation: "CreateHostedConfigurationVersion", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createHostedConfigurationVersion(_ input: CreateHostedConfigurationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> HostedConfigurationVersion {
+        return try await self.client.execute(operation: "CreateHostedConfigurationVersion", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an application. Deleting an application does not delete a configuration from a host.
-    @discardableResult public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteApplication", path: "/applications/{ApplicationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteApplication", path: "/applications/{ApplicationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a configuration profile. Deleting a configuration profile does not delete a configuration from a host.
-    @discardableResult public func deleteConfigurationProfile(_ input: DeleteConfigurationProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteConfigurationProfile", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteConfigurationProfile(_ input: DeleteConfigurationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteConfigurationProfile", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a deployment strategy. Deleting a deployment strategy does not delete a configuration from a host.
-    @discardableResult public func deleteDeploymentStrategy(_ input: DeleteDeploymentStrategyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDeploymentStrategy", path: "/deployementstrategies/{DeploymentStrategyId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDeploymentStrategy(_ input: DeleteDeploymentStrategyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteDeploymentStrategy", path: "/deployementstrategies/{DeploymentStrategyId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an environment. Deleting an environment does not delete a configuration from a host.
-    @discardableResult public func deleteEnvironment(_ input: DeleteEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteEnvironment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteEnvironment(_ input: DeleteEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteEnvironment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an AppConfig extension. You must delete all associations to an extension before you delete the extension.
-    @discardableResult public func deleteExtension(_ input: DeleteExtensionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteExtension", path: "/extensions/{ExtensionIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteExtension(_ input: DeleteExtensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteExtension", path: "/extensions/{ExtensionIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an extension association. This action doesn't delete extensions defined in the association.
-    @discardableResult public func deleteExtensionAssociation(_ input: DeleteExtensionAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteExtensionAssociation", path: "/extensionassociations/{ExtensionAssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteExtensionAssociation(_ input: DeleteExtensionAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteExtensionAssociation", path: "/extensionassociations/{ExtensionAssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a version of a configuration from the AppConfig hosted configuration store.
-    @discardableResult public func deleteHostedConfigurationVersion(_ input: DeleteHostedConfigurationVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteHostedConfigurationVersion", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteHostedConfigurationVersion(_ input: DeleteHostedConfigurationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteHostedConfigurationVersion", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves information about an application.
-    public func getApplication(_ input: GetApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Application> {
-        return self.client.execute(operation: "GetApplication", path: "/applications/{ApplicationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getApplication(_ input: GetApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Application {
+        return try await self.client.execute(operation: "GetApplication", path: "/applications/{ApplicationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// (Deprecated) Retrieves the latest deployed configuration.  Note the following important information.   This API action is deprecated. Calls to receive configuration data should use the StartConfigurationSession and GetLatestConfiguration APIs instead.     GetConfiguration is a priced call. For more information, see Pricing.
     @available(*, deprecated, message: "This API has been deprecated in favor of the GetLatestConfiguration API used in conjunction with StartConfigurationSession.")
-    public func getConfiguration(_ input: GetConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Configuration> {
-        return self.client.execute(operation: "GetConfiguration", path: "/applications/{Application}/environments/{Environment}/configurations/{Configuration}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getConfiguration(_ input: GetConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Configuration {
+        return try await self.client.execute(operation: "GetConfiguration", path: "/applications/{Application}/environments/{Environment}/configurations/{Configuration}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves information about a configuration profile.
-    public func getConfigurationProfile(_ input: GetConfigurationProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigurationProfile> {
-        return self.client.execute(operation: "GetConfigurationProfile", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getConfigurationProfile(_ input: GetConfigurationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigurationProfile {
+        return try await self.client.execute(operation: "GetConfigurationProfile", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves information about a configuration deployment.
-    public func getDeployment(_ input: GetDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Deployment> {
-        return self.client.execute(operation: "GetDeployment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDeployment(_ input: GetDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Deployment {
+        return try await self.client.execute(operation: "GetDeployment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves information about a deployment strategy. A deployment strategy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.
-    public func getDeploymentStrategy(_ input: GetDeploymentStrategyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeploymentStrategy> {
-        return self.client.execute(operation: "GetDeploymentStrategy", path: "/deploymentstrategies/{DeploymentStrategyId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDeploymentStrategy(_ input: GetDeploymentStrategyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeploymentStrategy {
+        return try await self.client.execute(operation: "GetDeploymentStrategy", path: "/deploymentstrategies/{DeploymentStrategyId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves information about an environment. An environment is a deployment group of AppConfig applications, such as applications in a Production environment or in an EU_Region environment. Each configuration deployment targets an environment. You can enable one or more Amazon CloudWatch alarms for an environment. If an alarm is triggered during a deployment, AppConfig roles back the configuration.
-    public func getEnvironment(_ input: GetEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Environment> {
-        return self.client.execute(operation: "GetEnvironment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getEnvironment(_ input: GetEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Environment {
+        return try await self.client.execute(operation: "GetEnvironment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about an AppConfig extension.
-    public func getExtension(_ input: GetExtensionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Extension> {
-        return self.client.execute(operation: "GetExtension", path: "/extensions/{ExtensionIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getExtension(_ input: GetExtensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Extension {
+        return try await self.client.execute(operation: "GetExtension", path: "/extensions/{ExtensionIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about an AppConfig extension association. For more information about extensions and associations, see Working with AppConfig extensions in the AppConfig User Guide.
-    public func getExtensionAssociation(_ input: GetExtensionAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExtensionAssociation> {
-        return self.client.execute(operation: "GetExtensionAssociation", path: "/extensionassociations/{ExtensionAssociationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getExtensionAssociation(_ input: GetExtensionAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExtensionAssociation {
+        return try await self.client.execute(operation: "GetExtensionAssociation", path: "/extensionassociations/{ExtensionAssociationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves information about a specific configuration version.
-    public func getHostedConfigurationVersion(_ input: GetHostedConfigurationVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<HostedConfigurationVersion> {
-        return self.client.execute(operation: "GetHostedConfigurationVersion", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getHostedConfigurationVersion(_ input: GetHostedConfigurationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> HostedConfigurationVersion {
+        return try await self.client.execute(operation: "GetHostedConfigurationVersion", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all applications in your Amazon Web Services account.
-    public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Applications> {
-        return self.client.execute(operation: "ListApplications", path: "/applications", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Applications {
+        return try await self.client.execute(operation: "ListApplications", path: "/applications", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the configuration profiles for an application.
-    public func listConfigurationProfiles(_ input: ListConfigurationProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigurationProfiles> {
-        return self.client.execute(operation: "ListConfigurationProfiles", path: "/applications/{ApplicationId}/configurationprofiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listConfigurationProfiles(_ input: ListConfigurationProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigurationProfiles {
+        return try await self.client.execute(operation: "ListConfigurationProfiles", path: "/applications/{ApplicationId}/configurationprofiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists deployment strategies.
-    public func listDeploymentStrategies(_ input: ListDeploymentStrategiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeploymentStrategies> {
-        return self.client.execute(operation: "ListDeploymentStrategies", path: "/deploymentstrategies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDeploymentStrategies(_ input: ListDeploymentStrategiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeploymentStrategies {
+        return try await self.client.execute(operation: "ListDeploymentStrategies", path: "/deploymentstrategies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the deployments for an environment in descending deployment number order.
-    public func listDeployments(_ input: ListDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Deployments> {
-        return self.client.execute(operation: "ListDeployments", path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDeployments(_ input: ListDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Deployments {
+        return try await self.client.execute(operation: "ListDeployments", path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the environments for an application.
-    public func listEnvironments(_ input: ListEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Environments> {
-        return self.client.execute(operation: "ListEnvironments", path: "/applications/{ApplicationId}/environments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listEnvironments(_ input: ListEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Environments {
+        return try await self.client.execute(operation: "ListEnvironments", path: "/applications/{ApplicationId}/environments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all AppConfig extension associations in the account. For more information about extensions and associations, see Working with AppConfig extensions in the AppConfig User Guide.
-    public func listExtensionAssociations(_ input: ListExtensionAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExtensionAssociations> {
-        return self.client.execute(operation: "ListExtensionAssociations", path: "/extensionassociations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listExtensionAssociations(_ input: ListExtensionAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExtensionAssociations {
+        return try await self.client.execute(operation: "ListExtensionAssociations", path: "/extensionassociations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all custom and Amazon Web Services authored AppConfig extensions in the account. For more information about extensions, see Working with AppConfig extensions in the AppConfig User Guide.
-    public func listExtensions(_ input: ListExtensionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Extensions> {
-        return self.client.execute(operation: "ListExtensions", path: "/extensions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listExtensions(_ input: ListExtensionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Extensions {
+        return try await self.client.execute(operation: "ListExtensions", path: "/extensions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists configurations stored in the AppConfig hosted configuration store by version.
-    public func listHostedConfigurationVersions(_ input: ListHostedConfigurationVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<HostedConfigurationVersions> {
-        return self.client.execute(operation: "ListHostedConfigurationVersions", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listHostedConfigurationVersions(_ input: ListHostedConfigurationVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> HostedConfigurationVersions {
+        return try await self.client.execute(operation: "ListHostedConfigurationVersions", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the list of key-value tags assigned to the resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResourceTags> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResourceTags {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts a deployment.
-    public func startDeployment(_ input: StartDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Deployment> {
-        return self.client.execute(operation: "StartDeployment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startDeployment(_ input: StartDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Deployment {
+        return try await self.client.execute(operation: "StartDeployment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops a deployment. This API action works only on deployments that have a status of DEPLOYING. This action moves the deployment to a status of ROLLED_BACK.
-    public func stopDeployment(_ input: StopDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Deployment> {
-        return self.client.execute(operation: "StopDeployment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopDeployment(_ input: StopDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Deployment {
+        return try await self.client.execute(operation: "StopDeployment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Assigns metadata to an AppConfig resource. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. You can specify a maximum of 50 tags for a resource.
-    @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a tag key and value from an AppConfig resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an application.
-    public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Application> {
-        return self.client.execute(operation: "UpdateApplication", path: "/applications/{ApplicationId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Application {
+        return try await self.client.execute(operation: "UpdateApplication", path: "/applications/{ApplicationId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a configuration profile.
-    public func updateConfigurationProfile(_ input: UpdateConfigurationProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigurationProfile> {
-        return self.client.execute(operation: "UpdateConfigurationProfile", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateConfigurationProfile(_ input: UpdateConfigurationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigurationProfile {
+        return try await self.client.execute(operation: "UpdateConfigurationProfile", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a deployment strategy.
-    public func updateDeploymentStrategy(_ input: UpdateDeploymentStrategyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeploymentStrategy> {
-        return self.client.execute(operation: "UpdateDeploymentStrategy", path: "/deploymentstrategies/{DeploymentStrategyId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDeploymentStrategy(_ input: UpdateDeploymentStrategyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeploymentStrategy {
+        return try await self.client.execute(operation: "UpdateDeploymentStrategy", path: "/deploymentstrategies/{DeploymentStrategyId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an environment.
-    public func updateEnvironment(_ input: UpdateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Environment> {
-        return self.client.execute(operation: "UpdateEnvironment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateEnvironment(_ input: UpdateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Environment {
+        return try await self.client.execute(operation: "UpdateEnvironment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an AppConfig extension. For more information about extensions, see Working with AppConfig extensions in the AppConfig User Guide.
-    public func updateExtension(_ input: UpdateExtensionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Extension> {
-        return self.client.execute(operation: "UpdateExtension", path: "/extensions/{ExtensionIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateExtension(_ input: UpdateExtensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Extension {
+        return try await self.client.execute(operation: "UpdateExtension", path: "/extensions/{ExtensionIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an association. For more information about extensions and associations, see Working with AppConfig extensions in the AppConfig User Guide.
-    public func updateExtensionAssociation(_ input: UpdateExtensionAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExtensionAssociation> {
-        return self.client.execute(operation: "UpdateExtensionAssociation", path: "/extensionassociations/{ExtensionAssociationId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateExtensionAssociation(_ input: UpdateExtensionAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExtensionAssociation {
+        return try await self.client.execute(operation: "UpdateExtensionAssociation", path: "/extensionassociations/{ExtensionAssociationId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Uses the validators in a configuration profile to validate a configuration.
-    @discardableResult public func validateConfiguration(_ input: ValidateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "ValidateConfiguration", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/validators", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func validateConfiguration(_ input: ValidateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "ValidateConfiguration", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/validators", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -297,428 +340,157 @@ extension AppConfig {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension AppConfig {
     /// Lists all applications in your Amazon Web Services account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listApplicationsPaginator<Result>(
-        _ input: ListApplicationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, Applications, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listApplications,
-            inputKey: \ListApplicationsRequest.nextToken,
-            outputKey: \Applications.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listApplicationsPaginator(
         _ input: ListApplicationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Applications, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApplicationsRequest, Applications> {
+        return .init(
             input: input,
             command: self.listApplications,
             inputKey: \ListApplicationsRequest.nextToken,
             outputKey: \Applications.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the configuration profiles for an application.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listConfigurationProfilesPaginator<Result>(
-        _ input: ListConfigurationProfilesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ConfigurationProfiles, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listConfigurationProfiles,
-            inputKey: \ListConfigurationProfilesRequest.nextToken,
-            outputKey: \ConfigurationProfiles.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listConfigurationProfilesPaginator(
         _ input: ListConfigurationProfilesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ConfigurationProfiles, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConfigurationProfilesRequest, ConfigurationProfiles> {
+        return .init(
             input: input,
             command: self.listConfigurationProfiles,
             inputKey: \ListConfigurationProfilesRequest.nextToken,
             outputKey: \ConfigurationProfiles.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists deployment strategies.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDeploymentStrategiesPaginator<Result>(
-        _ input: ListDeploymentStrategiesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DeploymentStrategies, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDeploymentStrategies,
-            inputKey: \ListDeploymentStrategiesRequest.nextToken,
-            outputKey: \DeploymentStrategies.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDeploymentStrategiesPaginator(
         _ input: ListDeploymentStrategiesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DeploymentStrategies, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDeploymentStrategiesRequest, DeploymentStrategies> {
+        return .init(
             input: input,
             command: self.listDeploymentStrategies,
             inputKey: \ListDeploymentStrategiesRequest.nextToken,
             outputKey: \DeploymentStrategies.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the deployments for an environment in descending deployment number order.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDeploymentsPaginator<Result>(
-        _ input: ListDeploymentsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, Deployments, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDeployments,
-            inputKey: \ListDeploymentsRequest.nextToken,
-            outputKey: \Deployments.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDeploymentsPaginator(
         _ input: ListDeploymentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Deployments, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDeploymentsRequest, Deployments> {
+        return .init(
             input: input,
             command: self.listDeployments,
             inputKey: \ListDeploymentsRequest.nextToken,
             outputKey: \Deployments.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the environments for an application.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listEnvironmentsPaginator<Result>(
-        _ input: ListEnvironmentsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, Environments, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listEnvironments,
-            inputKey: \ListEnvironmentsRequest.nextToken,
-            outputKey: \Environments.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listEnvironmentsPaginator(
         _ input: ListEnvironmentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Environments, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEnvironmentsRequest, Environments> {
+        return .init(
             input: input,
             command: self.listEnvironments,
             inputKey: \ListEnvironmentsRequest.nextToken,
             outputKey: \Environments.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all AppConfig extension associations in the account. For more information about extensions and associations, see Working with AppConfig extensions in the AppConfig User Guide.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listExtensionAssociationsPaginator<Result>(
-        _ input: ListExtensionAssociationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ExtensionAssociations, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listExtensionAssociations,
-            inputKey: \ListExtensionAssociationsRequest.nextToken,
-            outputKey: \ExtensionAssociations.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listExtensionAssociationsPaginator(
         _ input: ListExtensionAssociationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ExtensionAssociations, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExtensionAssociationsRequest, ExtensionAssociations> {
+        return .init(
             input: input,
             command: self.listExtensionAssociations,
             inputKey: \ListExtensionAssociationsRequest.nextToken,
             outputKey: \ExtensionAssociations.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all custom and Amazon Web Services authored AppConfig extensions in the account. For more information about extensions, see Working with AppConfig extensions in the AppConfig User Guide.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listExtensionsPaginator<Result>(
-        _ input: ListExtensionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, Extensions, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listExtensions,
-            inputKey: \ListExtensionsRequest.nextToken,
-            outputKey: \Extensions.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listExtensionsPaginator(
         _ input: ListExtensionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Extensions, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExtensionsRequest, Extensions> {
+        return .init(
             input: input,
             command: self.listExtensions,
             inputKey: \ListExtensionsRequest.nextToken,
             outputKey: \Extensions.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists configurations stored in the AppConfig hosted configuration store by version.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listHostedConfigurationVersionsPaginator<Result>(
-        _ input: ListHostedConfigurationVersionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, HostedConfigurationVersions, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listHostedConfigurationVersions,
-            inputKey: \ListHostedConfigurationVersionsRequest.nextToken,
-            outputKey: \HostedConfigurationVersions.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listHostedConfigurationVersionsPaginator(
         _ input: ListHostedConfigurationVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (HostedConfigurationVersions, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListHostedConfigurationVersionsRequest, HostedConfigurationVersions> {
+        return .init(
             input: input,
             command: self.listHostedConfigurationVersions,
             inputKey: \ListHostedConfigurationVersionsRequest.nextToken,
             outputKey: \HostedConfigurationVersions.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

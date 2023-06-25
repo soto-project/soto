@@ -64,59 +64,70 @@ public struct QuickSight: AWSService {
     // MARK: API Calls
 
     /// Cancels an ongoing ingestion of data into SPICE.
-    public func cancelIngestion(_ input: CancelIngestionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelIngestionResponse> {
-        return self.client.execute(operation: "CancelIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func cancelIngestion(_ input: CancelIngestionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelIngestionResponse {
+        return try await self.client.execute(operation: "CancelIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon QuickSight by removing Amazon QuickSight sample assets and videos for all new users, see Customizing Amazon QuickSight in the Amazon QuickSight User Guide.  You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the  DescribeThemePermissions  API operation. To share the theme, grant permissions by using the  UpdateThemePermissions  API operation.
-    public func createAccountCustomization(_ input: CreateAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAccountCustomizationResponse> {
-        return self.client.execute(operation: "CreateAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createAccountCustomization(_ input: CreateAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccountCustomizationResponse {
+        return try await self.client.execute(operation: "CreateAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. This operation isn't supported in the US East (Ohio) Region, South America (Sao Paulo) Region, or Asia Pacific (Singapore) Region.   Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon QuickSight User Guide. The person who signs up for Amazon QuickSight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see IAM Policy Examples for Amazon QuickSight in the Amazon QuickSight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon QuickSight, see Passing IAM roles to Amazon QuickSight in the Amazon QuickSight User Guide. You can't set default resource access on the new account from the Amazon QuickSight API. Instead, add default resource access from the Amazon QuickSight console. For more information about setting default resource access to Amazon Web Services services, see Setting default resource access to Amazon Web Services services in the Amazon QuickSight User Guide.
-    public func createAccountSubscription(_ input: CreateAccountSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAccountSubscriptionResponse> {
-        return self.client.execute(operation: "CreateAccountSubscription", path: "/account/{AwsAccountId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createAccountSubscription(_ input: CreateAccountSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccountSubscriptionResponse {
+        return try await self.client.execute(operation: "CreateAccountSubscription", path: "/account/{AwsAccountId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an analysis in Amazon QuickSight.  Analyses can be created either from a template or from an AnalysisDefinition.
-    public func createAnalysis(_ input: CreateAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAnalysisResponse> {
-        return self.client.execute(operation: "CreateAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createAnalysis(_ input: CreateAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAnalysisResponse {
+        return try await self.client.execute(operation: "CreateAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the   CreateTemplate  API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
-    public func createDashboard(_ input: CreateDashboardRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDashboardResponse> {
-        return self.client.execute(operation: "CreateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDashboard(_ input: CreateDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDashboardResponse {
+        return try await self.client.execute(operation: "CreateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a dataset. This operation doesn't support datasets that include uploaded files as a source.
-    public func createDataSet(_ input: CreateDataSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDataSetResponse> {
-        return self.client.execute(operation: "CreateDataSet", path: "/accounts/{AwsAccountId}/data-sets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDataSet(_ input: CreateDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSetResponse {
+        return try await self.client.execute(operation: "CreateDataSet", path: "/accounts/{AwsAccountId}/data-sets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a data source.
-    public func createDataSource(_ input: CreateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDataSourceResponse> {
-        return self.client.execute(operation: "CreateDataSource", path: "/accounts/{AwsAccountId}/data-sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDataSource(_ input: CreateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSourceResponse {
+        return try await self.client.execute(operation: "CreateDataSource", path: "/accounts/{AwsAccountId}/data-sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an empty shared folder.
-    public func createFolder(_ input: CreateFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFolderResponse> {
-        return self.client.execute(operation: "CreateFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createFolder(_ input: CreateFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFolderResponse {
+        return try await self.client.execute(operation: "CreateFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds an asset, such as a dashboard, analysis, or dataset into a folder.
-    public func createFolderMembership(_ input: CreateFolderMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFolderMembershipResponse> {
-        return self.client.execute(operation: "CreateFolderMembership", path: "/accounts/{AwsAccountId}/folders/{FolderId}/members/{MemberType}/{MemberId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createFolderMembership(_ input: CreateFolderMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFolderMembershipResponse {
+        return try await self.client.execute(operation: "CreateFolderMembership", path: "/accounts/{AwsAccountId}/folders/{FolderId}/members/{MemberType}/{MemberId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use the CreateGroup operation to create a group in   Amazon QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact AWS Support. The permissions resource is
     /// 					arn:aws:quicksight:::group/default/ . The response is a group object.
-    public func createGroup(_ input: CreateGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGroupResponse> {
-        return self.client.execute(operation: "CreateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createGroup(_ input: CreateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGroupResponse {
+        return try await self.client.execute(operation: "CreateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds an Amazon QuickSight user to an Amazon QuickSight group.
-    public func createGroupMembership(_ input: CreateGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGroupMembershipResponse> {
-        return self.client.execute(operation: "CreateGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createGroupMembership(_ input: CreateGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGroupMembershipResponse {
+        return try await self.client.execute(operation: "CreateGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an assignment with one specified IAM policy, identified by its
@@ -124,8 +135,9 @@ public struct QuickSight: AWSService {
     /// 			or users of Amazon QuickSight. Assignment names are unique per Amazon Web Services
     /// 			account. To avoid overwriting rules in other namespaces, use assignment names that are
     /// 			unique.
-    public func createIAMPolicyAssignment(_ input: CreateIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIAMPolicyAssignmentResponse> {
-        return self.client.execute(operation: "CreateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createIAMPolicyAssignment(_ input: CreateIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIAMPolicyAssignmentResponse {
+        return try await self.client.execute(operation: "CreateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets in
@@ -134,18 +146,21 @@ public struct QuickSight: AWSService {
     /// 			is measured starting 24 hours before the current date and time. Any ingestions operating on tagged datasets inherit the same tags automatically for use in
     /// 			access control. For an example, see How do I create an IAM policy to control access to Amazon EC2 resources using
     /// 				tags? in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
-    public func createIngestion(_ input: CreateIngestionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIngestionResponse> {
-        return self.client.execute(operation: "CreateIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createIngestion(_ input: CreateIngestionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIngestionResponse {
+        return try await self.client.execute(operation: "CreateIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the Amazon QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
-    public func createNamespace(_ input: CreateNamespaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNamespaceResponse> {
-        return self.client.execute(operation: "CreateNamespace", path: "/accounts/{AwsAccountId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createNamespace(_ input: CreateNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNamespaceResponse {
+        return try await self.client.execute(operation: "CreateNamespace", path: "/accounts/{AwsAccountId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
-    public func createRefreshSchedule(_ input: CreateRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRefreshScheduleResponse> {
-        return self.client.execute(operation: "CreateRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createRefreshSchedule(_ input: CreateRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRefreshScheduleResponse {
+        return try await self.client.execute(operation: "CreateRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a template either from a TemplateDefinition or from an existing Amazon QuickSight analysis or template. You can use the resulting
@@ -155,444 +170,529 @@ public struct QuickSight: AWSService {
     /// 			analysis. You can use templates to create dashboards by replacing dataset placeholders
     /// 			with datasets that follow the same schema that was used to create the source analysis
     /// 			and template.
-    public func createTemplate(_ input: CreateTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTemplateResponse> {
-        return self.client.execute(operation: "CreateTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTemplate(_ input: CreateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTemplateResponse {
+        return try await self.client.execute(operation: "CreateTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a template alias for a template.
-    public func createTemplateAlias(_ input: CreateTemplateAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTemplateAliasResponse> {
-        return self.client.execute(operation: "CreateTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTemplateAlias(_ input: CreateTemplateAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTemplateAliasResponse {
+        return try await self.client.execute(operation: "CreateTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a theme. A theme is set of configuration options for color and layout.
     /// 			Themes apply to analyses and dashboards. For more information, see Using
     /// 			Themes in Amazon QuickSight in the Amazon QuickSight User Guide.
-    public func createTheme(_ input: CreateThemeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateThemeResponse> {
-        return self.client.execute(operation: "CreateTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTheme(_ input: CreateThemeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateThemeResponse {
+        return try await self.client.execute(operation: "CreateTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a theme alias for a theme.
-    public func createThemeAlias(_ input: CreateThemeAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateThemeAliasResponse> {
-        return self.client.execute(operation: "CreateThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createThemeAlias(_ input: CreateThemeAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateThemeAliasResponse {
+        return try await self.client.execute(operation: "CreateThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new Q topic.
-    public func createTopic(_ input: CreateTopicRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTopicResponse> {
-        return self.client.execute(operation: "CreateTopic", path: "/accounts/{AwsAccountId}/topics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTopic(_ input: CreateTopicRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTopicResponse {
+        return try await self.client.execute(operation: "CreateTopic", path: "/accounts/{AwsAccountId}/topics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a topic refresh schedule.
-    public func createTopicRefreshSchedule(_ input: CreateTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTopicRefreshScheduleResponse> {
-        return self.client.execute(operation: "CreateTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTopicRefreshSchedule(_ input: CreateTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTopicRefreshScheduleResponse {
+        return try await self.client.execute(operation: "CreateTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new VPC connection.
-    public func createVPCConnection(_ input: CreateVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVPCConnectionResponse> {
-        return self.client.execute(operation: "CreateVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createVPCConnection(_ input: CreateVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVPCConnectionResponse {
+        return try await self.client.execute(operation: "CreateVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes all Amazon QuickSight customizations in this Amazon Web Services Region for the specified Amazon Web Services account and Amazon QuickSight namespace.
-    public func deleteAccountCustomization(_ input: DeleteAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAccountCustomizationResponse> {
-        return self.client.execute(operation: "DeleteAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAccountCustomization(_ input: DeleteAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountCustomizationResponse {
+        return try await self.client.execute(operation: "DeleteAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use the DeleteAccountSubscription operation to delete an Amazon QuickSight account. This operation will result in an error message if you have configured your account termination protection settings to True. To change this setting and delete your account, call the UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter to False, then make another call to the DeleteAccountSubscription API.
-    public func deleteAccountSubscription(_ input: DeleteAccountSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAccountSubscriptionResponse> {
-        return self.client.execute(operation: "DeleteAccountSubscription", path: "/account/{AwsAccountId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAccountSubscription(_ input: DeleteAccountSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountSubscriptionResponse {
+        return try await self.client.execute(operation: "DeleteAccountSubscription", path: "/account/{AwsAccountId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon QuickSight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon QuickSight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the Amazon QuickSight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
-    public func deleteAnalysis(_ input: DeleteAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAnalysisResponse> {
-        return self.client.execute(operation: "DeleteAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAnalysis(_ input: DeleteAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAnalysisResponse {
+        return try await self.client.execute(operation: "DeleteAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a dashboard.
-    public func deleteDashboard(_ input: DeleteDashboardRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDashboardResponse> {
-        return self.client.execute(operation: "DeleteDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDashboard(_ input: DeleteDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDashboardResponse {
+        return try await self.client.execute(operation: "DeleteDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a dataset.
-    public func deleteDataSet(_ input: DeleteDataSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDataSetResponse> {
-        return self.client.execute(operation: "DeleteDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDataSet(_ input: DeleteDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataSetResponse {
+        return try await self.client.execute(operation: "DeleteDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the dataset refresh properties of the dataset.
-    public func deleteDataSetRefreshProperties(_ input: DeleteDataSetRefreshPropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDataSetRefreshPropertiesResponse> {
-        return self.client.execute(operation: "DeleteDataSetRefreshProperties", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDataSetRefreshProperties(_ input: DeleteDataSetRefreshPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataSetRefreshPropertiesResponse {
+        return try await self.client.execute(operation: "DeleteDataSetRefreshProperties", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the data source permanently. This operation breaks
     /// 			all the datasets that reference the deleted data source.
-    public func deleteDataSource(_ input: DeleteDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDataSourceResponse> {
-        return self.client.execute(operation: "DeleteDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDataSource(_ input: DeleteDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataSourceResponse {
+        return try await self.client.execute(operation: "DeleteDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an empty folder.
-    public func deleteFolder(_ input: DeleteFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFolderResponse> {
-        return self.client.execute(operation: "DeleteFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteFolder(_ input: DeleteFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFolderResponse {
+        return try await self.client.execute(operation: "DeleteFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
-    public func deleteFolderMembership(_ input: DeleteFolderMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFolderMembershipResponse> {
-        return self.client.execute(operation: "DeleteFolderMembership", path: "/accounts/{AwsAccountId}/folders/{FolderId}/members/{MemberType}/{MemberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteFolderMembership(_ input: DeleteFolderMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFolderMembershipResponse {
+        return try await self.client.execute(operation: "DeleteFolderMembership", path: "/accounts/{AwsAccountId}/folders/{FolderId}/members/{MemberType}/{MemberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes a user group from Amazon QuickSight.
-    public func deleteGroup(_ input: DeleteGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGroupResponse> {
-        return self.client.execute(operation: "DeleteGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteGroup(_ input: DeleteGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGroupResponse {
+        return try await self.client.execute(operation: "DeleteGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes a user from a group so that the user is no longer a member of the group.
-    public func deleteGroupMembership(_ input: DeleteGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGroupMembershipResponse> {
-        return self.client.execute(operation: "DeleteGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteGroupMembership(_ input: DeleteGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGroupMembershipResponse {
+        return try await self.client.execute(operation: "DeleteGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an existing IAM policy assignment.
-    public func deleteIAMPolicyAssignment(_ input: DeleteIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteIAMPolicyAssignmentResponse> {
-        return self.client.execute(operation: "DeleteIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespace/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteIAMPolicyAssignment(_ input: DeleteIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIAMPolicyAssignmentResponse {
+        return try await self.client.execute(operation: "DeleteIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespace/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not  deleted. To delete these assets, you use the API operations for the relevant asset.
-    public func deleteNamespace(_ input: DeleteNamespaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNamespaceResponse> {
-        return self.client.execute(operation: "DeleteNamespace", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteNamespace(_ input: DeleteNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNamespaceResponse {
+        return try await self.client.execute(operation: "DeleteNamespace", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a refresh schedule from a dataset.
-    public func deleteRefreshSchedule(_ input: DeleteRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRefreshScheduleResponse> {
-        return self.client.execute(operation: "DeleteRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules/{ScheduleId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRefreshSchedule(_ input: DeleteRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRefreshScheduleResponse {
+        return try await self.client.execute(operation: "DeleteRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules/{ScheduleId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a template.
-    public func deleteTemplate(_ input: DeleteTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTemplateResponse> {
-        return self.client.execute(operation: "DeleteTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteTemplate(_ input: DeleteTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTemplateResponse {
+        return try await self.client.execute(operation: "DeleteTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the item that the specified template alias points to. If you provide a specific
     /// 			alias, you delete the version of the template that the alias points to.
-    public func deleteTemplateAlias(_ input: DeleteTemplateAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTemplateAliasResponse> {
-        return self.client.execute(operation: "DeleteTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteTemplateAlias(_ input: DeleteTemplateAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTemplateAliasResponse {
+        return try await self.client.execute(operation: "DeleteTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a theme.
-    public func deleteTheme(_ input: DeleteThemeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteThemeResponse> {
-        return self.client.execute(operation: "DeleteTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteTheme(_ input: DeleteThemeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteThemeResponse {
+        return try await self.client.execute(operation: "DeleteTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the version of the theme that the specified theme alias points to.
     /// 			If you provide a specific alias, you delete the version of the theme
     /// 			that the alias points to.
-    public func deleteThemeAlias(_ input: DeleteThemeAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteThemeAliasResponse> {
-        return self.client.execute(operation: "DeleteThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteThemeAlias(_ input: DeleteThemeAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteThemeAliasResponse {
+        return try await self.client.execute(operation: "DeleteThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a topic.
-    public func deleteTopic(_ input: DeleteTopicRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTopicResponse> {
-        return self.client.execute(operation: "DeleteTopic", path: "/accounts/{AwsAccountId}/topics/{TopicId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteTopic(_ input: DeleteTopicRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTopicResponse {
+        return try await self.client.execute(operation: "DeleteTopic", path: "/accounts/{AwsAccountId}/topics/{TopicId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a topic refresh schedule.
-    public func deleteTopicRefreshSchedule(_ input: DeleteTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTopicRefreshScheduleResponse> {
-        return self.client.execute(operation: "DeleteTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteTopicRefreshSchedule(_ input: DeleteTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTopicRefreshScheduleResponse {
+        return try await self.client.execute(operation: "DeleteTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the Amazon QuickSight user that is associated with the identity of the
     /// 			IAM user or role that's making the call. The IAM user
     /// 			isn't deleted as a result of this call.
-    public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteUserResponse> {
-        return self.client.execute(operation: "DeleteUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserResponse {
+        return try await self.client.execute(operation: "DeleteUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a user identified by its principal ID.
-    public func deleteUserByPrincipalId(_ input: DeleteUserByPrincipalIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteUserByPrincipalIdResponse> {
-        return self.client.execute(operation: "DeleteUserByPrincipalId", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/user-principals/{PrincipalId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteUserByPrincipalId(_ input: DeleteUserByPrincipalIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserByPrincipalIdResponse {
+        return try await self.client.execute(operation: "DeleteUserByPrincipalId", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/user-principals/{PrincipalId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a VPC connection.
-    public func deleteVPCConnection(_ input: DeleteVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVPCConnectionResponse> {
-        return self.client.execute(operation: "DeleteVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteVPCConnection(_ input: DeleteVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVPCConnectionResponse {
+        return try await self.client.execute(operation: "DeleteVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Amazon QuickSight namespace in an Amazon Web Services Region. The Amazon QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included.  To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.     Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you subscribe to Amazon QuickSight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use Amazon QuickSight in any supported Amazon Web Services Region.     Amazon Web Services Region - In each Amazon Web Services Region where you sign in to Amazon QuickSight at least once, Amazon QuickSight acts as a separate instance of the same service. If you have a user directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have access to Amazon QuickSight in any Amazon Web Services Region, unless they are constrained to a namespace.  To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the CLI, you can use one of the following options:   Use command line options.    Use named profiles.    Run aws configure to change your default Amazon Web Services Region. Use Enter to key the same settings for your keys. For more information, see Configuring the CLI.      Namespace - A QuickSight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same Amazon Web Services account and Amazon Web Services Region.    Applied customizations -  Within an Amazon Web Services Region, a set of Amazon QuickSight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account. All settings are isolated to a single Amazon Web Services Region. To apply them in other Amazon Web Services Regions, run the CreateAccountCustomization command in each Amazon Web Services Region where you want to apply the same customizations.
-    public func describeAccountCustomization(_ input: DescribeAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAccountCustomizationResponse> {
-        return self.client.execute(operation: "DescribeAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAccountCustomization(_ input: DescribeAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountCustomizationResponse {
+        return try await self.client.execute(operation: "DescribeAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the settings that were used when your Amazon QuickSight subscription was first created in this Amazon Web Services account.
-    public func describeAccountSettings(_ input: DescribeAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAccountSettingsResponse> {
-        return self.client.execute(operation: "DescribeAccountSettings", path: "/accounts/{AwsAccountId}/settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAccountSettings(_ input: DescribeAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountSettingsResponse {
+        return try await self.client.execute(operation: "DescribeAccountSettings", path: "/accounts/{AwsAccountId}/settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use the DescribeAccountSubscription operation to receive a description of an Amazon QuickSight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
-    public func describeAccountSubscription(_ input: DescribeAccountSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAccountSubscriptionResponse> {
-        return self.client.execute(operation: "DescribeAccountSubscription", path: "/account/{AwsAccountId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAccountSubscription(_ input: DescribeAccountSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountSubscriptionResponse {
+        return try await self.client.execute(operation: "DescribeAccountSubscription", path: "/account/{AwsAccountId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides a summary of the metadata for an analysis.
-    public func describeAnalysis(_ input: DescribeAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAnalysisResponse> {
-        return self.client.execute(operation: "DescribeAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAnalysis(_ input: DescribeAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAnalysisResponse {
+        return try await self.client.execute(operation: "DescribeAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides a detailed description of the definition of an analysis.  If you do not need to know details about the content of an Analysis, for instance if you are trying to check the status of a recently created or updated Analysis, use the  DescribeAnalysis instead.
-    public func describeAnalysisDefinition(_ input: DescribeAnalysisDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAnalysisDefinitionResponse> {
-        return self.client.execute(operation: "DescribeAnalysisDefinition", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/definition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAnalysisDefinition(_ input: DescribeAnalysisDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAnalysisDefinitionResponse {
+        return try await self.client.execute(operation: "DescribeAnalysisDefinition", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/definition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides the read and write permissions for an analysis.
-    public func describeAnalysisPermissions(_ input: DescribeAnalysisPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAnalysisPermissionsResponse> {
-        return self.client.execute(operation: "DescribeAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAnalysisPermissions(_ input: DescribeAnalysisPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAnalysisPermissionsResponse {
+        return try await self.client.execute(operation: "DescribeAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes an existing export job. Poll job descriptions after a job starts to know the status of the job. When a job succeeds, a URL is provided to download the exported assets' data from. Download URLs are valid for five minutes after they are generated. You can call the DescribeAssetBundleExportJob API for a new download URL as needed. Job descriptions are available for 14 days after the job starts.
-    public func describeAssetBundleExportJob(_ input: DescribeAssetBundleExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAssetBundleExportJobResponse> {
-        return self.client.execute(operation: "DescribeAssetBundleExportJob", path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs/{AssetBundleExportJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAssetBundleExportJob(_ input: DescribeAssetBundleExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAssetBundleExportJobResponse {
+        return try await self.client.execute(operation: "DescribeAssetBundleExportJob", path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs/{AssetBundleExportJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes an existing import job. Poll job descriptions after starting a job to know when it has succeeded or failed. Job descriptions are available for 14 days after job starts.
-    public func describeAssetBundleImportJob(_ input: DescribeAssetBundleImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAssetBundleImportJobResponse> {
-        return self.client.execute(operation: "DescribeAssetBundleImportJob", path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs/{AssetBundleImportJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAssetBundleImportJob(_ input: DescribeAssetBundleImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAssetBundleImportJobResponse {
+        return try await self.client.execute(operation: "DescribeAssetBundleImportJob", path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs/{AssetBundleImportJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides a summary for a dashboard.
-    public func describeDashboard(_ input: DescribeDashboardRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDashboardResponse> {
-        return self.client.execute(operation: "DescribeDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDashboard(_ input: DescribeDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDashboardResponse {
+        return try await self.client.execute(operation: "DescribeDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides a detailed description of the definition of a dashboard.  If you do not need to know details about the content of a dashboard, for instance if you are trying to check the status of a recently created or updated dashboard, use the  DescribeDashboard instead.
-    public func describeDashboardDefinition(_ input: DescribeDashboardDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDashboardDefinitionResponse> {
-        return self.client.execute(operation: "DescribeDashboardDefinition", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/definition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDashboardDefinition(_ input: DescribeDashboardDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDashboardDefinitionResponse {
+        return try await self.client.execute(operation: "DescribeDashboardDefinition", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/definition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes read and write permissions for a dashboard.
-    public func describeDashboardPermissions(_ input: DescribeDashboardPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDashboardPermissionsResponse> {
-        return self.client.execute(operation: "DescribeDashboardPermissions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDashboardPermissions(_ input: DescribeDashboardPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDashboardPermissionsResponse {
+        return try await self.client.execute(operation: "DescribeDashboardPermissions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes a dataset. This operation doesn't support datasets that include uploaded files as a source.
-    public func describeDataSet(_ input: DescribeDataSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDataSetResponse> {
-        return self.client.execute(operation: "DescribeDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDataSet(_ input: DescribeDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSetResponse {
+        return try await self.client.execute(operation: "DescribeDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
-    public func describeDataSetPermissions(_ input: DescribeDataSetPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDataSetPermissionsResponse> {
-        return self.client.execute(operation: "DescribeDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDataSetPermissions(_ input: DescribeDataSetPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSetPermissionsResponse {
+        return try await self.client.execute(operation: "DescribeDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the refresh properties of a dataset.
-    public func describeDataSetRefreshProperties(_ input: DescribeDataSetRefreshPropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDataSetRefreshPropertiesResponse> {
-        return self.client.execute(operation: "DescribeDataSetRefreshProperties", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDataSetRefreshProperties(_ input: DescribeDataSetRefreshPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSetRefreshPropertiesResponse {
+        return try await self.client.execute(operation: "DescribeDataSetRefreshProperties", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes a data source.
-    public func describeDataSource(_ input: DescribeDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDataSourceResponse> {
-        return self.client.execute(operation: "DescribeDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDataSource(_ input: DescribeDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSourceResponse {
+        return try await self.client.execute(operation: "DescribeDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the resource permissions for a data source.
-    public func describeDataSourcePermissions(_ input: DescribeDataSourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDataSourcePermissionsResponse> {
-        return self.client.execute(operation: "DescribeDataSourcePermissions", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDataSourcePermissions(_ input: DescribeDataSourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSourcePermissionsResponse {
+        return try await self.client.execute(operation: "DescribeDataSourcePermissions", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes a folder.
-    public func describeFolder(_ input: DescribeFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFolderResponse> {
-        return self.client.execute(operation: "DescribeFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeFolder(_ input: DescribeFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFolderResponse {
+        return try await self.client.execute(operation: "DescribeFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes permissions for a folder.
-    public func describeFolderPermissions(_ input: DescribeFolderPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFolderPermissionsResponse> {
-        return self.client.execute(operation: "DescribeFolderPermissions", path: "/accounts/{AwsAccountId}/folders/{FolderId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeFolderPermissions(_ input: DescribeFolderPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFolderPermissionsResponse {
+        return try await self.client.execute(operation: "DescribeFolderPermissions", path: "/accounts/{AwsAccountId}/folders/{FolderId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders.
-    public func describeFolderResolvedPermissions(_ input: DescribeFolderResolvedPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFolderResolvedPermissionsResponse> {
-        return self.client.execute(operation: "DescribeFolderResolvedPermissions", path: "/accounts/{AwsAccountId}/folders/{FolderId}/resolved-permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeFolderResolvedPermissions(_ input: DescribeFolderResolvedPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFolderResolvedPermissionsResponse {
+        return try await self.client.execute(operation: "DescribeFolderResolvedPermissions", path: "/accounts/{AwsAccountId}/folders/{FolderId}/resolved-permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN).
-    public func describeGroup(_ input: DescribeGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeGroupResponse> {
-        return self.client.execute(operation: "DescribeGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeGroup(_ input: DescribeGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGroupResponse {
+        return try await self.client.execute(operation: "DescribeGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use the DescribeGroupMembership operation to determine if a user is a
     /// 			member of the specified group. If the user exists and is a member of the specified
     /// 			group, an associated GroupMember object is returned.
-    public func describeGroupMembership(_ input: DescribeGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeGroupMembershipResponse> {
-        return self.client.execute(operation: "DescribeGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeGroupMembership(_ input: DescribeGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGroupMembershipResponse {
+        return try await self.client.execute(operation: "DescribeGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes an existing IAM policy assignment, as specified by the
     /// 			assignment name.
-    public func describeIAMPolicyAssignment(_ input: DescribeIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeIAMPolicyAssignmentResponse> {
-        return self.client.execute(operation: "DescribeIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeIAMPolicyAssignment(_ input: DescribeIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIAMPolicyAssignmentResponse {
+        return try await self.client.execute(operation: "DescribeIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes a SPICE ingestion.
-    public func describeIngestion(_ input: DescribeIngestionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeIngestionResponse> {
-        return self.client.execute(operation: "DescribeIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeIngestion(_ input: DescribeIngestionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIngestionResponse {
+        return try await self.client.execute(operation: "DescribeIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides a summary and status of IP rules.
-    public func describeIpRestriction(_ input: DescribeIpRestrictionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeIpRestrictionResponse> {
-        return self.client.execute(operation: "DescribeIpRestriction", path: "/accounts/{AwsAccountId}/ip-restriction", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeIpRestriction(_ input: DescribeIpRestrictionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIpRestrictionResponse {
+        return try await self.client.execute(operation: "DescribeIpRestriction", path: "/accounts/{AwsAccountId}/ip-restriction", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the current namespace.
-    public func describeNamespace(_ input: DescribeNamespaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNamespaceResponse> {
-        return self.client.execute(operation: "DescribeNamespace", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeNamespace(_ input: DescribeNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNamespaceResponse {
+        return try await self.client.execute(operation: "DescribeNamespace", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides a summary of a refresh schedule.
-    public func describeRefreshSchedule(_ input: DescribeRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRefreshScheduleResponse> {
-        return self.client.execute(operation: "DescribeRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules/{ScheduleId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeRefreshSchedule(_ input: DescribeRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRefreshScheduleResponse {
+        return try await self.client.execute(operation: "DescribeRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules/{ScheduleId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes a template's metadata.
-    public func describeTemplate(_ input: DescribeTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTemplateResponse> {
-        return self.client.execute(operation: "DescribeTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeTemplate(_ input: DescribeTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTemplateResponse {
+        return try await self.client.execute(operation: "DescribeTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the template alias for a template.
-    public func describeTemplateAlias(_ input: DescribeTemplateAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTemplateAliasResponse> {
-        return self.client.execute(operation: "DescribeTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeTemplateAlias(_ input: DescribeTemplateAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTemplateAliasResponse {
+        return try await self.client.execute(operation: "DescribeTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides a detailed description of the definition of a template.  If you do not need to know details about the content of a template, for instance if you
     /// 				are trying to check the status of a recently created or updated template, use the
     /// 				 DescribeTemplate instead.
     ///
-    public func describeTemplateDefinition(_ input: DescribeTemplateDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTemplateDefinitionResponse> {
-        return self.client.execute(operation: "DescribeTemplateDefinition", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/definition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeTemplateDefinition(_ input: DescribeTemplateDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTemplateDefinitionResponse {
+        return try await self.client.execute(operation: "DescribeTemplateDefinition", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/definition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes read and write permissions on a template.
-    public func describeTemplatePermissions(_ input: DescribeTemplatePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTemplatePermissionsResponse> {
-        return self.client.execute(operation: "DescribeTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeTemplatePermissions(_ input: DescribeTemplatePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTemplatePermissionsResponse {
+        return try await self.client.execute(operation: "DescribeTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes a theme.
-    public func describeTheme(_ input: DescribeThemeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeThemeResponse> {
-        return self.client.execute(operation: "DescribeTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeTheme(_ input: DescribeThemeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeThemeResponse {
+        return try await self.client.execute(operation: "DescribeTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the alias for a theme.
-    public func describeThemeAlias(_ input: DescribeThemeAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeThemeAliasResponse> {
-        return self.client.execute(operation: "DescribeThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeThemeAlias(_ input: DescribeThemeAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeThemeAliasResponse {
+        return try await self.client.execute(operation: "DescribeThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the read and write permissions for a theme.
-    public func describeThemePermissions(_ input: DescribeThemePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeThemePermissionsResponse> {
-        return self.client.execute(operation: "DescribeThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeThemePermissions(_ input: DescribeThemePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeThemePermissionsResponse {
+        return try await self.client.execute(operation: "DescribeThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes a topic.
-    public func describeTopic(_ input: DescribeTopicRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTopicResponse> {
-        return self.client.execute(operation: "DescribeTopic", path: "/accounts/{AwsAccountId}/topics/{TopicId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeTopic(_ input: DescribeTopicRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTopicResponse {
+        return try await self.client.execute(operation: "DescribeTopic", path: "/accounts/{AwsAccountId}/topics/{TopicId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the permissions of a topic.
-    public func describeTopicPermissions(_ input: DescribeTopicPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTopicPermissionsResponse> {
-        return self.client.execute(operation: "DescribeTopicPermissions", path: "/accounts/{AwsAccountId}/topics/{TopicId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeTopicPermissions(_ input: DescribeTopicPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTopicPermissionsResponse {
+        return try await self.client.execute(operation: "DescribeTopicPermissions", path: "/accounts/{AwsAccountId}/topics/{TopicId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the status of a topic refresh.
-    public func describeTopicRefresh(_ input: DescribeTopicRefreshRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTopicRefreshResponse> {
-        return self.client.execute(operation: "DescribeTopicRefresh", path: "/accounts/{AwsAccountId}/topics/{TopicId}/refresh/{RefreshId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeTopicRefresh(_ input: DescribeTopicRefreshRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTopicRefreshResponse {
+        return try await self.client.execute(operation: "DescribeTopicRefresh", path: "/accounts/{AwsAccountId}/topics/{TopicId}/refresh/{RefreshId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a topic refresh schedule.
-    public func describeTopicRefreshSchedule(_ input: DescribeTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTopicRefreshScheduleResponse> {
-        return self.client.execute(operation: "DescribeTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeTopicRefreshSchedule(_ input: DescribeTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTopicRefreshScheduleResponse {
+        return try await self.client.execute(operation: "DescribeTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a user, given the user name.
-    public func describeUser(_ input: DescribeUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeUserResponse> {
-        return self.client.execute(operation: "DescribeUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeUser(_ input: DescribeUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserResponse {
+        return try await self.client.execute(operation: "DescribeUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes a VPC connection.
-    public func describeVPCConnection(_ input: DescribeVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVPCConnectionResponse> {
-        return self.client.execute(operation: "DescribeVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeVPCConnection(_ input: DescribeVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVPCConnectionResponse {
+        return try await self.client.execute(operation: "DescribeVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Generates an embed URL that you can use to embed an Amazon QuickSight dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   For more information, see Embedded Analytics in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
-    public func generateEmbedUrlForAnonymousUser(_ input: GenerateEmbedUrlForAnonymousUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GenerateEmbedUrlForAnonymousUserResponse> {
-        return self.client.execute(operation: "GenerateEmbedUrlForAnonymousUser", path: "/accounts/{AwsAccountId}/embed-url/anonymous-user", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func generateEmbedUrlForAnonymousUser(_ input: GenerateEmbedUrlForAnonymousUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateEmbedUrlForAnonymousUserResponse {
+        return try await self.client.execute(operation: "GenerateEmbedUrlForAnonymousUser", path: "/accounts/{AwsAccountId}/embed-url/anonymous-user", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user registered in an Amazon QuickSight account.  Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   For more information, see Embedded Analytics in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
-    public func generateEmbedUrlForRegisteredUser(_ input: GenerateEmbedUrlForRegisteredUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GenerateEmbedUrlForRegisteredUserResponse> {
-        return self.client.execute(operation: "GenerateEmbedUrlForRegisteredUser", path: "/accounts/{AwsAccountId}/embed-url/registered-user", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func generateEmbedUrlForRegisteredUser(_ input: GenerateEmbedUrlForRegisteredUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateEmbedUrlForRegisteredUserResponse {
+        return try await self.client.execute(operation: "GenerateEmbedUrlForRegisteredUser", path: "/accounts/{AwsAccountId}/embed-url/registered-user", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon QuickSight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions.  Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:   They must be used together.   They can be used one time only.   They are valid for 5 minutes after you run this command.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You can use the optional SessionLifetimeInMinutes parameter to customize session duration.   For more information, see Embedding Analytics Using GetDashboardEmbedUrl in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
-    public func getDashboardEmbedUrl(_ input: GetDashboardEmbedUrlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDashboardEmbedUrlResponse> {
-        return self.client.execute(operation: "GetDashboardEmbedUrl", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/embed-url", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDashboardEmbedUrl(_ input: GetDashboardEmbedUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDashboardEmbedUrlResponse {
+        return try await self.client.execute(operation: "GetDashboardEmbedUrl", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/embed-url", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon QuickSight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use  RegisterUser  API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding Analytics     Customizing Access to the Amazon QuickSight Console
-    public func getSessionEmbedUrl(_ input: GetSessionEmbedUrlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSessionEmbedUrlResponse> {
-        return self.client.execute(operation: "GetSessionEmbedUrl", path: "/accounts/{AwsAccountId}/session-embed-url", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSessionEmbedUrl(_ input: GetSessionEmbedUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionEmbedUrlResponse {
+        return try await self.client.execute(operation: "GetSessionEmbedUrl", path: "/accounts/{AwsAccountId}/session-embed-url", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account.
-    public func listAnalyses(_ input: ListAnalysesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnalysesResponse> {
-        return self.client.execute(operation: "ListAnalyses", path: "/accounts/{AwsAccountId}/analyses", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAnalyses(_ input: ListAnalysesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnalysesResponse {
+        return try await self.client.execute(operation: "ListAnalyses", path: "/accounts/{AwsAccountId}/analyses", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleExportJobs only returns the most recent job that uses the repeated job ID.
-    public func listAssetBundleExportJobs(_ input: ListAssetBundleExportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssetBundleExportJobsResponse> {
-        return self.client.execute(operation: "ListAssetBundleExportJobs", path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAssetBundleExportJobs(_ input: ListAssetBundleExportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetBundleExportJobsResponse {
+        return try await self.client.execute(operation: "ListAssetBundleExportJobs", path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all asset bundle import jobs that have taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleImportJobs only returns the most recent job that uses the repeated job ID.
-    public func listAssetBundleImportJobs(_ input: ListAssetBundleImportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssetBundleImportJobsResponse> {
-        return self.client.execute(operation: "ListAssetBundleImportJobs", path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAssetBundleImportJobs(_ input: ListAssetBundleImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetBundleImportJobsResponse {
+        return try await self.client.execute(operation: "ListAssetBundleImportJobs", path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the versions of the dashboards in the Amazon QuickSight subscription.
-    public func listDashboardVersions(_ input: ListDashboardVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDashboardVersionsResponse> {
-        return self.client.execute(operation: "ListDashboardVersions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDashboardVersions(_ input: ListDashboardVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDashboardVersionsResponse {
+        return try await self.client.execute(operation: "ListDashboardVersions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists dashboards in an Amazon Web Services account.
-    public func listDashboards(_ input: ListDashboardsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDashboardsResponse> {
-        return self.client.execute(operation: "ListDashboards", path: "/accounts/{AwsAccountId}/dashboards", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDashboards(_ input: ListDashboardsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDashboardsResponse {
+        return try await self.client.execute(operation: "ListDashboards", path: "/accounts/{AwsAccountId}/dashboards", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
-    public func listDataSets(_ input: ListDataSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDataSetsResponse> {
-        return self.client.execute(operation: "ListDataSets", path: "/accounts/{AwsAccountId}/data-sets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDataSets(_ input: ListDataSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSetsResponse {
+        return try await self.client.execute(operation: "ListDataSets", path: "/accounts/{AwsAccountId}/data-sets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
-    public func listDataSources(_ input: ListDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDataSourcesResponse> {
-        return self.client.execute(operation: "ListDataSources", path: "/accounts/{AwsAccountId}/data-sources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDataSources(_ input: ListDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSourcesResponse {
+        return try await self.client.execute(operation: "ListDataSources", path: "/accounts/{AwsAccountId}/data-sources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List all assets (DASHBOARD, ANALYSIS, and DATASET) in a folder.
-    public func listFolderMembers(_ input: ListFolderMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFolderMembersResponse> {
-        return self.client.execute(operation: "ListFolderMembers", path: "/accounts/{AwsAccountId}/folders/{FolderId}/members", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listFolderMembers(_ input: ListFolderMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFolderMembersResponse {
+        return try await self.client.execute(operation: "ListFolderMembers", path: "/accounts/{AwsAccountId}/folders/{FolderId}/members", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all folders in an account.
-    public func listFolders(_ input: ListFoldersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFoldersResponse> {
-        return self.client.execute(operation: "ListFolders", path: "/accounts/{AwsAccountId}/folders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listFolders(_ input: ListFoldersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFoldersResponse {
+        return try await self.client.execute(operation: "ListFolders", path: "/accounts/{AwsAccountId}/folders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists member users in a group.
-    public func listGroupMemberships(_ input: ListGroupMembershipsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupMembershipsResponse> {
-        return self.client.execute(operation: "ListGroupMemberships", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listGroupMemberships(_ input: ListGroupMembershipsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupMembershipsResponse {
+        return try await self.client.execute(operation: "ListGroupMemberships", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all user groups in Amazon QuickSight.
-    public func listGroups(_ input: ListGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupsResponse> {
-        return self.client.execute(operation: "ListGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listGroups(_ input: ListGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupsResponse {
+        return try await self.client.execute(operation: "ListGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the
     /// 			IAM policy assignments in the current Amazon QuickSight
     /// 			account.
-    public func listIAMPolicyAssignments(_ input: ListIAMPolicyAssignmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIAMPolicyAssignmentsResponse> {
-        return self.client.execute(operation: "ListIAMPolicyAssignments", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/v2/iam-policy-assignments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listIAMPolicyAssignments(_ input: ListIAMPolicyAssignmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIAMPolicyAssignmentsResponse {
+        return try await self.client.execute(operation: "ListIAMPolicyAssignments", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/v2/iam-policy-assignments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all of
@@ -602,139 +702,166 @@ public struct QuickSight: AWSService {
     /// 			for the IAM policies assigned to the specified user and
     /// 			group,
     /// 			or groups that the user belongs to.
-    public func listIAMPolicyAssignmentsForUser(_ input: ListIAMPolicyAssignmentsForUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIAMPolicyAssignmentsForUserResponse> {
-        return self.client.execute(operation: "ListIAMPolicyAssignmentsForUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/iam-policy-assignments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listIAMPolicyAssignmentsForUser(_ input: ListIAMPolicyAssignmentsForUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIAMPolicyAssignmentsForUserResponse {
+        return try await self.client.execute(operation: "ListIAMPolicyAssignmentsForUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/iam-policy-assignments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the history of SPICE ingestions for a dataset.
-    public func listIngestions(_ input: ListIngestionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIngestionsResponse> {
-        return self.client.execute(operation: "ListIngestions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listIngestions(_ input: ListIngestionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIngestionsResponse {
+        return try await self.client.execute(operation: "ListIngestions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
-    public func listNamespaces(_ input: ListNamespacesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNamespacesResponse> {
-        return self.client.execute(operation: "ListNamespaces", path: "/accounts/{AwsAccountId}/namespaces", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listNamespaces(_ input: ListNamespacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNamespacesResponse {
+        return try await self.client.execute(operation: "ListNamespaces", path: "/accounts/{AwsAccountId}/namespaces", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
-    public func listRefreshSchedules(_ input: ListRefreshSchedulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRefreshSchedulesResponse> {
-        return self.client.execute(operation: "ListRefreshSchedules", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRefreshSchedules(_ input: ListRefreshSchedulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRefreshSchedulesResponse {
+        return try await self.client.execute(operation: "ListRefreshSchedules", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the tags assigned to a resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/resources/{ResourceArn}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/resources/{ResourceArn}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the aliases of a template.
-    public func listTemplateAliases(_ input: ListTemplateAliasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTemplateAliasesResponse> {
-        return self.client.execute(operation: "ListTemplateAliases", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTemplateAliases(_ input: ListTemplateAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplateAliasesResponse {
+        return try await self.client.execute(operation: "ListTemplateAliases", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the versions of the templates in the current Amazon QuickSight account.
-    public func listTemplateVersions(_ input: ListTemplateVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTemplateVersionsResponse> {
-        return self.client.execute(operation: "ListTemplateVersions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTemplateVersions(_ input: ListTemplateVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplateVersionsResponse {
+        return try await self.client.execute(operation: "ListTemplateVersions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the templates in the current Amazon QuickSight account.
-    public func listTemplates(_ input: ListTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTemplatesResponse> {
-        return self.client.execute(operation: "ListTemplates", path: "/accounts/{AwsAccountId}/templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTemplates(_ input: ListTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplatesResponse {
+        return try await self.client.execute(operation: "ListTemplates", path: "/accounts/{AwsAccountId}/templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the aliases of a theme.
-    public func listThemeAliases(_ input: ListThemeAliasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThemeAliasesResponse> {
-        return self.client.execute(operation: "ListThemeAliases", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listThemeAliases(_ input: ListThemeAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThemeAliasesResponse {
+        return try await self.client.execute(operation: "ListThemeAliases", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the versions of the themes in the current Amazon Web Services account.
-    public func listThemeVersions(_ input: ListThemeVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThemeVersionsResponse> {
-        return self.client.execute(operation: "ListThemeVersions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listThemeVersions(_ input: ListThemeVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThemeVersionsResponse {
+        return try await self.client.execute(operation: "ListThemeVersions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the themes in the current Amazon Web Services account.
-    public func listThemes(_ input: ListThemesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThemesResponse> {
-        return self.client.execute(operation: "ListThemes", path: "/accounts/{AwsAccountId}/themes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listThemes(_ input: ListThemesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThemesResponse {
+        return try await self.client.execute(operation: "ListThemes", path: "/accounts/{AwsAccountId}/themes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all of the refresh schedules for a topic.
-    public func listTopicRefreshSchedules(_ input: ListTopicRefreshSchedulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTopicRefreshSchedulesResponse> {
-        return self.client.execute(operation: "ListTopicRefreshSchedules", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTopicRefreshSchedules(_ input: ListTopicRefreshSchedulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTopicRefreshSchedulesResponse {
+        return try await self.client.execute(operation: "ListTopicRefreshSchedules", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all of the topics within an account.
-    public func listTopics(_ input: ListTopicsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTopicsResponse> {
-        return self.client.execute(operation: "ListTopics", path: "/accounts/{AwsAccountId}/topics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTopics(_ input: ListTopicsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTopicsResponse {
+        return try await self.client.execute(operation: "ListTopics", path: "/accounts/{AwsAccountId}/topics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of.
-    public func listUserGroups(_ input: ListUserGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUserGroupsResponse> {
-        return self.client.execute(operation: "ListUserGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listUserGroups(_ input: ListUserGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserGroupsResponse {
+        return try await self.client.execute(operation: "ListUserGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of all of the Amazon QuickSight users belonging to this account.
-    public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUsersResponse> {
-        return self.client.execute(operation: "ListUsers", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersResponse {
+        return try await self.client.execute(operation: "ListUsers", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all of the VPC connections in the current set Amazon Web Services Region of an
     /// 				Amazon Web Services account.
-    public func listVPCConnections(_ input: ListVPCConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVPCConnectionsResponse> {
-        return self.client.execute(operation: "ListVPCConnections", path: "/accounts/{AwsAccountId}/vpc-connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listVPCConnections(_ input: ListVPCConnectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVPCConnectionsResponse {
+        return try await self.client.execute(operation: "ListVPCConnections", path: "/accounts/{AwsAccountId}/vpc-connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates or updates the dataset refresh properties for the dataset.
-    public func putDataSetRefreshProperties(_ input: PutDataSetRefreshPropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutDataSetRefreshPropertiesResponse> {
-        return self.client.execute(operation: "PutDataSetRefreshProperties", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putDataSetRefreshProperties(_ input: PutDataSetRefreshPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDataSetRefreshPropertiesResponse {
+        return try await self.client.execute(operation: "PutDataSetRefreshProperties", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an Amazon QuickSight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Amazon QuickSight API, Amazon QuickSight generates a registration URL. The user accesses this registration URL to create their account. Amazon QuickSight doesn't send a registration email to users who are registered from the Amazon QuickSight API. If you want new users to receive a registration email, then add those users in the Amazon QuickSight console. For more information on registering a new user in the Amazon QuickSight console, see  Inviting users to access Amazon QuickSight.
-    public func registerUser(_ input: RegisterUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterUserResponse> {
-        return self.client.execute(operation: "RegisterUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func registerUser(_ input: RegisterUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterUserResponse {
+        return try await self.client.execute(operation: "RegisterUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Restores an analysis.
-    public func restoreAnalysis(_ input: RestoreAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestoreAnalysisResponse> {
-        return self.client.execute(operation: "RestoreAnalysis", path: "/accounts/{AwsAccountId}/restore/analyses/{AnalysisId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func restoreAnalysis(_ input: RestoreAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreAnalysisResponse {
+        return try await self.client.execute(operation: "RestoreAnalysis", path: "/accounts/{AwsAccountId}/restore/analyses/{AnalysisId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Searches for analyses that belong to the user specified in the filter.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
-    public func searchAnalyses(_ input: SearchAnalysesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchAnalysesResponse> {
-        return self.client.execute(operation: "SearchAnalyses", path: "/accounts/{AwsAccountId}/search/analyses", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchAnalyses(_ input: SearchAnalysesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAnalysesResponse {
+        return try await self.client.execute(operation: "SearchAnalyses", path: "/accounts/{AwsAccountId}/search/analyses", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Searches for dashboards that belong to a user.   This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
-    public func searchDashboards(_ input: SearchDashboardsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchDashboardsResponse> {
-        return self.client.execute(operation: "SearchDashboards", path: "/accounts/{AwsAccountId}/search/dashboards", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchDashboards(_ input: SearchDashboardsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchDashboardsResponse {
+        return try await self.client.execute(operation: "SearchDashboards", path: "/accounts/{AwsAccountId}/search/dashboards", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use the SearchDataSets operation to search for datasets that belong to an account.
-    public func searchDataSets(_ input: SearchDataSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchDataSetsResponse> {
-        return self.client.execute(operation: "SearchDataSets", path: "/accounts/{AwsAccountId}/search/data-sets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchDataSets(_ input: SearchDataSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchDataSetsResponse {
+        return try await self.client.execute(operation: "SearchDataSets", path: "/accounts/{AwsAccountId}/search/data-sets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use the SearchDataSources operation to search for data sources that belong to an account.
-    public func searchDataSources(_ input: SearchDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchDataSourcesResponse> {
-        return self.client.execute(operation: "SearchDataSources", path: "/accounts/{AwsAccountId}/search/data-sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchDataSources(_ input: SearchDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchDataSourcesResponse {
+        return try await self.client.execute(operation: "SearchDataSources", path: "/accounts/{AwsAccountId}/search/data-sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Searches the subfolders in a folder.
-    public func searchFolders(_ input: SearchFoldersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchFoldersResponse> {
-        return self.client.execute(operation: "SearchFolders", path: "/accounts/{AwsAccountId}/search/folders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchFolders(_ input: SearchFoldersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchFoldersResponse {
+        return try await self.client.execute(operation: "SearchFolders", path: "/accounts/{AwsAccountId}/search/folders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use the SearchGroups operation to search groups in a specified Amazon QuickSight namespace using the supplied filters.
-    public func searchGroups(_ input: SearchGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchGroupsResponse> {
-        return self.client.execute(operation: "SearchGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups-search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchGroups(_ input: SearchGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchGroupsResponse {
+        return try await self.client.execute(operation: "SearchGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups-search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon QuickSight account can run up to 10 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
-    public func startAssetBundleExportJob(_ input: StartAssetBundleExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartAssetBundleExportJobResponse> {
-        return self.client.execute(operation: "StartAssetBundleExportJob", path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs/export", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startAssetBundleExportJob(_ input: StartAssetBundleExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAssetBundleExportJobResponse {
+        return try await self.client.execute(operation: "StartAssetBundleExportJob", path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs/export", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon QuickSight assets into an Amazon QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon QuickSight account. Each Amazon QuickSight account can run up to 10 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
-    public func startAssetBundleImportJob(_ input: StartAssetBundleImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartAssetBundleImportJobResponse> {
-        return self.client.execute(operation: "StartAssetBundleImportJob", path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs/import", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startAssetBundleImportJob(_ input: StartAssetBundleImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAssetBundleImportJobResponse {
+        return try await self.client.execute(operation: "StartAssetBundleImportJob", path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs/import", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource.  Tags can help you organize and categorize your resources. You can also use them to
@@ -749,165 +876,196 @@ public struct QuickSight: AWSService {
     /// 				possible because you can't tag the resources that Amazon QuickSight costs are based
     /// 				on, for example Amazon QuickSight storage capacity (SPICE), number of users, type
     /// 				of users, and usage metrics.   Amazon QuickSight doesn't currently support the tag editor for Resource Groups.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/resources/{ResourceArn}/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/resources/{ResourceArn}/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes a tag or tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/resources/{ResourceArn}/tags", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/resources/{ResourceArn}/tags", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Amazon QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
-    public func updateAccountCustomization(_ input: UpdateAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAccountCustomizationResponse> {
-        return self.client.execute(operation: "UpdateAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateAccountCustomization(_ input: UpdateAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountCustomizationResponse {
+        return try await self.client.execute(operation: "UpdateAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the Amazon QuickSight settings in your Amazon Web Services account.
-    public func updateAccountSettings(_ input: UpdateAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAccountSettingsResponse> {
-        return self.client.execute(operation: "UpdateAccountSettings", path: "/accounts/{AwsAccountId}/settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateAccountSettings(_ input: UpdateAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountSettingsResponse {
+        return try await self.client.execute(operation: "UpdateAccountSettings", path: "/accounts/{AwsAccountId}/settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an analysis in Amazon QuickSight
-    public func updateAnalysis(_ input: UpdateAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAnalysisResponse> {
-        return self.client.execute(operation: "UpdateAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateAnalysis(_ input: UpdateAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAnalysisResponse {
+        return try await self.client.execute(operation: "UpdateAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the read and write permissions for an analysis.
-    public func updateAnalysisPermissions(_ input: UpdateAnalysisPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAnalysisPermissionsResponse> {
-        return self.client.execute(operation: "UpdateAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateAnalysisPermissions(_ input: UpdateAnalysisPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAnalysisPermissionsResponse {
+        return try await self.client.execute(operation: "UpdateAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a dashboard in an Amazon Web Services account.  Updating a Dashboard creates a new dashboard version but does not immediately publish the new version.  You can update the published version of a dashboard by using the  UpdateDashboardPublishedVersion API operation.
-    public func updateDashboard(_ input: UpdateDashboardRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDashboardResponse> {
-        return self.client.execute(operation: "UpdateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDashboard(_ input: UpdateDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDashboardResponse {
+        return try await self.client.execute(operation: "UpdateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates read and write permissions on a dashboard.
-    public func updateDashboardPermissions(_ input: UpdateDashboardPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDashboardPermissionsResponse> {
-        return self.client.execute(operation: "UpdateDashboardPermissions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDashboardPermissions(_ input: UpdateDashboardPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDashboardPermissionsResponse {
+        return try await self.client.execute(operation: "UpdateDashboardPermissions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the published version of a dashboard.
-    public func updateDashboardPublishedVersion(_ input: UpdateDashboardPublishedVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDashboardPublishedVersionResponse> {
-        return self.client.execute(operation: "UpdateDashboardPublishedVersion", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions/{VersionNumber}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDashboardPublishedVersion(_ input: UpdateDashboardPublishedVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDashboardPublishedVersionResponse {
+        return try await self.client.execute(operation: "UpdateDashboardPublishedVersion", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions/{VersionNumber}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a dataset. This operation doesn't support datasets that include uploaded files as a source. Partial updates are not supported by this operation.
-    public func updateDataSet(_ input: UpdateDataSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDataSetResponse> {
-        return self.client.execute(operation: "UpdateDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDataSet(_ input: UpdateDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSetResponse {
+        return try await self.client.execute(operation: "UpdateDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
-    public func updateDataSetPermissions(_ input: UpdateDataSetPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDataSetPermissionsResponse> {
-        return self.client.execute(operation: "UpdateDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDataSetPermissions(_ input: UpdateDataSetPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSetPermissionsResponse {
+        return try await self.client.execute(operation: "UpdateDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a data source.
-    public func updateDataSource(_ input: UpdateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDataSourceResponse> {
-        return self.client.execute(operation: "UpdateDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDataSource(_ input: UpdateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSourceResponse {
+        return try await self.client.execute(operation: "UpdateDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the permissions to a data source.
-    public func updateDataSourcePermissions(_ input: UpdateDataSourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDataSourcePermissionsResponse> {
-        return self.client.execute(operation: "UpdateDataSourcePermissions", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDataSourcePermissions(_ input: UpdateDataSourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSourcePermissionsResponse {
+        return try await self.client.execute(operation: "UpdateDataSourcePermissions", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the name of a folder.
-    public func updateFolder(_ input: UpdateFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFolderResponse> {
-        return self.client.execute(operation: "UpdateFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateFolder(_ input: UpdateFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFolderResponse {
+        return try await self.client.execute(operation: "UpdateFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates permissions of a folder.
-    public func updateFolderPermissions(_ input: UpdateFolderPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFolderPermissionsResponse> {
-        return self.client.execute(operation: "UpdateFolderPermissions", path: "/accounts/{AwsAccountId}/folders/{FolderId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateFolderPermissions(_ input: UpdateFolderPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFolderPermissionsResponse {
+        return try await self.client.execute(operation: "UpdateFolderPermissions", path: "/accounts/{AwsAccountId}/folders/{FolderId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Changes a group description.
-    public func updateGroup(_ input: UpdateGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGroupResponse> {
-        return self.client.execute(operation: "UpdateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateGroup(_ input: UpdateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGroupResponse {
+        return try await self.client.execute(operation: "UpdateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an existing IAM policy assignment. This operation updates only
     /// 			the optional parameter or parameters that are specified in the request. This overwrites
     /// 			all of the users included in Identities.
-    public func updateIAMPolicyAssignment(_ input: UpdateIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateIAMPolicyAssignmentResponse> {
-        return self.client.execute(operation: "UpdateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateIAMPolicyAssignment(_ input: UpdateIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIAMPolicyAssignmentResponse {
+        return try await self.client.execute(operation: "UpdateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the content and status of IP rules. To use this operation, you
     /// 			must
     /// 			provide the entire map of rules. You can use the DescribeIpRestriction
     /// 			operation to get the current rule map.
-    public func updateIpRestriction(_ input: UpdateIpRestrictionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateIpRestrictionResponse> {
-        return self.client.execute(operation: "UpdateIpRestriction", path: "/accounts/{AwsAccountId}/ip-restriction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateIpRestriction(_ input: UpdateIpRestrictionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIpRestrictionResponse {
+        return try await self.client.execute(operation: "UpdateIpRestriction", path: "/accounts/{AwsAccountId}/ip-restriction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon QuickSight dashboard. To use this operation, turn on session capacity pricing for your Amazon QuickSight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon QuickSight, see Using Amazon QuickSight with IAM in the Amazon QuickSight User Guide.
-    public func updatePublicSharingSettings(_ input: UpdatePublicSharingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePublicSharingSettingsResponse> {
-        return self.client.execute(operation: "UpdatePublicSharingSettings", path: "/accounts/{AwsAccountId}/public-sharing-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updatePublicSharingSettings(_ input: UpdatePublicSharingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePublicSharingSettingsResponse {
+        return try await self.client.execute(operation: "UpdatePublicSharingSettings", path: "/accounts/{AwsAccountId}/public-sharing-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a refresh schedule for a dataset.
-    public func updateRefreshSchedule(_ input: UpdateRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRefreshScheduleResponse> {
-        return self.client.execute(operation: "UpdateRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateRefreshSchedule(_ input: UpdateRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRefreshScheduleResponse {
+        return try await self.client.execute(operation: "UpdateRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a template from an existing Amazon QuickSight analysis or another template.
-    public func updateTemplate(_ input: UpdateTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTemplateResponse> {
-        return self.client.execute(operation: "UpdateTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateTemplate(_ input: UpdateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTemplateResponse {
+        return try await self.client.execute(operation: "UpdateTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the template alias of a template.
-    public func updateTemplateAlias(_ input: UpdateTemplateAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTemplateAliasResponse> {
-        return self.client.execute(operation: "UpdateTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateTemplateAlias(_ input: UpdateTemplateAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTemplateAliasResponse {
+        return try await self.client.execute(operation: "UpdateTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the resource permissions for a template.
-    public func updateTemplatePermissions(_ input: UpdateTemplatePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTemplatePermissionsResponse> {
-        return self.client.execute(operation: "UpdateTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateTemplatePermissions(_ input: UpdateTemplatePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTemplatePermissionsResponse {
+        return try await self.client.execute(operation: "UpdateTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a theme.
-    public func updateTheme(_ input: UpdateThemeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateThemeResponse> {
-        return self.client.execute(operation: "UpdateTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateTheme(_ input: UpdateThemeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateThemeResponse {
+        return try await self.client.execute(operation: "UpdateTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an alias of a theme.
-    public func updateThemeAlias(_ input: UpdateThemeAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateThemeAliasResponse> {
-        return self.client.execute(operation: "UpdateThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateThemeAlias(_ input: UpdateThemeAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateThemeAliasResponse {
+        return try await self.client.execute(operation: "UpdateThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the resource permissions for a theme. Permissions apply to the action to grant or
     /// 			revoke permissions on, for example "quicksight:DescribeTheme". Theme permissions apply in groupings. Valid groupings include the following for the three
     /// 			levels of permissions, which are user, owner, or no permissions:    User    "quicksight:DescribeTheme"     "quicksight:DescribeThemeAlias"     "quicksight:ListThemeAliases"     "quicksight:ListThemeVersions"      Owner    "quicksight:DescribeTheme"     "quicksight:DescribeThemeAlias"     "quicksight:ListThemeAliases"     "quicksight:ListThemeVersions"     "quicksight:DeleteTheme"     "quicksight:UpdateTheme"     "quicksight:CreateThemeAlias"     "quicksight:DeleteThemeAlias"     "quicksight:UpdateThemeAlias"     "quicksight:UpdateThemePermissions"     "quicksight:DescribeThemePermissions"      To specify no permissions, omit the permissions list.
-    public func updateThemePermissions(_ input: UpdateThemePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateThemePermissionsResponse> {
-        return self.client.execute(operation: "UpdateThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateThemePermissions(_ input: UpdateThemePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateThemePermissionsResponse {
+        return try await self.client.execute(operation: "UpdateThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a topic.
-    public func updateTopic(_ input: UpdateTopicRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTopicResponse> {
-        return self.client.execute(operation: "UpdateTopic", path: "/accounts/{AwsAccountId}/topics/{TopicId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateTopic(_ input: UpdateTopicRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTopicResponse {
+        return try await self.client.execute(operation: "UpdateTopic", path: "/accounts/{AwsAccountId}/topics/{TopicId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the permissions of a topic.
-    public func updateTopicPermissions(_ input: UpdateTopicPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTopicPermissionsResponse> {
-        return self.client.execute(operation: "UpdateTopicPermissions", path: "/accounts/{AwsAccountId}/topics/{TopicId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateTopicPermissions(_ input: UpdateTopicPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTopicPermissionsResponse {
+        return try await self.client.execute(operation: "UpdateTopicPermissions", path: "/accounts/{AwsAccountId}/topics/{TopicId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a topic refresh schedule.
-    public func updateTopicRefreshSchedule(_ input: UpdateTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTopicRefreshScheduleResponse> {
-        return self.client.execute(operation: "UpdateTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateTopicRefreshSchedule(_ input: UpdateTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTopicRefreshScheduleResponse {
+        return try await self.client.execute(operation: "UpdateTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an Amazon QuickSight user.
-    public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateUserResponse> {
-        return self.client.execute(operation: "UpdateUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserResponse {
+        return try await self.client.execute(operation: "UpdateUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a VPC connection.
-    public func updateVPCConnection(_ input: UpdateVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVPCConnectionResponse> {
-        return self.client.execute(operation: "UpdateVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateVPCConnection(_ input: UpdateVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVPCConnectionResponse {
+        return try await self.client.execute(operation: "UpdateVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -922,1065 +1080,386 @@ extension QuickSight {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension QuickSight {
     /// Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAnalysesPaginator<Result>(
-        _ input: ListAnalysesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAnalysesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAnalyses,
-            inputKey: \ListAnalysesRequest.nextToken,
-            outputKey: \ListAnalysesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAnalysesPaginator(
         _ input: ListAnalysesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAnalysesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAnalysesRequest, ListAnalysesResponse> {
+        return .init(
             input: input,
             command: self.listAnalyses,
             inputKey: \ListAnalysesRequest.nextToken,
             outputKey: \ListAnalysesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleExportJobs only returns the most recent job that uses the repeated job ID.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAssetBundleExportJobsPaginator<Result>(
-        _ input: ListAssetBundleExportJobsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAssetBundleExportJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAssetBundleExportJobs,
-            inputKey: \ListAssetBundleExportJobsRequest.nextToken,
-            outputKey: \ListAssetBundleExportJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAssetBundleExportJobsPaginator(
         _ input: ListAssetBundleExportJobsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAssetBundleExportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAssetBundleExportJobsRequest, ListAssetBundleExportJobsResponse> {
+        return .init(
             input: input,
             command: self.listAssetBundleExportJobs,
             inputKey: \ListAssetBundleExportJobsRequest.nextToken,
             outputKey: \ListAssetBundleExportJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all asset bundle import jobs that have taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleImportJobs only returns the most recent job that uses the repeated job ID.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAssetBundleImportJobsPaginator<Result>(
-        _ input: ListAssetBundleImportJobsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAssetBundleImportJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAssetBundleImportJobs,
-            inputKey: \ListAssetBundleImportJobsRequest.nextToken,
-            outputKey: \ListAssetBundleImportJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAssetBundleImportJobsPaginator(
         _ input: ListAssetBundleImportJobsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAssetBundleImportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAssetBundleImportJobsRequest, ListAssetBundleImportJobsResponse> {
+        return .init(
             input: input,
             command: self.listAssetBundleImportJobs,
             inputKey: \ListAssetBundleImportJobsRequest.nextToken,
             outputKey: \ListAssetBundleImportJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all the versions of the dashboards in the Amazon QuickSight subscription.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDashboardVersionsPaginator<Result>(
-        _ input: ListDashboardVersionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDashboardVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDashboardVersions,
-            inputKey: \ListDashboardVersionsRequest.nextToken,
-            outputKey: \ListDashboardVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDashboardVersionsPaginator(
         _ input: ListDashboardVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDashboardVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDashboardVersionsRequest, ListDashboardVersionsResponse> {
+        return .init(
             input: input,
             command: self.listDashboardVersions,
             inputKey: \ListDashboardVersionsRequest.nextToken,
             outputKey: \ListDashboardVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists dashboards in an Amazon Web Services account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDashboardsPaginator<Result>(
-        _ input: ListDashboardsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDashboardsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDashboards,
-            inputKey: \ListDashboardsRequest.nextToken,
-            outputKey: \ListDashboardsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDashboardsPaginator(
         _ input: ListDashboardsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDashboardsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDashboardsRequest, ListDashboardsResponse> {
+        return .init(
             input: input,
             command: self.listDashboards,
             inputKey: \ListDashboardsRequest.nextToken,
             outputKey: \ListDashboardsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDataSetsPaginator<Result>(
-        _ input: ListDataSetsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDataSetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDataSets,
-            inputKey: \ListDataSetsRequest.nextToken,
-            outputKey: \ListDataSetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDataSetsPaginator(
         _ input: ListDataSetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDataSetsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataSetsRequest, ListDataSetsResponse> {
+        return .init(
             input: input,
             command: self.listDataSets,
             inputKey: \ListDataSetsRequest.nextToken,
             outputKey: \ListDataSetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDataSourcesPaginator<Result>(
-        _ input: ListDataSourcesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDataSourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDataSources,
-            inputKey: \ListDataSourcesRequest.nextToken,
-            outputKey: \ListDataSourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDataSourcesPaginator(
         _ input: ListDataSourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDataSourcesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataSourcesRequest, ListDataSourcesResponse> {
+        return .init(
             input: input,
             command: self.listDataSources,
             inputKey: \ListDataSourcesRequest.nextToken,
             outputKey: \ListDataSourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the history of SPICE ingestions for a dataset.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listIngestionsPaginator<Result>(
-        _ input: ListIngestionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListIngestionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listIngestions,
-            inputKey: \ListIngestionsRequest.nextToken,
-            outputKey: \ListIngestionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listIngestionsPaginator(
         _ input: ListIngestionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListIngestionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIngestionsRequest, ListIngestionsResponse> {
+        return .init(
             input: input,
             command: self.listIngestions,
             inputKey: \ListIngestionsRequest.nextToken,
             outputKey: \ListIngestionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listNamespacesPaginator<Result>(
-        _ input: ListNamespacesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListNamespacesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listNamespaces,
-            inputKey: \ListNamespacesRequest.nextToken,
-            outputKey: \ListNamespacesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listNamespacesPaginator(
         _ input: ListNamespacesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListNamespacesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNamespacesRequest, ListNamespacesResponse> {
+        return .init(
             input: input,
             command: self.listNamespaces,
             inputKey: \ListNamespacesRequest.nextToken,
             outputKey: \ListNamespacesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all the aliases of a template.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTemplateAliasesPaginator<Result>(
-        _ input: ListTemplateAliasesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTemplateAliasesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTemplateAliases,
-            inputKey: \ListTemplateAliasesRequest.nextToken,
-            outputKey: \ListTemplateAliasesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTemplateAliasesPaginator(
         _ input: ListTemplateAliasesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTemplateAliasesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTemplateAliasesRequest, ListTemplateAliasesResponse> {
+        return .init(
             input: input,
             command: self.listTemplateAliases,
             inputKey: \ListTemplateAliasesRequest.nextToken,
             outputKey: \ListTemplateAliasesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all the versions of the templates in the current Amazon QuickSight account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTemplateVersionsPaginator<Result>(
-        _ input: ListTemplateVersionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTemplateVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTemplateVersions,
-            inputKey: \ListTemplateVersionsRequest.nextToken,
-            outputKey: \ListTemplateVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTemplateVersionsPaginator(
         _ input: ListTemplateVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTemplateVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTemplateVersionsRequest, ListTemplateVersionsResponse> {
+        return .init(
             input: input,
             command: self.listTemplateVersions,
             inputKey: \ListTemplateVersionsRequest.nextToken,
             outputKey: \ListTemplateVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all the templates in the current Amazon QuickSight account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTemplatesPaginator<Result>(
-        _ input: ListTemplatesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTemplatesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTemplates,
-            inputKey: \ListTemplatesRequest.nextToken,
-            outputKey: \ListTemplatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTemplatesPaginator(
         _ input: ListTemplatesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTemplatesRequest, ListTemplatesResponse> {
+        return .init(
             input: input,
             command: self.listTemplates,
             inputKey: \ListTemplatesRequest.nextToken,
             outputKey: \ListTemplatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all the versions of the themes in the current Amazon Web Services account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listThemeVersionsPaginator<Result>(
-        _ input: ListThemeVersionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListThemeVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listThemeVersions,
-            inputKey: \ListThemeVersionsRequest.nextToken,
-            outputKey: \ListThemeVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listThemeVersionsPaginator(
         _ input: ListThemeVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListThemeVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListThemeVersionsRequest, ListThemeVersionsResponse> {
+        return .init(
             input: input,
             command: self.listThemeVersions,
             inputKey: \ListThemeVersionsRequest.nextToken,
             outputKey: \ListThemeVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all the themes in the current Amazon Web Services account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listThemesPaginator<Result>(
-        _ input: ListThemesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListThemesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listThemes,
-            inputKey: \ListThemesRequest.nextToken,
-            outputKey: \ListThemesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listThemesPaginator(
         _ input: ListThemesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListThemesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListThemesRequest, ListThemesResponse> {
+        return .init(
             input: input,
             command: self.listThemes,
             inputKey: \ListThemesRequest.nextToken,
             outputKey: \ListThemesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all of the topics within an account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTopicsPaginator<Result>(
-        _ input: ListTopicsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTopicsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTopics,
-            inputKey: \ListTopicsRequest.nextToken,
-            outputKey: \ListTopicsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTopicsPaginator(
         _ input: ListTopicsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTopicsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTopicsRequest, ListTopicsResponse> {
+        return .init(
             input: input,
             command: self.listTopics,
             inputKey: \ListTopicsRequest.nextToken,
             outputKey: \ListTopicsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all of the VPC connections in the current set Amazon Web Services Region of an
     /// 				Amazon Web Services account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listVPCConnectionsPaginator<Result>(
-        _ input: ListVPCConnectionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListVPCConnectionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listVPCConnections,
-            inputKey: \ListVPCConnectionsRequest.nextToken,
-            outputKey: \ListVPCConnectionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listVPCConnectionsPaginator(
         _ input: ListVPCConnectionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListVPCConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListVPCConnectionsRequest, ListVPCConnectionsResponse> {
+        return .init(
             input: input,
             command: self.listVPCConnections,
             inputKey: \ListVPCConnectionsRequest.nextToken,
             outputKey: \ListVPCConnectionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Searches for analyses that belong to the user specified in the filter.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func searchAnalysesPaginator<Result>(
-        _ input: SearchAnalysesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchAnalysesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchAnalyses,
-            inputKey: \SearchAnalysesRequest.nextToken,
-            outputKey: \SearchAnalysesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func searchAnalysesPaginator(
         _ input: SearchAnalysesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchAnalysesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchAnalysesRequest, SearchAnalysesResponse> {
+        return .init(
             input: input,
             command: self.searchAnalyses,
             inputKey: \SearchAnalysesRequest.nextToken,
             outputKey: \SearchAnalysesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Searches for dashboards that belong to a user.   This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func searchDashboardsPaginator<Result>(
-        _ input: SearchDashboardsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchDashboardsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchDashboards,
-            inputKey: \SearchDashboardsRequest.nextToken,
-            outputKey: \SearchDashboardsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func searchDashboardsPaginator(
         _ input: SearchDashboardsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchDashboardsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchDashboardsRequest, SearchDashboardsResponse> {
+        return .init(
             input: input,
             command: self.searchDashboards,
             inputKey: \SearchDashboardsRequest.nextToken,
             outputKey: \SearchDashboardsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Use the SearchDataSets operation to search for datasets that belong to an account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func searchDataSetsPaginator<Result>(
-        _ input: SearchDataSetsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchDataSetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchDataSets,
-            inputKey: \SearchDataSetsRequest.nextToken,
-            outputKey: \SearchDataSetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func searchDataSetsPaginator(
         _ input: SearchDataSetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchDataSetsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchDataSetsRequest, SearchDataSetsResponse> {
+        return .init(
             input: input,
             command: self.searchDataSets,
             inputKey: \SearchDataSetsRequest.nextToken,
             outputKey: \SearchDataSetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Use the SearchDataSources operation to search for data sources that belong to an account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func searchDataSourcesPaginator<Result>(
-        _ input: SearchDataSourcesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchDataSourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchDataSources,
-            inputKey: \SearchDataSourcesRequest.nextToken,
-            outputKey: \SearchDataSourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func searchDataSourcesPaginator(
         _ input: SearchDataSourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchDataSourcesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchDataSourcesRequest, SearchDataSourcesResponse> {
+        return .init(
             input: input,
             command: self.searchDataSources,
             inputKey: \SearchDataSourcesRequest.nextToken,
             outputKey: \SearchDataSourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

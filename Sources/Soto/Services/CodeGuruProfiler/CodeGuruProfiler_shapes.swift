@@ -781,9 +781,9 @@ extension CodeGuruProfiler {
         /// The content type of the profile in the payload. It is either application/json or the default  application/x-amzn-ion.
         public let contentType: String
         /// Information about the profile.
-        public let profile: AWSPayload
+        public let profile: HTTPBody
 
-        public init(contentEncoding: String? = nil, contentType: String, profile: AWSPayload) {
+        public init(contentEncoding: String? = nil, contentType: String, profile: HTTPBody) {
             self.contentEncoding = contentEncoding
             self.contentType = contentType
             self.profile = profile
@@ -1179,7 +1179,7 @@ extension CodeGuruProfiler {
         ]
 
         ///  The submitted profiling data.
-        public let agentProfile: AWSPayload
+        public let agentProfile: HTTPBody
         ///  The format of the submitted profiling data. The format maps to the  Accept and Content-Type headers of the  HTTP request. You can specify one of the following:  or the default .      application/json — standard JSON format      application/x-amzn-ion — the Amazon Ion data format. For more information,  see Amazon Ion.
         public let contentType: String
         ///  Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the accidental submission of duplicate profiling data if there are failures and retries.
@@ -1187,7 +1187,7 @@ extension CodeGuruProfiler {
         ///  The name of the profiling group with the aggregated profile that receives the  submitted profiling data.
         public let profilingGroupName: String
 
-        public init(agentProfile: AWSPayload, contentType: String, profileToken: String? = PostAgentProfileRequest.idempotencyToken(), profilingGroupName: String) {
+        public init(agentProfile: HTTPBody, contentType: String, profileToken: String? = PostAgentProfileRequest.idempotencyToken(), profilingGroupName: String) {
             self.agentProfile = agentProfile
             self.contentType = contentType
             self.profileToken = profileToken

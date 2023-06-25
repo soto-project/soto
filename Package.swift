@@ -1,4 +1,4 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.7
 //===----------------------------------------------------------------------===//
 //
 // This source file is part of the Soto for AWS open source project
@@ -17,7 +17,7 @@ import PackageDescription
 
 let package = Package(
     name: "soto",
-    platforms: [.iOS(.v12), .tvOS(.v12), .watchOS(.v5)],
+    platforms: [.macOS(.v10_15), .iOS(.v12), .tvOS(.v12), .watchOS(.v5)],
     products: [
         .library(name: "SotoACM", targets: ["SotoACM"]),
         .library(name: "SotoACMPCA", targets: ["SotoACMPCA"]),
@@ -367,7 +367,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"])
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", branch: "main")
+        .package(url: "https://github.com/soto-project/soto-core.git", branch: "request-s3-streaming")
     ],
     targets: [
         .target(name: "SotoACM", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/ACM"),

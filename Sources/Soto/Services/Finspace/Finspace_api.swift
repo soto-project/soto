@@ -64,173 +64,207 @@ public struct Finspace: AWSService {
     // MARK: API Calls
 
     /// Create a new FinSpace environment.
-    public func createEnvironment(_ input: CreateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEnvironmentResponse> {
-        return self.client.execute(operation: "CreateEnvironment", path: "/environment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createEnvironment(_ input: CreateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentResponse {
+        return try await self.client.execute(operation: "CreateEnvironment", path: "/environment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Creates a changeset for a kdb database. A changeset allows you to add and delete existing files by using an ordered list of change requests.
-    public func createKxChangeset(_ input: CreateKxChangesetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateKxChangesetResponse> {
-        return self.client.execute(operation: "CreateKxChangeset", path: "/kx/environments/{environmentId}/databases/{databaseName}/changesets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createKxChangeset(_ input: CreateKxChangesetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKxChangesetResponse {
+        return try await self.client.execute(operation: "CreateKxChangeset", path: "/kx/environments/{environmentId}/databases/{databaseName}/changesets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new kdb cluster.
-    public func createKxCluster(_ input: CreateKxClusterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateKxClusterResponse> {
-        return self.client.execute(operation: "CreateKxCluster", path: "/kx/environments/{environmentId}/clusters", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createKxCluster(_ input: CreateKxClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKxClusterResponse {
+        return try await self.client.execute(operation: "CreateKxCluster", path: "/kx/environments/{environmentId}/clusters", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new kdb database in the environment.
-    public func createKxDatabase(_ input: CreateKxDatabaseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateKxDatabaseResponse> {
-        return self.client.execute(operation: "CreateKxDatabase", path: "/kx/environments/{environmentId}/databases", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createKxDatabase(_ input: CreateKxDatabaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKxDatabaseResponse {
+        return try await self.client.execute(operation: "CreateKxDatabase", path: "/kx/environments/{environmentId}/databases", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a managed kdb environment for the account.
-    public func createKxEnvironment(_ input: CreateKxEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateKxEnvironmentResponse> {
-        return self.client.execute(operation: "CreateKxEnvironment", path: "/kx/environments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createKxEnvironment(_ input: CreateKxEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKxEnvironmentResponse {
+        return try await self.client.execute(operation: "CreateKxEnvironment", path: "/kx/environments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a user in FinSpace kdb environment with an associated IAM role.
-    public func createKxUser(_ input: CreateKxUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateKxUserResponse> {
-        return self.client.execute(operation: "CreateKxUser", path: "/kx/environments/{environmentId}/users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createKxUser(_ input: CreateKxUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKxUserResponse {
+        return try await self.client.execute(operation: "CreateKxUser", path: "/kx/environments/{environmentId}/users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete an FinSpace environment.
-    public func deleteEnvironment(_ input: DeleteEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEnvironmentResponse> {
-        return self.client.execute(operation: "DeleteEnvironment", path: "/environment/{environmentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteEnvironment(_ input: DeleteEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentResponse {
+        return try await self.client.execute(operation: "DeleteEnvironment", path: "/environment/{environmentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a kdb cluster.
-    public func deleteKxCluster(_ input: DeleteKxClusterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteKxClusterResponse> {
-        return self.client.execute(operation: "DeleteKxCluster", path: "/kx/environments/{environmentId}/clusters/{clusterName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteKxCluster(_ input: DeleteKxClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKxClusterResponse {
+        return try await self.client.execute(operation: "DeleteKxCluster", path: "/kx/environments/{environmentId}/clusters/{clusterName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified database and all of its associated data. This action is irreversible. You must copy any data out of the database before deleting it if the data is to be retained.
-    public func deleteKxDatabase(_ input: DeleteKxDatabaseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteKxDatabaseResponse> {
-        return self.client.execute(operation: "DeleteKxDatabase", path: "/kx/environments/{environmentId}/databases/{databaseName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteKxDatabase(_ input: DeleteKxDatabaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKxDatabaseResponse {
+        return try await self.client.execute(operation: "DeleteKxDatabase", path: "/kx/environments/{environmentId}/databases/{databaseName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the kdb environment. This action is irreversible. Deleting a kdb environment will remove all the associated data and any services running in it.
-    public func deleteKxEnvironment(_ input: DeleteKxEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteKxEnvironmentResponse> {
-        return self.client.execute(operation: "DeleteKxEnvironment", path: "/kx/environments/{environmentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteKxEnvironment(_ input: DeleteKxEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKxEnvironmentResponse {
+        return try await self.client.execute(operation: "DeleteKxEnvironment", path: "/kx/environments/{environmentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a user in the specified kdb environment.
-    public func deleteKxUser(_ input: DeleteKxUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteKxUserResponse> {
-        return self.client.execute(operation: "DeleteKxUser", path: "/kx/environments/{environmentId}/users/{userName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteKxUser(_ input: DeleteKxUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKxUserResponse {
+        return try await self.client.execute(operation: "DeleteKxUser", path: "/kx/environments/{environmentId}/users/{userName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the FinSpace environment object.
-    public func getEnvironment(_ input: GetEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEnvironmentResponse> {
-        return self.client.execute(operation: "GetEnvironment", path: "/environment/{environmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getEnvironment(_ input: GetEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnvironmentResponse {
+        return try await self.client.execute(operation: "GetEnvironment", path: "/environment/{environmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a kdb changeset.
-    public func getKxChangeset(_ input: GetKxChangesetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetKxChangesetResponse> {
-        return self.client.execute(operation: "GetKxChangeset", path: "/kx/environments/{environmentId}/databases/{databaseName}/changesets/{changesetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getKxChangeset(_ input: GetKxChangesetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKxChangesetResponse {
+        return try await self.client.execute(operation: "GetKxChangeset", path: "/kx/environments/{environmentId}/databases/{databaseName}/changesets/{changesetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves information about a kdb cluster.
-    public func getKxCluster(_ input: GetKxClusterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetKxClusterResponse> {
-        return self.client.execute(operation: "GetKxCluster", path: "/kx/environments/{environmentId}/clusters/{clusterName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getKxCluster(_ input: GetKxClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKxClusterResponse {
+        return try await self.client.execute(operation: "GetKxCluster", path: "/kx/environments/{environmentId}/clusters/{clusterName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a connection string for a user to connect to a kdb cluster. You must call this API using the same role that you have defined while creating a user.
-    public func getKxConnectionString(_ input: GetKxConnectionStringRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetKxConnectionStringResponse> {
-        return self.client.execute(operation: "GetKxConnectionString", path: "/kx/environments/{environmentId}/connectionString", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getKxConnectionString(_ input: GetKxConnectionStringRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKxConnectionStringResponse {
+        return try await self.client.execute(operation: "GetKxConnectionString", path: "/kx/environments/{environmentId}/connectionString", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns database information for the specified environment ID.
-    public func getKxDatabase(_ input: GetKxDatabaseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetKxDatabaseResponse> {
-        return self.client.execute(operation: "GetKxDatabase", path: "/kx/environments/{environmentId}/databases/{databaseName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getKxDatabase(_ input: GetKxDatabaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKxDatabaseResponse {
+        return try await self.client.execute(operation: "GetKxDatabase", path: "/kx/environments/{environmentId}/databases/{databaseName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves all the information for the specified kdb environment.
-    public func getKxEnvironment(_ input: GetKxEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetKxEnvironmentResponse> {
-        return self.client.execute(operation: "GetKxEnvironment", path: "/kx/environments/{environmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getKxEnvironment(_ input: GetKxEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKxEnvironmentResponse {
+        return try await self.client.execute(operation: "GetKxEnvironment", path: "/kx/environments/{environmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves information about the specified kdb user.
-    public func getKxUser(_ input: GetKxUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetKxUserResponse> {
-        return self.client.execute(operation: "GetKxUser", path: "/kx/environments/{environmentId}/users/{userName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getKxUser(_ input: GetKxUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKxUserResponse {
+        return try await self.client.execute(operation: "GetKxUser", path: "/kx/environments/{environmentId}/users/{userName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// A list of all of your FinSpace environments.
-    public func listEnvironments(_ input: ListEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEnvironmentsResponse> {
-        return self.client.execute(operation: "ListEnvironments", path: "/environment", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listEnvironments(_ input: ListEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnvironmentsResponse {
+        return try await self.client.execute(operation: "ListEnvironments", path: "/environment", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of all the changesets for a database.
-    public func listKxChangesets(_ input: ListKxChangesetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListKxChangesetsResponse> {
-        return self.client.execute(operation: "ListKxChangesets", path: "/kx/environments/{environmentId}/databases/{databaseName}/changesets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listKxChangesets(_ input: ListKxChangesetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKxChangesetsResponse {
+        return try await self.client.execute(operation: "ListKxChangesets", path: "/kx/environments/{environmentId}/databases/{databaseName}/changesets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the nodes in a kdb cluster.
-    public func listKxClusterNodes(_ input: ListKxClusterNodesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListKxClusterNodesResponse> {
-        return self.client.execute(operation: "ListKxClusterNodes", path: "/kx/environments/{environmentId}/clusters/{clusterName}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listKxClusterNodes(_ input: ListKxClusterNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKxClusterNodesResponse {
+        return try await self.client.execute(operation: "ListKxClusterNodes", path: "/kx/environments/{environmentId}/clusters/{clusterName}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of clusters.
-    public func listKxClusters(_ input: ListKxClustersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListKxClustersResponse> {
-        return self.client.execute(operation: "ListKxClusters", path: "/kx/environments/{environmentId}/clusters", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listKxClusters(_ input: ListKxClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKxClustersResponse {
+        return try await self.client.execute(operation: "ListKxClusters", path: "/kx/environments/{environmentId}/clusters", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of all the databases in the kdb environment.
-    public func listKxDatabases(_ input: ListKxDatabasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListKxDatabasesResponse> {
-        return self.client.execute(operation: "ListKxDatabases", path: "/kx/environments/{environmentId}/databases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listKxDatabases(_ input: ListKxDatabasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKxDatabasesResponse {
+        return try await self.client.execute(operation: "ListKxDatabases", path: "/kx/environments/{environmentId}/databases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of kdb environments created in an account.
-    public func listKxEnvironments(_ input: ListKxEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListKxEnvironmentsResponse> {
-        return self.client.execute(operation: "ListKxEnvironments", path: "/kx/environments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listKxEnvironments(_ input: ListKxEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKxEnvironmentsResponse {
+        return try await self.client.execute(operation: "ListKxEnvironments", path: "/kx/environments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the users in a kdb environment.
-    public func listKxUsers(_ input: ListKxUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListKxUsersResponse> {
-        return self.client.execute(operation: "ListKxUsers", path: "/kx/environments/{environmentId}/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listKxUsers(_ input: ListKxUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKxUsersResponse {
+        return try await self.client.execute(operation: "ListKxUsers", path: "/kx/environments/{environmentId}/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// A list of all tags for a resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds metadata tags to a FinSpace resource.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes metadata tags from a FinSpace resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update your FinSpace environment.
-    public func updateEnvironment(_ input: UpdateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEnvironmentResponse> {
-        return self.client.execute(operation: "UpdateEnvironment", path: "/environment/{environmentId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateEnvironment(_ input: UpdateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnvironmentResponse {
+        return try await self.client.execute(operation: "UpdateEnvironment", path: "/environment/{environmentId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the databases mounted on a kdb cluster, which includes the changesetId and all the dbPaths to be cached. This API does not allow you to change a database name or add a database if you created a cluster without one.  Using this API you can point a cluster to a different changeset and modify a list of partitions being cached.
-    public func updateKxClusterDatabases(_ input: UpdateKxClusterDatabasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateKxClusterDatabasesResponse> {
-        return self.client.execute(operation: "UpdateKxClusterDatabases", path: "/kx/environments/{environmentId}/clusters/{clusterName}/configuration/databases", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateKxClusterDatabases(_ input: UpdateKxClusterDatabasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKxClusterDatabasesResponse {
+        return try await self.client.execute(operation: "UpdateKxClusterDatabases", path: "/kx/environments/{environmentId}/clusters/{clusterName}/configuration/databases", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates information for the given kdb database.
-    public func updateKxDatabase(_ input: UpdateKxDatabaseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateKxDatabaseResponse> {
-        return self.client.execute(operation: "UpdateKxDatabase", path: "/kx/environments/{environmentId}/databases/{databaseName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateKxDatabase(_ input: UpdateKxDatabaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKxDatabaseResponse {
+        return try await self.client.execute(operation: "UpdateKxDatabase", path: "/kx/environments/{environmentId}/databases/{databaseName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates information for the given kdb environment.
-    public func updateKxEnvironment(_ input: UpdateKxEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateKxEnvironmentResponse> {
-        return self.client.execute(operation: "UpdateKxEnvironment", path: "/kx/environments/{environmentId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateKxEnvironment(_ input: UpdateKxEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKxEnvironmentResponse {
+        return try await self.client.execute(operation: "UpdateKxEnvironment", path: "/kx/environments/{environmentId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates environment network to connect to your internal network by using a transit gateway. This API supports request to create a transit gateway attachment from FinSpace VPC to your transit gateway ID and create a custom Route-53 outbound resolvers. Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network.
-    public func updateKxEnvironmentNetwork(_ input: UpdateKxEnvironmentNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateKxEnvironmentNetworkResponse> {
-        return self.client.execute(operation: "UpdateKxEnvironmentNetwork", path: "/kx/environments/{environmentId}/network", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateKxEnvironmentNetwork(_ input: UpdateKxEnvironmentNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKxEnvironmentNetworkResponse {
+        return try await self.client.execute(operation: "UpdateKxEnvironmentNetwork", path: "/kx/environments/{environmentId}/network", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the user details. You can only update the IAM role associated with a user.
-    public func updateKxUser(_ input: UpdateKxUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateKxUserResponse> {
-        return self.client.execute(operation: "UpdateKxUser", path: "/kx/environments/{environmentId}/users/{userName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateKxUser(_ input: UpdateKxUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKxUserResponse {
+        return try await self.client.execute(operation: "UpdateKxUser", path: "/kx/environments/{environmentId}/users/{userName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -245,216 +279,81 @@ extension Finspace {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Finspace {
     /// Returns a list of all the changesets for a database.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listKxChangesetsPaginator<Result>(
-        _ input: ListKxChangesetsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListKxChangesetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listKxChangesets,
-            inputKey: \ListKxChangesetsRequest.nextToken,
-            outputKey: \ListKxChangesetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listKxChangesetsPaginator(
         _ input: ListKxChangesetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListKxChangesetsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListKxChangesetsRequest, ListKxChangesetsResponse> {
+        return .init(
             input: input,
             command: self.listKxChangesets,
             inputKey: \ListKxChangesetsRequest.nextToken,
             outputKey: \ListKxChangesetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all the nodes in a kdb cluster.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listKxClusterNodesPaginator<Result>(
-        _ input: ListKxClusterNodesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListKxClusterNodesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listKxClusterNodes,
-            inputKey: \ListKxClusterNodesRequest.nextToken,
-            outputKey: \ListKxClusterNodesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listKxClusterNodesPaginator(
         _ input: ListKxClusterNodesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListKxClusterNodesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListKxClusterNodesRequest, ListKxClusterNodesResponse> {
+        return .init(
             input: input,
             command: self.listKxClusterNodes,
             inputKey: \ListKxClusterNodesRequest.nextToken,
             outputKey: \ListKxClusterNodesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of all the databases in the kdb environment.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listKxDatabasesPaginator<Result>(
-        _ input: ListKxDatabasesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListKxDatabasesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listKxDatabases,
-            inputKey: \ListKxDatabasesRequest.nextToken,
-            outputKey: \ListKxDatabasesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listKxDatabasesPaginator(
         _ input: ListKxDatabasesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListKxDatabasesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListKxDatabasesRequest, ListKxDatabasesResponse> {
+        return .init(
             input: input,
             command: self.listKxDatabases,
             inputKey: \ListKxDatabasesRequest.nextToken,
             outputKey: \ListKxDatabasesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of kdb environments created in an account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listKxEnvironmentsPaginator<Result>(
-        _ input: ListKxEnvironmentsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListKxEnvironmentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listKxEnvironments,
-            inputKey: \ListKxEnvironmentsRequest.nextToken,
-            outputKey: \ListKxEnvironmentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listKxEnvironmentsPaginator(
         _ input: ListKxEnvironmentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListKxEnvironmentsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListKxEnvironmentsRequest, ListKxEnvironmentsResponse> {
+        return .init(
             input: input,
             command: self.listKxEnvironments,
             inputKey: \ListKxEnvironmentsRequest.nextToken,
             outputKey: \ListKxEnvironmentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

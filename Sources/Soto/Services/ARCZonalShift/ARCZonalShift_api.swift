@@ -78,33 +78,39 @@ public struct ARCZonalShift: AWSService {
     // MARK: API Calls
 
     /// Cancel a zonal shift in Amazon Route 53 Application Recovery Controller that you've started for a resource in your AWS account in an AWS Region.
-    public func cancelZonalShift(_ input: CancelZonalShiftRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ZonalShift> {
-        return self.client.execute(operation: "CancelZonalShift", path: "/zonalshifts/{zonalShiftId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func cancelZonalShift(_ input: CancelZonalShiftRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ZonalShift {
+        return try await self.client.execute(operation: "CancelZonalShift", path: "/zonalshifts/{zonalShiftId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get information about a resource that's been registered for zonal shifts with Amazon Route 53 Application Recovery Controller in this AWS Region. Resources that are registered for 		zonal shifts are managed resources in Route 53 ARC. 	     At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
-    public func getManagedResource(_ input: GetManagedResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetManagedResourceResponse> {
-        return self.client.execute(operation: "GetManagedResource", path: "/managedresources/{resourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getManagedResource(_ input: GetManagedResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetManagedResourceResponse {
+        return try await self.client.execute(operation: "GetManagedResource", path: "/managedresources/{resourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the resources in your AWS account in this AWS Region that are managed for zonal shifts in Amazon Route 53 Application Recovery Controller, and information  		about them. The information includes their Amazon Resource Names (ARNs), the Availability Zones the resources are deployed in, and  		the resource name.
-    public func listManagedResources(_ input: ListManagedResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListManagedResourcesResponse> {
-        return self.client.execute(operation: "ListManagedResources", path: "/managedresources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listManagedResources(_ input: ListManagedResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedResourcesResponse {
+        return try await self.client.execute(operation: "ListManagedResources", path: "/managedresources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the active zonal shifts in Amazon Route 53 Application Recovery Controller in your AWS account in this AWS Region.
-    public func listZonalShifts(_ input: ListZonalShiftsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListZonalShiftsResponse> {
-        return self.client.execute(operation: "ListZonalShifts", path: "/zonalshifts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listZonalShifts(_ input: ListZonalShiftsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListZonalShiftsResponse {
+        return try await self.client.execute(operation: "ListZonalShifts", path: "/zonalshifts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// You start a zonal shift to temporarily move load balancer traffic away from an Availability Zone in a AWS Region, 		to help your application recover immediately, for example, from a developer's bad code deployment or from an AWS  		infrastructure failure in a single Availability Zone. You can start a zonal shift in Route 53 ARC only for managed 		resources in your account in an AWS Region. Resources are automatically registered with Route 53 ARC by AWS services. 	     At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off. 	     When you start a zonal shift, traffic for the resource is no longer routed to the Availability Zone. The 		zonal shift is created immediately in Route 53 ARC. However, it can take a short time, typically up to a few minutes, 		for existing, in-progress connections in the Availability Zone to complete. 	     For more information, see Zonal shift 		in the Amazon Route 53 Application Recovery Controller Developer Guide.
-    public func startZonalShift(_ input: StartZonalShiftRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ZonalShift> {
-        return self.client.execute(operation: "StartZonalShift", path: "/zonalshifts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startZonalShift(_ input: StartZonalShiftRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ZonalShift {
+        return try await self.client.execute(operation: "StartZonalShift", path: "/zonalshifts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update an active zonal shift in Amazon Route 53 Application Recovery Controller in your AWS account. You can update a zonal shift to set a new expiration, or  	edit or replace the comment for the zonal shift.
-    public func updateZonalShift(_ input: UpdateZonalShiftRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ZonalShift> {
-        return self.client.execute(operation: "UpdateZonalShift", path: "/zonalshifts/{zonalShiftId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateZonalShift(_ input: UpdateZonalShiftRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ZonalShift {
+        return try await self.client.execute(operation: "UpdateZonalShift", path: "/zonalshifts/{zonalShiftId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -119,110 +125,43 @@ extension ARCZonalShift {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ARCZonalShift {
     /// Lists all the resources in your AWS account in this AWS Region that are managed for zonal shifts in Amazon Route 53 Application Recovery Controller, and information  		about them. The information includes their Amazon Resource Names (ARNs), the Availability Zones the resources are deployed in, and  		the resource name.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listManagedResourcesPaginator<Result>(
-        _ input: ListManagedResourcesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListManagedResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listManagedResources,
-            inputKey: \ListManagedResourcesRequest.nextToken,
-            outputKey: \ListManagedResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listManagedResourcesPaginator(
         _ input: ListManagedResourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListManagedResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListManagedResourcesRequest, ListManagedResourcesResponse> {
+        return .init(
             input: input,
             command: self.listManagedResources,
             inputKey: \ListManagedResourcesRequest.nextToken,
             outputKey: \ListManagedResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all the active zonal shifts in Amazon Route 53 Application Recovery Controller in your AWS account in this AWS Region.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listZonalShiftsPaginator<Result>(
-        _ input: ListZonalShiftsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListZonalShiftsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listZonalShifts,
-            inputKey: \ListZonalShiftsRequest.nextToken,
-            outputKey: \ListZonalShiftsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listZonalShiftsPaginator(
         _ input: ListZonalShiftsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListZonalShiftsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListZonalShiftsRequest, ListZonalShiftsResponse> {
+        return .init(
             input: input,
             command: self.listZonalShifts,
             inputKey: \ListZonalShiftsRequest.nextToken,
             outputKey: \ListZonalShiftsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

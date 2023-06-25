@@ -67,78 +67,93 @@ public struct IVSRealTime: AWSService {
     // MARK: API Calls
 
     /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application.
-    public func createParticipantToken(_ input: CreateParticipantTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateParticipantTokenResponse> {
-        return self.client.execute(operation: "CreateParticipantToken", path: "/CreateParticipantToken", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createParticipantToken(_ input: CreateParticipantTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateParticipantTokenResponse {
+        return try await self.client.execute(operation: "CreateParticipantToken", path: "/CreateParticipantToken", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new stage (and optionally participant tokens).
-    public func createStage(_ input: CreateStageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStageResponse> {
-        return self.client.execute(operation: "CreateStage", path: "/CreateStage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createStage(_ input: CreateStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStageResponse {
+        return try await self.client.execute(operation: "CreateStage", path: "/CreateStage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Shuts down and deletes the specified stage (disconnecting all participants).
-    public func deleteStage(_ input: DeleteStageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteStageResponse> {
-        return self.client.execute(operation: "DeleteStage", path: "/DeleteStage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteStage(_ input: DeleteStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStageResponse {
+        return try await self.client.execute(operation: "DeleteStage", path: "/DeleteStage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disconnects a specified participant and revokes the participant permanently from a specified stage.
-    public func disconnectParticipant(_ input: DisconnectParticipantRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisconnectParticipantResponse> {
-        return self.client.execute(operation: "DisconnectParticipant", path: "/DisconnectParticipant", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disconnectParticipant(_ input: DisconnectParticipantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisconnectParticipantResponse {
+        return try await self.client.execute(operation: "DisconnectParticipant", path: "/DisconnectParticipant", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about the specified participant token.
-    public func getParticipant(_ input: GetParticipantRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetParticipantResponse> {
-        return self.client.execute(operation: "GetParticipant", path: "/GetParticipant", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getParticipant(_ input: GetParticipantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetParticipantResponse {
+        return try await self.client.execute(operation: "GetParticipant", path: "/GetParticipant", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information for the specified stage.
-    public func getStage(_ input: GetStageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStageResponse> {
-        return self.client.execute(operation: "GetStage", path: "/GetStage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getStage(_ input: GetStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStageResponse {
+        return try await self.client.execute(operation: "GetStage", path: "/GetStage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information for the specified stage session.
-    public func getStageSession(_ input: GetStageSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStageSessionResponse> {
-        return self.client.execute(operation: "GetStageSession", path: "/GetStageSession", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getStageSession(_ input: GetStageSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStageSessionResponse {
+        return try await self.client.execute(operation: "GetStageSession", path: "/GetStageSession", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists events for a specified participant that occurred during a specified stage session.
-    public func listParticipantEvents(_ input: ListParticipantEventsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListParticipantEventsResponse> {
-        return self.client.execute(operation: "ListParticipantEvents", path: "/ListParticipantEvents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listParticipantEvents(_ input: ListParticipantEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListParticipantEventsResponse {
+        return try await self.client.execute(operation: "ListParticipantEvents", path: "/ListParticipantEvents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all participants in a specified stage session.
-    public func listParticipants(_ input: ListParticipantsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListParticipantsResponse> {
-        return self.client.execute(operation: "ListParticipants", path: "/ListParticipants", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listParticipants(_ input: ListParticipantsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListParticipantsResponse {
+        return try await self.client.execute(operation: "ListParticipants", path: "/ListParticipants", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets all sessions for a specified stage.
-    public func listStageSessions(_ input: ListStageSessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStageSessionsResponse> {
-        return self.client.execute(operation: "ListStageSessions", path: "/ListStageSessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listStageSessions(_ input: ListStageSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStageSessionsResponse {
+        return try await self.client.execute(operation: "ListStageSessions", path: "/ListStageSessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets summary information about all stages in your account, in the AWS region where the API request is processed.
-    public func listStages(_ input: ListStagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStagesResponse> {
-        return self.client.execute(operation: "ListStages", path: "/ListStages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listStages(_ input: ListStagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStagesResponse {
+        return try await self.client.execute(operation: "ListStages", path: "/ListStages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about AWS tags for the specified ARN.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds or updates tags for the AWS resource with the specified ARN.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes tags from the resource with the specified ARN.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a stage’s configuration.
-    public func updateStage(_ input: UpdateStageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateStageResponse> {
-        return self.client.execute(operation: "UpdateStage", path: "/UpdateStage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateStage(_ input: UpdateStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStageResponse {
+        return try await self.client.execute(operation: "UpdateStage", path: "/UpdateStage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -153,216 +168,81 @@ extension IVSRealTime {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IVSRealTime {
     /// Lists events for a specified participant that occurred during a specified stage session.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listParticipantEventsPaginator<Result>(
-        _ input: ListParticipantEventsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListParticipantEventsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listParticipantEvents,
-            inputKey: \ListParticipantEventsRequest.nextToken,
-            outputKey: \ListParticipantEventsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listParticipantEventsPaginator(
         _ input: ListParticipantEventsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListParticipantEventsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListParticipantEventsRequest, ListParticipantEventsResponse> {
+        return .init(
             input: input,
             command: self.listParticipantEvents,
             inputKey: \ListParticipantEventsRequest.nextToken,
             outputKey: \ListParticipantEventsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all participants in a specified stage session.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listParticipantsPaginator<Result>(
-        _ input: ListParticipantsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListParticipantsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listParticipants,
-            inputKey: \ListParticipantsRequest.nextToken,
-            outputKey: \ListParticipantsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listParticipantsPaginator(
         _ input: ListParticipantsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListParticipantsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListParticipantsRequest, ListParticipantsResponse> {
+        return .init(
             input: input,
             command: self.listParticipants,
             inputKey: \ListParticipantsRequest.nextToken,
             outputKey: \ListParticipantsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets all sessions for a specified stage.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listStageSessionsPaginator<Result>(
-        _ input: ListStageSessionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListStageSessionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listStageSessions,
-            inputKey: \ListStageSessionsRequest.nextToken,
-            outputKey: \ListStageSessionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listStageSessionsPaginator(
         _ input: ListStageSessionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListStageSessionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStageSessionsRequest, ListStageSessionsResponse> {
+        return .init(
             input: input,
             command: self.listStageSessions,
             inputKey: \ListStageSessionsRequest.nextToken,
             outputKey: \ListStageSessionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets summary information about all stages in your account, in the AWS region where the API request is processed.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listStagesPaginator<Result>(
-        _ input: ListStagesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListStagesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listStages,
-            inputKey: \ListStagesRequest.nextToken,
-            outputKey: \ListStagesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listStagesPaginator(
         _ input: ListStagesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListStagesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStagesRequest, ListStagesResponse> {
+        return .init(
             input: input,
             command: self.listStages,
             inputKey: \ListStagesRequest.nextToken,
             outputKey: \ListStagesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

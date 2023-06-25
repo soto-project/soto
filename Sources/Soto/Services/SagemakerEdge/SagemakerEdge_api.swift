@@ -65,18 +65,21 @@ public struct SagemakerEdge: AWSService {
     // MARK: API Calls
 
     /// Use to get the active deployments from a device.
-    public func getDeployments(_ input: GetDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeploymentsResult> {
-        return self.client.execute(operation: "GetDeployments", path: "/GetDeployments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDeployments(_ input: GetDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeploymentsResult {
+        return try await self.client.execute(operation: "GetDeployments", path: "/GetDeployments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use to check if a device is registered with SageMaker Edge Manager.
-    public func getDeviceRegistration(_ input: GetDeviceRegistrationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeviceRegistrationResult> {
-        return self.client.execute(operation: "GetDeviceRegistration", path: "/GetDeviceRegistration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDeviceRegistration(_ input: GetDeviceRegistrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeviceRegistrationResult {
+        return try await self.client.execute(operation: "GetDeviceRegistration", path: "/GetDeviceRegistration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use to get the current status of devices registered on SageMaker Edge Manager.
-    @discardableResult public func sendHeartbeat(_ input: SendHeartbeatRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "SendHeartbeat", path: "/SendHeartbeat", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func sendHeartbeat(_ input: SendHeartbeatRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "SendHeartbeat", path: "/SendHeartbeat", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 

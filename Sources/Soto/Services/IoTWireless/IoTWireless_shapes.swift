@@ -2780,9 +2780,9 @@ extension IoTWireless {
         ]
 
         /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format, which a format that's used to encode geographic data structures. For more information, see GeoJSON.
-        public let geoJsonPayload: AWSPayload?
+        public let geoJsonPayload: HTTPBody?
 
-        public init(geoJsonPayload: AWSPayload? = nil) {
+        public init(geoJsonPayload: HTTPBody? = nil) {
             self.geoJsonPayload = geoJsonPayload
         }
 
@@ -2969,9 +2969,9 @@ extension IoTWireless {
         ]
 
         /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format, which a format that's used to encode geographic data structures. For more information, see GeoJSON.
-        public let geoJsonPayload: AWSPayload?
+        public let geoJsonPayload: HTTPBody?
 
-        public init(geoJsonPayload: AWSPayload? = nil) {
+        public init(geoJsonPayload: HTTPBody? = nil) {
             self.geoJsonPayload = geoJsonPayload
         }
 
@@ -7310,13 +7310,13 @@ extension IoTWireless {
         ]
 
         /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format,  which a format that's used to encode geographic data structures. For more information, see GeoJSON.
-        public let geoJsonPayload: AWSPayload?
+        public let geoJsonPayload: HTTPBody?
         /// The identifier of the resource for which position information is updated. It can be the wireless device ID or the wireless gateway ID, depending on the resource type.
         public let resourceIdentifier: String
         /// The type of resource for which position information is updated, which can be a wireless device or a wireless gateway.
         public let resourceType: PositionResourceType
 
-        public init(geoJsonPayload: AWSPayload? = nil, resourceIdentifier: String, resourceType: PositionResourceType) {
+        public init(geoJsonPayload: HTTPBody? = nil, resourceIdentifier: String, resourceType: PositionResourceType) {
             self.geoJsonPayload = geoJsonPayload
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType

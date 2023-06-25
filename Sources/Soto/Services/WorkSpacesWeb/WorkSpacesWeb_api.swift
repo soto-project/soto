@@ -64,293 +64,351 @@ public struct WorkSpacesWeb: AWSService {
     // MARK: API Calls
 
     /// Associates a browser settings resource with a web portal.
-    public func associateBrowserSettings(_ input: AssociateBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateBrowserSettingsResponse> {
-        return self.client.execute(operation: "AssociateBrowserSettings", path: "/portals/{portalArn+}/browserSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateBrowserSettings(_ input: AssociateBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateBrowserSettingsResponse {
+        return try await self.client.execute(operation: "AssociateBrowserSettings", path: "/portals/{portalArn+}/browserSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates an IP access settings resource with a web portal.
-    public func associateIpAccessSettings(_ input: AssociateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateIpAccessSettingsResponse> {
-        return self.client.execute(operation: "AssociateIpAccessSettings", path: "/portals/{portalArn+}/ipAccessSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateIpAccessSettings(_ input: AssociateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateIpAccessSettingsResponse {
+        return try await self.client.execute(operation: "AssociateIpAccessSettings", path: "/portals/{portalArn+}/ipAccessSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates a network settings resource with a web portal.
-    public func associateNetworkSettings(_ input: AssociateNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateNetworkSettingsResponse> {
-        return self.client.execute(operation: "AssociateNetworkSettings", path: "/portals/{portalArn+}/networkSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateNetworkSettings(_ input: AssociateNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateNetworkSettingsResponse {
+        return try await self.client.execute(operation: "AssociateNetworkSettings", path: "/portals/{portalArn+}/networkSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates a trust store with a web portal.
-    public func associateTrustStore(_ input: AssociateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateTrustStoreResponse> {
-        return self.client.execute(operation: "AssociateTrustStore", path: "/portals/{portalArn+}/trustStores", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateTrustStore(_ input: AssociateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateTrustStoreResponse {
+        return try await self.client.execute(operation: "AssociateTrustStore", path: "/portals/{portalArn+}/trustStores", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates a user access logging settings resource with a web portal.
-    public func associateUserAccessLoggingSettings(_ input: AssociateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateUserAccessLoggingSettingsResponse> {
-        return self.client.execute(operation: "AssociateUserAccessLoggingSettings", path: "/portals/{portalArn+}/userAccessLoggingSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateUserAccessLoggingSettings(_ input: AssociateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateUserAccessLoggingSettingsResponse {
+        return try await self.client.execute(operation: "AssociateUserAccessLoggingSettings", path: "/portals/{portalArn+}/userAccessLoggingSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates a user settings resource with a web portal.
-    public func associateUserSettings(_ input: AssociateUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateUserSettingsResponse> {
-        return self.client.execute(operation: "AssociateUserSettings", path: "/portals/{portalArn+}/userSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateUserSettings(_ input: AssociateUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateUserSettingsResponse {
+        return try await self.client.execute(operation: "AssociateUserSettings", path: "/portals/{portalArn+}/userSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
-    public func createBrowserSettings(_ input: CreateBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBrowserSettingsResponse> {
-        return self.client.execute(operation: "CreateBrowserSettings", path: "/browserSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createBrowserSettings(_ input: CreateBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBrowserSettingsResponse {
+        return try await self.client.execute(operation: "CreateBrowserSettings", path: "/browserSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an identity provider resource that is then associated with a web portal.
-    public func createIdentityProvider(_ input: CreateIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIdentityProviderResponse> {
-        return self.client.execute(operation: "CreateIdentityProvider", path: "/identityProviders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createIdentityProvider(_ input: CreateIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIdentityProviderResponse {
+        return try await self.client.execute(operation: "CreateIdentityProvider", path: "/identityProviders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an IP access settings resource that can be associated with a web portal.
-    public func createIpAccessSettings(_ input: CreateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIpAccessSettingsResponse> {
-        return self.client.execute(operation: "CreateIpAccessSettings", path: "/ipAccessSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createIpAccessSettings(_ input: CreateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIpAccessSettingsResponse {
+        return try await self.client.execute(operation: "CreateIpAccessSettings", path: "/ipAccessSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
-    public func createNetworkSettings(_ input: CreateNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNetworkSettingsResponse> {
-        return self.client.execute(operation: "CreateNetworkSettings", path: "/networkSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createNetworkSettings(_ input: CreateNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNetworkSettingsResponse {
+        return try await self.client.execute(operation: "CreateNetworkSettings", path: "/networkSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a web portal.
-    public func createPortal(_ input: CreatePortalRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePortalResponse> {
-        return self.client.execute(operation: "CreatePortal", path: "/portals", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createPortal(_ input: CreatePortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePortalResponse {
+        return try await self.client.execute(operation: "CreatePortal", path: "/portals", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
-    public func createTrustStore(_ input: CreateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTrustStoreResponse> {
-        return self.client.execute(operation: "CreateTrustStore", path: "/trustStores", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTrustStore(_ input: CreateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrustStoreResponse {
+        return try await self.client.execute(operation: "CreateTrustStore", path: "/trustStores", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a user access logging settings resource that can be associated with a web portal.
-    public func createUserAccessLoggingSettings(_ input: CreateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserAccessLoggingSettingsResponse> {
-        return self.client.execute(operation: "CreateUserAccessLoggingSettings", path: "/userAccessLoggingSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createUserAccessLoggingSettings(_ input: CreateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserAccessLoggingSettingsResponse {
+        return try await self.client.execute(operation: "CreateUserAccessLoggingSettings", path: "/userAccessLoggingSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
-    public func createUserSettings(_ input: CreateUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserSettingsResponse> {
-        return self.client.execute(operation: "CreateUserSettings", path: "/userSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createUserSettings(_ input: CreateUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserSettingsResponse {
+        return try await self.client.execute(operation: "CreateUserSettings", path: "/userSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes browser settings.
-    public func deleteBrowserSettings(_ input: DeleteBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBrowserSettingsResponse> {
-        return self.client.execute(operation: "DeleteBrowserSettings", path: "/browserSettings/{browserSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteBrowserSettings(_ input: DeleteBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBrowserSettingsResponse {
+        return try await self.client.execute(operation: "DeleteBrowserSettings", path: "/browserSettings/{browserSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the identity provider.
-    public func deleteIdentityProvider(_ input: DeleteIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteIdentityProviderResponse> {
-        return self.client.execute(operation: "DeleteIdentityProvider", path: "/identityProviders/{identityProviderArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteIdentityProvider(_ input: DeleteIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIdentityProviderResponse {
+        return try await self.client.execute(operation: "DeleteIdentityProvider", path: "/identityProviders/{identityProviderArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes IP access settings.
-    public func deleteIpAccessSettings(_ input: DeleteIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteIpAccessSettingsResponse> {
-        return self.client.execute(operation: "DeleteIpAccessSettings", path: "/ipAccessSettings/{ipAccessSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteIpAccessSettings(_ input: DeleteIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIpAccessSettingsResponse {
+        return try await self.client.execute(operation: "DeleteIpAccessSettings", path: "/ipAccessSettings/{ipAccessSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes network settings.
-    public func deleteNetworkSettings(_ input: DeleteNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNetworkSettingsResponse> {
-        return self.client.execute(operation: "DeleteNetworkSettings", path: "/networkSettings/{networkSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteNetworkSettings(_ input: DeleteNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkSettingsResponse {
+        return try await self.client.execute(operation: "DeleteNetworkSettings", path: "/networkSettings/{networkSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a web portal.
-    public func deletePortal(_ input: DeletePortalRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePortalResponse> {
-        return self.client.execute(operation: "DeletePortal", path: "/portals/{portalArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deletePortal(_ input: DeletePortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePortalResponse {
+        return try await self.client.execute(operation: "DeletePortal", path: "/portals/{portalArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the trust store.
-    public func deleteTrustStore(_ input: DeleteTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTrustStoreResponse> {
-        return self.client.execute(operation: "DeleteTrustStore", path: "/trustStores/{trustStoreArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteTrustStore(_ input: DeleteTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTrustStoreResponse {
+        return try await self.client.execute(operation: "DeleteTrustStore", path: "/trustStores/{trustStoreArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes user access logging settings.
-    public func deleteUserAccessLoggingSettings(_ input: DeleteUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteUserAccessLoggingSettingsResponse> {
-        return self.client.execute(operation: "DeleteUserAccessLoggingSettings", path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteUserAccessLoggingSettings(_ input: DeleteUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserAccessLoggingSettingsResponse {
+        return try await self.client.execute(operation: "DeleteUserAccessLoggingSettings", path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes user settings.
-    public func deleteUserSettings(_ input: DeleteUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteUserSettingsResponse> {
-        return self.client.execute(operation: "DeleteUserSettings", path: "/userSettings/{userSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteUserSettings(_ input: DeleteUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserSettingsResponse {
+        return try await self.client.execute(operation: "DeleteUserSettings", path: "/userSettings/{userSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates browser settings from a web portal.
-    public func disassociateBrowserSettings(_ input: DisassociateBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateBrowserSettingsResponse> {
-        return self.client.execute(operation: "DisassociateBrowserSettings", path: "/portals/{portalArn+}/browserSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateBrowserSettings(_ input: DisassociateBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateBrowserSettingsResponse {
+        return try await self.client.execute(operation: "DisassociateBrowserSettings", path: "/portals/{portalArn+}/browserSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates IP access settings from a web portal.
-    public func disassociateIpAccessSettings(_ input: DisassociateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateIpAccessSettingsResponse> {
-        return self.client.execute(operation: "DisassociateIpAccessSettings", path: "/portals/{portalArn+}/ipAccessSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateIpAccessSettings(_ input: DisassociateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateIpAccessSettingsResponse {
+        return try await self.client.execute(operation: "DisassociateIpAccessSettings", path: "/portals/{portalArn+}/ipAccessSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates network settings from a web portal.
-    public func disassociateNetworkSettings(_ input: DisassociateNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateNetworkSettingsResponse> {
-        return self.client.execute(operation: "DisassociateNetworkSettings", path: "/portals/{portalArn+}/networkSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateNetworkSettings(_ input: DisassociateNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateNetworkSettingsResponse {
+        return try await self.client.execute(operation: "DisassociateNetworkSettings", path: "/portals/{portalArn+}/networkSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates a trust store from a web portal.
-    public func disassociateTrustStore(_ input: DisassociateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateTrustStoreResponse> {
-        return self.client.execute(operation: "DisassociateTrustStore", path: "/portals/{portalArn+}/trustStores", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateTrustStore(_ input: DisassociateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateTrustStoreResponse {
+        return try await self.client.execute(operation: "DisassociateTrustStore", path: "/portals/{portalArn+}/trustStores", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates user access logging settings from a web portal.
-    public func disassociateUserAccessLoggingSettings(_ input: DisassociateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateUserAccessLoggingSettingsResponse> {
-        return self.client.execute(operation: "DisassociateUserAccessLoggingSettings", path: "/portals/{portalArn+}/userAccessLoggingSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateUserAccessLoggingSettings(_ input: DisassociateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateUserAccessLoggingSettingsResponse {
+        return try await self.client.execute(operation: "DisassociateUserAccessLoggingSettings", path: "/portals/{portalArn+}/userAccessLoggingSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates user settings from a web portal.
-    public func disassociateUserSettings(_ input: DisassociateUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateUserSettingsResponse> {
-        return self.client.execute(operation: "DisassociateUserSettings", path: "/portals/{portalArn+}/userSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateUserSettings(_ input: DisassociateUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateUserSettingsResponse {
+        return try await self.client.execute(operation: "DisassociateUserSettings", path: "/portals/{portalArn+}/userSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets browser settings.
-    public func getBrowserSettings(_ input: GetBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBrowserSettingsResponse> {
-        return self.client.execute(operation: "GetBrowserSettings", path: "/browserSettings/{browserSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getBrowserSettings(_ input: GetBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBrowserSettingsResponse {
+        return try await self.client.execute(operation: "GetBrowserSettings", path: "/browserSettings/{browserSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the identity provider.
-    public func getIdentityProvider(_ input: GetIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIdentityProviderResponse> {
-        return self.client.execute(operation: "GetIdentityProvider", path: "/identityProviders/{identityProviderArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getIdentityProvider(_ input: GetIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIdentityProviderResponse {
+        return try await self.client.execute(operation: "GetIdentityProvider", path: "/identityProviders/{identityProviderArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the IP access settings.
-    public func getIpAccessSettings(_ input: GetIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIpAccessSettingsResponse> {
-        return self.client.execute(operation: "GetIpAccessSettings", path: "/ipAccessSettings/{ipAccessSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getIpAccessSettings(_ input: GetIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIpAccessSettingsResponse {
+        return try await self.client.execute(operation: "GetIpAccessSettings", path: "/ipAccessSettings/{ipAccessSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the network settings.
-    public func getNetworkSettings(_ input: GetNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkSettingsResponse> {
-        return self.client.execute(operation: "GetNetworkSettings", path: "/networkSettings/{networkSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getNetworkSettings(_ input: GetNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkSettingsResponse {
+        return try await self.client.execute(operation: "GetNetworkSettings", path: "/networkSettings/{networkSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the web portal.
-    public func getPortal(_ input: GetPortalRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPortalResponse> {
-        return self.client.execute(operation: "GetPortal", path: "/portals/{portalArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPortal(_ input: GetPortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortalResponse {
+        return try await self.client.execute(operation: "GetPortal", path: "/portals/{portalArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the service provider metadata.
-    public func getPortalServiceProviderMetadata(_ input: GetPortalServiceProviderMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPortalServiceProviderMetadataResponse> {
-        return self.client.execute(operation: "GetPortalServiceProviderMetadata", path: "/portalIdp/{portalArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPortalServiceProviderMetadata(_ input: GetPortalServiceProviderMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortalServiceProviderMetadataResponse {
+        return try await self.client.execute(operation: "GetPortalServiceProviderMetadata", path: "/portalIdp/{portalArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the trust store.
-    public func getTrustStore(_ input: GetTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTrustStoreResponse> {
-        return self.client.execute(operation: "GetTrustStore", path: "/trustStores/{trustStoreArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTrustStore(_ input: GetTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrustStoreResponse {
+        return try await self.client.execute(operation: "GetTrustStore", path: "/trustStores/{trustStoreArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the trust store certificate.
-    public func getTrustStoreCertificate(_ input: GetTrustStoreCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTrustStoreCertificateResponse> {
-        return self.client.execute(operation: "GetTrustStoreCertificate", path: "/trustStores/{trustStoreArn+}/certificate", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTrustStoreCertificate(_ input: GetTrustStoreCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrustStoreCertificateResponse {
+        return try await self.client.execute(operation: "GetTrustStoreCertificate", path: "/trustStores/{trustStoreArn+}/certificate", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets user access logging settings.
-    public func getUserAccessLoggingSettings(_ input: GetUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUserAccessLoggingSettingsResponse> {
-        return self.client.execute(operation: "GetUserAccessLoggingSettings", path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getUserAccessLoggingSettings(_ input: GetUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUserAccessLoggingSettingsResponse {
+        return try await self.client.execute(operation: "GetUserAccessLoggingSettings", path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets user settings.
-    public func getUserSettings(_ input: GetUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUserSettingsResponse> {
-        return self.client.execute(operation: "GetUserSettings", path: "/userSettings/{userSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getUserSettings(_ input: GetUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUserSettingsResponse {
+        return try await self.client.execute(operation: "GetUserSettings", path: "/userSettings/{userSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of browser settings.
-    public func listBrowserSettings(_ input: ListBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBrowserSettingsResponse> {
-        return self.client.execute(operation: "ListBrowserSettings", path: "/browserSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listBrowserSettings(_ input: ListBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBrowserSettingsResponse {
+        return try await self.client.execute(operation: "ListBrowserSettings", path: "/browserSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of identity providers for a specific web portal.
-    public func listIdentityProviders(_ input: ListIdentityProvidersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIdentityProvidersResponse> {
-        return self.client.execute(operation: "ListIdentityProviders", path: "/portals/{portalArn+}/identityProviders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listIdentityProviders(_ input: ListIdentityProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIdentityProvidersResponse {
+        return try await self.client.execute(operation: "ListIdentityProviders", path: "/portals/{portalArn+}/identityProviders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of IP access settings.
-    public func listIpAccessSettings(_ input: ListIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIpAccessSettingsResponse> {
-        return self.client.execute(operation: "ListIpAccessSettings", path: "/ipAccessSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listIpAccessSettings(_ input: ListIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIpAccessSettingsResponse {
+        return try await self.client.execute(operation: "ListIpAccessSettings", path: "/ipAccessSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of network settings.
-    public func listNetworkSettings(_ input: ListNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNetworkSettingsResponse> {
-        return self.client.execute(operation: "ListNetworkSettings", path: "/networkSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listNetworkSettings(_ input: ListNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkSettingsResponse {
+        return try await self.client.execute(operation: "ListNetworkSettings", path: "/networkSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list or web portals.
-    public func listPortals(_ input: ListPortalsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPortalsResponse> {
-        return self.client.execute(operation: "ListPortals", path: "/portals", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPortals(_ input: ListPortalsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPortalsResponse {
+        return try await self.client.execute(operation: "ListPortals", path: "/portals", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of tags for a resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of trust store certificates.
-    public func listTrustStoreCertificates(_ input: ListTrustStoreCertificatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTrustStoreCertificatesResponse> {
-        return self.client.execute(operation: "ListTrustStoreCertificates", path: "/trustStores/{trustStoreArn+}/certificates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTrustStoreCertificates(_ input: ListTrustStoreCertificatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrustStoreCertificatesResponse {
+        return try await self.client.execute(operation: "ListTrustStoreCertificates", path: "/trustStores/{trustStoreArn+}/certificates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of trust stores.
-    public func listTrustStores(_ input: ListTrustStoresRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTrustStoresResponse> {
-        return self.client.execute(operation: "ListTrustStores", path: "/trustStores", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTrustStores(_ input: ListTrustStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrustStoresResponse {
+        return try await self.client.execute(operation: "ListTrustStores", path: "/trustStores", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of user access logging settings.
-    public func listUserAccessLoggingSettings(_ input: ListUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUserAccessLoggingSettingsResponse> {
-        return self.client.execute(operation: "ListUserAccessLoggingSettings", path: "/userAccessLoggingSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listUserAccessLoggingSettings(_ input: ListUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserAccessLoggingSettingsResponse {
+        return try await self.client.execute(operation: "ListUserAccessLoggingSettings", path: "/userAccessLoggingSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of user settings.
-    public func listUserSettings(_ input: ListUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUserSettingsResponse> {
-        return self.client.execute(operation: "ListUserSettings", path: "/userSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listUserSettings(_ input: ListUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserSettingsResponse {
+        return try await self.client.execute(operation: "ListUserSettings", path: "/userSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds or overwrites one or more tags for the specified resource.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn+}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn+}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes one or more tags from the specified resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates browser settings.
-    public func updateBrowserSettings(_ input: UpdateBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBrowserSettingsResponse> {
-        return self.client.execute(operation: "UpdateBrowserSettings", path: "/browserSettings/{browserSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateBrowserSettings(_ input: UpdateBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBrowserSettingsResponse {
+        return try await self.client.execute(operation: "UpdateBrowserSettings", path: "/browserSettings/{browserSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the identity provider.
-    public func updateIdentityProvider(_ input: UpdateIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateIdentityProviderResponse> {
-        return self.client.execute(operation: "UpdateIdentityProvider", path: "/identityProviders/{identityProviderArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateIdentityProvider(_ input: UpdateIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIdentityProviderResponse {
+        return try await self.client.execute(operation: "UpdateIdentityProvider", path: "/identityProviders/{identityProviderArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates IP access settings.
-    public func updateIpAccessSettings(_ input: UpdateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateIpAccessSettingsResponse> {
-        return self.client.execute(operation: "UpdateIpAccessSettings", path: "/ipAccessSettings/{ipAccessSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateIpAccessSettings(_ input: UpdateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIpAccessSettingsResponse {
+        return try await self.client.execute(operation: "UpdateIpAccessSettings", path: "/ipAccessSettings/{ipAccessSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates network settings.
-    public func updateNetworkSettings(_ input: UpdateNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNetworkSettingsResponse> {
-        return self.client.execute(operation: "UpdateNetworkSettings", path: "/networkSettings/{networkSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateNetworkSettings(_ input: UpdateNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNetworkSettingsResponse {
+        return try await self.client.execute(operation: "UpdateNetworkSettings", path: "/networkSettings/{networkSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a web portal.
-    public func updatePortal(_ input: UpdatePortalRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePortalResponse> {
-        return self.client.execute(operation: "UpdatePortal", path: "/portals/{portalArn+}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updatePortal(_ input: UpdatePortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePortalResponse {
+        return try await self.client.execute(operation: "UpdatePortal", path: "/portals/{portalArn+}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the trust store.
-    public func updateTrustStore(_ input: UpdateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTrustStoreResponse> {
-        return self.client.execute(operation: "UpdateTrustStore", path: "/trustStores/{trustStoreArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateTrustStore(_ input: UpdateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTrustStoreResponse {
+        return try await self.client.execute(operation: "UpdateTrustStore", path: "/trustStores/{trustStoreArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the user access logging settings.
-    public func updateUserAccessLoggingSettings(_ input: UpdateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateUserAccessLoggingSettingsResponse> {
-        return self.client.execute(operation: "UpdateUserAccessLoggingSettings", path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateUserAccessLoggingSettings(_ input: UpdateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserAccessLoggingSettingsResponse {
+        return try await self.client.execute(operation: "UpdateUserAccessLoggingSettings", path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the user settings.
-    public func updateUserSettings(_ input: UpdateUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateUserSettingsResponse> {
-        return self.client.execute(operation: "UpdateUserSettings", path: "/userSettings/{userSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateUserSettings(_ input: UpdateUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserSettingsResponse {
+        return try await self.client.execute(operation: "UpdateUserSettings", path: "/userSettings/{userSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -365,481 +423,176 @@ extension WorkSpacesWeb {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension WorkSpacesWeb {
     /// Retrieves a list of browser settings.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listBrowserSettingsPaginator<Result>(
-        _ input: ListBrowserSettingsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListBrowserSettingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listBrowserSettings,
-            inputKey: \ListBrowserSettingsRequest.nextToken,
-            outputKey: \ListBrowserSettingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listBrowserSettingsPaginator(
         _ input: ListBrowserSettingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListBrowserSettingsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBrowserSettingsRequest, ListBrowserSettingsResponse> {
+        return .init(
             input: input,
             command: self.listBrowserSettings,
             inputKey: \ListBrowserSettingsRequest.nextToken,
             outputKey: \ListBrowserSettingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves a list of identity providers for a specific web portal.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listIdentityProvidersPaginator<Result>(
-        _ input: ListIdentityProvidersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListIdentityProvidersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listIdentityProviders,
-            inputKey: \ListIdentityProvidersRequest.nextToken,
-            outputKey: \ListIdentityProvidersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listIdentityProvidersPaginator(
         _ input: ListIdentityProvidersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListIdentityProvidersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIdentityProvidersRequest, ListIdentityProvidersResponse> {
+        return .init(
             input: input,
             command: self.listIdentityProviders,
             inputKey: \ListIdentityProvidersRequest.nextToken,
             outputKey: \ListIdentityProvidersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves a list of IP access settings.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listIpAccessSettingsPaginator<Result>(
-        _ input: ListIpAccessSettingsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListIpAccessSettingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listIpAccessSettings,
-            inputKey: \ListIpAccessSettingsRequest.nextToken,
-            outputKey: \ListIpAccessSettingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listIpAccessSettingsPaginator(
         _ input: ListIpAccessSettingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListIpAccessSettingsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIpAccessSettingsRequest, ListIpAccessSettingsResponse> {
+        return .init(
             input: input,
             command: self.listIpAccessSettings,
             inputKey: \ListIpAccessSettingsRequest.nextToken,
             outputKey: \ListIpAccessSettingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves a list of network settings.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listNetworkSettingsPaginator<Result>(
-        _ input: ListNetworkSettingsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListNetworkSettingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listNetworkSettings,
-            inputKey: \ListNetworkSettingsRequest.nextToken,
-            outputKey: \ListNetworkSettingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listNetworkSettingsPaginator(
         _ input: ListNetworkSettingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListNetworkSettingsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkSettingsRequest, ListNetworkSettingsResponse> {
+        return .init(
             input: input,
             command: self.listNetworkSettings,
             inputKey: \ListNetworkSettingsRequest.nextToken,
             outputKey: \ListNetworkSettingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves a list or web portals.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPortalsPaginator<Result>(
-        _ input: ListPortalsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPortalsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPortals,
-            inputKey: \ListPortalsRequest.nextToken,
-            outputKey: \ListPortalsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPortalsPaginator(
         _ input: ListPortalsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPortalsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPortalsRequest, ListPortalsResponse> {
+        return .init(
             input: input,
             command: self.listPortals,
             inputKey: \ListPortalsRequest.nextToken,
             outputKey: \ListPortalsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves a list of trust store certificates.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTrustStoreCertificatesPaginator<Result>(
-        _ input: ListTrustStoreCertificatesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTrustStoreCertificatesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTrustStoreCertificates,
-            inputKey: \ListTrustStoreCertificatesRequest.nextToken,
-            outputKey: \ListTrustStoreCertificatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTrustStoreCertificatesPaginator(
         _ input: ListTrustStoreCertificatesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTrustStoreCertificatesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTrustStoreCertificatesRequest, ListTrustStoreCertificatesResponse> {
+        return .init(
             input: input,
             command: self.listTrustStoreCertificates,
             inputKey: \ListTrustStoreCertificatesRequest.nextToken,
             outputKey: \ListTrustStoreCertificatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves a list of trust stores.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTrustStoresPaginator<Result>(
-        _ input: ListTrustStoresRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTrustStoresResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTrustStores,
-            inputKey: \ListTrustStoresRequest.nextToken,
-            outputKey: \ListTrustStoresResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTrustStoresPaginator(
         _ input: ListTrustStoresRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTrustStoresResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTrustStoresRequest, ListTrustStoresResponse> {
+        return .init(
             input: input,
             command: self.listTrustStores,
             inputKey: \ListTrustStoresRequest.nextToken,
             outputKey: \ListTrustStoresResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves a list of user access logging settings.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listUserAccessLoggingSettingsPaginator<Result>(
-        _ input: ListUserAccessLoggingSettingsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListUserAccessLoggingSettingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listUserAccessLoggingSettings,
-            inputKey: \ListUserAccessLoggingSettingsRequest.nextToken,
-            outputKey: \ListUserAccessLoggingSettingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listUserAccessLoggingSettingsPaginator(
         _ input: ListUserAccessLoggingSettingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListUserAccessLoggingSettingsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListUserAccessLoggingSettingsRequest, ListUserAccessLoggingSettingsResponse> {
+        return .init(
             input: input,
             command: self.listUserAccessLoggingSettings,
             inputKey: \ListUserAccessLoggingSettingsRequest.nextToken,
             outputKey: \ListUserAccessLoggingSettingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves a list of user settings.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listUserSettingsPaginator<Result>(
-        _ input: ListUserSettingsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListUserSettingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listUserSettings,
-            inputKey: \ListUserSettingsRequest.nextToken,
-            outputKey: \ListUserSettingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listUserSettingsPaginator(
         _ input: ListUserSettingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListUserSettingsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListUserSettingsRequest, ListUserSettingsResponse> {
+        return .init(
             input: input,
             command: self.listUserSettings,
             inputKey: \ListUserSettingsRequest.nextToken,
             outputKey: \ListUserSettingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

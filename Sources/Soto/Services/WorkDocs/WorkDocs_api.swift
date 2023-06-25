@@ -71,223 +71,267 @@ public struct WorkDocs: AWSService {
     // MARK: API Calls
 
     /// Aborts the upload of the specified document version that was previously initiated by InitiateDocumentVersionUpload. The client should make this call only when it no longer intends to upload the document version, or fails to do so.
-    @discardableResult public func abortDocumentVersionUpload(_ input: AbortDocumentVersionUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "AbortDocumentVersionUpload", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func abortDocumentVersionUpload(_ input: AbortDocumentVersionUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "AbortDocumentVersionUpload", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Activates the specified user. Only active users can access Amazon WorkDocs.
-    public func activateUser(_ input: ActivateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ActivateUserResponse> {
-        return self.client.execute(operation: "ActivateUser", path: "/api/v1/users/{UserId}/activation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func activateUser(_ input: ActivateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateUserResponse {
+        return try await self.client.execute(operation: "ActivateUser", path: "/api/v1/users/{UserId}/activation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a set of permissions for the specified folder or document. The resource permissions are overwritten if the principals already have different permissions.
-    public func addResourcePermissions(_ input: AddResourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddResourcePermissionsResponse> {
-        return self.client.execute(operation: "AddResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func addResourcePermissions(_ input: AddResourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddResourcePermissionsResponse {
+        return try await self.client.execute(operation: "AddResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds a new comment to the specified document version.
-    public func createComment(_ input: CreateCommentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCommentResponse> {
-        return self.client.execute(operation: "CreateComment", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createComment(_ input: CreateCommentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCommentResponse {
+        return try await self.client.execute(operation: "CreateComment", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds one or more custom properties to the specified resource (a folder, document, or version).
-    public func createCustomMetadata(_ input: CreateCustomMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCustomMetadataResponse> {
-        return self.client.execute(operation: "CreateCustomMetadata", path: "/api/v1/resources/{ResourceId}/customMetadata", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCustomMetadata(_ input: CreateCustomMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomMetadataResponse {
+        return try await self.client.execute(operation: "CreateCustomMetadata", path: "/api/v1/resources/{ResourceId}/customMetadata", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a folder with the specified name and parent folder.
-    public func createFolder(_ input: CreateFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFolderResponse> {
-        return self.client.execute(operation: "CreateFolder", path: "/api/v1/folders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createFolder(_ input: CreateFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFolderResponse {
+        return try await self.client.execute(operation: "CreateFolder", path: "/api/v1/folders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds the specified list of labels to the given resource (a document or folder)
-    public func createLabels(_ input: CreateLabelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLabelsResponse> {
-        return self.client.execute(operation: "CreateLabels", path: "/api/v1/resources/{ResourceId}/labels", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createLabels(_ input: CreateLabelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLabelsResponse {
+        return try await self.client.execute(operation: "CreateLabels", path: "/api/v1/resources/{ResourceId}/labels", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see Setting up notifications for an IAM user or role in the Amazon WorkDocs Developer Guide.
-    public func createNotificationSubscription(_ input: CreateNotificationSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNotificationSubscriptionResponse> {
-        return self.client.execute(operation: "CreateNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createNotificationSubscription(_ input: CreateNotificationSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNotificationSubscriptionResponse {
+        return try await self.client.execute(operation: "CreateNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs.
-    public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserResponse> {
-        return self.client.execute(operation: "CreateUser", path: "/api/v1/users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserResponse {
+        return try await self.client.execute(operation: "CreateUser", path: "/api/v1/users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deactivates the specified user, which revokes the user's access to Amazon WorkDocs.
-    @discardableResult public func deactivateUser(_ input: DeactivateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeactivateUser", path: "/api/v1/users/{UserId}/activation", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deactivateUser(_ input: DeactivateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeactivateUser", path: "/api/v1/users/{UserId}/activation", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified comment from the document version.
-    @discardableResult public func deleteComment(_ input: DeleteCommentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteComment", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment/{CommentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteComment(_ input: DeleteCommentRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteComment", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment/{CommentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes custom metadata from the specified resource.
-    public func deleteCustomMetadata(_ input: DeleteCustomMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCustomMetadataResponse> {
-        return self.client.execute(operation: "DeleteCustomMetadata", path: "/api/v1/resources/{ResourceId}/customMetadata", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCustomMetadata(_ input: DeleteCustomMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCustomMetadataResponse {
+        return try await self.client.execute(operation: "DeleteCustomMetadata", path: "/api/v1/resources/{ResourceId}/customMetadata", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Permanently deletes the specified document and its associated metadata.
-    @discardableResult public func deleteDocument(_ input: DeleteDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDocument(_ input: DeleteDocumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a specific version of a document.
-    @discardableResult public func deleteDocumentVersion(_ input: DeleteDocumentVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDocumentVersion", path: "/api/v1/documentVersions/{DocumentId}/versions/{VersionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDocumentVersion(_ input: DeleteDocumentVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteDocumentVersion", path: "/api/v1/documentVersions/{DocumentId}/versions/{VersionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Permanently deletes the specified folder and its contents.
-    @discardableResult public func deleteFolder(_ input: DeleteFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteFolder", path: "/api/v1/folders/{FolderId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteFolder(_ input: DeleteFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteFolder", path: "/api/v1/folders/{FolderId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the contents of the specified folder.
-    @discardableResult public func deleteFolderContents(_ input: DeleteFolderContentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteFolderContents", path: "/api/v1/folders/{FolderId}/contents", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteFolderContents(_ input: DeleteFolderContentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteFolderContents", path: "/api/v1/folders/{FolderId}/contents", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified list of labels from a resource.
-    public func deleteLabels(_ input: DeleteLabelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLabelsResponse> {
-        return self.client.execute(operation: "DeleteLabels", path: "/api/v1/resources/{ResourceId}/labels", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteLabels(_ input: DeleteLabelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLabelsResponse {
+        return try await self.client.execute(operation: "DeleteLabels", path: "/api/v1/resources/{ResourceId}/labels", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified subscription from the specified organization.
-    @discardableResult public func deleteNotificationSubscription(_ input: DeleteNotificationSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions/{SubscriptionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteNotificationSubscription(_ input: DeleteNotificationSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions/{SubscriptionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified user from a Simple AD or Microsoft AD directory.  Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
-    @discardableResult public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteUser", path: "/api/v1/users/{UserId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteUser", path: "/api/v1/users/{UserId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the user activities in a specified time period.
-    public func describeActivities(_ input: DescribeActivitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeActivitiesResponse> {
-        return self.client.execute(operation: "DescribeActivities", path: "/api/v1/activities", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeActivities(_ input: DescribeActivitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeActivitiesResponse {
+        return try await self.client.execute(operation: "DescribeActivities", path: "/api/v1/activities", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List all the comments for the specified document version.
-    public func describeComments(_ input: DescribeCommentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCommentsResponse> {
-        return self.client.execute(operation: "DescribeComments", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeComments(_ input: DescribeCommentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCommentsResponse {
+        return try await self.client.execute(operation: "DescribeComments", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the document versions for the specified document. By default, only active versions are returned.
-    public func describeDocumentVersions(_ input: DescribeDocumentVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDocumentVersionsResponse> {
-        return self.client.execute(operation: "DescribeDocumentVersions", path: "/api/v1/documents/{DocumentId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDocumentVersions(_ input: DescribeDocumentVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDocumentVersionsResponse {
+        return try await self.client.execute(operation: "DescribeDocumentVersions", path: "/api/v1/documents/{DocumentId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
-    public func describeFolderContents(_ input: DescribeFolderContentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFolderContentsResponse> {
-        return self.client.execute(operation: "DescribeFolderContents", path: "/api/v1/folders/{FolderId}/contents", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeFolderContents(_ input: DescribeFolderContentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFolderContentsResponse {
+        return try await self.client.execute(operation: "DescribeFolderContents", path: "/api/v1/folders/{FolderId}/contents", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the groups specified by the query. Groups are defined by the underlying Active Directory.
-    public func describeGroups(_ input: DescribeGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeGroupsResponse> {
-        return self.client.execute(operation: "DescribeGroups", path: "/api/v1/groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeGroups(_ input: DescribeGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGroupsResponse {
+        return try await self.client.execute(operation: "DescribeGroups", path: "/api/v1/groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the specified notification subscriptions.
-    public func describeNotificationSubscriptions(_ input: DescribeNotificationSubscriptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNotificationSubscriptionsResponse> {
-        return self.client.execute(operation: "DescribeNotificationSubscriptions", path: "/api/v1/organizations/{OrganizationId}/subscriptions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeNotificationSubscriptions(_ input: DescribeNotificationSubscriptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNotificationSubscriptionsResponse {
+        return try await self.client.execute(operation: "DescribeNotificationSubscriptions", path: "/api/v1/organizations/{OrganizationId}/subscriptions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the permissions of a specified resource.
-    public func describeResourcePermissions(_ input: DescribeResourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeResourcePermissionsResponse> {
-        return self.client.execute(operation: "DescribeResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeResourcePermissions(_ input: DescribeResourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeResourcePermissionsResponse {
+        return try await self.client.execute(operation: "DescribeResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the current user's special folders; the RootFolder and the RecycleBin. RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide.
-    public func describeRootFolders(_ input: DescribeRootFoldersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRootFoldersResponse> {
-        return self.client.execute(operation: "DescribeRootFolders", path: "/api/v1/me/root", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeRootFolders(_ input: DescribeRootFoldersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRootFoldersResponse {
+        return try await self.client.execute(operation: "DescribeRootFolders", path: "/api/v1/me/root", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
-    public func describeUsers(_ input: DescribeUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeUsersResponse> {
-        return self.client.execute(operation: "DescribeUsers", path: "/api/v1/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeUsers(_ input: DescribeUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUsersResponse {
+        return try await self.client.execute(operation: "DescribeUsers", path: "/api/v1/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves details of the current user for whom the authentication token was generated. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide.
-    public func getCurrentUser(_ input: GetCurrentUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCurrentUserResponse> {
-        return self.client.execute(operation: "GetCurrentUser", path: "/api/v1/me", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCurrentUser(_ input: GetCurrentUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCurrentUserResponse {
+        return try await self.client.execute(operation: "GetCurrentUser", path: "/api/v1/me", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves details of a document.
-    public func getDocument(_ input: GetDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDocumentResponse> {
-        return self.client.execute(operation: "GetDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDocument(_ input: GetDocumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDocumentResponse {
+        return try await self.client.execute(operation: "GetDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the path information (the hierarchy from the root folder) for the requested document. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested document and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the names of the parent folders.
-    public func getDocumentPath(_ input: GetDocumentPathRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDocumentPathResponse> {
-        return self.client.execute(operation: "GetDocumentPath", path: "/api/v1/documents/{DocumentId}/path", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDocumentPath(_ input: GetDocumentPathRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDocumentPathResponse {
+        return try await self.client.execute(operation: "GetDocumentPath", path: "/api/v1/documents/{DocumentId}/path", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves version metadata for the specified document.
-    public func getDocumentVersion(_ input: GetDocumentVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDocumentVersionResponse> {
-        return self.client.execute(operation: "GetDocumentVersion", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDocumentVersion(_ input: GetDocumentVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDocumentVersionResponse {
+        return try await self.client.execute(operation: "GetDocumentVersion", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the metadata of the specified folder.
-    public func getFolder(_ input: GetFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFolderResponse> {
-        return self.client.execute(operation: "GetFolder", path: "/api/v1/folders/{FolderId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFolder(_ input: GetFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFolderResponse {
+        return try await self.client.execute(operation: "GetFolder", path: "/api/v1/folders/{FolderId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names.
-    public func getFolderPath(_ input: GetFolderPathRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFolderPathResponse> {
-        return self.client.execute(operation: "GetFolderPath", path: "/api/v1/folders/{FolderId}/path", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFolderPath(_ input: GetFolderPathRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFolderPathResponse {
+        return try await self.client.execute(operation: "GetFolderPath", path: "/api/v1/folders/{FolderId}/path", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a collection of resources, including folders and documents. The only CollectionType supported is SHARED_WITH_ME.
-    public func getResources(_ input: GetResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourcesResponse> {
-        return self.client.execute(operation: "GetResources", path: "/api/v1/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getResources(_ input: GetResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcesResponse {
+        return try await self.client.execute(operation: "GetResources", path: "/api/v1/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new document object and version object. The client specifies the parent folder ID and name of the document to upload. The ID is optionally specified when creating a new version of an existing document. This is the first step to upload a document. Next, upload the document to the URL returned from the call, and then call UpdateDocumentVersion. To cancel the document upload, call AbortDocumentVersionUpload.
-    public func initiateDocumentVersionUpload(_ input: InitiateDocumentVersionUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<InitiateDocumentVersionUploadResponse> {
-        return self.client.execute(operation: "InitiateDocumentVersionUpload", path: "/api/v1/documents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func initiateDocumentVersionUpload(_ input: InitiateDocumentVersionUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InitiateDocumentVersionUploadResponse {
+        return try await self.client.execute(operation: "InitiateDocumentVersionUpload", path: "/api/v1/documents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes all the permissions from the specified resource.
-    @discardableResult public func removeAllResourcePermissions(_ input: RemoveAllResourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "RemoveAllResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func removeAllResourcePermissions(_ input: RemoveAllResourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "RemoveAllResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes the permission for the specified principal from the specified resource.
-    @discardableResult public func removeResourcePermission(_ input: RemoveResourcePermissionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "RemoveResourcePermission", path: "/api/v1/resources/{ResourceId}/permissions/{PrincipalId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func removeResourcePermission(_ input: RemoveResourcePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "RemoveResourcePermission", path: "/api/v1/resources/{ResourceId}/permissions/{PrincipalId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Recovers a deleted version of an Amazon WorkDocs document.
-    @discardableResult public func restoreDocumentVersions(_ input: RestoreDocumentVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "RestoreDocumentVersions", path: "/api/v1/documentVersions/restore/{DocumentId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func restoreDocumentVersions(_ input: RestoreDocumentVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "RestoreDocumentVersions", path: "/api/v1/documentVersions/restore/{DocumentId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Searches metadata and the content of folders, documents, document versions, and comments.
-    public func searchResources(_ input: SearchResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchResourcesResponse> {
-        return self.client.execute(operation: "SearchResources", path: "/api/v1/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchResources(_ input: SearchResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchResourcesResponse {
+        return try await self.client.execute(operation: "SearchResources", path: "/api/v1/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.
-    @discardableResult public func updateDocument(_ input: UpdateDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDocument(_ input: UpdateDocumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UpdateDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Changes the status of the document version to ACTIVE.  Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a document upload, after the client uploads the document to an S3-presigned URL returned by InitiateDocumentVersionUpload.
-    @discardableResult public func updateDocumentVersion(_ input: UpdateDocumentVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateDocumentVersion", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDocumentVersion(_ input: UpdateDocumentVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UpdateDocumentVersion", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the specified attributes of the specified folder. The user must have access to both the folder and its parent folder, if applicable.
-    @discardableResult public func updateFolder(_ input: UpdateFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateFolder", path: "/api/v1/folders/{FolderId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateFolder(_ input: UpdateFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UpdateFolder", path: "/api/v1/folders/{FolderId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the specified attributes of the specified user, and grants or revokes administrative privileges to the Amazon WorkDocs site.
-    public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateUserResponse> {
-        return self.client.execute(operation: "UpdateUser", path: "/api/v1/users/{UserId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserResponse {
+        return try await self.client.execute(operation: "UpdateUser", path: "/api/v1/users/{UserId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -302,534 +346,195 @@ extension WorkDocs {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension WorkDocs {
     /// Describes the user activities in a specified time period.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeActivitiesPaginator<Result>(
-        _ input: DescribeActivitiesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeActivitiesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeActivities,
-            inputKey: \DescribeActivitiesRequest.marker,
-            outputKey: \DescribeActivitiesResponse.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeActivitiesPaginator(
         _ input: DescribeActivitiesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeActivitiesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeActivitiesRequest, DescribeActivitiesResponse> {
+        return .init(
             input: input,
             command: self.describeActivities,
             inputKey: \DescribeActivitiesRequest.marker,
             outputKey: \DescribeActivitiesResponse.marker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List all the comments for the specified document version.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeCommentsPaginator<Result>(
-        _ input: DescribeCommentsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeCommentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeComments,
-            inputKey: \DescribeCommentsRequest.marker,
-            outputKey: \DescribeCommentsResponse.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeCommentsPaginator(
         _ input: DescribeCommentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeCommentsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeCommentsRequest, DescribeCommentsResponse> {
+        return .init(
             input: input,
             command: self.describeComments,
             inputKey: \DescribeCommentsRequest.marker,
             outputKey: \DescribeCommentsResponse.marker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves the document versions for the specified document. By default, only active versions are returned.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeDocumentVersionsPaginator<Result>(
-        _ input: DescribeDocumentVersionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeDocumentVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeDocumentVersions,
-            inputKey: \DescribeDocumentVersionsRequest.marker,
-            outputKey: \DescribeDocumentVersionsResponse.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDocumentVersionsPaginator(
         _ input: DescribeDocumentVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeDocumentVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeDocumentVersionsRequest, DescribeDocumentVersionsResponse> {
+        return .init(
             input: input,
             command: self.describeDocumentVersions,
             inputKey: \DescribeDocumentVersionsRequest.marker,
             outputKey: \DescribeDocumentVersionsResponse.marker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeFolderContentsPaginator<Result>(
-        _ input: DescribeFolderContentsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeFolderContentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeFolderContents,
-            inputKey: \DescribeFolderContentsRequest.marker,
-            outputKey: \DescribeFolderContentsResponse.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeFolderContentsPaginator(
         _ input: DescribeFolderContentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeFolderContentsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeFolderContentsRequest, DescribeFolderContentsResponse> {
+        return .init(
             input: input,
             command: self.describeFolderContents,
             inputKey: \DescribeFolderContentsRequest.marker,
             outputKey: \DescribeFolderContentsResponse.marker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Describes the groups specified by the query. Groups are defined by the underlying Active Directory.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeGroupsPaginator<Result>(
-        _ input: DescribeGroupsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeGroupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeGroups,
-            inputKey: \DescribeGroupsRequest.marker,
-            outputKey: \DescribeGroupsResponse.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeGroupsPaginator(
         _ input: DescribeGroupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeGroupsRequest, DescribeGroupsResponse> {
+        return .init(
             input: input,
             command: self.describeGroups,
             inputKey: \DescribeGroupsRequest.marker,
             outputKey: \DescribeGroupsResponse.marker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the specified notification subscriptions.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeNotificationSubscriptionsPaginator<Result>(
-        _ input: DescribeNotificationSubscriptionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeNotificationSubscriptionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeNotificationSubscriptions,
-            inputKey: \DescribeNotificationSubscriptionsRequest.marker,
-            outputKey: \DescribeNotificationSubscriptionsResponse.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeNotificationSubscriptionsPaginator(
         _ input: DescribeNotificationSubscriptionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeNotificationSubscriptionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeNotificationSubscriptionsRequest, DescribeNotificationSubscriptionsResponse> {
+        return .init(
             input: input,
             command: self.describeNotificationSubscriptions,
             inputKey: \DescribeNotificationSubscriptionsRequest.marker,
             outputKey: \DescribeNotificationSubscriptionsResponse.marker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Describes the permissions of a specified resource.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeResourcePermissionsPaginator<Result>(
-        _ input: DescribeResourcePermissionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeResourcePermissionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeResourcePermissions,
-            inputKey: \DescribeResourcePermissionsRequest.marker,
-            outputKey: \DescribeResourcePermissionsResponse.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeResourcePermissionsPaginator(
         _ input: DescribeResourcePermissionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeResourcePermissionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeResourcePermissionsRequest, DescribeResourcePermissionsResponse> {
+        return .init(
             input: input,
             command: self.describeResourcePermissions,
             inputKey: \DescribeResourcePermissionsRequest.marker,
             outputKey: \DescribeResourcePermissionsResponse.marker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Describes the current user's special folders; the RootFolder and the RecycleBin. RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeRootFoldersPaginator<Result>(
-        _ input: DescribeRootFoldersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeRootFoldersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeRootFolders,
-            inputKey: \DescribeRootFoldersRequest.marker,
-            outputKey: \DescribeRootFoldersResponse.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeRootFoldersPaginator(
         _ input: DescribeRootFoldersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeRootFoldersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeRootFoldersRequest, DescribeRootFoldersResponse> {
+        return .init(
             input: input,
             command: self.describeRootFolders,
             inputKey: \DescribeRootFoldersRequest.marker,
             outputKey: \DescribeRootFoldersResponse.marker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeUsersPaginator<Result>(
-        _ input: DescribeUsersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeUsersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeUsers,
-            inputKey: \DescribeUsersRequest.marker,
-            outputKey: \DescribeUsersResponse.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeUsersPaginator(
         _ input: DescribeUsersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeUsersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeUsersRequest, DescribeUsersResponse> {
+        return .init(
             input: input,
             command: self.describeUsers,
             inputKey: \DescribeUsersRequest.marker,
             outputKey: \DescribeUsersResponse.marker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Searches metadata and the content of folders, documents, document versions, and comments.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func searchResourcesPaginator<Result>(
-        _ input: SearchResourcesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchResources,
-            inputKey: \SearchResourcesRequest.marker,
-            outputKey: \SearchResourcesResponse.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func searchResourcesPaginator(
         _ input: SearchResourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchResourcesRequest, SearchResourcesResponse> {
+        return .init(
             input: input,
             command: self.searchResources,
             inputKey: \SearchResourcesRequest.marker,
             outputKey: \SearchResourcesResponse.marker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

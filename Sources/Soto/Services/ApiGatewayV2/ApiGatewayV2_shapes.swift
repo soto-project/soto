@@ -1901,9 +1901,9 @@ extension ApiGatewayV2 {
         /// The key for the payload
         public static let _payloadPath: String = "body"
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public let body: AWSPayload?
+        public let body: HTTPBody?
 
-        public init(body: AWSPayload? = nil) {
+        public init(body: HTTPBody? = nil) {
             self.body = body
         }
 

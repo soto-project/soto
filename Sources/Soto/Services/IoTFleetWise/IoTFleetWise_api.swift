@@ -65,253 +65,303 @@ public struct IoTFleetWise: AWSService {
     // MARK: API Calls
 
     ///  Adds, or associates, a vehicle with a fleet.
-    public func associateVehicleFleet(_ input: AssociateVehicleFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateVehicleFleetResponse> {
-        return self.client.execute(operation: "AssociateVehicleFleet", path: "/vehicles/{vehicleName}/associate", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateVehicleFleet(_ input: AssociateVehicleFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateVehicleFleetResponse {
+        return try await self.client.execute(operation: "AssociateVehicleFleet", path: "/vehicles/{vehicleName}/associate", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Creates a group, or batch, of vehicles.   You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle.   For more information, see Create multiple vehicles (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide.
-    public func batchCreateVehicle(_ input: BatchCreateVehicleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCreateVehicleResponse> {
-        return self.client.execute(operation: "BatchCreateVehicle", path: "/vehicles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchCreateVehicle(_ input: BatchCreateVehicleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchCreateVehicleResponse {
+        return try await self.client.execute(operation: "BatchCreateVehicle", path: "/vehicles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Updates a group, or batch, of vehicles.  You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle.   For more information, see Update multiple vehicles (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide.
-    public func batchUpdateVehicle(_ input: BatchUpdateVehicleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdateVehicleResponse> {
-        return self.client.execute(operation: "BatchUpdateVehicle", path: "/vehicles", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchUpdateVehicle(_ input: BatchUpdateVehicleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateVehicleResponse {
+        return try await self.client.execute(operation: "BatchUpdateVehicle", path: "/vehicles", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles.  For more information, see Collect and transfer data with campaigns in the Amazon Web Services IoT FleetWise Developer Guide.
-    public func createCampaign(_ input: CreateCampaignRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCampaignResponse> {
-        return self.client.execute(operation: "CreateCampaign", path: "/campaigns/{name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCampaign(_ input: CreateCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCampaignResponse {
+        return try await self.client.execute(operation: "CreateCampaign", path: "/campaigns/{name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates the decoder manifest associated with a model manifest. To create a decoder manifest, the following must be true:   Every signal decoder has a unique name.   Each signal decoder is associated with a network interface.   Each network interface has a unique ID.   The signal decoders are specified in the model manifest.
-    public func createDecoderManifest(_ input: CreateDecoderManifestRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDecoderManifestResponse> {
-        return self.client.execute(operation: "CreateDecoderManifest", path: "/decoder-manifests/{name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDecoderManifest(_ input: CreateDecoderManifestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDecoderManifestResponse {
+        return try await self.client.execute(operation: "CreateDecoderManifest", path: "/decoder-manifests/{name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Creates a fleet that represents a group of vehicles.   You must create both a signal catalog and vehicles before you can create a fleet.   For more information, see Fleets in the Amazon Web Services IoT FleetWise Developer Guide.
-    public func createFleet(_ input: CreateFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFleetResponse> {
-        return self.client.execute(operation: "CreateFleet", path: "/fleets/{fleetId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createFleet(_ input: CreateFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFleetResponse {
+        return try await self.client.execute(operation: "CreateFleet", path: "/fleets/{fleetId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Creates a vehicle model (model manifest) that specifies signals (attributes, branches, sensors, and actuators).  For more information, see Vehicle models in the Amazon Web Services IoT FleetWise Developer Guide.
-    public func createModelManifest(_ input: CreateModelManifestRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateModelManifestResponse> {
-        return self.client.execute(operation: "CreateModelManifest", path: "/model-manifests/{name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createModelManifest(_ input: CreateModelManifestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateModelManifestResponse {
+        return try await self.client.execute(operation: "CreateModelManifest", path: "/model-manifests/{name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Creates a collection of standardized signals that can be reused to create vehicle models.
-    public func createSignalCatalog(_ input: CreateSignalCatalogRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSignalCatalogResponse> {
-        return self.client.execute(operation: "CreateSignalCatalog", path: "/signal-catalogs/{name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSignalCatalog(_ input: CreateSignalCatalogRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSignalCatalogResponse {
+        return try await self.client.execute(operation: "CreateSignalCatalog", path: "/signal-catalogs/{name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model.  If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing.   For more information, see Create a vehicle (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide.
-    public func createVehicle(_ input: CreateVehicleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVehicleResponse> {
-        return self.client.execute(operation: "CreateVehicle", path: "/vehicles/{vehicleName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createVehicle(_ input: CreateVehicleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVehicleResponse {
+        return try await self.client.execute(operation: "CreateVehicle", path: "/vehicles/{vehicleName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Deletes a data collection campaign. Deleting a campaign suspends all data collection and removes it from any vehicles.
-    public func deleteCampaign(_ input: DeleteCampaignRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCampaignResponse> {
-        return self.client.execute(operation: "DeleteCampaign", path: "/campaigns/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCampaign(_ input: DeleteCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCampaignResponse {
+        return try await self.client.execute(operation: "DeleteCampaign", path: "/campaigns/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles associated with it.   If the decoder manifest is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
-    public func deleteDecoderManifest(_ input: DeleteDecoderManifestRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDecoderManifestResponse> {
-        return self.client.execute(operation: "DeleteDecoderManifest", path: "/decoder-manifests/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDecoderManifest(_ input: DeleteDecoderManifestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDecoderManifestResponse {
+        return try await self.client.execute(operation: "DeleteDecoderManifest", path: "/decoder-manifests/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see Delete a fleet (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide.  If the fleet is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
-    public func deleteFleet(_ input: DeleteFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFleetResponse> {
-        return self.client.execute(operation: "DeleteFleet", path: "/fleets/{fleetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteFleet(_ input: DeleteFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFleetResponse {
+        return try await self.client.execute(operation: "DeleteFleet", path: "/fleets/{fleetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Deletes a vehicle model (model manifest).  If the vehicle model is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
-    public func deleteModelManifest(_ input: DeleteModelManifestRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteModelManifestResponse> {
-        return self.client.execute(operation: "DeleteModelManifest", path: "/model-manifests/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteModelManifest(_ input: DeleteModelManifestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteModelManifestResponse {
+        return try await self.client.execute(operation: "DeleteModelManifest", path: "/model-manifests/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Deletes a signal catalog.   If the signal catalog is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
-    public func deleteSignalCatalog(_ input: DeleteSignalCatalogRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSignalCatalogResponse> {
-        return self.client.execute(operation: "DeleteSignalCatalog", path: "/signal-catalogs/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSignalCatalog(_ input: DeleteSignalCatalogRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSignalCatalogResponse {
+        return try await self.client.execute(operation: "DeleteSignalCatalog", path: "/signal-catalogs/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Deletes a vehicle and removes it from any campaigns.  If the vehicle is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
-    public func deleteVehicle(_ input: DeleteVehicleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVehicleResponse> {
-        return self.client.execute(operation: "DeleteVehicle", path: "/vehicles/{vehicleName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteVehicle(_ input: DeleteVehicleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVehicleResponse {
+        return try await self.client.execute(operation: "DeleteVehicle", path: "/vehicles/{vehicleName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle.  If the vehicle is successfully dissociated from a fleet, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
-    public func disassociateVehicleFleet(_ input: DisassociateVehicleFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateVehicleFleetResponse> {
-        return self.client.execute(operation: "DisassociateVehicleFleet", path: "/vehicles/{vehicleName}/disassociate", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateVehicleFleet(_ input: DisassociateVehicleFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateVehicleFleetResponse {
+        return try await self.client.execute(operation: "DisassociateVehicleFleet", path: "/vehicles/{vehicleName}/disassociate", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves information about a campaign.
-    public func getCampaign(_ input: GetCampaignRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCampaignResponse> {
-        return self.client.execute(operation: "GetCampaign", path: "/campaigns/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCampaign(_ input: GetCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCampaignResponse {
+        return try await self.client.execute(operation: "GetCampaign", path: "/campaigns/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves information about a created decoder manifest.
-    public func getDecoderManifest(_ input: GetDecoderManifestRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDecoderManifestResponse> {
-        return self.client.execute(operation: "GetDecoderManifest", path: "/decoder-manifests/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDecoderManifest(_ input: GetDecoderManifestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDecoderManifestResponse {
+        return try await self.client.execute(operation: "GetDecoderManifest", path: "/decoder-manifests/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves information about a fleet.
-    public func getFleet(_ input: GetFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFleetResponse> {
-        return self.client.execute(operation: "GetFleet", path: "/fleets/{fleetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFleet(_ input: GetFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFleetResponse {
+        return try await self.client.execute(operation: "GetFleet", path: "/fleets/{fleetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the logging options.
-    public func getLoggingOptions(_ input: GetLoggingOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLoggingOptionsResponse> {
-        return self.client.execute(operation: "GetLoggingOptions", path: "/loggingOptions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getLoggingOptions(_ input: GetLoggingOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLoggingOptionsResponse {
+        return try await self.client.execute(operation: "GetLoggingOptions", path: "/loggingOptions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves information about a vehicle model (model manifest).
-    public func getModelManifest(_ input: GetModelManifestRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetModelManifestResponse> {
-        return self.client.execute(operation: "GetModelManifest", path: "/model-manifests/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getModelManifest(_ input: GetModelManifestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetModelManifestResponse {
+        return try await self.client.execute(operation: "GetModelManifest", path: "/model-manifests/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves information about the status of registering your Amazon Web Services account, IAM, and Amazon Timestream resources so that Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud.  For more information, including step-by-step procedures, see Setting up Amazon Web Services IoT FleetWise.   This API operation doesn't require input parameters.
-    public func getRegisterAccountStatus(_ input: GetRegisterAccountStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRegisterAccountStatusResponse> {
-        return self.client.execute(operation: "GetRegisterAccountStatus", path: "/account/registration_status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getRegisterAccountStatus(_ input: GetRegisterAccountStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegisterAccountStatusResponse {
+        return try await self.client.execute(operation: "GetRegisterAccountStatus", path: "/account/registration_status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves information about a signal catalog.
-    public func getSignalCatalog(_ input: GetSignalCatalogRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSignalCatalogResponse> {
-        return self.client.execute(operation: "GetSignalCatalog", path: "/signal-catalogs/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSignalCatalog(_ input: GetSignalCatalogRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSignalCatalogResponse {
+        return try await self.client.execute(operation: "GetSignalCatalog", path: "/signal-catalogs/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves information about a vehicle.
-    public func getVehicle(_ input: GetVehicleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVehicleResponse> {
-        return self.client.execute(operation: "GetVehicle", path: "/vehicles/{vehicleName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getVehicle(_ input: GetVehicleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVehicleResponse {
+        return try await self.client.execute(operation: "GetVehicle", path: "/vehicles/{vehicleName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves information about the status of a vehicle with any associated campaigns.
-    public func getVehicleStatus(_ input: GetVehicleStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVehicleStatusResponse> {
-        return self.client.execute(operation: "GetVehicleStatus", path: "/vehicles/{vehicleName}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getVehicleStatus(_ input: GetVehicleStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVehicleStatusResponse {
+        return try await self.client.execute(operation: "GetVehicleStatus", path: "/vehicles/{vehicleName}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Creates a decoder manifest using your existing CAN DBC file from your local device.
-    public func importDecoderManifest(_ input: ImportDecoderManifestRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportDecoderManifestResponse> {
-        return self.client.execute(operation: "ImportDecoderManifest", path: "/decoder-manifests/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func importDecoderManifest(_ input: ImportDecoderManifestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportDecoderManifestResponse {
+        return try await self.client.execute(operation: "ImportDecoderManifest", path: "/decoder-manifests/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Creates a signal catalog using your existing VSS formatted content from your local device.
-    public func importSignalCatalog(_ input: ImportSignalCatalogRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportSignalCatalogResponse> {
-        return self.client.execute(operation: "ImportSignalCatalog", path: "/signal-catalogs/{name}/nodes", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func importSignalCatalog(_ input: ImportSignalCatalogRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportSignalCatalogResponse {
+        return try await self.client.execute(operation: "ImportSignalCatalog", path: "/signal-catalogs/{name}/nodes", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Lists information about created campaigns.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    public func listCampaigns(_ input: ListCampaignsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCampaignsResponse> {
-        return self.client.execute(operation: "ListCampaigns", path: "/campaigns", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCampaigns(_ input: ListCampaignsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCampaignsResponse {
+        return try await self.client.execute(operation: "ListCampaigns", path: "/campaigns", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Lists the network interfaces specified in a decoder manifest.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    public func listDecoderManifestNetworkInterfaces(_ input: ListDecoderManifestNetworkInterfacesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDecoderManifestNetworkInterfacesResponse> {
-        return self.client.execute(operation: "ListDecoderManifestNetworkInterfaces", path: "/decoder-manifests/{name}/network-interfaces", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDecoderManifestNetworkInterfaces(_ input: ListDecoderManifestNetworkInterfacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDecoderManifestNetworkInterfacesResponse {
+        return try await self.client.execute(operation: "ListDecoderManifestNetworkInterfaces", path: "/decoder-manifests/{name}/network-interfaces", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  A list of information about signal decoders specified in a decoder manifest.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    public func listDecoderManifestSignals(_ input: ListDecoderManifestSignalsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDecoderManifestSignalsResponse> {
-        return self.client.execute(operation: "ListDecoderManifestSignals", path: "/decoder-manifests/{name}/signals", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDecoderManifestSignals(_ input: ListDecoderManifestSignalsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDecoderManifestSignalsResponse {
+        return try await self.client.execute(operation: "ListDecoderManifestSignals", path: "/decoder-manifests/{name}/signals", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Lists decoder manifests.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    public func listDecoderManifests(_ input: ListDecoderManifestsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDecoderManifestsResponse> {
-        return self.client.execute(operation: "ListDecoderManifests", path: "/decoder-manifests", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDecoderManifests(_ input: ListDecoderManifestsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDecoderManifestsResponse {
+        return try await self.client.execute(operation: "ListDecoderManifests", path: "/decoder-manifests", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves information for each created fleet in an Amazon Web Services account.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    public func listFleets(_ input: ListFleetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFleetsResponse> {
-        return self.client.execute(operation: "ListFleets", path: "/fleets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listFleets(_ input: ListFleetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFleetsResponse {
+        return try await self.client.execute(operation: "ListFleets", path: "/fleets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of IDs for all fleets that the vehicle is associated with.  This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    public func listFleetsForVehicle(_ input: ListFleetsForVehicleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFleetsForVehicleResponse> {
-        return self.client.execute(operation: "ListFleetsForVehicle", path: "/vehicles/{vehicleName}/fleets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listFleetsForVehicle(_ input: ListFleetsForVehicleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFleetsForVehicleResponse {
+        return try await self.client.execute(operation: "ListFleetsForVehicle", path: "/vehicles/{vehicleName}/fleets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Lists information about nodes specified in a vehicle model (model manifest).   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    public func listModelManifestNodes(_ input: ListModelManifestNodesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListModelManifestNodesResponse> {
-        return self.client.execute(operation: "ListModelManifestNodes", path: "/model-manifests/{name}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listModelManifestNodes(_ input: ListModelManifestNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListModelManifestNodesResponse {
+        return try await self.client.execute(operation: "ListModelManifestNodes", path: "/model-manifests/{name}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves a list of vehicle models (model manifests).   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    public func listModelManifests(_ input: ListModelManifestsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListModelManifestsResponse> {
-        return self.client.execute(operation: "ListModelManifests", path: "/model-manifests", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listModelManifests(_ input: ListModelManifestsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListModelManifestsResponse {
+        return try await self.client.execute(operation: "ListModelManifests", path: "/model-manifests", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Lists of information about the signals (nodes) specified in a signal catalog.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    public func listSignalCatalogNodes(_ input: ListSignalCatalogNodesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSignalCatalogNodesResponse> {
-        return self.client.execute(operation: "ListSignalCatalogNodes", path: "/signal-catalogs/{name}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSignalCatalogNodes(_ input: ListSignalCatalogNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSignalCatalogNodesResponse {
+        return try await self.client.execute(operation: "ListSignalCatalogNodes", path: "/signal-catalogs/{name}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Lists all the created signal catalogs in an Amazon Web Services account.  You can use  to list information about each signal (node) specified in a signal catalog.  This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    public func listSignalCatalogs(_ input: ListSignalCatalogsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSignalCatalogsResponse> {
-        return self.client.execute(operation: "ListSignalCatalogs", path: "/signal-catalogs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSignalCatalogs(_ input: ListSignalCatalogsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSignalCatalogsResponse {
+        return try await self.client.execute(operation: "ListSignalCatalogs", path: "/signal-catalogs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the tags (metadata) you have assigned to the resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves a list of summaries of created vehicles.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    public func listVehicles(_ input: ListVehiclesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVehiclesResponse> {
-        return self.client.execute(operation: "ListVehicles", path: "/vehicles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listVehicles(_ input: ListVehiclesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVehiclesResponse {
+        return try await self.client.execute(operation: "ListVehicles", path: "/vehicles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves a list of summaries of all vehicles associated with a fleet.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    public func listVehiclesInFleet(_ input: ListVehiclesInFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVehiclesInFleetResponse> {
-        return self.client.execute(operation: "ListVehiclesInFleet", path: "/fleets/{fleetId}/vehicles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listVehiclesInFleet(_ input: ListVehiclesInFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVehiclesInFleetResponse {
+        return try await self.client.execute(operation: "ListVehiclesInFleet", path: "/fleets/{fleetId}/vehicles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates or updates the logging option.
-    public func putLoggingOptions(_ input: PutLoggingOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutLoggingOptionsResponse> {
-        return self.client.execute(operation: "PutLoggingOptions", path: "/loggingOptions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putLoggingOptions(_ input: PutLoggingOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutLoggingOptionsResponse {
+        return try await self.client.execute(operation: "PutLoggingOptions", path: "/loggingOptions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  This API operation contains deprecated parameters. Register your account again without the Timestream resources parameter so that Amazon Web Services IoT FleetWise can remove the Timestream metadata stored. You should then pass the data destination into the CreateCampaign API operation. You must delete any existing campaigns that include an empty data destination before you register your account again. For more information, see the DeleteCampaign API operation. If you want to delete the Timestream inline policy from the service-linked role, such as to mitigate an overly permissive policy, you must first delete any existing campaigns. Then delete the service-linked role and register your account again to enable CloudWatch metrics. For more information, see DeleteServiceLinkedRole in the Identity and Access Management API Reference.   Registers your Amazon Web Services account, IAM, and Amazon Timestream resources so Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud. For more information, including step-by-step procedures, see Setting up Amazon Web Services IoT FleetWise.   An Amazon Web Services account is not the same thing as a "user." An Amazon Web Services user is an identity that you create using Identity and Access Management (IAM) and takes the form of either an IAM user or an IAM role, both with credentials. A single Amazon Web Services account can, and typically does, contain many users and roles.
-    public func registerAccount(_ input: RegisterAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterAccountResponse> {
-        return self.client.execute(operation: "RegisterAccount", path: "/account/registration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func registerAccount(_ input: RegisterAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterAccountResponse {
+        return try await self.client.execute(operation: "RegisterAccount", path: "/account/registration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes the given tags (metadata) from the resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Updates a campaign.
-    public func updateCampaign(_ input: UpdateCampaignRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCampaignResponse> {
-        return self.client.execute(operation: "UpdateCampaign", path: "/campaigns/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateCampaign(_ input: UpdateCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCampaignResponse {
+        return try await self.client.execute(operation: "UpdateCampaign", path: "/campaigns/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Updates a decoder manifest. A decoder manifest can only be updated when the status is DRAFT. Only ACTIVE decoder manifests can be associated with vehicles.
-    public func updateDecoderManifest(_ input: UpdateDecoderManifestRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDecoderManifestResponse> {
-        return self.client.execute(operation: "UpdateDecoderManifest", path: "/decoder-manifests/{name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDecoderManifest(_ input: UpdateDecoderManifestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDecoderManifestResponse {
+        return try await self.client.execute(operation: "UpdateDecoderManifest", path: "/decoder-manifests/{name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Updates the description of an existing fleet.   If the fleet is successfully updated, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty HTTP body.
-    public func updateFleet(_ input: UpdateFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFleetResponse> {
-        return self.client.execute(operation: "UpdateFleet", path: "/fleets/{fleetId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateFleet(_ input: UpdateFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFleetResponse {
+        return try await self.client.execute(operation: "UpdateFleet", path: "/fleets/{fleetId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Updates a vehicle model (model manifest). If created vehicles are associated with a vehicle model, it can't be updated.
-    public func updateModelManifest(_ input: UpdateModelManifestRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateModelManifestResponse> {
-        return self.client.execute(operation: "UpdateModelManifest", path: "/model-manifests/{name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateModelManifest(_ input: UpdateModelManifestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateModelManifestResponse {
+        return try await self.client.execute(operation: "UpdateModelManifest", path: "/model-manifests/{name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Updates a signal catalog.
-    public func updateSignalCatalog(_ input: UpdateSignalCatalogRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSignalCatalogResponse> {
-        return self.client.execute(operation: "UpdateSignalCatalog", path: "/signal-catalogs/{name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateSignalCatalog(_ input: UpdateSignalCatalogRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSignalCatalogResponse {
+        return try await self.client.execute(operation: "UpdateSignalCatalog", path: "/signal-catalogs/{name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Updates a vehicle.
-    public func updateVehicle(_ input: UpdateVehicleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVehicleResponse> {
-        return self.client.execute(operation: "UpdateVehicle", path: "/vehicles/{vehicleName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateVehicle(_ input: UpdateVehicleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVehicleResponse {
+        return try await self.client.execute(operation: "UpdateVehicle", path: "/vehicles/{vehicleName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -326,693 +376,252 @@ extension IoTFleetWise {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTFleetWise {
     ///  Retrieves information about the status of a vehicle with any associated campaigns.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getVehicleStatusPaginator<Result>(
-        _ input: GetVehicleStatusRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetVehicleStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getVehicleStatus,
-            inputKey: \GetVehicleStatusRequest.nextToken,
-            outputKey: \GetVehicleStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getVehicleStatusPaginator(
         _ input: GetVehicleStatusRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetVehicleStatusResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetVehicleStatusRequest, GetVehicleStatusResponse> {
+        return .init(
             input: input,
             command: self.getVehicleStatus,
             inputKey: \GetVehicleStatusRequest.nextToken,
             outputKey: \GetVehicleStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Lists information about created campaigns.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listCampaignsPaginator<Result>(
-        _ input: ListCampaignsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListCampaignsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listCampaigns,
-            inputKey: \ListCampaignsRequest.nextToken,
-            outputKey: \ListCampaignsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCampaignsPaginator(
         _ input: ListCampaignsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListCampaignsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCampaignsRequest, ListCampaignsResponse> {
+        return .init(
             input: input,
             command: self.listCampaigns,
             inputKey: \ListCampaignsRequest.nextToken,
             outputKey: \ListCampaignsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Lists the network interfaces specified in a decoder manifest.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDecoderManifestNetworkInterfacesPaginator<Result>(
-        _ input: ListDecoderManifestNetworkInterfacesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDecoderManifestNetworkInterfacesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDecoderManifestNetworkInterfaces,
-            inputKey: \ListDecoderManifestNetworkInterfacesRequest.nextToken,
-            outputKey: \ListDecoderManifestNetworkInterfacesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDecoderManifestNetworkInterfacesPaginator(
         _ input: ListDecoderManifestNetworkInterfacesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDecoderManifestNetworkInterfacesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDecoderManifestNetworkInterfacesRequest, ListDecoderManifestNetworkInterfacesResponse> {
+        return .init(
             input: input,
             command: self.listDecoderManifestNetworkInterfaces,
             inputKey: \ListDecoderManifestNetworkInterfacesRequest.nextToken,
             outputKey: \ListDecoderManifestNetworkInterfacesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  A list of information about signal decoders specified in a decoder manifest.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDecoderManifestSignalsPaginator<Result>(
-        _ input: ListDecoderManifestSignalsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDecoderManifestSignalsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDecoderManifestSignals,
-            inputKey: \ListDecoderManifestSignalsRequest.nextToken,
-            outputKey: \ListDecoderManifestSignalsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDecoderManifestSignalsPaginator(
         _ input: ListDecoderManifestSignalsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDecoderManifestSignalsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDecoderManifestSignalsRequest, ListDecoderManifestSignalsResponse> {
+        return .init(
             input: input,
             command: self.listDecoderManifestSignals,
             inputKey: \ListDecoderManifestSignalsRequest.nextToken,
             outputKey: \ListDecoderManifestSignalsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Lists decoder manifests.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDecoderManifestsPaginator<Result>(
-        _ input: ListDecoderManifestsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDecoderManifestsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDecoderManifests,
-            inputKey: \ListDecoderManifestsRequest.nextToken,
-            outputKey: \ListDecoderManifestsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDecoderManifestsPaginator(
         _ input: ListDecoderManifestsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDecoderManifestsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDecoderManifestsRequest, ListDecoderManifestsResponse> {
+        return .init(
             input: input,
             command: self.listDecoderManifests,
             inputKey: \ListDecoderManifestsRequest.nextToken,
             outputKey: \ListDecoderManifestsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Retrieves information for each created fleet in an Amazon Web Services account.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listFleetsPaginator<Result>(
-        _ input: ListFleetsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListFleetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listFleets,
-            inputKey: \ListFleetsRequest.nextToken,
-            outputKey: \ListFleetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listFleetsPaginator(
         _ input: ListFleetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListFleetsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFleetsRequest, ListFleetsResponse> {
+        return .init(
             input: input,
             command: self.listFleets,
             inputKey: \ListFleetsRequest.nextToken,
             outputKey: \ListFleetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves a list of IDs for all fleets that the vehicle is associated with.  This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listFleetsForVehiclePaginator<Result>(
-        _ input: ListFleetsForVehicleRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListFleetsForVehicleResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listFleetsForVehicle,
-            inputKey: \ListFleetsForVehicleRequest.nextToken,
-            outputKey: \ListFleetsForVehicleResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listFleetsForVehiclePaginator(
         _ input: ListFleetsForVehicleRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListFleetsForVehicleResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFleetsForVehicleRequest, ListFleetsForVehicleResponse> {
+        return .init(
             input: input,
             command: self.listFleetsForVehicle,
             inputKey: \ListFleetsForVehicleRequest.nextToken,
             outputKey: \ListFleetsForVehicleResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Lists information about nodes specified in a vehicle model (model manifest).   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listModelManifestNodesPaginator<Result>(
-        _ input: ListModelManifestNodesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListModelManifestNodesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listModelManifestNodes,
-            inputKey: \ListModelManifestNodesRequest.nextToken,
-            outputKey: \ListModelManifestNodesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listModelManifestNodesPaginator(
         _ input: ListModelManifestNodesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListModelManifestNodesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListModelManifestNodesRequest, ListModelManifestNodesResponse> {
+        return .init(
             input: input,
             command: self.listModelManifestNodes,
             inputKey: \ListModelManifestNodesRequest.nextToken,
             outputKey: \ListModelManifestNodesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Retrieves a list of vehicle models (model manifests).   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listModelManifestsPaginator<Result>(
-        _ input: ListModelManifestsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListModelManifestsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listModelManifests,
-            inputKey: \ListModelManifestsRequest.nextToken,
-            outputKey: \ListModelManifestsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listModelManifestsPaginator(
         _ input: ListModelManifestsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListModelManifestsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListModelManifestsRequest, ListModelManifestsResponse> {
+        return .init(
             input: input,
             command: self.listModelManifests,
             inputKey: \ListModelManifestsRequest.nextToken,
             outputKey: \ListModelManifestsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Lists of information about the signals (nodes) specified in a signal catalog.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSignalCatalogNodesPaginator<Result>(
-        _ input: ListSignalCatalogNodesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSignalCatalogNodesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSignalCatalogNodes,
-            inputKey: \ListSignalCatalogNodesRequest.nextToken,
-            outputKey: \ListSignalCatalogNodesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSignalCatalogNodesPaginator(
         _ input: ListSignalCatalogNodesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSignalCatalogNodesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSignalCatalogNodesRequest, ListSignalCatalogNodesResponse> {
+        return .init(
             input: input,
             command: self.listSignalCatalogNodes,
             inputKey: \ListSignalCatalogNodesRequest.nextToken,
             outputKey: \ListSignalCatalogNodesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Lists all the created signal catalogs in an Amazon Web Services account.  You can use  to list information about each signal (node) specified in a signal catalog.  This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSignalCatalogsPaginator<Result>(
-        _ input: ListSignalCatalogsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSignalCatalogsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSignalCatalogs,
-            inputKey: \ListSignalCatalogsRequest.nextToken,
-            outputKey: \ListSignalCatalogsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSignalCatalogsPaginator(
         _ input: ListSignalCatalogsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSignalCatalogsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSignalCatalogsRequest, ListSignalCatalogsResponse> {
+        return .init(
             input: input,
             command: self.listSignalCatalogs,
             inputKey: \ListSignalCatalogsRequest.nextToken,
             outputKey: \ListSignalCatalogsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Retrieves a list of summaries of created vehicles.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listVehiclesPaginator<Result>(
-        _ input: ListVehiclesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListVehiclesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listVehicles,
-            inputKey: \ListVehiclesRequest.nextToken,
-            outputKey: \ListVehiclesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listVehiclesPaginator(
         _ input: ListVehiclesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListVehiclesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListVehiclesRequest, ListVehiclesResponse> {
+        return .init(
             input: input,
             command: self.listVehicles,
             inputKey: \ListVehiclesRequest.nextToken,
             outputKey: \ListVehiclesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Retrieves a list of summaries of all vehicles associated with a fleet.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listVehiclesInFleetPaginator<Result>(
-        _ input: ListVehiclesInFleetRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListVehiclesInFleetResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listVehiclesInFleet,
-            inputKey: \ListVehiclesInFleetRequest.nextToken,
-            outputKey: \ListVehiclesInFleetResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listVehiclesInFleetPaginator(
         _ input: ListVehiclesInFleetRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListVehiclesInFleetResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListVehiclesInFleetRequest, ListVehiclesInFleetResponse> {
+        return .init(
             input: input,
             command: self.listVehiclesInFleet,
             inputKey: \ListVehiclesInFleetRequest.nextToken,
             outputKey: \ListVehiclesInFleetResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

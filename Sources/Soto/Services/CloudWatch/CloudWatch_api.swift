@@ -96,8 +96,9 @@ public struct CloudWatch: AWSService {
     /// 				break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest
     /// 				change to make to break a cycle is to change the AlarmRule of one of the alarms to false.  Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.
     ///
-    @discardableResult public func deleteAlarms(_ input: DeleteAlarmsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteAlarms", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAlarms(_ input: DeleteAlarmsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteAlarms", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// 			Deletes the specified anomaly detection model
@@ -108,51 +109,58 @@ public struct CloudWatch: AWSService {
     /// 			see Deleting an anomaly detection model
     /// 			in the CloudWatch User Guide.
     ///
-    public func deleteAnomalyDetector(_ input: DeleteAnomalyDetectorInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAnomalyDetectorOutput> {
-        return self.client.execute(operation: "DeleteAnomalyDetector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAnomalyDetector(_ input: DeleteAnomalyDetectorInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAnomalyDetectorOutput {
+        return try await self.client.execute(operation: "DeleteAnomalyDetector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes all dashboards that you specify. You
     /// 			can specify up to 100 dashboards to delete. If there is an error during this call, no dashboards are
     /// 			deleted.
-    public func deleteDashboards(_ input: DeleteDashboardsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDashboardsOutput> {
-        return self.client.execute(operation: "DeleteDashboards", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDashboards(_ input: DeleteDashboardsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDashboardsOutput {
+        return try await self.client.execute(operation: "DeleteDashboards", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Permanently deletes the specified Contributor Insights rules. If you create a rule, delete it, and then re-create it with the same name, historical data from the first time
     /// 			the rule was created might
     /// 			not be available.
-    public func deleteInsightRules(_ input: DeleteInsightRulesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInsightRulesOutput> {
-        return self.client.execute(operation: "DeleteInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteInsightRules(_ input: DeleteInsightRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInsightRulesOutput {
+        return try await self.client.execute(operation: "DeleteInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Permanently deletes the metric stream that you specify.
-    public func deleteMetricStream(_ input: DeleteMetricStreamInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMetricStreamOutput> {
-        return self.client.execute(operation: "DeleteMetricStream", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteMetricStream(_ input: DeleteMetricStreamInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMetricStreamOutput {
+        return try await self.client.execute(operation: "DeleteMetricStream", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the history for the specified alarm. You can filter the results by date range or item type.
     /// 			If an alarm name is not specified, the histories for either all metric alarms or all composite alarms are returned. CloudWatch retains the history of an alarm even if you delete the alarm. To use this operation and return information about a composite alarm, you must be signed on with
     /// 			the cloudwatch:DescribeAlarmHistory permission that is scoped to *. You can't return information
     /// 			about composite alarms if your cloudwatch:DescribeAlarmHistory permission has a narrower scope.
-    public func describeAlarmHistory(_ input: DescribeAlarmHistoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAlarmHistoryOutput> {
-        return self.client.execute(operation: "DescribeAlarmHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAlarmHistory(_ input: DescribeAlarmHistoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAlarmHistoryOutput {
+        return try await self.client.execute(operation: "DescribeAlarmHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the specified alarms. You can filter the results by specifying a prefix for the alarm
     /// 			name, the alarm state, or a prefix for any action. To use this operation and return information about composite alarms, you must be signed on with
     /// 		the cloudwatch:DescribeAlarms permission that is scoped to *. You can't return information
     /// 			about composite alarms if your cloudwatch:DescribeAlarms permission has a narrower scope.
-    public func describeAlarms(_ input: DescribeAlarmsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAlarmsOutput> {
-        return self.client.execute(operation: "DescribeAlarms", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAlarms(_ input: DescribeAlarmsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAlarmsOutput {
+        return try await self.client.execute(operation: "DescribeAlarms", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the alarms for the specified metric. To
     /// 			filter the results, specify a statistic, period, or unit. This operation retrieves only standard alarms that are based on
     /// 		the specified metric. It does not return alarms based on math expressions that
     /// 		use the specified metric, or composite alarms that use the specified metric.
-    public func describeAlarmsForMetric(_ input: DescribeAlarmsForMetricInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAlarmsForMetricOutput> {
-        return self.client.execute(operation: "DescribeAlarmsForMetric", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAlarmsForMetric(_ input: DescribeAlarmsForMetricInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAlarmsForMetricOutput {
+        return try await self.client.execute(operation: "DescribeAlarmsForMetric", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the anomaly detection models that you have created in your account.
@@ -162,43 +170,50 @@ public struct CloudWatch: AWSService {
     /// 			For metric math anomaly detectors,
     /// 			you can list them by adding METRIC_MATH to the AnomalyDetectorTypes array.
     /// 			This will return all metric math anomaly detectors in your account.
-    public func describeAnomalyDetectors(_ input: DescribeAnomalyDetectorsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAnomalyDetectorsOutput> {
-        return self.client.execute(operation: "DescribeAnomalyDetectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAnomalyDetectors(_ input: DescribeAnomalyDetectorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAnomalyDetectorsOutput {
+        return try await self.client.execute(operation: "DescribeAnomalyDetectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of all the Contributor Insights rules in your account. For more information about Contributor Insights, see
     /// 		Using Contributor Insights to Analyze High-Cardinality Data.
-    public func describeInsightRules(_ input: DescribeInsightRulesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInsightRulesOutput> {
-        return self.client.execute(operation: "DescribeInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeInsightRules(_ input: DescribeInsightRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInsightRulesOutput {
+        return try await self.client.execute(operation: "DescribeInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disables the actions for the specified alarms. When an alarm's actions are disabled, the
     /// 			alarm actions do not execute when the alarm state changes.
-    @discardableResult public func disableAlarmActions(_ input: DisableAlarmActionsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DisableAlarmActions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disableAlarmActions(_ input: DisableAlarmActionsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DisableAlarmActions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disables the specified Contributor Insights rules. When rules are disabled, they do not analyze log groups and do
     /// 		not incur costs.
-    public func disableInsightRules(_ input: DisableInsightRulesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableInsightRulesOutput> {
-        return self.client.execute(operation: "DisableInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disableInsightRules(_ input: DisableInsightRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableInsightRulesOutput {
+        return try await self.client.execute(operation: "DisableInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Enables the actions for the specified alarms.
-    @discardableResult public func enableAlarmActions(_ input: EnableAlarmActionsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "EnableAlarmActions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func enableAlarmActions(_ input: EnableAlarmActionsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "EnableAlarmActions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Enables the specified Contributor Insights rules. When rules are enabled, they immediately begin analyzing log data.
-    public func enableInsightRules(_ input: EnableInsightRulesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableInsightRulesOutput> {
-        return self.client.execute(operation: "EnableInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func enableInsightRules(_ input: EnableInsightRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableInsightRulesOutput {
+        return try await self.client.execute(operation: "EnableInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard, and then use the data returned
     /// 			within DashboardBody as the template for the new dashboard when you call PutDashboard to create
     /// 			the copy.
-    public func getDashboard(_ input: GetDashboardInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDashboardOutput> {
-        return self.client.execute(operation: "GetDashboard", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDashboard(_ input: GetDashboardInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDashboardOutput {
+        return try await self.client.execute(operation: "GetDashboard", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// This operation returns the time series data collected by a Contributor Insights rule. The data includes the identity and number of
@@ -206,8 +221,9 @@ public struct CloudWatch: AWSService {
     /// 					contributor might change for each data point in the graph. If this rule aggregates by COUNT, the top contributor for each data point is the contributor with the
     /// 					most occurrences in that period. If the rule aggregates by SUM, the top contributor is the contributor with the highest sum in the log field specified
     /// 					by the rule's Value, during that period.    SampleCount -- the number of data points matched by the rule.    Sum -- the sum of the values from all contributors during the time period represented by that data point.    Minimum -- the minimum value from a single observation during the time period represented by that data point.    Maximum -- the maximum value from a single observation during the time period represented by that data point.    Average -- the average value from all contributors during the time period represented by that data point.
-    public func getInsightRuleReport(_ input: GetInsightRuleReportInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInsightRuleReportOutput> {
-        return self.client.execute(operation: "GetInsightRuleReport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getInsightRuleReport(_ input: GetInsightRuleReportInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInsightRuleReportOutput {
+        return try await self.client.execute(operation: "GetInsightRuleReport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// You can use the GetMetricData API to retrieve CloudWatch metric values. The operation
@@ -234,8 +250,9 @@ public struct CloudWatch: AWSService {
     /// 			and can be used as input for a metric math expression that expects a single time series. A Metrics Insights
     /// 			query with a GROUP BY clause returns an array of time-series (TS[]),
     /// 			and can be used as input for a metric math expression that expects an array of time series.
-    public func getMetricData(_ input: GetMetricDataInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMetricDataOutput> {
-        return self.client.execute(operation: "GetMetricData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMetricData(_ input: GetMetricDataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricDataOutput {
+        return try await self.client.execute(operation: "GetMetricData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets statistics for the specified metric. The maximum number of data points returned from a single call is 1,440. If
@@ -255,13 +272,15 @@ public struct CloudWatch: AWSService {
     /// 		a resolution of 1 hour. CloudWatch started retaining 5-minute and 1-hour metric data as of July 9, 2016. For information about metrics and dimensions supported by Amazon Web Services services, see the
     /// 			Amazon CloudWatch Metrics and Dimensions Reference in the
     /// 			Amazon CloudWatch User Guide.
-    public func getMetricStatistics(_ input: GetMetricStatisticsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMetricStatisticsOutput> {
-        return self.client.execute(operation: "GetMetricStatistics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMetricStatistics(_ input: GetMetricStatisticsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricStatisticsOutput {
+        return try await self.client.execute(operation: "GetMetricStatistics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about the metric stream that you specify.
-    public func getMetricStream(_ input: GetMetricStreamInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMetricStreamOutput> {
-        return self.client.execute(operation: "GetMetricStream", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMetricStream(_ input: GetMetricStreamInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricStreamOutput {
+        return try await self.client.execute(operation: "GetMetricStream", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// You can use the GetMetricWidgetImage API to retrieve a snapshot graph of
@@ -270,8 +289,9 @@ public struct CloudWatch: AWSService {
     /// 			You could also retrieve images regularly, such as every minute, and create your own
     /// 			custom live dashboard. The graph you retrieve can include all CloudWatch metric graph features, including metric math
     /// 		and horizontal and vertical annotations. There is a limit of 20 transactions per second for this API. Each GetMetricWidgetImage action has the following limits:   As many as 100 metrics in the graph.   Up to 100 KB uncompressed payload.
-    public func getMetricWidgetImage(_ input: GetMetricWidgetImageInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMetricWidgetImageOutput> {
-        return self.client.execute(operation: "GetMetricWidgetImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMetricWidgetImage(_ input: GetMetricWidgetImageInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricWidgetImageOutput {
+        return try await self.client.execute(operation: "GetMetricWidgetImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of the dashboards for your account. If you include DashboardNamePrefix, only
@@ -281,8 +301,9 @@ public struct CloudWatch: AWSService {
     /// 			are more than 1000 dashboards, you can call ListDashboards again and
     /// 		include the value you received for NextToken in the first call, to receive
     /// 		the next 1000 results.
-    public func listDashboards(_ input: ListDashboardsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDashboardsOutput> {
-        return self.client.execute(operation: "ListDashboards", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDashboards(_ input: ListDashboardsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDashboardsOutput {
+        return try await self.client.execute(operation: "ListDashboards", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// 			Returns a list
@@ -291,13 +312,15 @@ public struct CloudWatch: AWSService {
     /// 			in your account.
     ///
     ///
-    public func listManagedInsightRules(_ input: ListManagedInsightRulesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListManagedInsightRulesOutput> {
-        return self.client.execute(operation: "ListManagedInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listManagedInsightRules(_ input: ListManagedInsightRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedInsightRulesOutput {
+        return try await self.client.execute(operation: "ListManagedInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of metric streams in this account.
-    public func listMetricStreams(_ input: ListMetricStreamsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMetricStreamsOutput> {
-        return self.client.execute(operation: "ListMetricStreams", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listMetricStreams(_ input: ListMetricStreamsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMetricStreamsOutput {
+        return try await self.client.execute(operation: "ListMetricStreams", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the specified metrics. You can use the returned metrics with GetMetricData or GetMetricStatistics to get statistical data. Up to 500 results are returned for any one call. To retrieve additional results,
@@ -308,20 +331,23 @@ public struct CloudWatch: AWSService {
     /// 	reported data in the past two weeks. To retrieve those metrics, use
     /// 		GetMetricData or
     /// 		GetMetricStatistics.
-    public func listMetrics(_ input: ListMetricsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMetricsOutput> {
-        return self.client.execute(operation: "ListMetrics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listMetrics(_ input: ListMetricsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMetricsOutput {
+        return try await self.client.execute(operation: "ListMetrics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Displays the tags associated with a CloudWatch resource. Currently, alarms
     /// 			and Contributor Insights rules support tagging.
-    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an anomaly detection model for a CloudWatch metric. You can use the model
     /// 			to display a band of expected normal values when the metric is graphed. For more information, see CloudWatch Anomaly Detection.
-    public func putAnomalyDetector(_ input: PutAnomalyDetectorInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAnomalyDetectorOutput> {
-        return self.client.execute(operation: "PutAnomalyDetector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putAnomalyDetector(_ input: PutAnomalyDetectorInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAnomalyDetectorOutput {
+        return try await self.client.execute(operation: "PutAnomalyDetector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates or updates a composite alarm. When you create a composite
@@ -351,8 +377,9 @@ public struct CloudWatch: AWSService {
     /// 			the cloudwatch:PutCompositeAlarm permission that is scoped to *. You can't create a
     /// 			composite alarms if your cloudwatch:PutCompositeAlarm permission has a narrower scope. If you are an IAM user, you must have iam:CreateServiceLinkedRole to create
     /// 			a composite alarm that has Systems Manager OpsItem actions.
-    @discardableResult public func putCompositeAlarm(_ input: PutCompositeAlarmInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutCompositeAlarm", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putCompositeAlarm(_ input: PutCompositeAlarmInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "PutCompositeAlarm", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a dashboard if it does not already exist, or updates an existing dashboard. If you update a dashboard,
@@ -366,16 +393,18 @@ public struct CloudWatch: AWSService {
     /// 		not be changed in the console. This message could also point console users to the location
     /// 		of the DashboardBody script or the CloudFormation template used to create the
     /// 		dashboard.
-    public func putDashboard(_ input: PutDashboardInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutDashboardOutput> {
-        return self.client.execute(operation: "PutDashboard", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putDashboard(_ input: PutDashboardInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDashboardOutput {
+        return try await self.client.execute(operation: "PutDashboard", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a Contributor Insights rule. Rules evaluate log events in a
     /// 		CloudWatch Logs log group, enabling you to find contributor data for the log events in that log group. For more information,
     /// 		see Using Contributor Insights to Analyze High-Cardinality Data. If you create a rule, delete it, and then re-create it with the same name, historical data from the first time
     /// 			the rule was created might not be available.
-    public func putInsightRule(_ input: PutInsightRuleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutInsightRuleOutput> {
-        return self.client.execute(operation: "PutInsightRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putInsightRule(_ input: PutInsightRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutInsightRuleOutput {
+        return try await self.client.execute(operation: "PutInsightRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// 			Creates a managed Contributor Insights rule
@@ -394,8 +423,9 @@ public struct CloudWatch: AWSService {
     /// 			to describe all available rules.
     ///
     ///
-    public func putManagedInsightRules(_ input: PutManagedInsightRulesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutManagedInsightRulesOutput> {
-        return self.client.execute(operation: "PutManagedInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putManagedInsightRules(_ input: PutManagedInsightRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutManagedInsightRulesOutput {
+        return try await self.client.execute(operation: "PutManagedInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates or updates an alarm and associates it with the specified metric, metric math expression,
@@ -425,8 +455,9 @@ public struct CloudWatch: AWSService {
     /// 				CloudWatch to assume the sharing role in the sharing account. If it does not, you must create it following the directions in Set up a
     /// 					monitoring account in
     /// 						Cross-account cross-Region CloudWatch console.
-    @discardableResult public func putMetricAlarm(_ input: PutMetricAlarmInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutMetricAlarm", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putMetricAlarm(_ input: PutMetricAlarmInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "PutMetricAlarm", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Publishes metric data points to Amazon CloudWatch. CloudWatch associates
@@ -457,8 +488,9 @@ public struct CloudWatch: AWSService {
     /// 					Max, and Sum are all equal.   The Min and
     /// 					Max are equal, and Sum is equal to Min
     /// 					multiplied by SampleCount.
-    @discardableResult public func putMetricData(_ input: PutMetricDataInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutMetricData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putMetricData(_ input: PutMetricDataInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "PutMetricData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates or updates a metric stream. Metric streams can automatically stream CloudWatch
@@ -478,8 +510,9 @@ public struct CloudWatch: AWSService {
     /// 		the state of the stream is not changed. If you are using CloudWatch cross-account observability and you create a metric stream in a monitoring account,
     /// 			you can choose whether to include metrics from source accounts in the stream. For more information, see
     /// 			CloudWatch cross-account observability.
-    public func putMetricStream(_ input: PutMetricStreamInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutMetricStreamOutput> {
-        return self.client.execute(operation: "PutMetricStream", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putMetricStream(_ input: PutMetricStreamInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutMetricStreamOutput {
+        return try await self.client.execute(operation: "PutMetricStream", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Temporarily sets the state of an alarm for testing purposes. When the updated
@@ -495,18 +528,21 @@ public struct CloudWatch: AWSService {
     /// 			reevaluated if you update its
     /// 			configuration. If an alarm triggers EC2 Auto Scaling policies or application Auto Scaling policies, you must include
     /// 		information in the StateReasonData parameter to enable the policy to take the correct action.
-    @discardableResult public func setAlarmState(_ input: SetAlarmStateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "SetAlarmState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func setAlarmState(_ input: SetAlarmStateInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "SetAlarmState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts the streaming of metrics for one or more of your metric streams.
-    public func startMetricStreams(_ input: StartMetricStreamsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMetricStreamsOutput> {
-        return self.client.execute(operation: "StartMetricStreams", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startMetricStreams(_ input: StartMetricStreamsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetricStreamsOutput {
+        return try await self.client.execute(operation: "StartMetricStreams", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops the streaming of metrics for one or more of your metric streams.
-    public func stopMetricStreams(_ input: StopMetricStreamsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopMetricStreamsOutput> {
-        return self.client.execute(operation: "StopMetricStreams", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopMetricStreams(_ input: StopMetricStreamsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopMetricStreamsOutput {
+        return try await self.client.execute(operation: "StopMetricStreams", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that
@@ -516,13 +552,15 @@ public struct CloudWatch: AWSService {
     /// 			this tag is appended to the list of tags associated
     /// 			with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces
     /// 			the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
-    public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
-        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
+        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes one or more tags from the specified resource.
-    public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
-        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
+        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -537,60 +575,27 @@ extension CloudWatch {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CloudWatch {
     /// Retrieves the history for the specified alarm. You can filter the results by date range or item type.
     /// 			If an alarm name is not specified, the histories for either all metric alarms or all composite alarms are returned. CloudWatch retains the history of an alarm even if you delete the alarm. To use this operation and return information about a composite alarm, you must be signed on with
     /// 			the cloudwatch:DescribeAlarmHistory permission that is scoped to *. You can't return information
     /// 			about composite alarms if your cloudwatch:DescribeAlarmHistory permission has a narrower scope.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeAlarmHistoryPaginator<Result>(
-        _ input: DescribeAlarmHistoryInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeAlarmHistoryOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeAlarmHistory,
-            inputKey: \DescribeAlarmHistoryInput.nextToken,
-            outputKey: \DescribeAlarmHistoryOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeAlarmHistoryPaginator(
         _ input: DescribeAlarmHistoryInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeAlarmHistoryOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput> {
+        return .init(
             input: input,
             command: self.describeAlarmHistory,
             inputKey: \DescribeAlarmHistoryInput.nextToken,
             outputKey: \DescribeAlarmHistoryOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -598,55 +603,21 @@ extension CloudWatch {
     /// 			name, the alarm state, or a prefix for any action. To use this operation and return information about composite alarms, you must be signed on with
     /// 		the cloudwatch:DescribeAlarms permission that is scoped to *. You can't return information
     /// 			about composite alarms if your cloudwatch:DescribeAlarms permission has a narrower scope.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeAlarmsPaginator<Result>(
-        _ input: DescribeAlarmsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeAlarmsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeAlarms,
-            inputKey: \DescribeAlarmsInput.nextToken,
-            outputKey: \DescribeAlarmsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeAlarmsPaginator(
         _ input: DescribeAlarmsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeAlarmsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeAlarmsInput, DescribeAlarmsOutput> {
+        return .init(
             input: input,
             command: self.describeAlarms,
             inputKey: \DescribeAlarmsInput.nextToken,
             outputKey: \DescribeAlarmsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -657,109 +628,41 @@ extension CloudWatch {
     /// 			For metric math anomaly detectors,
     /// 			you can list them by adding METRIC_MATH to the AnomalyDetectorTypes array.
     /// 			This will return all metric math anomaly detectors in your account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeAnomalyDetectorsPaginator<Result>(
-        _ input: DescribeAnomalyDetectorsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeAnomalyDetectorsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeAnomalyDetectors,
-            inputKey: \DescribeAnomalyDetectorsInput.nextToken,
-            outputKey: \DescribeAnomalyDetectorsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeAnomalyDetectorsPaginator(
         _ input: DescribeAnomalyDetectorsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeAnomalyDetectorsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput> {
+        return .init(
             input: input,
             command: self.describeAnomalyDetectors,
             inputKey: \DescribeAnomalyDetectorsInput.nextToken,
             outputKey: \DescribeAnomalyDetectorsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of all the Contributor Insights rules in your account. For more information about Contributor Insights, see
     /// 		Using Contributor Insights to Analyze High-Cardinality Data.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeInsightRulesPaginator<Result>(
-        _ input: DescribeInsightRulesInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeInsightRulesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeInsightRules,
-            inputKey: \DescribeInsightRulesInput.nextToken,
-            outputKey: \DescribeInsightRulesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInsightRulesPaginator(
         _ input: DescribeInsightRulesInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeInsightRulesOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeInsightRulesInput, DescribeInsightRulesOutput> {
+        return .init(
             input: input,
             command: self.describeInsightRules,
             inputKey: \DescribeInsightRulesInput.nextToken,
             outputKey: \DescribeInsightRulesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -787,55 +690,21 @@ extension CloudWatch {
     /// 			and can be used as input for a metric math expression that expects a single time series. A Metrics Insights
     /// 			query with a GROUP BY clause returns an array of time-series (TS[]),
     /// 			and can be used as input for a metric math expression that expects an array of time series.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getMetricDataPaginator<Result>(
-        _ input: GetMetricDataInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetMetricDataOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getMetricData,
-            inputKey: \GetMetricDataInput.nextToken,
-            outputKey: \GetMetricDataOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getMetricDataPaginator(
         _ input: GetMetricDataInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetMetricDataOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetMetricDataInput, GetMetricDataOutput> {
+        return .init(
             input: input,
             command: self.getMetricData,
             inputKey: \GetMetricDataInput.nextToken,
             outputKey: \GetMetricDataOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -846,55 +715,21 @@ extension CloudWatch {
     /// 			are more than 1000 dashboards, you can call ListDashboards again and
     /// 		include the value you received for NextToken in the first call, to receive
     /// 		the next 1000 results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDashboardsPaginator<Result>(
-        _ input: ListDashboardsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDashboardsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDashboards,
-            inputKey: \ListDashboardsInput.nextToken,
-            outputKey: \ListDashboardsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDashboardsPaginator(
         _ input: ListDashboardsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDashboardsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDashboardsInput, ListDashboardsOutput> {
+        return .init(
             input: input,
             command: self.listDashboards,
             inputKey: \ListDashboardsInput.nextToken,
             outputKey: \ListDashboardsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -904,108 +739,40 @@ extension CloudWatch {
     /// 			in your account.
     ///
     ///
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listManagedInsightRulesPaginator<Result>(
-        _ input: ListManagedInsightRulesInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListManagedInsightRulesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listManagedInsightRules,
-            inputKey: \ListManagedInsightRulesInput.nextToken,
-            outputKey: \ListManagedInsightRulesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listManagedInsightRulesPaginator(
         _ input: ListManagedInsightRulesInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListManagedInsightRulesOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListManagedInsightRulesInput, ListManagedInsightRulesOutput> {
+        return .init(
             input: input,
             command: self.listManagedInsightRules,
             inputKey: \ListManagedInsightRulesInput.nextToken,
             outputKey: \ListManagedInsightRulesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of metric streams in this account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listMetricStreamsPaginator<Result>(
-        _ input: ListMetricStreamsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListMetricStreamsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listMetricStreams,
-            inputKey: \ListMetricStreamsInput.nextToken,
-            outputKey: \ListMetricStreamsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listMetricStreamsPaginator(
         _ input: ListMetricStreamsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListMetricStreamsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMetricStreamsInput, ListMetricStreamsOutput> {
+        return .init(
             input: input,
             command: self.listMetricStreams,
             inputKey: \ListMetricStreamsInput.nextToken,
             outputKey: \ListMetricStreamsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -1017,55 +784,21 @@ extension CloudWatch {
     /// 	reported data in the past two weeks. To retrieve those metrics, use
     /// 		GetMetricData or
     /// 		GetMetricStatistics.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listMetricsPaginator<Result>(
-        _ input: ListMetricsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListMetricsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listMetrics,
-            inputKey: \ListMetricsInput.nextToken,
-            outputKey: \ListMetricsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listMetricsPaginator(
         _ input: ListMetricsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListMetricsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMetricsInput, ListMetricsOutput> {
+        return .init(
             input: input,
             command: self.listMetrics,
             inputKey: \ListMetricsInput.nextToken,
             outputKey: \ListMetricsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }
@@ -1181,13 +914,13 @@ extension CloudWatch.ListMetricsInput: AWSPaginateToken {
 
 // MARK: Waiters
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CloudWatch {
     public func waitUntilAlarmExists(
         _ input: DescribeAlarmsInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("length(metricAlarms[]) > `0`", expected: "true")),
@@ -1195,15 +928,14 @@ extension CloudWatch {
             minDelayTime: .seconds(5),
             command: self.describeAlarms
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
     public func waitUntilCompositeAlarmExists(
         _ input: DescribeAlarmsInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("length(compositeAlarms[]) > `0`", expected: "true")),
@@ -1211,6 +943,6 @@ extension CloudWatch {
             minDelayTime: .seconds(5),
             command: self.describeAlarms
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 }

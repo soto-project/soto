@@ -69,18 +69,21 @@ public struct MachineLearning: AWSService {
     /// Adds one or more tags to an object, up to a limit of 10. Each tag consists of a key
     /// 		    and an optional value. If you add a tag using a key that is already associated with the ML object,
     /// 			AddTags updates the tag's value.
-    public func addTags(_ input: AddTagsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddTagsOutput> {
-        return self.client.execute(operation: "AddTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func addTags(_ input: AddTagsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddTagsOutput {
+        return try await self.client.execute(operation: "AddTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Generates predictions for a group of observations. The observations to process exist in one or more data files referenced  by a DataSource. This operation creates a new BatchPrediction, and uses an MLModel and the data  files referenced by the DataSource as information sources.     CreateBatchPrediction is an asynchronous operation. In response to CreateBatchPrediction,  Amazon Machine Learning (Amazon ML) immediately returns and sets the BatchPrediction status to PENDING.  After the BatchPrediction completes, Amazon ML sets the status to COMPLETED.   You can poll for status updates by using the GetBatchPrediction operation and checking the Status parameter of the result. After the COMPLETED status appears,  the results are available in the location specified by the OutputUri parameter.
-    public func createBatchPrediction(_ input: CreateBatchPredictionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBatchPredictionOutput> {
-        return self.client.execute(operation: "CreateBatchPrediction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createBatchPrediction(_ input: CreateBatchPredictionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBatchPredictionOutput {
+        return try await self.client.execute(operation: "CreateBatchPrediction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a DataSource object from an  Amazon Relational Database Service (Amazon RDS). A DataSource references data that can be used to perform CreateMLModel, CreateEvaluation, or CreateBatchPrediction operations.   CreateDataSourceFromRDS is an asynchronous operation. In response to CreateDataSourceFromRDS,  Amazon Machine Learning (Amazon ML) immediately returns and sets the DataSource status to PENDING.  After the DataSource is created and ready for use, Amazon ML sets the Status parameter to COMPLETED.  DataSource in the COMPLETED or PENDING state can be used only to perform >CreateMLModel>, CreateEvaluation, or CreateBatchPrediction operations.   If Amazon ML cannot accept the input source, it sets the Status parameter to FAILED and includes an error message in the Message attribute of the GetDataSource operation response.
-    public func createDataSourceFromRDS(_ input: CreateDataSourceFromRDSInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDataSourceFromRDSOutput> {
-        return self.client.execute(operation: "CreateDataSourceFromRDS", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDataSourceFromRDS(_ input: CreateDataSourceFromRDSInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSourceFromRDSOutput {
+        return try await self.client.execute(operation: "CreateDataSourceFromRDS", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a DataSource from a database hosted on an Amazon Redshift cluster. A
@@ -90,133 +93,158 @@ public struct MachineLearning: AWSService {
     /// 		  attribute of the GetDataSource operation response.
     ///  The observations should be contained in the database hosted on an Amazon Redshift cluster and should be specified by a SelectSqlQuery query. Amazon ML executes an Unload command in Amazon Redshift to transfer the result set of the SelectSqlQuery query to S3StagingLocation.
     ///  After the DataSource has been created, it's ready for use in evaluations and batch predictions. If you plan to use the DataSource to train an MLModel, the DataSource also requires a recipe. A recipe describes how each input variable will be used in training an MLModel. Will the variable be included or excluded from training? Will the variable be manipulated; for example, will it be combined with another variable or will it be split apart into word combinations? The recipe provides answers to these questions. You can't change an existing datasource, but you can copy and modify the settings from an existing Amazon Redshift datasource to create a new datasource. To do so, call GetDataSource for an existing datasource and copy the values to a CreateDataSource call. Change the settings that you want to change and make sure that all required fields have the appropriate values.
-    public func createDataSourceFromRedshift(_ input: CreateDataSourceFromRedshiftInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDataSourceFromRedshiftOutput> {
-        return self.client.execute(operation: "CreateDataSourceFromRedshift", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDataSourceFromRedshift(_ input: CreateDataSourceFromRedshiftInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSourceFromRedshiftOutput {
+        return try await self.client.execute(operation: "CreateDataSourceFromRedshift", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a DataSource object. A DataSource references data that can be used to perform  CreateMLModel, CreateEvaluation, or CreateBatchPrediction operations.   CreateDataSourceFromS3 is an asynchronous operation. In response to CreateDataSourceFromS3, Amazon Machine Learning (Amazon ML) immediately returns and sets the DataSource status to PENDING. After the DataSource has been created and is ready for use, Amazon ML sets the Status parameter to COMPLETED. DataSource in the COMPLETED or PENDING state can be used to perform only CreateMLModel, CreateEvaluation or CreateBatchPrediction operations.    If Amazon ML can't accept the input source, it sets the Status parameter to FAILED and includes an error message in the Message attribute of the GetDataSource operation response.
     ///  The observation data used in a DataSource should be ready to use; that is, it should have a consistent structure, and missing data values should be kept to a minimum. The observation data must reside in one or more .csv files in an Amazon Simple Storage Service (Amazon S3) location, along with a schema that describes the data items by name and type. The same schema must be used for all of the data files referenced by the DataSource.  After the DataSource has been created, it's ready to use in evaluations and batch predictions. If you plan to use the DataSource to train an MLModel, the DataSource also needs a recipe. A recipe describes how each input variable will be used in training an MLModel. Will the variable be included or excluded from training? Will the variable be manipulated; for example, will it be combined with another variable or will it be split apart into word combinations? The recipe provides answers to these questions.
-    public func createDataSourceFromS3(_ input: CreateDataSourceFromS3Input, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDataSourceFromS3Output> {
-        return self.client.execute(operation: "CreateDataSourceFromS3", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDataSourceFromS3(_ input: CreateDataSourceFromS3Input, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSourceFromS3Output {
+        return try await self.client.execute(operation: "CreateDataSourceFromS3", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new Evaluation of an MLModel. An MLModel is evaluated on a set of observations associated to a DataSource. Like a DataSource  for an MLModel, the DataSource for an Evaluation contains values for the Target Variable. The Evaluation compares the predicted result for each observation to the actual outcome and provides a  summary so that you know how effective the MLModel functions on the test data. Evaluation generates a relevant performance metric, such as BinaryAUC, RegressionRMSE or MulticlassAvgFScore based on the corresponding MLModelType: BINARY, REGRESSION or MULTICLASS.
     ///    CreateEvaluation is an asynchronous operation. In response to CreateEvaluation, Amazon Machine Learning (Amazon ML) immediately  returns and sets the evaluation status to PENDING. After the Evaluation is created and ready for use,  Amazon ML sets the status to COMPLETED.   You can use the GetEvaluation operation to check progress of the evaluation during the creation operation.
-    public func createEvaluation(_ input: CreateEvaluationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEvaluationOutput> {
-        return self.client.execute(operation: "CreateEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createEvaluation(_ input: CreateEvaluationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEvaluationOutput {
+        return try await self.client.execute(operation: "CreateEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new MLModel using the DataSource and the recipe as information sources.  An MLModel is nearly immutable. Users can update only the MLModelName and the ScoreThreshold in an MLModel without creating a new MLModel.   CreateMLModel is an asynchronous operation. In response to CreateMLModel, Amazon Machine Learning (Amazon ML) immediately returns and sets the MLModel status to PENDING. After the MLModel has been created and ready is for use, Amazon ML sets the status to COMPLETED.  You can use the GetMLModel operation to check the progress of the MLModel during the creation operation.
     ///   CreateMLModel requires a DataSource with computed statistics, which can be created by setting ComputeStatistics to true in CreateDataSourceFromRDS, CreateDataSourceFromS3, or CreateDataSourceFromRedshift operations.
-    public func createMLModel(_ input: CreateMLModelInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMLModelOutput> {
-        return self.client.execute(operation: "CreateMLModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createMLModel(_ input: CreateMLModelInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMLModelOutput {
+        return try await self.client.execute(operation: "CreateMLModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a real-time endpoint for the MLModel. The endpoint contains the URI of the MLModel; that is, the location to send real-time prediction requests for the specified MLModel.
-    public func createRealtimeEndpoint(_ input: CreateRealtimeEndpointInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRealtimeEndpointOutput> {
-        return self.client.execute(operation: "CreateRealtimeEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createRealtimeEndpoint(_ input: CreateRealtimeEndpointInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRealtimeEndpointOutput {
+        return try await self.client.execute(operation: "CreateRealtimeEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Assigns the DELETED status to a BatchPrediction, rendering it unusable. After using the DeleteBatchPrediction operation, you can use the GetBatchPrediction  operation to verify that the status of the BatchPrediction changed to DELETED.   Caution: The result of the DeleteBatchPrediction operation is irreversible.
-    public func deleteBatchPrediction(_ input: DeleteBatchPredictionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBatchPredictionOutput> {
-        return self.client.execute(operation: "DeleteBatchPrediction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteBatchPrediction(_ input: DeleteBatchPredictionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBatchPredictionOutput {
+        return try await self.client.execute(operation: "DeleteBatchPrediction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Assigns the DELETED status to a DataSource, rendering it unusable. After using the DeleteDataSource operation, you can use the GetDataSource operation to verify that the status of the DataSource changed to DELETED.  Caution: The results of the DeleteDataSource operation are irreversible.
-    public func deleteDataSource(_ input: DeleteDataSourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDataSourceOutput> {
-        return self.client.execute(operation: "DeleteDataSource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDataSource(_ input: DeleteDataSourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataSourceOutput {
+        return try await self.client.execute(operation: "DeleteDataSource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Assigns the DELETED status to an Evaluation, rendering it unusable.
     ///  After invoking the DeleteEvaluation operation, you can use the GetEvaluation operation to verify that the status of the Evaluation changed to DELETED.  Caution: The results of the DeleteEvaluation operation are irreversible.
-    public func deleteEvaluation(_ input: DeleteEvaluationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEvaluationOutput> {
-        return self.client.execute(operation: "DeleteEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteEvaluation(_ input: DeleteEvaluationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEvaluationOutput {
+        return try await self.client.execute(operation: "DeleteEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Assigns the DELETED status to an MLModel, rendering it unusable. After using the DeleteMLModel operation, you can use the GetMLModel operation to verify that the status of the MLModel changed to DELETED.   Caution: The result of the DeleteMLModel operation is irreversible.
-    public func deleteMLModel(_ input: DeleteMLModelInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMLModelOutput> {
-        return self.client.execute(operation: "DeleteMLModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteMLModel(_ input: DeleteMLModelInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMLModelOutput {
+        return try await self.client.execute(operation: "DeleteMLModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a real time endpoint of an MLModel.
-    public func deleteRealtimeEndpoint(_ input: DeleteRealtimeEndpointInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRealtimeEndpointOutput> {
-        return self.client.execute(operation: "DeleteRealtimeEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRealtimeEndpoint(_ input: DeleteRealtimeEndpointInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRealtimeEndpointOutput {
+        return try await self.client.execute(operation: "DeleteRealtimeEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified tags associated with an ML object. After this operation is complete, you can't recover deleted tags.
     /// 		       If you specify a tag that doesn't exist, Amazon ML ignores it.
-    public func deleteTags(_ input: DeleteTagsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTagsOutput> {
-        return self.client.execute(operation: "DeleteTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteTags(_ input: DeleteTagsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTagsOutput {
+        return try await self.client.execute(operation: "DeleteTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of BatchPrediction operations that match the search criteria in the request.
-    public func describeBatchPredictions(_ input: DescribeBatchPredictionsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeBatchPredictionsOutput> {
-        return self.client.execute(operation: "DescribeBatchPredictions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeBatchPredictions(_ input: DescribeBatchPredictionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBatchPredictionsOutput {
+        return try await self.client.execute(operation: "DescribeBatchPredictions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of DataSource that match the search criteria in the request.
-    public func describeDataSources(_ input: DescribeDataSourcesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDataSourcesOutput> {
-        return self.client.execute(operation: "DescribeDataSources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDataSources(_ input: DescribeDataSourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSourcesOutput {
+        return try await self.client.execute(operation: "DescribeDataSources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of DescribeEvaluations that match the search criteria in the request.
-    public func describeEvaluations(_ input: DescribeEvaluationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEvaluationsOutput> {
-        return self.client.execute(operation: "DescribeEvaluations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeEvaluations(_ input: DescribeEvaluationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEvaluationsOutput {
+        return try await self.client.execute(operation: "DescribeEvaluations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of MLModel that match the search criteria in the request.
-    public func describeMLModels(_ input: DescribeMLModelsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMLModelsOutput> {
-        return self.client.execute(operation: "DescribeMLModels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeMLModels(_ input: DescribeMLModelsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMLModelsOutput {
+        return try await self.client.execute(operation: "DescribeMLModels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes one or more of the tags for your Amazon ML object.
-    public func describeTags(_ input: DescribeTagsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTagsOutput> {
-        return self.client.execute(operation: "DescribeTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeTags(_ input: DescribeTagsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTagsOutput {
+        return try await self.client.execute(operation: "DescribeTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a BatchPrediction that includes detailed metadata, status, and data file information for a Batch Prediction request.
-    public func getBatchPrediction(_ input: GetBatchPredictionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBatchPredictionOutput> {
-        return self.client.execute(operation: "GetBatchPrediction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getBatchPrediction(_ input: GetBatchPredictionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBatchPredictionOutput {
+        return try await self.client.execute(operation: "GetBatchPrediction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a DataSource that includes metadata and data file information, as well as the current status of the DataSource.  GetDataSource provides results in normal or verbose format. The verbose format  adds the schema description and the list of files pointed to by the DataSource to the normal format.
-    public func getDataSource(_ input: GetDataSourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDataSourceOutput> {
-        return self.client.execute(operation: "GetDataSource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDataSource(_ input: GetDataSourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataSourceOutput {
+        return try await self.client.execute(operation: "GetDataSource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns an Evaluation that includes metadata as well as the current status of the Evaluation.
-    public func getEvaluation(_ input: GetEvaluationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEvaluationOutput> {
-        return self.client.execute(operation: "GetEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getEvaluation(_ input: GetEvaluationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEvaluationOutput {
+        return try await self.client.execute(operation: "GetEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns an MLModel that includes detailed metadata, data source information, and the current status of the MLModel.  GetMLModel provides results in normal or verbose format.
-    public func getMLModel(_ input: GetMLModelInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMLModelOutput> {
-        return self.client.execute(operation: "GetMLModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMLModel(_ input: GetMLModelInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMLModelOutput {
+        return try await self.client.execute(operation: "GetMLModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Generates a prediction for the observation using the specified ML Model.  Note: Not all response parameters will be populated. Whether a response parameter is populated depends on the type of model requested.
-    public func predict(_ input: PredictInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PredictOutput> {
-        return self.client.execute(operation: "Predict", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func predict(_ input: PredictInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PredictOutput {
+        return try await self.client.execute(operation: "Predict", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the BatchPredictionName of a BatchPrediction. You can use the GetBatchPrediction operation to view the contents of the updated data element.
-    public func updateBatchPrediction(_ input: UpdateBatchPredictionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBatchPredictionOutput> {
-        return self.client.execute(operation: "UpdateBatchPrediction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateBatchPrediction(_ input: UpdateBatchPredictionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBatchPredictionOutput {
+        return try await self.client.execute(operation: "UpdateBatchPrediction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the DataSourceName of a DataSource. You can use the GetDataSource operation to view the contents of the updated data element.
-    public func updateDataSource(_ input: UpdateDataSourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDataSourceOutput> {
-        return self.client.execute(operation: "UpdateDataSource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDataSource(_ input: UpdateDataSourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSourceOutput {
+        return try await self.client.execute(operation: "UpdateDataSource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the EvaluationName of an Evaluation. You can use the GetEvaluation operation to view the contents of the updated data element.
-    public func updateEvaluation(_ input: UpdateEvaluationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEvaluationOutput> {
-        return self.client.execute(operation: "UpdateEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateEvaluation(_ input: UpdateEvaluationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEvaluationOutput {
+        return try await self.client.execute(operation: "UpdateEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the MLModelName and the ScoreThreshold of an MLModel. You can use the GetMLModel operation to view the contents of the updated data element.
-    public func updateMLModel(_ input: UpdateMLModelInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMLModelOutput> {
-        return self.client.execute(operation: "UpdateMLModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateMLModel(_ input: UpdateMLModelInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMLModelOutput {
+        return try await self.client.execute(operation: "UpdateMLModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -231,216 +259,81 @@ extension MachineLearning {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MachineLearning {
     /// Returns a list of BatchPrediction operations that match the search criteria in the request.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeBatchPredictionsPaginator<Result>(
-        _ input: DescribeBatchPredictionsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeBatchPredictionsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeBatchPredictions,
-            inputKey: \DescribeBatchPredictionsInput.nextToken,
-            outputKey: \DescribeBatchPredictionsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeBatchPredictionsPaginator(
         _ input: DescribeBatchPredictionsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeBatchPredictionsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutput> {
+        return .init(
             input: input,
             command: self.describeBatchPredictions,
             inputKey: \DescribeBatchPredictionsInput.nextToken,
             outputKey: \DescribeBatchPredictionsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of DataSource that match the search criteria in the request.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeDataSourcesPaginator<Result>(
-        _ input: DescribeDataSourcesInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeDataSourcesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeDataSources,
-            inputKey: \DescribeDataSourcesInput.nextToken,
-            outputKey: \DescribeDataSourcesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDataSourcesPaginator(
         _ input: DescribeDataSourcesInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeDataSourcesOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeDataSourcesInput, DescribeDataSourcesOutput> {
+        return .init(
             input: input,
             command: self.describeDataSources,
             inputKey: \DescribeDataSourcesInput.nextToken,
             outputKey: \DescribeDataSourcesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of DescribeEvaluations that match the search criteria in the request.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeEvaluationsPaginator<Result>(
-        _ input: DescribeEvaluationsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeEvaluationsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeEvaluations,
-            inputKey: \DescribeEvaluationsInput.nextToken,
-            outputKey: \DescribeEvaluationsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeEvaluationsPaginator(
         _ input: DescribeEvaluationsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeEvaluationsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeEvaluationsInput, DescribeEvaluationsOutput> {
+        return .init(
             input: input,
             command: self.describeEvaluations,
             inputKey: \DescribeEvaluationsInput.nextToken,
             outputKey: \DescribeEvaluationsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of MLModel that match the search criteria in the request.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeMLModelsPaginator<Result>(
-        _ input: DescribeMLModelsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeMLModelsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeMLModels,
-            inputKey: \DescribeMLModelsInput.nextToken,
-            outputKey: \DescribeMLModelsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeMLModelsPaginator(
         _ input: DescribeMLModelsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeMLModelsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeMLModelsInput, DescribeMLModelsOutput> {
+        return .init(
             input: input,
             command: self.describeMLModels,
             inputKey: \DescribeMLModelsInput.nextToken,
             outputKey: \DescribeMLModelsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }
@@ -519,13 +412,13 @@ extension MachineLearning.DescribeMLModelsInput: AWSPaginateToken {
 
 // MARK: Waiters
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MachineLearning {
     public func waitUntilBatchPredictionAvailable(
         _ input: DescribeBatchPredictionsInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESAllPathMatcher("results[].status", expected: "COMPLETED")),
@@ -534,15 +427,14 @@ extension MachineLearning {
             minDelayTime: .seconds(30),
             command: self.describeBatchPredictions
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
     public func waitUntilDataSourceAvailable(
         _ input: DescribeDataSourcesInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESAllPathMatcher("results[].status", expected: "COMPLETED")),
@@ -551,15 +443,14 @@ extension MachineLearning {
             minDelayTime: .seconds(30),
             command: self.describeDataSources
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
     public func waitUntilEvaluationAvailable(
         _ input: DescribeEvaluationsInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESAllPathMatcher("results[].status", expected: "COMPLETED")),
@@ -568,15 +459,14 @@ extension MachineLearning {
             minDelayTime: .seconds(30),
             command: self.describeEvaluations
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
     public func waitUntilMLModelAvailable(
         _ input: DescribeMLModelsInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESAllPathMatcher("results[].status", expected: "COMPLETED")),
@@ -585,6 +475,6 @@ extension MachineLearning {
             minDelayTime: .seconds(30),
             command: self.describeMLModels
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 }

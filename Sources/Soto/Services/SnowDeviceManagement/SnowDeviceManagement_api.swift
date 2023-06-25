@@ -64,68 +64,81 @@ public struct SnowDeviceManagement: AWSService {
     // MARK: API Calls
 
     /// Sends a cancel request for a specified task. You can cancel a task only if it's still in a QUEUED state. Tasks that are already running can't be cancelled.  A task might still run if it's processed from the queue before the CancelTask operation changes the task's state.
-    public func cancelTask(_ input: CancelTaskInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelTaskOutput> {
-        return self.client.execute(operation: "CancelTask", path: "/task/{taskId}/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func cancelTask(_ input: CancelTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelTaskOutput {
+        return try await self.client.execute(operation: "CancelTask", path: "/task/{taskId}/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Instructs one or more devices to start a task, such as unlocking or rebooting.
-    public func createTask(_ input: CreateTaskInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTaskOutput> {
-        return self.client.execute(operation: "CreateTask", path: "/task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTask(_ input: CreateTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTaskOutput {
+        return try await self.client.execute(operation: "CreateTask", path: "/task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Checks device-specific information, such as the device type, software version, IP addresses, and lock status.
-    public func describeDevice(_ input: DescribeDeviceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDeviceOutput> {
-        return self.client.execute(operation: "DescribeDevice", path: "/managed-device/{managedDeviceId}/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDevice(_ input: DescribeDeviceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDeviceOutput {
+        return try await self.client.execute(operation: "DescribeDevice", path: "/managed-device/{managedDeviceId}/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Checks the current state of the Amazon EC2 instances. The output is similar to describeDevice, but the results are sourced from the device cache in the Amazon Web Services Cloud and include a subset of the available fields.
-    public func describeDeviceEc2Instances(_ input: DescribeDeviceEc2Input, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDeviceEc2Output> {
-        return self.client.execute(operation: "DescribeDeviceEc2Instances", path: "/managed-device/{managedDeviceId}/resources/ec2/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDeviceEc2Instances(_ input: DescribeDeviceEc2Input, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDeviceEc2Output {
+        return try await self.client.execute(operation: "DescribeDeviceEc2Instances", path: "/managed-device/{managedDeviceId}/resources/ec2/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Checks the status of a remote task running on one or more target devices.
-    public func describeExecution(_ input: DescribeExecutionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeExecutionOutput> {
-        return self.client.execute(operation: "DescribeExecution", path: "/task/{taskId}/execution/{managedDeviceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeExecution(_ input: DescribeExecutionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeExecutionOutput {
+        return try await self.client.execute(operation: "DescribeExecution", path: "/task/{taskId}/execution/{managedDeviceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Checks the metadata for a given task on a device.
-    public func describeTask(_ input: DescribeTaskInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTaskOutput> {
-        return self.client.execute(operation: "DescribeTask", path: "/task/{taskId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeTask(_ input: DescribeTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTaskOutput {
+        return try await self.client.execute(operation: "DescribeTask", path: "/task/{taskId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of the Amazon Web Services resources available for a device. Currently, Amazon EC2 instances are the only supported resource type.
-    public func listDeviceResources(_ input: ListDeviceResourcesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeviceResourcesOutput> {
-        return self.client.execute(operation: "ListDeviceResources", path: "/managed-device/{managedDeviceId}/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDeviceResources(_ input: ListDeviceResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeviceResourcesOutput {
+        return try await self.client.execute(operation: "ListDeviceResources", path: "/managed-device/{managedDeviceId}/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of all devices on your Amazon Web Services account that have Amazon Web Services Snow Device Management enabled in the Amazon Web Services Region where the command is run.
-    public func listDevices(_ input: ListDevicesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDevicesOutput> {
-        return self.client.execute(operation: "ListDevices", path: "/managed-devices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDevices(_ input: ListDevicesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDevicesOutput {
+        return try await self.client.execute(operation: "ListDevices", path: "/managed-devices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the status of tasks for one or more target devices.
-    public func listExecutions(_ input: ListExecutionsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExecutionsOutput> {
-        return self.client.execute(operation: "ListExecutions", path: "/executions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listExecutions(_ input: ListExecutionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExecutionsOutput {
+        return try await self.client.execute(operation: "ListExecutions", path: "/executions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of tags for a managed device or task.
-    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of tasks that can be filtered by state.
-    public func listTasks(_ input: ListTasksInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTasksOutput> {
-        return self.client.execute(operation: "ListTasks", path: "/tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTasks(_ input: ListTasksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTasksOutput {
+        return try await self.client.execute(operation: "ListTasks", path: "/tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds or replaces tags on a device or task.
-    @discardableResult public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes a tag from a device or task.
-    @discardableResult public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -140,216 +153,81 @@ extension SnowDeviceManagement {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SnowDeviceManagement {
     /// Returns a list of the Amazon Web Services resources available for a device. Currently, Amazon EC2 instances are the only supported resource type.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDeviceResourcesPaginator<Result>(
-        _ input: ListDeviceResourcesInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDeviceResourcesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDeviceResources,
-            inputKey: \ListDeviceResourcesInput.nextToken,
-            outputKey: \ListDeviceResourcesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDeviceResourcesPaginator(
         _ input: ListDeviceResourcesInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDeviceResourcesOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDeviceResourcesInput, ListDeviceResourcesOutput> {
+        return .init(
             input: input,
             command: self.listDeviceResources,
             inputKey: \ListDeviceResourcesInput.nextToken,
             outputKey: \ListDeviceResourcesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of all devices on your Amazon Web Services account that have Amazon Web Services Snow Device Management enabled in the Amazon Web Services Region where the command is run.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDevicesPaginator<Result>(
-        _ input: ListDevicesInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDevicesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDevices,
-            inputKey: \ListDevicesInput.nextToken,
-            outputKey: \ListDevicesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDevicesPaginator(
         _ input: ListDevicesInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDevicesOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDevicesInput, ListDevicesOutput> {
+        return .init(
             input: input,
             command: self.listDevices,
             inputKey: \ListDevicesInput.nextToken,
             outputKey: \ListDevicesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns the status of tasks for one or more target devices.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listExecutionsPaginator<Result>(
-        _ input: ListExecutionsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListExecutionsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listExecutions,
-            inputKey: \ListExecutionsInput.nextToken,
-            outputKey: \ListExecutionsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listExecutionsPaginator(
         _ input: ListExecutionsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListExecutionsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExecutionsInput, ListExecutionsOutput> {
+        return .init(
             input: input,
             command: self.listExecutions,
             inputKey: \ListExecutionsInput.nextToken,
             outputKey: \ListExecutionsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of tasks that can be filtered by state.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTasksPaginator<Result>(
-        _ input: ListTasksInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTasksOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTasks,
-            inputKey: \ListTasksInput.nextToken,
-            outputKey: \ListTasksOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTasksPaginator(
         _ input: ListTasksInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTasksOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTasksInput, ListTasksOutput> {
+        return .init(
             input: input,
             command: self.listTasks,
             inputKey: \ListTasksInput.nextToken,
             outputKey: \ListTasksOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

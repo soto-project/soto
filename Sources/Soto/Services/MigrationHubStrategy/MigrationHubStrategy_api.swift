@@ -64,108 +64,129 @@ public struct MigrationHubStrategy: AWSService {
     // MARK: API Calls
 
     ///  Retrieves details about an application component.
-    public func getApplicationComponentDetails(_ input: GetApplicationComponentDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApplicationComponentDetailsResponse> {
-        return self.client.execute(operation: "GetApplicationComponentDetails", path: "/get-applicationcomponent-details/{applicationComponentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getApplicationComponentDetails(_ input: GetApplicationComponentDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApplicationComponentDetailsResponse {
+        return try await self.client.execute(operation: "GetApplicationComponentDetails", path: "/get-applicationcomponent-details/{applicationComponentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves a list of all the recommended strategies and tools for an application component running on a server.
-    public func getApplicationComponentStrategies(_ input: GetApplicationComponentStrategiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApplicationComponentStrategiesResponse> {
-        return self.client.execute(operation: "GetApplicationComponentStrategies", path: "/get-applicationcomponent-strategies/{applicationComponentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getApplicationComponentStrategies(_ input: GetApplicationComponentStrategiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApplicationComponentStrategiesResponse {
+        return try await self.client.execute(operation: "GetApplicationComponentStrategies", path: "/get-applicationcomponent-strategies/{applicationComponentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves the status of an on-going assessment.
-    public func getAssessment(_ input: GetAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAssessmentResponse> {
-        return self.client.execute(operation: "GetAssessment", path: "/get-assessment/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getAssessment(_ input: GetAssessmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssessmentResponse {
+        return try await self.client.execute(operation: "GetAssessment", path: "/get-assessment/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves the details about a specific import task.
-    public func getImportFileTask(_ input: GetImportFileTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetImportFileTaskResponse> {
-        return self.client.execute(operation: "GetImportFileTask", path: "/get-import-file-task/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getImportFileTask(_ input: GetImportFileTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImportFileTaskResponse {
+        return try await self.client.execute(operation: "GetImportFileTask", path: "/get-import-file-task/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieve the latest ID of a specific assessment task.
-    public func getLatestAssessmentId(_ input: GetLatestAssessmentIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLatestAssessmentIdResponse> {
-        return self.client.execute(operation: "GetLatestAssessmentId", path: "/get-latest-assessment-id", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getLatestAssessmentId(_ input: GetLatestAssessmentIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLatestAssessmentIdResponse {
+        return try await self.client.execute(operation: "GetLatestAssessmentId", path: "/get-latest-assessment-id", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves your migration and modernization preferences.
-    public func getPortfolioPreferences(_ input: GetPortfolioPreferencesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPortfolioPreferencesResponse> {
-        return self.client.execute(operation: "GetPortfolioPreferences", path: "/get-portfolio-preferences", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPortfolioPreferences(_ input: GetPortfolioPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortfolioPreferencesResponse {
+        return try await self.client.execute(operation: "GetPortfolioPreferences", path: "/get-portfolio-preferences", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves overall summary including the number of servers to rehost and the overall number of anti-patterns.
-    public func getPortfolioSummary(_ input: GetPortfolioSummaryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPortfolioSummaryResponse> {
-        return self.client.execute(operation: "GetPortfolioSummary", path: "/get-portfolio-summary", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPortfolioSummary(_ input: GetPortfolioSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortfolioSummaryResponse {
+        return try await self.client.execute(operation: "GetPortfolioSummary", path: "/get-portfolio-summary", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves detailed information about the specified recommendation report.
-    public func getRecommendationReportDetails(_ input: GetRecommendationReportDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRecommendationReportDetailsResponse> {
-        return self.client.execute(operation: "GetRecommendationReportDetails", path: "/get-recommendation-report-details/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getRecommendationReportDetails(_ input: GetRecommendationReportDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecommendationReportDetailsResponse {
+        return try await self.client.execute(operation: "GetRecommendationReportDetails", path: "/get-recommendation-report-details/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves detailed information about a specified server.
-    public func getServerDetails(_ input: GetServerDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServerDetailsResponse> {
-        return self.client.execute(operation: "GetServerDetails", path: "/get-server-details/{serverId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getServerDetails(_ input: GetServerDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServerDetailsResponse {
+        return try await self.client.execute(operation: "GetServerDetails", path: "/get-server-details/{serverId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves recommended strategies and tools for the specified server.
-    public func getServerStrategies(_ input: GetServerStrategiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServerStrategiesResponse> {
-        return self.client.execute(operation: "GetServerStrategies", path: "/get-server-strategies/{serverId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getServerStrategies(_ input: GetServerStrategiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServerStrategiesResponse {
+        return try await self.client.execute(operation: "GetServerStrategies", path: "/get-server-strategies/{serverId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves a list of all the application components (processes).
-    public func listApplicationComponents(_ input: ListApplicationComponentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationComponentsResponse> {
-        return self.client.execute(operation: "ListApplicationComponents", path: "/list-applicationcomponents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listApplicationComponents(_ input: ListApplicationComponentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationComponentsResponse {
+        return try await self.client.execute(operation: "ListApplicationComponents", path: "/list-applicationcomponents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves a list of all the installed collectors.
-    public func listCollectors(_ input: ListCollectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCollectorsResponse> {
-        return self.client.execute(operation: "ListCollectors", path: "/list-collectors", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCollectors(_ input: ListCollectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCollectorsResponse {
+        return try await self.client.execute(operation: "ListCollectors", path: "/list-collectors", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Retrieves a list of all the imports performed.
-    public func listImportFileTask(_ input: ListImportFileTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImportFileTaskResponse> {
-        return self.client.execute(operation: "ListImportFileTask", path: "/list-import-file-task", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listImportFileTask(_ input: ListImportFileTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportFileTaskResponse {
+        return try await self.client.execute(operation: "ListImportFileTask", path: "/list-import-file-task", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a list of all the servers.
-    public func listServers(_ input: ListServersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServersResponse> {
-        return self.client.execute(operation: "ListServers", path: "/list-servers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listServers(_ input: ListServersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServersResponse {
+        return try await self.client.execute(operation: "ListServers", path: "/list-servers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Saves the specified migration and modernization preferences.
-    public func putPortfolioPreferences(_ input: PutPortfolioPreferencesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutPortfolioPreferencesResponse> {
-        return self.client.execute(operation: "PutPortfolioPreferences", path: "/put-portfolio-preferences", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putPortfolioPreferences(_ input: PutPortfolioPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPortfolioPreferencesResponse {
+        return try await self.client.execute(operation: "PutPortfolioPreferences", path: "/put-portfolio-preferences", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Starts the assessment of an on-premises environment.
-    public func startAssessment(_ input: StartAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartAssessmentResponse> {
-        return self.client.execute(operation: "StartAssessment", path: "/start-assessment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startAssessment(_ input: StartAssessmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAssessmentResponse {
+        return try await self.client.execute(operation: "StartAssessment", path: "/start-assessment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Starts a file import.
-    public func startImportFileTask(_ input: StartImportFileTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartImportFileTaskResponse> {
-        return self.client.execute(operation: "StartImportFileTask", path: "/start-import-file-task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startImportFileTask(_ input: StartImportFileTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImportFileTaskResponse {
+        return try await self.client.execute(operation: "StartImportFileTask", path: "/start-import-file-task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Starts generating a recommendation report.
-    public func startRecommendationReportGeneration(_ input: StartRecommendationReportGenerationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartRecommendationReportGenerationResponse> {
-        return self.client.execute(operation: "StartRecommendationReportGeneration", path: "/start-recommendation-report-generation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startRecommendationReportGeneration(_ input: StartRecommendationReportGenerationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRecommendationReportGenerationResponse {
+        return try await self.client.execute(operation: "StartRecommendationReportGeneration", path: "/start-recommendation-report-generation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Stops the assessment of an on-premises environment.
-    public func stopAssessment(_ input: StopAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopAssessmentResponse> {
-        return self.client.execute(operation: "StopAssessment", path: "/stop-assessment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopAssessment(_ input: StopAssessmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopAssessmentResponse {
+        return try await self.client.execute(operation: "StopAssessment", path: "/stop-assessment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Updates the configuration of an application component.
-    public func updateApplicationComponentConfig(_ input: UpdateApplicationComponentConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApplicationComponentConfigResponse> {
-        return self.client.execute(operation: "UpdateApplicationComponentConfig", path: "/update-applicationcomponent-config/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateApplicationComponentConfig(_ input: UpdateApplicationComponentConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationComponentConfigResponse {
+        return try await self.client.execute(operation: "UpdateApplicationComponentConfig", path: "/update-applicationcomponent-config/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Updates the configuration of the specified server.
-    public func updateServerConfig(_ input: UpdateServerConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServerConfigResponse> {
-        return self.client.execute(operation: "UpdateServerConfig", path: "/update-server-config/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateServerConfig(_ input: UpdateServerConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServerConfigResponse {
+        return try await self.client.execute(operation: "UpdateServerConfig", path: "/update-server-config/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -180,269 +201,100 @@ extension MigrationHubStrategy {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MigrationHubStrategy {
     ///  Retrieves detailed information about a specified server.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getServerDetailsPaginator<Result>(
-        _ input: GetServerDetailsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetServerDetailsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getServerDetails,
-            inputKey: \GetServerDetailsRequest.nextToken,
-            outputKey: \GetServerDetailsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getServerDetailsPaginator(
         _ input: GetServerDetailsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetServerDetailsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetServerDetailsRequest, GetServerDetailsResponse> {
+        return .init(
             input: input,
             command: self.getServerDetails,
             inputKey: \GetServerDetailsRequest.nextToken,
             outputKey: \GetServerDetailsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Retrieves a list of all the application components (processes).
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listApplicationComponentsPaginator<Result>(
-        _ input: ListApplicationComponentsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListApplicationComponentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listApplicationComponents,
-            inputKey: \ListApplicationComponentsRequest.nextToken,
-            outputKey: \ListApplicationComponentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listApplicationComponentsPaginator(
         _ input: ListApplicationComponentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListApplicationComponentsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApplicationComponentsRequest, ListApplicationComponentsResponse> {
+        return .init(
             input: input,
             command: self.listApplicationComponents,
             inputKey: \ListApplicationComponentsRequest.nextToken,
             outputKey: \ListApplicationComponentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Retrieves a list of all the installed collectors.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listCollectorsPaginator<Result>(
-        _ input: ListCollectorsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListCollectorsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listCollectors,
-            inputKey: \ListCollectorsRequest.nextToken,
-            outputKey: \ListCollectorsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCollectorsPaginator(
         _ input: ListCollectorsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListCollectorsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCollectorsRequest, ListCollectorsResponse> {
+        return .init(
             input: input,
             command: self.listCollectors,
             inputKey: \ListCollectorsRequest.nextToken,
             outputKey: \ListCollectorsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Retrieves a list of all the imports performed.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listImportFileTaskPaginator<Result>(
-        _ input: ListImportFileTaskRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListImportFileTaskResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listImportFileTask,
-            inputKey: \ListImportFileTaskRequest.nextToken,
-            outputKey: \ListImportFileTaskResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listImportFileTaskPaginator(
         _ input: ListImportFileTaskRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListImportFileTaskResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListImportFileTaskRequest, ListImportFileTaskResponse> {
+        return .init(
             input: input,
             command: self.listImportFileTask,
             inputKey: \ListImportFileTaskRequest.nextToken,
             outputKey: \ListImportFileTaskResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Returns a list of all the servers.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listServersPaginator<Result>(
-        _ input: ListServersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListServersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listServers,
-            inputKey: \ListServersRequest.nextToken,
-            outputKey: \ListServersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listServersPaginator(
         _ input: ListServersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListServersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListServersRequest, ListServersResponse> {
+        return .init(
             input: input,
             command: self.listServers,
             inputKey: \ListServersRequest.nextToken,
             outputKey: \ListServersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

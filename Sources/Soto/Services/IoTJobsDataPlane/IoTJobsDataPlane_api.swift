@@ -76,23 +76,27 @@ public struct IoTJobsDataPlane: AWSService {
     // MARK: API Calls
 
     /// Gets details of a job execution.
-    public func describeJobExecution(_ input: DescribeJobExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobExecutionResponse> {
-        return self.client.execute(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeJobExecution(_ input: DescribeJobExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobExecutionResponse {
+        return try await self.client.execute(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the list of all jobs for a thing that are not in a terminal status.
-    public func getPendingJobExecutions(_ input: GetPendingJobExecutionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPendingJobExecutionsResponse> {
-        return self.client.execute(operation: "GetPendingJobExecutions", path: "/things/{thingName}/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPendingJobExecutions(_ input: GetPendingJobExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPendingJobExecutionsResponse {
+        return try await self.client.execute(operation: "GetPendingJobExecutions", path: "/things/{thingName}/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
-    public func startNextPendingJobExecution(_ input: StartNextPendingJobExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartNextPendingJobExecutionResponse> {
-        return self.client.execute(operation: "StartNextPendingJobExecution", path: "/things/{thingName}/jobs/$next", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startNextPendingJobExecution(_ input: StartNextPendingJobExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartNextPendingJobExecutionResponse {
+        return try await self.client.execute(operation: "StartNextPendingJobExecution", path: "/things/{thingName}/jobs/$next", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the status of a job execution.
-    public func updateJobExecution(_ input: UpdateJobExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateJobExecutionResponse> {
-        return self.client.execute(operation: "UpdateJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateJobExecution(_ input: UpdateJobExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateJobExecutionResponse {
+        return try await self.client.execute(operation: "UpdateJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 

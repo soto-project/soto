@@ -64,248 +64,297 @@ public struct Nimble: AWSService {
     // MARK: API Calls
 
     /// Accept EULAs.
-    public func acceptEulas(_ input: AcceptEulasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptEulasResponse> {
-        return self.client.execute(operation: "AcceptEulas", path: "/2020-08-01/studios/{studioId}/eula-acceptances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func acceptEulas(_ input: AcceptEulasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptEulasResponse {
+        return try await self.client.execute(operation: "AcceptEulas", path: "/2020-08-01/studios/{studioId}/eula-acceptances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a launch profile.
-    public func createLaunchProfile(_ input: CreateLaunchProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLaunchProfileResponse> {
-        return self.client.execute(operation: "CreateLaunchProfile", path: "/2020-08-01/studios/{studioId}/launch-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createLaunchProfile(_ input: CreateLaunchProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLaunchProfileResponse {
+        return try await self.client.execute(operation: "CreateLaunchProfile", path: "/2020-08-01/studios/{studioId}/launch-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a streaming image resource in a studio.
-    public func createStreamingImage(_ input: CreateStreamingImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStreamingImageResponse> {
-        return self.client.execute(operation: "CreateStreamingImage", path: "/2020-08-01/studios/{studioId}/streaming-images", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createStreamingImage(_ input: CreateStreamingImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStreamingImageResponse {
+        return try await self.client.execute(operation: "CreateStreamingImage", path: "/2020-08-01/studios/{studioId}/streaming-images", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a streaming session in a studio. After invoking this operation, you must poll GetStreamingSession until the streaming session is in the READY state.
-    public func createStreamingSession(_ input: CreateStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStreamingSessionResponse> {
-        return self.client.execute(operation: "CreateStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createStreamingSession(_ input: CreateStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStreamingSessionResponse {
+        return try await self.client.execute(operation: "CreateStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a streaming session stream for a streaming session. After invoking this API, invoke GetStreamingSessionStream with the returned streamId to poll the resource until it is in the READY state.
-    public func createStreamingSessionStream(_ input: CreateStreamingSessionStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStreamingSessionStreamResponse> {
-        return self.client.execute(operation: "CreateStreamingSessionStream", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}/streams", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createStreamingSessionStream(_ input: CreateStreamingSessionStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStreamingSessionStreamResponse {
+        return try await self.client.execute(operation: "CreateStreamingSessionStream", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}/streams", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a new studio. When creating a studio, two IAM roles must be provided: the admin role and the user role. These roles are assumed by your users when they log in to the Nimble Studio portal. The user role must have the AmazonNimbleStudio-StudioUser managed policy attached for the portal to function properly. The admin role must have the AmazonNimbleStudio-StudioAdmin managed policy attached for the portal to function properly. You may optionally specify a KMS key in the StudioEncryptionConfiguration. In Nimble Studio, resource names, descriptions, initialization scripts, and other data you provide are always encrypted at rest using an KMS key. By default, this key is owned by Amazon Web Services and managed on your behalf. You may provide your own KMS key when calling CreateStudio to encrypt this data using a key you own and manage. When providing an KMS key during studio creation, Nimble Studio creates KMS grants in your account to provide your studio user and admin roles access to these KMS keys. If you delete this grant, the studio will no longer be accessible to your portal users. If you delete the studio KMS key, your studio will no longer be accessible.
-    public func createStudio(_ input: CreateStudioRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStudioResponse> {
-        return self.client.execute(operation: "CreateStudio", path: "/2020-08-01/studios", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createStudio(_ input: CreateStudioRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStudioResponse {
+        return try await self.client.execute(operation: "CreateStudio", path: "/2020-08-01/studios", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a studio component resource.
-    public func createStudioComponent(_ input: CreateStudioComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStudioComponentResponse> {
-        return self.client.execute(operation: "CreateStudioComponent", path: "/2020-08-01/studios/{studioId}/studio-components", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createStudioComponent(_ input: CreateStudioComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStudioComponentResponse {
+        return try await self.client.execute(operation: "CreateStudioComponent", path: "/2020-08-01/studios/{studioId}/studio-components", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Permanently delete a launch profile.
-    public func deleteLaunchProfile(_ input: DeleteLaunchProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLaunchProfileResponse> {
-        return self.client.execute(operation: "DeleteLaunchProfile", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteLaunchProfile(_ input: DeleteLaunchProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLaunchProfileResponse {
+        return try await self.client.execute(operation: "DeleteLaunchProfile", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete a user from launch profile membership.
-    public func deleteLaunchProfileMember(_ input: DeleteLaunchProfileMemberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLaunchProfileMemberResponse> {
-        return self.client.execute(operation: "DeleteLaunchProfileMember", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}/membership/{principalId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteLaunchProfileMember(_ input: DeleteLaunchProfileMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLaunchProfileMemberResponse {
+        return try await self.client.execute(operation: "DeleteLaunchProfileMember", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}/membership/{principalId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete streaming image.
-    public func deleteStreamingImage(_ input: DeleteStreamingImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteStreamingImageResponse> {
-        return self.client.execute(operation: "DeleteStreamingImage", path: "/2020-08-01/studios/{studioId}/streaming-images/{streamingImageId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteStreamingImage(_ input: DeleteStreamingImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStreamingImageResponse {
+        return try await self.client.execute(operation: "DeleteStreamingImage", path: "/2020-08-01/studios/{studioId}/streaming-images/{streamingImageId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes streaming session resource. After invoking this operation, use GetStreamingSession to poll the resource until it transitions to a DELETED state. A streaming session will count against your streaming session quota until it is marked DELETED.
-    public func deleteStreamingSession(_ input: DeleteStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteStreamingSessionResponse> {
-        return self.client.execute(operation: "DeleteStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteStreamingSession(_ input: DeleteStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStreamingSessionResponse {
+        return try await self.client.execute(operation: "DeleteStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete a studio resource.
-    public func deleteStudio(_ input: DeleteStudioRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteStudioResponse> {
-        return self.client.execute(operation: "DeleteStudio", path: "/2020-08-01/studios/{studioId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteStudio(_ input: DeleteStudioRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStudioResponse {
+        return try await self.client.execute(operation: "DeleteStudio", path: "/2020-08-01/studios/{studioId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a studio component resource.
-    public func deleteStudioComponent(_ input: DeleteStudioComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteStudioComponentResponse> {
-        return self.client.execute(operation: "DeleteStudioComponent", path: "/2020-08-01/studios/{studioId}/studio-components/{studioComponentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteStudioComponent(_ input: DeleteStudioComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStudioComponentResponse {
+        return try await self.client.execute(operation: "DeleteStudioComponent", path: "/2020-08-01/studios/{studioId}/studio-components/{studioComponentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete a user from studio membership.
-    public func deleteStudioMember(_ input: DeleteStudioMemberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteStudioMemberResponse> {
-        return self.client.execute(operation: "DeleteStudioMember", path: "/2020-08-01/studios/{studioId}/membership/{principalId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteStudioMember(_ input: DeleteStudioMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStudioMemberResponse {
+        return try await self.client.execute(operation: "DeleteStudioMember", path: "/2020-08-01/studios/{studioId}/membership/{principalId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get EULA.
-    public func getEula(_ input: GetEulaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEulaResponse> {
-        return self.client.execute(operation: "GetEula", path: "/2020-08-01/eulas/{eulaId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getEula(_ input: GetEulaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEulaResponse {
+        return try await self.client.execute(operation: "GetEula", path: "/2020-08-01/eulas/{eulaId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get a launch profile.
-    public func getLaunchProfile(_ input: GetLaunchProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLaunchProfileResponse> {
-        return self.client.execute(operation: "GetLaunchProfile", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getLaunchProfile(_ input: GetLaunchProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLaunchProfileResponse {
+        return try await self.client.execute(operation: "GetLaunchProfile", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Launch profile details include the launch profile resource and summary information of resources that are used by, or available to, the launch profile. This includes the name and description of all studio components used by the launch profiles, and the name and description of streaming images that can be used with this launch profile.
-    public func getLaunchProfileDetails(_ input: GetLaunchProfileDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLaunchProfileDetailsResponse> {
-        return self.client.execute(operation: "GetLaunchProfileDetails", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}/details", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getLaunchProfileDetails(_ input: GetLaunchProfileDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLaunchProfileDetailsResponse {
+        return try await self.client.execute(operation: "GetLaunchProfileDetails", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}/details", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get a launch profile initialization.
-    public func getLaunchProfileInitialization(_ input: GetLaunchProfileInitializationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLaunchProfileInitializationResponse> {
-        return self.client.execute(operation: "GetLaunchProfileInitialization", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}/init", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getLaunchProfileInitialization(_ input: GetLaunchProfileInitializationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLaunchProfileInitializationResponse {
+        return try await self.client.execute(operation: "GetLaunchProfileInitialization", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}/init", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get a user persona in launch profile membership.
-    public func getLaunchProfileMember(_ input: GetLaunchProfileMemberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLaunchProfileMemberResponse> {
-        return self.client.execute(operation: "GetLaunchProfileMember", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}/membership/{principalId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getLaunchProfileMember(_ input: GetLaunchProfileMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLaunchProfileMemberResponse {
+        return try await self.client.execute(operation: "GetLaunchProfileMember", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}/membership/{principalId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get streaming image.
-    public func getStreamingImage(_ input: GetStreamingImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStreamingImageResponse> {
-        return self.client.execute(operation: "GetStreamingImage", path: "/2020-08-01/studios/{studioId}/streaming-images/{streamingImageId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getStreamingImage(_ input: GetStreamingImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStreamingImageResponse {
+        return try await self.client.execute(operation: "GetStreamingImage", path: "/2020-08-01/studios/{studioId}/streaming-images/{streamingImageId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets StreamingSession resource. Invoke this operation to poll for a streaming session state while creating or deleting a session.
-    public func getStreamingSession(_ input: GetStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStreamingSessionResponse> {
-        return self.client.execute(operation: "GetStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getStreamingSession(_ input: GetStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStreamingSessionResponse {
+        return try await self.client.execute(operation: "GetStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets StreamingSessionBackup resource. Invoke this operation to poll for a streaming session backup while stopping a streaming session.
-    public func getStreamingSessionBackup(_ input: GetStreamingSessionBackupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStreamingSessionBackupResponse> {
-        return self.client.execute(operation: "GetStreamingSessionBackup", path: "/2020-08-01/studios/{studioId}/streaming-session-backups/{backupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getStreamingSessionBackup(_ input: GetStreamingSessionBackupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStreamingSessionBackupResponse {
+        return try await self.client.execute(operation: "GetStreamingSessionBackup", path: "/2020-08-01/studios/{studioId}/streaming-session-backups/{backupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a StreamingSessionStream for a streaming session. Invoke this operation to poll the resource after invoking CreateStreamingSessionStream. After the StreamingSessionStream changes to the READY state, the url property will contain a stream to be used with the DCV streaming client.
-    public func getStreamingSessionStream(_ input: GetStreamingSessionStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStreamingSessionStreamResponse> {
-        return self.client.execute(operation: "GetStreamingSessionStream", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}/streams/{streamId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getStreamingSessionStream(_ input: GetStreamingSessionStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStreamingSessionStreamResponse {
+        return try await self.client.execute(operation: "GetStreamingSessionStream", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}/streams/{streamId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get a studio resource.
-    public func getStudio(_ input: GetStudioRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStudioResponse> {
-        return self.client.execute(operation: "GetStudio", path: "/2020-08-01/studios/{studioId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getStudio(_ input: GetStudioRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStudioResponse {
+        return try await self.client.execute(operation: "GetStudio", path: "/2020-08-01/studios/{studioId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a studio component resource.
-    public func getStudioComponent(_ input: GetStudioComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStudioComponentResponse> {
-        return self.client.execute(operation: "GetStudioComponent", path: "/2020-08-01/studios/{studioId}/studio-components/{studioComponentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getStudioComponent(_ input: GetStudioComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStudioComponentResponse {
+        return try await self.client.execute(operation: "GetStudioComponent", path: "/2020-08-01/studios/{studioId}/studio-components/{studioComponentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get a user's membership in a studio.
-    public func getStudioMember(_ input: GetStudioMemberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStudioMemberResponse> {
-        return self.client.execute(operation: "GetStudioMember", path: "/2020-08-01/studios/{studioId}/membership/{principalId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getStudioMember(_ input: GetStudioMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStudioMemberResponse {
+        return try await self.client.execute(operation: "GetStudioMember", path: "/2020-08-01/studios/{studioId}/membership/{principalId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List EULA acceptances.
-    public func listEulaAcceptances(_ input: ListEulaAcceptancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEulaAcceptancesResponse> {
-        return self.client.execute(operation: "ListEulaAcceptances", path: "/2020-08-01/studios/{studioId}/eula-acceptances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listEulaAcceptances(_ input: ListEulaAcceptancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEulaAcceptancesResponse {
+        return try await self.client.execute(operation: "ListEulaAcceptances", path: "/2020-08-01/studios/{studioId}/eula-acceptances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List EULAs.
-    public func listEulas(_ input: ListEulasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEulasResponse> {
-        return self.client.execute(operation: "ListEulas", path: "/2020-08-01/eulas", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listEulas(_ input: ListEulasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEulasResponse {
+        return try await self.client.execute(operation: "ListEulas", path: "/2020-08-01/eulas", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get all users in a given launch profile membership.
-    public func listLaunchProfileMembers(_ input: ListLaunchProfileMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLaunchProfileMembersResponse> {
-        return self.client.execute(operation: "ListLaunchProfileMembers", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}/membership", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listLaunchProfileMembers(_ input: ListLaunchProfileMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLaunchProfileMembersResponse {
+        return try await self.client.execute(operation: "ListLaunchProfileMembers", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}/membership", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List all the launch profiles a studio.
-    public func listLaunchProfiles(_ input: ListLaunchProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLaunchProfilesResponse> {
-        return self.client.execute(operation: "ListLaunchProfiles", path: "/2020-08-01/studios/{studioId}/launch-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listLaunchProfiles(_ input: ListLaunchProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLaunchProfilesResponse {
+        return try await self.client.execute(operation: "ListLaunchProfiles", path: "/2020-08-01/studios/{studioId}/launch-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the streaming image resources available to this studio. This list will contain both images provided by Amazon Web Services, as well as streaming images that you have created in your studio.
-    public func listStreamingImages(_ input: ListStreamingImagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStreamingImagesResponse> {
-        return self.client.execute(operation: "ListStreamingImages", path: "/2020-08-01/studios/{studioId}/streaming-images", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listStreamingImages(_ input: ListStreamingImagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStreamingImagesResponse {
+        return try await self.client.execute(operation: "ListStreamingImages", path: "/2020-08-01/studios/{studioId}/streaming-images", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the backups of a streaming session in a studio.
-    public func listStreamingSessionBackups(_ input: ListStreamingSessionBackupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStreamingSessionBackupsResponse> {
-        return self.client.execute(operation: "ListStreamingSessionBackups", path: "/2020-08-01/studios/{studioId}/streaming-session-backups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listStreamingSessionBackups(_ input: ListStreamingSessionBackupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStreamingSessionBackupsResponse {
+        return try await self.client.execute(operation: "ListStreamingSessionBackups", path: "/2020-08-01/studios/{studioId}/streaming-session-backups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the streaming sessions in a studio.
-    public func listStreamingSessions(_ input: ListStreamingSessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStreamingSessionsResponse> {
-        return self.client.execute(operation: "ListStreamingSessions", path: "/2020-08-01/studios/{studioId}/streaming-sessions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listStreamingSessions(_ input: ListStreamingSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStreamingSessionsResponse {
+        return try await self.client.execute(operation: "ListStreamingSessions", path: "/2020-08-01/studios/{studioId}/streaming-sessions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the StudioComponents in a studio.
-    public func listStudioComponents(_ input: ListStudioComponentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStudioComponentsResponse> {
-        return self.client.execute(operation: "ListStudioComponents", path: "/2020-08-01/studios/{studioId}/studio-components", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listStudioComponents(_ input: ListStudioComponentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStudioComponentsResponse {
+        return try await self.client.execute(operation: "ListStudioComponents", path: "/2020-08-01/studios/{studioId}/studio-components", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get all users in a given studio membership.   ListStudioMembers only returns admin members.
-    public func listStudioMembers(_ input: ListStudioMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStudioMembersResponse> {
-        return self.client.execute(operation: "ListStudioMembers", path: "/2020-08-01/studios/{studioId}/membership", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listStudioMembers(_ input: ListStudioMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStudioMembersResponse {
+        return try await self.client.execute(operation: "ListStudioMembers", path: "/2020-08-01/studios/{studioId}/membership", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List studios in your Amazon Web Services accounts in the requested Amazon Web Services Region.
-    public func listStudios(_ input: ListStudiosRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStudiosResponse> {
-        return self.client.execute(operation: "ListStudios", path: "/2020-08-01/studios", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listStudios(_ input: ListStudiosRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStudiosResponse {
+        return try await self.client.execute(operation: "ListStudios", path: "/2020-08-01/studios", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the tags for a resource, given its Amazon Resource Names (ARN). This operation supports ARNs for all resource types in Nimble Studio that support tags, including studio, studio component, launch profile, streaming image, and streaming session. All resources that can be tagged will contain an ARN property, so you do not have to create this ARN yourself.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/2020-08-01/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/2020-08-01/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Add/update users with given persona to launch profile membership.
-    public func putLaunchProfileMembers(_ input: PutLaunchProfileMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutLaunchProfileMembersResponse> {
-        return self.client.execute(operation: "PutLaunchProfileMembers", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}/membership", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putLaunchProfileMembers(_ input: PutLaunchProfileMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutLaunchProfileMembersResponse {
+        return try await self.client.execute(operation: "PutLaunchProfileMembers", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}/membership", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Add/update users with given persona to studio membership.
-    public func putStudioMembers(_ input: PutStudioMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutStudioMembersResponse> {
-        return self.client.execute(operation: "PutStudioMembers", path: "/2020-08-01/studios/{studioId}/membership", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putStudioMembers(_ input: PutStudioMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutStudioMembersResponse {
+        return try await self.client.execute(operation: "PutStudioMembers", path: "/2020-08-01/studios/{studioId}/membership", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Transitions sessions from the STOPPED state into the READY state. The START_IN_PROGRESS state is the intermediate state between the STOPPED and READY states.
-    public func startStreamingSession(_ input: StartStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartStreamingSessionResponse> {
-        return self.client.execute(operation: "StartStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startStreamingSession(_ input: StartStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartStreamingSessionResponse {
+        return try await self.client.execute(operation: "StartStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Repairs the IAM Identity Center configuration for a given studio. If the studio has a valid IAM Identity Center configuration currently associated with it, this operation will fail with a validation error. If the studio does not have a valid IAM Identity Center configuration currently associated with it, then a new IAM Identity Center application is created for the studio and the studio is changed to the READY state. After the IAM Identity Center application is repaired, you must use the Amazon Nimble Studio console to add administrators and users to your studio.
-    public func startStudioSSOConfigurationRepair(_ input: StartStudioSSOConfigurationRepairRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartStudioSSOConfigurationRepairResponse> {
-        return self.client.execute(operation: "StartStudioSSOConfigurationRepair", path: "/2020-08-01/studios/{studioId}/sso-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startStudioSSOConfigurationRepair(_ input: StartStudioSSOConfigurationRepairRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartStudioSSOConfigurationRepairResponse {
+        return try await self.client.execute(operation: "StartStudioSSOConfigurationRepair", path: "/2020-08-01/studios/{studioId}/sso-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Transitions sessions from the READY state into the STOPPED state. The STOP_IN_PROGRESS state is the intermediate state between the READY and STOPPED states.
-    public func stopStreamingSession(_ input: StopStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopStreamingSessionResponse> {
-        return self.client.execute(operation: "StopStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopStreamingSession(_ input: StopStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopStreamingSessionResponse {
+        return try await self.client.execute(operation: "StopStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates tags for a resource, given its ARN.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/2020-08-01/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/2020-08-01/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the tags for a resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/2020-08-01/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/2020-08-01/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update a launch profile.
-    public func updateLaunchProfile(_ input: UpdateLaunchProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLaunchProfileResponse> {
-        return self.client.execute(operation: "UpdateLaunchProfile", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateLaunchProfile(_ input: UpdateLaunchProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLaunchProfileResponse {
+        return try await self.client.execute(operation: "UpdateLaunchProfile", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update a user persona in launch profile membership.
-    public func updateLaunchProfileMember(_ input: UpdateLaunchProfileMemberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLaunchProfileMemberResponse> {
-        return self.client.execute(operation: "UpdateLaunchProfileMember", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}/membership/{principalId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateLaunchProfileMember(_ input: UpdateLaunchProfileMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLaunchProfileMemberResponse {
+        return try await self.client.execute(operation: "UpdateLaunchProfileMember", path: "/2020-08-01/studios/{studioId}/launch-profiles/{launchProfileId}/membership/{principalId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update streaming image.
-    public func updateStreamingImage(_ input: UpdateStreamingImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateStreamingImageResponse> {
-        return self.client.execute(operation: "UpdateStreamingImage", path: "/2020-08-01/studios/{studioId}/streaming-images/{streamingImageId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateStreamingImage(_ input: UpdateStreamingImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStreamingImageResponse {
+        return try await self.client.execute(operation: "UpdateStreamingImage", path: "/2020-08-01/studios/{studioId}/streaming-images/{streamingImageId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update a Studio resource. Currently, this operation only supports updating the displayName of your studio.
-    public func updateStudio(_ input: UpdateStudioRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateStudioResponse> {
-        return self.client.execute(operation: "UpdateStudio", path: "/2020-08-01/studios/{studioId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateStudio(_ input: UpdateStudioRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStudioResponse {
+        return try await self.client.execute(operation: "UpdateStudio", path: "/2020-08-01/studios/{studioId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a studio component resource.
-    public func updateStudioComponent(_ input: UpdateStudioComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateStudioComponentResponse> {
-        return self.client.execute(operation: "UpdateStudioComponent", path: "/2020-08-01/studios/{studioId}/studio-components/{studioComponentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateStudioComponent(_ input: UpdateStudioComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStudioComponentResponse {
+        return try await self.client.execute(operation: "UpdateStudioComponent", path: "/2020-08-01/studios/{studioId}/studio-components/{studioComponentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -320,534 +369,195 @@ extension Nimble {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Nimble {
     /// List EULA acceptances.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listEulaAcceptancesPaginator<Result>(
-        _ input: ListEulaAcceptancesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListEulaAcceptancesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listEulaAcceptances,
-            inputKey: \ListEulaAcceptancesRequest.nextToken,
-            outputKey: \ListEulaAcceptancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listEulaAcceptancesPaginator(
         _ input: ListEulaAcceptancesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListEulaAcceptancesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEulaAcceptancesRequest, ListEulaAcceptancesResponse> {
+        return .init(
             input: input,
             command: self.listEulaAcceptances,
             inputKey: \ListEulaAcceptancesRequest.nextToken,
             outputKey: \ListEulaAcceptancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List EULAs.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listEulasPaginator<Result>(
-        _ input: ListEulasRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListEulasResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listEulas,
-            inputKey: \ListEulasRequest.nextToken,
-            outputKey: \ListEulasResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listEulasPaginator(
         _ input: ListEulasRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListEulasResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEulasRequest, ListEulasResponse> {
+        return .init(
             input: input,
             command: self.listEulas,
             inputKey: \ListEulasRequest.nextToken,
             outputKey: \ListEulasResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Get all users in a given launch profile membership.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listLaunchProfileMembersPaginator<Result>(
-        _ input: ListLaunchProfileMembersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListLaunchProfileMembersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listLaunchProfileMembers,
-            inputKey: \ListLaunchProfileMembersRequest.nextToken,
-            outputKey: \ListLaunchProfileMembersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listLaunchProfileMembersPaginator(
         _ input: ListLaunchProfileMembersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListLaunchProfileMembersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLaunchProfileMembersRequest, ListLaunchProfileMembersResponse> {
+        return .init(
             input: input,
             command: self.listLaunchProfileMembers,
             inputKey: \ListLaunchProfileMembersRequest.nextToken,
             outputKey: \ListLaunchProfileMembersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List all the launch profiles a studio.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listLaunchProfilesPaginator<Result>(
-        _ input: ListLaunchProfilesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListLaunchProfilesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listLaunchProfiles,
-            inputKey: \ListLaunchProfilesRequest.nextToken,
-            outputKey: \ListLaunchProfilesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listLaunchProfilesPaginator(
         _ input: ListLaunchProfilesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListLaunchProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLaunchProfilesRequest, ListLaunchProfilesResponse> {
+        return .init(
             input: input,
             command: self.listLaunchProfiles,
             inputKey: \ListLaunchProfilesRequest.nextToken,
             outputKey: \ListLaunchProfilesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List the streaming image resources available to this studio. This list will contain both images provided by Amazon Web Services, as well as streaming images that you have created in your studio.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listStreamingImagesPaginator<Result>(
-        _ input: ListStreamingImagesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListStreamingImagesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listStreamingImages,
-            inputKey: \ListStreamingImagesRequest.nextToken,
-            outputKey: \ListStreamingImagesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listStreamingImagesPaginator(
         _ input: ListStreamingImagesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListStreamingImagesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStreamingImagesRequest, ListStreamingImagesResponse> {
+        return .init(
             input: input,
             command: self.listStreamingImages,
             inputKey: \ListStreamingImagesRequest.nextToken,
             outputKey: \ListStreamingImagesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the backups of a streaming session in a studio.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listStreamingSessionBackupsPaginator<Result>(
-        _ input: ListStreamingSessionBackupsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListStreamingSessionBackupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listStreamingSessionBackups,
-            inputKey: \ListStreamingSessionBackupsRequest.nextToken,
-            outputKey: \ListStreamingSessionBackupsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listStreamingSessionBackupsPaginator(
         _ input: ListStreamingSessionBackupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListStreamingSessionBackupsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStreamingSessionBackupsRequest, ListStreamingSessionBackupsResponse> {
+        return .init(
             input: input,
             command: self.listStreamingSessionBackups,
             inputKey: \ListStreamingSessionBackupsRequest.nextToken,
             outputKey: \ListStreamingSessionBackupsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the streaming sessions in a studio.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listStreamingSessionsPaginator<Result>(
-        _ input: ListStreamingSessionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListStreamingSessionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listStreamingSessions,
-            inputKey: \ListStreamingSessionsRequest.nextToken,
-            outputKey: \ListStreamingSessionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listStreamingSessionsPaginator(
         _ input: ListStreamingSessionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListStreamingSessionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStreamingSessionsRequest, ListStreamingSessionsResponse> {
+        return .init(
             input: input,
             command: self.listStreamingSessions,
             inputKey: \ListStreamingSessionsRequest.nextToken,
             outputKey: \ListStreamingSessionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the StudioComponents in a studio.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listStudioComponentsPaginator<Result>(
-        _ input: ListStudioComponentsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListStudioComponentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listStudioComponents,
-            inputKey: \ListStudioComponentsRequest.nextToken,
-            outputKey: \ListStudioComponentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listStudioComponentsPaginator(
         _ input: ListStudioComponentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListStudioComponentsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStudioComponentsRequest, ListStudioComponentsResponse> {
+        return .init(
             input: input,
             command: self.listStudioComponents,
             inputKey: \ListStudioComponentsRequest.nextToken,
             outputKey: \ListStudioComponentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Get all users in a given studio membership.   ListStudioMembers only returns admin members.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listStudioMembersPaginator<Result>(
-        _ input: ListStudioMembersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListStudioMembersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listStudioMembers,
-            inputKey: \ListStudioMembersRequest.nextToken,
-            outputKey: \ListStudioMembersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listStudioMembersPaginator(
         _ input: ListStudioMembersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListStudioMembersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStudioMembersRequest, ListStudioMembersResponse> {
+        return .init(
             input: input,
             command: self.listStudioMembers,
             inputKey: \ListStudioMembersRequest.nextToken,
             outputKey: \ListStudioMembersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List studios in your Amazon Web Services accounts in the requested Amazon Web Services Region.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listStudiosPaginator<Result>(
-        _ input: ListStudiosRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListStudiosResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listStudios,
-            inputKey: \ListStudiosRequest.nextToken,
-            outputKey: \ListStudiosResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listStudiosPaginator(
         _ input: ListStudiosRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListStudiosResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStudiosRequest, ListStudiosResponse> {
+        return .init(
             input: input,
             command: self.listStudios,
             inputKey: \ListStudiosRequest.nextToken,
             outputKey: \ListStudiosResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }
@@ -958,14 +668,13 @@ extension Nimble.ListStudiosRequest: AWSPaginateToken {
 
 // MARK: Waiters
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Nimble {
-    /// Wait until a LaunchProfile is Deleted. Use this after invoking DeleteLaunchProfile
     public func waitUntilLaunchProfileDeleted(
         _ input: GetLaunchProfileRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("launchProfile.state", expected: "DELETED")),
@@ -975,16 +684,14 @@ extension Nimble {
             maxDelayTime: .seconds(750),
             command: self.getLaunchProfile
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a LaunchProfile is Ready. Use this after invoking CreateLaunchProfile or UpdateLaunchProfile
     public func waitUntilLaunchProfileReady(
         _ input: GetLaunchProfileRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("launchProfile.state", expected: "READY")),
@@ -995,16 +702,14 @@ extension Nimble {
             maxDelayTime: .seconds(750),
             command: self.getLaunchProfile
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a StreamingImage Deleted. Use this after invoking DeleteStreamingImage
     public func waitUntilStreamingImageDeleted(
         _ input: GetStreamingImageRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("streamingImage.state", expected: "DELETED")),
@@ -1012,16 +717,14 @@ extension Nimble {
             ],
             command: self.getStreamingImage
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a StreamingImage is Ready. Use this after invoking CreateStreamingImage or UpdateStreamingImage
     public func waitUntilStreamingImageReady(
         _ input: GetStreamingImageRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("streamingImage.state", expected: "READY")),
@@ -1030,16 +733,14 @@ extension Nimble {
             ],
             command: self.getStreamingImage
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a StreamingSessionDeleted. Use this after invoking DeleteStreamingSession
     public func waitUntilStreamingSessionDeleted(
         _ input: GetStreamingSessionRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("session.state", expected: "DELETED")),
@@ -1049,16 +750,14 @@ extension Nimble {
             maxDelayTime: .seconds(900),
             command: self.getStreamingSession
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a StreamingSession is ready. Use this after invoking CreateStreamingSession, StartStreamingSession
     public func waitUntilStreamingSessionReady(
         _ input: GetStreamingSessionRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("session.state", expected: "READY")),
@@ -1069,16 +768,14 @@ extension Nimble {
             maxDelayTime: .seconds(1800),
             command: self.getStreamingSession
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a StreamingSessionStopped. Use this after invoking StopStreamingSession
     public func waitUntilStreamingSessionStopped(
         _ input: GetStreamingSessionRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("session.state", expected: "STOPPED")),
@@ -1088,16 +785,14 @@ extension Nimble {
             maxDelayTime: .seconds(900),
             command: self.getStreamingSession
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a StreamingSessionStream is ready. Use this after invoking CreateStreamingSessionStream
     public func waitUntilStreamingSessionStreamReady(
         _ input: GetStreamingSessionStreamRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("stream.state", expected: "READY")),
@@ -1107,16 +802,14 @@ extension Nimble {
             maxDelayTime: .seconds(150),
             command: self.getStreamingSessionStream
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a StudioComponent Deleted. Use this after invoking DeleteStudioComponent
     public func waitUntilStudioComponentDeleted(
         _ input: GetStudioComponentRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("studioComponent.state", expected: "DELETED")),
@@ -1126,16 +819,14 @@ extension Nimble {
             maxDelayTime: .seconds(120),
             command: self.getStudioComponent
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a StudioComponent is Ready. Use this after invoking CreateStudioComponent or UpdateStudioComponent
     public func waitUntilStudioComponentReady(
         _ input: GetStudioComponentRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("studioComponent.state", expected: "READY")),
@@ -1144,16 +835,14 @@ extension Nimble {
             ],
             command: self.getStudioComponent
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a Studio is Deleted. Use this after invoking DeleteStudio.
     public func waitUntilStudioDeleted(
         _ input: GetStudioRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("studio.state", expected: "DELETED")),
@@ -1161,16 +850,14 @@ extension Nimble {
             ],
             command: self.getStudio
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a Studio is Ready. Use this after invoking CreateStudio, UpdateStudio, or StartStudioSSOConfigurationRepair
     public func waitUntilStudioReady(
         _ input: GetStudioRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("studio.state", expected: "READY")),
@@ -1179,6 +866,6 @@ extension Nimble {
             ],
             command: self.getStudio
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 }

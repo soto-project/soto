@@ -85,8 +85,9 @@ public struct Route53: AWSService {
 
     /// Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC. This
     /// 			operation changes the KSK status to ACTIVE.
-    public func activateKeySigningKey(_ input: ActivateKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ActivateKeySigningKeyResponse> {
-        return self.client.execute(operation: "ActivateKeySigningKey", path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}/activate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func activateKeySigningKey(_ input: ActivateKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateKeySigningKeyResponse {
+        return try await self.client.execute(operation: "ActivateKeySigningKey", path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}/activate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates an Amazon VPC with a private hosted zone.   To perform the association, the VPC and the private hosted zone must already
@@ -98,8 +99,9 @@ public struct Route53: AWSService {
     /// 				the same partition. A partition is a group of Amazon Web Services Regions. Each
     /// 					Amazon Web Services account is scoped to one partition. The following are the supported partitions:    aws - Amazon Web Services Regions    aws-cn - China Regions    aws-us-gov - Amazon Web Services GovCloud (US) Region   For more information, see Access Management
     /// 				in the Amazon Web Services General Reference.
-    public func associateVPCWithHostedZone(_ input: AssociateVPCWithHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateVPCWithHostedZoneResponse> {
-        return self.client.execute(operation: "AssociateVPCWithHostedZone", path: "/2013-04-01/hostedzone/{HostedZoneId}/associatevpc", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateVPCWithHostedZone(_ input: AssociateVPCWithHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateVPCWithHostedZoneResponse {
+        return try await self.client.execute(operation: "AssociateVPCWithHostedZone", path: "/2013-04-01/hostedzone/{HostedZoneId}/associatevpc", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative
@@ -108,8 +110,9 @@ public struct Route53: AWSService {
     /// 			transaction, without downtime.   Limits  The max number of CIDR blocks included in the request is 1000. As a result, big updates
     /// 			require multiple API calls.  PUT and DELETE_IF_EXISTS  Use ChangeCidrCollection to perform the following actions:    PUT: Create a CIDR block within the specified collection.    DELETE_IF_EXISTS: Delete an existing CIDR block from the
     /// 					collection.
-    public func changeCidrCollection(_ input: ChangeCidrCollectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ChangeCidrCollectionResponse> {
-        return self.client.execute(operation: "ChangeCidrCollection", path: "/2013-04-01/cidrcollection/{Id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func changeCidrCollection(_ input: ChangeCidrCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ChangeCidrCollectionResponse {
+        return try await self.client.execute(operation: "ChangeCidrCollection", path: "/2013-04-01/cidrcollection/{Id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates, changes, or deletes a resource record set, which contains authoritative DNS
@@ -154,19 +157,22 @@ public struct Route53: AWSService {
     /// 			Changes generally propagate to all Route 53 name servers within 60 seconds. For more
     /// 			information, see GetChange.  Limits on ChangeResourceRecordSets Requests  For information about the limits on a ChangeResourceRecordSets request,
     /// 			see Limits in the Amazon Route 53 Developer Guide.
-    public func changeResourceRecordSets(_ input: ChangeResourceRecordSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ChangeResourceRecordSetsResponse> {
-        return self.client.execute(operation: "ChangeResourceRecordSets", path: "/2013-04-01/hostedzone/{HostedZoneId}/rrset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func changeResourceRecordSets(_ input: ChangeResourceRecordSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ChangeResourceRecordSetsResponse {
+        return try await self.client.execute(operation: "ChangeResourceRecordSets", path: "/2013-04-01/hostedzone/{HostedZoneId}/rrset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds, edits, or deletes tags for a health check or a hosted zone. For information about using tags for cost allocation, see Using Cost Allocation
     /// 				Tags in the Billing and Cost Management User Guide.
-    public func changeTagsForResource(_ input: ChangeTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ChangeTagsForResourceResponse> {
-        return self.client.execute(operation: "ChangeTagsForResource", path: "/2013-04-01/tags/{ResourceType}/{ResourceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func changeTagsForResource(_ input: ChangeTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ChangeTagsForResourceResponse {
+        return try await self.client.execute(operation: "ChangeTagsForResource", path: "/2013-04-01/tags/{ResourceType}/{ResourceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a CIDR collection in the current Amazon Web Services account.
-    public func createCidrCollection(_ input: CreateCidrCollectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCidrCollectionResponse> {
-        return self.client.execute(operation: "CreateCidrCollection", path: "/2013-04-01/cidrcollection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCidrCollection(_ input: CreateCidrCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCidrCollectionResponse {
+        return try await self.client.execute(operation: "CreateCidrCollection", path: "/2013-04-01/cidrcollection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new health check. For information about adding health checks to resource record sets, see HealthCheckId in ChangeResourceRecordSets.   ELB Load Balancers  If you're registering EC2 instances with an Elastic Load Balancing (ELB) load
@@ -184,8 +190,9 @@ public struct Route53: AWSService {
     /// 					about creating CloudWatch metrics and alarms by using the CloudWatch console,
     /// 					see the Amazon
     /// 						CloudWatch User Guide.
-    public func createHealthCheck(_ input: CreateHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateHealthCheckResponse> {
-        return self.client.execute(operation: "CreateHealthCheck", path: "/2013-04-01/healthcheck", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createHealthCheck(_ input: CreateHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHealthCheckResponse {
+        return try await self.client.execute(operation: "CreateHealthCheck", path: "/2013-04-01/healthcheck", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new public or private hosted zone. You create records in a public hosted
@@ -213,14 +220,16 @@ public struct Route53: AWSService {
     /// 				partition where the hosted zone is created. A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one
     /// 				partition. The following are the supported partitions:    aws - Amazon Web Services Regions    aws-cn - China Regions    aws-us-gov - Amazon Web Services GovCloud (US) Region   For more information, see Access Management
     /// 				in the Amazon Web Services General Reference.
-    public func createHostedZone(_ input: CreateHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateHostedZoneResponse> {
-        return self.client.execute(operation: "CreateHostedZone", path: "/2013-04-01/hostedzone", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createHostedZone(_ input: CreateHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHostedZoneResponse {
+        return try await self.client.execute(operation: "CreateHostedZone", path: "/2013-04-01/hostedzone", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new key-signing key (KSK) associated with a hosted zone. You can only have
     /// 			two KSKs per hosted zone.
-    public func createKeySigningKey(_ input: CreateKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateKeySigningKeyResponse> {
-        return self.client.execute(operation: "CreateKeySigningKey", path: "/2013-04-01/keysigningkey", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createKeySigningKey(_ input: CreateKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKeySigningKeyResponse {
+        return try await self.client.execute(operation: "CreateKeySigningKey", path: "/2013-04-01/keysigningkey", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a configuration for DNS query logging. After you create a query logging
@@ -291,8 +300,9 @@ public struct Route53: AWSService {
     /// 							Queries in the Amazon Route 53 Developer
     /// 							Guide.  Pricing  For information about charges for query logs, see Amazon CloudWatch Pricing.  How to Stop Logging  If you want Route 53 to stop sending query logs to CloudWatch Logs, delete
     /// 						the query logging configuration. For more information, see DeleteQueryLoggingConfig.
-    public func createQueryLoggingConfig(_ input: CreateQueryLoggingConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateQueryLoggingConfigResponse> {
-        return self.client.execute(operation: "CreateQueryLoggingConfig", path: "/2013-04-01/queryloggingconfig", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createQueryLoggingConfig(_ input: CreateQueryLoggingConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQueryLoggingConfigResponse {
+        return try await self.client.execute(operation: "CreateQueryLoggingConfig", path: "/2013-04-01/queryloggingconfig", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a delegation set (a group of four name servers) that can be reused by multiple
@@ -315,15 +325,17 @@ public struct Route53: AWSService {
     /// 					have overlapping name servers to hosted zones that don't have overlapping name
     /// 					servers, then migrate the hosted zones again to use the reusable delegation
     /// 					set.
-    public func createReusableDelegationSet(_ input: CreateReusableDelegationSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateReusableDelegationSetResponse> {
-        return self.client.execute(operation: "CreateReusableDelegationSet", path: "/2013-04-01/delegationset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createReusableDelegationSet(_ input: CreateReusableDelegationSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReusableDelegationSetResponse {
+        return try await self.client.execute(operation: "CreateReusableDelegationSet", path: "/2013-04-01/delegationset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a traffic policy, which you use to create multiple DNS resource record sets
     /// 			for one domain name (such as example.com) or one subdomain name (such as
     /// 			www.example.com).
-    public func createTrafficPolicy(_ input: CreateTrafficPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTrafficPolicyResponse> {
-        return self.client.execute(operation: "CreateTrafficPolicy", path: "/2013-04-01/trafficpolicy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTrafficPolicy(_ input: CreateTrafficPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrafficPolicyResponse {
+        return try await self.client.execute(operation: "CreateTrafficPolicy", path: "/2013-04-01/trafficpolicy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates resource record sets in a specified hosted zone based on the settings in a
@@ -332,8 +344,9 @@ public struct Route53: AWSService {
     /// 			or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for
     /// 			the domain or subdomain name by using the resource record sets that
     /// 				CreateTrafficPolicyInstance created.
-    public func createTrafficPolicyInstance(_ input: CreateTrafficPolicyInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTrafficPolicyInstanceResponse> {
-        return self.client.execute(operation: "CreateTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTrafficPolicyInstance(_ input: CreateTrafficPolicyInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrafficPolicyInstanceResponse {
+        return try await self.client.execute(operation: "CreateTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new version of an existing traffic policy. When you create a new version of
@@ -343,8 +356,9 @@ public struct Route53: AWSService {
     /// 			one subdomain name (such as www.example.com). You can create a maximum of 1000 versions
     /// 			of a traffic policy. If you reach the limit and need to create another version, you'll
     /// 			need to start a new traffic policy.
-    public func createTrafficPolicyVersion(_ input: CreateTrafficPolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTrafficPolicyVersionResponse> {
-        return self.client.execute(operation: "CreateTrafficPolicyVersion", path: "/2013-04-01/trafficpolicy/{Id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTrafficPolicyVersion(_ input: CreateTrafficPolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrafficPolicyVersionResponse {
+        return try await self.client.execute(operation: "CreateTrafficPolicyVersion", path: "/2013-04-01/trafficpolicy/{Id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Authorizes the Amazon Web Services account that created a specified VPC to submit an
@@ -355,20 +369,23 @@ public struct Route53: AWSService {
     /// 			created the VPC to submit an AssociateVPCWithHostedZone request.  If you want to associate multiple VPCs that you created by using one account with
     /// 				a hosted zone that you created by using a different account, you must submit one
     /// 				authorization request for each VPC.
-    public func createVPCAssociationAuthorization(_ input: CreateVPCAssociationAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVPCAssociationAuthorizationResponse> {
-        return self.client.execute(operation: "CreateVPCAssociationAuthorization", path: "/2013-04-01/hostedzone/{HostedZoneId}/authorizevpcassociation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createVPCAssociationAuthorization(_ input: CreateVPCAssociationAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVPCAssociationAuthorizationResponse {
+        return try await self.client.execute(operation: "CreateVPCAssociationAuthorization", path: "/2013-04-01/hostedzone/{HostedZoneId}/authorizevpcassociation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deactivates a key-signing key (KSK) so that it will not be used for signing by DNSSEC.
     /// 			This operation changes the KSK status to INACTIVE.
-    public func deactivateKeySigningKey(_ input: DeactivateKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeactivateKeySigningKeyResponse> {
-        return self.client.execute(operation: "DeactivateKeySigningKey", path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}/deactivate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deactivateKeySigningKey(_ input: DeactivateKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeactivateKeySigningKeyResponse {
+        return try await self.client.execute(operation: "DeactivateKeySigningKey", path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}/deactivate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a CIDR collection in the current Amazon Web Services account. The collection
     /// 			must be empty before it can be deleted.
-    public func deleteCidrCollection(_ input: DeleteCidrCollectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCidrCollectionResponse> {
-        return self.client.execute(operation: "DeleteCidrCollection", path: "/2013-04-01/cidrcollection/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCidrCollection(_ input: DeleteCidrCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCidrCollectionResponse {
+        return try await self.client.execute(operation: "DeleteCidrCollection", path: "/2013-04-01/cidrcollection/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a health check.  Amazon Route 53 does not prevent you from deleting a health check even if the
@@ -382,8 +399,9 @@ public struct Route53: AWSService {
     /// 				DeleteHealthCheck command to delete the health check. The health check
     /// 			is deleted automatically when you deregister the instance; there can be a delay of
     /// 			several hours before the health check is deleted from Route 53.
-    public func deleteHealthCheck(_ input: DeleteHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteHealthCheckResponse> {
-        return self.client.execute(operation: "DeleteHealthCheck", path: "/2013-04-01/healthcheck/{HealthCheckId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteHealthCheck(_ input: DeleteHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteHealthCheckResponse {
+        return try await self.client.execute(operation: "DeleteHealthCheck", path: "/2013-04-01/healthcheck/{HealthCheckId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a hosted zone. If the hosted zone was created by another service, such as Cloud Map, see
@@ -412,46 +430,52 @@ public struct Route53: AWSService {
     /// 			from your hosted zone, see ChangeResourceRecordSets. To verify that the hosted zone has been deleted, do one of the following:   Use the GetHostedZone action to request information about the
     /// 					hosted zone.   Use the ListHostedZones action to get a list of the hosted zones
     /// 					associated with the current Amazon Web Services account.
-    public func deleteHostedZone(_ input: DeleteHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteHostedZoneResponse> {
-        return self.client.execute(operation: "DeleteHostedZone", path: "/2013-04-01/hostedzone/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteHostedZone(_ input: DeleteHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteHostedZoneResponse {
+        return try await self.client.execute(operation: "DeleteHostedZone", path: "/2013-04-01/hostedzone/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it.
     /// 			The KSK must be deactivated before you can delete it regardless of whether the hosted
     /// 			zone is enabled for DNSSEC signing. You can use DeactivateKeySigningKey to deactivate the key before you delete it. Use GetDNSSEC to verify that the KSK is in an INACTIVE
     /// 			status.
-    public func deleteKeySigningKey(_ input: DeleteKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteKeySigningKeyResponse> {
-        return self.client.execute(operation: "DeleteKeySigningKey", path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteKeySigningKey(_ input: DeleteKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKeySigningKeyResponse {
+        return try await self.client.execute(operation: "DeleteKeySigningKey", path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a configuration for DNS query logging. If you delete a configuration, Amazon
     /// 			Route 53 stops sending query logs to CloudWatch Logs. Route 53 doesn't delete any logs
     /// 			that are already in CloudWatch Logs. For more information about DNS query logs, see CreateQueryLoggingConfig.
-    public func deleteQueryLoggingConfig(_ input: DeleteQueryLoggingConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteQueryLoggingConfigResponse> {
-        return self.client.execute(operation: "DeleteQueryLoggingConfig", path: "/2013-04-01/queryloggingconfig/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteQueryLoggingConfig(_ input: DeleteQueryLoggingConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteQueryLoggingConfigResponse {
+        return try await self.client.execute(operation: "DeleteQueryLoggingConfig", path: "/2013-04-01/queryloggingconfig/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a reusable delegation set.  You can delete a reusable delegation set only if it isn't associated with any
     /// 				hosted zones.  To verify that the reusable delegation set is not associated with any hosted zones,
     /// 			submit a GetReusableDelegationSet request and specify the ID of the reusable
     /// 			delegation set that you want to delete.
-    public func deleteReusableDelegationSet(_ input: DeleteReusableDelegationSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteReusableDelegationSetResponse> {
-        return self.client.execute(operation: "DeleteReusableDelegationSet", path: "/2013-04-01/delegationset/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteReusableDelegationSet(_ input: DeleteReusableDelegationSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReusableDelegationSetResponse {
+        return try await self.client.execute(operation: "DeleteReusableDelegationSet", path: "/2013-04-01/delegationset/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a traffic policy. When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that
     /// 			it has been deleted. However, Route 53 never fully deletes the traffic policy. Note the
     /// 			following:   Deleted traffic policies aren't listed if you run ListTrafficPolicies.   There's no way to get a list of deleted policies.   If you retain the ID of the policy, you can get information about the policy,
     /// 					including the traffic policy document, by running GetTrafficPolicy.
-    public func deleteTrafficPolicy(_ input: DeleteTrafficPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTrafficPolicyResponse> {
-        return self.client.execute(operation: "DeleteTrafficPolicy", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteTrafficPolicy(_ input: DeleteTrafficPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTrafficPolicyResponse {
+        return try await self.client.execute(operation: "DeleteTrafficPolicy", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a traffic policy instance and all of the resource record sets that Amazon
     /// 			Route 53 created when you created the instance.  In the Route 53 console, traffic policy instances are known as policy
     /// 				records.
-    public func deleteTrafficPolicyInstance(_ input: DeleteTrafficPolicyInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTrafficPolicyInstanceResponse> {
-        return self.client.execute(operation: "DeleteTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteTrafficPolicyInstance(_ input: DeleteTrafficPolicyInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTrafficPolicyInstanceResponse {
+        return try await self.client.execute(operation: "DeleteTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes authorization to submit an AssociateVPCWithHostedZone request to
@@ -463,14 +487,16 @@ public struct Route53: AWSService {
     /// 					DeleteVPCAssociationAuthorization won't disassociate the VPC from
     /// 				the hosted zone. If you want to delete an existing association, use
     /// 					DisassociateVPCFromHostedZone.
-    public func deleteVPCAssociationAuthorization(_ input: DeleteVPCAssociationAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVPCAssociationAuthorizationResponse> {
-        return self.client.execute(operation: "DeleteVPCAssociationAuthorization", path: "/2013-04-01/hostedzone/{HostedZoneId}/deauthorizevpcassociation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteVPCAssociationAuthorization(_ input: DeleteVPCAssociationAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVPCAssociationAuthorizationResponse {
+        return try await self.client.execute(operation: "DeleteVPCAssociationAuthorization", path: "/2013-04-01/hostedzone/{HostedZoneId}/deauthorizevpcassociation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any
     /// 			key-signing keys (KSKs) that are active in the hosted zone.
-    public func disableHostedZoneDNSSEC(_ input: DisableHostedZoneDNSSECRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableHostedZoneDNSSECResponse> {
-        return self.client.execute(operation: "DisableHostedZoneDNSSEC", path: "/2013-04-01/hostedzone/{HostedZoneId}/disable-dnssec", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disableHostedZoneDNSSEC(_ input: DisableHostedZoneDNSSECRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableHostedZoneDNSSECResponse {
+        return try await self.client.execute(operation: "DisableHostedZoneDNSSEC", path: "/2013-04-01/hostedzone/{HostedZoneId}/disable-dnssec", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 53
@@ -488,13 +514,15 @@ public struct Route53: AWSService {
     /// 				the same partition. A partition is a group of Amazon Web Services Regions. Each
     /// 					Amazon Web Services account is scoped to one partition. The following are the supported partitions:    aws - Amazon Web Services Regions    aws-cn - China Regions    aws-us-gov - Amazon Web Services GovCloud (US) Region   For more information, see Access Management
     /// 				in the Amazon Web Services General Reference.
-    public func disassociateVPCFromHostedZone(_ input: DisassociateVPCFromHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateVPCFromHostedZoneResponse> {
-        return self.client.execute(operation: "DisassociateVPCFromHostedZone", path: "/2013-04-01/hostedzone/{HostedZoneId}/disassociatevpc", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateVPCFromHostedZone(_ input: DisassociateVPCFromHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateVPCFromHostedZoneResponse {
+        return try await self.client.execute(operation: "DisassociateVPCFromHostedZone", path: "/2013-04-01/hostedzone/{HostedZoneId}/disassociatevpc", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Enables DNSSEC signing in a specific hosted zone.
-    public func enableHostedZoneDNSSEC(_ input: EnableHostedZoneDNSSECRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableHostedZoneDNSSECResponse> {
-        return self.client.execute(operation: "EnableHostedZoneDNSSEC", path: "/2013-04-01/hostedzone/{HostedZoneId}/enable-dnssec", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func enableHostedZoneDNSSEC(_ input: EnableHostedZoneDNSSECRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableHostedZoneDNSSECResponse {
+        return try await self.client.execute(operation: "EnableHostedZoneDNSSEC", path: "/2013-04-01/hostedzone/{HostedZoneId}/enable-dnssec", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the specified limit for the current account, for example, the maximum number of
@@ -502,8 +530,9 @@ public struct Route53: AWSService {
     /// 				Amazon Route 53 Developer Guide. To request a higher limit,
     /// 				open a case.  You can also view account limits in Amazon Web Services Trusted Advisor. Sign in to
     /// 				the Amazon Web Services Management Console and open the Trusted Advisor console at https://console.aws.amazon.com/trustedadvisor/. Then choose Service limits in the navigation pane.
-    public func getAccountLimit(_ input: GetAccountLimitRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAccountLimitResponse> {
-        return self.client.execute(operation: "GetAccountLimit", path: "/2013-04-01/accountlimit/{Type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getAccountLimit(_ input: GetAccountLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountLimitResponse {
+        return try await self.client.execute(operation: "GetAccountLimit", path: "/2013-04-01/accountlimit/{Type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the current status of a change batch request. The status is one of the
@@ -511,8 +540,9 @@ public struct Route53: AWSService {
     /// 					propagated to all Amazon Route 53 DNS servers. This is the initial status of all
     /// 					change batch requests.    INSYNC indicates that the changes have propagated to all Route 53
     /// 					DNS servers.
-    public func getChange(_ input: GetChangeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetChangeResponse> {
-        return self.client.execute(operation: "GetChange", path: "/2013-04-01/change/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getChange(_ input: GetChangeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChangeResponse {
+        return try await self.client.execute(operation: "GetChange", path: "/2013-04-01/change/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Route 53 does not perform authorization for this API because it retrieves information
@@ -521,14 +551,16 @@ public struct Route53: AWSService {
     /// 				services. For more information, see IP Address Ranges
     /// 					of Amazon Route 53 Servers in the Amazon Route 53 Developer
     /// 					Guide.
-    public func getCheckerIpRanges(_ input: GetCheckerIpRangesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCheckerIpRangesResponse> {
-        return self.client.execute(operation: "GetCheckerIpRanges", path: "/2013-04-01/checkeripranges", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCheckerIpRanges(_ input: GetCheckerIpRangesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCheckerIpRangesResponse {
+        return try await self.client.execute(operation: "GetCheckerIpRanges", path: "/2013-04-01/checkeripranges", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about DNSSEC for a specific hosted zone, including the key-signing
     /// 			keys (KSKs) in the hosted zone.
-    public func getDNSSEC(_ input: GetDNSSECRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDNSSECResponse> {
-        return self.client.execute(operation: "GetDNSSEC", path: "/2013-04-01/hostedzone/{HostedZoneId}/dnssec", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDNSSEC(_ input: GetDNSSECRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDNSSECResponse {
+        return try await self.client.execute(operation: "GetDNSSEC", path: "/2013-04-01/hostedzone/{HostedZoneId}/dnssec", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about whether a specified geographic location is supported for Amazon
@@ -541,75 +573,87 @@ public struct Route53: AWSService {
     /// 			for geolocation:  GET /2013-04-01/geolocation?countrycode=two-character country
     /// 					code&subdivisioncode=subdivision
     /// 			code
-    public func getGeoLocation(_ input: GetGeoLocationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGeoLocationResponse> {
-        return self.client.execute(operation: "GetGeoLocation", path: "/2013-04-01/geolocation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getGeoLocation(_ input: GetGeoLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGeoLocationResponse {
+        return try await self.client.execute(operation: "GetGeoLocation", path: "/2013-04-01/geolocation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a specified health check.
-    public func getHealthCheck(_ input: GetHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetHealthCheckResponse> {
-        return self.client.execute(operation: "GetHealthCheck", path: "/2013-04-01/healthcheck/{HealthCheckId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getHealthCheck(_ input: GetHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHealthCheckResponse {
+        return try await self.client.execute(operation: "GetHealthCheck", path: "/2013-04-01/healthcheck/{HealthCheckId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the number of health checks that are associated with the current Amazon Web Services account.
-    public func getHealthCheckCount(_ input: GetHealthCheckCountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetHealthCheckCountResponse> {
-        return self.client.execute(operation: "GetHealthCheckCount", path: "/2013-04-01/healthcheckcount", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getHealthCheckCount(_ input: GetHealthCheckCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHealthCheckCountResponse {
+        return try await self.client.execute(operation: "GetHealthCheckCount", path: "/2013-04-01/healthcheckcount", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the reason that a specified health check failed most recently.
-    public func getHealthCheckLastFailureReason(_ input: GetHealthCheckLastFailureReasonRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetHealthCheckLastFailureReasonResponse> {
-        return self.client.execute(operation: "GetHealthCheckLastFailureReason", path: "/2013-04-01/healthcheck/{HealthCheckId}/lastfailurereason", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getHealthCheckLastFailureReason(_ input: GetHealthCheckLastFailureReasonRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHealthCheckLastFailureReasonResponse {
+        return try await self.client.execute(operation: "GetHealthCheckLastFailureReason", path: "/2013-04-01/healthcheck/{HealthCheckId}/lastfailurereason", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets status of a specified health check.   This API is intended for use during development to diagnose behavior. It doesn’t
     /// 				support production use-cases with high query rates that require immediate and
     /// 				actionable responses.
-    public func getHealthCheckStatus(_ input: GetHealthCheckStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetHealthCheckStatusResponse> {
-        return self.client.execute(operation: "GetHealthCheckStatus", path: "/2013-04-01/healthcheck/{HealthCheckId}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getHealthCheckStatus(_ input: GetHealthCheckStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHealthCheckStatusResponse {
+        return try await self.client.execute(operation: "GetHealthCheckStatus", path: "/2013-04-01/healthcheck/{HealthCheckId}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a specified hosted zone including the four name servers
     /// 			assigned to the hosted zone.
-    public func getHostedZone(_ input: GetHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetHostedZoneResponse> {
-        return self.client.execute(operation: "GetHostedZone", path: "/2013-04-01/hostedzone/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getHostedZone(_ input: GetHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHostedZoneResponse {
+        return try await self.client.execute(operation: "GetHostedZone", path: "/2013-04-01/hostedzone/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the number of hosted zones that are associated with the current Amazon Web Services account.
-    public func getHostedZoneCount(_ input: GetHostedZoneCountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetHostedZoneCountResponse> {
-        return self.client.execute(operation: "GetHostedZoneCount", path: "/2013-04-01/hostedzonecount", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getHostedZoneCount(_ input: GetHostedZoneCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHostedZoneCountResponse {
+        return try await self.client.execute(operation: "GetHostedZoneCount", path: "/2013-04-01/hostedzonecount", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the specified limit for a specified hosted zone, for example, the maximum number
     /// 			of records that you can create in the hosted zone.  For the default limit, see Limits in the
     /// 				Amazon Route 53 Developer Guide. To request a higher limit,
     /// 				open a case.
-    public func getHostedZoneLimit(_ input: GetHostedZoneLimitRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetHostedZoneLimitResponse> {
-        return self.client.execute(operation: "GetHostedZoneLimit", path: "/2013-04-01/hostedzonelimit/{HostedZoneId}/{Type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getHostedZoneLimit(_ input: GetHostedZoneLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHostedZoneLimitResponse {
+        return try await self.client.execute(operation: "GetHostedZoneLimit", path: "/2013-04-01/hostedzonelimit/{HostedZoneId}/{Type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a specified configuration for DNS query logging. For more information about DNS query logs, see CreateQueryLoggingConfig and Logging DNS
     /// 			Queries.
-    public func getQueryLoggingConfig(_ input: GetQueryLoggingConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetQueryLoggingConfigResponse> {
-        return self.client.execute(operation: "GetQueryLoggingConfig", path: "/2013-04-01/queryloggingconfig/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getQueryLoggingConfig(_ input: GetQueryLoggingConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryLoggingConfigResponse {
+        return try await self.client.execute(operation: "GetQueryLoggingConfig", path: "/2013-04-01/queryloggingconfig/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves information about a specified reusable delegation set, including the four
     /// 			name servers that are assigned to the delegation set.
-    public func getReusableDelegationSet(_ input: GetReusableDelegationSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetReusableDelegationSetResponse> {
-        return self.client.execute(operation: "GetReusableDelegationSet", path: "/2013-04-01/delegationset/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getReusableDelegationSet(_ input: GetReusableDelegationSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReusableDelegationSetResponse {
+        return try await self.client.execute(operation: "GetReusableDelegationSet", path: "/2013-04-01/delegationset/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the maximum number of hosted zones that you can associate with the specified
     /// 			reusable delegation set. For the default limit, see Limits in the
     /// 				Amazon Route 53 Developer Guide. To request a higher limit,
     /// 				open a case.
-    public func getReusableDelegationSetLimit(_ input: GetReusableDelegationSetLimitRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetReusableDelegationSetLimitResponse> {
-        return self.client.execute(operation: "GetReusableDelegationSetLimit", path: "/2013-04-01/reusabledelegationsetlimit/{DelegationSetId}/{Type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getReusableDelegationSetLimit(_ input: GetReusableDelegationSetLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReusableDelegationSetLimitResponse {
+        return try await self.client.execute(operation: "GetReusableDelegationSetLimit", path: "/2013-04-01/reusabledelegationsetlimit/{DelegationSetId}/{Type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a specific traffic policy version. For information about how of deleting a traffic policy affects the response from
     /// 				GetTrafficPolicy, see DeleteTrafficPolicy.
-    public func getTrafficPolicy(_ input: GetTrafficPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTrafficPolicyResponse> {
-        return self.client.execute(operation: "GetTrafficPolicy", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTrafficPolicy(_ input: GetTrafficPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrafficPolicyResponse {
+        return try await self.client.execute(operation: "GetTrafficPolicy", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a specified traffic policy instance.  After you submit a CreateTrafficPolicyInstance or an
@@ -618,31 +662,36 @@ public struct Route53: AWSService {
     /// 				policy definition. For more information, see the State response
     /// 				element.   In the Route 53 console, traffic policy instances are known as policy
     /// 				records.
-    public func getTrafficPolicyInstance(_ input: GetTrafficPolicyInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTrafficPolicyInstanceResponse> {
-        return self.client.execute(operation: "GetTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTrafficPolicyInstance(_ input: GetTrafficPolicyInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrafficPolicyInstanceResponse {
+        return try await self.client.execute(operation: "GetTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the number of traffic policy instances that are associated with the current
     /// 				Amazon Web Services account.
-    public func getTrafficPolicyInstanceCount(_ input: GetTrafficPolicyInstanceCountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTrafficPolicyInstanceCountResponse> {
-        return self.client.execute(operation: "GetTrafficPolicyInstanceCount", path: "/2013-04-01/trafficpolicyinstancecount", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTrafficPolicyInstanceCount(_ input: GetTrafficPolicyInstanceCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrafficPolicyInstanceCountResponse {
+        return try await self.client.execute(operation: "GetTrafficPolicyInstanceCount", path: "/2013-04-01/trafficpolicyinstancecount", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a paginated list of location objects and their CIDR blocks.
-    public func listCidrBlocks(_ input: ListCidrBlocksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCidrBlocksResponse> {
-        return self.client.execute(operation: "ListCidrBlocks", path: "/2013-04-01/cidrcollection/{CollectionId}/cidrblocks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCidrBlocks(_ input: ListCidrBlocksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCidrBlocksResponse {
+        return try await self.client.execute(operation: "ListCidrBlocks", path: "/2013-04-01/cidrcollection/{CollectionId}/cidrblocks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a paginated list of CIDR collections in the Amazon Web Services account
     /// 			(metadata only).
-    public func listCidrCollections(_ input: ListCidrCollectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCidrCollectionsResponse> {
-        return self.client.execute(operation: "ListCidrCollections", path: "/2013-04-01/cidrcollection", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCidrCollections(_ input: ListCidrCollectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCidrCollectionsResponse {
+        return try await self.client.execute(operation: "ListCidrCollections", path: "/2013-04-01/cidrcollection", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a paginated list of CIDR locations for the given collection (metadata only,
     /// 			does not include CIDR blocks).
-    public func listCidrLocations(_ input: ListCidrLocationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCidrLocationsResponse> {
-        return self.client.execute(operation: "ListCidrLocations", path: "/2013-04-01/cidrcollection/{CollectionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCidrLocations(_ input: ListCidrLocationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCidrLocationsResponse {
+        return try await self.client.execute(operation: "ListCidrLocations", path: "/2013-04-01/cidrcollection/{CollectionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of supported geographic locations. Countries are listed first, and continents are listed last. If Amazon Route 53
@@ -651,13 +700,15 @@ public struct Route53: AWSService {
     /// 			country. Route 53 does not perform authorization for this API because it retrieves information
     /// 			that is already available to the public. For a list of supported geolocation codes, see the GeoLocation data
     /// 			type.
-    public func listGeoLocations(_ input: ListGeoLocationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGeoLocationsResponse> {
-        return self.client.execute(operation: "ListGeoLocations", path: "/2013-04-01/geolocations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listGeoLocations(_ input: ListGeoLocationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGeoLocationsResponse {
+        return try await self.client.execute(operation: "ListGeoLocations", path: "/2013-04-01/geolocations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
-    public func listHealthChecks(_ input: ListHealthChecksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHealthChecksResponse> {
-        return self.client.execute(operation: "ListHealthChecks", path: "/2013-04-01/healthcheck", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listHealthChecks(_ input: ListHealthChecksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHealthChecksResponse {
+        return try await self.client.execute(operation: "ListHealthChecks", path: "/2013-04-01/healthcheck", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of the public and private hosted zones that are associated with the
@@ -665,8 +716,9 @@ public struct Route53: AWSService {
     /// 			child element for each hosted zone. Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of
     /// 			hosted zones, you can use the maxitems parameter to list them in groups of
     /// 			up to 100.
-    public func listHostedZones(_ input: ListHostedZonesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHostedZonesResponse> {
-        return self.client.execute(operation: "ListHostedZones", path: "/2013-04-01/hostedzone", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listHostedZones(_ input: ListHostedZonesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHostedZonesResponse {
+        return try await self.client.execute(operation: "ListHostedZones", path: "/2013-04-01/hostedzone", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of your hosted zones in lexicographic order. The response includes a
@@ -698,8 +750,9 @@ public struct Route53: AWSService {
     /// 					and specify the value of NextDNSName and
     /// 						NextHostedZoneId in the dnsname and
     /// 						hostedzoneid parameters, respectively.
-    public func listHostedZonesByName(_ input: ListHostedZonesByNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHostedZonesByNameResponse> {
-        return self.client.execute(operation: "ListHostedZonesByName", path: "/2013-04-01/hostedzonesbyname", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listHostedZonesByName(_ input: ListHostedZonesByNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHostedZonesByNameResponse {
+        return try await self.client.execute(operation: "ListHostedZonesByName", path: "/2013-04-01/hostedzonesbyname", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the private hosted zones that a specified VPC is associated with, regardless
@@ -715,8 +768,9 @@ public struct Route53: AWSService {
     /// 				group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to
     /// 				one partition. The following are the supported partitions:    aws - Amazon Web Services Regions    aws-cn - China Regions    aws-us-gov - Amazon Web Services GovCloud (US) Region   For more information, see Access Management
     /// 				in the Amazon Web Services General Reference.
-    public func listHostedZonesByVPC(_ input: ListHostedZonesByVPCRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHostedZonesByVPCResponse> {
-        return self.client.execute(operation: "ListHostedZonesByVPC", path: "/2013-04-01/hostedzonesbyvpc", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listHostedZonesByVPC(_ input: ListHostedZonesByVPCRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHostedZonesByVPCResponse {
+        return try await self.client.execute(operation: "ListHostedZonesByVPC", path: "/2013-04-01/hostedzonesbyvpc", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the configurations for DNS query logging that are associated with the current
@@ -724,8 +778,9 @@ public struct Route53: AWSService {
     /// 			hosted zone. For more information about DNS query logs, see CreateQueryLoggingConfig. Additional information, including the format of
     /// 			DNS query logs, appears in Logging DNS Queries in
     /// 			the Amazon Route 53 Developer Guide.
-    public func listQueryLoggingConfigs(_ input: ListQueryLoggingConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListQueryLoggingConfigsResponse> {
-        return self.client.execute(operation: "ListQueryLoggingConfigs", path: "/2013-04-01/queryloggingconfig", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listQueryLoggingConfigs(_ input: ListQueryLoggingConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQueryLoggingConfigsResponse {
+        return try await self.client.execute(operation: "ListQueryLoggingConfigs", path: "/2013-04-01/queryloggingconfig", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the resource record sets in a specified hosted zone.  ListResourceRecordSets returns up to 300 resource record sets at a time
@@ -752,34 +807,39 @@ public struct Route53: AWSService {
     /// 			response. Then submit another ListResourceRecordSets request, and specify
     /// 			those values for StartRecordName, StartRecordType, and
     /// 				StartRecordIdentifier.
-    public func listResourceRecordSets(_ input: ListResourceRecordSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourceRecordSetsResponse> {
-        return self.client.execute(operation: "ListResourceRecordSets", path: "/2013-04-01/hostedzone/{HostedZoneId}/rrset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listResourceRecordSets(_ input: ListResourceRecordSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceRecordSetsResponse {
+        return try await self.client.execute(operation: "ListResourceRecordSets", path: "/2013-04-01/hostedzone/{HostedZoneId}/rrset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of the reusable delegation sets that are associated with the current
     /// 				Amazon Web Services account.
-    public func listReusableDelegationSets(_ input: ListReusableDelegationSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListReusableDelegationSetsResponse> {
-        return self.client.execute(operation: "ListReusableDelegationSets", path: "/2013-04-01/delegationset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listReusableDelegationSets(_ input: ListReusableDelegationSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReusableDelegationSetsResponse {
+        return try await self.client.execute(operation: "ListReusableDelegationSets", path: "/2013-04-01/delegationset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists tags for one health check or hosted zone.  For information about using tags for cost allocation, see Using Cost Allocation
     /// 				Tags in the Billing and Cost Management User Guide.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/2013-04-01/tags/{ResourceType}/{ResourceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/2013-04-01/tags/{ResourceType}/{ResourceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists tags for up to 10 health checks or hosted zones. For information about using tags for cost allocation, see Using Cost Allocation
     /// 				Tags in the Billing and Cost Management User Guide.
-    public func listTagsForResources(_ input: ListTagsForResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourcesResponse> {
-        return self.client.execute(operation: "ListTagsForResources", path: "/2013-04-01/tags/{ResourceType}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResources(_ input: ListTagsForResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourcesResponse {
+        return try await self.client.execute(operation: "ListTagsForResources", path: "/2013-04-01/tags/{ResourceType}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about the latest version for every traffic policy that is associated
     /// 			with the current Amazon Web Services account. Policies are listed in the order that they
     /// 			were created in.  For information about how of deleting a traffic policy affects the response from
     /// 				ListTrafficPolicies, see DeleteTrafficPolicy.
-    public func listTrafficPolicies(_ input: ListTrafficPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTrafficPoliciesResponse> {
-        return self.client.execute(operation: "ListTrafficPolicies", path: "/2013-04-01/trafficpolicies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTrafficPolicies(_ input: ListTrafficPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrafficPoliciesResponse {
+        return try await self.client.execute(operation: "ListTrafficPolicies", path: "/2013-04-01/trafficpolicies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about the traffic policy instances that you created by using the
@@ -789,8 +849,9 @@ public struct Route53: AWSService {
     /// 					State response element.  Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic
     /// 			policy instances, you can use the MaxItems parameter to list them in groups
     /// 			of up to 100.
-    public func listTrafficPolicyInstances(_ input: ListTrafficPolicyInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTrafficPolicyInstancesResponse> {
-        return self.client.execute(operation: "ListTrafficPolicyInstances", path: "/2013-04-01/trafficpolicyinstances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTrafficPolicyInstances(_ input: ListTrafficPolicyInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrafficPolicyInstancesResponse {
+        return try await self.client.execute(operation: "ListTrafficPolicyInstances", path: "/2013-04-01/trafficpolicyinstances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about the traffic policy instances that you created in a specified
@@ -801,8 +862,9 @@ public struct Route53: AWSService {
     /// 				element.  Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic
     /// 			policy instances, you can use the MaxItems parameter to list them in groups
     /// 			of up to 100.
-    public func listTrafficPolicyInstancesByHostedZone(_ input: ListTrafficPolicyInstancesByHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTrafficPolicyInstancesByHostedZoneResponse> {
-        return self.client.execute(operation: "ListTrafficPolicyInstancesByHostedZone", path: "/2013-04-01/trafficpolicyinstances/hostedzone", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTrafficPolicyInstancesByHostedZone(_ input: ListTrafficPolicyInstancesByHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrafficPolicyInstancesByHostedZoneResponse {
+        return try await self.client.execute(operation: "ListTrafficPolicyInstancesByHostedZone", path: "/2013-04-01/trafficpolicyinstances/hostedzone", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about the traffic policy instances that you created by using a
@@ -813,46 +875,53 @@ public struct Route53: AWSService {
     /// 				element.  Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic
     /// 			policy instances, you can use the MaxItems parameter to list them in groups
     /// 			of up to 100.
-    public func listTrafficPolicyInstancesByPolicy(_ input: ListTrafficPolicyInstancesByPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTrafficPolicyInstancesByPolicyResponse> {
-        return self.client.execute(operation: "ListTrafficPolicyInstancesByPolicy", path: "/2013-04-01/trafficpolicyinstances/trafficpolicy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTrafficPolicyInstancesByPolicy(_ input: ListTrafficPolicyInstancesByPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrafficPolicyInstancesByPolicyResponse {
+        return try await self.client.execute(operation: "ListTrafficPolicyInstancesByPolicy", path: "/2013-04-01/trafficpolicyinstances/trafficpolicy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about all of the versions for a specified traffic policy. Traffic policy versions are listed in numerical order by
     /// 			VersionNumber.
-    public func listTrafficPolicyVersions(_ input: ListTrafficPolicyVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTrafficPolicyVersionsResponse> {
-        return self.client.execute(operation: "ListTrafficPolicyVersions", path: "/2013-04-01/trafficpolicies/{Id}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTrafficPolicyVersions(_ input: ListTrafficPolicyVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrafficPolicyVersionsResponse {
+        return try await self.client.execute(operation: "ListTrafficPolicyVersions", path: "/2013-04-01/trafficpolicies/{Id}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a list of the VPCs that were created by other accounts and that can be associated
     /// 			with a specified hosted zone because you've submitted one or more
     /// 				CreateVPCAssociationAuthorization requests.  The response includes a VPCs element with a VPC child
     /// 			element for each VPC that can be associated with the hosted zone.
-    public func listVPCAssociationAuthorizations(_ input: ListVPCAssociationAuthorizationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVPCAssociationAuthorizationsResponse> {
-        return self.client.execute(operation: "ListVPCAssociationAuthorizations", path: "/2013-04-01/hostedzone/{HostedZoneId}/authorizevpcassociation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listVPCAssociationAuthorizations(_ input: ListVPCAssociationAuthorizationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVPCAssociationAuthorizationsResponse {
+        return try await self.client.execute(operation: "ListVPCAssociationAuthorizations", path: "/2013-04-01/hostedzone/{HostedZoneId}/authorizevpcassociation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the value that Amazon Route 53 returns in response to a DNS request for a
     /// 			specified record name and type. You can optionally specify the IP address of a DNS
     /// 			resolver, an EDNS0 client subnet IP address, and a subnet mask.  This call only supports querying public hosted zones.
-    public func testDNSAnswer(_ input: TestDNSAnswerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestDNSAnswerResponse> {
-        return self.client.execute(operation: "TestDNSAnswer", path: "/2013-04-01/testdnsanswer", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func testDNSAnswer(_ input: TestDNSAnswerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestDNSAnswerResponse {
+        return try await self.client.execute(operation: "TestDNSAnswer", path: "/2013-04-01/testdnsanswer", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an existing health check. Note that some values can't be updated.  For more information about updating health checks, see Creating,
     /// 				Updating, and Deleting Health Checks in the Amazon Route 53
     /// 				Developer Guide.
-    public func updateHealthCheck(_ input: UpdateHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateHealthCheckResponse> {
-        return self.client.execute(operation: "UpdateHealthCheck", path: "/2013-04-01/healthcheck/{HealthCheckId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateHealthCheck(_ input: UpdateHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateHealthCheckResponse {
+        return try await self.client.execute(operation: "UpdateHealthCheck", path: "/2013-04-01/healthcheck/{HealthCheckId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the comment for a specified hosted zone.
-    public func updateHostedZoneComment(_ input: UpdateHostedZoneCommentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateHostedZoneCommentResponse> {
-        return self.client.execute(operation: "UpdateHostedZoneComment", path: "/2013-04-01/hostedzone/{Id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateHostedZoneComment(_ input: UpdateHostedZoneCommentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateHostedZoneCommentResponse {
+        return try await self.client.execute(operation: "UpdateHostedZoneComment", path: "/2013-04-01/hostedzone/{Id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the comment for a specified traffic policy version.
-    public func updateTrafficPolicyComment(_ input: UpdateTrafficPolicyCommentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTrafficPolicyCommentResponse> {
-        return self.client.execute(operation: "UpdateTrafficPolicyComment", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateTrafficPolicyComment(_ input: UpdateTrafficPolicyCommentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTrafficPolicyCommentResponse {
+        return try await self.client.execute(operation: "UpdateTrafficPolicyComment", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the resource record sets in a specified hosted zone that were created based on
@@ -866,8 +935,9 @@ public struct Route53: AWSService {
     /// 					respond to DNS queries for the root resource record set name (such as
     /// 					example.com) by using the new resource record sets.   Route 53 deletes the old group of resource record sets that are associated
     /// 					with the root resource record set name.
-    public func updateTrafficPolicyInstance(_ input: UpdateTrafficPolicyInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTrafficPolicyInstanceResponse> {
-        return self.client.execute(operation: "UpdateTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/{Id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateTrafficPolicyInstance(_ input: UpdateTrafficPolicyInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTrafficPolicyInstanceResponse {
+        return try await self.client.execute(operation: "UpdateTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/{Id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -882,218 +952,83 @@ extension Route53 {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Route53 {
     /// Returns a paginated list of location objects and their CIDR blocks.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listCidrBlocksPaginator<Result>(
-        _ input: ListCidrBlocksRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListCidrBlocksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listCidrBlocks,
-            inputKey: \ListCidrBlocksRequest.nextToken,
-            outputKey: \ListCidrBlocksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCidrBlocksPaginator(
         _ input: ListCidrBlocksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListCidrBlocksResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCidrBlocksRequest, ListCidrBlocksResponse> {
+        return .init(
             input: input,
             command: self.listCidrBlocks,
             inputKey: \ListCidrBlocksRequest.nextToken,
             outputKey: \ListCidrBlocksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a paginated list of CIDR collections in the Amazon Web Services account
     /// 			(metadata only).
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listCidrCollectionsPaginator<Result>(
-        _ input: ListCidrCollectionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListCidrCollectionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listCidrCollections,
-            inputKey: \ListCidrCollectionsRequest.nextToken,
-            outputKey: \ListCidrCollectionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCidrCollectionsPaginator(
         _ input: ListCidrCollectionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListCidrCollectionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCidrCollectionsRequest, ListCidrCollectionsResponse> {
+        return .init(
             input: input,
             command: self.listCidrCollections,
             inputKey: \ListCidrCollectionsRequest.nextToken,
             outputKey: \ListCidrCollectionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a paginated list of CIDR locations for the given collection (metadata only,
     /// 			does not include CIDR blocks).
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listCidrLocationsPaginator<Result>(
-        _ input: ListCidrLocationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListCidrLocationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listCidrLocations,
-            inputKey: \ListCidrLocationsRequest.nextToken,
-            outputKey: \ListCidrLocationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCidrLocationsPaginator(
         _ input: ListCidrLocationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListCidrLocationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCidrLocationsRequest, ListCidrLocationsResponse> {
+        return .init(
             input: input,
             command: self.listCidrLocations,
             inputKey: \ListCidrLocationsRequest.nextToken,
             outputKey: \ListCidrLocationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listHealthChecksPaginator<Result>(
-        _ input: ListHealthChecksRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListHealthChecksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listHealthChecks,
-            inputKey: \ListHealthChecksRequest.marker,
-            outputKey: \ListHealthChecksResponse.nextMarker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listHealthChecksPaginator(
         _ input: ListHealthChecksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListHealthChecksResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListHealthChecksRequest, ListHealthChecksResponse> {
+        return .init(
             input: input,
             command: self.listHealthChecks,
             inputKey: \ListHealthChecksRequest.marker,
             outputKey: \ListHealthChecksResponse.nextMarker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -1102,55 +1037,21 @@ extension Route53 {
     /// 			child element for each hosted zone. Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of
     /// 			hosted zones, you can use the maxitems parameter to list them in groups of
     /// 			up to 100.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listHostedZonesPaginator<Result>(
-        _ input: ListHostedZonesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListHostedZonesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listHostedZones,
-            inputKey: \ListHostedZonesRequest.marker,
-            outputKey: \ListHostedZonesResponse.nextMarker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listHostedZonesPaginator(
         _ input: ListHostedZonesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListHostedZonesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListHostedZonesRequest, ListHostedZonesResponse> {
+        return .init(
             input: input,
             command: self.listHostedZones,
             inputKey: \ListHostedZonesRequest.marker,
             outputKey: \ListHostedZonesResponse.nextMarker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -1159,55 +1060,21 @@ extension Route53 {
     /// 			hosted zone. For more information about DNS query logs, see CreateQueryLoggingConfig. Additional information, including the format of
     /// 			DNS query logs, appears in Logging DNS Queries in
     /// 			the Amazon Route 53 Developer Guide.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listQueryLoggingConfigsPaginator<Result>(
-        _ input: ListQueryLoggingConfigsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListQueryLoggingConfigsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listQueryLoggingConfigs,
-            inputKey: \ListQueryLoggingConfigsRequest.nextToken,
-            outputKey: \ListQueryLoggingConfigsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listQueryLoggingConfigsPaginator(
         _ input: ListQueryLoggingConfigsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListQueryLoggingConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListQueryLoggingConfigsRequest, ListQueryLoggingConfigsResponse> {
+        return .init(
             input: input,
             command: self.listQueryLoggingConfigs,
             inputKey: \ListQueryLoggingConfigsRequest.nextToken,
             outputKey: \ListQueryLoggingConfigsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }
@@ -1273,13 +1140,13 @@ extension Route53.ListQueryLoggingConfigsRequest: AWSPaginateToken {
 
 // MARK: Waiters
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Route53 {
     public func waitUntilResourceRecordSetsChanged(
         _ input: GetChangeRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("changeInfo.status", expected: "INSYNC")),
@@ -1287,6 +1154,6 @@ extension Route53 {
             minDelayTime: .seconds(30),
             command: self.getChange
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 }

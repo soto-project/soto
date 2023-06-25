@@ -86,45 +86,52 @@ public struct Signer: AWSService {
     // MARK: API Calls
 
     /// Adds cross-account permissions to a signing profile.
-    public func addProfilePermission(_ input: AddProfilePermissionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddProfilePermissionResponse> {
-        return self.client.execute(operation: "AddProfilePermission", path: "/signing-profiles/{profileName}/permissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func addProfilePermission(_ input: AddProfilePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddProfilePermissionResponse {
+        return try await self.client.execute(operation: "AddProfilePermission", path: "/signing-profiles/{profileName}/permissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Changes the state of an ACTIVE signing profile to CANCELED.
     /// 			A canceled profile is still viewable with the ListSigningProfiles
     /// 			operation, but it cannot perform new signing jobs, and is deleted two years after
     /// 			cancelation.
-    @discardableResult public func cancelSigningProfile(_ input: CancelSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "CancelSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func cancelSigningProfile(_ input: CancelSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "CancelSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a specific code signing job. You specify the job by using the
     /// 				jobId value that is returned by the StartSigningJob
     /// 			operation.
-    public func describeSigningJob(_ input: DescribeSigningJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSigningJobResponse> {
-        return self.client.execute(operation: "DescribeSigningJob", path: "/signing-jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeSigningJob(_ input: DescribeSigningJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSigningJobResponse {
+        return try await self.client.execute(operation: "DescribeSigningJob", path: "/signing-jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the
     /// 			revocation status of one or more of the signing profile, signing job, and signing
     /// 			certificate.
-    public func getRevocationStatus(_ input: GetRevocationStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRevocationStatusResponse> {
-        return self.client.execute(operation: "GetRevocationStatus", path: "/revocations", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "verification.", logger: logger, on: eventLoop)
+    @Sendable
+    public func getRevocationStatus(_ input: GetRevocationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRevocationStatusResponse {
+        return try await self.client.execute(operation: "GetRevocationStatus", path: "/revocations", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "verification.", logger: logger)
     }
 
     /// Returns information on a specific signing platform.
-    public func getSigningPlatform(_ input: GetSigningPlatformRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSigningPlatformResponse> {
-        return self.client.execute(operation: "GetSigningPlatform", path: "/signing-platforms/{platformId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSigningPlatform(_ input: GetSigningPlatformRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSigningPlatformResponse {
+        return try await self.client.execute(operation: "GetSigningPlatform", path: "/signing-platforms/{platformId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information on a specific signing profile.
-    public func getSigningProfile(_ input: GetSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSigningProfileResponse> {
-        return self.client.execute(operation: "GetSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSigningProfile(_ input: GetSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSigningProfileResponse {
+        return try await self.client.execute(operation: "GetSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the cross-account permissions associated with a signing profile.
-    public func listProfilePermissions(_ input: ListProfilePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProfilePermissionsResponse> {
-        return self.client.execute(operation: "ListProfilePermissions", path: "/signing-profiles/{profileName}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listProfilePermissions(_ input: ListProfilePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProfilePermissionsResponse {
+        return try await self.client.execute(operation: "ListProfilePermissions", path: "/signing-profiles/{profileName}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all your signing jobs. You can use the maxResults parameter to
@@ -134,8 +141,9 @@ public struct Signer: AWSService {
     /// 			continue calling ListSigningJobs with your maxResults
     /// 			parameter and with new values that code signing returns in the nextToken
     /// 			parameter until all of your signing jobs have been returned.
-    public func listSigningJobs(_ input: ListSigningJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSigningJobsResponse> {
-        return self.client.execute(operation: "ListSigningJobs", path: "/signing-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSigningJobs(_ input: ListSigningJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSigningJobsResponse {
+        return try await self.client.execute(operation: "ListSigningJobs", path: "/signing-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all signing platforms available in code signing that match the request parameters. If
@@ -145,8 +153,9 @@ public struct Signer: AWSService {
     /// 				maxResults parameter and with new values that code signing returns in the
     /// 				nextToken parameter until all of your signing jobs have been
     /// 			returned.
-    public func listSigningPlatforms(_ input: ListSigningPlatformsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSigningPlatformsResponse> {
-        return self.client.execute(operation: "ListSigningPlatforms", path: "/signing-platforms", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSigningPlatforms(_ input: ListSigningPlatformsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSigningPlatformsResponse {
+        return try await self.client.execute(operation: "ListSigningPlatforms", path: "/signing-platforms", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all available signing profiles in your AWS account. Returns only profiles with
@@ -157,44 +166,51 @@ public struct Signer: AWSService {
     /// 				ListSigningJobs with your maxResults parameter and with
     /// 			new values that code signing returns in the nextToken parameter until all of your
     /// 			signing jobs have been returned.
-    public func listSigningProfiles(_ input: ListSigningProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSigningProfilesResponse> {
-        return self.client.execute(operation: "ListSigningProfiles", path: "/signing-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSigningProfiles(_ input: ListSigningProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSigningProfilesResponse {
+        return try await self.client.execute(operation: "ListSigningProfiles", path: "/signing-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of the tags associated with a signing profile resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a signing profile. A signing profile is a code signing template that can be used to
     /// 			carry out a pre-defined signing job.
     ///
-    public func putSigningProfile(_ input: PutSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutSigningProfileResponse> {
-        return self.client.execute(operation: "PutSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putSigningProfile(_ input: PutSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutSigningProfileResponse {
+        return try await self.client.execute(operation: "PutSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes cross-account permissions from a signing profile.
-    public func removeProfilePermission(_ input: RemoveProfilePermissionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveProfilePermissionResponse> {
-        return self.client.execute(operation: "RemoveProfilePermission", path: "/signing-profiles/{profileName}/permissions/{statementId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func removeProfilePermission(_ input: RemoveProfilePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveProfilePermissionResponse {
+        return try await self.client.execute(operation: "RemoveProfilePermission", path: "/signing-profiles/{profileName}/permissions/{statementId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Changes the state of a signing job to REVOKED. This indicates that the signature is no
     /// 			longer valid.
-    @discardableResult public func revokeSignature(_ input: RevokeSignatureRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "RevokeSignature", path: "/signing-jobs/{jobId}/revoke", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func revokeSignature(_ input: RevokeSignatureRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "RevokeSignature", path: "/signing-jobs/{jobId}/revoke", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Changes the state of a signing profile to REVOKED. This indicates that signatures
     /// 			generated using the signing profile after an effective start date are no longer
     /// 			valid.
-    @discardableResult public func revokeSigningProfile(_ input: RevokeSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "RevokeSigningProfile", path: "/signing-profiles/{profileName}/revoke", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func revokeSigningProfile(_ input: RevokeSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "RevokeSigningProfile", path: "/signing-profiles/{profileName}/revoke", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Signs a binary
     /// 			payload and returns a signature envelope.
-    public func signPayload(_ input: SignPayloadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SignPayloadResponse> {
-        return self.client.execute(operation: "SignPayload", path: "/signing-jobs/with-payload", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func signPayload(_ input: SignPayloadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SignPayloadResponse {
+        return try await self.client.execute(operation: "SignPayload", path: "/signing-jobs/with-payload", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Initiates a signing job to be performed on the code provided. Signing jobs are
@@ -218,22 +234,25 @@ public struct Signer: AWSService {
     /// 		       You can call the DescribeSigningJob and the ListSigningJobs actions after you call
     /// 			StartSigningJob.
     /// 		       For a Java example that shows how to use this action, see StartSigningJob.
-    public func startSigningJob(_ input: StartSigningJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSigningJobResponse> {
-        return self.client.execute(operation: "StartSigningJob", path: "/signing-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startSigningJob(_ input: StartSigningJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSigningJobResponse {
+        return try await self.client.execute(operation: "StartSigningJob", path: "/signing-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds one or more tags to a signing profile. Tags are labels that you can use to
     /// 			identify and organize your AWS resources. Each tag consists of a key and an optional
     /// 			value. To specify the signing profile, use its Amazon Resource Name (ARN). To specify
     /// 			the tag, use a key-value pair.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes one or more tags from a signing profile. To remove the tags, specify a list of
     /// 			tag keys.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -248,6 +267,7 @@ extension Signer {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Signer {
     /// Lists all your signing jobs. You can use the maxResults parameter to
     /// 			limit the number of signing jobs that are returned in the response. If additional jobs
@@ -256,55 +276,21 @@ extension Signer {
     /// 			continue calling ListSigningJobs with your maxResults
     /// 			parameter and with new values that code signing returns in the nextToken
     /// 			parameter until all of your signing jobs have been returned.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSigningJobsPaginator<Result>(
-        _ input: ListSigningJobsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSigningJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSigningJobs,
-            inputKey: \ListSigningJobsRequest.nextToken,
-            outputKey: \ListSigningJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSigningJobsPaginator(
         _ input: ListSigningJobsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSigningJobsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSigningJobsRequest, ListSigningJobsResponse> {
+        return .init(
             input: input,
             command: self.listSigningJobs,
             inputKey: \ListSigningJobsRequest.nextToken,
             outputKey: \ListSigningJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -315,55 +301,21 @@ extension Signer {
     /// 				maxResults parameter and with new values that code signing returns in the
     /// 				nextToken parameter until all of your signing jobs have been
     /// 			returned.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSigningPlatformsPaginator<Result>(
-        _ input: ListSigningPlatformsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSigningPlatformsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSigningPlatforms,
-            inputKey: \ListSigningPlatformsRequest.nextToken,
-            outputKey: \ListSigningPlatformsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSigningPlatformsPaginator(
         _ input: ListSigningPlatformsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSigningPlatformsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSigningPlatformsRequest, ListSigningPlatformsResponse> {
+        return .init(
             input: input,
             command: self.listSigningPlatforms,
             inputKey: \ListSigningPlatformsRequest.nextToken,
             outputKey: \ListSigningPlatformsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -375,55 +327,21 @@ extension Signer {
     /// 				ListSigningJobs with your maxResults parameter and with
     /// 			new values that code signing returns in the nextToken parameter until all of your
     /// 			signing jobs have been returned.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSigningProfilesPaginator<Result>(
-        _ input: ListSigningProfilesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSigningProfilesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSigningProfiles,
-            inputKey: \ListSigningProfilesRequest.nextToken,
-            outputKey: \ListSigningProfilesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSigningProfilesPaginator(
         _ input: ListSigningProfilesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSigningProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSigningProfilesRequest, ListSigningProfilesResponse> {
+        return .init(
             input: input,
             command: self.listSigningProfiles,
             inputKey: \ListSigningProfilesRequest.nextToken,
             outputKey: \ListSigningProfilesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }
@@ -470,13 +388,13 @@ extension Signer.ListSigningProfilesRequest: AWSPaginateToken {
 
 // MARK: Waiters
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Signer {
     public func waitUntilSuccessfulSigningJob(
         _ input: DescribeSigningJobRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "Succeeded")),
@@ -486,6 +404,6 @@ extension Signer {
             minDelayTime: .seconds(20),
             command: self.describeSigningJob
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 }

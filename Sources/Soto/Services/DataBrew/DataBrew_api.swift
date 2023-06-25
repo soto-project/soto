@@ -73,223 +73,267 @@ public struct DataBrew: AWSService {
     // MARK: API Calls
 
     /// Deletes one or more versions of a recipe at a time. The entire request will be rejected if:   The recipe does not exist.   There is an invalid version identifier in the list of versions.   The version list is empty.   The version list size exceeds 50.   The version list contains duplicate entries.   The request will complete successfully, but with partial failures, if:   A version does not exist.   A version is being used by a job.   You specify LATEST_WORKING, but it's being used by a project.   The version fails to be deleted.   The LATEST_WORKING version will only be deleted if the recipe has no other versions. If you try to delete LATEST_WORKING while other versions exist (or if they can't be deleted), then LATEST_WORKING will be listed as partial failure in the response.
-    public func batchDeleteRecipeVersion(_ input: BatchDeleteRecipeVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteRecipeVersionResponse> {
-        return self.client.execute(operation: "BatchDeleteRecipeVersion", path: "/recipes/{Name}/batchDeleteRecipeVersion", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchDeleteRecipeVersion(_ input: BatchDeleteRecipeVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteRecipeVersionResponse {
+        return try await self.client.execute(operation: "BatchDeleteRecipeVersion", path: "/recipes/{Name}/batchDeleteRecipeVersion", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new DataBrew dataset.
-    public func createDataset(_ input: CreateDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDatasetResponse> {
-        return self.client.execute(operation: "CreateDataset", path: "/datasets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDataset(_ input: CreateDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatasetResponse {
+        return try await self.client.execute(operation: "CreateDataset", path: "/datasets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new job to analyze a dataset and create its data profile.
-    public func createProfileJob(_ input: CreateProfileJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProfileJobResponse> {
-        return self.client.execute(operation: "CreateProfileJob", path: "/profileJobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createProfileJob(_ input: CreateProfileJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProfileJobResponse {
+        return try await self.client.execute(operation: "CreateProfileJob", path: "/profileJobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new DataBrew project.
-    public func createProject(_ input: CreateProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProjectResponse> {
-        return self.client.execute(operation: "CreateProject", path: "/projects", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createProject(_ input: CreateProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProjectResponse {
+        return try await self.client.execute(operation: "CreateProject", path: "/projects", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new DataBrew recipe.
-    public func createRecipe(_ input: CreateRecipeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRecipeResponse> {
-        return self.client.execute(operation: "CreateRecipe", path: "/recipes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createRecipe(_ input: CreateRecipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRecipeResponse {
+        return try await self.client.execute(operation: "CreateRecipe", path: "/recipes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new job to transform input data, using steps defined in an existing Glue DataBrew recipe
-    public func createRecipeJob(_ input: CreateRecipeJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRecipeJobResponse> {
-        return self.client.execute(operation: "CreateRecipeJob", path: "/recipeJobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createRecipeJob(_ input: CreateRecipeJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRecipeJobResponse {
+        return try await self.client.execute(operation: "CreateRecipeJob", path: "/recipeJobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new ruleset that can be used in a profile job to validate  the data quality of a dataset.
-    public func createRuleset(_ input: CreateRulesetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRulesetResponse> {
-        return self.client.execute(operation: "CreateRuleset", path: "/rulesets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createRuleset(_ input: CreateRulesetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRulesetResponse {
+        return try await self.client.execute(operation: "CreateRuleset", path: "/rulesets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date and time, or at regular intervals.
-    public func createSchedule(_ input: CreateScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateScheduleResponse> {
-        return self.client.execute(operation: "CreateSchedule", path: "/schedules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSchedule(_ input: CreateScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScheduleResponse {
+        return try await self.client.execute(operation: "CreateSchedule", path: "/schedules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a dataset from DataBrew.
-    public func deleteDataset(_ input: DeleteDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDatasetResponse> {
-        return self.client.execute(operation: "DeleteDataset", path: "/datasets/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDataset(_ input: DeleteDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDatasetResponse {
+        return try await self.client.execute(operation: "DeleteDataset", path: "/datasets/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified DataBrew job.
-    public func deleteJob(_ input: DeleteJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteJobResponse> {
-        return self.client.execute(operation: "DeleteJob", path: "/jobs/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteJob(_ input: DeleteJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteJobResponse {
+        return try await self.client.execute(operation: "DeleteJob", path: "/jobs/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an existing DataBrew project.
-    public func deleteProject(_ input: DeleteProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProjectResponse> {
-        return self.client.execute(operation: "DeleteProject", path: "/projects/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteProject(_ input: DeleteProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProjectResponse {
+        return try await self.client.execute(operation: "DeleteProject", path: "/projects/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a single version of a DataBrew recipe.
-    public func deleteRecipeVersion(_ input: DeleteRecipeVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRecipeVersionResponse> {
-        return self.client.execute(operation: "DeleteRecipeVersion", path: "/recipes/{Name}/recipeVersion/{RecipeVersion}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRecipeVersion(_ input: DeleteRecipeVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRecipeVersionResponse {
+        return try await self.client.execute(operation: "DeleteRecipeVersion", path: "/recipes/{Name}/recipeVersion/{RecipeVersion}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a ruleset.
-    public func deleteRuleset(_ input: DeleteRulesetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRulesetResponse> {
-        return self.client.execute(operation: "DeleteRuleset", path: "/rulesets/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRuleset(_ input: DeleteRulesetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRulesetResponse {
+        return try await self.client.execute(operation: "DeleteRuleset", path: "/rulesets/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified DataBrew schedule.
-    public func deleteSchedule(_ input: DeleteScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteScheduleResponse> {
-        return self.client.execute(operation: "DeleteSchedule", path: "/schedules/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSchedule(_ input: DeleteScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteScheduleResponse {
+        return try await self.client.execute(operation: "DeleteSchedule", path: "/schedules/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the definition of a specific DataBrew dataset.
-    public func describeDataset(_ input: DescribeDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDatasetResponse> {
-        return self.client.execute(operation: "DescribeDataset", path: "/datasets/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDataset(_ input: DescribeDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDatasetResponse {
+        return try await self.client.execute(operation: "DescribeDataset", path: "/datasets/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the definition of a specific DataBrew job.
-    public func describeJob(_ input: DescribeJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobResponse> {
-        return self.client.execute(operation: "DescribeJob", path: "/jobs/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeJob(_ input: DescribeJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobResponse {
+        return try await self.client.execute(operation: "DescribeJob", path: "/jobs/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Represents one run of a DataBrew job.
-    public func describeJobRun(_ input: DescribeJobRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobRunResponse> {
-        return self.client.execute(operation: "DescribeJobRun", path: "/jobs/{Name}/jobRun/{RunId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeJobRun(_ input: DescribeJobRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobRunResponse {
+        return try await self.client.execute(operation: "DescribeJobRun", path: "/jobs/{Name}/jobRun/{RunId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the definition of a specific DataBrew project.
-    public func describeProject(_ input: DescribeProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProjectResponse> {
-        return self.client.execute(operation: "DescribeProject", path: "/projects/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeProject(_ input: DescribeProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProjectResponse {
+        return try await self.client.execute(operation: "DescribeProject", path: "/projects/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the definition of a specific DataBrew recipe corresponding to a particular version.
-    public func describeRecipe(_ input: DescribeRecipeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRecipeResponse> {
-        return self.client.execute(operation: "DescribeRecipe", path: "/recipes/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeRecipe(_ input: DescribeRecipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRecipeResponse {
+        return try await self.client.execute(operation: "DescribeRecipe", path: "/recipes/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves detailed information about the ruleset.
-    public func describeRuleset(_ input: DescribeRulesetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRulesetResponse> {
-        return self.client.execute(operation: "DescribeRuleset", path: "/rulesets/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeRuleset(_ input: DescribeRulesetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRulesetResponse {
+        return try await self.client.execute(operation: "DescribeRuleset", path: "/rulesets/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the definition of a specific DataBrew schedule.
-    public func describeSchedule(_ input: DescribeScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeScheduleResponse> {
-        return self.client.execute(operation: "DescribeSchedule", path: "/schedules/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeSchedule(_ input: DescribeScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeScheduleResponse {
+        return try await self.client.execute(operation: "DescribeSchedule", path: "/schedules/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all of the DataBrew datasets.
-    public func listDatasets(_ input: ListDatasetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDatasetsResponse> {
-        return self.client.execute(operation: "ListDatasets", path: "/datasets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDatasets(_ input: ListDatasetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatasetsResponse {
+        return try await self.client.execute(operation: "ListDatasets", path: "/datasets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all of the previous runs of a particular DataBrew job.
-    public func listJobRuns(_ input: ListJobRunsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJobRunsResponse> {
-        return self.client.execute(operation: "ListJobRuns", path: "/jobs/{Name}/jobRuns", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listJobRuns(_ input: ListJobRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobRunsResponse {
+        return try await self.client.execute(operation: "ListJobRuns", path: "/jobs/{Name}/jobRuns", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all of the DataBrew jobs that are defined.
-    public func listJobs(_ input: ListJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJobsResponse> {
-        return self.client.execute(operation: "ListJobs", path: "/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listJobs(_ input: ListJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobsResponse {
+        return try await self.client.execute(operation: "ListJobs", path: "/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all of the DataBrew projects that are defined.
-    public func listProjects(_ input: ListProjectsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProjectsResponse> {
-        return self.client.execute(operation: "ListProjects", path: "/projects", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listProjects(_ input: ListProjectsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProjectsResponse {
+        return try await self.client.execute(operation: "ListProjects", path: "/projects", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
-    public func listRecipeVersions(_ input: ListRecipeVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecipeVersionsResponse> {
-        return self.client.execute(operation: "ListRecipeVersions", path: "/recipeVersions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRecipeVersions(_ input: ListRecipeVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecipeVersionsResponse {
+        return try await self.client.execute(operation: "ListRecipeVersions", path: "/recipeVersions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all of the DataBrew recipes that are defined.
-    public func listRecipes(_ input: ListRecipesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecipesResponse> {
-        return self.client.execute(operation: "ListRecipes", path: "/recipes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRecipes(_ input: ListRecipesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecipesResponse {
+        return try await self.client.execute(operation: "ListRecipes", path: "/recipes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List all rulesets available in the current account or rulesets associated  with a specific resource (dataset).
-    public func listRulesets(_ input: ListRulesetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRulesetsResponse> {
-        return self.client.execute(operation: "ListRulesets", path: "/rulesets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRulesets(_ input: ListRulesetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRulesetsResponse {
+        return try await self.client.execute(operation: "ListRulesets", path: "/rulesets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the DataBrew schedules that are defined.
-    public func listSchedules(_ input: ListSchedulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSchedulesResponse> {
-        return self.client.execute(operation: "ListSchedules", path: "/schedules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSchedules(_ input: ListSchedulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSchedulesResponse {
+        return try await self.client.execute(operation: "ListSchedules", path: "/schedules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the tags for a DataBrew resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Publishes a new version of a DataBrew recipe.
-    public func publishRecipe(_ input: PublishRecipeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PublishRecipeResponse> {
-        return self.client.execute(operation: "PublishRecipe", path: "/recipes/{Name}/publishRecipe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func publishRecipe(_ input: PublishRecipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PublishRecipeResponse {
+        return try await self.client.execute(operation: "PublishRecipe", path: "/recipes/{Name}/publishRecipe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Performs a recipe step within an interactive DataBrew session that's currently open.
-    public func sendProjectSessionAction(_ input: SendProjectSessionActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendProjectSessionActionResponse> {
-        return self.client.execute(operation: "SendProjectSessionAction", path: "/projects/{Name}/sendProjectSessionAction", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func sendProjectSessionAction(_ input: SendProjectSessionActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendProjectSessionActionResponse {
+        return try await self.client.execute(operation: "SendProjectSessionAction", path: "/projects/{Name}/sendProjectSessionAction", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Runs a DataBrew job.
-    public func startJobRun(_ input: StartJobRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartJobRunResponse> {
-        return self.client.execute(operation: "StartJobRun", path: "/jobs/{Name}/startJobRun", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startJobRun(_ input: StartJobRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartJobRunResponse {
+        return try await self.client.execute(operation: "StartJobRun", path: "/jobs/{Name}/startJobRun", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an interactive session, enabling you to manipulate data in a DataBrew project.
-    public func startProjectSession(_ input: StartProjectSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartProjectSessionResponse> {
-        return self.client.execute(operation: "StartProjectSession", path: "/projects/{Name}/startProjectSession", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startProjectSession(_ input: StartProjectSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartProjectSessionResponse {
+        return try await self.client.execute(operation: "StartProjectSession", path: "/projects/{Name}/startProjectSession", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops a particular run of a job.
-    public func stopJobRun(_ input: StopJobRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopJobRunResponse> {
-        return self.client.execute(operation: "StopJobRun", path: "/jobs/{Name}/jobRun/{RunId}/stopJobRun", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopJobRun(_ input: StopJobRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopJobRunResponse {
+        return try await self.client.execute(operation: "StopJobRun", path: "/jobs/{Name}/jobRun/{RunId}/stopJobRun", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds metadata tags to a DataBrew resource, such as a dataset, project, recipe, job, or schedule.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes metadata tags from a DataBrew resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies the definition of an existing DataBrew dataset.
-    public func updateDataset(_ input: UpdateDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDatasetResponse> {
-        return self.client.execute(operation: "UpdateDataset", path: "/datasets/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDataset(_ input: UpdateDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDatasetResponse {
+        return try await self.client.execute(operation: "UpdateDataset", path: "/datasets/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies the definition of an existing profile job.
-    public func updateProfileJob(_ input: UpdateProfileJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProfileJobResponse> {
-        return self.client.execute(operation: "UpdateProfileJob", path: "/profileJobs/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateProfileJob(_ input: UpdateProfileJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProfileJobResponse {
+        return try await self.client.execute(operation: "UpdateProfileJob", path: "/profileJobs/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies the definition of an existing DataBrew project.
-    public func updateProject(_ input: UpdateProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProjectResponse> {
-        return self.client.execute(operation: "UpdateProject", path: "/projects/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateProject(_ input: UpdateProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProjectResponse {
+        return try await self.client.execute(operation: "UpdateProject", path: "/projects/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies the definition of the LATEST_WORKING version of a DataBrew recipe.
-    public func updateRecipe(_ input: UpdateRecipeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRecipeResponse> {
-        return self.client.execute(operation: "UpdateRecipe", path: "/recipes/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateRecipe(_ input: UpdateRecipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRecipeResponse {
+        return try await self.client.execute(operation: "UpdateRecipe", path: "/recipes/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies the definition of an existing DataBrew recipe job.
-    public func updateRecipeJob(_ input: UpdateRecipeJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRecipeJobResponse> {
-        return self.client.execute(operation: "UpdateRecipeJob", path: "/recipeJobs/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateRecipeJob(_ input: UpdateRecipeJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRecipeJobResponse {
+        return try await self.client.execute(operation: "UpdateRecipeJob", path: "/recipeJobs/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates specified ruleset.
-    public func updateRuleset(_ input: UpdateRulesetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRulesetResponse> {
-        return self.client.execute(operation: "UpdateRuleset", path: "/rulesets/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateRuleset(_ input: UpdateRulesetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRulesetResponse {
+        return try await self.client.execute(operation: "UpdateRuleset", path: "/rulesets/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies the definition of an existing DataBrew schedule.
-    public func updateSchedule(_ input: UpdateScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateScheduleResponse> {
-        return self.client.execute(operation: "UpdateSchedule", path: "/schedules/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateSchedule(_ input: UpdateScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateScheduleResponse {
+        return try await self.client.execute(operation: "UpdateSchedule", path: "/schedules/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -304,428 +348,157 @@ extension DataBrew {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DataBrew {
     /// Lists all of the DataBrew datasets.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDatasetsPaginator<Result>(
-        _ input: ListDatasetsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDatasetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDatasets,
-            inputKey: \ListDatasetsRequest.nextToken,
-            outputKey: \ListDatasetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDatasetsPaginator(
         _ input: ListDatasetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDatasetsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDatasetsRequest, ListDatasetsResponse> {
+        return .init(
             input: input,
             command: self.listDatasets,
             inputKey: \ListDatasetsRequest.nextToken,
             outputKey: \ListDatasetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all of the previous runs of a particular DataBrew job.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listJobRunsPaginator<Result>(
-        _ input: ListJobRunsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListJobRunsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listJobRuns,
-            inputKey: \ListJobRunsRequest.nextToken,
-            outputKey: \ListJobRunsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listJobRunsPaginator(
         _ input: ListJobRunsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListJobRunsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListJobRunsRequest, ListJobRunsResponse> {
+        return .init(
             input: input,
             command: self.listJobRuns,
             inputKey: \ListJobRunsRequest.nextToken,
             outputKey: \ListJobRunsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all of the DataBrew jobs that are defined.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listJobsPaginator<Result>(
-        _ input: ListJobsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listJobs,
-            inputKey: \ListJobsRequest.nextToken,
-            outputKey: \ListJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listJobsPaginator(
         _ input: ListJobsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListJobsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListJobsRequest, ListJobsResponse> {
+        return .init(
             input: input,
             command: self.listJobs,
             inputKey: \ListJobsRequest.nextToken,
             outputKey: \ListJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all of the DataBrew projects that are defined.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listProjectsPaginator<Result>(
-        _ input: ListProjectsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListProjectsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listProjects,
-            inputKey: \ListProjectsRequest.nextToken,
-            outputKey: \ListProjectsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listProjectsPaginator(
         _ input: ListProjectsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListProjectsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListProjectsRequest, ListProjectsResponse> {
+        return .init(
             input: input,
             command: self.listProjects,
             inputKey: \ListProjectsRequest.nextToken,
             outputKey: \ListProjectsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRecipeVersionsPaginator<Result>(
-        _ input: ListRecipeVersionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRecipeVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRecipeVersions,
-            inputKey: \ListRecipeVersionsRequest.nextToken,
-            outputKey: \ListRecipeVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRecipeVersionsPaginator(
         _ input: ListRecipeVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRecipeVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecipeVersionsRequest, ListRecipeVersionsResponse> {
+        return .init(
             input: input,
             command: self.listRecipeVersions,
             inputKey: \ListRecipeVersionsRequest.nextToken,
             outputKey: \ListRecipeVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all of the DataBrew recipes that are defined.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRecipesPaginator<Result>(
-        _ input: ListRecipesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRecipesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRecipes,
-            inputKey: \ListRecipesRequest.nextToken,
-            outputKey: \ListRecipesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRecipesPaginator(
         _ input: ListRecipesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRecipesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecipesRequest, ListRecipesResponse> {
+        return .init(
             input: input,
             command: self.listRecipes,
             inputKey: \ListRecipesRequest.nextToken,
             outputKey: \ListRecipesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List all rulesets available in the current account or rulesets associated  with a specific resource (dataset).
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRulesetsPaginator<Result>(
-        _ input: ListRulesetsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRulesetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRulesets,
-            inputKey: \ListRulesetsRequest.nextToken,
-            outputKey: \ListRulesetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRulesetsPaginator(
         _ input: ListRulesetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRulesetsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRulesetsRequest, ListRulesetsResponse> {
+        return .init(
             input: input,
             command: self.listRulesets,
             inputKey: \ListRulesetsRequest.nextToken,
             outputKey: \ListRulesetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the DataBrew schedules that are defined.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSchedulesPaginator<Result>(
-        _ input: ListSchedulesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSchedulesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSchedules,
-            inputKey: \ListSchedulesRequest.nextToken,
-            outputKey: \ListSchedulesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSchedulesPaginator(
         _ input: ListSchedulesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSchedulesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSchedulesRequest, ListSchedulesResponse> {
+        return .init(
             input: input,
             command: self.listSchedules,
             inputKey: \ListSchedulesRequest.nextToken,
             outputKey: \ListSchedulesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

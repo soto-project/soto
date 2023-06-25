@@ -4333,7 +4333,7 @@ extension MediaLive {
         ]
 
         /// The binary data for the thumbnail that the Link device has most recently sent to MediaLive.
-        public let body: AWSPayload?
+        public let body: HTTPBody?
         /// The length of the content.
         public let contentLength: Int64?
         /// Specifies the media type of the thumbnail.
@@ -4344,7 +4344,7 @@ extension MediaLive {
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var lastModified: Date?
 
-        public init(body: AWSPayload? = nil, contentLength: Int64? = nil, contentType: ContentType? = nil, eTag: String? = nil, lastModified: Date? = nil) {
+        public init(body: HTTPBody? = nil, contentLength: Int64? = nil, contentType: ContentType? = nil, eTag: String? = nil, lastModified: Date? = nil) {
             self.body = body
             self.contentLength = contentLength
             self.contentType = contentType

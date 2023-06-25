@@ -71,305 +71,357 @@ public struct MediaLive: AWSService {
     // MARK: API Calls
 
     /// Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
-    public func acceptInputDeviceTransfer(_ input: AcceptInputDeviceTransferRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptInputDeviceTransferResponse> {
-        return self.client.execute(operation: "AcceptInputDeviceTransfer", path: "/prod/inputDevices/{InputDeviceId}/accept", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func acceptInputDeviceTransfer(_ input: AcceptInputDeviceTransferRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptInputDeviceTransferResponse {
+        return try await self.client.execute(operation: "AcceptInputDeviceTransfer", path: "/prod/inputDevices/{InputDeviceId}/accept", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts delete of resources.
-    public func batchDelete(_ input: BatchDeleteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteResponse> {
-        return self.client.execute(operation: "BatchDelete", path: "/prod/batch/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchDelete(_ input: BatchDeleteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteResponse {
+        return try await self.client.execute(operation: "BatchDelete", path: "/prod/batch/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts existing resources
-    public func batchStart(_ input: BatchStartRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchStartResponse> {
-        return self.client.execute(operation: "BatchStart", path: "/prod/batch/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchStart(_ input: BatchStartRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchStartResponse {
+        return try await self.client.execute(operation: "BatchStart", path: "/prod/batch/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops running resources
-    public func batchStop(_ input: BatchStopRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchStopResponse> {
-        return self.client.execute(operation: "BatchStop", path: "/prod/batch/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchStop(_ input: BatchStopRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchStopResponse {
+        return try await self.client.execute(operation: "BatchStop", path: "/prod/batch/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update a channel schedule
-    public func batchUpdateSchedule(_ input: BatchUpdateScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdateScheduleResponse> {
-        return self.client.execute(operation: "BatchUpdateSchedule", path: "/prod/channels/{ChannelId}/schedule", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchUpdateSchedule(_ input: BatchUpdateScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateScheduleResponse {
+        return try await self.client.execute(operation: "BatchUpdateSchedule", path: "/prod/channels/{ChannelId}/schedule", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Cancel an input device transfer that you have requested.
-    public func cancelInputDeviceTransfer(_ input: CancelInputDeviceTransferRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelInputDeviceTransferResponse> {
-        return self.client.execute(operation: "CancelInputDeviceTransfer", path: "/prod/inputDevices/{InputDeviceId}/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func cancelInputDeviceTransfer(_ input: CancelInputDeviceTransferRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelInputDeviceTransferResponse {
+        return try await self.client.execute(operation: "CancelInputDeviceTransfer", path: "/prod/inputDevices/{InputDeviceId}/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Send a request to claim an AWS Elemental device that you have purchased from a third-party vendor. After the request succeeds, you will own the device.
-    public func claimDevice(_ input: ClaimDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ClaimDeviceResponse> {
-        return self.client.execute(operation: "ClaimDevice", path: "/prod/claimDevice", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func claimDevice(_ input: ClaimDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ClaimDeviceResponse {
+        return try await self.client.execute(operation: "ClaimDevice", path: "/prod/claimDevice", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new channel
-    public func createChannel(_ input: CreateChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelResponse> {
-        return self.client.execute(operation: "CreateChannel", path: "/prod/channels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createChannel(_ input: CreateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChannelResponse {
+        return try await self.client.execute(operation: "CreateChannel", path: "/prod/channels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create an input
-    public func createInput(_ input: CreateInputRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInputResponse> {
-        return self.client.execute(operation: "CreateInput", path: "/prod/inputs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createInput(_ input: CreateInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInputResponse {
+        return try await self.client.execute(operation: "CreateInput", path: "/prod/inputs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a Input Security Group
-    public func createInputSecurityGroup(_ input: CreateInputSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInputSecurityGroupResponse> {
-        return self.client.execute(operation: "CreateInputSecurityGroup", path: "/prod/inputSecurityGroups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createInputSecurityGroup(_ input: CreateInputSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInputSecurityGroupResponse {
+        return try await self.client.execute(operation: "CreateInputSecurityGroup", path: "/prod/inputSecurityGroups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a new multiplex.
-    public func createMultiplex(_ input: CreateMultiplexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMultiplexResponse> {
-        return self.client.execute(operation: "CreateMultiplex", path: "/prod/multiplexes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createMultiplex(_ input: CreateMultiplexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMultiplexResponse {
+        return try await self.client.execute(operation: "CreateMultiplex", path: "/prod/multiplexes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a new program in the multiplex.
-    public func createMultiplexProgram(_ input: CreateMultiplexProgramRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMultiplexProgramResponse> {
-        return self.client.execute(operation: "CreateMultiplexProgram", path: "/prod/multiplexes/{MultiplexId}/programs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createMultiplexProgram(_ input: CreateMultiplexProgramRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMultiplexProgramResponse {
+        return try await self.client.execute(operation: "CreateMultiplexProgram", path: "/prod/multiplexes/{MultiplexId}/programs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a partner input
-    public func createPartnerInput(_ input: CreatePartnerInputRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePartnerInputResponse> {
-        return self.client.execute(operation: "CreatePartnerInput", path: "/prod/inputs/{InputId}/partners", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createPartnerInput(_ input: CreatePartnerInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePartnerInputResponse {
+        return try await self.client.execute(operation: "CreatePartnerInput", path: "/prod/inputs/{InputId}/partners", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create tags for a resource
-    @discardableResult public func createTags(_ input: CreateTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "CreateTags", path: "/prod/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTags(_ input: CreateTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "CreateTags", path: "/prod/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts deletion of channel. The associated outputs are also deleted.
-    public func deleteChannel(_ input: DeleteChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteChannelResponse> {
-        return self.client.execute(operation: "DeleteChannel", path: "/prod/channels/{ChannelId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteChannel(_ input: DeleteChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChannelResponse {
+        return try await self.client.execute(operation: "DeleteChannel", path: "/prod/channels/{ChannelId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the input end point
-    public func deleteInput(_ input: DeleteInputRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInputResponse> {
-        return self.client.execute(operation: "DeleteInput", path: "/prod/inputs/{InputId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteInput(_ input: DeleteInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInputResponse {
+        return try await self.client.execute(operation: "DeleteInput", path: "/prod/inputs/{InputId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an Input Security Group
-    public func deleteInputSecurityGroup(_ input: DeleteInputSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInputSecurityGroupResponse> {
-        return self.client.execute(operation: "DeleteInputSecurityGroup", path: "/prod/inputSecurityGroups/{InputSecurityGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteInputSecurityGroup(_ input: DeleteInputSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInputSecurityGroupResponse {
+        return try await self.client.execute(operation: "DeleteInputSecurityGroup", path: "/prod/inputSecurityGroups/{InputSecurityGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete a multiplex. The multiplex must be idle.
-    public func deleteMultiplex(_ input: DeleteMultiplexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMultiplexResponse> {
-        return self.client.execute(operation: "DeleteMultiplex", path: "/prod/multiplexes/{MultiplexId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteMultiplex(_ input: DeleteMultiplexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMultiplexResponse {
+        return try await self.client.execute(operation: "DeleteMultiplex", path: "/prod/multiplexes/{MultiplexId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete a program from a multiplex.
-    public func deleteMultiplexProgram(_ input: DeleteMultiplexProgramRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMultiplexProgramResponse> {
-        return self.client.execute(operation: "DeleteMultiplexProgram", path: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteMultiplexProgram(_ input: DeleteMultiplexProgramRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMultiplexProgramResponse {
+        return try await self.client.execute(operation: "DeleteMultiplexProgram", path: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete an expired reservation.
-    public func deleteReservation(_ input: DeleteReservationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteReservationResponse> {
-        return self.client.execute(operation: "DeleteReservation", path: "/prod/reservations/{ReservationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteReservation(_ input: DeleteReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReservationResponse {
+        return try await self.client.execute(operation: "DeleteReservation", path: "/prod/reservations/{ReservationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete all schedule actions on a channel.
-    public func deleteSchedule(_ input: DeleteScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteScheduleResponse> {
-        return self.client.execute(operation: "DeleteSchedule", path: "/prod/channels/{ChannelId}/schedule", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSchedule(_ input: DeleteScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteScheduleResponse {
+        return try await self.client.execute(operation: "DeleteSchedule", path: "/prod/channels/{ChannelId}/schedule", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes tags for a resource
-    @discardableResult public func deleteTags(_ input: DeleteTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteTags", path: "/prod/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteTags(_ input: DeleteTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteTags", path: "/prod/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets details about a channel
-    public func describeChannel(_ input: DescribeChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelResponse> {
-        return self.client.execute(operation: "DescribeChannel", path: "/prod/channels/{ChannelId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeChannel(_ input: DescribeChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeChannelResponse {
+        return try await self.client.execute(operation: "DescribeChannel", path: "/prod/channels/{ChannelId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Produces details about an input
-    public func describeInput(_ input: DescribeInputRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInputResponse> {
-        return self.client.execute(operation: "DescribeInput", path: "/prod/inputs/{InputId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeInput(_ input: DescribeInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInputResponse {
+        return try await self.client.execute(operation: "DescribeInput", path: "/prod/inputs/{InputId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the details for the input device
-    public func describeInputDevice(_ input: DescribeInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInputDeviceResponse> {
-        return self.client.execute(operation: "DescribeInputDevice", path: "/prod/inputDevices/{InputDeviceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeInputDevice(_ input: DescribeInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInputDeviceResponse {
+        return try await self.client.execute(operation: "DescribeInputDevice", path: "/prod/inputDevices/{InputDeviceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the latest thumbnail data for the input device.
-    public func describeInputDeviceThumbnail(_ input: DescribeInputDeviceThumbnailRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInputDeviceThumbnailResponse> {
-        return self.client.execute(operation: "DescribeInputDeviceThumbnail", path: "/prod/inputDevices/{InputDeviceId}/thumbnailData", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeInputDeviceThumbnail(_ input: DescribeInputDeviceThumbnailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInputDeviceThumbnailResponse {
+        return try await self.client.execute(operation: "DescribeInputDeviceThumbnail", path: "/prod/inputDevices/{InputDeviceId}/thumbnailData", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Produces a summary of an Input Security Group
-    public func describeInputSecurityGroup(_ input: DescribeInputSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInputSecurityGroupResponse> {
-        return self.client.execute(operation: "DescribeInputSecurityGroup", path: "/prod/inputSecurityGroups/{InputSecurityGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeInputSecurityGroup(_ input: DescribeInputSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInputSecurityGroupResponse {
+        return try await self.client.execute(operation: "DescribeInputSecurityGroup", path: "/prod/inputSecurityGroups/{InputSecurityGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets details about a multiplex.
-    public func describeMultiplex(_ input: DescribeMultiplexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMultiplexResponse> {
-        return self.client.execute(operation: "DescribeMultiplex", path: "/prod/multiplexes/{MultiplexId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeMultiplex(_ input: DescribeMultiplexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMultiplexResponse {
+        return try await self.client.execute(operation: "DescribeMultiplex", path: "/prod/multiplexes/{MultiplexId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the details for a program in a multiplex.
-    public func describeMultiplexProgram(_ input: DescribeMultiplexProgramRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMultiplexProgramResponse> {
-        return self.client.execute(operation: "DescribeMultiplexProgram", path: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeMultiplexProgram(_ input: DescribeMultiplexProgramRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMultiplexProgramResponse {
+        return try await self.client.execute(operation: "DescribeMultiplexProgram", path: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get details for an offering.
-    public func describeOffering(_ input: DescribeOfferingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOfferingResponse> {
-        return self.client.execute(operation: "DescribeOffering", path: "/prod/offerings/{OfferingId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeOffering(_ input: DescribeOfferingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOfferingResponse {
+        return try await self.client.execute(operation: "DescribeOffering", path: "/prod/offerings/{OfferingId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get details for a reservation.
-    public func describeReservation(_ input: DescribeReservationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReservationResponse> {
-        return self.client.execute(operation: "DescribeReservation", path: "/prod/reservations/{ReservationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeReservation(_ input: DescribeReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservationResponse {
+        return try await self.client.execute(operation: "DescribeReservation", path: "/prod/reservations/{ReservationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get a channel schedule
-    public func describeSchedule(_ input: DescribeScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeScheduleResponse> {
-        return self.client.execute(operation: "DescribeSchedule", path: "/prod/channels/{ChannelId}/schedule", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeSchedule(_ input: DescribeScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeScheduleResponse {
+        return try await self.client.execute(operation: "DescribeSchedule", path: "/prod/channels/{ChannelId}/schedule", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Produces list of channels that have been created
-    public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelsResponse> {
-        return self.client.execute(operation: "ListChannels", path: "/prod/channels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelsResponse {
+        return try await self.client.execute(operation: "ListChannels", path: "/prod/channels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
-    public func listInputDeviceTransfers(_ input: ListInputDeviceTransfersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInputDeviceTransfersResponse> {
-        return self.client.execute(operation: "ListInputDeviceTransfers", path: "/prod/inputDeviceTransfers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listInputDeviceTransfers(_ input: ListInputDeviceTransfersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInputDeviceTransfersResponse {
+        return try await self.client.execute(operation: "ListInputDeviceTransfers", path: "/prod/inputDeviceTransfers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List input devices
-    public func listInputDevices(_ input: ListInputDevicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInputDevicesResponse> {
-        return self.client.execute(operation: "ListInputDevices", path: "/prod/inputDevices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listInputDevices(_ input: ListInputDevicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInputDevicesResponse {
+        return try await self.client.execute(operation: "ListInputDevices", path: "/prod/inputDevices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Produces a list of Input Security Groups for an account
-    public func listInputSecurityGroups(_ input: ListInputSecurityGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInputSecurityGroupsResponse> {
-        return self.client.execute(operation: "ListInputSecurityGroups", path: "/prod/inputSecurityGroups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listInputSecurityGroups(_ input: ListInputSecurityGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInputSecurityGroupsResponse {
+        return try await self.client.execute(operation: "ListInputSecurityGroups", path: "/prod/inputSecurityGroups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Produces list of inputs that have been created
-    public func listInputs(_ input: ListInputsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInputsResponse> {
-        return self.client.execute(operation: "ListInputs", path: "/prod/inputs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listInputs(_ input: ListInputsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInputsResponse {
+        return try await self.client.execute(operation: "ListInputs", path: "/prod/inputs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the programs that currently exist for a specific multiplex.
-    public func listMultiplexPrograms(_ input: ListMultiplexProgramsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMultiplexProgramsResponse> {
-        return self.client.execute(operation: "ListMultiplexPrograms", path: "/prod/multiplexes/{MultiplexId}/programs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listMultiplexPrograms(_ input: ListMultiplexProgramsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMultiplexProgramsResponse {
+        return try await self.client.execute(operation: "ListMultiplexPrograms", path: "/prod/multiplexes/{MultiplexId}/programs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieve a list of the existing multiplexes.
-    public func listMultiplexes(_ input: ListMultiplexesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMultiplexesResponse> {
-        return self.client.execute(operation: "ListMultiplexes", path: "/prod/multiplexes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listMultiplexes(_ input: ListMultiplexesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMultiplexesResponse {
+        return try await self.client.execute(operation: "ListMultiplexes", path: "/prod/multiplexes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List offerings available for purchase.
-    public func listOfferings(_ input: ListOfferingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOfferingsResponse> {
-        return self.client.execute(operation: "ListOfferings", path: "/prod/offerings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listOfferings(_ input: ListOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOfferingsResponse {
+        return try await self.client.execute(operation: "ListOfferings", path: "/prod/offerings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List purchased reservations.
-    public func listReservations(_ input: ListReservationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListReservationsResponse> {
-        return self.client.execute(operation: "ListReservations", path: "/prod/reservations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listReservations(_ input: ListReservationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReservationsResponse {
+        return try await self.client.execute(operation: "ListReservations", path: "/prod/reservations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Produces list of tags that have been created for a resource
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/prod/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/prod/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Purchase an offering and create a reservation.
-    public func purchaseOffering(_ input: PurchaseOfferingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PurchaseOfferingResponse> {
-        return self.client.execute(operation: "PurchaseOffering", path: "/prod/offerings/{OfferingId}/purchase", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func purchaseOffering(_ input: PurchaseOfferingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PurchaseOfferingResponse {
+        return try await self.client.execute(operation: "PurchaseOffering", path: "/prod/offerings/{OfferingId}/purchase", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the device’s connection status will change to connected.
-    public func rebootInputDevice(_ input: RebootInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RebootInputDeviceResponse> {
-        return self.client.execute(operation: "RebootInputDevice", path: "/prod/inputDevices/{InputDeviceId}/reboot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func rebootInputDevice(_ input: RebootInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RebootInputDeviceResponse {
+        return try await self.client.execute(operation: "RebootInputDevice", path: "/prod/inputDevices/{InputDeviceId}/reboot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Reject the transfer of the specified input device to your AWS account.
-    public func rejectInputDeviceTransfer(_ input: RejectInputDeviceTransferRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectInputDeviceTransferResponse> {
-        return self.client.execute(operation: "RejectInputDeviceTransfer", path: "/prod/inputDevices/{InputDeviceId}/reject", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func rejectInputDeviceTransfer(_ input: RejectInputDeviceTransferRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectInputDeviceTransferResponse {
+        return try await self.client.execute(operation: "RejectInputDeviceTransfer", path: "/prod/inputDevices/{InputDeviceId}/reject", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts an existing channel
-    public func startChannel(_ input: StartChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartChannelResponse> {
-        return self.client.execute(operation: "StartChannel", path: "/prod/channels/{ChannelId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startChannel(_ input: StartChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartChannelResponse {
+        return try await self.client.execute(operation: "StartChannel", path: "/prod/channels/{ChannelId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
-    public func startInputDeviceMaintenanceWindow(_ input: StartInputDeviceMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartInputDeviceMaintenanceWindowResponse> {
-        return self.client.execute(operation: "StartInputDeviceMaintenanceWindow", path: "/prod/inputDevices/{InputDeviceId}/startInputDeviceMaintenanceWindow", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startInputDeviceMaintenanceWindow(_ input: StartInputDeviceMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartInputDeviceMaintenanceWindowResponse {
+        return try await self.client.execute(operation: "StartInputDeviceMaintenanceWindow", path: "/prod/inputDevices/{InputDeviceId}/startInputDeviceMaintenanceWindow", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
-    public func startMultiplex(_ input: StartMultiplexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMultiplexResponse> {
-        return self.client.execute(operation: "StartMultiplex", path: "/prod/multiplexes/{MultiplexId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startMultiplex(_ input: StartMultiplexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMultiplexResponse {
+        return try await self.client.execute(operation: "StartMultiplex", path: "/prod/multiplexes/{MultiplexId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops a running channel
-    public func stopChannel(_ input: StopChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopChannelResponse> {
-        return self.client.execute(operation: "StopChannel", path: "/prod/channels/{ChannelId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopChannel(_ input: StopChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopChannelResponse {
+        return try await self.client.execute(operation: "StopChannel", path: "/prod/channels/{ChannelId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops a running multiplex. If the multiplex isn't running, this action has no effect.
-    public func stopMultiplex(_ input: StopMultiplexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopMultiplexResponse> {
-        return self.client.execute(operation: "StopMultiplex", path: "/prod/multiplexes/{MultiplexId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopMultiplex(_ input: StopMultiplexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopMultiplexResponse {
+        return try await self.client.execute(operation: "StopMultiplex", path: "/prod/multiplexes/{MultiplexId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
-    public func transferInputDevice(_ input: TransferInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TransferInputDeviceResponse> {
-        return self.client.execute(operation: "TransferInputDevice", path: "/prod/inputDevices/{InputDeviceId}/transfer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func transferInputDevice(_ input: TransferInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TransferInputDeviceResponse {
+        return try await self.client.execute(operation: "TransferInputDevice", path: "/prod/inputDevices/{InputDeviceId}/transfer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a channel.
-    public func updateChannel(_ input: UpdateChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateChannelResponse> {
-        return self.client.execute(operation: "UpdateChannel", path: "/prod/channels/{ChannelId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateChannel(_ input: UpdateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChannelResponse {
+        return try await self.client.execute(operation: "UpdateChannel", path: "/prod/channels/{ChannelId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Changes the class of the channel.
-    public func updateChannelClass(_ input: UpdateChannelClassRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateChannelClassResponse> {
-        return self.client.execute(operation: "UpdateChannelClass", path: "/prod/channels/{ChannelId}/channelClass", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateChannelClass(_ input: UpdateChannelClassRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChannelClassResponse {
+        return try await self.client.execute(operation: "UpdateChannelClass", path: "/prod/channels/{ChannelId}/channelClass", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an input.
-    public func updateInput(_ input: UpdateInputRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateInputResponse> {
-        return self.client.execute(operation: "UpdateInput", path: "/prod/inputs/{InputId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateInput(_ input: UpdateInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInputResponse {
+        return try await self.client.execute(operation: "UpdateInput", path: "/prod/inputs/{InputId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the parameters for the input device.
-    public func updateInputDevice(_ input: UpdateInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateInputDeviceResponse> {
-        return self.client.execute(operation: "UpdateInputDevice", path: "/prod/inputDevices/{InputDeviceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateInputDevice(_ input: UpdateInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInputDeviceResponse {
+        return try await self.client.execute(operation: "UpdateInputDevice", path: "/prod/inputDevices/{InputDeviceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update an Input Security Group's Whilelists.
-    public func updateInputSecurityGroup(_ input: UpdateInputSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateInputSecurityGroupResponse> {
-        return self.client.execute(operation: "UpdateInputSecurityGroup", path: "/prod/inputSecurityGroups/{InputSecurityGroupId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateInputSecurityGroup(_ input: UpdateInputSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInputSecurityGroupResponse {
+        return try await self.client.execute(operation: "UpdateInputSecurityGroup", path: "/prod/inputSecurityGroups/{InputSecurityGroupId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a multiplex.
-    public func updateMultiplex(_ input: UpdateMultiplexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMultiplexResponse> {
-        return self.client.execute(operation: "UpdateMultiplex", path: "/prod/multiplexes/{MultiplexId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateMultiplex(_ input: UpdateMultiplexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMultiplexResponse {
+        return try await self.client.execute(operation: "UpdateMultiplex", path: "/prod/multiplexes/{MultiplexId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update a program in a multiplex.
-    public func updateMultiplexProgram(_ input: UpdateMultiplexProgramRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMultiplexProgramResponse> {
-        return self.client.execute(operation: "UpdateMultiplexProgram", path: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateMultiplexProgram(_ input: UpdateMultiplexProgramRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMultiplexProgramResponse {
+        return try await self.client.execute(operation: "UpdateMultiplexProgram", path: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update reservation.
-    public func updateReservation(_ input: UpdateReservationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateReservationResponse> {
-        return self.client.execute(operation: "UpdateReservation", path: "/prod/reservations/{ReservationId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
-    // MARK: Streaming API Calls
-
-    /// Get the latest thumbnail data for the input device.
-    public func describeInputDeviceThumbnailStreaming(_ input: DescribeInputDeviceThumbnailRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil, _ stream: @escaping (ByteBuffer, EventLoop) -> EventLoopFuture<Void>) -> EventLoopFuture<DescribeInputDeviceThumbnailResponse> {
-        return self.client.execute(operation: "DescribeInputDeviceThumbnail", path: "/prod/inputDevices/{InputDeviceId}/thumbnailData", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop, stream: stream)
+    @Sendable
+    public func updateReservation(_ input: UpdateReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateReservationResponse {
+        return try await self.client.execute(operation: "UpdateReservation", path: "/prod/reservations/{ReservationId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -384,534 +436,195 @@ extension MediaLive {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MediaLive {
     /// Get a channel schedule
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeSchedulePaginator<Result>(
-        _ input: DescribeScheduleRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeScheduleResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeSchedule,
-            inputKey: \DescribeScheduleRequest.nextToken,
-            outputKey: \DescribeScheduleResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeSchedulePaginator(
         _ input: DescribeScheduleRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeScheduleResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeScheduleRequest, DescribeScheduleResponse> {
+        return .init(
             input: input,
             command: self.describeSchedule,
             inputKey: \DescribeScheduleRequest.nextToken,
             outputKey: \DescribeScheduleResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Produces list of channels that have been created
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listChannelsPaginator<Result>(
-        _ input: ListChannelsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListChannelsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listChannels,
-            inputKey: \ListChannelsRequest.nextToken,
-            outputKey: \ListChannelsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listChannelsPaginator(
         _ input: ListChannelsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListChannelsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListChannelsRequest, ListChannelsResponse> {
+        return .init(
             input: input,
             command: self.listChannels,
             inputKey: \ListChannelsRequest.nextToken,
             outputKey: \ListChannelsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listInputDeviceTransfersPaginator<Result>(
-        _ input: ListInputDeviceTransfersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListInputDeviceTransfersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listInputDeviceTransfers,
-            inputKey: \ListInputDeviceTransfersRequest.nextToken,
-            outputKey: \ListInputDeviceTransfersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listInputDeviceTransfersPaginator(
         _ input: ListInputDeviceTransfersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListInputDeviceTransfersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInputDeviceTransfersRequest, ListInputDeviceTransfersResponse> {
+        return .init(
             input: input,
             command: self.listInputDeviceTransfers,
             inputKey: \ListInputDeviceTransfersRequest.nextToken,
             outputKey: \ListInputDeviceTransfersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List input devices
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listInputDevicesPaginator<Result>(
-        _ input: ListInputDevicesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListInputDevicesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listInputDevices,
-            inputKey: \ListInputDevicesRequest.nextToken,
-            outputKey: \ListInputDevicesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listInputDevicesPaginator(
         _ input: ListInputDevicesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListInputDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInputDevicesRequest, ListInputDevicesResponse> {
+        return .init(
             input: input,
             command: self.listInputDevices,
             inputKey: \ListInputDevicesRequest.nextToken,
             outputKey: \ListInputDevicesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Produces a list of Input Security Groups for an account
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listInputSecurityGroupsPaginator<Result>(
-        _ input: ListInputSecurityGroupsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListInputSecurityGroupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listInputSecurityGroups,
-            inputKey: \ListInputSecurityGroupsRequest.nextToken,
-            outputKey: \ListInputSecurityGroupsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listInputSecurityGroupsPaginator(
         _ input: ListInputSecurityGroupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListInputSecurityGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInputSecurityGroupsRequest, ListInputSecurityGroupsResponse> {
+        return .init(
             input: input,
             command: self.listInputSecurityGroups,
             inputKey: \ListInputSecurityGroupsRequest.nextToken,
             outputKey: \ListInputSecurityGroupsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Produces list of inputs that have been created
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listInputsPaginator<Result>(
-        _ input: ListInputsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListInputsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listInputs,
-            inputKey: \ListInputsRequest.nextToken,
-            outputKey: \ListInputsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listInputsPaginator(
         _ input: ListInputsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListInputsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInputsRequest, ListInputsResponse> {
+        return .init(
             input: input,
             command: self.listInputs,
             inputKey: \ListInputsRequest.nextToken,
             outputKey: \ListInputsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List the programs that currently exist for a specific multiplex.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listMultiplexProgramsPaginator<Result>(
-        _ input: ListMultiplexProgramsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListMultiplexProgramsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listMultiplexPrograms,
-            inputKey: \ListMultiplexProgramsRequest.nextToken,
-            outputKey: \ListMultiplexProgramsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listMultiplexProgramsPaginator(
         _ input: ListMultiplexProgramsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListMultiplexProgramsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMultiplexProgramsRequest, ListMultiplexProgramsResponse> {
+        return .init(
             input: input,
             command: self.listMultiplexPrograms,
             inputKey: \ListMultiplexProgramsRequest.nextToken,
             outputKey: \ListMultiplexProgramsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieve a list of the existing multiplexes.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listMultiplexesPaginator<Result>(
-        _ input: ListMultiplexesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListMultiplexesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listMultiplexes,
-            inputKey: \ListMultiplexesRequest.nextToken,
-            outputKey: \ListMultiplexesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listMultiplexesPaginator(
         _ input: ListMultiplexesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListMultiplexesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMultiplexesRequest, ListMultiplexesResponse> {
+        return .init(
             input: input,
             command: self.listMultiplexes,
             inputKey: \ListMultiplexesRequest.nextToken,
             outputKey: \ListMultiplexesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List offerings available for purchase.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listOfferingsPaginator<Result>(
-        _ input: ListOfferingsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListOfferingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listOfferings,
-            inputKey: \ListOfferingsRequest.nextToken,
-            outputKey: \ListOfferingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listOfferingsPaginator(
         _ input: ListOfferingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListOfferingsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOfferingsRequest, ListOfferingsResponse> {
+        return .init(
             input: input,
             command: self.listOfferings,
             inputKey: \ListOfferingsRequest.nextToken,
             outputKey: \ListOfferingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List purchased reservations.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listReservationsPaginator<Result>(
-        _ input: ListReservationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListReservationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listReservations,
-            inputKey: \ListReservationsRequest.nextToken,
-            outputKey: \ListReservationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listReservationsPaginator(
         _ input: ListReservationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListReservationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListReservationsRequest, ListReservationsResponse> {
+        return .init(
             input: input,
             command: self.listReservations,
             inputKey: \ListReservationsRequest.nextToken,
             outputKey: \ListReservationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }
@@ -1029,14 +742,13 @@ extension MediaLive.ListReservationsRequest: AWSPaginateToken {
 
 // MARK: Waiters
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MediaLive {
-    /// Wait until a channel has been created
     public func waitUntilChannelCreated(
         _ input: DescribeChannelRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "IDLE")),
@@ -1047,16 +759,14 @@ extension MediaLive {
             minDelayTime: .seconds(3),
             command: self.describeChannel
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a channel has been deleted
     public func waitUntilChannelDeleted(
         _ input: DescribeChannelRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DELETED")),
@@ -1066,16 +776,14 @@ extension MediaLive {
             minDelayTime: .seconds(5),
             command: self.describeChannel
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a channel is running
     public func waitUntilChannelRunning(
         _ input: DescribeChannelRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "RUNNING")),
@@ -1085,16 +793,14 @@ extension MediaLive {
             minDelayTime: .seconds(5),
             command: self.describeChannel
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a channel has is stopped
     public func waitUntilChannelStopped(
         _ input: DescribeChannelRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "IDLE")),
@@ -1104,16 +810,14 @@ extension MediaLive {
             minDelayTime: .seconds(5),
             command: self.describeChannel
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until an input has been attached
     public func waitUntilInputAttached(
         _ input: DescribeInputRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "ATTACHED")),
@@ -1123,16 +827,14 @@ extension MediaLive {
             minDelayTime: .seconds(5),
             command: self.describeInput
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until an input has been deleted
     public func waitUntilInputDeleted(
         _ input: DescribeInputRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DELETED")),
@@ -1142,16 +844,14 @@ extension MediaLive {
             minDelayTime: .seconds(5),
             command: self.describeInput
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until an input has been detached
     public func waitUntilInputDetached(
         _ input: DescribeInputRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DETACHED")),
@@ -1162,16 +862,14 @@ extension MediaLive {
             minDelayTime: .seconds(5),
             command: self.describeInput
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a multiplex has been created
     public func waitUntilMultiplexCreated(
         _ input: DescribeMultiplexRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "IDLE")),
@@ -1182,16 +880,14 @@ extension MediaLive {
             minDelayTime: .seconds(3),
             command: self.describeMultiplex
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a multiplex has been deleted
     public func waitUntilMultiplexDeleted(
         _ input: DescribeMultiplexRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DELETED")),
@@ -1201,16 +897,14 @@ extension MediaLive {
             minDelayTime: .seconds(5),
             command: self.describeMultiplex
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a multiplex is running
     public func waitUntilMultiplexRunning(
         _ input: DescribeMultiplexRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "RUNNING")),
@@ -1220,16 +914,14 @@ extension MediaLive {
             minDelayTime: .seconds(5),
             command: self.describeMultiplex
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a multiplex has is stopped
     public func waitUntilMultiplexStopped(
         _ input: DescribeMultiplexRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "IDLE")),
@@ -1239,6 +931,6 @@ extension MediaLive {
             minDelayTime: .seconds(5),
             command: self.describeMultiplex
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 }

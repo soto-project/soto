@@ -69,8 +69,9 @@ public struct CloudTrailData: AWSService {
     // MARK: API Calls
 
     /// Ingests your application events into CloudTrail Lake. A required parameter, auditEvents, accepts the JSON records (also called payload) of events that you want CloudTrail to ingest. You can add up to 100 of these events (or up to 1 MB) per PutAuditEvents request.
-    public func putAuditEvents(_ input: PutAuditEventsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAuditEventsResponse> {
-        return self.client.execute(operation: "PutAuditEvents", path: "/PutAuditEvents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putAuditEvents(_ input: PutAuditEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAuditEventsResponse {
+        return try await self.client.execute(operation: "PutAuditEvents", path: "/PutAuditEvents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 

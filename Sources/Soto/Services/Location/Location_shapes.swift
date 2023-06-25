@@ -2410,13 +2410,13 @@ extension Location {
         ]
 
         /// The glyph, as binary blob.
-        public let blob: AWSPayload?
+        public let blob: HTTPBody?
         /// The HTTP Cache-Control directive for the value.
         public let cacheControl: String?
         /// The map glyph content type. For example, application/octet-stream.
         public let contentType: String?
 
-        public init(blob: AWSPayload? = nil, cacheControl: String? = nil, contentType: String? = nil) {
+        public init(blob: HTTPBody? = nil, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
             self.cacheControl = cacheControl
             self.contentType = contentType
@@ -2470,13 +2470,13 @@ extension Location {
         ]
 
         /// Contains the body of the sprite sheet or JSON offset ﬁle.
-        public let blob: AWSPayload?
+        public let blob: HTTPBody?
         /// The HTTP Cache-Control directive for the value.
         public let cacheControl: String?
         /// The content type of the sprite sheet and offsets. For example, the sprite sheet content type is image/png, and the sprite offset JSON document is application/json.
         public let contentType: String?
 
-        public init(blob: AWSPayload? = nil, cacheControl: String? = nil, contentType: String? = nil) {
+        public init(blob: HTTPBody? = nil, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
             self.cacheControl = cacheControl
             self.contentType = contentType
@@ -2526,13 +2526,13 @@ extension Location {
         ]
 
         /// Contains the body of the style descriptor.
-        public let blob: AWSPayload?
+        public let blob: HTTPBody?
         /// The HTTP Cache-Control directive for the value.
         public let cacheControl: String?
         /// The style descriptor's content type. For example, application/json.
         public let contentType: String?
 
-        public init(blob: AWSPayload? = nil, cacheControl: String? = nil, contentType: String? = nil) {
+        public init(blob: HTTPBody? = nil, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
             self.cacheControl = cacheControl
             self.contentType = contentType
@@ -2594,13 +2594,13 @@ extension Location {
         ]
 
         /// Contains Mapbox Vector Tile (MVT) data.
-        public let blob: AWSPayload?
+        public let blob: HTTPBody?
         /// The HTTP Cache-Control directive for the value.
         public let cacheControl: String?
         /// The map tile's content type. For example, application/vnd.mapbox-vector-tile.
         public let contentType: String?
 
-        public init(blob: AWSPayload? = nil, cacheControl: String? = nil, contentType: String? = nil) {
+        public init(blob: HTTPBody? = nil, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
             self.cacheControl = cacheControl
             self.contentType = contentType

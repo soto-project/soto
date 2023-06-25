@@ -75,273 +75,327 @@ public struct OpenSearch: AWSService {
     // MARK: API Calls
 
     /// Allows the destination Amazon OpenSearch Service domain owner to accept an inbound cross-cluster search connection request. For more information, see Cross-cluster search for Amazon OpenSearch Service.
-    public func acceptInboundConnection(_ input: AcceptInboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptInboundConnectionResponse> {
-        return self.client.execute(operation: "AcceptInboundConnection", path: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}/accept", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func acceptInboundConnection(_ input: AcceptInboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptInboundConnectionResponse {
+        return try await self.client.execute(operation: "AcceptInboundConnection", path: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}/accept", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Attaches tags to an existing Amazon OpenSearch Service domain. Tags are a set of case-sensitive key-value pairs. A domain can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service domains.
-    @discardableResult public func addTags(_ input: AddTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "AddTags", path: "/2021-01-01/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func addTags(_ input: AddTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "AddTags", path: "/2021-01-01/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates a package with an Amazon OpenSearch Service domain. For more information, see Custom packages for Amazon OpenSearch Service.
-    public func associatePackage(_ input: AssociatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociatePackageResponse> {
-        return self.client.execute(operation: "AssociatePackage", path: "/2021-01-01/packages/associate/{PackageID}/{DomainName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associatePackage(_ input: AssociatePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociatePackageResponse {
+        return try await self.client.execute(operation: "AssociatePackage", path: "/2021-01-01/packages/associate/{PackageID}/{DomainName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
-    public func authorizeVpcEndpointAccess(_ input: AuthorizeVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AuthorizeVpcEndpointAccessResponse> {
-        return self.client.execute(operation: "AuthorizeVpcEndpointAccess", path: "/2021-01-01/opensearch/domain/{DomainName}/authorizeVpcEndpointAccess", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func authorizeVpcEndpointAccess(_ input: AuthorizeVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AuthorizeVpcEndpointAccessResponse {
+        return try await self.client.execute(operation: "AuthorizeVpcEndpointAccess", path: "/2021-01-01/opensearch/domain/{DomainName}/authorizeVpcEndpointAccess", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the AutomatedUpdateDate and when the domain's UpdateStatus is PENDING_UPDATE. For more information, see Service software updates in Amazon OpenSearch Service.
-    public func cancelServiceSoftwareUpdate(_ input: CancelServiceSoftwareUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelServiceSoftwareUpdateResponse> {
-        return self.client.execute(operation: "CancelServiceSoftwareUpdate", path: "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func cancelServiceSoftwareUpdate(_ input: CancelServiceSoftwareUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelServiceSoftwareUpdateResponse {
+        return try await self.client.execute(operation: "CancelServiceSoftwareUpdate", path: "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an Amazon OpenSearch Service domain. For more information, see Creating and managing Amazon OpenSearch Service domains.
-    public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDomainResponse> {
-        return self.client.execute(operation: "CreateDomain", path: "/2021-01-01/opensearch/domain", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDomainResponse {
+        return try await self.client.execute(operation: "CreateDomain", path: "/2021-01-01/opensearch/domain", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
-    public func createOutboundConnection(_ input: CreateOutboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateOutboundConnectionResponse> {
-        return self.client.execute(operation: "CreateOutboundConnection", path: "/2021-01-01/opensearch/cc/outboundConnection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createOutboundConnection(_ input: CreateOutboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOutboundConnectionResponse {
+        return try await self.client.execute(operation: "CreateOutboundConnection", path: "/2021-01-01/opensearch/cc/outboundConnection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a package for use with Amazon OpenSearch Service domains. For more information, see Custom packages for Amazon OpenSearch Service.
-    public func createPackage(_ input: CreatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePackageResponse> {
-        return self.client.execute(operation: "CreatePackage", path: "/2021-01-01/packages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createPackage(_ input: CreatePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePackageResponse {
+        return try await self.client.execute(operation: "CreatePackage", path: "/2021-01-01/packages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
-    public func createVpcEndpoint(_ input: CreateVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVpcEndpointResponse> {
-        return self.client.execute(operation: "CreateVpcEndpoint", path: "/2021-01-01/opensearch/vpcEndpoints", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createVpcEndpoint(_ input: CreateVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVpcEndpointResponse {
+        return try await self.client.execute(operation: "CreateVpcEndpoint", path: "/2021-01-01/opensearch/vpcEndpoints", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an Amazon OpenSearch Service domain and all of its data. You can't recover a domain after you delete it.
-    public func deleteDomain(_ input: DeleteDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDomainResponse> {
-        return self.client.execute(operation: "DeleteDomain", path: "/2021-01-01/opensearch/domain/{DomainName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDomain(_ input: DeleteDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainResponse {
+        return try await self.client.execute(operation: "DeleteDomain", path: "/2021-01-01/opensearch/domain/{DomainName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
-    public func deleteInboundConnection(_ input: DeleteInboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInboundConnectionResponse> {
-        return self.client.execute(operation: "DeleteInboundConnection", path: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteInboundConnection(_ input: DeleteInboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInboundConnectionResponse {
+        return try await self.client.execute(operation: "DeleteInboundConnection", path: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Allows the source Amazon OpenSearch Service domain owner to delete an existing outbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
-    public func deleteOutboundConnection(_ input: DeleteOutboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteOutboundConnectionResponse> {
-        return self.client.execute(operation: "DeleteOutboundConnection", path: "/2021-01-01/opensearch/cc/outboundConnection/{ConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteOutboundConnection(_ input: DeleteOutboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteOutboundConnectionResponse {
+        return try await self.client.execute(operation: "DeleteOutboundConnection", path: "/2021-01-01/opensearch/cc/outboundConnection/{ConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an Amazon OpenSearch Service package. For more information, see Custom packages for Amazon OpenSearch Service.
-    public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePackageResponse> {
-        return self.client.execute(operation: "DeletePackage", path: "/2021-01-01/packages/{PackageID}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePackageResponse {
+        return try await self.client.execute(operation: "DeletePackage", path: "/2021-01-01/packages/{PackageID}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
-    public func deleteVpcEndpoint(_ input: DeleteVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVpcEndpointResponse> {
-        return self.client.execute(operation: "DeleteVpcEndpoint", path: "/2021-01-01/opensearch/vpcEndpoints/{VpcEndpointId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteVpcEndpoint(_ input: DeleteVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVpcEndpointResponse {
+        return try await self.client.execute(operation: "DeleteVpcEndpoint", path: "/2021-01-01/opensearch/vpcEndpoints/{VpcEndpointId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the domain configuration for the specified Amazon OpenSearch Service domain, including the domain ID, domain service endpoint, and domain ARN.
-    public func describeDomain(_ input: DescribeDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainResponse> {
-        return self.client.execute(operation: "DescribeDomain", path: "/2021-01-01/opensearch/domain/{DomainName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDomain(_ input: DescribeDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDomainResponse {
+        return try await self.client.execute(operation: "DescribeDomain", path: "/2021-01-01/opensearch/domain/{DomainName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see Auto-Tune for Amazon OpenSearch Service.
-    public func describeDomainAutoTunes(_ input: DescribeDomainAutoTunesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainAutoTunesResponse> {
-        return self.client.execute(operation: "DescribeDomainAutoTunes", path: "/2021-01-01/opensearch/domain/{DomainName}/autoTunes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDomainAutoTunes(_ input: DescribeDomainAutoTunesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDomainAutoTunesResponse {
+        return try await self.client.execute(operation: "DescribeDomainAutoTunes", path: "/2021-01-01/opensearch/domain/{DomainName}/autoTunes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about the current blue/green deployment happening on an Amazon OpenSearch Service domain. For more information, see Making configuration changes in Amazon OpenSearch Service.
-    public func describeDomainChangeProgress(_ input: DescribeDomainChangeProgressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainChangeProgressResponse> {
-        return self.client.execute(operation: "DescribeDomainChangeProgress", path: "/2021-01-01/opensearch/domain/{DomainName}/progress", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDomainChangeProgress(_ input: DescribeDomainChangeProgressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDomainChangeProgressResponse {
+        return try await self.client.execute(operation: "DescribeDomainChangeProgress", path: "/2021-01-01/opensearch/domain/{DomainName}/progress", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the configuration of an Amazon OpenSearch Service domain.
-    public func describeDomainConfig(_ input: DescribeDomainConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainConfigResponse> {
-        return self.client.execute(operation: "DescribeDomainConfig", path: "/2021-01-01/opensearch/domain/{DomainName}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDomainConfig(_ input: DescribeDomainConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDomainConfigResponse {
+        return try await self.client.execute(operation: "DescribeDomainConfig", path: "/2021-01-01/opensearch/domain/{DomainName}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about domain and node health, the standby Availability Zone, number of nodes per Availability Zone, and shard count per node.
-    public func describeDomainHealth(_ input: DescribeDomainHealthRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainHealthResponse> {
-        return self.client.execute(operation: "DescribeDomainHealth", path: "/2021-01-01/opensearch/domain/{DomainName}/health", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDomainHealth(_ input: DescribeDomainHealthRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDomainHealthResponse {
+        return try await self.client.execute(operation: "DescribeDomainHealth", path: "/2021-01-01/opensearch/domain/{DomainName}/health", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about domain and nodes, including data nodes, master nodes, ultrawarm nodes, Availability Zone(s), standby nodes, node configurations, and node states.
-    public func describeDomainNodes(_ input: DescribeDomainNodesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainNodesResponse> {
-        return self.client.execute(operation: "DescribeDomainNodes", path: "/2021-01-01/opensearch/domain/{DomainName}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDomainNodes(_ input: DescribeDomainNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDomainNodesResponse {
+        return try await self.client.execute(operation: "DescribeDomainNodes", path: "/2021-01-01/opensearch/domain/{DomainName}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns domain configuration information about the specified Amazon OpenSearch Service domains.
-    public func describeDomains(_ input: DescribeDomainsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainsResponse> {
-        return self.client.execute(operation: "DescribeDomains", path: "/2021-01-01/opensearch/domain-info", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDomains(_ input: DescribeDomainsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDomainsResponse {
+        return try await self.client.execute(operation: "DescribeDomains", path: "/2021-01-01/opensearch/domain-info", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the progress of a pre-update dry run analysis on an Amazon OpenSearch Service domain. For more information, see Determining whether a change will cause a blue/green deployment.
-    public func describeDryRunProgress(_ input: DescribeDryRunProgressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDryRunProgressResponse> {
-        return self.client.execute(operation: "DescribeDryRunProgress", path: "/2021-01-01/opensearch/domain/{DomainName}/dryRun", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDryRunProgress(_ input: DescribeDryRunProgressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDryRunProgressResponse {
+        return try await self.client.execute(operation: "DescribeDryRunProgress", path: "/2021-01-01/opensearch/domain/{DomainName}/dryRun", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the inbound cross-cluster search connections for a destination (remote) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
-    public func describeInboundConnections(_ input: DescribeInboundConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInboundConnectionsResponse> {
-        return self.client.execute(operation: "DescribeInboundConnections", path: "/2021-01-01/opensearch/cc/inboundConnection/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeInboundConnections(_ input: DescribeInboundConnectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInboundConnectionsResponse {
+        return try await self.client.execute(operation: "DescribeInboundConnections", path: "/2021-01-01/opensearch/cc/inboundConnection/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the instance count, storage, and master node limits for a given OpenSearch or Elasticsearch version and instance type.
-    public func describeInstanceTypeLimits(_ input: DescribeInstanceTypeLimitsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstanceTypeLimitsResponse> {
-        return self.client.execute(operation: "DescribeInstanceTypeLimits", path: "/2021-01-01/opensearch/instanceTypeLimits/{EngineVersion}/{InstanceType}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeInstanceTypeLimits(_ input: DescribeInstanceTypeLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceTypeLimitsResponse {
+        return try await self.client.execute(operation: "DescribeInstanceTypeLimits", path: "/2021-01-01/opensearch/instanceTypeLimits/{EngineVersion}/{InstanceType}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the outbound cross-cluster connections for a local (source) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
-    public func describeOutboundConnections(_ input: DescribeOutboundConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOutboundConnectionsResponse> {
-        return self.client.execute(operation: "DescribeOutboundConnections", path: "/2021-01-01/opensearch/cc/outboundConnection/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeOutboundConnections(_ input: DescribeOutboundConnectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOutboundConnectionsResponse {
+        return try await self.client.execute(operation: "DescribeOutboundConnections", path: "/2021-01-01/opensearch/cc/outboundConnection/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes all packages available to OpenSearch Service. For more information, see Custom packages for Amazon OpenSearch Service.
-    public func describePackages(_ input: DescribePackagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePackagesResponse> {
-        return self.client.execute(operation: "DescribePackages", path: "/2021-01-01/packages/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describePackages(_ input: DescribePackagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePackagesResponse {
+        return try await self.client.execute(operation: "DescribePackages", path: "/2021-01-01/packages/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the available Amazon OpenSearch Service Reserved Instance offerings for a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service.
-    public func describeReservedInstanceOfferings(_ input: DescribeReservedInstanceOfferingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReservedInstanceOfferingsResponse> {
-        return self.client.execute(operation: "DescribeReservedInstanceOfferings", path: "/2021-01-01/opensearch/reservedInstanceOfferings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeReservedInstanceOfferings(_ input: DescribeReservedInstanceOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedInstanceOfferingsResponse {
+        return try await self.client.execute(operation: "DescribeReservedInstanceOfferings", path: "/2021-01-01/opensearch/reservedInstanceOfferings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the Amazon OpenSearch Service instances that you have reserved in a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service.
-    public func describeReservedInstances(_ input: DescribeReservedInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReservedInstancesResponse> {
-        return self.client.execute(operation: "DescribeReservedInstances", path: "/2021-01-01/opensearch/reservedInstances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeReservedInstances(_ input: DescribeReservedInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedInstancesResponse {
+        return try await self.client.execute(operation: "DescribeReservedInstances", path: "/2021-01-01/opensearch/reservedInstances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
-    public func describeVpcEndpoints(_ input: DescribeVpcEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVpcEndpointsResponse> {
-        return self.client.execute(operation: "DescribeVpcEndpoints", path: "/2021-01-01/opensearch/vpcEndpoints/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeVpcEndpoints(_ input: DescribeVpcEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVpcEndpointsResponse {
+        return try await self.client.execute(operation: "DescribeVpcEndpoints", path: "/2021-01-01/opensearch/vpcEndpoints/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes a package from the specified Amazon OpenSearch Service domain. The package can't be in use with any OpenSearch index for the dissociation to succeed. The package is still available in OpenSearch Service for association later. For more information, see Custom packages for Amazon OpenSearch Service.
-    public func dissociatePackage(_ input: DissociatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DissociatePackageResponse> {
-        return self.client.execute(operation: "DissociatePackage", path: "/2021-01-01/packages/dissociate/{PackageID}/{DomainName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func dissociatePackage(_ input: DissociatePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DissociatePackageResponse {
+        return try await self.client.execute(operation: "DissociatePackage", path: "/2021-01-01/packages/dissociate/{PackageID}/{DomainName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
-    public func getCompatibleVersions(_ input: GetCompatibleVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCompatibleVersionsResponse> {
-        return self.client.execute(operation: "GetCompatibleVersions", path: "/2021-01-01/opensearch/compatibleVersions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCompatibleVersions(_ input: GetCompatibleVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCompatibleVersionsResponse {
+        return try await self.client.execute(operation: "GetCompatibleVersions", path: "/2021-01-01/opensearch/compatibleVersions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the  package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service.
-    public func getPackageVersionHistory(_ input: GetPackageVersionHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPackageVersionHistoryResponse> {
-        return self.client.execute(operation: "GetPackageVersionHistory", path: "/2021-01-01/packages/{PackageID}/history", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPackageVersionHistory(_ input: GetPackageVersionHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPackageVersionHistoryResponse {
+        return try await self.client.execute(operation: "GetPackageVersionHistory", path: "/2021-01-01/packages/{PackageID}/history", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch Service domain.
-    public func getUpgradeHistory(_ input: GetUpgradeHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUpgradeHistoryResponse> {
-        return self.client.execute(operation: "GetUpgradeHistory", path: "/2021-01-01/opensearch/upgradeDomain/{DomainName}/history", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getUpgradeHistory(_ input: GetUpgradeHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUpgradeHistoryResponse {
+        return try await self.client.execute(operation: "GetUpgradeHistory", path: "/2021-01-01/opensearch/upgradeDomain/{DomainName}/history", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the most recent status of the last upgrade or upgrade eligibility check performed on an Amazon OpenSearch Service domain.
-    public func getUpgradeStatus(_ input: GetUpgradeStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUpgradeStatusResponse> {
-        return self.client.execute(operation: "GetUpgradeStatus", path: "/2021-01-01/opensearch/upgradeDomain/{DomainName}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getUpgradeStatus(_ input: GetUpgradeStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUpgradeStatusResponse {
+        return try await self.client.execute(operation: "GetUpgradeStatus", path: "/2021-01-01/opensearch/upgradeDomain/{DomainName}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the names of all Amazon OpenSearch Service domains owned by the current user in the active Region.
-    public func listDomainNames(_ input: ListDomainNamesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainNamesResponse> {
-        return self.client.execute(operation: "ListDomainNames", path: "/2021-01-01/domain", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDomainNames(_ input: ListDomainNamesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainNamesResponse {
+        return try await self.client.execute(operation: "ListDomainNames", path: "/2021-01-01/domain", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all Amazon OpenSearch Service domains associated with a given package. For more information, see Custom packages for Amazon OpenSearch Service.
-    public func listDomainsForPackage(_ input: ListDomainsForPackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainsForPackageResponse> {
-        return self.client.execute(operation: "ListDomainsForPackage", path: "/2021-01-01/packages/{PackageID}/domains", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDomainsForPackage(_ input: ListDomainsForPackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainsForPackageResponse {
+        return try await self.client.execute(operation: "ListDomainsForPackage", path: "/2021-01-01/packages/{PackageID}/domains", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all instance types and available features for a given OpenSearch or Elasticsearch version.
-    public func listInstanceTypeDetails(_ input: ListInstanceTypeDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInstanceTypeDetailsResponse> {
-        return self.client.execute(operation: "ListInstanceTypeDetails", path: "/2021-01-01/opensearch/instanceTypeDetails/{EngineVersion}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listInstanceTypeDetails(_ input: ListInstanceTypeDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInstanceTypeDetailsResponse {
+        return try await self.client.execute(operation: "ListInstanceTypeDetails", path: "/2021-01-01/opensearch/instanceTypeDetails/{EngineVersion}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all packages associated with an Amazon OpenSearch Service domain. For more information, see Custom packages for Amazon OpenSearch Service.
-    public func listPackagesForDomain(_ input: ListPackagesForDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackagesForDomainResponse> {
-        return self.client.execute(operation: "ListPackagesForDomain", path: "/2021-01-01/domain/{DomainName}/packages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPackagesForDomain(_ input: ListPackagesForDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackagesForDomainResponse {
+        return try await self.client.execute(operation: "ListPackagesForDomain", path: "/2021-01-01/domain/{DomainName}/packages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of configuration changes that are scheduled for a domain. These changes can be service software updates or blue/green Auto-Tune enhancements.
-    public func listScheduledActions(_ input: ListScheduledActionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListScheduledActionsResponse> {
-        return self.client.execute(operation: "ListScheduledActions", path: "/2021-01-01/opensearch/domain/{DomainName}/scheduledActions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listScheduledActions(_ input: ListScheduledActionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScheduledActionsResponse {
+        return try await self.client.execute(operation: "ListScheduledActions", path: "/2021-01-01/opensearch/domain/{DomainName}/scheduledActions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns all resource tags for an Amazon OpenSearch Service domain. For more information, see Tagging Amazon OpenSearch Service domains.
-    public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsResponse> {
-        return self.client.execute(operation: "ListTags", path: "/2021-01-01/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsResponse {
+        return try await self.client.execute(operation: "ListTags", path: "/2021-01-01/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
-    public func listVersions(_ input: ListVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVersionsResponse> {
-        return self.client.execute(operation: "ListVersions", path: "/2021-01-01/opensearch/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listVersions(_ input: ListVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVersionsResponse {
+        return try await self.client.execute(operation: "ListVersions", path: "/2021-01-01/opensearch/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves information about each Amazon Web Services principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
-    public func listVpcEndpointAccess(_ input: ListVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVpcEndpointAccessResponse> {
-        return self.client.execute(operation: "ListVpcEndpointAccess", path: "/2021-01-01/opensearch/domain/{DomainName}/listVpcEndpointAccess", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listVpcEndpointAccess(_ input: ListVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVpcEndpointAccessResponse {
+        return try await self.client.execute(operation: "ListVpcEndpointAccess", path: "/2021-01-01/opensearch/domain/{DomainName}/listVpcEndpointAccess", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web Services account and Region.
-    public func listVpcEndpoints(_ input: ListVpcEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVpcEndpointsResponse> {
-        return self.client.execute(operation: "ListVpcEndpoints", path: "/2021-01-01/opensearch/vpcEndpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listVpcEndpoints(_ input: ListVpcEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVpcEndpointsResponse {
+        return try await self.client.execute(operation: "ListVpcEndpoints", path: "/2021-01-01/opensearch/vpcEndpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
-    public func listVpcEndpointsForDomain(_ input: ListVpcEndpointsForDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVpcEndpointsForDomainResponse> {
-        return self.client.execute(operation: "ListVpcEndpointsForDomain", path: "/2021-01-01/opensearch/domain/{DomainName}/vpcEndpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listVpcEndpointsForDomain(_ input: ListVpcEndpointsForDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVpcEndpointsForDomainResponse {
+        return try await self.client.execute(operation: "ListVpcEndpointsForDomain", path: "/2021-01-01/opensearch/domain/{DomainName}/vpcEndpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Allows you to purchase Amazon OpenSearch Service Reserved Instances.
-    public func purchaseReservedInstanceOffering(_ input: PurchaseReservedInstanceOfferingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PurchaseReservedInstanceOfferingResponse> {
-        return self.client.execute(operation: "PurchaseReservedInstanceOffering", path: "/2021-01-01/opensearch/purchaseReservedInstanceOffering", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func purchaseReservedInstanceOffering(_ input: PurchaseReservedInstanceOfferingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PurchaseReservedInstanceOfferingResponse {
+        return try await self.client.execute(operation: "PurchaseReservedInstanceOffering", path: "/2021-01-01/opensearch/purchaseReservedInstanceOffering", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Allows the remote Amazon OpenSearch Service domain owner to reject an inbound cross-cluster connection request.
-    public func rejectInboundConnection(_ input: RejectInboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectInboundConnectionResponse> {
-        return self.client.execute(operation: "RejectInboundConnection", path: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}/reject", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func rejectInboundConnection(_ input: RejectInboundConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectInboundConnectionResponse {
+        return try await self.client.execute(operation: "RejectInboundConnection", path: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}/reject", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes the specified set of tags from an Amazon OpenSearch Service domain. For more information, see  Tagging Amazon OpenSearch Service domains.
-    @discardableResult public func removeTags(_ input: RemoveTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "RemoveTags", path: "/2021-01-01/tags-removal", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func removeTags(_ input: RemoveTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "RemoveTags", path: "/2021-01-01/tags-removal", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
-    public func revokeVpcEndpointAccess(_ input: RevokeVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RevokeVpcEndpointAccessResponse> {
-        return self.client.execute(operation: "RevokeVpcEndpointAccess", path: "/2021-01-01/opensearch/domain/{DomainName}/revokeVpcEndpointAccess", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func revokeVpcEndpointAccess(_ input: RevokeVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RevokeVpcEndpointAccessResponse {
+        return try await self.client.execute(operation: "RevokeVpcEndpointAccess", path: "/2021-01-01/opensearch/domain/{DomainName}/revokeVpcEndpointAccess", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Schedules a service software update for an Amazon OpenSearch Service domain. For more information, see Service software updates in Amazon OpenSearch Service.
-    public func startServiceSoftwareUpdate(_ input: StartServiceSoftwareUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartServiceSoftwareUpdateResponse> {
-        return self.client.execute(operation: "StartServiceSoftwareUpdate", path: "/2021-01-01/opensearch/serviceSoftwareUpdate/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startServiceSoftwareUpdate(_ input: StartServiceSoftwareUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartServiceSoftwareUpdateResponse {
+        return try await self.client.execute(operation: "StartServiceSoftwareUpdate", path: "/2021-01-01/opensearch/serviceSoftwareUpdate/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.sl
-    public func updateDomainConfig(_ input: UpdateDomainConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDomainConfigResponse> {
-        return self.client.execute(operation: "UpdateDomainConfig", path: "/2021-01-01/opensearch/domain/{DomainName}/config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDomainConfig(_ input: UpdateDomainConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDomainConfigResponse {
+        return try await self.client.execute(operation: "UpdateDomainConfig", path: "/2021-01-01/opensearch/domain/{DomainName}/config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a package for use with Amazon OpenSearch Service domains. For more information, see Custom packages for Amazon OpenSearch Service.
-    public func updatePackage(_ input: UpdatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePackageResponse> {
-        return self.client.execute(operation: "UpdatePackage", path: "/2021-01-01/packages/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updatePackage(_ input: UpdatePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePackageResponse {
+        return try await self.client.execute(operation: "UpdatePackage", path: "/2021-01-01/packages/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Reschedules a planned domain configuration change for a later time. This change can be a scheduled service software update or a blue/green Auto-Tune enhancement.
-    public func updateScheduledAction(_ input: UpdateScheduledActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateScheduledActionResponse> {
-        return self.client.execute(operation: "UpdateScheduledAction", path: "/2021-01-01/opensearch/domain/{DomainName}/scheduledAction/update", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateScheduledAction(_ input: UpdateScheduledActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateScheduledActionResponse {
+        return try await self.client.execute(operation: "UpdateScheduledAction", path: "/2021-01-01/opensearch/domain/{DomainName}/scheduledAction/update", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
-    public func updateVpcEndpoint(_ input: UpdateVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVpcEndpointResponse> {
-        return self.client.execute(operation: "UpdateVpcEndpoint", path: "/2021-01-01/opensearch/vpcEndpoints/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateVpcEndpoint(_ input: UpdateVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVpcEndpointResponse {
+        return try await self.client.execute(operation: "UpdateVpcEndpoint", path: "/2021-01-01/opensearch/vpcEndpoints/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Allows you to either upgrade your Amazon OpenSearch Service domain or perform an upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
-    public func upgradeDomain(_ input: UpgradeDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpgradeDomainResponse> {
-        return self.client.execute(operation: "UpgradeDomain", path: "/2021-01-01/opensearch/upgradeDomain", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func upgradeDomain(_ input: UpgradeDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpgradeDomainResponse {
+        return try await self.client.execute(operation: "UpgradeDomain", path: "/2021-01-01/opensearch/upgradeDomain", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -356,693 +410,252 @@ extension OpenSearch {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension OpenSearch {
     /// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see Auto-Tune for Amazon OpenSearch Service.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeDomainAutoTunesPaginator<Result>(
-        _ input: DescribeDomainAutoTunesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeDomainAutoTunesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeDomainAutoTunes,
-            inputKey: \DescribeDomainAutoTunesRequest.nextToken,
-            outputKey: \DescribeDomainAutoTunesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDomainAutoTunesPaginator(
         _ input: DescribeDomainAutoTunesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeDomainAutoTunesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeDomainAutoTunesRequest, DescribeDomainAutoTunesResponse> {
+        return .init(
             input: input,
             command: self.describeDomainAutoTunes,
             inputKey: \DescribeDomainAutoTunesRequest.nextToken,
             outputKey: \DescribeDomainAutoTunesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all the inbound cross-cluster search connections for a destination (remote) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeInboundConnectionsPaginator<Result>(
-        _ input: DescribeInboundConnectionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeInboundConnectionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeInboundConnections,
-            inputKey: \DescribeInboundConnectionsRequest.nextToken,
-            outputKey: \DescribeInboundConnectionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInboundConnectionsPaginator(
         _ input: DescribeInboundConnectionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeInboundConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeInboundConnectionsRequest, DescribeInboundConnectionsResponse> {
+        return .init(
             input: input,
             command: self.describeInboundConnections,
             inputKey: \DescribeInboundConnectionsRequest.nextToken,
             outputKey: \DescribeInboundConnectionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all the outbound cross-cluster connections for a local (source) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeOutboundConnectionsPaginator<Result>(
-        _ input: DescribeOutboundConnectionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeOutboundConnectionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeOutboundConnections,
-            inputKey: \DescribeOutboundConnectionsRequest.nextToken,
-            outputKey: \DescribeOutboundConnectionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeOutboundConnectionsPaginator(
         _ input: DescribeOutboundConnectionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeOutboundConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeOutboundConnectionsRequest, DescribeOutboundConnectionsResponse> {
+        return .init(
             input: input,
             command: self.describeOutboundConnections,
             inputKey: \DescribeOutboundConnectionsRequest.nextToken,
             outputKey: \DescribeOutboundConnectionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Describes all packages available to OpenSearch Service. For more information, see Custom packages for Amazon OpenSearch Service.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describePackagesPaginator<Result>(
-        _ input: DescribePackagesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribePackagesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describePackages,
-            inputKey: \DescribePackagesRequest.nextToken,
-            outputKey: \DescribePackagesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describePackagesPaginator(
         _ input: DescribePackagesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribePackagesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribePackagesRequest, DescribePackagesResponse> {
+        return .init(
             input: input,
             command: self.describePackages,
             inputKey: \DescribePackagesRequest.nextToken,
             outputKey: \DescribePackagesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Describes the available Amazon OpenSearch Service Reserved Instance offerings for a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeReservedInstanceOfferingsPaginator<Result>(
-        _ input: DescribeReservedInstanceOfferingsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeReservedInstanceOfferingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeReservedInstanceOfferings,
-            inputKey: \DescribeReservedInstanceOfferingsRequest.nextToken,
-            outputKey: \DescribeReservedInstanceOfferingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeReservedInstanceOfferingsPaginator(
         _ input: DescribeReservedInstanceOfferingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeReservedInstanceOfferingsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeReservedInstanceOfferingsRequest, DescribeReservedInstanceOfferingsResponse> {
+        return .init(
             input: input,
             command: self.describeReservedInstanceOfferings,
             inputKey: \DescribeReservedInstanceOfferingsRequest.nextToken,
             outputKey: \DescribeReservedInstanceOfferingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Describes the Amazon OpenSearch Service instances that you have reserved in a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeReservedInstancesPaginator<Result>(
-        _ input: DescribeReservedInstancesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeReservedInstancesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeReservedInstances,
-            inputKey: \DescribeReservedInstancesRequest.nextToken,
-            outputKey: \DescribeReservedInstancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeReservedInstancesPaginator(
         _ input: DescribeReservedInstancesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeReservedInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeReservedInstancesRequest, DescribeReservedInstancesResponse> {
+        return .init(
             input: input,
             command: self.describeReservedInstances,
             inputKey: \DescribeReservedInstancesRequest.nextToken,
             outputKey: \DescribeReservedInstancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the  package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getPackageVersionHistoryPaginator<Result>(
-        _ input: GetPackageVersionHistoryRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetPackageVersionHistoryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getPackageVersionHistory,
-            inputKey: \GetPackageVersionHistoryRequest.nextToken,
-            outputKey: \GetPackageVersionHistoryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getPackageVersionHistoryPaginator(
         _ input: GetPackageVersionHistoryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetPackageVersionHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetPackageVersionHistoryRequest, GetPackageVersionHistoryResponse> {
+        return .init(
             input: input,
             command: self.getPackageVersionHistory,
             inputKey: \GetPackageVersionHistoryRequest.nextToken,
             outputKey: \GetPackageVersionHistoryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch Service domain.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getUpgradeHistoryPaginator<Result>(
-        _ input: GetUpgradeHistoryRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetUpgradeHistoryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getUpgradeHistory,
-            inputKey: \GetUpgradeHistoryRequest.nextToken,
-            outputKey: \GetUpgradeHistoryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getUpgradeHistoryPaginator(
         _ input: GetUpgradeHistoryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetUpgradeHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetUpgradeHistoryRequest, GetUpgradeHistoryResponse> {
+        return .init(
             input: input,
             command: self.getUpgradeHistory,
             inputKey: \GetUpgradeHistoryRequest.nextToken,
             outputKey: \GetUpgradeHistoryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all Amazon OpenSearch Service domains associated with a given package. For more information, see Custom packages for Amazon OpenSearch Service.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDomainsForPackagePaginator<Result>(
-        _ input: ListDomainsForPackageRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDomainsForPackageResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDomainsForPackage,
-            inputKey: \ListDomainsForPackageRequest.nextToken,
-            outputKey: \ListDomainsForPackageResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDomainsForPackagePaginator(
         _ input: ListDomainsForPackageRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDomainsForPackageResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDomainsForPackageRequest, ListDomainsForPackageResponse> {
+        return .init(
             input: input,
             command: self.listDomainsForPackage,
             inputKey: \ListDomainsForPackageRequest.nextToken,
             outputKey: \ListDomainsForPackageResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all instance types and available features for a given OpenSearch or Elasticsearch version.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listInstanceTypeDetailsPaginator<Result>(
-        _ input: ListInstanceTypeDetailsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListInstanceTypeDetailsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listInstanceTypeDetails,
-            inputKey: \ListInstanceTypeDetailsRequest.nextToken,
-            outputKey: \ListInstanceTypeDetailsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listInstanceTypeDetailsPaginator(
         _ input: ListInstanceTypeDetailsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListInstanceTypeDetailsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInstanceTypeDetailsRequest, ListInstanceTypeDetailsResponse> {
+        return .init(
             input: input,
             command: self.listInstanceTypeDetails,
             inputKey: \ListInstanceTypeDetailsRequest.nextToken,
             outputKey: \ListInstanceTypeDetailsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all packages associated with an Amazon OpenSearch Service domain. For more information, see Custom packages for Amazon OpenSearch Service.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPackagesForDomainPaginator<Result>(
-        _ input: ListPackagesForDomainRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPackagesForDomainResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPackagesForDomain,
-            inputKey: \ListPackagesForDomainRequest.nextToken,
-            outputKey: \ListPackagesForDomainResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPackagesForDomainPaginator(
         _ input: ListPackagesForDomainRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPackagesForDomainResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPackagesForDomainRequest, ListPackagesForDomainResponse> {
+        return .init(
             input: input,
             command: self.listPackagesForDomain,
             inputKey: \ListPackagesForDomainRequest.nextToken,
             outputKey: \ListPackagesForDomainResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves a list of configuration changes that are scheduled for a domain. These changes can be service software updates or blue/green Auto-Tune enhancements.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listScheduledActionsPaginator<Result>(
-        _ input: ListScheduledActionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListScheduledActionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listScheduledActions,
-            inputKey: \ListScheduledActionsRequest.nextToken,
-            outputKey: \ListScheduledActionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listScheduledActionsPaginator(
         _ input: ListScheduledActionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListScheduledActionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListScheduledActionsRequest, ListScheduledActionsResponse> {
+        return .init(
             input: input,
             command: self.listScheduledActions,
             inputKey: \ListScheduledActionsRequest.nextToken,
             outputKey: \ListScheduledActionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listVersionsPaginator<Result>(
-        _ input: ListVersionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listVersions,
-            inputKey: \ListVersionsRequest.nextToken,
-            outputKey: \ListVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listVersionsPaginator(
         _ input: ListVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListVersionsRequest, ListVersionsResponse> {
+        return .init(
             input: input,
             command: self.listVersions,
             inputKey: \ListVersionsRequest.nextToken,
             outputKey: \ListVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

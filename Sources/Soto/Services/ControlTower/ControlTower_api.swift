@@ -74,23 +74,27 @@ public struct ControlTower: AWSService {
     // MARK: API Calls
 
     /// This API call turns off a control. It starts an asynchronous operation that deletes AWS resources on the specified organizational unit and the accounts it contains. The resources will vary according to the control that you specify.
-    public func disableControl(_ input: DisableControlInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableControlOutput> {
-        return self.client.execute(operation: "DisableControl", path: "/disable-control", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disableControl(_ input: DisableControlInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableControlOutput {
+        return try await self.client.execute(operation: "DisableControl", path: "/disable-control", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// This API call activates a control. It starts an asynchronous operation that creates AWS resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify.
-    public func enableControl(_ input: EnableControlInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableControlOutput> {
-        return self.client.execute(operation: "EnableControl", path: "/enable-control", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func enableControl(_ input: EnableControlInput, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableControlOutput {
+        return try await self.client.execute(operation: "EnableControl", path: "/enable-control", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the status of a particular EnableControl or DisableControl operation. Displays a message in case of error. Details for an operation are available for 90 days.
-    public func getControlOperation(_ input: GetControlOperationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetControlOperationOutput> {
-        return self.client.execute(operation: "GetControlOperation", path: "/get-control-operation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getControlOperation(_ input: GetControlOperationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetControlOperationOutput {
+        return try await self.client.execute(operation: "GetControlOperation", path: "/get-control-operation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the controls enabled by AWS Control Tower on the specified organizational unit and the accounts it contains.
-    public func listEnabledControls(_ input: ListEnabledControlsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEnabledControlsOutput> {
-        return self.client.execute(operation: "ListEnabledControls", path: "/list-enabled-controls", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listEnabledControls(_ input: ListEnabledControlsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnabledControlsOutput {
+        return try await self.client.execute(operation: "ListEnabledControls", path: "/list-enabled-controls", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -105,57 +109,24 @@ extension ControlTower {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ControlTower {
     /// Lists the controls enabled by AWS Control Tower on the specified organizational unit and the accounts it contains.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listEnabledControlsPaginator<Result>(
-        _ input: ListEnabledControlsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListEnabledControlsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listEnabledControls,
-            inputKey: \ListEnabledControlsInput.nextToken,
-            outputKey: \ListEnabledControlsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listEnabledControlsPaginator(
         _ input: ListEnabledControlsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListEnabledControlsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEnabledControlsInput, ListEnabledControlsOutput> {
+        return .init(
             input: input,
             command: self.listEnabledControls,
             inputKey: \ListEnabledControlsInput.nextToken,
             outputKey: \ListEnabledControlsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

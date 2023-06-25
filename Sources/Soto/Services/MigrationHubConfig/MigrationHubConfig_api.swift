@@ -68,18 +68,21 @@ public struct MigrationHubConfig: AWSService {
     // MARK: API Calls
 
     /// This API sets up the home region for the calling account only.
-    public func createHomeRegionControl(_ input: CreateHomeRegionControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateHomeRegionControlResult> {
-        return self.client.execute(operation: "CreateHomeRegionControl", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createHomeRegionControl(_ input: CreateHomeRegionControlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHomeRegionControlResult {
+        return try await self.client.execute(operation: "CreateHomeRegionControl", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// This API permits filtering on the ControlId and HomeRegion fields.
-    public func describeHomeRegionControls(_ input: DescribeHomeRegionControlsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeHomeRegionControlsResult> {
-        return self.client.execute(operation: "DescribeHomeRegionControls", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeHomeRegionControls(_ input: DescribeHomeRegionControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeHomeRegionControlsResult {
+        return try await self.client.execute(operation: "DescribeHomeRegionControls", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the calling account’s home region, if configured. This API is used by other AWS services to determine the regional endpoint for calling AWS Application Discovery Service and Migration Hub. You must call GetHomeRegion at least once before you call any other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's Migration Hub home region.
-    public func getHomeRegion(_ input: GetHomeRegionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetHomeRegionResult> {
-        return self.client.execute(operation: "GetHomeRegion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getHomeRegion(_ input: GetHomeRegionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHomeRegionResult {
+        return try await self.client.execute(operation: "GetHomeRegion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -94,57 +97,24 @@ extension MigrationHubConfig {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MigrationHubConfig {
     /// This API permits filtering on the ControlId and HomeRegion fields.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeHomeRegionControlsPaginator<Result>(
-        _ input: DescribeHomeRegionControlsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeHomeRegionControlsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeHomeRegionControls,
-            inputKey: \DescribeHomeRegionControlsRequest.nextToken,
-            outputKey: \DescribeHomeRegionControlsResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeHomeRegionControlsPaginator(
         _ input: DescribeHomeRegionControlsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeHomeRegionControlsResult, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeHomeRegionControlsRequest, DescribeHomeRegionControlsResult> {
+        return .init(
             input: input,
             command: self.describeHomeRegionControls,
             inputKey: \DescribeHomeRegionControlsRequest.nextToken,
             outputKey: \DescribeHomeRegionControlsResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

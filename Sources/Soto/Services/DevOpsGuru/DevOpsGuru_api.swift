@@ -88,83 +88,96 @@ public struct DevOpsGuru: AWSService {
     /// 				for cross account Amazon SNS topics. If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. For more information, see Permissions for cross account Amazon SNS topics. If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions
     /// 				to the CMK. For more information, see Permissions for
     /// 				Amazon Web Services KMS–encrypted Amazon SNS topics.
-    public func addNotificationChannel(_ input: AddNotificationChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddNotificationChannelResponse> {
-        return self.client.execute(operation: "AddNotificationChannel", path: "/channels", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func addNotificationChannel(_ input: AddNotificationChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddNotificationChannelResponse {
+        return try await self.client.execute(operation: "AddNotificationChannel", path: "/channels", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the insight along with the associated anomalies, events and recommendations.
-    public func deleteInsight(_ input: DeleteInsightRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInsightResponse> {
-        return self.client.execute(operation: "DeleteInsight", path: "/insights/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteInsight(_ input: DeleteInsightRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInsightResponse {
+        return try await self.client.execute(operation: "DeleteInsight", path: "/insights/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns the number of open reactive insights, the number of open proactive insights,
     /// 			and the number of metrics analyzed in your Amazon Web Services account. Use these numbers to gauge the
     /// 			health of operations in your Amazon Web Services account.
-    public func describeAccountHealth(_ input: DescribeAccountHealthRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAccountHealthResponse> {
-        return self.client.execute(operation: "DescribeAccountHealth", path: "/accounts/health", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAccountHealth(_ input: DescribeAccountHealthRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountHealthResponse {
+        return try await self.client.execute(operation: "DescribeAccountHealth", path: "/accounts/health", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  For the time range passed in, returns the number of open reactive insight that were
     /// 			created, the number of open proactive insights that were created, and the Mean Time to Recover (MTTR) for all
     /// 			closed reactive insights.
-    public func describeAccountOverview(_ input: DescribeAccountOverviewRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAccountOverviewResponse> {
-        return self.client.execute(operation: "DescribeAccountOverview", path: "/accounts/overview", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAccountOverview(_ input: DescribeAccountOverviewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountOverviewResponse {
+        return try await self.client.execute(operation: "DescribeAccountOverview", path: "/accounts/overview", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns details about an anomaly that you specify using its ID.
-    public func describeAnomaly(_ input: DescribeAnomalyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAnomalyResponse> {
-        return self.client.execute(operation: "DescribeAnomaly", path: "/anomalies/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAnomaly(_ input: DescribeAnomalyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAnomalyResponse {
+        return try await self.client.execute(operation: "DescribeAnomaly", path: "/anomalies/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the integration status of services that are integrated with DevOps Guru as Consumer
     /// 			via EventBridge. The one service that can be integrated with DevOps Guru is Amazon CodeGuru
     /// 			Profiler, which can produce proactive recommendations which can be stored and viewed in
     /// 			DevOps Guru.
-    public func describeEventSourcesConfig(_ input: DescribeEventSourcesConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEventSourcesConfigResponse> {
-        return self.client.execute(operation: "DescribeEventSourcesConfig", path: "/event-sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeEventSourcesConfig(_ input: DescribeEventSourcesConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEventSourcesConfigResponse {
+        return try await self.client.execute(operation: "DescribeEventSourcesConfig", path: "/event-sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns the most recent feedback submitted in the current Amazon Web Services account and Region.
     ///
-    public func describeFeedback(_ input: DescribeFeedbackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFeedbackResponse> {
-        return self.client.execute(operation: "DescribeFeedback", path: "/feedback", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeFeedback(_ input: DescribeFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFeedbackResponse {
+        return try await self.client.execute(operation: "DescribeFeedback", path: "/feedback", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns details about an insight that you specify using its ID.
-    public func describeInsight(_ input: DescribeInsightRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInsightResponse> {
-        return self.client.execute(operation: "DescribeInsight", path: "/insights/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeInsight(_ input: DescribeInsightRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInsightResponse {
+        return try await self.client.execute(operation: "DescribeInsight", path: "/insights/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns active insights, predictive insights, and resource hours analyzed in last
     /// 			hour.
-    public func describeOrganizationHealth(_ input: DescribeOrganizationHealthRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOrganizationHealthResponse> {
-        return self.client.execute(operation: "DescribeOrganizationHealth", path: "/organization/health", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeOrganizationHealth(_ input: DescribeOrganizationHealthRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationHealthResponse {
+        return try await self.client.execute(operation: "DescribeOrganizationHealth", path: "/organization/health", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns an overview of your organization's history based on the specified time range.
     /// 			The overview includes the total reactive and proactive insights.
-    public func describeOrganizationOverview(_ input: DescribeOrganizationOverviewRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOrganizationOverviewResponse> {
-        return self.client.execute(operation: "DescribeOrganizationOverview", path: "/organization/overview", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeOrganizationOverview(_ input: DescribeOrganizationOverviewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationOverviewResponse {
+        return try await self.client.execute(operation: "DescribeOrganizationOverview", path: "/organization/overview", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides an overview of your system's health. If additional member accounts are part
     /// 			of your organization, you can filter those accounts using the AccountIds
     /// 			field.
-    public func describeOrganizationResourceCollectionHealth(_ input: DescribeOrganizationResourceCollectionHealthRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOrganizationResourceCollectionHealthResponse> {
-        return self.client.execute(operation: "DescribeOrganizationResourceCollectionHealth", path: "/organization/health/resource-collection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeOrganizationResourceCollectionHealth(_ input: DescribeOrganizationResourceCollectionHealthRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationResourceCollectionHealthResponse {
+        return try await self.client.execute(operation: "DescribeOrganizationResourceCollectionHealth", path: "/organization/health/resource-collection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR)
     /// 			for all closed insights in resource collections in your account. You specify the type of
     /// 			Amazon Web Services resources collection. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
-    public func describeResourceCollectionHealth(_ input: DescribeResourceCollectionHealthRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeResourceCollectionHealthResponse> {
-        return self.client.execute(operation: "DescribeResourceCollectionHealth", path: "/accounts/health/resource-collection/{ResourceCollectionType}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeResourceCollectionHealth(_ input: DescribeResourceCollectionHealthRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeResourceCollectionHealthResponse {
+        return try await self.client.execute(operation: "DescribeResourceCollectionHealth", path: "/accounts/health/resource-collection/{ResourceCollectionType}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns the integration status of services that are integrated with DevOps Guru.
     /// 			The one service that can be integrated with DevOps Guru  	is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
-    public func describeServiceIntegration(_ input: DescribeServiceIntegrationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeServiceIntegrationResponse> {
-        return self.client.execute(operation: "DescribeServiceIntegration", path: "/service-integrations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeServiceIntegration(_ input: DescribeServiceIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceIntegrationResponse {
+        return try await self.client.execute(operation: "DescribeServiceIntegration", path: "/service-integrations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services resources.
@@ -172,75 +185,87 @@ public struct DevOpsGuru: AWSService {
     /// 			see Estimate your
     /// 			Amazon DevOps Guru costs and
     /// 			Amazon DevOps Guru pricing.
-    public func getCostEstimation(_ input: GetCostEstimationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCostEstimationResponse> {
-        return self.client.execute(operation: "GetCostEstimation", path: "/cost-estimation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCostEstimation(_ input: GetCostEstimationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCostEstimationResponse {
+        return try await self.client.execute(operation: "GetCostEstimation", path: "/cost-estimation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns lists Amazon Web Services resources that are of the specified resource collection type.
     /// 			The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
-    public func getResourceCollection(_ input: GetResourceCollectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceCollectionResponse> {
-        return self.client.execute(operation: "GetResourceCollection", path: "/resource-collections/{ResourceCollectionType}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getResourceCollection(_ input: GetResourceCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceCollectionResponse {
+        return try await self.client.execute(operation: "GetResourceCollection", path: "/resource-collections/{ResourceCollectionType}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a list of the anomalies that belong to an insight that you specify using its
     /// 			ID.
-    public func listAnomaliesForInsight(_ input: ListAnomaliesForInsightRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnomaliesForInsightResponse> {
-        return self.client.execute(operation: "ListAnomaliesForInsight", path: "/anomalies/insight/{InsightId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAnomaliesForInsight(_ input: ListAnomaliesForInsightRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnomaliesForInsightResponse {
+        return try await self.client.execute(operation: "ListAnomaliesForInsight", path: "/anomalies/insight/{InsightId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// 			Returns the list of log groups that contain log anomalies.
     ///
-    public func listAnomalousLogGroups(_ input: ListAnomalousLogGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnomalousLogGroupsResponse> {
-        return self.client.execute(operation: "ListAnomalousLogGroups", path: "/list-log-anomalies", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAnomalousLogGroups(_ input: ListAnomalousLogGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnomalousLogGroupsResponse {
+        return try await self.client.execute(operation: "ListAnomalousLogGroups", path: "/list-log-anomalies", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a list of the events emitted by the resources that are evaluated by DevOps Guru.
     /// 			You can use filters to specify which events are returned.
-    public func listEvents(_ input: ListEventsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEventsResponse> {
-        return self.client.execute(operation: "ListEvents", path: "/events", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listEvents(_ input: ListEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEventsResponse {
+        return try await self.client.execute(operation: "ListEvents", path: "/events", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a list of insights in your Amazon Web Services account. You can specify which insights are
     /// 			returned by their start time and status (ONGOING, CLOSED, or
     /// 				ANY).
-    public func listInsights(_ input: ListInsightsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInsightsResponse> {
-        return self.client.execute(operation: "ListInsights", path: "/insights", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listInsights(_ input: ListInsightsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInsightsResponse {
+        return try await self.client.execute(operation: "ListInsights", path: "/insights", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// 			Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
     ///
-    public func listMonitoredResources(_ input: ListMonitoredResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMonitoredResourcesResponse> {
-        return self.client.execute(operation: "ListMonitoredResources", path: "/monitoredResources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listMonitoredResources(_ input: ListMonitoredResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMonitoredResourcesResponse {
+        return try await self.client.execute(operation: "ListMonitoredResources", path: "/monitoredResources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a list of notification channels configured for DevOps Guru. Each notification
     /// 			channel is used to notify you when DevOps Guru generates an insight that contains information
     /// 			about how to improve your operations. The one  	supported notification channel is Amazon Simple Notification Service (Amazon SNS).
-    public func listNotificationChannels(_ input: ListNotificationChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNotificationChannelsResponse> {
-        return self.client.execute(operation: "ListNotificationChannels", path: "/channels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listNotificationChannels(_ input: ListNotificationChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNotificationChannelsResponse {
+        return try await self.client.execute(operation: "ListNotificationChannels", path: "/channels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of insights associated with the account or OU Id.
-    public func listOrganizationInsights(_ input: ListOrganizationInsightsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOrganizationInsightsResponse> {
-        return self.client.execute(operation: "ListOrganizationInsights", path: "/organization/insights", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listOrganizationInsights(_ input: ListOrganizationInsightsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationInsightsResponse {
+        return try await self.client.execute(operation: "ListOrganizationInsights", path: "/organization/insights", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a list of a specified insight's recommendations. Each recommendation includes
     /// 			a list of related metrics and a list of related events.
-    public func listRecommendations(_ input: ListRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecommendationsResponse> {
-        return self.client.execute(operation: "ListRecommendations", path: "/recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRecommendations(_ input: ListRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecommendationsResponse {
+        return try await self.client.execute(operation: "ListRecommendations", path: "/recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Collects customer feedback about the specified insight.
-    public func putFeedback(_ input: PutFeedbackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutFeedbackResponse> {
-        return self.client.execute(operation: "PutFeedback", path: "/feedback", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putFeedback(_ input: PutFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutFeedbackResponse {
+        return try await self.client.execute(operation: "PutFeedback", path: "/feedback", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Removes a notification channel from DevOps Guru. A notification channel is used to notify
     /// 			you when DevOps Guru generates an insight that contains information about how to improve your
     /// 			operations.
-    public func removeNotificationChannel(_ input: RemoveNotificationChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveNotificationChannelResponse> {
-        return self.client.execute(operation: "RemoveNotificationChannel", path: "/channels/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func removeNotificationChannel(_ input: RemoveNotificationChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveNotificationChannelResponse {
+        return try await self.client.execute(operation: "RemoveNotificationChannel", path: "/channels/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a list of insights in your Amazon Web Services account. You can specify which insights are
@@ -249,8 +274,9 @@ public struct DevOpsGuru: AWSService {
     /// 				(REACTIVE or PROACTIVE).  Use the Filters parameter to specify status and severity search
     /// 			parameters. Use the Type parameter to specify REACTIVE or
     /// 				PROACTIVE in your search.
-    public func searchInsights(_ input: SearchInsightsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchInsightsResponse> {
-        return self.client.execute(operation: "SearchInsights", path: "/insights/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchInsights(_ input: SearchInsightsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchInsightsResponse {
+        return try await self.client.execute(operation: "SearchInsights", path: "/insights/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a list of insights in your organization. You can specify which insights are
@@ -260,35 +286,40 @@ public struct DevOpsGuru: AWSService {
     /// 				(REACTIVE or PROACTIVE).  Use the Filters parameter to specify status and severity search
     /// 			parameters. Use the Type parameter to specify REACTIVE or
     /// 				PROACTIVE in your search.
-    public func searchOrganizationInsights(_ input: SearchOrganizationInsightsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchOrganizationInsightsResponse> {
-        return self.client.execute(operation: "SearchOrganizationInsights", path: "/organization/insights/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchOrganizationInsights(_ input: SearchOrganizationInsightsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchOrganizationInsightsResponse {
+        return try await self.client.execute(operation: "SearchOrganizationInsights", path: "/organization/insights/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts the creation of an estimate of the monthly cost to analyze your Amazon Web Services
     /// 			resources.
-    public func startCostEstimation(_ input: StartCostEstimationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartCostEstimationResponse> {
-        return self.client.execute(operation: "StartCostEstimation", path: "/cost-estimation", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startCostEstimation(_ input: StartCostEstimationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCostEstimationResponse {
+        return try await self.client.execute(operation: "StartCostEstimation", path: "/cost-estimation", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Enables or disables integration with a service that can be integrated with DevOps Guru. The
     /// 			one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which
     /// 			can produce proactive recommendations which can be stored and viewed in DevOps Guru.
-    public func updateEventSourcesConfig(_ input: UpdateEventSourcesConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEventSourcesConfigResponse> {
-        return self.client.execute(operation: "UpdateEventSourcesConfig", path: "/event-sources", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateEventSourcesConfig(_ input: UpdateEventSourcesConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEventSourcesConfigResponse {
+        return try await self.client.execute(operation: "UpdateEventSourcesConfig", path: "/event-sources", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Updates the collection of resources that DevOps Guru analyzes.
     /// 			The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks. This method also creates the IAM role required for
     /// 			you to use DevOps Guru.
-    public func updateResourceCollection(_ input: UpdateResourceCollectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResourceCollectionResponse> {
-        return self.client.execute(operation: "UpdateResourceCollection", path: "/resource-collections", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateResourceCollection(_ input: UpdateResourceCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourceCollectionResponse {
+        return try await self.client.execute(operation: "UpdateResourceCollection", path: "/resource-collections", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Enables or disables integration with a service that can be integrated with DevOps Guru. The
     /// 			one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to create
     /// 			an OpsItem for each generated insight.
-    public func updateServiceIntegration(_ input: UpdateServiceIntegrationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServiceIntegrationResponse> {
-        return self.client.execute(operation: "UpdateServiceIntegration", path: "/service-integrations", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateServiceIntegration(_ input: UpdateServiceIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceIntegrationResponse {
+        return try await self.client.execute(operation: "UpdateServiceIntegration", path: "/service-integrations", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -303,114 +334,47 @@ extension DevOpsGuru {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DevOpsGuru {
     /// Provides an overview of your system's health. If additional member accounts are part
     /// 			of your organization, you can filter those accounts using the AccountIds
     /// 			field.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeOrganizationResourceCollectionHealthPaginator<Result>(
-        _ input: DescribeOrganizationResourceCollectionHealthRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeOrganizationResourceCollectionHealthResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeOrganizationResourceCollectionHealth,
-            inputKey: \DescribeOrganizationResourceCollectionHealthRequest.nextToken,
-            outputKey: \DescribeOrganizationResourceCollectionHealthResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeOrganizationResourceCollectionHealthPaginator(
         _ input: DescribeOrganizationResourceCollectionHealthRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeOrganizationResourceCollectionHealthResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeOrganizationResourceCollectionHealthRequest, DescribeOrganizationResourceCollectionHealthResponse> {
+        return .init(
             input: input,
             command: self.describeOrganizationResourceCollectionHealth,
             inputKey: \DescribeOrganizationResourceCollectionHealthRequest.nextToken,
             outputKey: \DescribeOrganizationResourceCollectionHealthResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR)
     /// 			for all closed insights in resource collections in your account. You specify the type of
     /// 			Amazon Web Services resources collection. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeResourceCollectionHealthPaginator<Result>(
-        _ input: DescribeResourceCollectionHealthRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeResourceCollectionHealthResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeResourceCollectionHealth,
-            inputKey: \DescribeResourceCollectionHealthRequest.nextToken,
-            outputKey: \DescribeResourceCollectionHealthResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeResourceCollectionHealthPaginator(
         _ input: DescribeResourceCollectionHealthRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeResourceCollectionHealthResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeResourceCollectionHealthRequest, DescribeResourceCollectionHealthResponse> {
+        return .init(
             input: input,
             command: self.describeResourceCollectionHealth,
             inputKey: \DescribeResourceCollectionHealthRequest.nextToken,
             outputKey: \DescribeResourceCollectionHealthResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -419,542 +383,202 @@ extension DevOpsGuru {
     /// 			see Estimate your
     /// 			Amazon DevOps Guru costs and
     /// 			Amazon DevOps Guru pricing.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getCostEstimationPaginator<Result>(
-        _ input: GetCostEstimationRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetCostEstimationResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getCostEstimation,
-            inputKey: \GetCostEstimationRequest.nextToken,
-            outputKey: \GetCostEstimationResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getCostEstimationPaginator(
         _ input: GetCostEstimationRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetCostEstimationResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetCostEstimationRequest, GetCostEstimationResponse> {
+        return .init(
             input: input,
             command: self.getCostEstimation,
             inputKey: \GetCostEstimationRequest.nextToken,
             outputKey: \GetCostEstimationResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Returns lists Amazon Web Services resources that are of the specified resource collection type.
     /// 			The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getResourceCollectionPaginator<Result>(
-        _ input: GetResourceCollectionRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetResourceCollectionResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getResourceCollection,
-            inputKey: \GetResourceCollectionRequest.nextToken,
-            outputKey: \GetResourceCollectionResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getResourceCollectionPaginator(
         _ input: GetResourceCollectionRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetResourceCollectionResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetResourceCollectionRequest, GetResourceCollectionResponse> {
+        return .init(
             input: input,
             command: self.getResourceCollection,
             inputKey: \GetResourceCollectionRequest.nextToken,
             outputKey: \GetResourceCollectionResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Returns a list of the anomalies that belong to an insight that you specify using its
     /// 			ID.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAnomaliesForInsightPaginator<Result>(
-        _ input: ListAnomaliesForInsightRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAnomaliesForInsightResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAnomaliesForInsight,
-            inputKey: \ListAnomaliesForInsightRequest.nextToken,
-            outputKey: \ListAnomaliesForInsightResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAnomaliesForInsightPaginator(
         _ input: ListAnomaliesForInsightRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAnomaliesForInsightResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAnomaliesForInsightRequest, ListAnomaliesForInsightResponse> {
+        return .init(
             input: input,
             command: self.listAnomaliesForInsight,
             inputKey: \ListAnomaliesForInsightRequest.nextToken,
             outputKey: \ListAnomaliesForInsightResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// 			Returns the list of log groups that contain log anomalies.
     ///
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAnomalousLogGroupsPaginator<Result>(
-        _ input: ListAnomalousLogGroupsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAnomalousLogGroupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAnomalousLogGroups,
-            inputKey: \ListAnomalousLogGroupsRequest.nextToken,
-            outputKey: \ListAnomalousLogGroupsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAnomalousLogGroupsPaginator(
         _ input: ListAnomalousLogGroupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAnomalousLogGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAnomalousLogGroupsRequest, ListAnomalousLogGroupsResponse> {
+        return .init(
             input: input,
             command: self.listAnomalousLogGroups,
             inputKey: \ListAnomalousLogGroupsRequest.nextToken,
             outputKey: \ListAnomalousLogGroupsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Returns a list of the events emitted by the resources that are evaluated by DevOps Guru.
     /// 			You can use filters to specify which events are returned.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listEventsPaginator<Result>(
-        _ input: ListEventsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListEventsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listEvents,
-            inputKey: \ListEventsRequest.nextToken,
-            outputKey: \ListEventsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listEventsPaginator(
         _ input: ListEventsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListEventsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEventsRequest, ListEventsResponse> {
+        return .init(
             input: input,
             command: self.listEvents,
             inputKey: \ListEventsRequest.nextToken,
             outputKey: \ListEventsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Returns a list of insights in your Amazon Web Services account. You can specify which insights are
     /// 			returned by their start time and status (ONGOING, CLOSED, or
     /// 				ANY).
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listInsightsPaginator<Result>(
-        _ input: ListInsightsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListInsightsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listInsights,
-            inputKey: \ListInsightsRequest.nextToken,
-            outputKey: \ListInsightsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listInsightsPaginator(
         _ input: ListInsightsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListInsightsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInsightsRequest, ListInsightsResponse> {
+        return .init(
             input: input,
             command: self.listInsights,
             inputKey: \ListInsightsRequest.nextToken,
             outputKey: \ListInsightsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// 			Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
     ///
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listMonitoredResourcesPaginator<Result>(
-        _ input: ListMonitoredResourcesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListMonitoredResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listMonitoredResources,
-            inputKey: \ListMonitoredResourcesRequest.nextToken,
-            outputKey: \ListMonitoredResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listMonitoredResourcesPaginator(
         _ input: ListMonitoredResourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListMonitoredResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMonitoredResourcesRequest, ListMonitoredResourcesResponse> {
+        return .init(
             input: input,
             command: self.listMonitoredResources,
             inputKey: \ListMonitoredResourcesRequest.nextToken,
             outputKey: \ListMonitoredResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Returns a list of notification channels configured for DevOps Guru. Each notification
     /// 			channel is used to notify you when DevOps Guru generates an insight that contains information
     /// 			about how to improve your operations. The one  	supported notification channel is Amazon Simple Notification Service (Amazon SNS).
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listNotificationChannelsPaginator<Result>(
-        _ input: ListNotificationChannelsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListNotificationChannelsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listNotificationChannels,
-            inputKey: \ListNotificationChannelsRequest.nextToken,
-            outputKey: \ListNotificationChannelsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listNotificationChannelsPaginator(
         _ input: ListNotificationChannelsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListNotificationChannelsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNotificationChannelsRequest, ListNotificationChannelsResponse> {
+        return .init(
             input: input,
             command: self.listNotificationChannels,
             inputKey: \ListNotificationChannelsRequest.nextToken,
             outputKey: \ListNotificationChannelsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of insights associated with the account or OU Id.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listOrganizationInsightsPaginator<Result>(
-        _ input: ListOrganizationInsightsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListOrganizationInsightsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listOrganizationInsights,
-            inputKey: \ListOrganizationInsightsRequest.nextToken,
-            outputKey: \ListOrganizationInsightsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listOrganizationInsightsPaginator(
         _ input: ListOrganizationInsightsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListOrganizationInsightsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOrganizationInsightsRequest, ListOrganizationInsightsResponse> {
+        return .init(
             input: input,
             command: self.listOrganizationInsights,
             inputKey: \ListOrganizationInsightsRequest.nextToken,
             outputKey: \ListOrganizationInsightsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Returns a list of a specified insight's recommendations. Each recommendation includes
     /// 			a list of related metrics and a list of related events.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRecommendationsPaginator<Result>(
-        _ input: ListRecommendationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRecommendationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRecommendations,
-            inputKey: \ListRecommendationsRequest.nextToken,
-            outputKey: \ListRecommendationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRecommendationsPaginator(
         _ input: ListRecommendationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRecommendationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecommendationsRequest, ListRecommendationsResponse> {
+        return .init(
             input: input,
             command: self.listRecommendations,
             inputKey: \ListRecommendationsRequest.nextToken,
             outputKey: \ListRecommendationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -964,55 +588,21 @@ extension DevOpsGuru {
     /// 				(REACTIVE or PROACTIVE).  Use the Filters parameter to specify status and severity search
     /// 			parameters. Use the Type parameter to specify REACTIVE or
     /// 				PROACTIVE in your search.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func searchInsightsPaginator<Result>(
-        _ input: SearchInsightsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchInsightsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchInsights,
-            inputKey: \SearchInsightsRequest.nextToken,
-            outputKey: \SearchInsightsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func searchInsightsPaginator(
         _ input: SearchInsightsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchInsightsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchInsightsRequest, SearchInsightsResponse> {
+        return .init(
             input: input,
             command: self.searchInsights,
             inputKey: \SearchInsightsRequest.nextToken,
             outputKey: \SearchInsightsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -1023,55 +613,21 @@ extension DevOpsGuru {
     /// 				(REACTIVE or PROACTIVE).  Use the Filters parameter to specify status and severity search
     /// 			parameters. Use the Type parameter to specify REACTIVE or
     /// 				PROACTIVE in your search.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func searchOrganizationInsightsPaginator<Result>(
-        _ input: SearchOrganizationInsightsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchOrganizationInsightsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchOrganizationInsights,
-            inputKey: \SearchOrganizationInsightsRequest.nextToken,
-            outputKey: \SearchOrganizationInsightsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func searchOrganizationInsightsPaginator(
         _ input: SearchOrganizationInsightsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchOrganizationInsightsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchOrganizationInsightsRequest, SearchOrganizationInsightsResponse> {
+        return .init(
             input: input,
             command: self.searchOrganizationInsights,
             inputKey: \SearchOrganizationInsightsRequest.nextToken,
             outputKey: \SearchOrganizationInsightsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

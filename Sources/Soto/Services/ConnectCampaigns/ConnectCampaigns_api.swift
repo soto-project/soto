@@ -70,113 +70,135 @@ public struct ConnectCampaigns: AWSService {
     // MARK: API Calls
 
     /// Creates a campaign for the specified Amazon Connect account. This API is idempotent.
-    public func createCampaign(_ input: CreateCampaignRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCampaignResponse> {
-        return self.client.execute(operation: "CreateCampaign", path: "/campaigns", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCampaign(_ input: CreateCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCampaignResponse {
+        return try await self.client.execute(operation: "CreateCampaign", path: "/campaigns", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a campaign from the specified Amazon Connect account.
-    @discardableResult public func deleteCampaign(_ input: DeleteCampaignRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteCampaign", path: "/campaigns/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCampaign(_ input: DeleteCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteCampaign", path: "/campaigns/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a connect instance config from the specified AWS account.
-    @discardableResult public func deleteConnectInstanceConfig(_ input: DeleteConnectInstanceConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteConnectInstanceConfig", path: "/connect-instance/{connectInstanceId}/config", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteConnectInstanceConfig(_ input: DeleteConnectInstanceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteConnectInstanceConfig", path: "/connect-instance/{connectInstanceId}/config", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
-    @discardableResult public func deleteInstanceOnboardingJob(_ input: DeleteInstanceOnboardingJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteInstanceOnboardingJob", path: "/connect-instance/{connectInstanceId}/onboarding", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteInstanceOnboardingJob(_ input: DeleteInstanceOnboardingJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteInstanceOnboardingJob", path: "/connect-instance/{connectInstanceId}/onboarding", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the specific campaign.
-    public func describeCampaign(_ input: DescribeCampaignRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCampaignResponse> {
-        return self.client.execute(operation: "DescribeCampaign", path: "/campaigns/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeCampaign(_ input: DescribeCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCampaignResponse {
+        return try await self.client.execute(operation: "DescribeCampaign", path: "/campaigns/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get state of a campaign for the specified Amazon Connect account.
-    public func getCampaignState(_ input: GetCampaignStateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCampaignStateResponse> {
-        return self.client.execute(operation: "GetCampaignState", path: "/campaigns/{id}/state", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCampaignState(_ input: GetCampaignStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCampaignStateResponse {
+        return try await self.client.execute(operation: "GetCampaignState", path: "/campaigns/{id}/state", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get state of campaigns for the specified Amazon Connect account.
-    public func getCampaignStateBatch(_ input: GetCampaignStateBatchRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCampaignStateBatchResponse> {
-        return self.client.execute(operation: "GetCampaignStateBatch", path: "/campaigns-state", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCampaignStateBatch(_ input: GetCampaignStateBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCampaignStateBatchResponse {
+        return try await self.client.execute(operation: "GetCampaignStateBatch", path: "/campaigns-state", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the specific Connect instance config.
-    public func getConnectInstanceConfig(_ input: GetConnectInstanceConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectInstanceConfigResponse> {
-        return self.client.execute(operation: "GetConnectInstanceConfig", path: "/connect-instance/{connectInstanceId}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getConnectInstanceConfig(_ input: GetConnectInstanceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectInstanceConfigResponse {
+        return try await self.client.execute(operation: "GetConnectInstanceConfig", path: "/connect-instance/{connectInstanceId}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the specific instance onboarding job status.
-    public func getInstanceOnboardingJobStatus(_ input: GetInstanceOnboardingJobStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInstanceOnboardingJobStatusResponse> {
-        return self.client.execute(operation: "GetInstanceOnboardingJobStatus", path: "/connect-instance/{connectInstanceId}/onboarding", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getInstanceOnboardingJobStatus(_ input: GetInstanceOnboardingJobStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInstanceOnboardingJobStatusResponse {
+        return try await self.client.execute(operation: "GetInstanceOnboardingJobStatus", path: "/connect-instance/{connectInstanceId}/onboarding", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides summary information about the campaigns under the specified Amazon Connect account.
-    public func listCampaigns(_ input: ListCampaignsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCampaignsResponse> {
-        return self.client.execute(operation: "ListCampaigns", path: "/campaigns-summary", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCampaigns(_ input: ListCampaignsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCampaignsResponse {
+        return try await self.client.execute(operation: "ListCampaigns", path: "/campaigns-summary", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List tags for a resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Pauses a campaign for the specified Amazon Connect account.
-    @discardableResult public func pauseCampaign(_ input: PauseCampaignRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PauseCampaign", path: "/campaigns/{id}/pause", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func pauseCampaign(_ input: PauseCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "PauseCampaign", path: "/campaigns/{id}/pause", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent.
-    public func putDialRequestBatch(_ input: PutDialRequestBatchRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutDialRequestBatchResponse> {
-        return self.client.execute(operation: "PutDialRequestBatch", path: "/campaigns/{id}/dial-requests", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putDialRequestBatch(_ input: PutDialRequestBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDialRequestBatchResponse {
+        return try await self.client.execute(operation: "PutDialRequestBatch", path: "/campaigns/{id}/dial-requests", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops a campaign for the specified Amazon Connect account.
-    @discardableResult public func resumeCampaign(_ input: ResumeCampaignRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "ResumeCampaign", path: "/campaigns/{id}/resume", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func resumeCampaign(_ input: ResumeCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "ResumeCampaign", path: "/campaigns/{id}/resume", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts a campaign for the specified Amazon Connect account.
-    @discardableResult public func startCampaign(_ input: StartCampaignRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "StartCampaign", path: "/campaigns/{id}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startCampaign(_ input: StartCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "StartCampaign", path: "/campaigns/{id}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Onboard the specific Amazon Connect instance to Connect Campaigns.
-    public func startInstanceOnboardingJob(_ input: StartInstanceOnboardingJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartInstanceOnboardingJobResponse> {
-        return self.client.execute(operation: "StartInstanceOnboardingJob", path: "/connect-instance/{connectInstanceId}/onboarding", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startInstanceOnboardingJob(_ input: StartInstanceOnboardingJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartInstanceOnboardingJobResponse {
+        return try await self.client.execute(operation: "StartInstanceOnboardingJob", path: "/connect-instance/{connectInstanceId}/onboarding", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops a campaign for the specified Amazon Connect account.
-    @discardableResult public func stopCampaign(_ input: StopCampaignRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "StopCampaign", path: "/campaigns/{id}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopCampaign(_ input: StopCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "StopCampaign", path: "/campaigns/{id}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Tag a resource.
-    @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{arn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{arn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Untag a resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the dialer config of a campaign. This API is idempotent.
-    @discardableResult public func updateCampaignDialerConfig(_ input: UpdateCampaignDialerConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateCampaignDialerConfig", path: "/campaigns/{id}/dialer-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateCampaignDialerConfig(_ input: UpdateCampaignDialerConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UpdateCampaignDialerConfig", path: "/campaigns/{id}/dialer-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the name of a campaign. This API is idempotent.
-    @discardableResult public func updateCampaignName(_ input: UpdateCampaignNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateCampaignName", path: "/campaigns/{id}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateCampaignName(_ input: UpdateCampaignNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UpdateCampaignName", path: "/campaigns/{id}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the outbound call config of a campaign. This API is idempotent.
-    @discardableResult public func updateCampaignOutboundCallConfig(_ input: UpdateCampaignOutboundCallConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateCampaignOutboundCallConfig", path: "/campaigns/{id}/outbound-call-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateCampaignOutboundCallConfig(_ input: UpdateCampaignOutboundCallConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UpdateCampaignOutboundCallConfig", path: "/campaigns/{id}/outbound-call-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -191,57 +213,24 @@ extension ConnectCampaigns {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ConnectCampaigns {
     /// Provides summary information about the campaigns under the specified Amazon Connect account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listCampaignsPaginator<Result>(
-        _ input: ListCampaignsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListCampaignsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listCampaigns,
-            inputKey: \ListCampaignsRequest.nextToken,
-            outputKey: \ListCampaignsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCampaignsPaginator(
         _ input: ListCampaignsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListCampaignsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCampaignsRequest, ListCampaignsResponse> {
+        return .init(
             input: input,
             command: self.listCampaigns,
             inputKey: \ListCampaignsRequest.nextToken,
             outputKey: \ListCampaignsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

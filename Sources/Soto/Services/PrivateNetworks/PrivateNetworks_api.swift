@@ -64,136 +64,162 @@ public struct PrivateNetworks: AWSService {
     // MARK: API Calls
 
     /// Acknowledges that the specified network order was received.
-    public func acknowledgeOrderReceipt(_ input: AcknowledgeOrderReceiptRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcknowledgeOrderReceiptResponse> {
-        return self.client.execute(operation: "AcknowledgeOrderReceipt", path: "/v1/orders/acknowledge", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func acknowledgeOrderReceipt(_ input: AcknowledgeOrderReceiptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcknowledgeOrderReceiptResponse {
+        return try await self.client.execute(operation: "AcknowledgeOrderReceipt", path: "/v1/orders/acknowledge", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Activates the specified device identifier.
-    public func activateDeviceIdentifier(_ input: ActivateDeviceIdentifierRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ActivateDeviceIdentifierResponse> {
-        return self.client.execute(operation: "ActivateDeviceIdentifier", path: "/v1/device-identifiers/activate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func activateDeviceIdentifier(_ input: ActivateDeviceIdentifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateDeviceIdentifierResponse {
+        return try await self.client.execute(operation: "ActivateDeviceIdentifier", path: "/v1/device-identifiers/activate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Activates the specified network site.
-    public func activateNetworkSite(_ input: ActivateNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ActivateNetworkSiteResponse> {
-        return self.client.execute(operation: "ActivateNetworkSite", path: "/v1/network-sites/activate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func activateNetworkSite(_ input: ActivateNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateNetworkSiteResponse {
+        return try await self.client.execute(operation: "ActivateNetworkSite", path: "/v1/network-sites/activate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Configures the specified network resource.    Use this action to specify the geographic position of the hardware. You must provide Certified Professional Installer (CPI) credentials in the request so that we can obtain spectrum grants. For more information, see Radio units in the Amazon Web Services Private 5G User Guide.
-    public func configureAccessPoint(_ input: ConfigureAccessPointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ConfigureAccessPointResponse> {
-        return self.client.execute(operation: "ConfigureAccessPoint", path: "/v1/network-resources/configure", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func configureAccessPoint(_ input: ConfigureAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigureAccessPointResponse {
+        return try await self.client.execute(operation: "ConfigureAccessPoint", path: "/v1/network-resources/configure", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a network.
-    public func createNetwork(_ input: CreateNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNetworkResponse> {
-        return self.client.execute(operation: "CreateNetwork", path: "/v1/networks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createNetwork(_ input: CreateNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNetworkResponse {
+        return try await self.client.execute(operation: "CreateNetwork", path: "/v1/networks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a network site.
-    public func createNetworkSite(_ input: CreateNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNetworkSiteResponse> {
-        return self.client.execute(operation: "CreateNetworkSite", path: "/v1/network-sites", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createNetworkSite(_ input: CreateNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNetworkSiteResponse {
+        return try await self.client.execute(operation: "CreateNetworkSite", path: "/v1/network-sites", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deactivates the specified device identifier.
-    public func deactivateDeviceIdentifier(_ input: DeactivateDeviceIdentifierRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeactivateDeviceIdentifierResponse> {
-        return self.client.execute(operation: "DeactivateDeviceIdentifier", path: "/v1/device-identifiers/deactivate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deactivateDeviceIdentifier(_ input: DeactivateDeviceIdentifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeactivateDeviceIdentifierResponse {
+        return try await self.client.execute(operation: "DeactivateDeviceIdentifier", path: "/v1/device-identifiers/deactivate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified network. You must delete network sites before you delete the network. For more information, see  DeleteNetworkSite in the  API Reference for Amazon Web Services Private 5G.
-    public func deleteNetwork(_ input: DeleteNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNetworkResponse> {
-        return self.client.execute(operation: "DeleteNetwork", path: "/v1/networks/{networkArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteNetwork(_ input: DeleteNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkResponse {
+        return try await self.client.execute(operation: "DeleteNetwork", path: "/v1/networks/{networkArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified network site. Return the hardware after you delete the network site. You are responsible for minimum charges. For more information, see Hardware returns in the Amazon Web Services Private 5G User Guide.
-    public func deleteNetworkSite(_ input: DeleteNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNetworkSiteResponse> {
-        return self.client.execute(operation: "DeleteNetworkSite", path: "/v1/network-sites/{networkSiteArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteNetworkSite(_ input: DeleteNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkSiteResponse {
+        return try await self.client.execute(operation: "DeleteNetworkSite", path: "/v1/network-sites/{networkSiteArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the specified device identifier.
-    public func getDeviceIdentifier(_ input: GetDeviceIdentifierRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeviceIdentifierResponse> {
-        return self.client.execute(operation: "GetDeviceIdentifier", path: "/v1/device-identifiers/{deviceIdentifierArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDeviceIdentifier(_ input: GetDeviceIdentifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeviceIdentifierResponse {
+        return try await self.client.execute(operation: "GetDeviceIdentifier", path: "/v1/device-identifiers/{deviceIdentifierArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the specified network.
-    public func getNetwork(_ input: GetNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkResponse> {
-        return self.client.execute(operation: "GetNetwork", path: "/v1/networks/{networkArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getNetwork(_ input: GetNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkResponse {
+        return try await self.client.execute(operation: "GetNetwork", path: "/v1/networks/{networkArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the specified network resource.
-    public func getNetworkResource(_ input: GetNetworkResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkResourceResponse> {
-        return self.client.execute(operation: "GetNetworkResource", path: "/v1/network-resources/{networkResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getNetworkResource(_ input: GetNetworkResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkResourceResponse {
+        return try await self.client.execute(operation: "GetNetworkResource", path: "/v1/network-resources/{networkResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the specified network site.
-    public func getNetworkSite(_ input: GetNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkSiteResponse> {
-        return self.client.execute(operation: "GetNetworkSite", path: "/v1/network-sites/{networkSiteArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getNetworkSite(_ input: GetNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkSiteResponse {
+        return try await self.client.execute(operation: "GetNetworkSite", path: "/v1/network-sites/{networkSiteArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the specified order.
-    public func getOrder(_ input: GetOrderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOrderResponse> {
-        return self.client.execute(operation: "GetOrder", path: "/v1/orders/{orderArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getOrder(_ input: GetOrderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOrderResponse {
+        return try await self.client.execute(operation: "GetOrder", path: "/v1/orders/{orderArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists device identifiers. Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order,  the status of device identifiers, or the ARN of the traffic group. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
-    public func listDeviceIdentifiers(_ input: ListDeviceIdentifiersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeviceIdentifiersResponse> {
-        return self.client.execute(operation: "ListDeviceIdentifiers", path: "/v1/device-identifiers/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDeviceIdentifiers(_ input: ListDeviceIdentifiersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeviceIdentifiersResponse {
+        return try await self.client.execute(operation: "ListDeviceIdentifiers", path: "/v1/device-identifiers/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists network resources.  Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order or   the status of network resources. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
-    public func listNetworkResources(_ input: ListNetworkResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNetworkResourcesResponse> {
-        return self.client.execute(operation: "ListNetworkResources", path: "/v1/network-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listNetworkResources(_ input: ListNetworkResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkResourcesResponse {
+        return try await self.client.execute(operation: "ListNetworkResources", path: "/v1/network-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists network sites. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network site.
-    public func listNetworkSites(_ input: ListNetworkSitesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNetworkSitesResponse> {
-        return self.client.execute(operation: "ListNetworkSites", path: "/v1/network-sites/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listNetworkSites(_ input: ListNetworkSitesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkSitesResponse {
+        return try await self.client.execute(operation: "ListNetworkSites", path: "/v1/network-sites/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists networks. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network.
-    public func listNetworks(_ input: ListNetworksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNetworksResponse> {
-        return self.client.execute(operation: "ListNetworks", path: "/v1/networks/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listNetworks(_ input: ListNetworksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworksResponse {
+        return try await self.client.execute(operation: "ListNetworks", path: "/v1/networks/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists orders.  Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of the network site or   the status of the order. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
-    public func listOrders(_ input: ListOrdersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOrdersResponse> {
-        return self.client.execute(operation: "ListOrders", path: "/v1/orders/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listOrders(_ input: ListOrdersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrdersResponse {
+        return try await self.client.execute(operation: "ListOrders", path: "/v1/orders/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the tags for the specified resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Checks the health of the service.
-    public func ping(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PingResponse> {
-        return self.client.execute(operation: "Ping", path: "/ping", httpMethod: .GET, serviceConfig: self.config, logger: logger, on: eventLoop)
+    @Sendable
+    public func ping(logger: Logger = AWSClient.loggingDisabled) async throws -> PingResponse {
+        return try await self.client.execute(operation: "Ping", path: "/ping", httpMethod: .GET, serviceConfig: self.config, logger: logger)
     }
 
     /// Starts an update of the specified network resource. After you submit a request to replace or return a network resource, the status of the network resource is CREATING_SHIPPING_LABEL. The shipping label  is available when the status of the network resource is PENDING_RETURN.  After the network resource is successfully returned, its status is DELETED.  For more information, see Return a radio unit.
-    public func startNetworkResourceUpdate(_ input: StartNetworkResourceUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartNetworkResourceUpdateResponse> {
-        return self.client.execute(operation: "StartNetworkResourceUpdate", path: "/v1/network-resources/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startNetworkResourceUpdate(_ input: StartNetworkResourceUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartNetworkResourceUpdateResponse {
+        return try await self.client.execute(operation: "StartNetworkResourceUpdate", path: "/v1/network-resources/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Adds tags to the specified resource.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes tags from the specified resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the specified network site.
-    public func updateNetworkSite(_ input: UpdateNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNetworkSiteResponse> {
-        return self.client.execute(operation: "UpdateNetworkSite", path: "/v1/network-sites/site", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateNetworkSite(_ input: UpdateNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNetworkSiteResponse {
+        return try await self.client.execute(operation: "UpdateNetworkSite", path: "/v1/network-sites/site", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the specified network site plan.
-    public func updateNetworkSitePlan(_ input: UpdateNetworkSitePlanRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNetworkSiteResponse> {
-        return self.client.execute(operation: "UpdateNetworkSitePlan", path: "/v1/network-sites/plan", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateNetworkSitePlan(_ input: UpdateNetworkSitePlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNetworkSiteResponse {
+        return try await self.client.execute(operation: "UpdateNetworkSitePlan", path: "/v1/network-sites/plan", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -208,272 +234,103 @@ extension PrivateNetworks {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension PrivateNetworks {
     /// Lists device identifiers. Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order,  the status of device identifiers, or the ARN of the traffic group. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDeviceIdentifiersPaginator<Result>(
-        _ input: ListDeviceIdentifiersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDeviceIdentifiersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDeviceIdentifiers,
-            inputKey: \ListDeviceIdentifiersRequest.startToken,
-            outputKey: \ListDeviceIdentifiersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDeviceIdentifiersPaginator(
         _ input: ListDeviceIdentifiersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDeviceIdentifiersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDeviceIdentifiersRequest, ListDeviceIdentifiersResponse> {
+        return .init(
             input: input,
             command: self.listDeviceIdentifiers,
             inputKey: \ListDeviceIdentifiersRequest.startToken,
             outputKey: \ListDeviceIdentifiersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists network resources.  Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order or   the status of network resources. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listNetworkResourcesPaginator<Result>(
-        _ input: ListNetworkResourcesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListNetworkResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listNetworkResources,
-            inputKey: \ListNetworkResourcesRequest.startToken,
-            outputKey: \ListNetworkResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listNetworkResourcesPaginator(
         _ input: ListNetworkResourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListNetworkResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkResourcesRequest, ListNetworkResourcesResponse> {
+        return .init(
             input: input,
             command: self.listNetworkResources,
             inputKey: \ListNetworkResourcesRequest.startToken,
             outputKey: \ListNetworkResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists network sites. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network site.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listNetworkSitesPaginator<Result>(
-        _ input: ListNetworkSitesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListNetworkSitesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listNetworkSites,
-            inputKey: \ListNetworkSitesRequest.startToken,
-            outputKey: \ListNetworkSitesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listNetworkSitesPaginator(
         _ input: ListNetworkSitesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListNetworkSitesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkSitesRequest, ListNetworkSitesResponse> {
+        return .init(
             input: input,
             command: self.listNetworkSites,
             inputKey: \ListNetworkSitesRequest.startToken,
             outputKey: \ListNetworkSitesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists networks. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listNetworksPaginator<Result>(
-        _ input: ListNetworksRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListNetworksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listNetworks,
-            inputKey: \ListNetworksRequest.startToken,
-            outputKey: \ListNetworksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listNetworksPaginator(
         _ input: ListNetworksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListNetworksResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworksRequest, ListNetworksResponse> {
+        return .init(
             input: input,
             command: self.listNetworks,
             inputKey: \ListNetworksRequest.startToken,
             outputKey: \ListNetworksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists orders.  Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of the network site or   the status of the order. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listOrdersPaginator<Result>(
-        _ input: ListOrdersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListOrdersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listOrders,
-            inputKey: \ListOrdersRequest.startToken,
-            outputKey: \ListOrdersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listOrdersPaginator(
         _ input: ListOrdersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListOrdersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOrdersRequest, ListOrdersResponse> {
+        return .init(
             input: input,
             command: self.listOrders,
             inputKey: \ListOrdersRequest.startToken,
             outputKey: \ListOrdersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

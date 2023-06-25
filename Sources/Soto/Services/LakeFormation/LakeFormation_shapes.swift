@@ -1719,9 +1719,9 @@ extension LakeFormation {
         ]
 
         /// Rows returned from the GetWorkUnitResults operation as a stream of Apache Arrow v1.0 messages.
-        public let resultStream: AWSPayload?
+        public let resultStream: HTTPBody?
 
-        public init(resultStream: AWSPayload? = nil) {
+        public init(resultStream: HTTPBody? = nil) {
             self.resultStream = resultStream
         }
 

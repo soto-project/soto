@@ -64,163 +64,195 @@ public struct Route53RecoveryReadiness: AWSService {
     // MARK: API Calls
 
     /// Creates a cell in an account.
-    public func createCell(_ input: CreateCellRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCellResponse> {
-        return self.client.execute(operation: "CreateCell", path: "/cells", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCell(_ input: CreateCellRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCellResponse {
+        return try await self.client.execute(operation: "CreateCell", path: "/cells", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account.
-    public func createCrossAccountAuthorization(_ input: CreateCrossAccountAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCrossAccountAuthorizationResponse> {
-        return self.client.execute(operation: "CreateCrossAccountAuthorization", path: "/crossaccountauthorizations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCrossAccountAuthorization(_ input: CreateCrossAccountAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCrossAccountAuthorizationResponse {
+        return try await self.client.execute(operation: "CreateCrossAccountAuthorization", path: "/crossaccountauthorizations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check.
-    public func createReadinessCheck(_ input: CreateReadinessCheckRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateReadinessCheckResponse> {
-        return self.client.execute(operation: "CreateReadinessCheck", path: "/readinesschecks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createReadinessCheck(_ input: CreateReadinessCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReadinessCheckResponse {
+        return try await self.client.execute(operation: "CreateReadinessCheck", path: "/readinesschecks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application.
-    public func createRecoveryGroup(_ input: CreateRecoveryGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRecoveryGroupResponse> {
-        return self.client.execute(operation: "CreateRecoveryGroup", path: "/recoverygroups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createRecoveryGroup(_ input: CreateRecoveryGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRecoveryGroupResponse {
+        return try await self.client.execute(operation: "CreateRecoveryGroup", path: "/recoverygroups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a resource set. A resource set is a set of resources of one type that span multiple cells. You can associate a resource set with a readiness check to monitor the resources for failover readiness.
-    public func createResourceSet(_ input: CreateResourceSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResourceSetResponse> {
-        return self.client.execute(operation: "CreateResourceSet", path: "/resourcesets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createResourceSet(_ input: CreateResourceSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceSetResponse {
+        return try await self.client.execute(operation: "CreateResourceSet", path: "/resourcesets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete a cell. When successful, the response code is 204, with no response body.
-    @discardableResult public func deleteCell(_ input: DeleteCellRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteCell", path: "/cells/{CellName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCell(_ input: DeleteCellRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteCell", path: "/cells/{CellName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes cross account readiness authorization.
-    public func deleteCrossAccountAuthorization(_ input: DeleteCrossAccountAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCrossAccountAuthorizationResponse> {
-        return self.client.execute(operation: "DeleteCrossAccountAuthorization", path: "/crossaccountauthorizations/{CrossAccountAuthorization}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCrossAccountAuthorization(_ input: DeleteCrossAccountAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCrossAccountAuthorizationResponse {
+        return try await self.client.execute(operation: "DeleteCrossAccountAuthorization", path: "/crossaccountauthorizations/{CrossAccountAuthorization}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a readiness check.
-    @discardableResult public func deleteReadinessCheck(_ input: DeleteReadinessCheckRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteReadinessCheck", path: "/readinesschecks/{ReadinessCheckName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteReadinessCheck(_ input: DeleteReadinessCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteReadinessCheck", path: "/readinesschecks/{ReadinessCheckName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a recovery group.
-    @discardableResult public func deleteRecoveryGroup(_ input: DeleteRecoveryGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteRecoveryGroup", path: "/recoverygroups/{RecoveryGroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRecoveryGroup(_ input: DeleteRecoveryGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteRecoveryGroup", path: "/recoverygroups/{RecoveryGroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a resource set.
-    @discardableResult public func deleteResourceSet(_ input: DeleteResourceSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteResourceSet", path: "/resourcesets/{ResourceSetName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteResourceSet(_ input: DeleteResourceSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteResourceSet", path: "/resourcesets/{ResourceSetName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets recommendations about architecture designs for improving resiliency for an application, based on a recovery group.
-    public func getArchitectureRecommendations(_ input: GetArchitectureRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetArchitectureRecommendationsResponse> {
-        return self.client.execute(operation: "GetArchitectureRecommendations", path: "/recoverygroups/{RecoveryGroupName}/architectureRecommendations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getArchitectureRecommendations(_ input: GetArchitectureRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetArchitectureRecommendationsResponse {
+        return try await self.client.execute(operation: "GetArchitectureRecommendations", path: "/recoverygroups/{RecoveryGroupName}/architectureRecommendations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a cell including cell name, cell Amazon Resource Name (ARN), ARNs of nested cells for this cell, and a list of those cell ARNs with their associated recovery group ARNs.
-    public func getCell(_ input: GetCellRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCellResponse> {
-        return self.client.execute(operation: "GetCell", path: "/cells/{CellName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCell(_ input: GetCellRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCellResponse {
+        return try await self.client.execute(operation: "GetCell", path: "/cells/{CellName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value.
-    public func getCellReadinessSummary(_ input: GetCellReadinessSummaryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCellReadinessSummaryResponse> {
-        return self.client.execute(operation: "GetCellReadinessSummary", path: "/cellreadiness/{CellName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCellReadinessSummary(_ input: GetCellReadinessSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCellReadinessSummaryResponse {
+        return try await self.client.execute(operation: "GetCellReadinessSummary", path: "/cellreadiness/{CellName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets details about a readiness check.
-    public func getReadinessCheck(_ input: GetReadinessCheckRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetReadinessCheckResponse> {
-        return self.client.execute(operation: "GetReadinessCheck", path: "/readinesschecks/{ReadinessCheckName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getReadinessCheck(_ input: GetReadinessCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReadinessCheckResponse {
+        return try await self.client.execute(operation: "GetReadinessCheck", path: "/readinesschecks/{ReadinessCheckName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary.
-    public func getReadinessCheckResourceStatus(_ input: GetReadinessCheckResourceStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetReadinessCheckResourceStatusResponse> {
-        return self.client.execute(operation: "GetReadinessCheckResourceStatus", path: "/readinesschecks/{ReadinessCheckName}/resource/{ResourceIdentifier}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getReadinessCheckResourceStatus(_ input: GetReadinessCheckResourceStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReadinessCheckResourceStatusResponse {
+        return try await self.client.execute(operation: "GetReadinessCheckResourceStatus", path: "/readinesschecks/{ReadinessCheckName}/resource/{ResourceIdentifier}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary.
-    public func getReadinessCheckStatus(_ input: GetReadinessCheckStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetReadinessCheckStatusResponse> {
-        return self.client.execute(operation: "GetReadinessCheckStatus", path: "/readinesschecks/{ReadinessCheckName}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getReadinessCheckStatus(_ input: GetReadinessCheckStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReadinessCheckStatusResponse {
+        return try await self.client.execute(operation: "GetReadinessCheckStatus", path: "/readinesschecks/{ReadinessCheckName}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets details about a recovery group, including a list of the cells that are included in it.
-    public func getRecoveryGroup(_ input: GetRecoveryGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRecoveryGroupResponse> {
-        return self.client.execute(operation: "GetRecoveryGroup", path: "/recoverygroups/{RecoveryGroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getRecoveryGroup(_ input: GetRecoveryGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecoveryGroupResponse {
+        return try await self.client.execute(operation: "GetRecoveryGroup", path: "/recoverygroups/{RecoveryGroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one.
-    public func getRecoveryGroupReadinessSummary(_ input: GetRecoveryGroupReadinessSummaryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRecoveryGroupReadinessSummaryResponse> {
-        return self.client.execute(operation: "GetRecoveryGroupReadinessSummary", path: "/recoverygroupreadiness/{RecoveryGroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getRecoveryGroupReadinessSummary(_ input: GetRecoveryGroupReadinessSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecoveryGroupReadinessSummaryResponse {
+        return try await self.client.execute(operation: "GetRecoveryGroupReadinessSummary", path: "/recoverygroupreadiness/{RecoveryGroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Displays the details about a resource set, including a list of the resources in the set.
-    public func getResourceSet(_ input: GetResourceSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceSetResponse> {
-        return self.client.execute(operation: "GetResourceSet", path: "/resourcesets/{ResourceSetName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getResourceSet(_ input: GetResourceSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceSetResponse {
+        return try await self.client.execute(operation: "GetResourceSet", path: "/resourcesets/{ResourceSetName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the cells for an account.
-    public func listCells(_ input: ListCellsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCellsResponse> {
-        return self.client.execute(operation: "ListCells", path: "/cells", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCells(_ input: ListCellsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCellsResponse {
+        return try await self.client.execute(operation: "ListCells", path: "/cells", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the cross-account readiness authorizations that are in place for an account.
-    public func listCrossAccountAuthorizations(_ input: ListCrossAccountAuthorizationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCrossAccountAuthorizationsResponse> {
-        return self.client.execute(operation: "ListCrossAccountAuthorizations", path: "/crossaccountauthorizations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCrossAccountAuthorizations(_ input: ListCrossAccountAuthorizationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCrossAccountAuthorizationsResponse {
+        return try await self.client.execute(operation: "ListCrossAccountAuthorizations", path: "/crossaccountauthorizations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the readiness checks for an account.
-    public func listReadinessChecks(_ input: ListReadinessChecksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListReadinessChecksResponse> {
-        return self.client.execute(operation: "ListReadinessChecks", path: "/readinesschecks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listReadinessChecks(_ input: ListReadinessChecksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReadinessChecksResponse {
+        return try await self.client.execute(operation: "ListReadinessChecks", path: "/readinesschecks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the recovery groups in an account.
-    public func listRecoveryGroups(_ input: ListRecoveryGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecoveryGroupsResponse> {
-        return self.client.execute(operation: "ListRecoveryGroups", path: "/recoverygroups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRecoveryGroups(_ input: ListRecoveryGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecoveryGroupsResponse {
+        return try await self.client.execute(operation: "ListRecoveryGroups", path: "/recoverygroups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the resource sets in an account.
-    public func listResourceSets(_ input: ListResourceSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourceSetsResponse> {
-        return self.client.execute(operation: "ListResourceSets", path: "/resourcesets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listResourceSets(_ input: ListResourceSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceSetsResponse {
+        return try await self.client.execute(operation: "ListResourceSets", path: "/resourcesets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all readiness rules, or lists the readiness rules for a specific resource type.
-    public func listRules(_ input: ListRulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRulesResponse> {
-        return self.client.execute(operation: "ListRules", path: "/rules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRules(_ input: ListRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRulesResponse {
+        return try await self.client.execute(operation: "ListRules", path: "/rules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the tags for a resource.
-    public func listTagsForResources(_ input: ListTagsForResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourcesResponse> {
-        return self.client.execute(operation: "ListTagsForResources", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResources(_ input: ListTagsForResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourcesResponse {
+        return try await self.client.execute(operation: "ListTagsForResources", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds a tag to a resource.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes a tag from a resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a cell to replace the list of nested cells with a new list of nested cells.
-    public func updateCell(_ input: UpdateCellRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCellResponse> {
-        return self.client.execute(operation: "UpdateCell", path: "/cells/{CellName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateCell(_ input: UpdateCellRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCellResponse {
+        return try await self.client.execute(operation: "UpdateCell", path: "/cells/{CellName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a readiness check.
-    public func updateReadinessCheck(_ input: UpdateReadinessCheckRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateReadinessCheckResponse> {
-        return self.client.execute(operation: "UpdateReadinessCheck", path: "/readinesschecks/{ReadinessCheckName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateReadinessCheck(_ input: UpdateReadinessCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateReadinessCheckResponse {
+        return try await self.client.execute(operation: "UpdateReadinessCheck", path: "/readinesschecks/{ReadinessCheckName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a recovery group.
-    public func updateRecoveryGroup(_ input: UpdateRecoveryGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRecoveryGroupResponse> {
-        return self.client.execute(operation: "UpdateRecoveryGroup", path: "/recoverygroups/{RecoveryGroupName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateRecoveryGroup(_ input: UpdateRecoveryGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRecoveryGroupResponse {
+        return try await self.client.execute(operation: "UpdateRecoveryGroup", path: "/recoverygroups/{RecoveryGroupName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a resource set.
-    public func updateResourceSet(_ input: UpdateResourceSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResourceSetResponse> {
-        return self.client.execute(operation: "UpdateResourceSet", path: "/resourcesets/{ResourceSetName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateResourceSet(_ input: UpdateResourceSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourceSetResponse {
+        return try await self.client.execute(operation: "UpdateResourceSet", path: "/resourcesets/{ResourceSetName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -235,534 +267,195 @@ extension Route53RecoveryReadiness {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Route53RecoveryReadiness {
     /// Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getCellReadinessSummaryPaginator<Result>(
-        _ input: GetCellReadinessSummaryRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetCellReadinessSummaryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getCellReadinessSummary,
-            inputKey: \GetCellReadinessSummaryRequest.nextToken,
-            outputKey: \GetCellReadinessSummaryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getCellReadinessSummaryPaginator(
         _ input: GetCellReadinessSummaryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetCellReadinessSummaryResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetCellReadinessSummaryRequest, GetCellReadinessSummaryResponse> {
+        return .init(
             input: input,
             command: self.getCellReadinessSummary,
             inputKey: \GetCellReadinessSummaryRequest.nextToken,
             outputKey: \GetCellReadinessSummaryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getReadinessCheckResourceStatusPaginator<Result>(
-        _ input: GetReadinessCheckResourceStatusRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetReadinessCheckResourceStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getReadinessCheckResourceStatus,
-            inputKey: \GetReadinessCheckResourceStatusRequest.nextToken,
-            outputKey: \GetReadinessCheckResourceStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getReadinessCheckResourceStatusPaginator(
         _ input: GetReadinessCheckResourceStatusRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetReadinessCheckResourceStatusResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetReadinessCheckResourceStatusRequest, GetReadinessCheckResourceStatusResponse> {
+        return .init(
             input: input,
             command: self.getReadinessCheckResourceStatus,
             inputKey: \GetReadinessCheckResourceStatusRequest.nextToken,
             outputKey: \GetReadinessCheckResourceStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getReadinessCheckStatusPaginator<Result>(
-        _ input: GetReadinessCheckStatusRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetReadinessCheckStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getReadinessCheckStatus,
-            inputKey: \GetReadinessCheckStatusRequest.nextToken,
-            outputKey: \GetReadinessCheckStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getReadinessCheckStatusPaginator(
         _ input: GetReadinessCheckStatusRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetReadinessCheckStatusResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetReadinessCheckStatusRequest, GetReadinessCheckStatusResponse> {
+        return .init(
             input: input,
             command: self.getReadinessCheckStatus,
             inputKey: \GetReadinessCheckStatusRequest.nextToken,
             outputKey: \GetReadinessCheckStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getRecoveryGroupReadinessSummaryPaginator<Result>(
-        _ input: GetRecoveryGroupReadinessSummaryRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetRecoveryGroupReadinessSummaryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getRecoveryGroupReadinessSummary,
-            inputKey: \GetRecoveryGroupReadinessSummaryRequest.nextToken,
-            outputKey: \GetRecoveryGroupReadinessSummaryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getRecoveryGroupReadinessSummaryPaginator(
         _ input: GetRecoveryGroupReadinessSummaryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetRecoveryGroupReadinessSummaryResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetRecoveryGroupReadinessSummaryRequest, GetRecoveryGroupReadinessSummaryResponse> {
+        return .init(
             input: input,
             command: self.getRecoveryGroupReadinessSummary,
             inputKey: \GetRecoveryGroupReadinessSummaryRequest.nextToken,
             outputKey: \GetRecoveryGroupReadinessSummaryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the cells for an account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listCellsPaginator<Result>(
-        _ input: ListCellsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListCellsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listCells,
-            inputKey: \ListCellsRequest.nextToken,
-            outputKey: \ListCellsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCellsPaginator(
         _ input: ListCellsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListCellsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCellsRequest, ListCellsResponse> {
+        return .init(
             input: input,
             command: self.listCells,
             inputKey: \ListCellsRequest.nextToken,
             outputKey: \ListCellsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the cross-account readiness authorizations that are in place for an account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listCrossAccountAuthorizationsPaginator<Result>(
-        _ input: ListCrossAccountAuthorizationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListCrossAccountAuthorizationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listCrossAccountAuthorizations,
-            inputKey: \ListCrossAccountAuthorizationsRequest.nextToken,
-            outputKey: \ListCrossAccountAuthorizationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCrossAccountAuthorizationsPaginator(
         _ input: ListCrossAccountAuthorizationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListCrossAccountAuthorizationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCrossAccountAuthorizationsRequest, ListCrossAccountAuthorizationsResponse> {
+        return .init(
             input: input,
             command: self.listCrossAccountAuthorizations,
             inputKey: \ListCrossAccountAuthorizationsRequest.nextToken,
             outputKey: \ListCrossAccountAuthorizationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the readiness checks for an account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listReadinessChecksPaginator<Result>(
-        _ input: ListReadinessChecksRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListReadinessChecksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listReadinessChecks,
-            inputKey: \ListReadinessChecksRequest.nextToken,
-            outputKey: \ListReadinessChecksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listReadinessChecksPaginator(
         _ input: ListReadinessChecksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListReadinessChecksResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListReadinessChecksRequest, ListReadinessChecksResponse> {
+        return .init(
             input: input,
             command: self.listReadinessChecks,
             inputKey: \ListReadinessChecksRequest.nextToken,
             outputKey: \ListReadinessChecksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the recovery groups in an account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRecoveryGroupsPaginator<Result>(
-        _ input: ListRecoveryGroupsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRecoveryGroupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRecoveryGroups,
-            inputKey: \ListRecoveryGroupsRequest.nextToken,
-            outputKey: \ListRecoveryGroupsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRecoveryGroupsPaginator(
         _ input: ListRecoveryGroupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRecoveryGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecoveryGroupsRequest, ListRecoveryGroupsResponse> {
+        return .init(
             input: input,
             command: self.listRecoveryGroups,
             inputKey: \ListRecoveryGroupsRequest.nextToken,
             outputKey: \ListRecoveryGroupsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the resource sets in an account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listResourceSetsPaginator<Result>(
-        _ input: ListResourceSetsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListResourceSetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listResourceSets,
-            inputKey: \ListResourceSetsRequest.nextToken,
-            outputKey: \ListResourceSetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listResourceSetsPaginator(
         _ input: ListResourceSetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListResourceSetsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourceSetsRequest, ListResourceSetsResponse> {
+        return .init(
             input: input,
             command: self.listResourceSets,
             inputKey: \ListResourceSetsRequest.nextToken,
             outputKey: \ListResourceSetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all readiness rules, or lists the readiness rules for a specific resource type.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRulesPaginator<Result>(
-        _ input: ListRulesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRulesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRules,
-            inputKey: \ListRulesRequest.nextToken,
-            outputKey: \ListRulesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRulesPaginator(
         _ input: ListRulesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRulesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRulesRequest, ListRulesResponse> {
+        return .init(
             input: input,
             command: self.listRules,
             inputKey: \ListRulesRequest.nextToken,
             outputKey: \ListRulesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

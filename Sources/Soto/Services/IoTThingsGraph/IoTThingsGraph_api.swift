@@ -66,212 +66,247 @@ public struct IoTThingsGraph: AWSService {
 
     /// Associates a device with a concrete thing that is in the user's registry. A thing can be associated with only one device at a time. If you associate a thing with a new device id, its previous association will be removed.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func associateEntityToThing(_ input: AssociateEntityToThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateEntityToThingResponse> {
-        return self.client.execute(operation: "AssociateEntityToThing", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateEntityToThing(_ input: AssociateEntityToThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateEntityToThingResponse {
+        return try await self.client.execute(operation: "AssociateEntityToThing", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a workflow template. Workflows can be created only in the user's namespace. (The public namespace contains only  entities.) The workflow can contain only entities in the specified namespace. The workflow is validated against the entities in the  latest version of the user's namespace unless another namespace version is specified in the request.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func createFlowTemplate(_ input: CreateFlowTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFlowTemplateResponse> {
-        return self.client.execute(operation: "CreateFlowTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createFlowTemplate(_ input: CreateFlowTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFlowTemplateResponse {
+        return try await self.client.execute(operation: "CreateFlowTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a system instance.  This action validates the system instance, prepares the deployment-related resources. For Greengrass deployments, it updates the Greengrass group that is  specified by the greengrassGroupName parameter. It also adds a file to the S3 bucket specified by the s3BucketName parameter. You need to  call DeploySystemInstance after running this action. For Greengrass deployments, since this action modifies and adds resources to a Greengrass group and an S3 bucket on the caller's behalf, the calling identity must have write permissions  to both the specified Greengrass group and S3 bucket. Otherwise, the call will fail with an authorization error. For cloud deployments, this action requires a flowActionsRoleArn value. This is an IAM role  that has permissions to access AWS services, such as AWS Lambda and AWS IoT, that the flow uses when it executes. If the definition document doesn't specify a version of the user's namespace, the latest version will be used by default.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func createSystemInstance(_ input: CreateSystemInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSystemInstanceResponse> {
-        return self.client.execute(operation: "CreateSystemInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSystemInstance(_ input: CreateSystemInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSystemInstanceResponse {
+        return try await self.client.execute(operation: "CreateSystemInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a system. The system is validated against the entities in the  latest version of the user's namespace unless another namespace version is specified in the request.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func createSystemTemplate(_ input: CreateSystemTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSystemTemplateResponse> {
-        return self.client.execute(operation: "CreateSystemTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSystemTemplate(_ input: CreateSystemTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSystemTemplateResponse {
+        return try await self.client.execute(operation: "CreateSystemTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a workflow. Any new system or deployment that contains this workflow will fail to update or deploy.  Existing deployments that contain the workflow will continue to run (since they use a snapshot of the workflow taken at the time of deployment).
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func deleteFlowTemplate(_ input: DeleteFlowTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFlowTemplateResponse> {
-        return self.client.execute(operation: "DeleteFlowTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteFlowTemplate(_ input: DeleteFlowTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFlowTemplateResponse {
+        return try await self.client.execute(operation: "DeleteFlowTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified namespace. This action deletes all of the entities in the namespace. Delete the systems and flows that use entities in the namespace before performing this action. This action takes no  request parameters.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func deleteNamespace(_ input: DeleteNamespaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNamespaceResponse> {
-        return self.client.execute(operation: "DeleteNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteNamespace(_ input: DeleteNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNamespaceResponse {
+        return try await self.client.execute(operation: "DeleteNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a system instance.  Only system instances that have never been deployed, or that have been undeployed can be deleted. Users can create a new system instance that has the same ID as a deleted system instance.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func deleteSystemInstance(_ input: DeleteSystemInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSystemInstanceResponse> {
-        return self.client.execute(operation: "DeleteSystemInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSystemInstance(_ input: DeleteSystemInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSystemInstanceResponse {
+        return try await self.client.execute(operation: "DeleteSystemInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a system. New deployments can't contain the system after its deletion.  Existing deployments that contain the system will continue to work because they use a snapshot of the system that is taken when it is deployed.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func deleteSystemTemplate(_ input: DeleteSystemTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSystemTemplateResponse> {
-        return self.client.execute(operation: "DeleteSystemTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSystemTemplate(_ input: DeleteSystemTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSystemTemplateResponse {
+        return try await self.client.execute(operation: "DeleteSystemTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Greengrass and Cloud Deployments  Deploys the system instance to the target specified in CreateSystemInstance.   Greengrass Deployments  If the system or any workflows and entities have been updated before this action is called, then the deployment will create a new Amazon Simple Storage Service  resource file and then deploy it. Since this action creates a Greengrass deployment on the caller's behalf, the calling identity must have write permissions  to the specified Greengrass group. Otherwise, the call will fail with an authorization error. For information about the artifacts that get added to your Greengrass core device when you use this API, see AWS IoT Things Graph and AWS IoT Greengrass.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func deploySystemInstance(_ input: DeploySystemInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeploySystemInstanceResponse> {
-        return self.client.execute(operation: "DeploySystemInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deploySystemInstance(_ input: DeploySystemInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeploySystemInstanceResponse {
+        return try await self.client.execute(operation: "DeploySystemInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deprecates the specified workflow. This action marks the workflow for deletion. Deprecated flows can't be deployed, but existing deployments will continue to run.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func deprecateFlowTemplate(_ input: DeprecateFlowTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeprecateFlowTemplateResponse> {
-        return self.client.execute(operation: "DeprecateFlowTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deprecateFlowTemplate(_ input: DeprecateFlowTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeprecateFlowTemplateResponse {
+        return try await self.client.execute(operation: "DeprecateFlowTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deprecates the specified system.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func deprecateSystemTemplate(_ input: DeprecateSystemTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeprecateSystemTemplateResponse> {
-        return self.client.execute(operation: "DeprecateSystemTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deprecateSystemTemplate(_ input: DeprecateSystemTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeprecateSystemTemplateResponse {
+        return try await self.client.execute(operation: "DeprecateSystemTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the latest version of the user's namespace and the public version that it is tracking.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func describeNamespace(_ input: DescribeNamespaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNamespaceResponse> {
-        return self.client.execute(operation: "DescribeNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeNamespace(_ input: DescribeNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNamespaceResponse {
+        return try await self.client.execute(operation: "DescribeNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Dissociates a device entity from a concrete thing. The action takes only the type of the entity that you need to dissociate because only  one entity of a particular type can be associated with a thing.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func dissociateEntityFromThing(_ input: DissociateEntityFromThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DissociateEntityFromThingResponse> {
-        return self.client.execute(operation: "DissociateEntityFromThing", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func dissociateEntityFromThing(_ input: DissociateEntityFromThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DissociateEntityFromThingResponse {
+        return try await self.client.execute(operation: "DissociateEntityFromThing", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets definitions of the specified entities. Uses the latest version of the user's namespace by default. This API returns the  following TDM entities.   Properties   States   Events   Actions   Capabilities   Mappings   Devices   Device Models   Services   This action doesn't return definitions for systems, flows, and deployments.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func getEntities(_ input: GetEntitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEntitiesResponse> {
-        return self.client.execute(operation: "GetEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getEntities(_ input: GetEntitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEntitiesResponse {
+        return try await self.client.execute(operation: "GetEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the latest version of the DefinitionDocument and FlowTemplateSummary for the specified workflow.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func getFlowTemplate(_ input: GetFlowTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFlowTemplateResponse> {
-        return self.client.execute(operation: "GetFlowTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFlowTemplate(_ input: GetFlowTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFlowTemplateResponse {
+        return try await self.client.execute(operation: "GetFlowTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets revisions of the specified workflow. Only the last 100 revisions are stored. If the workflow has been deprecated,  this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func getFlowTemplateRevisions(_ input: GetFlowTemplateRevisionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFlowTemplateRevisionsResponse> {
-        return self.client.execute(operation: "GetFlowTemplateRevisions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFlowTemplateRevisions(_ input: GetFlowTemplateRevisionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFlowTemplateRevisionsResponse {
+        return try await self.client.execute(operation: "GetFlowTemplateRevisions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the status of a namespace deletion task.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func getNamespaceDeletionStatus(_ input: GetNamespaceDeletionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNamespaceDeletionStatusResponse> {
-        return self.client.execute(operation: "GetNamespaceDeletionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getNamespaceDeletionStatus(_ input: GetNamespaceDeletionStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNamespaceDeletionStatusResponse {
+        return try await self.client.execute(operation: "GetNamespaceDeletionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a system instance.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func getSystemInstance(_ input: GetSystemInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSystemInstanceResponse> {
-        return self.client.execute(operation: "GetSystemInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSystemInstance(_ input: GetSystemInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSystemInstanceResponse {
+        return try await self.client.execute(operation: "GetSystemInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a system.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func getSystemTemplate(_ input: GetSystemTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSystemTemplateResponse> {
-        return self.client.execute(operation: "GetSystemTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSystemTemplate(_ input: GetSystemTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSystemTemplateResponse {
+        return try await self.client.execute(operation: "GetSystemTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets revisions made to the specified system template. Only the previous 100 revisions are stored. If the system has been deprecated, this action will return  the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func getSystemTemplateRevisions(_ input: GetSystemTemplateRevisionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSystemTemplateRevisionsResponse> {
-        return self.client.execute(operation: "GetSystemTemplateRevisions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSystemTemplateRevisions(_ input: GetSystemTemplateRevisionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSystemTemplateRevisionsResponse {
+        return try await self.client.execute(operation: "GetSystemTemplateRevisions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the status of the specified upload.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func getUploadStatus(_ input: GetUploadStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUploadStatusResponse> {
-        return self.client.execute(operation: "GetUploadStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getUploadStatus(_ input: GetUploadStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUploadStatusResponse {
+        return try await self.client.execute(operation: "GetUploadStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of objects that contain information about events in a flow execution.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func listFlowExecutionMessages(_ input: ListFlowExecutionMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFlowExecutionMessagesResponse> {
-        return self.client.execute(operation: "ListFlowExecutionMessages", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listFlowExecutionMessages(_ input: ListFlowExecutionMessagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlowExecutionMessagesResponse {
+        return try await self.client.execute(operation: "ListFlowExecutionMessages", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all tags on an AWS IoT Things Graph resource.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func searchEntities(_ input: SearchEntitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchEntitiesResponse> {
-        return self.client.execute(operation: "SearchEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchEntities(_ input: SearchEntitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchEntitiesResponse {
+        return try await self.client.execute(operation: "SearchEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Searches for AWS IoT Things Graph workflow execution instances.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func searchFlowExecutions(_ input: SearchFlowExecutionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchFlowExecutionsResponse> {
-        return self.client.execute(operation: "SearchFlowExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchFlowExecutions(_ input: SearchFlowExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchFlowExecutionsResponse {
+        return try await self.client.execute(operation: "SearchFlowExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Searches for summary information about workflows.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func searchFlowTemplates(_ input: SearchFlowTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchFlowTemplatesResponse> {
-        return self.client.execute(operation: "SearchFlowTemplates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchFlowTemplates(_ input: SearchFlowTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchFlowTemplatesResponse {
+        return try await self.client.execute(operation: "SearchFlowTemplates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Searches for system instances in the user's account.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func searchSystemInstances(_ input: SearchSystemInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchSystemInstancesResponse> {
-        return self.client.execute(operation: "SearchSystemInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchSystemInstances(_ input: SearchSystemInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchSystemInstancesResponse {
+        return try await self.client.execute(operation: "SearchSystemInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func searchSystemTemplates(_ input: SearchSystemTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchSystemTemplatesResponse> {
-        return self.client.execute(operation: "SearchSystemTemplates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchSystemTemplates(_ input: SearchSystemTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchSystemTemplatesResponse {
+        return try await self.client.execute(operation: "SearchSystemTemplates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Searches for things associated with the specified entity. You can search by both device and device model. For example, if two different devices, camera1 and camera2, implement the camera device model, the user can associate thing1 to camera1 and thing2 to camera2. SearchThings(camera2) will return only thing2, but SearchThings(camera) will return both thing1 and thing2. This action searches for exact matches and doesn't perform partial text matching.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func searchThings(_ input: SearchThingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchThingsResponse> {
-        return self.client.execute(operation: "SearchThings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchThings(_ input: SearchThingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchThingsResponse {
+        return try await self.client.execute(operation: "SearchThings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a tag for the specified resource.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes a system instance from its target (Cloud or Greengrass).
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func undeploySystemInstance(_ input: UndeploySystemInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UndeploySystemInstanceResponse> {
-        return self.client.execute(operation: "UndeploySystemInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func undeploySystemInstance(_ input: UndeploySystemInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UndeploySystemInstanceResponse {
+        return try await self.client.execute(operation: "UndeploySystemInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes a tag from the specified resource.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the specified workflow. All deployed systems and system instances that use the workflow will see the changes in the flow when it is redeployed. If you don't want this  behavior, copy the workflow (creating a new workflow with a different ID), and update the copy. The workflow can contain only entities in the specified namespace.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func updateFlowTemplate(_ input: UpdateFlowTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFlowTemplateResponse> {
-        return self.client.execute(operation: "UpdateFlowTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateFlowTemplate(_ input: UpdateFlowTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowTemplateResponse {
+        return try await self.client.execute(operation: "UpdateFlowTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the specified system. You don't need to run this action after updating a workflow. Any deployment that uses the system will see the changes in the system when it is redeployed.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func updateSystemTemplate(_ input: UpdateSystemTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSystemTemplateResponse> {
-        return self.client.execute(operation: "UpdateSystemTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateSystemTemplate(_ input: UpdateSystemTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSystemTemplateResponse {
+        return try await self.client.execute(operation: "UpdateSystemTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Asynchronously uploads one or more entity definitions to the user's namespace. The document parameter is required if  syncWithPublicNamespace and deleteExistingEntites are false. If the syncWithPublicNamespace parameter  is set to  true, the user's namespace will synchronize with the latest version of the public namespace. If deprecateExistingEntities is set to true,  all entities in the latest version will be deleted before the new DefinitionDocument is uploaded. When a user uploads entity definitions for the first time, the service creates a new namespace for the user. The new namespace tracks the public namespace. Currently users  can have only one namespace. The namespace version increments whenever a user uploads entity definitions that are backwards-incompatible and whenever a user sets the  syncWithPublicNamespace parameter or the deprecateExistingEntities parameter to true. The IDs for all of the entities should be in URN format. Each entity must be in the user's namespace. Users can't create entities in the public namespace, but entity definitions can refer to entities in the public namespace. Valid entities are Device, DeviceModel, Service, Capability, State, Action, Event, Property,  Mapping, Enum.
     @available(*, deprecated, message: "since: 2022-08-30")
-    public func uploadEntityDefinitions(_ input: UploadEntityDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UploadEntityDefinitionsResponse> {
-        return self.client.execute(operation: "UploadEntityDefinitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func uploadEntityDefinitions(_ input: UploadEntityDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UploadEntityDefinitionsResponse {
+        return try await self.client.execute(operation: "UploadEntityDefinitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -286,554 +321,205 @@ extension IoTThingsGraph {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTThingsGraph {
     /// Gets revisions of the specified workflow. Only the last 100 revisions are stored. If the workflow has been deprecated,  this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    @available(*, deprecated, message: "since: 2022-08-30")
-    public func getFlowTemplateRevisionsPaginator<Result>(
-        _ input: GetFlowTemplateRevisionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetFlowTemplateRevisionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getFlowTemplateRevisions,
-            inputKey: \GetFlowTemplateRevisionsRequest.nextToken,
-            outputKey: \GetFlowTemplateRevisionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     @available(*, deprecated, message: "since: 2022-08-30")
     public func getFlowTemplateRevisionsPaginator(
         _ input: GetFlowTemplateRevisionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetFlowTemplateRevisionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetFlowTemplateRevisionsRequest, GetFlowTemplateRevisionsResponse> {
+        return .init(
             input: input,
             command: self.getFlowTemplateRevisions,
             inputKey: \GetFlowTemplateRevisionsRequest.nextToken,
             outputKey: \GetFlowTemplateRevisionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets revisions made to the specified system template. Only the previous 100 revisions are stored. If the system has been deprecated, this action will return  the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    @available(*, deprecated, message: "since: 2022-08-30")
-    public func getSystemTemplateRevisionsPaginator<Result>(
-        _ input: GetSystemTemplateRevisionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetSystemTemplateRevisionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getSystemTemplateRevisions,
-            inputKey: \GetSystemTemplateRevisionsRequest.nextToken,
-            outputKey: \GetSystemTemplateRevisionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     @available(*, deprecated, message: "since: 2022-08-30")
     public func getSystemTemplateRevisionsPaginator(
         _ input: GetSystemTemplateRevisionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetSystemTemplateRevisionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetSystemTemplateRevisionsRequest, GetSystemTemplateRevisionsResponse> {
+        return .init(
             input: input,
             command: self.getSystemTemplateRevisions,
             inputKey: \GetSystemTemplateRevisionsRequest.nextToken,
             outputKey: \GetSystemTemplateRevisionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of objects that contain information about events in a flow execution.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    @available(*, deprecated, message: "since: 2022-08-30")
-    public func listFlowExecutionMessagesPaginator<Result>(
-        _ input: ListFlowExecutionMessagesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListFlowExecutionMessagesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listFlowExecutionMessages,
-            inputKey: \ListFlowExecutionMessagesRequest.nextToken,
-            outputKey: \ListFlowExecutionMessagesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     @available(*, deprecated, message: "since: 2022-08-30")
     public func listFlowExecutionMessagesPaginator(
         _ input: ListFlowExecutionMessagesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListFlowExecutionMessagesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFlowExecutionMessagesRequest, ListFlowExecutionMessagesResponse> {
+        return .init(
             input: input,
             command: self.listFlowExecutionMessages,
             inputKey: \ListFlowExecutionMessagesRequest.nextToken,
             outputKey: \ListFlowExecutionMessagesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all tags on an AWS IoT Things Graph resource.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    @available(*, deprecated, message: "since: 2022-08-30")
-    public func listTagsForResourcePaginator<Result>(
-        _ input: ListTagsForResourceRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTagsForResource,
-            inputKey: \ListTagsForResourceRequest.nextToken,
-            outputKey: \ListTagsForResourceResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     @available(*, deprecated, message: "since: 2022-08-30")
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTagsForResourceRequest, ListTagsForResourceResponse> {
+        return .init(
             input: input,
             command: self.listTagsForResource,
             inputKey: \ListTagsForResourceRequest.nextToken,
             outputKey: \ListTagsForResourceResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    @available(*, deprecated, message: "since: 2022-08-30")
-    public func searchEntitiesPaginator<Result>(
-        _ input: SearchEntitiesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchEntitiesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchEntities,
-            inputKey: \SearchEntitiesRequest.nextToken,
-            outputKey: \SearchEntitiesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     @available(*, deprecated, message: "since: 2022-08-30")
     public func searchEntitiesPaginator(
         _ input: SearchEntitiesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchEntitiesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchEntitiesRequest, SearchEntitiesResponse> {
+        return .init(
             input: input,
             command: self.searchEntities,
             inputKey: \SearchEntitiesRequest.nextToken,
             outputKey: \SearchEntitiesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Searches for AWS IoT Things Graph workflow execution instances.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    @available(*, deprecated, message: "since: 2022-08-30")
-    public func searchFlowExecutionsPaginator<Result>(
-        _ input: SearchFlowExecutionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchFlowExecutionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchFlowExecutions,
-            inputKey: \SearchFlowExecutionsRequest.nextToken,
-            outputKey: \SearchFlowExecutionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     @available(*, deprecated, message: "since: 2022-08-30")
     public func searchFlowExecutionsPaginator(
         _ input: SearchFlowExecutionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchFlowExecutionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchFlowExecutionsRequest, SearchFlowExecutionsResponse> {
+        return .init(
             input: input,
             command: self.searchFlowExecutions,
             inputKey: \SearchFlowExecutionsRequest.nextToken,
             outputKey: \SearchFlowExecutionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Searches for summary information about workflows.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    @available(*, deprecated, message: "since: 2022-08-30")
-    public func searchFlowTemplatesPaginator<Result>(
-        _ input: SearchFlowTemplatesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchFlowTemplatesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchFlowTemplates,
-            inputKey: \SearchFlowTemplatesRequest.nextToken,
-            outputKey: \SearchFlowTemplatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     @available(*, deprecated, message: "since: 2022-08-30")
     public func searchFlowTemplatesPaginator(
         _ input: SearchFlowTemplatesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchFlowTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchFlowTemplatesRequest, SearchFlowTemplatesResponse> {
+        return .init(
             input: input,
             command: self.searchFlowTemplates,
             inputKey: \SearchFlowTemplatesRequest.nextToken,
             outputKey: \SearchFlowTemplatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Searches for system instances in the user's account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    @available(*, deprecated, message: "since: 2022-08-30")
-    public func searchSystemInstancesPaginator<Result>(
-        _ input: SearchSystemInstancesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchSystemInstancesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchSystemInstances,
-            inputKey: \SearchSystemInstancesRequest.nextToken,
-            outputKey: \SearchSystemInstancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     @available(*, deprecated, message: "since: 2022-08-30")
     public func searchSystemInstancesPaginator(
         _ input: SearchSystemInstancesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchSystemInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchSystemInstancesRequest, SearchSystemInstancesResponse> {
+        return .init(
             input: input,
             command: self.searchSystemInstances,
             inputKey: \SearchSystemInstancesRequest.nextToken,
             outputKey: \SearchSystemInstancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    @available(*, deprecated, message: "since: 2022-08-30")
-    public func searchSystemTemplatesPaginator<Result>(
-        _ input: SearchSystemTemplatesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchSystemTemplatesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchSystemTemplates,
-            inputKey: \SearchSystemTemplatesRequest.nextToken,
-            outputKey: \SearchSystemTemplatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     @available(*, deprecated, message: "since: 2022-08-30")
     public func searchSystemTemplatesPaginator(
         _ input: SearchSystemTemplatesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchSystemTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchSystemTemplatesRequest, SearchSystemTemplatesResponse> {
+        return .init(
             input: input,
             command: self.searchSystemTemplates,
             inputKey: \SearchSystemTemplatesRequest.nextToken,
             outputKey: \SearchSystemTemplatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Searches for things associated with the specified entity. You can search by both device and device model. For example, if two different devices, camera1 and camera2, implement the camera device model, the user can associate thing1 to camera1 and thing2 to camera2. SearchThings(camera2) will return only thing2, but SearchThings(camera) will return both thing1 and thing2. This action searches for exact matches and doesn't perform partial text matching.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    @available(*, deprecated, message: "since: 2022-08-30")
-    public func searchThingsPaginator<Result>(
-        _ input: SearchThingsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchThingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchThings,
-            inputKey: \SearchThingsRequest.nextToken,
-            outputKey: \SearchThingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     @available(*, deprecated, message: "since: 2022-08-30")
     public func searchThingsPaginator(
         _ input: SearchThingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchThingsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchThingsRequest, SearchThingsResponse> {
+        return .init(
             input: input,
             command: self.searchThings,
             inputKey: \SearchThingsRequest.nextToken,
             outputKey: \SearchThingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

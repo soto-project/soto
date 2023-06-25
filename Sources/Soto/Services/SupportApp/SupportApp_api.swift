@@ -64,53 +64,63 @@ public struct SupportApp: AWSService {
     // MARK: API Calls
 
     /// Creates a Slack channel configuration for your Amazon Web Services account.    You can add up to 5 Slack workspaces for your account.   You can add up to 20 Slack channels for your account.    A Slack channel can have up to 100 Amazon Web Services accounts. This means that only 100 accounts can add the same Slack channel to the Amazon Web Services Support App. We recommend that you only add the accounts that you need to manage support cases for your organization. This can reduce the notifications about case updates that you receive in the Slack channel.  We recommend that you choose a private Slack channel so that only members in that channel have read and write access to your support cases. Anyone in your Slack channel can create, update, or resolve support cases for your account. Users require an invitation to join private channels.
-    public func createSlackChannelConfiguration(_ input: CreateSlackChannelConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSlackChannelConfigurationResult> {
-        return self.client.execute(operation: "CreateSlackChannelConfiguration", path: "/control/create-slack-channel-configuration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSlackChannelConfiguration(_ input: CreateSlackChannelConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSlackChannelConfigurationResult {
+        return try await self.client.execute(operation: "CreateSlackChannelConfiguration", path: "/control/create-slack-channel-configuration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an alias for an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
-    public func deleteAccountAlias(_ input: DeleteAccountAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAccountAliasResult> {
-        return self.client.execute(operation: "DeleteAccountAlias", path: "/control/delete-account-alias", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAccountAlias(_ input: DeleteAccountAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountAliasResult {
+        return try await self.client.execute(operation: "DeleteAccountAlias", path: "/control/delete-account-alias", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a Slack channel configuration from your Amazon Web Services account. This operation doesn't delete your Slack channel.
-    public func deleteSlackChannelConfiguration(_ input: DeleteSlackChannelConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSlackChannelConfigurationResult> {
-        return self.client.execute(operation: "DeleteSlackChannelConfiguration", path: "/control/delete-slack-channel-configuration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSlackChannelConfiguration(_ input: DeleteSlackChannelConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSlackChannelConfigurationResult {
+        return try await self.client.execute(operation: "DeleteSlackChannelConfiguration", path: "/control/delete-slack-channel-configuration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a Slack workspace configuration from your Amazon Web Services account. This operation doesn't delete your Slack workspace.
-    public func deleteSlackWorkspaceConfiguration(_ input: DeleteSlackWorkspaceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSlackWorkspaceConfigurationResult> {
-        return self.client.execute(operation: "DeleteSlackWorkspaceConfiguration", path: "/control/delete-slack-workspace-configuration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSlackWorkspaceConfiguration(_ input: DeleteSlackWorkspaceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSlackWorkspaceConfigurationResult {
+        return try await self.client.execute(operation: "DeleteSlackWorkspaceConfiguration", path: "/control/delete-slack-workspace-configuration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the alias from an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
-    public func getAccountAlias(_ input: GetAccountAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAccountAliasResult> {
-        return self.client.execute(operation: "GetAccountAlias", path: "/control/get-account-alias", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getAccountAlias(_ input: GetAccountAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountAliasResult {
+        return try await self.client.execute(operation: "GetAccountAlias", path: "/control/get-account-alias", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the Slack channel configurations for an Amazon Web Services account.
-    public func listSlackChannelConfigurations(_ input: ListSlackChannelConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSlackChannelConfigurationsResult> {
-        return self.client.execute(operation: "ListSlackChannelConfigurations", path: "/control/list-slack-channel-configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSlackChannelConfigurations(_ input: ListSlackChannelConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSlackChannelConfigurationsResult {
+        return try await self.client.execute(operation: "ListSlackChannelConfigurations", path: "/control/list-slack-channel-configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the Slack workspace configurations for an Amazon Web Services account.
-    public func listSlackWorkspaceConfigurations(_ input: ListSlackWorkspaceConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSlackWorkspaceConfigurationsResult> {
-        return self.client.execute(operation: "ListSlackWorkspaceConfigurations", path: "/control/list-slack-workspace-configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSlackWorkspaceConfigurations(_ input: ListSlackWorkspaceConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSlackWorkspaceConfigurationsResult {
+        return try await self.client.execute(operation: "ListSlackWorkspaceConfigurations", path: "/control/list-slack-workspace-configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates or updates an individual alias for each Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
-    public func putAccountAlias(_ input: PutAccountAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAccountAliasResult> {
-        return self.client.execute(operation: "PutAccountAlias", path: "/control/put-account-alias", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putAccountAlias(_ input: PutAccountAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountAliasResult {
+        return try await self.client.execute(operation: "PutAccountAlias", path: "/control/put-account-alias", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Registers a Slack workspace for your Amazon Web Services account. To call this API, your account must be part of an organization in Organizations. If you're the management account and you want to register Slack workspaces for your organization, you must complete the following tasks:   Sign in to the Amazon Web Services Support Center and authorize the Slack workspaces where you want your organization to have access to. See Authorize a Slack workspace in the Amazon Web Services Support User Guide.   Call the RegisterSlackWorkspaceForOrganization API to authorize each Slack workspace for the organization.   After the management account authorizes the Slack workspace, member accounts can call this API to authorize the same Slack workspace for their individual accounts. Member accounts don't need to authorize the Slack workspace manually through the Amazon Web Services Support Center. To use the Amazon Web Services Support App, each account must then complete the following tasks:   Create an Identity and Access Management (IAM) role with the required permission. For more information, see Managing access to the Amazon Web Services Support App.   Configure a Slack channel to use the Amazon Web Services Support App for support cases for that account. For more information, see Configuring a Slack channel.
-    public func registerSlackWorkspaceForOrganization(_ input: RegisterSlackWorkspaceForOrganizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterSlackWorkspaceForOrganizationResult> {
-        return self.client.execute(operation: "RegisterSlackWorkspaceForOrganization", path: "/control/register-slack-workspace-for-organization", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func registerSlackWorkspaceForOrganization(_ input: RegisterSlackWorkspaceForOrganizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterSlackWorkspaceForOrganizationResult {
+        return try await self.client.execute(operation: "RegisterSlackWorkspaceForOrganization", path: "/control/register-slack-workspace-for-organization", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the configuration for a Slack channel, such as case update notifications.
-    public func updateSlackChannelConfiguration(_ input: UpdateSlackChannelConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSlackChannelConfigurationResult> {
-        return self.client.execute(operation: "UpdateSlackChannelConfiguration", path: "/control/update-slack-channel-configuration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateSlackChannelConfiguration(_ input: UpdateSlackChannelConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSlackChannelConfigurationResult {
+        return try await self.client.execute(operation: "UpdateSlackChannelConfiguration", path: "/control/update-slack-channel-configuration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -125,110 +135,43 @@ extension SupportApp {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SupportApp {
     /// Lists the Slack channel configurations for an Amazon Web Services account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSlackChannelConfigurationsPaginator<Result>(
-        _ input: ListSlackChannelConfigurationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSlackChannelConfigurationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSlackChannelConfigurations,
-            inputKey: \ListSlackChannelConfigurationsRequest.nextToken,
-            outputKey: \ListSlackChannelConfigurationsResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSlackChannelConfigurationsPaginator(
         _ input: ListSlackChannelConfigurationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSlackChannelConfigurationsResult, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSlackChannelConfigurationsRequest, ListSlackChannelConfigurationsResult> {
+        return .init(
             input: input,
             command: self.listSlackChannelConfigurations,
             inputKey: \ListSlackChannelConfigurationsRequest.nextToken,
             outputKey: \ListSlackChannelConfigurationsResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the Slack workspace configurations for an Amazon Web Services account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSlackWorkspaceConfigurationsPaginator<Result>(
-        _ input: ListSlackWorkspaceConfigurationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSlackWorkspaceConfigurationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSlackWorkspaceConfigurations,
-            inputKey: \ListSlackWorkspaceConfigurationsRequest.nextToken,
-            outputKey: \ListSlackWorkspaceConfigurationsResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSlackWorkspaceConfigurationsPaginator(
         _ input: ListSlackWorkspaceConfigurationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSlackWorkspaceConfigurationsResult, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSlackWorkspaceConfigurationsRequest, ListSlackWorkspaceConfigurationsResult> {
+        return .init(
             input: input,
             command: self.listSlackWorkspaceConfigurations,
             inputKey: \ListSlackWorkspaceConfigurationsRequest.nextToken,
             outputKey: \ListSlackWorkspaceConfigurationsResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

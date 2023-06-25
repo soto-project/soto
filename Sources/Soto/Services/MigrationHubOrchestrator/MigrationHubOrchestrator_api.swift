@@ -64,143 +64,171 @@ public struct MigrationHubOrchestrator: AWSService {
     // MARK: API Calls
 
     /// Create a workflow to orchestrate your migrations.
-    public func createWorkflow(_ input: CreateMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMigrationWorkflowResponse> {
-        return self.client.execute(operation: "CreateWorkflow", path: "/migrationworkflow/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createWorkflow(_ input: CreateMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMigrationWorkflowResponse {
+        return try await self.client.execute(operation: "CreateWorkflow", path: "/migrationworkflow/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a step in the migration workflow.
-    public func createWorkflowStep(_ input: CreateWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkflowStepResponse> {
-        return self.client.execute(operation: "CreateWorkflowStep", path: "/workflowstep", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createWorkflowStep(_ input: CreateWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkflowStepResponse {
+        return try await self.client.execute(operation: "CreateWorkflowStep", path: "/workflowstep", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a step group in a migration workflow.
-    public func createWorkflowStepGroup(_ input: CreateWorkflowStepGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkflowStepGroupResponse> {
-        return self.client.execute(operation: "CreateWorkflowStepGroup", path: "/workflowstepgroups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createWorkflowStepGroup(_ input: CreateWorkflowStepGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkflowStepGroupResponse {
+        return try await self.client.execute(operation: "CreateWorkflowStepGroup", path: "/workflowstepgroups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete a migration workflow. You must pause a running workflow in Migration Hub Orchestrator console to delete it.
-    public func deleteWorkflow(_ input: DeleteMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMigrationWorkflowResponse> {
-        return self.client.execute(operation: "DeleteWorkflow", path: "/migrationworkflow/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteWorkflow(_ input: DeleteMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMigrationWorkflowResponse {
+        return try await self.client.execute(operation: "DeleteWorkflow", path: "/migrationworkflow/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete a step in a migration workflow. Pause the workflow to delete a running step.
-    public func deleteWorkflowStep(_ input: DeleteWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWorkflowStepResponse> {
-        return self.client.execute(operation: "DeleteWorkflowStep", path: "/workflowstep/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteWorkflowStep(_ input: DeleteWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkflowStepResponse {
+        return try await self.client.execute(operation: "DeleteWorkflowStep", path: "/workflowstep/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete a step group in a migration workflow.
-    public func deleteWorkflowStepGroup(_ input: DeleteWorkflowStepGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWorkflowStepGroupResponse> {
-        return self.client.execute(operation: "DeleteWorkflowStepGroup", path: "/workflowstepgroup/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteWorkflowStepGroup(_ input: DeleteWorkflowStepGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkflowStepGroupResponse {
+        return try await self.client.execute(operation: "DeleteWorkflowStepGroup", path: "/workflowstepgroup/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the template you want to use for creating a migration workflow.
-    public func getTemplate(_ input: GetMigrationWorkflowTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMigrationWorkflowTemplateResponse> {
-        return self.client.execute(operation: "GetTemplate", path: "/migrationworkflowtemplate/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTemplate(_ input: GetMigrationWorkflowTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMigrationWorkflowTemplateResponse {
+        return try await self.client.execute(operation: "GetTemplate", path: "/migrationworkflowtemplate/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get a specific step in a template.
-    public func getTemplateStep(_ input: GetTemplateStepRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTemplateStepResponse> {
-        return self.client.execute(operation: "GetTemplateStep", path: "/templatestep/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTemplateStep(_ input: GetTemplateStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTemplateStepResponse {
+        return try await self.client.execute(operation: "GetTemplateStep", path: "/templatestep/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get a step group in a template.
-    public func getTemplateStepGroup(_ input: GetTemplateStepGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTemplateStepGroupResponse> {
-        return self.client.execute(operation: "GetTemplateStepGroup", path: "/templates/{templateId}/stepgroups/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTemplateStepGroup(_ input: GetTemplateStepGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTemplateStepGroupResponse {
+        return try await self.client.execute(operation: "GetTemplateStepGroup", path: "/templates/{templateId}/stepgroups/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get migration workflow.
-    public func getWorkflow(_ input: GetMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMigrationWorkflowResponse> {
-        return self.client.execute(operation: "GetWorkflow", path: "/migrationworkflow/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getWorkflow(_ input: GetMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMigrationWorkflowResponse {
+        return try await self.client.execute(operation: "GetWorkflow", path: "/migrationworkflow/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get a step in the migration workflow.
-    public func getWorkflowStep(_ input: GetWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWorkflowStepResponse> {
-        return self.client.execute(operation: "GetWorkflowStep", path: "/workflowstep/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getWorkflowStep(_ input: GetWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowStepResponse {
+        return try await self.client.execute(operation: "GetWorkflowStep", path: "/workflowstep/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the step group of a migration workflow.
-    public func getWorkflowStepGroup(_ input: GetWorkflowStepGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWorkflowStepGroupResponse> {
-        return self.client.execute(operation: "GetWorkflowStepGroup", path: "/workflowstepgroup/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getWorkflowStepGroup(_ input: GetWorkflowStepGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowStepGroupResponse {
+        return try await self.client.execute(operation: "GetWorkflowStepGroup", path: "/workflowstepgroup/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List AWS Migration Hub Orchestrator plugins.
-    public func listPlugins(_ input: ListPluginsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPluginsResponse> {
-        return self.client.execute(operation: "ListPlugins", path: "/plugins", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPlugins(_ input: ListPluginsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPluginsResponse {
+        return try await self.client.execute(operation: "ListPlugins", path: "/plugins", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the tags added to a resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the step groups in a template.
-    public func listTemplateStepGroups(_ input: ListTemplateStepGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTemplateStepGroupsResponse> {
-        return self.client.execute(operation: "ListTemplateStepGroups", path: "/templatestepgroups/{templateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTemplateStepGroups(_ input: ListTemplateStepGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplateStepGroupsResponse {
+        return try await self.client.execute(operation: "ListTemplateStepGroups", path: "/templatestepgroups/{templateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the steps in a template.
-    public func listTemplateSteps(_ input: ListTemplateStepsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTemplateStepsResponse> {
-        return self.client.execute(operation: "ListTemplateSteps", path: "/templatesteps", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTemplateSteps(_ input: ListTemplateStepsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplateStepsResponse {
+        return try await self.client.execute(operation: "ListTemplateSteps", path: "/templatesteps", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the templates available in Migration Hub Orchestrator to create a migration workflow.
-    public func listTemplates(_ input: ListMigrationWorkflowTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMigrationWorkflowTemplatesResponse> {
-        return self.client.execute(operation: "ListTemplates", path: "/migrationworkflowtemplates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTemplates(_ input: ListMigrationWorkflowTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMigrationWorkflowTemplatesResponse {
+        return try await self.client.execute(operation: "ListTemplates", path: "/migrationworkflowtemplates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the step groups in a migration workflow.
-    public func listWorkflowStepGroups(_ input: ListWorkflowStepGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWorkflowStepGroupsResponse> {
-        return self.client.execute(operation: "ListWorkflowStepGroups", path: "/workflowstepgroups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listWorkflowStepGroups(_ input: ListWorkflowStepGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkflowStepGroupsResponse {
+        return try await self.client.execute(operation: "ListWorkflowStepGroups", path: "/workflowstepgroups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the steps in a workflow.
-    public func listWorkflowSteps(_ input: ListWorkflowStepsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWorkflowStepsResponse> {
-        return self.client.execute(operation: "ListWorkflowSteps", path: "/workflow/{workflowId}/workflowstepgroups/{stepGroupId}/workflowsteps", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listWorkflowSteps(_ input: ListWorkflowStepsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkflowStepsResponse {
+        return try await self.client.execute(operation: "ListWorkflowSteps", path: "/workflow/{workflowId}/workflowstepgroups/{stepGroupId}/workflowsteps", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the migration workflows.
-    public func listWorkflows(_ input: ListMigrationWorkflowsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMigrationWorkflowsResponse> {
-        return self.client.execute(operation: "ListWorkflows", path: "/migrationworkflows", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listWorkflows(_ input: ListMigrationWorkflowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMigrationWorkflowsResponse {
+        return try await self.client.execute(operation: "ListWorkflows", path: "/migrationworkflows", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retry a failed step in a migration workflow.
-    public func retryWorkflowStep(_ input: RetryWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RetryWorkflowStepResponse> {
-        return self.client.execute(operation: "RetryWorkflowStep", path: "/retryworkflowstep/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func retryWorkflowStep(_ input: RetryWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetryWorkflowStepResponse {
+        return try await self.client.execute(operation: "RetryWorkflowStep", path: "/retryworkflowstep/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Start a migration workflow.
-    public func startWorkflow(_ input: StartMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMigrationWorkflowResponse> {
-        return self.client.execute(operation: "StartWorkflow", path: "/migrationworkflow/{id}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startWorkflow(_ input: StartMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMigrationWorkflowResponse {
+        return try await self.client.execute(operation: "StartWorkflow", path: "/migrationworkflow/{id}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stop an ongoing migration workflow.
-    public func stopWorkflow(_ input: StopMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopMigrationWorkflowResponse> {
-        return self.client.execute(operation: "StopWorkflow", path: "/migrationworkflow/{id}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopWorkflow(_ input: StopMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopMigrationWorkflowResponse {
+        return try await self.client.execute(operation: "StopWorkflow", path: "/migrationworkflow/{id}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Tag a resource by specifying its Amazon Resource Name (ARN).
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the tags for a resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update a migration workflow.
-    public func updateWorkflow(_ input: UpdateMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMigrationWorkflowResponse> {
-        return self.client.execute(operation: "UpdateWorkflow", path: "/migrationworkflow/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateWorkflow(_ input: UpdateMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMigrationWorkflowResponse {
+        return try await self.client.execute(operation: "UpdateWorkflow", path: "/migrationworkflow/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update a step in a migration workflow.
-    public func updateWorkflowStep(_ input: UpdateWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWorkflowStepResponse> {
-        return self.client.execute(operation: "UpdateWorkflowStep", path: "/workflowstep/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateWorkflowStep(_ input: UpdateWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkflowStepResponse {
+        return try await self.client.execute(operation: "UpdateWorkflowStep", path: "/workflowstep/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update the step group in a migration workflow.
-    public func updateWorkflowStepGroup(_ input: UpdateWorkflowStepGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWorkflowStepGroupResponse> {
-        return self.client.execute(operation: "UpdateWorkflowStepGroup", path: "/workflowstepgroup/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateWorkflowStepGroup(_ input: UpdateWorkflowStepGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkflowStepGroupResponse {
+        return try await self.client.execute(operation: "UpdateWorkflowStepGroup", path: "/workflowstepgroup/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -215,375 +243,138 @@ extension MigrationHubOrchestrator {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MigrationHubOrchestrator {
     /// List AWS Migration Hub Orchestrator plugins.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPluginsPaginator<Result>(
-        _ input: ListPluginsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPluginsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPlugins,
-            inputKey: \ListPluginsRequest.nextToken,
-            outputKey: \ListPluginsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPluginsPaginator(
         _ input: ListPluginsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPluginsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPluginsRequest, ListPluginsResponse> {
+        return .init(
             input: input,
             command: self.listPlugins,
             inputKey: \ListPluginsRequest.nextToken,
             outputKey: \ListPluginsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List the step groups in a template.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTemplateStepGroupsPaginator<Result>(
-        _ input: ListTemplateStepGroupsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTemplateStepGroupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTemplateStepGroups,
-            inputKey: \ListTemplateStepGroupsRequest.nextToken,
-            outputKey: \ListTemplateStepGroupsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTemplateStepGroupsPaginator(
         _ input: ListTemplateStepGroupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTemplateStepGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTemplateStepGroupsRequest, ListTemplateStepGroupsResponse> {
+        return .init(
             input: input,
             command: self.listTemplateStepGroups,
             inputKey: \ListTemplateStepGroupsRequest.nextToken,
             outputKey: \ListTemplateStepGroupsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List the steps in a template.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTemplateStepsPaginator<Result>(
-        _ input: ListTemplateStepsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTemplateStepsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTemplateSteps,
-            inputKey: \ListTemplateStepsRequest.nextToken,
-            outputKey: \ListTemplateStepsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTemplateStepsPaginator(
         _ input: ListTemplateStepsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTemplateStepsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTemplateStepsRequest, ListTemplateStepsResponse> {
+        return .init(
             input: input,
             command: self.listTemplateSteps,
             inputKey: \ListTemplateStepsRequest.nextToken,
             outputKey: \ListTemplateStepsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List the templates available in Migration Hub Orchestrator to create a migration workflow.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTemplatesPaginator<Result>(
-        _ input: ListMigrationWorkflowTemplatesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListMigrationWorkflowTemplatesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTemplates,
-            inputKey: \ListMigrationWorkflowTemplatesRequest.nextToken,
-            outputKey: \ListMigrationWorkflowTemplatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTemplatesPaginator(
         _ input: ListMigrationWorkflowTemplatesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListMigrationWorkflowTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMigrationWorkflowTemplatesRequest, ListMigrationWorkflowTemplatesResponse> {
+        return .init(
             input: input,
             command: self.listTemplates,
             inputKey: \ListMigrationWorkflowTemplatesRequest.nextToken,
             outputKey: \ListMigrationWorkflowTemplatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List the step groups in a migration workflow.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listWorkflowStepGroupsPaginator<Result>(
-        _ input: ListWorkflowStepGroupsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListWorkflowStepGroupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listWorkflowStepGroups,
-            inputKey: \ListWorkflowStepGroupsRequest.nextToken,
-            outputKey: \ListWorkflowStepGroupsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listWorkflowStepGroupsPaginator(
         _ input: ListWorkflowStepGroupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListWorkflowStepGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWorkflowStepGroupsRequest, ListWorkflowStepGroupsResponse> {
+        return .init(
             input: input,
             command: self.listWorkflowStepGroups,
             inputKey: \ListWorkflowStepGroupsRequest.nextToken,
             outputKey: \ListWorkflowStepGroupsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List the steps in a workflow.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listWorkflowStepsPaginator<Result>(
-        _ input: ListWorkflowStepsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListWorkflowStepsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listWorkflowSteps,
-            inputKey: \ListWorkflowStepsRequest.nextToken,
-            outputKey: \ListWorkflowStepsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listWorkflowStepsPaginator(
         _ input: ListWorkflowStepsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListWorkflowStepsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWorkflowStepsRequest, ListWorkflowStepsResponse> {
+        return .init(
             input: input,
             command: self.listWorkflowSteps,
             inputKey: \ListWorkflowStepsRequest.nextToken,
             outputKey: \ListWorkflowStepsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List the migration workflows.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listWorkflowsPaginator<Result>(
-        _ input: ListMigrationWorkflowsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListMigrationWorkflowsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listWorkflows,
-            inputKey: \ListMigrationWorkflowsRequest.nextToken,
-            outputKey: \ListMigrationWorkflowsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listWorkflowsPaginator(
         _ input: ListMigrationWorkflowsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListMigrationWorkflowsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMigrationWorkflowsRequest, ListMigrationWorkflowsResponse> {
+        return .init(
             input: input,
             command: self.listWorkflows,
             inputKey: \ListMigrationWorkflowsRequest.nextToken,
             outputKey: \ListMigrationWorkflowsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

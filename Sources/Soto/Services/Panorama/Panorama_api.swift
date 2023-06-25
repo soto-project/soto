@@ -64,173 +64,207 @@ public struct Panorama: AWSService {
     // MARK: API Calls
 
     /// Creates an application instance and deploys it to a device.
-    public func createApplicationInstance(_ input: CreateApplicationInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateApplicationInstanceResponse> {
-        return self.client.execute(operation: "CreateApplicationInstance", path: "/application-instances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createApplicationInstance(_ input: CreateApplicationInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationInstanceResponse {
+        return try await self.client.execute(operation: "CreateApplicationInstance", path: "/application-instances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a job to run on a device. A job can update a device's software or reboot it.
-    public func createJobForDevices(_ input: CreateJobForDevicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateJobForDevicesResponse> {
-        return self.client.execute(operation: "CreateJobForDevices", path: "/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createJobForDevices(_ input: CreateJobForDevicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateJobForDevicesResponse {
+        return try await self.client.execute(operation: "CreateJobForDevices", path: "/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a camera stream node.
-    public func createNodeFromTemplateJob(_ input: CreateNodeFromTemplateJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNodeFromTemplateJobResponse> {
-        return self.client.execute(operation: "CreateNodeFromTemplateJob", path: "/packages/template-job", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createNodeFromTemplateJob(_ input: CreateNodeFromTemplateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNodeFromTemplateJobResponse {
+        return try await self.client.execute(operation: "CreateNodeFromTemplateJob", path: "/packages/template-job", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a package and storage location in an Amazon S3 access point.
-    public func createPackage(_ input: CreatePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePackageResponse> {
-        return self.client.execute(operation: "CreatePackage", path: "/packages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createPackage(_ input: CreatePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePackageResponse {
+        return try await self.client.execute(operation: "CreatePackage", path: "/packages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Imports a node package.
-    public func createPackageImportJob(_ input: CreatePackageImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePackageImportJobResponse> {
-        return self.client.execute(operation: "CreatePackageImportJob", path: "/packages/import-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createPackageImportJob(_ input: CreatePackageImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePackageImportJobResponse {
+        return try await self.client.execute(operation: "CreatePackageImportJob", path: "/packages/import-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a device.
-    public func deleteDevice(_ input: DeleteDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDeviceResponse> {
-        return self.client.execute(operation: "DeleteDevice", path: "/devices/{DeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDevice(_ input: DeleteDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDeviceResponse {
+        return try await self.client.execute(operation: "DeleteDevice", path: "/devices/{DeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a package.  To delete a package, you need permission to call s3:DeleteObject in addition to permissions for the AWS Panorama API.
-    public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePackageResponse> {
-        return self.client.execute(operation: "DeletePackage", path: "/packages/{PackageId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePackageResponse {
+        return try await self.client.execute(operation: "DeletePackage", path: "/packages/{PackageId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deregisters a package version.
-    public func deregisterPackageVersion(_ input: DeregisterPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterPackageVersionResponse> {
-        return self.client.execute(operation: "DeregisterPackageVersion", path: "/packages/{PackageId}/versions/{PackageVersion}/patch/{PatchVersion}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deregisterPackageVersion(_ input: DeregisterPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterPackageVersionResponse {
+        return try await self.client.execute(operation: "DeregisterPackageVersion", path: "/packages/{PackageId}/versions/{PackageVersion}/patch/{PatchVersion}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about an application instance on a device.
-    public func describeApplicationInstance(_ input: DescribeApplicationInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeApplicationInstanceResponse> {
-        return self.client.execute(operation: "DescribeApplicationInstance", path: "/application-instances/{ApplicationInstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeApplicationInstance(_ input: DescribeApplicationInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationInstanceResponse {
+        return try await self.client.execute(operation: "DescribeApplicationInstance", path: "/application-instances/{ApplicationInstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about an application instance's configuration manifest.
-    public func describeApplicationInstanceDetails(_ input: DescribeApplicationInstanceDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeApplicationInstanceDetailsResponse> {
-        return self.client.execute(operation: "DescribeApplicationInstanceDetails", path: "/application-instances/{ApplicationInstanceId}/details", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeApplicationInstanceDetails(_ input: DescribeApplicationInstanceDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationInstanceDetailsResponse {
+        return try await self.client.execute(operation: "DescribeApplicationInstanceDetails", path: "/application-instances/{ApplicationInstanceId}/details", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a device.
-    public func describeDevice(_ input: DescribeDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDeviceResponse> {
-        return self.client.execute(operation: "DescribeDevice", path: "/devices/{DeviceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDevice(_ input: DescribeDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDeviceResponse {
+        return try await self.client.execute(operation: "DescribeDevice", path: "/devices/{DeviceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a device job.
-    public func describeDeviceJob(_ input: DescribeDeviceJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDeviceJobResponse> {
-        return self.client.execute(operation: "DescribeDeviceJob", path: "/jobs/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDeviceJob(_ input: DescribeDeviceJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDeviceJobResponse {
+        return try await self.client.execute(operation: "DescribeDeviceJob", path: "/jobs/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a node.
-    public func describeNode(_ input: DescribeNodeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNodeResponse> {
-        return self.client.execute(operation: "DescribeNode", path: "/nodes/{NodeId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeNode(_ input: DescribeNodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNodeResponse {
+        return try await self.client.execute(operation: "DescribeNode", path: "/nodes/{NodeId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a job to create a camera stream node.
-    public func describeNodeFromTemplateJob(_ input: DescribeNodeFromTemplateJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNodeFromTemplateJobResponse> {
-        return self.client.execute(operation: "DescribeNodeFromTemplateJob", path: "/packages/template-job/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeNodeFromTemplateJob(_ input: DescribeNodeFromTemplateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNodeFromTemplateJobResponse {
+        return try await self.client.execute(operation: "DescribeNodeFromTemplateJob", path: "/packages/template-job/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a package.
-    public func describePackage(_ input: DescribePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePackageResponse> {
-        return self.client.execute(operation: "DescribePackage", path: "/packages/metadata/{PackageId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describePackage(_ input: DescribePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePackageResponse {
+        return try await self.client.execute(operation: "DescribePackage", path: "/packages/metadata/{PackageId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a package import job.
-    public func describePackageImportJob(_ input: DescribePackageImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePackageImportJobResponse> {
-        return self.client.execute(operation: "DescribePackageImportJob", path: "/packages/import-jobs/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describePackageImportJob(_ input: DescribePackageImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePackageImportJobResponse {
+        return try await self.client.execute(operation: "DescribePackageImportJob", path: "/packages/import-jobs/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a package version.
-    public func describePackageVersion(_ input: DescribePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePackageVersionResponse> {
-        return self.client.execute(operation: "DescribePackageVersion", path: "/packages/metadata/{PackageId}/versions/{PackageVersion}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describePackageVersion(_ input: DescribePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePackageVersionResponse {
+        return try await self.client.execute(operation: "DescribePackageVersion", path: "/packages/metadata/{PackageId}/versions/{PackageVersion}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of application instance dependencies.
-    public func listApplicationInstanceDependencies(_ input: ListApplicationInstanceDependenciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationInstanceDependenciesResponse> {
-        return self.client.execute(operation: "ListApplicationInstanceDependencies", path: "/application-instances/{ApplicationInstanceId}/package-dependencies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listApplicationInstanceDependencies(_ input: ListApplicationInstanceDependenciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationInstanceDependenciesResponse {
+        return try await self.client.execute(operation: "ListApplicationInstanceDependencies", path: "/application-instances/{ApplicationInstanceId}/package-dependencies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of application node instances.
-    public func listApplicationInstanceNodeInstances(_ input: ListApplicationInstanceNodeInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationInstanceNodeInstancesResponse> {
-        return self.client.execute(operation: "ListApplicationInstanceNodeInstances", path: "/application-instances/{ApplicationInstanceId}/node-instances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listApplicationInstanceNodeInstances(_ input: ListApplicationInstanceNodeInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationInstanceNodeInstancesResponse {
+        return try await self.client.execute(operation: "ListApplicationInstanceNodeInstances", path: "/application-instances/{ApplicationInstanceId}/node-instances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of application instances.
-    public func listApplicationInstances(_ input: ListApplicationInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationInstancesResponse> {
-        return self.client.execute(operation: "ListApplicationInstances", path: "/application-instances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listApplicationInstances(_ input: ListApplicationInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationInstancesResponse {
+        return try await self.client.execute(operation: "ListApplicationInstances", path: "/application-instances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of devices.
-    public func listDevices(_ input: ListDevicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDevicesResponse> {
-        return self.client.execute(operation: "ListDevices", path: "/devices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDevices(_ input: ListDevicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDevicesResponse {
+        return try await self.client.execute(operation: "ListDevices", path: "/devices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of jobs.
-    public func listDevicesJobs(_ input: ListDevicesJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDevicesJobsResponse> {
-        return self.client.execute(operation: "ListDevicesJobs", path: "/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDevicesJobs(_ input: ListDevicesJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDevicesJobsResponse {
+        return try await self.client.execute(operation: "ListDevicesJobs", path: "/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of camera stream node jobs.
-    public func listNodeFromTemplateJobs(_ input: ListNodeFromTemplateJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNodeFromTemplateJobsResponse> {
-        return self.client.execute(operation: "ListNodeFromTemplateJobs", path: "/packages/template-job", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listNodeFromTemplateJobs(_ input: ListNodeFromTemplateJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNodeFromTemplateJobsResponse {
+        return try await self.client.execute(operation: "ListNodeFromTemplateJobs", path: "/packages/template-job", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of nodes.
-    public func listNodes(_ input: ListNodesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNodesResponse> {
-        return self.client.execute(operation: "ListNodes", path: "/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listNodes(_ input: ListNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNodesResponse {
+        return try await self.client.execute(operation: "ListNodes", path: "/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of package import jobs.
-    public func listPackageImportJobs(_ input: ListPackageImportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackageImportJobsResponse> {
-        return self.client.execute(operation: "ListPackageImportJobs", path: "/packages/import-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPackageImportJobs(_ input: ListPackageImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackageImportJobsResponse {
+        return try await self.client.execute(operation: "ListPackageImportJobs", path: "/packages/import-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of packages.
-    public func listPackages(_ input: ListPackagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackagesResponse> {
-        return self.client.execute(operation: "ListPackages", path: "/packages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPackages(_ input: ListPackagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackagesResponse {
+        return try await self.client.execute(operation: "ListPackages", path: "/packages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of tags for a resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a device and returns a configuration archive. The configuration archive is a ZIP file that contains a provisioning certificate that is valid for 5 minutes. Name the configuration archive certificates-omni_device-name.zip and transfer it to the device within 5 minutes. Use the included USB storage device and connect it to the USB 3.0 port next to the HDMI output.
-    public func provisionDevice(_ input: ProvisionDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ProvisionDeviceResponse> {
-        return self.client.execute(operation: "ProvisionDevice", path: "/devices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func provisionDevice(_ input: ProvisionDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProvisionDeviceResponse {
+        return try await self.client.execute(operation: "ProvisionDevice", path: "/devices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Registers a package version.
-    public func registerPackageVersion(_ input: RegisterPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterPackageVersionResponse> {
-        return self.client.execute(operation: "RegisterPackageVersion", path: "/packages/{PackageId}/versions/{PackageVersion}/patch/{PatchVersion}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func registerPackageVersion(_ input: RegisterPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterPackageVersionResponse {
+        return try await self.client.execute(operation: "RegisterPackageVersion", path: "/packages/{PackageId}/versions/{PackageVersion}/patch/{PatchVersion}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes an application instance.
-    public func removeApplicationInstance(_ input: RemoveApplicationInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveApplicationInstanceResponse> {
-        return self.client.execute(operation: "RemoveApplicationInstance", path: "/application-instances/{ApplicationInstanceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func removeApplicationInstance(_ input: RemoveApplicationInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveApplicationInstanceResponse {
+        return try await self.client.execute(operation: "RemoveApplicationInstance", path: "/application-instances/{ApplicationInstanceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Signal camera nodes to stop or resume.
-    public func signalApplicationInstanceNodeInstances(_ input: SignalApplicationInstanceNodeInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SignalApplicationInstanceNodeInstancesResponse> {
-        return self.client.execute(operation: "SignalApplicationInstanceNodeInstances", path: "/application-instances/{ApplicationInstanceId}/node-signals", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func signalApplicationInstanceNodeInstances(_ input: SignalApplicationInstanceNodeInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SignalApplicationInstanceNodeInstancesResponse {
+        return try await self.client.execute(operation: "SignalApplicationInstanceNodeInstances", path: "/application-instances/{ApplicationInstanceId}/node-signals", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Tags a resource.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a device's metadata.
-    public func updateDeviceMetadata(_ input: UpdateDeviceMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDeviceMetadataResponse> {
-        return self.client.execute(operation: "UpdateDeviceMetadata", path: "/devices/{DeviceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDeviceMetadata(_ input: UpdateDeviceMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDeviceMetadataResponse {
+        return try await self.client.execute(operation: "UpdateDeviceMetadata", path: "/devices/{DeviceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -245,481 +279,176 @@ extension Panorama {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Panorama {
     /// Returns a list of application instance dependencies.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listApplicationInstanceDependenciesPaginator<Result>(
-        _ input: ListApplicationInstanceDependenciesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListApplicationInstanceDependenciesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listApplicationInstanceDependencies,
-            inputKey: \ListApplicationInstanceDependenciesRequest.nextToken,
-            outputKey: \ListApplicationInstanceDependenciesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listApplicationInstanceDependenciesPaginator(
         _ input: ListApplicationInstanceDependenciesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListApplicationInstanceDependenciesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApplicationInstanceDependenciesRequest, ListApplicationInstanceDependenciesResponse> {
+        return .init(
             input: input,
             command: self.listApplicationInstanceDependencies,
             inputKey: \ListApplicationInstanceDependenciesRequest.nextToken,
             outputKey: \ListApplicationInstanceDependenciesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of application node instances.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listApplicationInstanceNodeInstancesPaginator<Result>(
-        _ input: ListApplicationInstanceNodeInstancesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListApplicationInstanceNodeInstancesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listApplicationInstanceNodeInstances,
-            inputKey: \ListApplicationInstanceNodeInstancesRequest.nextToken,
-            outputKey: \ListApplicationInstanceNodeInstancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listApplicationInstanceNodeInstancesPaginator(
         _ input: ListApplicationInstanceNodeInstancesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListApplicationInstanceNodeInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApplicationInstanceNodeInstancesRequest, ListApplicationInstanceNodeInstancesResponse> {
+        return .init(
             input: input,
             command: self.listApplicationInstanceNodeInstances,
             inputKey: \ListApplicationInstanceNodeInstancesRequest.nextToken,
             outputKey: \ListApplicationInstanceNodeInstancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of application instances.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listApplicationInstancesPaginator<Result>(
-        _ input: ListApplicationInstancesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListApplicationInstancesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listApplicationInstances,
-            inputKey: \ListApplicationInstancesRequest.nextToken,
-            outputKey: \ListApplicationInstancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listApplicationInstancesPaginator(
         _ input: ListApplicationInstancesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListApplicationInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApplicationInstancesRequest, ListApplicationInstancesResponse> {
+        return .init(
             input: input,
             command: self.listApplicationInstances,
             inputKey: \ListApplicationInstancesRequest.nextToken,
             outputKey: \ListApplicationInstancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of devices.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDevicesPaginator<Result>(
-        _ input: ListDevicesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDevicesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDevices,
-            inputKey: \ListDevicesRequest.nextToken,
-            outputKey: \ListDevicesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDevicesPaginator(
         _ input: ListDevicesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDevicesRequest, ListDevicesResponse> {
+        return .init(
             input: input,
             command: self.listDevices,
             inputKey: \ListDevicesRequest.nextToken,
             outputKey: \ListDevicesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of jobs.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDevicesJobsPaginator<Result>(
-        _ input: ListDevicesJobsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDevicesJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDevicesJobs,
-            inputKey: \ListDevicesJobsRequest.nextToken,
-            outputKey: \ListDevicesJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDevicesJobsPaginator(
         _ input: ListDevicesJobsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDevicesJobsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDevicesJobsRequest, ListDevicesJobsResponse> {
+        return .init(
             input: input,
             command: self.listDevicesJobs,
             inputKey: \ListDevicesJobsRequest.nextToken,
             outputKey: \ListDevicesJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of camera stream node jobs.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listNodeFromTemplateJobsPaginator<Result>(
-        _ input: ListNodeFromTemplateJobsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListNodeFromTemplateJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listNodeFromTemplateJobs,
-            inputKey: \ListNodeFromTemplateJobsRequest.nextToken,
-            outputKey: \ListNodeFromTemplateJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listNodeFromTemplateJobsPaginator(
         _ input: ListNodeFromTemplateJobsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListNodeFromTemplateJobsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNodeFromTemplateJobsRequest, ListNodeFromTemplateJobsResponse> {
+        return .init(
             input: input,
             command: self.listNodeFromTemplateJobs,
             inputKey: \ListNodeFromTemplateJobsRequest.nextToken,
             outputKey: \ListNodeFromTemplateJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of nodes.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listNodesPaginator<Result>(
-        _ input: ListNodesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListNodesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listNodes,
-            inputKey: \ListNodesRequest.nextToken,
-            outputKey: \ListNodesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listNodesPaginator(
         _ input: ListNodesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListNodesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNodesRequest, ListNodesResponse> {
+        return .init(
             input: input,
             command: self.listNodes,
             inputKey: \ListNodesRequest.nextToken,
             outputKey: \ListNodesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of package import jobs.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPackageImportJobsPaginator<Result>(
-        _ input: ListPackageImportJobsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPackageImportJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPackageImportJobs,
-            inputKey: \ListPackageImportJobsRequest.nextToken,
-            outputKey: \ListPackageImportJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPackageImportJobsPaginator(
         _ input: ListPackageImportJobsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPackageImportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPackageImportJobsRequest, ListPackageImportJobsResponse> {
+        return .init(
             input: input,
             command: self.listPackageImportJobs,
             inputKey: \ListPackageImportJobsRequest.nextToken,
             outputKey: \ListPackageImportJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of packages.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPackagesPaginator<Result>(
-        _ input: ListPackagesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPackagesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPackages,
-            inputKey: \ListPackagesRequest.nextToken,
-            outputKey: \ListPackagesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPackagesPaginator(
         _ input: ListPackagesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPackagesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPackagesRequest, ListPackagesResponse> {
+        return .init(
             input: input,
             command: self.listPackages,
             inputKey: \ListPackagesRequest.nextToken,
             outputKey: \ListPackagesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

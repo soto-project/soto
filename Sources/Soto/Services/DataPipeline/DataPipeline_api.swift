@@ -82,13 +82,15 @@ public struct DataPipeline: AWSService {
     /// Content-Length: 2
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {}
-    public func activatePipeline(_ input: ActivatePipelineInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ActivatePipelineOutput> {
-        return self.client.execute(operation: "ActivatePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func activatePipeline(_ input: ActivatePipelineInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivatePipelineOutput {
+        return try await self.client.execute(operation: "ActivatePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds or modifies tags for the specified pipeline.
-    public func addTags(_ input: AddTagsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddTagsOutput> {
-        return self.client.execute(operation: "AddTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func addTags(_ input: AddTagsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddTagsOutput {
+        return try await self.client.execute(operation: "AddTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new, empty pipeline. Use PutPipelineDefinition to populate the pipeline.
@@ -106,13 +108,15 @@ public struct DataPipeline: AWSService {
     /// Content-Length: 40
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {"pipelineId": "df-06372391ZG65EXAMPLE"}
-    public func createPipeline(_ input: CreatePipelineInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePipelineOutput> {
-        return self.client.execute(operation: "CreatePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createPipeline(_ input: CreatePipelineInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePipelineOutput {
+        return try await self.client.execute(operation: "CreatePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deactivates the specified running pipeline. The pipeline is set to the DEACTIVATING state until the deactivation process completes. To resume a deactivated pipeline, use ActivatePipeline. By default, the pipeline resumes from the last completed execution. Optionally, you can specify the date and time to resume the pipeline.
-    public func deactivatePipeline(_ input: DeactivatePipelineInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeactivatePipelineOutput> {
-        return self.client.execute(operation: "DeactivatePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deactivatePipeline(_ input: DeactivatePipelineInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeactivatePipelineOutput {
+        return try await self.client.execute(operation: "DeactivatePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a pipeline, its pipeline definition, and its run history.   AWS Data Pipeline attempts to cancel instances associated with the pipeline that are currently being processed by task runners. Deleting a pipeline cannot be undone. You cannot query or restore a deleted pipeline.  To temporarily pause a pipeline instead of deleting it, call SetStatus with the status set to PAUSE on individual components.  Components that are paused by SetStatus can be resumed.
@@ -131,8 +135,9 @@ public struct DataPipeline: AWSService {
     /// Content-Length: 0
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// Unexpected response: 200, OK, undefined
-    @discardableResult public func deletePipeline(_ input: DeletePipelineInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeletePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deletePipeline(_ input: DeletePipelineInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeletePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the object definitions for a set of objects associated with the pipeline. Object definitions are composed of  a set of fields that define the properties of the object.
@@ -151,8 +156,9 @@ public struct DataPipeline: AWSService {
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {"hasMoreResults": false,  "pipelineObjects":  [ {"fields":  [ {"key": "startDateTime",  "stringValue": "2012-12-12T00:00:00"},  {"key": "parent",  "refValue": "Default"},  {"key": "@sphere",  "stringValue": "COMPONENT"},  {"key": "type",  "stringValue": "Schedule"},  {"key": "period",  "stringValue": "1 hour"},  {"key": "endDateTime",  "stringValue": "2012-12-21T18:00:00"},  {"key": "@version",  "stringValue": "1"},  {"key": "@status",  "stringValue": "PENDING"},  {"key": "@pipelineId",  "stringValue": "df-06372391ZG65EXAMPLE"} ],  "id": "Schedule",  "name": "Schedule"} ]
     /// }
-    public func describeObjects(_ input: DescribeObjectsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeObjectsOutput> {
-        return self.client.execute(operation: "DescribeObjects", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeObjects(_ input: DescribeObjectsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeObjectsOutput {
+        return try await self.client.execute(operation: "DescribeObjects", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves metadata about one or more pipelines. The information retrieved includes the name of the pipeline, the pipeline identifier,  its current state, and the user account that owns the pipeline. Using account credentials, you can retrieve metadata about pipelines  that you or your IAM users have created. If you are using an IAM user account, you can retrieve metadata about only those pipelines  for which you have read permissions. To retrieve the full pipeline definition instead of metadata about the pipeline, call GetPipelineDefinition.
@@ -175,8 +181,9 @@ public struct DataPipeline: AWSService {
     /// {"pipelineDescriptionList":  [ {"description": "This is my first pipeline",  "fields":  [ {"key": "@pipelineState",  "stringValue": "SCHEDULED"},  {"key": "description",  "stringValue": "This is my first pipeline"},  {"key": "name",  "stringValue": "myPipeline"},  {"key": "@creationTime",  "stringValue": "2012-12-13T01:24:06"},  {"key": "@id",  "stringValue": "df-0937003356ZJEXAMPLE"},  {"key": "@sphere",  "stringValue": "PIPELINE"},  {"key": "@version",  "stringValue": "1"},  {"key": "@userId",  "stringValue": "924374875933"},  {"key": "@accountId",  "stringValue": "924374875933"},  {"key": "uniqueId",  "stringValue": "1234567890"} ],  "name": "myPipeline",  "pipelineId": "df-0937003356ZJEXAMPLE"} ]
     /// }
     ///
-    public func describePipelines(_ input: DescribePipelinesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePipelinesOutput> {
-        return self.client.execute(operation: "DescribePipelines", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describePipelines(_ input: DescribePipelinesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePipelinesOutput {
+        return try await self.client.execute(operation: "DescribePipelines", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Task runners call EvaluateExpression to evaluate a string in the context of the specified object.  For example, a task runner can evaluate SQL queries stored in Amazon S3.
@@ -195,8 +202,9 @@ public struct DataPipeline: AWSService {
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {"evaluatedExpression": "Transform started at 2012-12-12T00:00:00 and finished at 2012-12-21T18:00:00"}
     ///
-    public func evaluateExpression(_ input: EvaluateExpressionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EvaluateExpressionOutput> {
-        return self.client.execute(operation: "EvaluateExpression", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func evaluateExpression(_ input: EvaluateExpressionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> EvaluateExpressionOutput {
+        return try await self.client.execute(operation: "EvaluateExpression", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the definition of the specified pipeline. You can call GetPipelineDefinition to retrieve  the pipeline definition that you provided using PutPipelineDefinition.
@@ -217,8 +225,9 @@ public struct DataPipeline: AWSService {
     /// {"pipelineObjects":  [ {"fields":  [ {"key": "workerGroup",  "stringValue": "workerGroup"} ],  "id": "Default",  "name": "Default"},  {"fields":  [ {"key": "startDateTime",  "stringValue": "2012-09-25T17:00:00"},  {"key": "type",  "stringValue": "Schedule"},  {"key": "period",  "stringValue": "1 hour"},  {"key": "endDateTime",  "stringValue": "2012-09-25T18:00:00"} ],  "id": "Schedule",  "name": "Schedule"},  {"fields":  [ {"key": "schedule",  "refValue": "Schedule"},  {"key": "command",  "stringValue": "echo hello"},  {"key": "parent",  "refValue": "Default"},  {"key": "type",  "stringValue": "ShellCommandActivity"} ],  "id": "SayHello",  "name": "SayHello"} ]
     /// }
     ///
-    public func getPipelineDefinition(_ input: GetPipelineDefinitionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPipelineDefinitionOutput> {
-        return self.client.execute(operation: "GetPipelineDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPipelineDefinition(_ input: GetPipelineDefinitionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPipelineDefinitionOutput {
+        return try await self.client.execute(operation: "GetPipelineDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the pipeline identifiers for all active pipelines that you have permission to access.
@@ -237,8 +246,9 @@ public struct DataPipeline: AWSService {
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {"PipelineIdList":  [ {"id": "df-08785951KAKJEXAMPLE", "name": "MyPipeline"},  {"id": "df-08662578ISYEXAMPLE",  "name": "MySecondPipeline"} ]
     /// }
-    public func listPipelines(_ input: ListPipelinesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPipelinesOutput> {
-        return self.client.execute(operation: "ListPipelines", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPipelines(_ input: ListPipelinesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPipelinesOutput {
+        return try await self.client.execute(operation: "ListPipelines", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Task runners call PollForTask to receive a task to perform from AWS Data Pipeline. The task runner specifies which tasks it can perform  by setting a value for the workerGroup parameter. The task returned can come from any of the pipelines that  match the workerGroup value passed in by the task runner and that was launched using the IAM user credentials  specified by the task runner. If tasks are ready in the work queue, PollForTask returns a response immediately. If no tasks are available in the queue,  PollForTask uses long-polling and holds on to a poll connection for up to a 90 seconds, during which time the first newly  scheduled task is handed to the task runner. To accomodate this, set the socket timeout in your task runner to 90 seconds. The task  runner should not call PollForTask again on the same workerGroup until it receives a response, and this can take up to 90 seconds.
@@ -258,8 +268,9 @@ public struct DataPipeline: AWSService {
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {"taskObject":  {"attemptId": "@SayHello_2012-12-12T00:00:00_Attempt=1",  "objects":  {"@SayHello_2012-12-12T00:00:00_Attempt=1":  {"fields":  [ {"key": "@componentParent",  "refValue": "SayHello"},  {"key": "@scheduledStartTime",  "stringValue": "2012-12-12T00:00:00"},  {"key": "parent",  "refValue": "SayHello"},  {"key": "@sphere",  "stringValue": "ATTEMPT"},  {"key": "workerGroup",  "stringValue": "workerGroup"},  {"key": "@instanceParent",  "refValue": "@SayHello_2012-12-12T00:00:00"},  {"key": "type",  "stringValue": "ShellCommandActivity"},  {"key": "@status",  "stringValue": "WAITING_FOR_RUNNER"},  {"key": "@version",  "stringValue": "1"},  {"key": "schedule",  "refValue": "Schedule"},  {"key": "@actualStartTime",  "stringValue": "2012-12-13T01:40:50"},  {"key": "command",  "stringValue": "echo hello"},  {"key": "@scheduledEndTime",  "stringValue": "2012-12-12T01:00:00"},  {"key": "@activeInstances",  "refValue": "@SayHello_2012-12-12T00:00:00"},  {"key": "@pipelineId",  "stringValue": "df-0937003356ZJEXAMPLE"} ],  "id": "@SayHello_2012-12-12T00:00:00_Attempt=1",  "name": "@SayHello_2012-12-12T00:00:00_Attempt=1"} },  "pipelineId": "df-0937003356ZJEXAMPLE",  "taskId": "2xaM4wRs5zOsIH+g9U3oVHfAgAlbSqU6XduncB0HhZ3xMnmvfePZPn4dIbYXHyWyRK+cU15MqDHwdrvftx/4wv+sNS4w34vJfv7QA9aOoOazW28l1GYSb2ZRR0N0paiQp+d1MhSKo10hOTWOsVK5S5Lnx9Qm6omFgXHyIvZRIvTlrQMpr1xuUrflyGOfbFOGpOLpvPE172MYdqpZKnbSS4TcuqgQKSWV2833fEubI57DPOP7ghWa2TcYeSIv4pdLYG53fTuwfbnbdc98g2LNUQzSVhSnt7BoqyNwht2aQ6b/UHg9A80+KVpuXuqmz3m1MXwHFgxjdmuesXNOrrlGpeLCcRWD+aGo0RN1NqhQRzNAig8V4GlaPTQzMsRCljKqvrIyAoP3Tt2XEGsHkkQo12rEX8Z90957XX2qKRwhruwYzqGkSLWjINoLdAxUJdpRXRc5DJTrBd3D5mdzn7kY1l7NEh4kFHJDt3Cx4Z3Mk8MYCACyCk/CEyy9DwuPi66cLz0NBcgbCM5LKjTBOwo1m+am+pvM1kSposE9FPP1+RFGb8k6jQBTJx3TRz1yKilnGXQTZ5xvdOFpJrklIT0OXP1MG3+auM9FlJA+1dX90QoNJE5z7axmK//MOGXUdkqFe2kiDkorqjxwDvc0Js9pVKfKvAmW8YqUbmI9l0ERpWCXXnLVHNmPWz3jaPY+OBAmuJWDmxB/Z8p94aEDg4BVXQ7LvsKQ3DLYhaB7yJ390CJT+i0mm+EBqY60V6YikPSWDFrYQ/NPi2b1DgE19mX8zHqw8qprIl4yh1Ckx2Iige4En/N5ktOoIxnASxAw/TzcE2skxdw5KlHDF+UTj71m16CR/dIaKlXijlfNlNzUBo/bNSadCQn3G5NoO501wPKI:XO50TgDNyo8EXAMPLE/g==:1"}
     /// }
-    public func pollForTask(_ input: PollForTaskInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PollForTaskOutput> {
-        return self.client.execute(operation: "PollForTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func pollForTask(_ input: PollForTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PollForTaskOutput {
+        return try await self.client.execute(operation: "PollForTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds tasks, schedules, and preconditions to the specified pipeline. You can use PutPipelineDefinition to populate a new pipeline.  PutPipelineDefinition also validates the configuration as it adds it to the pipeline. Changes to the pipeline are saved unless one  of the following three validation errors exists in the pipeline.   An object is missing a name or identifier field. A string or reference field is empty. The number of objects in the pipeline exceeds the maximum allowed objects. The pipeline is in a FINISHED state.   Pipeline object definitions are passed to the PutPipelineDefinition action and returned by the GetPipelineDefinition action.     Example 1  This example sets an valid pipeline configuration and returns success.
@@ -295,8 +306,9 @@ public struct DataPipeline: AWSService {
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {"__type": "com.amazon.setl.webservice#InvalidRequestException",  "message": "Pipeline definition has errors: Could not save the pipeline definition due to FATAL errors: [com.amazon.setl.webservice.ValidationError@108d7ea9] Please call Validate to validate your pipeline"}
     ///
-    public func putPipelineDefinition(_ input: PutPipelineDefinitionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutPipelineDefinitionOutput> {
-        return self.client.execute(operation: "PutPipelineDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putPipelineDefinition(_ input: PutPipelineDefinitionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPipelineDefinitionOutput {
+        return try await self.client.execute(operation: "PutPipelineDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Queries the specified pipeline for the names of objects that match the specified set of conditions.
@@ -315,13 +327,15 @@ public struct DataPipeline: AWSService {
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {"hasMoreResults": false,  "ids":  ["@SayHello_1_2012-09-25T17:00:00"]
     /// }
-    public func queryObjects(_ input: QueryObjectsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<QueryObjectsOutput> {
-        return self.client.execute(operation: "QueryObjects", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func queryObjects(_ input: QueryObjectsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> QueryObjectsOutput {
+        return try await self.client.execute(operation: "QueryObjects", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes existing tags from the specified pipeline.
-    public func removeTags(_ input: RemoveTagsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveTagsOutput> {
-        return self.client.execute(operation: "RemoveTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func removeTags(_ input: RemoveTagsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveTagsOutput {
+        return try await self.client.execute(operation: "RemoveTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Task runners call ReportTaskProgress when assigned a task to acknowledge that it has the task. If the web service does not  receive this acknowledgement within 2 minutes, it assigns the task in a subsequent PollForTask call. After this initial acknowledgement,  the task runner only needs to report progress every 15 minutes to maintain its ownership of the task. You can change this reporting time  from 15 minutes by specifying a reportProgressTimeout field in your pipeline. If a task runner does not report its status after 5 minutes, AWS Data Pipeline assumes that the task runner is unable to process the task  and reassigns the task in a subsequent response to PollForTask. Task runners should call ReportTaskProgress every 60 seconds.
@@ -341,8 +355,9 @@ public struct DataPipeline: AWSService {
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {"canceled": false}
     ///
-    public func reportTaskProgress(_ input: ReportTaskProgressInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ReportTaskProgressOutput> {
-        return self.client.execute(operation: "ReportTaskProgress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func reportTaskProgress(_ input: ReportTaskProgressInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ReportTaskProgressOutput {
+        return try await self.client.execute(operation: "ReportTaskProgress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Task runners call ReportTaskRunnerHeartbeat every 15 minutes to indicate that they are operational.  If the AWS Data Pipeline Task Runner is launched on a resource managed by AWS Data Pipeline, the web service can use  this call to detect when the task runner application has failed and restart a new instance.
@@ -361,8 +376,9 @@ public struct DataPipeline: AWSService {
     /// Content-Length: 20
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {"terminate": false}
-    public func reportTaskRunnerHeartbeat(_ input: ReportTaskRunnerHeartbeatInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ReportTaskRunnerHeartbeatOutput> {
-        return self.client.execute(operation: "ReportTaskRunnerHeartbeat", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func reportTaskRunnerHeartbeat(_ input: ReportTaskRunnerHeartbeatInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ReportTaskRunnerHeartbeatOutput {
+        return try await self.client.execute(operation: "ReportTaskRunnerHeartbeat", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Requests that the status of the specified physical or logical pipeline objects be updated in the specified pipeline.  This update might not occur immediately, but is eventually consistent. The status that can be set depends on the type of object (for example, DataNode or Activity).  You cannot perform this operation on FINISHED pipelines and attempting to do so returns InvalidRequestException.
@@ -380,8 +396,9 @@ public struct DataPipeline: AWSService {
     /// Content-Length: 0
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// Unexpected response: 200, OK, undefined
-    @discardableResult public func setStatus(_ input: SetStatusInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "SetStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func setStatus(_ input: SetStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "SetStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Task runners call SetTaskStatus to notify AWS Data Pipeline that a task is completed and provide information about the final status.  A task runner makes this call regardless of whether the task was sucessful. A task runner does not need to call SetTaskStatus for  tasks that are canceled by the web service during a call to ReportTaskProgress.
@@ -398,8 +415,9 @@ public struct DataPipeline: AWSService {
     /// Content-Length: 0
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {}
-    public func setTaskStatus(_ input: SetTaskStatusInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SetTaskStatusOutput> {
-        return self.client.execute(operation: "SetTaskStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func setTaskStatus(_ input: SetTaskStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SetTaskStatusOutput {
+        return try await self.client.execute(operation: "SetTaskStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Validates the specified pipeline definition to ensure that it is well formed and can be run without error.
@@ -433,8 +451,9 @@ public struct DataPipeline: AWSService {
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {"errored": true,  "validationErrors":  [ {"errors":  ["INVALID_FIELD_VALUE:  'startDateTime' value must be a literal datetime value."],  "id": "Schedule"} ]
     /// }
-    public func validatePipelineDefinition(_ input: ValidatePipelineDefinitionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ValidatePipelineDefinitionOutput> {
-        return self.client.execute(operation: "ValidatePipelineDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func validatePipelineDefinition(_ input: ValidatePipelineDefinitionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ValidatePipelineDefinitionOutput {
+        return try await self.client.execute(operation: "ValidatePipelineDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -449,6 +468,7 @@ extension DataPipeline {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DataPipeline {
     /// Gets the object definitions for a set of objects associated with the pipeline. Object definitions are composed of  a set of fields that define the properties of the object.
     /// POST / HTTP/1.1
@@ -466,55 +486,21 @@ extension DataPipeline {
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {"hasMoreResults": false,  "pipelineObjects":  [ {"fields":  [ {"key": "startDateTime",  "stringValue": "2012-12-12T00:00:00"},  {"key": "parent",  "refValue": "Default"},  {"key": "@sphere",  "stringValue": "COMPONENT"},  {"key": "type",  "stringValue": "Schedule"},  {"key": "period",  "stringValue": "1 hour"},  {"key": "endDateTime",  "stringValue": "2012-12-21T18:00:00"},  {"key": "@version",  "stringValue": "1"},  {"key": "@status",  "stringValue": "PENDING"},  {"key": "@pipelineId",  "stringValue": "df-06372391ZG65EXAMPLE"} ],  "id": "Schedule",  "name": "Schedule"} ]
     /// }
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeObjectsPaginator<Result>(
-        _ input: DescribeObjectsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeObjectsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeObjects,
-            inputKey: \DescribeObjectsInput.marker,
-            outputKey: \DescribeObjectsOutput.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeObjectsPaginator(
         _ input: DescribeObjectsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeObjectsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeObjectsInput, DescribeObjectsOutput> {
+        return .init(
             input: input,
             command: self.describeObjects,
             inputKey: \DescribeObjectsInput.marker,
             outputKey: \DescribeObjectsOutput.marker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -534,55 +520,21 @@ extension DataPipeline {
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {"PipelineIdList":  [ {"id": "df-08785951KAKJEXAMPLE", "name": "MyPipeline"},  {"id": "df-08662578ISYEXAMPLE",  "name": "MySecondPipeline"} ]
     /// }
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPipelinesPaginator<Result>(
-        _ input: ListPipelinesInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPipelinesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPipelines,
-            inputKey: \ListPipelinesInput.marker,
-            outputKey: \ListPipelinesOutput.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPipelinesPaginator(
         _ input: ListPipelinesInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPipelinesOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput> {
+        return .init(
             input: input,
             command: self.listPipelines,
             inputKey: \ListPipelinesInput.marker,
             outputKey: \ListPipelinesOutput.marker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -602,55 +554,21 @@ extension DataPipeline {
     /// Date: Mon, 12 Nov 2012 17:50:53 GMT
     /// {"hasMoreResults": false,  "ids":  ["@SayHello_1_2012-09-25T17:00:00"]
     /// }
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func queryObjectsPaginator<Result>(
-        _ input: QueryObjectsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, QueryObjectsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.queryObjects,
-            inputKey: \QueryObjectsInput.marker,
-            outputKey: \QueryObjectsOutput.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func queryObjectsPaginator(
         _ input: QueryObjectsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (QueryObjectsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<QueryObjectsInput, QueryObjectsOutput> {
+        return .init(
             input: input,
             command: self.queryObjects,
             inputKey: \QueryObjectsInput.marker,
             outputKey: \QueryObjectsOutput.marker,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

@@ -71,73 +71,87 @@ public struct IoTDeviceAdvisor: AWSService {
     // MARK: API Calls
 
     /// Creates a Device Advisor test suite. Requires permission to access the CreateSuiteDefinition action.
-    public func createSuiteDefinition(_ input: CreateSuiteDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSuiteDefinitionResponse> {
-        return self.client.execute(operation: "CreateSuiteDefinition", path: "/suiteDefinitions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSuiteDefinition(_ input: CreateSuiteDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSuiteDefinitionResponse {
+        return try await self.client.execute(operation: "CreateSuiteDefinition", path: "/suiteDefinitions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a Device Advisor test suite. Requires permission to access the DeleteSuiteDefinition action.
-    public func deleteSuiteDefinition(_ input: DeleteSuiteDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSuiteDefinitionResponse> {
-        return self.client.execute(operation: "DeleteSuiteDefinition", path: "/suiteDefinitions/{suiteDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSuiteDefinition(_ input: DeleteSuiteDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSuiteDefinitionResponse {
+        return try await self.client.execute(operation: "DeleteSuiteDefinition", path: "/suiteDefinitions/{suiteDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about an Device Advisor endpoint.
-    public func getEndpoint(_ input: GetEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEndpointResponse> {
-        return self.client.execute(operation: "GetEndpoint", path: "/endpoint", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getEndpoint(_ input: GetEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEndpointResponse {
+        return try await self.client.execute(operation: "GetEndpoint", path: "/endpoint", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a Device Advisor test suite. Requires permission to access the GetSuiteDefinition action.
-    public func getSuiteDefinition(_ input: GetSuiteDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSuiteDefinitionResponse> {
-        return self.client.execute(operation: "GetSuiteDefinition", path: "/suiteDefinitions/{suiteDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSuiteDefinition(_ input: GetSuiteDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSuiteDefinitionResponse {
+        return try await self.client.execute(operation: "GetSuiteDefinition", path: "/suiteDefinitions/{suiteDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a Device Advisor test suite run. Requires permission to access the GetSuiteRun action.
-    public func getSuiteRun(_ input: GetSuiteRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSuiteRunResponse> {
-        return self.client.execute(operation: "GetSuiteRun", path: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSuiteRun(_ input: GetSuiteRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSuiteRunResponse {
+        return try await self.client.execute(operation: "GetSuiteRun", path: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a report download link for a successful Device Advisor qualifying test suite run. Requires permission to access the GetSuiteRunReport action.
-    public func getSuiteRunReport(_ input: GetSuiteRunReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSuiteRunReportResponse> {
-        return self.client.execute(operation: "GetSuiteRunReport", path: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}/report", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSuiteRunReport(_ input: GetSuiteRunReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSuiteRunReportResponse {
+        return try await self.client.execute(operation: "GetSuiteRunReport", path: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}/report", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the Device Advisor test suites you have created. Requires permission to access the ListSuiteDefinitions action.
-    public func listSuiteDefinitions(_ input: ListSuiteDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSuiteDefinitionsResponse> {
-        return self.client.execute(operation: "ListSuiteDefinitions", path: "/suiteDefinitions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSuiteDefinitions(_ input: ListSuiteDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSuiteDefinitionsResponse {
+        return try await self.client.execute(operation: "ListSuiteDefinitions", path: "/suiteDefinitions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite. Requires permission to access the ListSuiteRuns action.
-    public func listSuiteRuns(_ input: ListSuiteRunsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSuiteRunsResponse> {
-        return self.client.execute(operation: "ListSuiteRuns", path: "/suiteRuns", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSuiteRuns(_ input: ListSuiteRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSuiteRunsResponse {
+        return try await self.client.execute(operation: "ListSuiteRuns", path: "/suiteRuns", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the tags attached to an IoT Device Advisor resource. Requires permission to access the ListTagsForResource action.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts a Device Advisor test suite run. Requires permission to access the StartSuiteRun action.
-    public func startSuiteRun(_ input: StartSuiteRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSuiteRunResponse> {
-        return self.client.execute(operation: "StartSuiteRun", path: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startSuiteRun(_ input: StartSuiteRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSuiteRunResponse {
+        return try await self.client.execute(operation: "StartSuiteRun", path: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops a Device Advisor test suite run that is currently running. Requires permission to access the StopSuiteRun action.
-    public func stopSuiteRun(_ input: StopSuiteRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopSuiteRunResponse> {
-        return self.client.execute(operation: "StopSuiteRun", path: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopSuiteRun(_ input: StopSuiteRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopSuiteRunResponse {
+        return try await self.client.execute(operation: "StopSuiteRun", path: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds to and modifies existing tags of an IoT Device Advisor resource. Requires permission to access the TagResource action.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes tags from an IoT Device Advisor resource. Requires permission to access the UntagResource action.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a Device Advisor test suite. Requires permission to access the UpdateSuiteDefinition action.
-    public func updateSuiteDefinition(_ input: UpdateSuiteDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSuiteDefinitionResponse> {
-        return self.client.execute(operation: "UpdateSuiteDefinition", path: "/suiteDefinitions/{suiteDefinitionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateSuiteDefinition(_ input: UpdateSuiteDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSuiteDefinitionResponse {
+        return try await self.client.execute(operation: "UpdateSuiteDefinition", path: "/suiteDefinitions/{suiteDefinitionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -152,110 +166,43 @@ extension IoTDeviceAdvisor {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTDeviceAdvisor {
     /// Lists the Device Advisor test suites you have created. Requires permission to access the ListSuiteDefinitions action.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSuiteDefinitionsPaginator<Result>(
-        _ input: ListSuiteDefinitionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSuiteDefinitionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSuiteDefinitions,
-            inputKey: \ListSuiteDefinitionsRequest.nextToken,
-            outputKey: \ListSuiteDefinitionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSuiteDefinitionsPaginator(
         _ input: ListSuiteDefinitionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSuiteDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSuiteDefinitionsRequest, ListSuiteDefinitionsResponse> {
+        return .init(
             input: input,
             command: self.listSuiteDefinitions,
             inputKey: \ListSuiteDefinitionsRequest.nextToken,
             outputKey: \ListSuiteDefinitionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite. Requires permission to access the ListSuiteRuns action.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSuiteRunsPaginator<Result>(
-        _ input: ListSuiteRunsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSuiteRunsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSuiteRuns,
-            inputKey: \ListSuiteRunsRequest.nextToken,
-            outputKey: \ListSuiteRunsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSuiteRunsPaginator(
         _ input: ListSuiteRunsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSuiteRunsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSuiteRunsRequest, ListSuiteRunsResponse> {
+        return .init(
             input: input,
             command: self.listSuiteRuns,
             inputKey: \ListSuiteRunsRequest.nextToken,
             outputKey: \ListSuiteRunsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }
