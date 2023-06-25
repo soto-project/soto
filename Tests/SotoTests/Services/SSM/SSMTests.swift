@@ -40,68 +40,51 @@ class SSMTests: XCTestCase {
         XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
-    func putParameter(name: String, value: String) -> EventLoopFuture<Void> {
-        let request = SSM.PutParameterRequest(name: name, overwrite: true, type: .string, value: value)
-        return Self.ssm.putParameter(request).map { _ in }
-    }
-
-    func deleteParameter(name: String) -> EventLoopFuture<Void> {
-        let request = SSM.DeleteParameterRequest(name: name)
-        return Self.ssm.deleteParameter(request).map { _ in }
+    /// put parameter, test it, delete it
+    func testParameter(name: String, value: String, test: @escaping (String) async throws -> Void) async throws {
+        try await XCTTestAsset {
+            let request = SSM.PutParameterRequest(name: name, overwrite: true, type: .string, value: value)
+            _ = try await Self.ssm.putParameter(request)
+            return name
+        } test: {
+            try await test($0)
+        } delete: {
+            let request = SSM.DeleteParameterRequest(name: $0)
+            _ = try await Self.ssm.deleteParameter(request)
+        }
     }
 
     // MARK: TESTS
 
-    func testGetParameter() {
+    func testGetParameter() async throws {
         // parameter names cannot begin wih "aws"
         let name = "test" + TestEnvironment.generateResourceName()
-        let response = self.putParameter(name: name, value: "testdata")
-            .flatMap { _ -> EventLoopFuture<SSM.GetParameterResult> in
-                let request = SSM.GetParameterRequest(name: name)
-                return Self.ssm.getParameter(request)
-            }
-            .flatMapThrowing { response in
-                let parameter = try XCTUnwrap(response.parameter)
-                XCTAssertEqual(parameter.name, name)
-                XCTAssertEqual(parameter.value, "testdata")
-            }
-            .flatAlways { _ in
-                return self.deleteParameter(name: name)
-            }
-        XCTAssertNoThrow(try response.wait())
+        try await self.testParameter(name: name, value: "testdata") { name in
+            let request = SSM.GetParameterRequest(name: name)
+            let response = try await Self.ssm.getParameter(request)
+            let parameter = try XCTUnwrap(response.parameter)
+            XCTAssertEqual(parameter.name, name)
+            XCTAssertEqual(parameter.value, "testdata")
+        }
     }
 
-    func testGetParametersByPath() {
+    func testGetParametersByPath() async throws {
         let name = TestEnvironment.generateResourceName()
         let fullname = "/\(name)/\(name)"
-        let response = self.putParameter(name: fullname, value: "testdata2")
-            .flatMap { _ -> EventLoopFuture<SSM.GetParametersByPathResult> in
-                let request = SSM.GetParametersByPathRequest(path: "/\(name)/")
-                return Self.ssm.eventLoopGroup.next().flatScheduleTask(in: .milliseconds(500)) {
-                    Self.ssm.getParametersByPath(request)
-                }.futureResult
-            }
-            .flatMapThrowing { response in
-                let parameter = try XCTUnwrap(response.parameters?.first { $0.name == fullname })
-                XCTAssertEqual(parameter.value, "testdata2")
-            }
-            .flatAlways { _ in
-                return self.deleteParameter(name: fullname)
-            }
-        XCTAssertNoThrow(try response.wait())
+        try await self.testParameter(name: fullname, value: "testdata2") { parameterName in
+            try await Task.sleep(nanoseconds: 500_000_000)
+            let request = SSM.GetParametersByPathRequest(path: "/\(name)/")
+            let response = try await Self.ssm.getParametersByPath(request)
+            let parameter = try XCTUnwrap(response.parameters?.first { $0.name == parameterName })
+            XCTAssertEqual(parameter.value, "testdata2")
+        }
     }
 
-    func testError() {
+    func testError() async throws {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
-        let response = Self.ssm.describeDocument(.init(name: "non-existent-document"))
-        XCTAssertThrowsError(try response.wait()) { error in
-            switch error {
-            case let error as SSMErrorType where error == .invalidDocument:
-                XCTAssertNotNil(error.message)
-            default:
-                XCTFail("Wrong error: \(error)")
-            }
+        await XCTAsyncExpectError(SSMErrorType.invalidDocument) {
+            _ = try await Self.ssm.describeDocument(.init(name: "non-existent-document"))
         }
     }
 }

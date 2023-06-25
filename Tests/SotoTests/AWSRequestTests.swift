@@ -27,6 +27,17 @@ import XCTest
 @testable import SotoSNS
 import SotoXML
 
+extension HTTPBody {
+    func asString() -> String? {
+        switch self.storage {
+        case .byteBuffer(let buffer):
+            return String(buffer: buffer)
+        case .asyncSequence:
+            return nil
+        }
+    }
+}
+
 /// Tests to check the formatting of various AWSRequest bodies
 class AWSRequestTests: XCTestCase {
     static let client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)

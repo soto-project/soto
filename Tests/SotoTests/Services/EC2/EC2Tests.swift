@@ -42,26 +42,22 @@ class EC2Tests: XCTestCase {
         XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
-    func testDescribeImages() {
+    func testDescribeImages() async throws {
         let imageRequest = EC2.DescribeImagesRequest(
             filters: .init([
                 EC2.Filter(name: "name", values: ["*ubuntu-18.04-v1.15*"]),
                 EC2.Filter(name: "state", values: ["available"])
             ])
         )
-        let response = Self.ec2.with(timeout: .minutes(2)).describeImages(imageRequest)
-        XCTAssertNoThrow(try response.wait())
+        _ = try await Self.ec2.with(timeout: .minutes(2)).describeImages(imageRequest)
     }
 
-    func testDescribeInstanceTypes() {
-        let response = Self.ec2.describeInstanceTypesPaginator(.init(), [EC2.InstanceTypeInfo]()) { result, response, eventLoop in
-            let newResult = result + (response.instanceTypes ?? [])
-            return eventLoop.makeSucceededFuture((true, newResult))
-        }
-        XCTAssertNoThrow(try response.wait())
+    func testDescribeInstanceTypes() async throws {
+        let describeTypesPaginator = Self.ec2.describeInstanceTypesPaginator(.init(), logger: TestEnvironment.logger)
+        _ = try await describeTypesPaginator.reduce([]) { $0 + ($1.instanceTypes ?? []) }
     }
 
-    func testDualStack() {
+    func testDualStack() async throws {
         let ec2 = Self.ec2.with(region: .euwest1, options: .useDualStackEndpoint)
         let imageRequest = EC2.DescribeImagesRequest(
             filters: .init([
@@ -69,21 +65,20 @@ class EC2Tests: XCTestCase {
                 EC2.Filter(name: "state", values: ["available"])
             ])
         )
-        let response = ec2.with(timeout: .minutes(2)).describeImages(imageRequest)
-        XCTAssertNoThrow(try response.wait())
+        _ = try await ec2.with(timeout: .minutes(2)).describeImages(imageRequest)
     }
 
-    func testError() {
+    func testError() async throws {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
-        let response = Self.ec2.getConsoleOutput(.init(instanceId: "not-an-instance"))
-        XCTAssertThrowsError(try response.wait()) { error in
-            switch error {
-            case let awsError as AWSResponseError:
-                XCTAssertEqual(awsError.errorCode, "InvalidInstanceID.Malformed")
-            default:
-                XCTFail("Wrong error: \(error)")
-            }
+        await XCTAsyncExpectError(AWSResponseError(errorCode: "InvalidInstanceID.Malformed")) {
+            _ = try await Self.ec2.getConsoleOutput(.init(instanceId: "not-an-instance"))
         }
+    }
+}
+
+extension AWSResponseError: Equatable {
+    public static func == (lhs: SotoCore.AWSResponseError, rhs: SotoCore.AWSResponseError) -> Bool {
+        return lhs.errorCode == rhs.errorCode
     }
 }

@@ -41,87 +41,57 @@ class SNSTests: XCTestCase {
     }
 
     /// create SNS topic with supplied name and run supplied closure
-    func testTopic(name: String, body: @escaping (String) -> EventLoopFuture<Void>) -> EventLoopFuture<Void> {
-        let eventLoop = Self.sns.client.eventLoopGroup.next()
-        var topicArn: String?
-
-        let request = SNS.CreateTopicInput(name: name)
-        return Self.sns.createTopic(request)
-            .flatMapThrowing { response in
-                topicArn = try XCTUnwrap(response.topicArn)
-                return topicArn!
-            }
-            .flatMap(body)
-            .flatAlways { _ -> EventLoopFuture<Void> in
-                if let topicArn = topicArn {
-                    let request = SNS.DeleteTopicInput(topicArn: topicArn)
-                    return Self.sns.deleteTopic(request)
-                } else {
-                    return eventLoop.makeSucceededFuture(())
-                }
-            }
+    func testTopic(name: String, test: @escaping (String) async throws -> Void) async throws {
+        try await XCTTestAsset {
+            let createRequest = SNS.CreateTopicInput(name: name)
+            let createResponse = try await Self.sns.createTopic(createRequest)
+            return try XCTUnwrap(createResponse.topicArn)
+        } test: {
+            try await test($0)
+        } delete: {
+            let deleteRequest = SNS.DeleteTopicInput(topicArn: $0)
+            try await Self.sns.deleteTopic(deleteRequest)
+        }
     }
 
     // MARK: TESTS
 
-    func testCreateDelete() {
+    func testCreateDelete() async throws {
         let name = TestEnvironment.generateResourceName()
-        let response = self.testTopic(name: name) { _ in
-            return Self.sns.client.eventLoopGroup.next().makeSucceededFuture(())
-        }
-        XCTAssertNoThrow(try response.wait())
+        try await self.testTopic(name: name) { _ in }
     }
 
-    func testListTopics() {
+    func testListTopics() async throws {
         let name = TestEnvironment.generateResourceName()
-        let response = self.testTopic(name: name) { topicArn in
+        try await self.testTopic(name: name) { topicArn in
             let request = SNS.ListTopicsInput()
-            return Self.sns.listTopics(request)
-                .map { response in
-                    let topic = response.topics?.first { $0.topicArn == topicArn }
-                    XCTAssertNotNil(topic)
-                }
+            let response = try await Self.sns.listTopics(request)
+            let topic = response.topics?.first { $0.topicArn == topicArn }
+            XCTAssertNotNil(topic)
         }
-        XCTAssertNoThrow(try response.wait())
     }
 
     // disabled until we get valid topic arn's returned from Localstack
-    func testSetTopicAttributes() {
+    func testSetTopicAttributes() async throws {
         guard !TestEnvironment.isUsingLocalstack else { return }
         let name = TestEnvironment.generateResourceName()
-        let response = self.testTopic(name: name) { topicArn in
+        try await self.testTopic(name: name) { topicArn in
             let request = SNS.SetTopicAttributesInput(
                 attributeName: "DisplayName",
                 attributeValue: "aws-test topic &",
                 topicArn: topicArn
             )
-            return Self.sns.setTopicAttributes(request)
-                .flatMap { _ -> EventLoopFuture<SNS.GetTopicAttributesResponse> in
-                    let request = SNS.GetTopicAttributesInput(topicArn: topicArn)
-                    return Self.sns.getTopicAttributes(request)
-                }
-                .map { response in
-                    XCTAssertEqual(response.attributes?["DisplayName"], "aws-test topic &")
-                }
+            _ = try await Self.sns.setTopicAttributes(request)
+            let getRequest = SNS.GetTopicAttributesInput(topicArn: topicArn)
+            let getResponse = try await Self.sns.getTopicAttributes(getRequest)
+            XCTAssertEqual(getResponse.attributes?["DisplayName"], "aws-test topic &")
         }
-        XCTAssertNoThrow(try response.wait())
     }
 
-    func testError() {
+    func testError() async throws {
         guard !TestEnvironment.isUsingLocalstack else { return }
-        let response = Self.sns.getTopicAttributes(.init(topicArn: "arn:sns:invalid"))
-        XCTAssertThrowsError(try response.wait()) { error in
-            switch error {
-            case let error as SNSErrorType:
-                switch error {
-                case .invalidParameterException, .notFoundException:
-                    XCTAssertNotNil(error.message)
-                default:
-                    XCTFail("Wrong error: \(error)")
-                }
-            default:
-                XCTFail("Wrong error: \(error)")
-            }
+        await XCTAsyncExpectError(SNSErrorType.invalidParameterException) {
+            _ = try await Self.sns.getTopicAttributes(.init(topicArn: "arn:sns:invalid"))
         }
     }
 }
