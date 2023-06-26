@@ -26,6 +26,39 @@ import SotoCore
 extension AmplifyUIBuilder {
     // MARK: Enums
 
+    public enum CodegenGenericDataFieldDataType: String, CustomStringConvertible, Codable, Sendable {
+        case `enum` = "Enum"
+        case awsDate = "AWSDate"
+        case awsDateTime = "AWSDateTime"
+        case awsEmail = "AWSEmail"
+        case awsIpAddress = "AWSIPAddress"
+        case awsJson = "AWSJSON"
+        case awsPhone = "AWSPhone"
+        case awsTime = "AWSTime"
+        case awsTimestamp = "AWSTimestamp"
+        case awsUrl = "AWSURL"
+        case boolean = "Boolean"
+        case float = "Float"
+        case id = "ID"
+        case int = "Int"
+        case model = "Model"
+        case nonModel = "NonModel"
+        case string = "String"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CodegenJobGenericDataSourceType: String, CustomStringConvertible, Codable, Sendable {
+        case dataStore = "DataStore"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CodegenJobStatus: String, CustomStringConvertible, Codable, Sendable {
+        case failed = "failed"
+        case inProgress = "in_progress"
+        case succeeded = "succeeded"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FixedPosition: String, CustomStringConvertible, Codable, Sendable {
         case first = "first"
         public var description: String { return self.rawValue }
@@ -49,6 +82,32 @@ extension AmplifyUIBuilder {
         case custom = "Custom"
         /// Will use a provided Amplify DataStore enabled API
         case dataStore = "DataStore"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GenericDataRelationshipType: String, CustomStringConvertible, Codable, Sendable {
+        case belongsTo = "BELONGS_TO"
+        case hasMany = "HAS_MANY"
+        case hasOne = "HAS_ONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JSModule: String, CustomStringConvertible, Codable, Sendable {
+        case es2020 = "es2020"
+        case esnext = "esnext"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JSScript: String, CustomStringConvertible, Codable, Sendable {
+        case js = "js"
+        case jsx = "jsx"
+        case tsx = "tsx"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JSTarget: String, CustomStringConvertible, Codable, Sendable {
+        case es2015 = "es2015"
+        case es2020 = "es2020"
         public var description: String { return self.rawValue }
     }
 
@@ -212,6 +271,273 @@ extension AmplifyUIBuilder {
             case target = "target"
             case type = "type"
             case url = "url"
+        }
+    }
+
+    public struct CodegenFeatureFlags: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether a code generation job supports non models.
+        public let isNonModelSupported: Bool?
+        /// Specifes whether a code generation job supports data relationships.
+        public let isRelationshipSupported: Bool?
+
+        public init(isNonModelSupported: Bool? = nil, isRelationshipSupported: Bool? = nil) {
+            self.isNonModelSupported = isNonModelSupported
+            self.isRelationshipSupported = isRelationshipSupported
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isNonModelSupported = "isNonModelSupported"
+            case isRelationshipSupported = "isRelationshipSupported"
+        }
+    }
+
+    public struct CodegenGenericDataEnum: AWSEncodableShape & AWSDecodableShape {
+        /// The list of enum values in the generic data schema.
+        public let values: [String]
+
+        public init(values: [String]) {
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "values"
+        }
+    }
+
+    public struct CodegenGenericDataField: AWSEncodableShape & AWSDecodableShape {
+        /// The data type for the generic data field.
+        public let dataType: CodegenGenericDataFieldDataType
+        /// The value of the data type for the generic data field.
+        public let dataTypeValue: String
+        /// Specifies whether the generic data field is an array.
+        public let isArray: Bool
+        /// Specifies whether the generic data field is read-only.
+        public let readOnly: Bool
+        /// The relationship of the generic data schema.
+        public let relationship: CodegenGenericDataRelationshipType?
+        /// Specifies whether the generic data field is required.
+        public let required: Bool
+
+        public init(dataType: CodegenGenericDataFieldDataType, dataTypeValue: String, isArray: Bool, readOnly: Bool, relationship: CodegenGenericDataRelationshipType? = nil, required: Bool) {
+            self.dataType = dataType
+            self.dataTypeValue = dataTypeValue
+            self.isArray = isArray
+            self.readOnly = readOnly
+            self.relationship = relationship
+            self.required = required
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataType = "dataType"
+            case dataTypeValue = "dataTypeValue"
+            case isArray = "isArray"
+            case readOnly = "readOnly"
+            case relationship = "relationship"
+            case required = "required"
+        }
+    }
+
+    public struct CodegenGenericDataModel: AWSEncodableShape & AWSDecodableShape {
+        /// The fields in the generic data model.
+        public let fields: [String: CodegenGenericDataField]
+        /// Specifies whether the generic data model is a join table.
+        public let isJoinTable: Bool?
+        /// The primary keys of the generic data model.
+        public let primaryKeys: [String]
+
+        public init(fields: [String: CodegenGenericDataField], isJoinTable: Bool? = nil, primaryKeys: [String]) {
+            self.fields = fields
+            self.isJoinTable = isJoinTable
+            self.primaryKeys = primaryKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case isJoinTable = "isJoinTable"
+            case primaryKeys = "primaryKeys"
+        }
+    }
+
+    public struct CodegenGenericDataNonModel: AWSEncodableShape & AWSDecodableShape {
+        /// The fields in a generic data schema non model.
+        public let fields: [String: CodegenGenericDataField]
+
+        public init(fields: [String: CodegenGenericDataField]) {
+            self.fields = fields
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+        }
+    }
+
+    public struct CodegenGenericDataRelationshipType: AWSEncodableShape & AWSDecodableShape {
+        /// The associated fields of the data relationship.
+        public let associatedFields: [String]?
+        /// The value of the belongsTo field on the related data model.
+        public let belongsToFieldOnRelatedModel: String?
+        /// Specifies whether the relationship can unlink the associated model.
+        public let canUnlinkAssociatedModel: Bool?
+        /// Specifies whether the @index directive is supported for a hasMany data relationship.
+        public let isHasManyIndex: Bool?
+        /// The name of the related join field in the data relationship.
+        public let relatedJoinFieldName: String?
+        /// The name of the related join table in the data relationship.
+        public let relatedJoinTableName: String?
+        /// The related model fields in the data relationship.
+        public let relatedModelFields: [String]?
+        /// The name of the related model in the data relationship.
+        public let relatedModelName: String
+        /// The data relationship type.
+        public let type: GenericDataRelationshipType
+
+        public init(associatedFields: [String]? = nil, belongsToFieldOnRelatedModel: String? = nil, canUnlinkAssociatedModel: Bool? = nil, isHasManyIndex: Bool? = nil, relatedJoinFieldName: String? = nil, relatedJoinTableName: String? = nil, relatedModelFields: [String]? = nil, relatedModelName: String, type: GenericDataRelationshipType) {
+            self.associatedFields = associatedFields
+            self.belongsToFieldOnRelatedModel = belongsToFieldOnRelatedModel
+            self.canUnlinkAssociatedModel = canUnlinkAssociatedModel
+            self.isHasManyIndex = isHasManyIndex
+            self.relatedJoinFieldName = relatedJoinFieldName
+            self.relatedJoinTableName = relatedJoinTableName
+            self.relatedModelFields = relatedModelFields
+            self.relatedModelName = relatedModelName
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedFields = "associatedFields"
+            case belongsToFieldOnRelatedModel = "belongsToFieldOnRelatedModel"
+            case canUnlinkAssociatedModel = "canUnlinkAssociatedModel"
+            case isHasManyIndex = "isHasManyIndex"
+            case relatedJoinFieldName = "relatedJoinFieldName"
+            case relatedJoinTableName = "relatedJoinTableName"
+            case relatedModelFields = "relatedModelFields"
+            case relatedModelName = "relatedModelName"
+            case type = "type"
+        }
+    }
+
+    public struct CodegenJob: AWSDecodableShape {
+        /// The ID of the Amplify app associated with the code generation job.
+        public let appId: String
+        /// The CodegenJobAsset to use for the code generation job.
+        public let asset: CodegenJobAsset?
+        /// Specifies whether to autogenerate forms in the code generation job.
+        public let autoGenerateForms: Bool?
+        /// The time that the code generation job was created.
+        public let createdAt: Date?
+        /// The name of the backend environment associated with the code generation job.
+        public let environmentName: String
+        public let features: CodegenFeatureFlags?
+        public let genericDataSchema: CodegenJobGenericDataSchema?
+        /// The unique ID for the code generation job.
+        public let id: String
+        /// The time that the code generation job was modified.
+        public let modifiedAt: Date?
+        public let renderConfig: CodegenJobRenderConfig?
+        /// The status of the code generation job.
+        public let status: CodegenJobStatus?
+        /// The customized status message for the code generation job.
+        public let statusMessage: String?
+        /// One or more key-value pairs to use when tagging the code generation job.
+        public let tags: [String: String]?
+
+        public init(appId: String, asset: CodegenJobAsset? = nil, autoGenerateForms: Bool? = nil, createdAt: Date? = nil, environmentName: String, features: CodegenFeatureFlags? = nil, genericDataSchema: CodegenJobGenericDataSchema? = nil, id: String, modifiedAt: Date? = nil, renderConfig: CodegenJobRenderConfig? = nil, status: CodegenJobStatus? = nil, statusMessage: String? = nil, tags: [String: String]? = nil) {
+            self.appId = appId
+            self.asset = asset
+            self.autoGenerateForms = autoGenerateForms
+            self.createdAt = createdAt
+            self.environmentName = environmentName
+            self.features = features
+            self.genericDataSchema = genericDataSchema
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.renderConfig = renderConfig
+            self.status = status
+            self.statusMessage = statusMessage
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case asset = "asset"
+            case autoGenerateForms = "autoGenerateForms"
+            case createdAt = "createdAt"
+            case environmentName = "environmentName"
+            case features = "features"
+            case genericDataSchema = "genericDataSchema"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case renderConfig = "renderConfig"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case tags = "tags"
+        }
+    }
+
+    public struct CodegenJobAsset: AWSDecodableShape {
+        /// The URL to use to access the asset.
+        public let downloadUrl: String?
+
+        public init(downloadUrl: String? = nil) {
+            self.downloadUrl = downloadUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case downloadUrl = "downloadUrl"
+        }
+    }
+
+    public struct CodegenJobGenericDataSchema: AWSEncodableShape & AWSDecodableShape {
+        /// The type of the data source for the schema. Currently, the only valid value is an Amplify DataStore.
+        public let dataSourceType: CodegenJobGenericDataSourceType
+        /// The name of a CodegenGenericDataEnum.
+        public let enums: [String: CodegenGenericDataEnum]
+        /// The name of a CodegenGenericDataModel.
+        public let models: [String: CodegenGenericDataModel]
+        /// The name of a CodegenGenericDataNonModel.
+        public let nonModels: [String: CodegenGenericDataNonModel]
+
+        public init(dataSourceType: CodegenJobGenericDataSourceType, enums: [String: CodegenGenericDataEnum], models: [String: CodegenGenericDataModel], nonModels: [String: CodegenGenericDataNonModel]) {
+            self.dataSourceType = dataSourceType
+            self.enums = enums
+            self.models = models
+            self.nonModels = nonModels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceType = "dataSourceType"
+            case enums = "enums"
+            case models = "models"
+            case nonModels = "nonModels"
+        }
+    }
+
+    public struct CodegenJobSummary: AWSDecodableShape {
+        /// The unique ID of the Amplify app associated with the code generation job.
+        public let appId: String
+        /// The time that the code generation job summary was created.
+        public let createdAt: Date?
+        /// The name of the backend environment associated with the code generation job.
+        public let environmentName: String
+        /// The unique ID for the code generation job summary.
+        public let id: String
+        /// The time that the code generation job summary was modified.
+        public let modifiedAt: Date?
+
+        public init(appId: String, createdAt: Date? = nil, environmentName: String, id: String, modifiedAt: Date? = nil) {
+            self.appId = appId
+            self.createdAt = createdAt
+            self.environmentName = environmentName
+            self.id = id
+            self.modifiedAt = modifiedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case createdAt = "createdAt"
+            case environmentName = "environmentName"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
         }
     }
 
@@ -1614,6 +1940,50 @@ extension AmplifyUIBuilder {
         }
     }
 
+    public struct GetCodegenJobRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
+            AWSMemberEncoding(label: "id", location: .uri("id"))
+        ]
+
+        /// The unique ID of the Amplify app associated with the code generation job.
+        public let appId: String
+        /// The name of the backend environment that is a part of the Amplify app associated with the code generation job.
+        public let environmentName: String
+        /// The unique ID of the code generation job.
+        public let id: String
+
+        public init(appId: String, environmentName: String, id: String) {
+            self.appId = appId
+            self.environmentName = environmentName
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
+            try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^d[a-z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCodegenJobResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "job"
+        /// The configuration settings for the code generation job.
+        public let job: CodegenJob?
+
+        public init(job: CodegenJob? = nil) {
+            self.job = job
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
+        }
+    }
+
     public struct GetComponentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri("appId")),
@@ -1757,6 +2127,58 @@ extension AmplifyUIBuilder {
 
         private enum CodingKeys: String, CodingKey {
             case theme = "theme"
+        }
+    }
+
+    public struct ListCodegenJobsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The unique ID for the Amplify app.
+        public let appId: String
+        /// The name of the backend environment that is a part of the Amplify app.
+        public let environmentName: String
+        /// The maximum number of jobs to retrieve.
+        public let maxResults: Int?
+        /// The token to request the next page of results.
+        public let nextToken: String?
+
+        public init(appId: String, environmentName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.appId = appId
+            self.environmentName = environmentName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
+            try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^d[a-z0-9]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCodegenJobsResponse: AWSDecodableShape {
+        /// The list of code generation jobs for the Amplify app.
+        public let entities: [CodegenJobSummary]
+        /// The pagination token that's included if more results are available.
+        public let nextToken: String?
+
+        public init(entities: [CodegenJobSummary], nextToken: String? = nil) {
+            self.entities = entities
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entities = "entities"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2014,6 +2436,35 @@ extension AmplifyUIBuilder {
         }
     }
 
+    public struct ReactStartCodegenJobData: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the code generation job should render inline source maps.
+        public let inlineSourceMap: Bool?
+        /// The JavaScript module type.
+        public let module: JSModule?
+        /// Specifies whether the code generation job should render type declaration files.
+        public let renderTypeDeclarations: Bool?
+        /// The file type to use for a JavaScript project.
+        public let script: JSScript?
+        /// The ECMAScript specification to use.
+        public let target: JSTarget?
+
+        public init(inlineSourceMap: Bool? = nil, module: JSModule? = nil, renderTypeDeclarations: Bool? = nil, script: JSScript? = nil, target: JSTarget? = nil) {
+            self.inlineSourceMap = inlineSourceMap
+            self.module = module
+            self.renderTypeDeclarations = renderTypeDeclarations
+            self.script = script
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inlineSourceMap = "inlineSourceMap"
+            case module = "module"
+            case renderTypeDeclarations = "renderTypeDeclarations"
+            case script = "script"
+            case target = "target"
+        }
+    }
+
     public struct RefreshTokenRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "refreshTokenBody"
@@ -2117,6 +2568,97 @@ extension AmplifyUIBuilder {
         private enum CodingKeys: String, CodingKey {
             case direction = "direction"
             case field = "field"
+        }
+    }
+
+    public struct StartCodegenJobData: AWSEncodableShape {
+        /// Specifies whether to autogenerate forms in the code generation job.
+        public let autoGenerateForms: Bool?
+        /// The feature flags for a code generation job.
+        public let features: CodegenFeatureFlags?
+        /// The data schema to use for a code generation job.
+        public let genericDataSchema: CodegenJobGenericDataSchema?
+        /// The code generation configuration for the codegen job.
+        public let renderConfig: CodegenJobRenderConfig
+        /// One or more key-value pairs to use when tagging the code generation job data.
+        public let tags: [String: String]?
+
+        public init(autoGenerateForms: Bool? = nil, features: CodegenFeatureFlags? = nil, genericDataSchema: CodegenJobGenericDataSchema? = nil, renderConfig: CodegenJobRenderConfig, tags: [String: String]? = nil) {
+            self.autoGenerateForms = autoGenerateForms
+            self.features = features
+            self.genericDataSchema = genericDataSchema
+            self.renderConfig = renderConfig
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoGenerateForms = "autoGenerateForms"
+            case features = "features"
+            case genericDataSchema = "genericDataSchema"
+            case renderConfig = "renderConfig"
+            case tags = "tags"
+        }
+    }
+
+    public struct StartCodegenJobRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "codegenJobToCreate"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri("appId")),
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName"))
+        ]
+
+        /// The unique ID for the Amplify app.
+        public let appId: String
+        /// The idempotency token used to ensure that the code generation job request completes only once.
+        public let clientToken: String?
+        /// The code generation job resource configuration.
+        public let codegenJobToCreate: StartCodegenJobData
+        /// The name of the backend environment that is a part of the Amplify app.
+        public let environmentName: String
+
+        public init(appId: String, clientToken: String? = StartCodegenJobRequest.idempotencyToken(), codegenJobToCreate: StartCodegenJobData, environmentName: String) {
+            self.appId = appId
+            self.clientToken = clientToken
+            self.codegenJobToCreate = codegenJobToCreate
+            self.environmentName = environmentName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appId, name: "appId", parent: name, max: 20)
+            try self.validate(self.appId, name: "appId", parent: name, min: 1)
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^d[a-z0-9]+$")
+            try self.codegenJobToCreate.validate(name: "\(name).codegenJobToCreate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codegenJobToCreate = "codegenJobToCreate"
+        }
+    }
+
+    public struct StartCodegenJobResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "entity"
+        /// The code generation job for a UI component that is associated with an Amplify app.
+        public let entity: CodegenJob?
+
+        public init(entity: CodegenJob? = nil) {
+            self.entity = entity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entity = "entity"
         }
     }
 
@@ -2566,6 +3108,19 @@ extension AmplifyUIBuilder {
             case values = "values"
         }
     }
+
+    public struct CodegenJobRenderConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the ReactStartCodegenJobData object.
+        public let react: ReactStartCodegenJobData?
+
+        public init(react: ReactStartCodegenJobData? = nil) {
+            self.react = react
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case react = "react"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -2578,6 +3133,7 @@ public struct AmplifyUIBuilderErrorType: AWSErrorType {
         case resourceConflictException = "ResourceConflictException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case throttlingException = "ThrottlingException"
         case unauthorizedException = "UnauthorizedException"
     }
 
@@ -2609,6 +3165,8 @@ public struct AmplifyUIBuilderErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The request was denied due to request throttling.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// You don't have permission to perform this operation.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }

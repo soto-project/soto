@@ -172,7 +172,7 @@ extension CloudTrail {
         public let endsWith: [String]?
         ///  An operator that includes events that match the exact value of the event record field specified as the value of Field. This is the only valid operator that you can use with the readOnly, eventCategory, and resources.type fields.
         public let equals: [String]?
-        ///  A field in a CloudTrail event record on which to filter events to be logged. For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, the field is used only for selecting events as filtering is not supported.  For CloudTrail event records, supported fields include readOnly, eventCategory, eventSource (for management events), eventName, resources.type, and resources.ARN.  For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, the only supported field is eventCategory.      readOnly - Optional. Can be set to Equals a value of true or false. If you do not add this field, CloudTrail logs both read and write events. A value of true logs only read events. A value of false logs only write events.     eventSource - For filtering management events only. This can be set only to NotEquals kms.amazonaws.com.     eventName - Can use any operator. You can use it to ﬁlter in or ﬁlter out any data event logged to CloudTrail, such as PutBucket or GetSnapshotBlock. You can have multiple values for this ﬁeld, separated by commas.     eventCategory - This is required and must be set to Equals.      For CloudTrail event records, the value must be Management or Data.      For Config configuration items, the value must be ConfigurationItem.     For Audit Manager evidence, the value must be Evidence.     For non-Amazon Web Services events, the value must be ActivityAuditLog.        resources.type - This ﬁeld is required for CloudTrail data events. resources.type can only use the Equals operator, and the value can be one of the following:    AWS::DynamoDB::Table     AWS::Lambda::Function     AWS::S3::Object     AWS::CloudTrail::Channel     AWS::Cognito::IdentityPool     AWS::DynamoDB::Stream     AWS::EC2::Snapshot     AWS::FinSpace::Environment     AWS::Glue::Table     AWS::GuardDuty::Detector     AWS::KendraRanking::ExecutionPlan     AWS::ManagedBlockchain::Node     AWS::SageMaker::ExperimentTrialComponent     AWS::SageMaker::FeatureGroup     AWS::S3::AccessPoint     AWS::S3ObjectLambda::AccessPoint     AWS::S3Outposts::Object    You can have only one resources.type ﬁeld per selector. To log data events on more than one resource type, add another selector.     resources.ARN - You can use any operator with resources.ARN, but if you use Equals or NotEquals, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. For example, if resources.type equals AWS::S3::Object, the ARN must be in one of the following formats. To log all data events for all objects in a specific S3 bucket, use the StartsWith operator, and include only the bucket ARN as the matching value. The trailing slash is intentional; do not exclude it. Replace the text between less than and greater than symbols (<>) with resource-specific information.     arn::s3:::/     arn::s3::://    When resources.type equals AWS::DynamoDB::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::dynamodb:::table/    When resources.type equals AWS::Lambda::Function, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::lambda:::function:    When resources.type equals AWS::CloudTrail::Channel, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::cloudtrail:::channel/    When resources.type equals AWS::Cognito::IdentityPool, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::cognito-identity:::identitypool/    When resources.type equals AWS::DynamoDB::Stream, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::dynamodb:::table//stream/    When resources.type equals AWS::EC2::Snapshot, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::ec2:::snapshot/    When resources.type equals AWS::FinSpace::Environment, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::finspace:::environment/    When resources.type equals AWS::Glue::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::glue:::table//    When resources.type equals AWS::GuardDuty::Detector, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::guardduty:::detector/    When resources.type equals AWS::KendraRanking::ExecutionPlan, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::kendra-ranking:::rescore-execution-plan/    When resources.type equals AWS::ManagedBlockchain::Node, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::managedblockchain:::nodes/    When resources.type equals AWS::SageMaker::ExperimentTrialComponent, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::sagemaker:::experiment-trial-component/    When resources.type equals AWS::SageMaker::FeatureGroup, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::sagemaker:::feature-group/    When resources.type equals AWS::S3::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the StartsWith or NotStartsWith operators.    arn::s3:::accesspoint/     arn::s3:::accesspoint//object/    When resources.type equals AWS::S3ObjectLambda::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::s3-object-lambda:::accesspoint/    When resources.type equals AWS::S3Outposts::Object, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::s3-outposts:::
+        ///  A field in a CloudTrail event record on which to filter events to be logged. For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, the field is used only for selecting events as filtering is not supported.  For CloudTrail event records, supported fields include readOnly, eventCategory, eventSource (for management events), eventName, resources.type, and resources.ARN.  For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, the only supported field is eventCategory.      readOnly - Optional. Can be set to Equals a value of true or false. If you do not add this field, CloudTrail logs both read and write events. A value of true logs only read events. A value of false logs only write events.     eventSource - For filtering management events only. This can be set only to NotEquals kms.amazonaws.com.     eventName - Can use any operator. You can use it to ﬁlter in or ﬁlter out any data event logged to CloudTrail, such as PutBucket or GetSnapshotBlock. You can have multiple values for this ﬁeld, separated by commas.     eventCategory - This is required and must be set to Equals.      For CloudTrail event records, the value must be Management or Data.      For Config configuration items, the value must be ConfigurationItem.     For Audit Manager evidence, the value must be Evidence.     For non-Amazon Web Services events, the value must be ActivityAuditLog.        resources.type - This ﬁeld is required for CloudTrail data events. resources.type can only use the Equals operator, and the value can be one of the following:    AWS::DynamoDB::Table     AWS::Lambda::Function     AWS::S3::Object     AWS::CloudTrail::Channel     AWS::CodeWhisperer::Profile     AWS::Cognito::IdentityPool     AWS::DynamoDB::Stream     AWS::EC2::Snapshot     AWS::EMRWAL::Workspace     AWS::FinSpace::Environment     AWS::Glue::Table     AWS::GuardDuty::Detector     AWS::KendraRanking::ExecutionPlan     AWS::ManagedBlockchain::Node     AWS::SageMaker::ExperimentTrialComponent     AWS::SageMaker::FeatureGroup     AWS::S3::AccessPoint     AWS::S3ObjectLambda::AccessPoint     AWS::S3Outposts::Object    You can have only one resources.type ﬁeld per selector. To log data events on more than one resource type, add another selector.     resources.ARN - You can use any operator with resources.ARN, but if you use Equals or NotEquals, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. For example, if resources.type equals AWS::S3::Object, the ARN must be in one of the following formats. To log all data events for all objects in a specific S3 bucket, use the StartsWith operator, and include only the bucket ARN as the matching value. The trailing slash is intentional; do not exclude it. Replace the text between less than and greater than symbols (<>) with resource-specific information.     arn::s3:::/     arn::s3::://    When resources.type equals AWS::DynamoDB::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::dynamodb:::table/    When resources.type equals AWS::Lambda::Function, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::lambda:::function:    When resources.type equals AWS::CloudTrail::Channel, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::cloudtrail:::channel/    When resources.type equals AWS::CodeWhisperer::Profile, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::codewhisperer:::profile/    When resources.type equals AWS::Cognito::IdentityPool, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::cognito-identity:::identitypool/    When resources.type equals AWS::DynamoDB::Stream, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::dynamodb:::table//stream/    When resources.type equals AWS::EC2::Snapshot, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::ec2:::snapshot/    When resources.type equals AWS::EMRWAL::Workspace, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::emrwal:::workspace/    When resources.type equals AWS::FinSpace::Environment, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::finspace:::environment/    When resources.type equals AWS::Glue::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::glue:::table//    When resources.type equals AWS::GuardDuty::Detector, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::guardduty:::detector/    When resources.type equals AWS::KendraRanking::ExecutionPlan, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::kendra-ranking:::rescore-execution-plan/    When resources.type equals AWS::ManagedBlockchain::Node, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::managedblockchain:::nodes/    When resources.type equals AWS::SageMaker::ExperimentTrialComponent, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::sagemaker:::experiment-trial-component/    When resources.type equals AWS::SageMaker::FeatureGroup, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::sagemaker:::feature-group/    When resources.type equals AWS::S3::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the StartsWith or NotStartsWith operators.    arn::s3:::accesspoint/     arn::s3:::accesspoint//object/    When resources.type equals AWS::S3ObjectLambda::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::s3-object-lambda:::accesspoint/    When resources.type equals AWS::S3Outposts::Object, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn::s3-outposts:::
         public let field: String
         ///  An operator that excludes events that match the last few characters of the event record field specified as the value of Field.
         public let notEndsWith: [String]?
@@ -642,7 +642,7 @@ extension CloudTrail {
     }
 
     public struct DataResource: AWSEncodableShape & AWSDecodableShape {
-        /// The resource type in which you want to log data events. You can specify the following basic event selector resource types:    AWS::DynamoDB::Table     AWS::Lambda::Function     AWS::S3::Object    The following resource types are also available through advanced event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see AdvancedFieldSelector$Field.    AWS::CloudTrail::Channel     AWS::Cognito::IdentityPool     AWS::DynamoDB::Stream     AWS::EC2::Snapshot     AWS::FinSpace::Environment     AWS::Glue::Table     AWS::GuardDuty::Detector     AWS::KendraRanking::ExecutionPlan     AWS::ManagedBlockchain::Node     AWS::SageMaker::ExperimentTrialComponent     AWS::SageMaker::FeatureGroup     AWS::S3::AccessPoint     AWS::S3ObjectLambda::AccessPoint     AWS::S3Outposts::Object
+        /// The resource type in which you want to log data events. You can specify the following basic event selector resource types:    AWS::DynamoDB::Table     AWS::Lambda::Function     AWS::S3::Object    The following resource types are also available through advanced event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see AdvancedFieldSelector.    AWS::CloudTrail::Channel     AWS::CodeWhisperer::Profile     AWS::Cognito::IdentityPool     AWS::DynamoDB::Stream     AWS::EC2::Snapshot     AWS::EMRWAL::Workspace     AWS::FinSpace::Environment     AWS::Glue::Table     AWS::GuardDuty::Detector     AWS::KendraRanking::ExecutionPlan     AWS::ManagedBlockchain::Node     AWS::SageMaker::ExperimentTrialComponent     AWS::SageMaker::FeatureGroup     AWS::S3::AccessPoint     AWS::S3ObjectLambda::AccessPoint     AWS::S3Outposts::Object
         public let type: String?
         /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified objects.   To log data events for all objects in all S3 buckets in your Amazon Web Services account, specify the prefix as arn:aws:s3.  This also enables logging of data event activity performed by any user or role in your Amazon Web Services account, even if that activity is performed on a bucket that belongs to another Amazon Web Services account.    To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::bucket-1/. The trail logs data events for all objects in this S3 bucket.   To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::bucket-1/example-images. The trail logs data events for objects in this S3 bucket that match the prefix.   To log data events for all Lambda functions in your Amazon Web Services account, specify the prefix as arn:aws:lambda.  This also enables logging of Invoke activity performed by any user or role in your Amazon Web Services account, even if that activity is performed on a function that belongs to another Amazon Web Services account.     To log data events for a specific Lambda function, specify the function ARN.  Lambda function ARNs are exact. For example, if you specify a function ARN arn:aws:lambda:us-west-2:111111111111:function:helloworld, data events will only be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld. They will not be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld2.    To log data events for all DynamoDB tables in your Amazon Web Services account, specify the prefix as arn:aws:dynamodb.
         public let values: [String]?
@@ -770,17 +770,21 @@ extension CloudTrail {
     public struct DescribeQueryRequest: AWSEncodableShape {
         /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query was run.
         public let eventDataStore: String?
+        ///  The alias that identifies a query template.
+        public let queryAlias: String?
         /// The query ID.
-        public let queryId: String
+        public let queryId: String?
 
-        public init(queryId: String) {
+        public init(queryAlias: String? = nil, queryId: String? = nil) {
             self.eventDataStore = nil
+            self.queryAlias = queryAlias
             self.queryId = queryId
         }
 
         @available(*, deprecated, message: "Members eventDataStore have been deprecated")
-        public init(eventDataStore: String? = nil, queryId: String) {
+        public init(eventDataStore: String? = nil, queryAlias: String? = nil, queryId: String? = nil) {
             self.eventDataStore = eventDataStore
+            self.queryAlias = queryAlias
             self.queryId = queryId
         }
 
@@ -788,6 +792,9 @@ extension CloudTrail {
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.queryAlias, name: "queryAlias", parent: name, max: 256)
+            try self.validate(self.queryAlias, name: "queryAlias", parent: name, min: 1)
+            try self.validate(self.queryAlias, name: "queryAlias", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9._\\-]*$")
             try self.validate(self.queryId, name: "queryId", parent: name, max: 36)
             try self.validate(self.queryId, name: "queryId", parent: name, min: 36)
             try self.validate(self.queryId, name: "queryId", parent: name, pattern: "^[a-f0-9\\-]+$")
@@ -795,6 +802,7 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case eventDataStore = "EventDataStore"
+            case queryAlias = "QueryAlias"
             case queryId = "QueryId"
         }
     }
@@ -2613,17 +2621,33 @@ extension CloudTrail {
     public struct StartQueryRequest: AWSEncodableShape {
         ///  The URI for the S3 bucket where CloudTrail delivers the query results.
         public let deliveryS3Uri: String?
+        ///  The alias that identifies a query template.
+        public let queryAlias: String?
+        ///  The query parameters for the specified QueryAlias.
+        public let queryParameters: [String]?
         /// The SQL code of your query.
-        public let queryStatement: String
+        public let queryStatement: String?
 
-        public init(deliveryS3Uri: String? = nil, queryStatement: String) {
+        public init(deliveryS3Uri: String? = nil, queryAlias: String? = nil, queryParameters: [String]? = nil, queryStatement: String? = nil) {
             self.deliveryS3Uri = deliveryS3Uri
+            self.queryAlias = queryAlias
+            self.queryParameters = queryParameters
             self.queryStatement = queryStatement
         }
 
         public func validate(name: String) throws {
             try self.validate(self.deliveryS3Uri, name: "deliveryS3Uri", parent: name, max: 1024)
             try self.validate(self.deliveryS3Uri, name: "deliveryS3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+            try self.validate(self.queryAlias, name: "queryAlias", parent: name, max: 256)
+            try self.validate(self.queryAlias, name: "queryAlias", parent: name, min: 1)
+            try self.validate(self.queryAlias, name: "queryAlias", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9._\\-]*$")
+            try self.queryParameters?.forEach {
+                try validate($0, name: "queryParameters[]", parent: name, max: 1024)
+                try validate($0, name: "queryParameters[]", parent: name, min: 1)
+                try validate($0, name: "queryParameters[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.queryParameters, name: "queryParameters", parent: name, max: 10)
+            try self.validate(self.queryParameters, name: "queryParameters", parent: name, min: 1)
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 10000)
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, pattern: "^(?s)")
@@ -2631,6 +2655,8 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case deliveryS3Uri = "DeliveryS3Uri"
+            case queryAlias = "QueryAlias"
+            case queryParameters = "QueryParameters"
             case queryStatement = "QueryStatement"
         }
     }
@@ -3137,7 +3163,7 @@ extension CloudTrail {
         public let s3KeyPrefix: String?
         /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The following is the format of a topic ARN.  arn:aws:sns:us-east-2:123456789012:MyTopic
         public let snsTopicARN: String?
-        /// This field is no longer in use. Use UpdateTrailResponse$SnsTopicARN.
+        /// This field is no longer in use. Use SnsTopicARN.
         public let snsTopicName: String?
         /// Specifies the ARN of the trail that was updated. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let trailARN: String?

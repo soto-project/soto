@@ -119,6 +119,11 @@ extension AuditManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExportDestinationType: String, CustomStringConvertible, Codable, Sendable {
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FrameworkType: String, CustomStringConvertible, Codable, Sendable {
         case custom = "Custom"
         case standard = "Standard"
@@ -126,7 +131,9 @@ extension AuditManager {
     }
 
     public enum KeywordInputType: String, CustomStringConvertible, Codable, Sendable {
+        case inputText = "INPUT_TEXT"
         case selectFromList = "SELECT_FROM_LIST"
+        case uploadFile = "UPLOAD_FILE"
         public var description: String { return self.rawValue }
     }
 
@@ -148,6 +155,7 @@ extension AuditManager {
     public enum SettingAttribute: String, CustomStringConvertible, Codable, Sendable {
         case all = "ALL"
         case defaultAssessmentReportsDestination = "DEFAULT_ASSESSMENT_REPORTS_DESTINATION"
+        case defaultExportDestination = "DEFAULT_EXPORT_DESTINATION"
         case defaultProcessOwners = "DEFAULT_PROCESS_OWNERS"
         case deregistrationPolicy = "DEREGISTRATION_POLICY"
         case evidenceFinderEnablement = "EVIDENCE_FINDER_ENABLEMENT"
@@ -801,7 +809,7 @@ extension AuditManager {
     }
 
     public struct AssessmentReportsDestination: AWSEncodableShape & AWSDecodableShape {
-        ///  The destination of the assessment report.
+        ///  The destination bucket where Audit Manager stores assessment reports.
         public let destination: String?
         ///  The destination type, such as Amazon S3.
         public let destinationType: AssessmentReportDestinationType?
@@ -1241,7 +1249,7 @@ extension AuditManager {
         public let tags: [String: String]?
         ///  The steps that you should follow to determine if the control has been satisfied.
         public let testingInformation: String?
-        ///  The type of control, such as a custom control or a standard control.
+        ///  Specifies whether the control is a standard control or a custom control.
         public let type: ControlType?
 
         public init(actionPlanInstructions: String? = nil, actionPlanTitle: String? = nil, arn: String? = nil, controlMappingSources: [ControlMappingSource]? = nil, controlSources: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, name: String? = nil, tags: [String: String]? = nil, testingInformation: String? = nil, type: ControlType? = nil) {
@@ -1392,7 +1400,7 @@ extension AuditManager {
     public struct ControlMappingSource: AWSEncodableShape & AWSDecodableShape {
         ///  The description of the source.
         public let sourceDescription: String?
-        ///  The frequency of evidence collection for the control mapping source.
+        /// Specifies how often evidence is collected from the control mapping source.
         public let sourceFrequency: SourceFrequency?
         ///  The unique identifier for the source.
         public let sourceId: String?
@@ -1737,7 +1745,7 @@ extension AuditManager {
     public struct CreateControlMappingSource: AWSEncodableShape {
         ///  The description of the data source that determines where Audit Manager collects evidence from for the control.
         public let sourceDescription: String?
-        ///  The frequency of evidence collection for the control mapping source.
+        /// Specifies how often evidence is collected from the control mapping source.
         public let sourceFrequency: SourceFrequency?
         public let sourceKeyword: SourceKeyword?
         ///  The name of the control mapping data source.
@@ -1889,6 +1897,29 @@ extension AuditManager {
             case controlSetId = "controlSetId"
             case roleArn = "roleArn"
             case roleType = "roleType"
+        }
+    }
+
+    public struct DefaultExportDestination: AWSEncodableShape & AWSDecodableShape {
+        /// The destination bucket where Audit Manager stores exported files.
+        public let destination: String?
+        /// The destination type, such as Amazon S3.
+        public let destinationType: ExportDestinationType?
+
+        public init(destination: String? = nil, destinationType: ExportDestinationType? = nil) {
+            self.destination = destination
+            self.destinationType = destinationType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destination, name: "destination", parent: name, max: 1024)
+            try self.validate(self.destination, name: "destination", parent: name, min: 1)
+            try self.validate(self.destination, name: "destination", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case destinationType = "destinationType"
         }
     }
 
@@ -2322,11 +2353,11 @@ extension AuditManager {
     public struct Framework: AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) of the framework.
         public let arn: String?
-        ///  The compliance type that the new custom framework supports, such as CIS or HIPAA.
+        ///  The compliance type that the framework supports, such as CIS or HIPAA.
         public let complianceType: String?
         ///  The control sets that are associated with the framework.
         public let controlSets: [ControlSet]?
-        ///  The sources that Audit Manager collects evidence from for the control.
+        ///  The control data sources where Audit Manager collects evidence from.
         public let controlSources: String?
         ///  The time when the framework was created.
         public let createdAt: Date?
@@ -2346,7 +2377,7 @@ extension AuditManager {
         public let name: String?
         ///  The tags that are associated with the framework.
         public let tags: [String: String]?
-        ///  The framework type, such as a custom framework or a standard framework.
+        ///  Specifies whether the framework is a standard framework or a custom framework.
         public let type: FrameworkType?
 
         public init(arn: String? = nil, complianceType: String? = nil, controlSets: [ControlSet]? = nil, controlSources: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, logo: String? = nil, name: String? = nil, tags: [String: String]? = nil, type: FrameworkType? = nil) {
@@ -2623,7 +2654,7 @@ extension AuditManager {
     }
 
     public struct GetControlResponse: AWSDecodableShape {
-        ///  The name of the control that the GetControl API returned.
+        ///  The details of the control that the GetControl API returned.
         public let control: Control?
 
         public init(control: Control? = nil) {
@@ -2741,6 +2772,44 @@ extension AuditManager {
         private enum CodingKeys: String, CodingKey {
             case evidence = "evidence"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetEvidenceFileUploadUrlRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "fileName", location: .querystring("fileName"))
+        ]
+
+        /// The file that you want to upload. For a list of supported file formats, see Supported file types for manual evidence in the Audit Manager User Guide.
+        public let fileName: String
+
+        public init(fileName: String) {
+            self.fileName = fileName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fileName, name: "fileName", parent: name, max: 300)
+            try self.validate(self.fileName, name: "fileName", parent: name, min: 1)
+            try self.validate(self.fileName, name: "fileName", parent: name, pattern: "^[^\\/]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetEvidenceFileUploadUrlResponse: AWSDecodableShape {
+        /// The name of the uploaded manual evidence file that the presigned URL was generated for.
+        public let evidenceFileName: String?
+        /// The presigned URL that was generated.
+        public let uploadUrl: String?
+
+        public init(evidenceFileName: String? = nil, uploadUrl: String? = nil) {
+            self.evidenceFileName = evidenceFileName
+            self.uploadUrl = uploadUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evidenceFileName = "evidenceFileName"
+            case uploadUrl = "uploadUrl"
         }
     }
 
@@ -3288,7 +3357,7 @@ extension AuditManager {
     }
 
     public struct ListAssessmentFrameworksResponse: AWSDecodableShape {
-        ///  The list of metadata objects for the framework.
+        ///  A list of metadata that the ListAssessmentFrameworks API returns for each framework.
         public let frameworkMetadataList: [AssessmentFrameworkMetadata]?
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
@@ -3380,7 +3449,7 @@ extension AuditManager {
     }
 
     public struct ListAssessmentsResponse: AWSDecodableShape {
-        ///  The metadata that's associated with the assessment.
+        /// The metadata that the ListAssessments API returns for each assessment.
         public let assessmentMetadata: [AssessmentMetadataItem]?
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
@@ -3574,7 +3643,7 @@ extension AuditManager {
     }
 
     public struct ListControlsResponse: AWSDecodableShape {
-        ///  The list of control metadata objects that the ListControls API returned.
+        ///  A list of metadata that the ListControls API returns for each control.
         public let controlMetadataList: [ControlMetadata]?
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
@@ -3717,21 +3786,35 @@ extension AuditManager {
     }
 
     public struct ManualEvidence: AWSEncodableShape & AWSDecodableShape {
-        ///  The Amazon S3 URL that points to a manual evidence object.
+        /// The name of the file that's uploaded as manual evidence. This name is populated using the evidenceFileName value from the  GetEvidenceFileUploadUrl API response.
+        public let evidenceFileName: String?
+        /// The S3 URL of the object that's imported as manual evidence.
         public let s3ResourcePath: String?
+        /// The plain text response that's entered and saved as manual evidence.
+        public let textResponse: String?
 
-        public init(s3ResourcePath: String? = nil) {
+        public init(evidenceFileName: String? = nil, s3ResourcePath: String? = nil, textResponse: String? = nil) {
+            self.evidenceFileName = evidenceFileName
             self.s3ResourcePath = s3ResourcePath
+            self.textResponse = textResponse
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.evidenceFileName, name: "evidenceFileName", parent: name, max: 300)
+            try self.validate(self.evidenceFileName, name: "evidenceFileName", parent: name, min: 1)
+            try self.validate(self.evidenceFileName, name: "evidenceFileName", parent: name, pattern: "^[^\\/]*$")
             try self.validate(self.s3ResourcePath, name: "s3ResourcePath", parent: name, max: 1024)
             try self.validate(self.s3ResourcePath, name: "s3ResourcePath", parent: name, min: 1)
             try self.validate(self.s3ResourcePath, name: "s3ResourcePath", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\/]+$")
+            try self.validate(self.textResponse, name: "textResponse", parent: name, max: 1000)
+            try self.validate(self.textResponse, name: "textResponse", parent: name, min: 1)
+            try self.validate(self.textResponse, name: "textResponse", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case evidenceFileName = "evidenceFileName"
             case s3ResourcePath = "s3ResourcePath"
+            case textResponse = "textResponse"
         }
     }
 
@@ -3947,8 +4030,10 @@ extension AuditManager {
     }
 
     public struct Settings: AWSDecodableShape {
-        ///  The default storage destination for assessment reports.
+        /// The default S3 destination bucket for storing assessment reports.
         public let defaultAssessmentReportsDestination: AssessmentReportsDestination?
+        /// The default S3 destination bucket for storing evidence finder exports.
+        public let defaultExportDestination: DefaultExportDestination?
         ///  The designated default audit owners.
         public let defaultProcessOwners: [Role]?
         /// The deregistration policy for your Audit Manager data. You can use this attribute to determine how your data is handled when you deregister Audit Manager.
@@ -3962,8 +4047,9 @@ extension AuditManager {
         ///  The designated Amazon Simple Notification Service (Amazon SNS) topic.
         public let snsTopic: String?
 
-        public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultProcessOwners: [Role]? = nil, deregistrationPolicy: DeregistrationPolicy? = nil, evidenceFinderEnablement: EvidenceFinderEnablement? = nil, isAwsOrgEnabled: Bool? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
+        public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultExportDestination: DefaultExportDestination? = nil, defaultProcessOwners: [Role]? = nil, deregistrationPolicy: DeregistrationPolicy? = nil, evidenceFinderEnablement: EvidenceFinderEnablement? = nil, isAwsOrgEnabled: Bool? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
             self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
+            self.defaultExportDestination = defaultExportDestination
             self.defaultProcessOwners = defaultProcessOwners
             self.deregistrationPolicy = deregistrationPolicy
             self.evidenceFinderEnablement = evidenceFinderEnablement
@@ -3974,6 +4060,7 @@ extension AuditManager {
 
         private enum CodingKeys: String, CodingKey {
             case defaultAssessmentReportsDestination = "defaultAssessmentReportsDestination"
+            case defaultExportDestination = "defaultExportDestination"
             case defaultProcessOwners = "defaultProcessOwners"
             case deregistrationPolicy = "deregistrationPolicy"
             case evidenceFinderEnablement = "evidenceFinderEnablement"
@@ -3984,9 +4071,9 @@ extension AuditManager {
     }
 
     public struct SourceKeyword: AWSEncodableShape & AWSDecodableShape {
-        ///  The input method for the keyword.
+        ///  The input method for the keyword.     SELECT_FROM_LIST is used when mapping a data source for automated evidence.   When keywordInputType is SELECT_FROM_LIST, a keyword must be selected to collect automated evidence. For example, this keyword can be a CloudTrail event name, a rule name for Config, a Security Hub control, or the name of an Amazon Web Services API call.      UPLOAD_FILE and INPUT_TEXT are only used when mapping a data source for manual evidence.   When keywordInputType is UPLOAD_FILE, a file must be uploaded as manual evidence.   When keywordInputType is INPUT_TEXT, text must be entered as manual evidence.
         public let keywordInputType: KeywordInputType?
-        ///  The value of the keyword that's used when mapping a control data source. For example, this can be a CloudTrail event name, a rule name for Config, a Security Hub control, or the name of an Amazon Web Services API call.  If you’re mapping a data source to a rule in Config, the keywordValue that you specify depends on the type of rule:   For managed rules, you can use the rule identifier as the keywordValue. You can find the rule identifier from the list of Config managed rules.   Managed rule name: s3-bucket-acl-prohibited   keywordValue: S3_BUCKET_ACL_PROHIBITED      For custom rules, you form the keywordValue by adding the Custom_ prefix to the rule name. This prefix distinguishes the rule from a managed rule.   Custom rule name: my-custom-config-rule  keywordValue: Custom_my-custom-config-rule      For service-linked rules, you form the keywordValue by adding the Custom_ prefix to the rule name. In addition, you remove the suffix ID that appears at the end of the rule name.   Service-linked rule name: CustomRuleForAccount-conformance-pack-szsm1uv0w  keywordValue: Custom_CustomRuleForAccount-conformance-pack    Service-linked rule name: OrgConfigRule-s3-bucket-versioning-enabled-dbgzf8ba  keywordValue: Custom_OrgConfigRule-s3-bucket-versioning-enabled
+        ///  The value of the keyword that's used when mapping a control data source. For example, this can be a CloudTrail event name, a rule name for Config, a Security Hub control, or the name of an Amazon Web Services API call.  If you’re mapping a data source to a rule in Config, the keywordValue that you specify depends on the type of rule:   For managed rules, you can use the rule identifier as the keywordValue. You can find the rule identifier from the list of Config managed rules. For some rules, the rule identifier is different from the rule name. For example, the rule name restricted-ssh has the following rule identifier: INCOMING_SSH_DISABLED. Make sure to use the rule identifier, not the rule name.  Keyword example for managed rules:   Managed rule name: s3-bucket-acl-prohibited   keywordValue: S3_BUCKET_ACL_PROHIBITED      For custom rules, you form the keywordValue by adding the Custom_ prefix to the rule name. This prefix distinguishes the custom rule from a managed rule.  Keyword example for custom rules:   Custom rule name: my-custom-config-rule  keywordValue: Custom_my-custom-config-rule      For service-linked rules, you form the keywordValue by adding the Custom_ prefix to the rule name. In addition, you remove the suffix ID that appears at the end of the rule name.  Keyword examples for service-linked rules:   Service-linked rule name: CustomRuleForAccount-conformance-pack-szsm1uv0w  keywordValue: Custom_CustomRuleForAccount-conformance-pack    Service-linked rule name: OrgConfigRule-s3-bucket-versioning-enabled-dbgzf8ba  keywordValue: Custom_OrgConfigRule-s3-bucket-versioning-enabled       The keywordValue is case sensitive. If you enter a value incorrectly, Audit Manager might not recognize the data source mapping. As a result, you might not successfully collect evidence from that data source as intended.  Keep in mind the following requirements, depending on the data source type that you're using.    For Config:    For managed rules, make sure that the keywordValue is the rule identifier in ALL_CAPS_WITH_UNDERSCORES. For example, CLOUDWATCH_LOG_GROUP_ENCRYPTED. For accuracy, we recommend that you reference the list of supported Config managed rules.   For custom rules, make sure that the keywordValue has the Custom_ prefix followed by the custom rule name. The format of the custom rule name itself may vary. For accuracy, we recommend that you visit the Config console to verify your custom rule name.     For Security Hub: The format varies for Security Hub control names. For accuracy, we recommend that you reference the list of supported Security Hub controls.   For Amazon Web Services API calls: Make sure that the keywordValue is written as serviceprefix_ActionName. For example, iam_ListGroups. For accuracy, we recommend that you reference the list of supported API calls.   For CloudTrail: Make sure that the keywordValue is written as serviceprefix_ActionName. For example, cloudtrail_StartLogging. For accuracy, we recommend that you review the Amazon Web Service prefix and action names in the Service Authorization Reference.
         public let keywordValue: String?
 
         public init(keywordInputType: KeywordInputType? = nil, keywordValue: String? = nil) {
@@ -4579,8 +4666,10 @@ extension AuditManager {
     }
 
     public struct UpdateSettingsRequest: AWSEncodableShape {
-        ///  The default storage destination for assessment reports.
+        ///  The default S3 destination bucket for storing assessment reports.
         public let defaultAssessmentReportsDestination: AssessmentReportsDestination?
+        ///  The default S3 destination bucket for storing evidence finder exports.
+        public let defaultExportDestination: DefaultExportDestination?
         ///  A list of the default audit owners.
         public let defaultProcessOwners: [Role]?
         /// The deregistration policy for your Audit Manager data. You can use this attribute to determine how your data is handled when you deregister Audit Manager.
@@ -4592,8 +4681,9 @@ extension AuditManager {
         ///  The Amazon Simple Notification Service (Amazon SNS) topic that Audit Manager sends notifications to.
         public let snsTopic: String?
 
-        public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultProcessOwners: [Role]? = nil, deregistrationPolicy: DeregistrationPolicy? = nil, evidenceFinderEnabled: Bool? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
+        public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultExportDestination: DefaultExportDestination? = nil, defaultProcessOwners: [Role]? = nil, deregistrationPolicy: DeregistrationPolicy? = nil, evidenceFinderEnabled: Bool? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
             self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
+            self.defaultExportDestination = defaultExportDestination
             self.defaultProcessOwners = defaultProcessOwners
             self.deregistrationPolicy = deregistrationPolicy
             self.evidenceFinderEnabled = evidenceFinderEnabled
@@ -4603,6 +4693,7 @@ extension AuditManager {
 
         public func validate(name: String) throws {
             try self.defaultAssessmentReportsDestination?.validate(name: "\(name).defaultAssessmentReportsDestination")
+            try self.defaultExportDestination?.validate(name: "\(name).defaultExportDestination")
             try self.defaultProcessOwners?.forEach {
                 try $0.validate(name: "\(name).defaultProcessOwners[]")
             }
@@ -4616,6 +4707,7 @@ extension AuditManager {
 
         private enum CodingKeys: String, CodingKey {
             case defaultAssessmentReportsDestination = "defaultAssessmentReportsDestination"
+            case defaultExportDestination = "defaultExportDestination"
             case defaultProcessOwners = "defaultProcessOwners"
             case deregistrationPolicy = "deregistrationPolicy"
             case evidenceFinderEnabled = "evidenceFinderEnabled"

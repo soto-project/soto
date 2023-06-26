@@ -181,7 +181,7 @@ extension Pricing {
             try self.validate(self.fileFormat, name: "fileFormat", parent: name, min: 1)
             try self.validate(self.priceListArn, name: "priceListArn", parent: name, max: 2048)
             try self.validate(self.priceListArn, name: "priceListArn", parent: name, min: 18)
-            try self.validate(self.priceListArn, name: "priceListArn", parent: name, pattern: "^arn:.+:pricing::.*:price-list/.{1,255}/.{1,32}/[A-Z]{3}/[0-9]{14}/[^/]*$")
+            try self.validate(self.priceListArn, name: "priceListArn", parent: name, pattern: "^arn:[A-Za-z0-9][-.A-Za-z0-9]{0,62}:pricing:::price-list/[A-Za-z0-9_/.-]{1,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {

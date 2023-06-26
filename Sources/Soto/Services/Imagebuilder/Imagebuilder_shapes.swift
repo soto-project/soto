@@ -390,8 +390,8 @@ extension Imagebuilder {
         public let parameters: [ComponentParameterDetail]?
         /// The operating system platform of the component.
         public let platform: Platform?
-        /// Contains the name of the publisher if this is a third-party component. Otherwise, this
-        /// 			property is empty.
+        /// Contains the name of the publisher if this is a third-party component. Otherwise,
+        /// 			this property is empty.
         public let publisher: String?
         /// Describes the current status of the component. This is used for components that are no
         /// 			longer active.
@@ -557,15 +557,15 @@ extension Imagebuilder {
         public let description: String?
         /// The name of the component.
         public let name: String?
-        /// Indicates whether component source is hidden from view in the console, and from
-        /// 			component detail results for API, CLI, or SDK operations.
+        /// Indicates whether component source is hidden from view in the console,
+        /// 			and from component detail results for API, CLI, or SDK operations.
         public let obfuscate: Bool?
         /// The owner of the component.
         public let owner: String?
         /// The operating system platform of the component.
         public let platform: Platform?
-        /// Contains the name of the publisher if this is a third-party component. Otherwise, this
-        /// 			property is empty.
+        /// Contains the name of the publisher if this is a third-party component. Otherwise,
+        /// 			this property is empty.
         public let publisher: String?
         /// Describes the current status of the component.
         public let state: ComponentState?
@@ -2917,18 +2917,18 @@ extension Imagebuilder {
         /// 					initiated by a cron expression in the Image Builder pipeline, or from EventBridge.    IMPORT – A VM import created
         /// 					the image to use as the base image for the recipe.
         public let buildType: BuildType?
-        /// For container images, this is the container recipe that Image Builder used to create the image.
-        /// 			For images that distribute an AMI, this is empty.
+        /// For container images, this is the container recipe that Image Builder used to create the
+        /// 			image. For images that distribute an AMI, this is empty.
         public let containerRecipe: ContainerRecipe?
         /// The date on which Image Builder created this image.
         public let dateCreated: String?
         /// The distribution configuration that Image Builder used to create this image.
         public let distributionConfiguration: DistributionConfiguration?
-        /// Indicates whether Image Builder collects additional information about the image, such as the
-        /// 			operating system (OS) version and package list.
+        /// Indicates whether Image Builder collects additional information about the image, such as
+        /// 			the operating system (OS) version and package list.
         public let enhancedImageMetadataEnabled: Bool?
-        /// For images that distribute an AMI, this is the image recipe that Image Builder used to create
-        /// 			the image. For container images, this is empty.
+        /// For images that distribute an AMI, this is the image recipe that Image Builder used to
+        /// 			create the image. For container images, this is empty.
         public let imageRecipe: ImageRecipe?
         /// Contains settings for vulnerability scans.
         public let imageScanningConfiguration: ImageScanningConfiguration?
@@ -3066,7 +3066,7 @@ extension Imagebuilder {
         public let dateCreated: String?
         /// This is no longer supported, and does not return a value.
         public let dateLastRun: String?
-        /// This is no longer supported, and does not return a value.
+        /// The next date when the pipeline is scheduled to run.
         public let dateNextRun: String?
         /// The date on which this image pipeline was last updated.
         public let dateUpdated: String?

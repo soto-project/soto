@@ -26,7 +26,7 @@ extension AmplifyUIBuilder {
         return try await self.client.execute(operation: "CreateComponent", path: "/app/{appId}/environment/{environmentName}/components", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new form for an Amplify app.
+    /// Creates a new form for an Amplify.
     public func createForm(_ input: CreateFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateFormResponse {
         return try await self.client.execute(operation: "CreateForm", path: "/app/{appId}/environment/{environmentName}/forms", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -71,6 +71,11 @@ extension AmplifyUIBuilder {
         return try await self.client.execute(operation: "ExportThemes", path: "/export/app/{appId}/environment/{environmentName}/themes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns an existing code generation job.
+    public func getCodegenJob(_ input: GetCodegenJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetCodegenJobResponse {
+        return try await self.client.execute(operation: "GetCodegenJob", path: "/app/{appId}/environment/{environmentName}/codegen-jobs/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns an existing component for an Amplify app.
     public func getComponent(_ input: GetComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetComponentResponse {
         return try await self.client.execute(operation: "GetComponent", path: "/app/{appId}/environment/{environmentName}/components/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -89,6 +94,11 @@ extension AmplifyUIBuilder {
     /// Returns an existing theme for an Amplify app.
     public func getTheme(_ input: GetThemeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetThemeResponse {
         return try await self.client.execute(operation: "GetTheme", path: "/app/{appId}/environment/{environmentName}/themes/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a list of code generation jobs for a specified Amplify app and backend environment.
+    public func listCodegenJobs(_ input: ListCodegenJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListCodegenJobsResponse {
+        return try await self.client.execute(operation: "ListCodegenJobs", path: "/app/{appId}/environment/{environmentName}/codegen-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves a list of components for a specified Amplify app and backend environment.
@@ -114,6 +124,11 @@ extension AmplifyUIBuilder {
     /// Refreshes a previously issued access token that might have expired.
     public func refreshToken(_ input: RefreshTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RefreshTokenResponse {
         return try await self.client.execute(operation: "RefreshToken", path: "/tokens/{provider}/refresh", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts a code generation job for for a specified Amplify app and backend environment.
+    public func startCodegenJob(_ input: StartCodegenJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartCodegenJobResponse {
+        return try await self.client.execute(operation: "StartCodegenJob", path: "/app/{appId}/environment/{environmentName}/codegen-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates an existing component.
@@ -197,6 +212,28 @@ extension AmplifyUIBuilder {
             command: self.exportThemes,
             inputKey: \ExportThemesRequest.nextToken,
             outputKey: \ExportThemesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Retrieves a list of code generation jobs for a specified Amplify app and backend environment.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listCodegenJobsPaginator(
+        _ input: ListCodegenJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListCodegenJobsRequest, ListCodegenJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listCodegenJobs,
+            inputKey: \ListCodegenJobsRequest.nextToken,
+            outputKey: \ListCodegenJobsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

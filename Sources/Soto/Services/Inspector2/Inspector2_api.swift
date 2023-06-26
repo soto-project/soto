@@ -73,6 +73,11 @@ public struct Inspector2: AWSService {
         return self.client.execute(operation: "BatchGetAccountStatus", path: "/status/batch/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities in.
+    public func batchGetCodeSnippet(_ input: BatchGetCodeSnippetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetCodeSnippetResponse> {
+        return self.client.execute(operation: "BatchGetCodeSnippet", path: "/codesnippet/batchget", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets free trial status for multiple Amazon Web Services accounts.
     public func batchGetFreeTrialInfo(_ input: BatchGetFreeTrialInfoRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetFreeTrialInfoResponse> {
         return self.client.execute(operation: "BatchGetFreeTrialInfo", path: "/freetrialinfo/batchget", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -93,6 +98,11 @@ public struct Inspector2: AWSService {
         return self.client.execute(operation: "CancelFindingsReport", path: "/reporting/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Cancels a software bill of materials (SBOM) report.
+    public func cancelSbomExport(_ input: CancelSbomExportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelSbomExportResponse> {
+        return self.client.execute(operation: "CancelSbomExport", path: "/sbomexport/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a filter resource using specified filter criteria.
     public func createFilter(_ input: CreateFilterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFilterResponse> {
         return self.client.execute(operation: "CreateFilter", path: "/filters/create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -101,6 +111,11 @@ public struct Inspector2: AWSService {
     /// Creates a finding report. By default only ACTIVE findings are returned in the report. To see SUPRESSED or CLOSED findings you must specify a value for the findingStatus filter criteria.
     public func createFindingsReport(_ input: CreateFindingsReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFindingsReportResponse> {
         return self.client.execute(operation: "CreateFindingsReport", path: "/reporting/create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a software bill of materials (SBOM) report.
+    public func createSbomExport(_ input: CreateSbomExportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSbomExportResponse> {
+        return self.client.execute(operation: "CreateSbomExport", path: "/sbomexport/create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a filter resource.
@@ -153,6 +168,11 @@ public struct Inspector2: AWSService {
         return self.client.execute(operation: "GetEc2DeepInspectionConfiguration", path: "/ec2deepinspectionconfiguration/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets an encryption key.
+    public func getEncryptionKey(_ input: GetEncryptionKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEncryptionKeyResponse> {
+        return self.client.execute(operation: "GetEncryptionKey", path: "/encryptionkey/get", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets the status of a findings report.
     public func getFindingsReportStatus(_ input: GetFindingsReportStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFindingsReportStatusResponse> {
         return self.client.execute(operation: "GetFindingsReportStatus", path: "/reporting/status/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -161,6 +181,11 @@ public struct Inspector2: AWSService {
     /// Gets member information for your organization.
     public func getMember(_ input: GetMemberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMemberResponse> {
         return self.client.execute(operation: "GetMember", path: "/members/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets details of a software bill of materials (SBOM) report.
+    public func getSbomExport(_ input: GetSbomExportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSbomExportResponse> {
+        return self.client.execute(operation: "GetSbomExport", path: "/sbomexport/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the permissions an account has to configure Amazon Inspector.
@@ -213,6 +238,11 @@ public struct Inspector2: AWSService {
         return self.client.execute(operation: "ListUsageTotals", path: "/usage/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Resets an encryption key. After the key is reset your resources will be encrypted by an Amazon Web Services owned key.
+    public func resetEncryptionKey(_ input: ResetEncryptionKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResetEncryptionKeyResponse> {
+        return self.client.execute(operation: "ResetEncryptionKey", path: "/encryptionkey/reset", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists Amazon Inspector coverage details for a specific vulnerability.
     public func searchVulnerabilities(_ input: SearchVulnerabilitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchVulnerabilitiesResponse> {
         return self.client.execute(operation: "SearchVulnerabilities", path: "/vulnerabilities/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -236,6 +266,11 @@ public struct Inspector2: AWSService {
     /// Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
     public func updateEc2DeepInspectionConfiguration(_ input: UpdateEc2DeepInspectionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEc2DeepInspectionConfigurationResponse> {
         return self.client.execute(operation: "UpdateEc2DeepInspectionConfiguration", path: "/ec2deepinspectionconfiguration/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates an encryption key. A ResourceNotFoundException means that an AWS owned key is being used for encryption.
+    public func updateEncryptionKey(_ input: UpdateEncryptionKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEncryptionKeyResponse> {
+        return self.client.execute(operation: "UpdateEncryptionKey", path: "/encryptionkey/update", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Specifies the action that is to be applied to the findings that match the filter.

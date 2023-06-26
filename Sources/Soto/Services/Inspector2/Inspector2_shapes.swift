@@ -34,6 +34,7 @@ extension Inspector2 {
     }
 
     public enum AggregationFindingType: String, CustomStringConvertible, Codable, Sendable {
+        case codeVulnerability = "CODE_VULNERABILITY"
         case networkReachability = "NETWORK_REACHABILITY"
         case packageVulnerability = "PACKAGE_VULNERABILITY"
         public var description: String { return self.rawValue }
@@ -79,6 +80,14 @@ extension Inspector2 {
         case all = "ALL"
         case critical = "CRITICAL"
         case high = "HIGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CodeSnippetErrorCode: String, CustomStringConvertible, Codable, Sendable {
+        case accessDenied = "ACCESS_DENIED"
+        case codeSnippetNotFound = "CODE_SNIPPET_NOT_FOUND"
+        case internalError = "INTERNAL_ERROR"
+        case invalidInput = "INVALID_INPUT"
         public var description: String { return self.rawValue }
     }
 
@@ -202,6 +211,7 @@ extension Inspector2 {
     }
 
     public enum FindingType: String, CustomStringConvertible, Codable, Sendable {
+        case codeVulnerability = "CODE_VULNERABILITY"
         case networkReachability = "NETWORK_REACHABILITY"
         case packageVulnerability = "PACKAGE_VULNERABILITY"
         public var description: String { return self.rawValue }
@@ -237,6 +247,7 @@ extension Inspector2 {
         case ec2 = "EC2"
         case ecr = "ECR"
         case lambda = "LAMBDA"
+        case lambdaCode = "LAMBDA_CODE"
         public var description: String { return self.rawValue }
     }
 
@@ -363,10 +374,22 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceMapComparison: String, CustomStringConvertible, Codable, Sendable {
+        case equals = "EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceScanType: String, CustomStringConvertible, Codable, Sendable {
         case ec2 = "EC2"
         case ecr = "ECR"
         case lambda = "LAMBDA"
+        case lambdaCode = "LAMBDA_CODE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceStringComparison: String, CustomStringConvertible, Codable, Sendable {
+        case equals = "EQUALS"
+        case notEquals = "NOT_EQUALS"
         public var description: String { return self.rawValue }
     }
 
@@ -381,6 +404,7 @@ extension Inspector2 {
     public enum Runtime: String, CustomStringConvertible, Codable, Sendable {
         case go1X = "GO_1_X"
         case java11 = "JAVA_11"
+        case java17 = "JAVA_17"
         case java8 = "JAVA_8"
         case java8Al2 = "JAVA_8_AL2"
         case nodejs = "NODEJS"
@@ -388,10 +412,17 @@ extension Inspector2 {
         case nodejs14X = "NODEJS_14_X"
         case nodejs16X = "NODEJS_16_X"
         case nodejs18X = "NODEJS_18_X"
+        case python310 = "PYTHON_3_10"
         case python37 = "PYTHON_3_7"
         case python38 = "PYTHON_3_8"
         case python39 = "PYTHON_3_9"
         case unsupported = "UNSUPPORTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SbomReportFormat: String, CustomStringConvertible, Codable, Sendable {
+        case cyclonedx14 = "CYCLONEDX_1_4"
+        case spdx23 = "SPDX_2_3"
         public var description: String { return self.rawValue }
     }
 
@@ -430,6 +461,7 @@ extension Inspector2 {
     }
 
     public enum ScanType: String, CustomStringConvertible, Codable, Sendable {
+        case code = "CODE"
         case network = "NETWORK"
         case package = "PACKAGE"
         public var description: String { return self.rawValue }
@@ -458,6 +490,7 @@ extension Inspector2 {
         case ecrImagePushedAt = "ECR_IMAGE_PUSHED_AT"
         case ecrImageRegistry = "ECR_IMAGE_REGISTRY"
         case ecrImageRepositoryName = "ECR_IMAGE_REPOSITORY_NAME"
+        case epssScore = "EPSS_SCORE"
         case findingStatus = "FINDING_STATUS"
         case findingType = "FINDING_TYPE"
         case firstObservedAt = "FIRST_OBSERVED_AT"
@@ -506,6 +539,7 @@ extension Inspector2 {
         case ec2InstanceHours = "EC2_INSTANCE_HOURS"
         case ecrInitialScan = "ECR_INITIAL_SCAN"
         case ecrRescan = "ECR_RESCAN"
+        case lambdaFunctionCodeHours = "LAMBDA_FUNCTION_CODE_HOURS"
         case lambdaFunctionHours = "LAMBDA_FUNCTION_HOURS"
         public var description: String { return self.rawValue }
     }
@@ -896,17 +930,21 @@ extension Inspector2 {
         public let ecr: Bool
         /// Represents whether AWS Lambda standard scans are automatically enabled for new members of your Amazon Inspector organization.
         public let lambda: Bool?
+        /// Represents whether AWS Lambda code scans are automatically enabled for new members of your Amazon Inspector organization.
+        public let lambdaCode: Bool?
 
-        public init(ec2: Bool, ecr: Bool, lambda: Bool? = nil) {
+        public init(ec2: Bool, ecr: Bool, lambda: Bool? = nil, lambdaCode: Bool? = nil) {
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
+            self.lambdaCode = lambdaCode
         }
 
         private enum CodingKeys: String, CodingKey {
             case ec2 = "ec2"
             case ecr = "ecr"
             case lambda = "lambda"
+            case lambdaCode = "lambdaCode"
         }
     }
 
@@ -1190,6 +1228,44 @@ extension Inspector2 {
         }
     }
 
+    public struct BatchGetCodeSnippetRequest: AWSEncodableShape {
+        /// An array of finding ARNs for the findings you want to retrieve code snippets from.
+        public let findingArns: [String]
+
+        public init(findingArns: [String]) {
+            self.findingArns = findingArns
+        }
+
+        public func validate(name: String) throws {
+            try self.findingArns.forEach {
+                try validate($0, name: "findingArns[]", parent: name, max: 100)
+                try validate($0, name: "findingArns[]", parent: name, min: 1)
+                try validate($0, name: "findingArns[]", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:finding/[a-f0-9]{32}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingArns = "findingArns"
+        }
+    }
+
+    public struct BatchGetCodeSnippetResponse: AWSDecodableShape {
+        /// The retrieved code snippets associated with the provided finding ARNs.
+        public let codeSnippetResults: [CodeSnippetResult]?
+        /// Any errors Amazon Inspector encountered while trying to retrieve the requested code snippets.
+        public let errors: [CodeSnippetError]?
+
+        public init(codeSnippetResults: [CodeSnippetResult]? = nil, errors: [CodeSnippetError]? = nil) {
+            self.codeSnippetResults = codeSnippetResults
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeSnippetResults = "codeSnippetResults"
+            case errors = "errors"
+        }
+    }
+
     public struct BatchGetFreeTrialInfoRequest: AWSEncodableShape {
         /// The account IDs to get free trial status for.
         public let accountIds: [String]
@@ -1332,6 +1408,36 @@ extension Inspector2 {
         }
     }
 
+    public struct CancelSbomExportRequest: AWSEncodableShape {
+        /// The report ID of the SBOM export to cancel.
+        public let reportId: String
+
+        public init(reportId: String) {
+            self.reportId = reportId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reportId, name: "reportId", parent: name, pattern: "\\b[a-f0-9]{8}\\b-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-\\b[a-f0-9]{12}\\b")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportId = "reportId"
+        }
+    }
+
+    public struct CancelSbomExportResponse: AWSDecodableShape {
+        /// The report ID of the canceled SBOM export.
+        public let reportId: String?
+
+        public init(reportId: String? = nil) {
+            self.reportId = reportId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportId = "reportId"
+        }
+    }
+
     public struct CisaData: AWSDecodableShape {
         /// The remediation action recommended by CISA for this vulnerability.
         public let action: String?
@@ -1350,6 +1456,139 @@ extension Inspector2 {
             case action = "action"
             case dateAdded = "dateAdded"
             case dateDue = "dateDue"
+        }
+    }
+
+    public struct CodeFilePath: AWSDecodableShape {
+        /// The line number of the last line of code that a vulnerability was found in.
+        public let endLine: Int
+        /// The name of the file the code vulnerability was found in.
+        public let fileName: String
+        /// The file path to the code that a vulnerability was found in.
+        public let filePath: String
+        /// The line number of the first line of code that a vulnerability was found in.
+        public let startLine: Int
+
+        public init(endLine: Int, fileName: String, filePath: String, startLine: Int) {
+            self.endLine = endLine
+            self.fileName = fileName
+            self.filePath = filePath
+            self.startLine = startLine
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endLine = "endLine"
+            case fileName = "fileName"
+            case filePath = "filePath"
+            case startLine = "startLine"
+        }
+    }
+
+    public struct CodeLine: AWSDecodableShape {
+        /// The content of a line of code
+        public let content: String
+        /// The line number that a section of code is located at.
+        public let lineNumber: Int
+
+        public init(content: String, lineNumber: Int) {
+            self.content = content
+            self.lineNumber = lineNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case lineNumber = "lineNumber"
+        }
+    }
+
+    public struct CodeSnippetError: AWSDecodableShape {
+        /// The error code for the error that prevented a code snippet from being retrieved.
+        public let errorCode: CodeSnippetErrorCode
+        /// The error message received when Amazon Inspector failed to retrieve a code snippet.
+        public let errorMessage: String
+        /// The ARN of the finding that a code snippet couldn't be retrieved for.
+        public let findingArn: String
+
+        public init(errorCode: CodeSnippetErrorCode, errorMessage: String, findingArn: String) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.findingArn = findingArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case findingArn = "findingArn"
+        }
+    }
+
+    public struct CodeSnippetResult: AWSDecodableShape {
+        /// Contains information on the retrieved code snippet.
+        public let codeSnippet: [CodeLine]?
+        /// The line number of the last line of a code snippet.
+        public let endLine: Int?
+        /// The ARN of a finding that the code snippet is associated with.
+        public let findingArn: String?
+        /// The line number of the first line of a code snippet.
+        public let startLine: Int?
+        /// Details of a suggested code fix.
+        public let suggestedFixes: [SuggestedFix]?
+
+        public init(codeSnippet: [CodeLine]? = nil, endLine: Int? = nil, findingArn: String? = nil, startLine: Int? = nil, suggestedFixes: [SuggestedFix]? = nil) {
+            self.codeSnippet = codeSnippet
+            self.endLine = endLine
+            self.findingArn = findingArn
+            self.startLine = startLine
+            self.suggestedFixes = suggestedFixes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeSnippet = "codeSnippet"
+            case endLine = "endLine"
+            case findingArn = "findingArn"
+            case startLine = "startLine"
+            case suggestedFixes = "suggestedFixes"
+        }
+    }
+
+    public struct CodeVulnerabilityDetails: AWSDecodableShape {
+        /// The Common Weakness Enumeration (CWE) item associated with the detected vulnerability.
+        public let cwes: [String]
+        /// The ID for the Amazon CodeGuru detector associated with the finding. For more information on detectors see Amazon CodeGuru Detector Library.
+        public let detectorId: String
+        /// The name of the detector used to identify the code vulnerability. For more information on detectors see CodeGuru Detector Library.
+        public let detectorName: String
+        /// The detector tag associated with the vulnerability. Detector tags group related vulnerabilities by common themes or tactics. For a list of available tags by programming language, see Java tags, or Python tags.
+        public let detectorTags: [String]?
+        /// Contains information on where the code vulnerability is located in your code.
+        public let filePath: CodeFilePath
+        /// A URL containing supporting documentation about the code vulnerability detected.
+        public let referenceUrls: [String]?
+        /// The identifier for a rule that was used to detect the code vulnerability.
+        public let ruleId: String?
+        /// The Amazon Resource Name (ARN) of the Lambda layer that the code vulnerability was detected in.
+        public let sourceLambdaLayerArn: String?
+
+        public init(cwes: [String], detectorId: String, detectorName: String, detectorTags: [String]? = nil, filePath: CodeFilePath, referenceUrls: [String]? = nil, ruleId: String? = nil, sourceLambdaLayerArn: String? = nil) {
+            self.cwes = cwes
+            self.detectorId = detectorId
+            self.detectorName = detectorName
+            self.detectorTags = detectorTags
+            self.filePath = filePath
+            self.referenceUrls = referenceUrls
+            self.ruleId = ruleId
+            self.sourceLambdaLayerArn = sourceLambdaLayerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cwes = "cwes"
+            case detectorId = "detectorId"
+            case detectorName = "detectorName"
+            case detectorTags = "detectorTags"
+            case filePath = "filePath"
+            case referenceUrls = "referenceUrls"
+            case ruleId = "ruleId"
+            case sourceLambdaLayerArn = "sourceLambdaLayerArn"
         }
     }
 
@@ -1686,6 +1925,43 @@ extension Inspector2 {
 
     public struct CreateFindingsReportResponse: AWSDecodableShape {
         /// The ID of the report.
+        public let reportId: String?
+
+        public init(reportId: String? = nil) {
+            self.reportId = reportId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportId = "reportId"
+        }
+    }
+
+    public struct CreateSbomExportRequest: AWSEncodableShape {
+        /// The output format for the software bill of materials (SBOM) report.
+        public let reportFormat: SbomReportFormat
+        /// The resource filter criteria for the software bill of materials (SBOM) report.
+        public let resourceFilterCriteria: ResourceFilterCriteria?
+        public let s3Destination: Destination
+
+        public init(reportFormat: SbomReportFormat, resourceFilterCriteria: ResourceFilterCriteria? = nil, s3Destination: Destination) {
+            self.reportFormat = reportFormat
+            self.resourceFilterCriteria = resourceFilterCriteria
+            self.s3Destination = s3Destination
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceFilterCriteria?.validate(name: "\(name).resourceFilterCriteria")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportFormat = "reportFormat"
+            case resourceFilterCriteria = "resourceFilterCriteria"
+            case s3Destination = "s3Destination"
+        }
+    }
+
+    public struct CreateSbomExportResponse: AWSDecodableShape {
+        /// The report ID for the software bill of materials (SBOM) report.
         public let reportId: String?
 
         public init(reportId: String? = nil) {
@@ -2331,6 +2607,19 @@ extension Inspector2 {
         }
     }
 
+    public struct EpssDetails: AWSDecodableShape {
+        /// The EPSS score.
+        public let score: Double?
+
+        public init(score: Double? = nil) {
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case score = "score"
+        }
+    }
+
     public struct ExploitObserved: AWSDecodableShape {
         /// The date an time when the exploit was first seen.
         public let firstSeen: Date?
@@ -2463,6 +2752,12 @@ extension Inspector2 {
     public struct FilterCriteria: AWSEncodableShape & AWSDecodableShape {
         /// Details of the Amazon Web Services account IDs used to filter findings.
         public let awsAccountId: [StringFilter]?
+        /// The name of the detector used to identify a code vulnerability in a Lambda function used to filter findings.
+        public let codeVulnerabilityDetectorName: [StringFilter]?
+        /// The detector type tag associated with the vulnerability used to filter findings. Detector tags group related vulnerabilities by common themes or tactics. For a list of available tags by programming language, see Java tags, or Python tags.
+        public let codeVulnerabilityDetectorTags: [StringFilter]?
+        /// The file path to the file in a Lambda function that contains a code vulnerability used to filter findings.
+        public let codeVulnerabilityFilePath: [StringFilter]?
         /// Details of the component IDs used to filter findings.
         public let componentId: [StringFilter]?
         /// Details of the component types used to filter findings.
@@ -2485,6 +2780,8 @@ extension Inspector2 {
         public let ecrImageRepositoryName: [StringFilter]?
         /// The tags attached to the Amazon ECR container image.
         public let ecrImageTags: [StringFilter]?
+        /// The EPSS score used to filter findings.
+        public let epssScore: [NumberFilter]?
         /// Filters the list of AWS Lambda findings by the availability of exploits.
         public let exploitAvailable: [StringFilter]?
         /// Details on the finding ARNs used to filter findings.
@@ -2538,8 +2835,11 @@ extension Inspector2 {
         /// Details on the vulnerable packages used to filter findings.
         public let vulnerablePackages: [PackageFilter]?
 
-        public init(awsAccountId: [StringFilter]? = nil, componentId: [StringFilter]? = nil, componentType: [StringFilter]? = nil, ec2InstanceImageId: [StringFilter]? = nil, ec2InstanceSubnetId: [StringFilter]? = nil, ec2InstanceVpcId: [StringFilter]? = nil, ecrImageArchitecture: [StringFilter]? = nil, ecrImageHash: [StringFilter]? = nil, ecrImagePushedAt: [DateFilter]? = nil, ecrImageRegistry: [StringFilter]? = nil, ecrImageRepositoryName: [StringFilter]? = nil, ecrImageTags: [StringFilter]? = nil, exploitAvailable: [StringFilter]? = nil, findingArn: [StringFilter]? = nil, findingStatus: [StringFilter]? = nil, findingType: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, fixAvailable: [StringFilter]? = nil, inspectorScore: [NumberFilter]? = nil, lambdaFunctionExecutionRoleArn: [StringFilter]? = nil, lambdaFunctionLastModifiedAt: [DateFilter]? = nil, lambdaFunctionLayers: [StringFilter]? = nil, lambdaFunctionName: [StringFilter]? = nil, lambdaFunctionRuntime: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, networkProtocol: [StringFilter]? = nil, portRange: [PortRangeFilter]? = nil, relatedVulnerabilities: [StringFilter]? = nil, resourceId: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severity: [StringFilter]? = nil, title: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, vendorSeverity: [StringFilter]? = nil, vulnerabilityId: [StringFilter]? = nil, vulnerabilitySource: [StringFilter]? = nil, vulnerablePackages: [PackageFilter]? = nil) {
+        public init(awsAccountId: [StringFilter]? = nil, codeVulnerabilityDetectorName: [StringFilter]? = nil, codeVulnerabilityDetectorTags: [StringFilter]? = nil, codeVulnerabilityFilePath: [StringFilter]? = nil, componentId: [StringFilter]? = nil, componentType: [StringFilter]? = nil, ec2InstanceImageId: [StringFilter]? = nil, ec2InstanceSubnetId: [StringFilter]? = nil, ec2InstanceVpcId: [StringFilter]? = nil, ecrImageArchitecture: [StringFilter]? = nil, ecrImageHash: [StringFilter]? = nil, ecrImagePushedAt: [DateFilter]? = nil, ecrImageRegistry: [StringFilter]? = nil, ecrImageRepositoryName: [StringFilter]? = nil, ecrImageTags: [StringFilter]? = nil, epssScore: [NumberFilter]? = nil, exploitAvailable: [StringFilter]? = nil, findingArn: [StringFilter]? = nil, findingStatus: [StringFilter]? = nil, findingType: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, fixAvailable: [StringFilter]? = nil, inspectorScore: [NumberFilter]? = nil, lambdaFunctionExecutionRoleArn: [StringFilter]? = nil, lambdaFunctionLastModifiedAt: [DateFilter]? = nil, lambdaFunctionLayers: [StringFilter]? = nil, lambdaFunctionName: [StringFilter]? = nil, lambdaFunctionRuntime: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, networkProtocol: [StringFilter]? = nil, portRange: [PortRangeFilter]? = nil, relatedVulnerabilities: [StringFilter]? = nil, resourceId: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severity: [StringFilter]? = nil, title: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, vendorSeverity: [StringFilter]? = nil, vulnerabilityId: [StringFilter]? = nil, vulnerabilitySource: [StringFilter]? = nil, vulnerablePackages: [PackageFilter]? = nil) {
             self.awsAccountId = awsAccountId
+            self.codeVulnerabilityDetectorName = codeVulnerabilityDetectorName
+            self.codeVulnerabilityDetectorTags = codeVulnerabilityDetectorTags
+            self.codeVulnerabilityFilePath = codeVulnerabilityFilePath
             self.componentId = componentId
             self.componentType = componentType
             self.ec2InstanceImageId = ec2InstanceImageId
@@ -2551,6 +2851,7 @@ extension Inspector2 {
             self.ecrImageRegistry = ecrImageRegistry
             self.ecrImageRepositoryName = ecrImageRepositoryName
             self.ecrImageTags = ecrImageTags
+            self.epssScore = epssScore
             self.exploitAvailable = exploitAvailable
             self.findingArn = findingArn
             self.findingStatus = findingStatus
@@ -2585,6 +2886,21 @@ extension Inspector2 {
             }
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 10)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 1)
+            try self.codeVulnerabilityDetectorName?.forEach {
+                try $0.validate(name: "\(name).codeVulnerabilityDetectorName[]")
+            }
+            try self.validate(self.codeVulnerabilityDetectorName, name: "codeVulnerabilityDetectorName", parent: name, max: 10)
+            try self.validate(self.codeVulnerabilityDetectorName, name: "codeVulnerabilityDetectorName", parent: name, min: 1)
+            try self.codeVulnerabilityDetectorTags?.forEach {
+                try $0.validate(name: "\(name).codeVulnerabilityDetectorTags[]")
+            }
+            try self.validate(self.codeVulnerabilityDetectorTags, name: "codeVulnerabilityDetectorTags", parent: name, max: 10)
+            try self.validate(self.codeVulnerabilityDetectorTags, name: "codeVulnerabilityDetectorTags", parent: name, min: 1)
+            try self.codeVulnerabilityFilePath?.forEach {
+                try $0.validate(name: "\(name).codeVulnerabilityFilePath[]")
+            }
+            try self.validate(self.codeVulnerabilityFilePath, name: "codeVulnerabilityFilePath", parent: name, max: 10)
+            try self.validate(self.codeVulnerabilityFilePath, name: "codeVulnerabilityFilePath", parent: name, min: 1)
             try self.componentId?.forEach {
                 try $0.validate(name: "\(name).componentId[]")
             }
@@ -2637,6 +2953,8 @@ extension Inspector2 {
             }
             try self.validate(self.ecrImageTags, name: "ecrImageTags", parent: name, max: 10)
             try self.validate(self.ecrImageTags, name: "ecrImageTags", parent: name, min: 1)
+            try self.validate(self.epssScore, name: "epssScore", parent: name, max: 10)
+            try self.validate(self.epssScore, name: "epssScore", parent: name, min: 1)
             try self.exploitAvailable?.forEach {
                 try $0.validate(name: "\(name).exploitAvailable[]")
             }
@@ -2756,6 +3074,9 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "awsAccountId"
+            case codeVulnerabilityDetectorName = "codeVulnerabilityDetectorName"
+            case codeVulnerabilityDetectorTags = "codeVulnerabilityDetectorTags"
+            case codeVulnerabilityFilePath = "codeVulnerabilityFilePath"
             case componentId = "componentId"
             case componentType = "componentType"
             case ec2InstanceImageId = "ec2InstanceImageId"
@@ -2767,6 +3088,7 @@ extension Inspector2 {
             case ecrImageRegistry = "ecrImageRegistry"
             case ecrImageRepositoryName = "ecrImageRepositoryName"
             case ecrImageTags = "ecrImageTags"
+            case epssScore = "epssScore"
             case exploitAvailable = "exploitAvailable"
             case findingArn = "findingArn"
             case findingStatus = "findingStatus"
@@ -2799,8 +3121,12 @@ extension Inspector2 {
     public struct Finding: AWSDecodableShape {
         /// The Amazon Web Services account ID associated with the finding.
         public let awsAccountId: String
+        /// Details about the code vulnerability identified in a Lambda function used to filter findings.
+        public let codeVulnerabilityDetails: CodeVulnerabilityDetails?
         /// The description of the finding.
         public let description: String
+        /// The finding's EPSS score.
+        public let epss: EpssDetails?
         /// The details of an exploit available for a finding discovered in your environment.
         public let exploitabilityDetails: ExploitabilityDetails?
         /// If a finding discovered in your environment has an exploit available.
@@ -2836,9 +3162,11 @@ extension Inspector2 {
         /// The date and time the finding was last updated at.
         public let updatedAt: Date?
 
-        public init(awsAccountId: String, description: String, exploitabilityDetails: ExploitabilityDetails? = nil, exploitAvailable: ExploitAvailable? = nil, findingArn: String, firstObservedAt: Date, fixAvailable: FixAvailable? = nil, inspectorScore: Double? = nil, inspectorScoreDetails: InspectorScoreDetails? = nil, lastObservedAt: Date, networkReachabilityDetails: NetworkReachabilityDetails? = nil, packageVulnerabilityDetails: PackageVulnerabilityDetails? = nil, remediation: Remediation, resources: [Resource], severity: Severity, status: FindingStatus, title: String? = nil, type: FindingType, updatedAt: Date? = nil) {
+        public init(awsAccountId: String, codeVulnerabilityDetails: CodeVulnerabilityDetails? = nil, description: String, epss: EpssDetails? = nil, exploitabilityDetails: ExploitabilityDetails? = nil, exploitAvailable: ExploitAvailable? = nil, findingArn: String, firstObservedAt: Date, fixAvailable: FixAvailable? = nil, inspectorScore: Double? = nil, inspectorScoreDetails: InspectorScoreDetails? = nil, lastObservedAt: Date, networkReachabilityDetails: NetworkReachabilityDetails? = nil, packageVulnerabilityDetails: PackageVulnerabilityDetails? = nil, remediation: Remediation, resources: [Resource], severity: Severity, status: FindingStatus, title: String? = nil, type: FindingType, updatedAt: Date? = nil) {
             self.awsAccountId = awsAccountId
+            self.codeVulnerabilityDetails = codeVulnerabilityDetails
             self.description = description
+            self.epss = epss
             self.exploitabilityDetails = exploitabilityDetails
             self.exploitAvailable = exploitAvailable
             self.findingArn = findingArn
@@ -2860,7 +3188,9 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "awsAccountId"
+            case codeVulnerabilityDetails = "codeVulnerabilityDetails"
             case description = "description"
+            case epss = "epss"
             case exploitabilityDetails = "exploitabilityDetails"
             case exploitAvailable = "exploitAvailable"
             case findingArn = "findingArn"
@@ -3049,6 +3379,38 @@ extension Inspector2 {
         }
     }
 
+    public struct GetEncryptionKeyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType")),
+            AWSMemberEncoding(label: "scanType", location: .querystring("scanType"))
+        ]
+
+        /// The resource type the key encrypts.
+        public let resourceType: ResourceType
+        /// The scan type the key encrypts.
+        public let scanType: ScanType
+
+        public init(resourceType: ResourceType, scanType: ScanType) {
+            self.resourceType = resourceType
+            self.scanType = scanType
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetEncryptionKeyResponse: AWSDecodableShape {
+        /// A kms key ID.
+        public let kmsKeyId: String
+
+        public init(kmsKeyId: String) {
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "kmsKeyId"
+        }
+    }
+
     public struct GetFindingsReportStatusRequest: AWSEncodableShape {
         /// The ID of the report to retrieve the status of.
         public let reportId: String?
@@ -3128,6 +3490,59 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case member = "member"
+        }
+    }
+
+    public struct GetSbomExportRequest: AWSEncodableShape {
+        /// The report ID of the SBOM export to get details for.
+        public let reportId: String
+
+        public init(reportId: String) {
+            self.reportId = reportId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reportId, name: "reportId", parent: name, pattern: "\\b[a-f0-9]{8}\\b-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-\\b[a-f0-9]{12}\\b")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportId = "reportId"
+        }
+    }
+
+    public struct GetSbomExportResponse: AWSDecodableShape {
+        /// An error code.
+        public let errorCode: ReportingErrorCode?
+        /// An error message.
+        public let errorMessage: String?
+        /// Contains details about the resource filter criteria used for the software bill of materials (SBOM) report.
+        public let filterCriteria: ResourceFilterCriteria?
+        /// The format of the software bill of materials (SBOM) report.
+        public let format: SbomReportFormat?
+        /// The report ID of the software bill of materials (SBOM) report.
+        public let reportId: String?
+        public let s3Destination: Destination?
+        /// The status of the software bill of materials (SBOM) report.
+        public let status: ExternalReportStatus?
+
+        public init(errorCode: ReportingErrorCode? = nil, errorMessage: String? = nil, filterCriteria: ResourceFilterCriteria? = nil, format: SbomReportFormat? = nil, reportId: String? = nil, s3Destination: Destination? = nil, status: ExternalReportStatus? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.filterCriteria = filterCriteria
+            self.format = format
+            self.reportId = reportId
+            self.s3Destination = s3Destination
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case filterCriteria = "filterCriteria"
+            case format = "format"
+            case reportId = "reportId"
+            case s3Destination = "s3Destination"
+            case status = "status"
         }
     }
 
@@ -4331,6 +4746,27 @@ extension Inspector2 {
         }
     }
 
+    public struct ResetEncryptionKeyRequest: AWSEncodableShape {
+        /// The resource type the key encrypts.
+        public let resourceType: ResourceType
+        /// The scan type the key encrypts.
+        public let scanType: ScanType
+
+        public init(resourceType: ResourceType, scanType: ScanType) {
+            self.resourceType = resourceType
+            self.scanType = scanType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case scanType = "scanType"
+        }
+    }
+
+    public struct ResetEncryptionKeyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Resource: AWSDecodableShape {
         /// An object that contains details about the resource involved in a finding.
         public let details: ResourceDetails?
@@ -4385,6 +4821,116 @@ extension Inspector2 {
         }
     }
 
+    public struct ResourceFilterCriteria: AWSEncodableShape & AWSDecodableShape {
+        /// The account IDs used as resource filter criteria.
+        public let accountId: [ResourceStringFilter]?
+        /// The EC2 instance tags used as resource filter criteria.
+        public let ec2InstanceTags: [ResourceMapFilter]?
+        /// The ECR image tags used as resource filter criteria.
+        public let ecrImageTags: [ResourceStringFilter]?
+        /// The ECR repository names used as resource filter criteria.
+        public let ecrRepositoryName: [ResourceStringFilter]?
+        /// The AWS Lambda function name used as resource filter criteria.
+        public let lambdaFunctionName: [ResourceStringFilter]?
+        /// The AWS Lambda function tags used as resource filter criteria.
+        public let lambdaFunctionTags: [ResourceMapFilter]?
+        /// The resource IDs used as resource filter criteria.
+        public let resourceId: [ResourceStringFilter]?
+        /// The resource types used as resource filter criteria.
+        public let resourceType: [ResourceStringFilter]?
+
+        public init(accountId: [ResourceStringFilter]? = nil, ec2InstanceTags: [ResourceMapFilter]? = nil, ecrImageTags: [ResourceStringFilter]? = nil, ecrRepositoryName: [ResourceStringFilter]? = nil, lambdaFunctionName: [ResourceStringFilter]? = nil, lambdaFunctionTags: [ResourceMapFilter]? = nil, resourceId: [ResourceStringFilter]? = nil, resourceType: [ResourceStringFilter]? = nil) {
+            self.accountId = accountId
+            self.ec2InstanceTags = ec2InstanceTags
+            self.ecrImageTags = ecrImageTags
+            self.ecrRepositoryName = ecrRepositoryName
+            self.lambdaFunctionName = lambdaFunctionName
+            self.lambdaFunctionTags = lambdaFunctionTags
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.accountId?.forEach {
+                try $0.validate(name: "\(name).accountId[]")
+            }
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 10)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 1)
+            try self.ec2InstanceTags?.forEach {
+                try $0.validate(name: "\(name).ec2InstanceTags[]")
+            }
+            try self.validate(self.ec2InstanceTags, name: "ec2InstanceTags", parent: name, max: 10)
+            try self.validate(self.ec2InstanceTags, name: "ec2InstanceTags", parent: name, min: 1)
+            try self.ecrImageTags?.forEach {
+                try $0.validate(name: "\(name).ecrImageTags[]")
+            }
+            try self.validate(self.ecrImageTags, name: "ecrImageTags", parent: name, max: 10)
+            try self.validate(self.ecrImageTags, name: "ecrImageTags", parent: name, min: 1)
+            try self.ecrRepositoryName?.forEach {
+                try $0.validate(name: "\(name).ecrRepositoryName[]")
+            }
+            try self.validate(self.ecrRepositoryName, name: "ecrRepositoryName", parent: name, max: 10)
+            try self.validate(self.ecrRepositoryName, name: "ecrRepositoryName", parent: name, min: 1)
+            try self.lambdaFunctionName?.forEach {
+                try $0.validate(name: "\(name).lambdaFunctionName[]")
+            }
+            try self.validate(self.lambdaFunctionName, name: "lambdaFunctionName", parent: name, max: 10)
+            try self.validate(self.lambdaFunctionName, name: "lambdaFunctionName", parent: name, min: 1)
+            try self.lambdaFunctionTags?.forEach {
+                try $0.validate(name: "\(name).lambdaFunctionTags[]")
+            }
+            try self.validate(self.lambdaFunctionTags, name: "lambdaFunctionTags", parent: name, max: 10)
+            try self.validate(self.lambdaFunctionTags, name: "lambdaFunctionTags", parent: name, min: 1)
+            try self.resourceId?.forEach {
+                try $0.validate(name: "\(name).resourceId[]")
+            }
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+            try self.resourceType?.forEach {
+                try $0.validate(name: "\(name).resourceType[]")
+            }
+            try self.validate(self.resourceType, name: "resourceType", parent: name, max: 10)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case ec2InstanceTags = "ec2InstanceTags"
+            case ecrImageTags = "ecrImageTags"
+            case ecrRepositoryName = "ecrRepositoryName"
+            case lambdaFunctionName = "lambdaFunctionName"
+            case lambdaFunctionTags = "lambdaFunctionTags"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct ResourceMapFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The filter's comparison.
+        public let comparison: ResourceMapComparison
+        /// The filter's key.
+        public let key: String
+        /// The filter's value.
+        public let value: String?
+
+        public init(comparison: ResourceMapComparison, key: String, value: String? = nil) {
+            self.comparison = comparison
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparison = "comparison"
+            case key = "key"
+            case value = "value"
+        }
+    }
+
     public struct ResourceScanMetadata: AWSDecodableShape {
         /// An object that contains metadata details for an Amazon EC2 instance.
         public let ec2: Ec2Metadata?
@@ -4416,17 +4962,20 @@ extension Inspector2 {
         /// An object detailing the state of Amazon Inspector scanning for Amazon ECR resources.
         public let ecr: State
         public let lambda: State?
+        public let lambdaCode: State?
 
-        public init(ec2: State, ecr: State, lambda: State? = nil) {
+        public init(ec2: State, ecr: State, lambda: State? = nil, lambdaCode: State? = nil) {
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
+            self.lambdaCode = lambdaCode
         }
 
         private enum CodingKeys: String, CodingKey {
             case ec2 = "ec2"
             case ecr = "ecr"
             case lambda = "lambda"
+            case lambdaCode = "lambdaCode"
         }
     }
 
@@ -4437,17 +4986,43 @@ extension Inspector2 {
         public let ecr: Status
         /// The status of Amazon Inspector scanning for AWS Lambda function.
         public let lambda: Status?
+        /// The status of Amazon Inspector scanning for custom application code for Amazon Web Services Lambda functions.
+        public let lambdaCode: Status?
 
-        public init(ec2: Status, ecr: Status, lambda: Status? = nil) {
+        public init(ec2: Status, ecr: Status, lambda: Status? = nil, lambdaCode: Status? = nil) {
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
+            self.lambdaCode = lambdaCode
         }
 
         private enum CodingKeys: String, CodingKey {
             case ec2 = "ec2"
             case ecr = "ecr"
             case lambda = "lambda"
+            case lambdaCode = "lambdaCode"
+        }
+    }
+
+    public struct ResourceStringFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The filter's comparison.
+        public let comparison: ResourceStringComparison
+        /// The filter's value.
+        public let value: String
+
+        public init(comparison: ResourceStringComparison, value: String) {
+            self.comparison = comparison
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparison = "comparison"
+            case value = "value"
         }
     }
 
@@ -4630,6 +5205,23 @@ extension Inspector2 {
         }
     }
 
+    public struct SuggestedFix: AWSDecodableShape {
+        /// The fix's code.
+        public let code: String?
+        /// The fix's description.
+        public let description: String?
+
+        public init(code: String? = nil, description: String? = nil) {
+            self.code = code
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case description = "description"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
@@ -4665,6 +5257,8 @@ extension Inspector2 {
     }
 
     public struct TitleAggregation: AWSEncodableShape {
+        /// The type of finding to aggregate on.
+        public let findingType: AggregationFindingType?
         /// The resource type to aggregate on.
         public let resourceType: AggregationResourceType?
         /// The value to sort results by.
@@ -4676,7 +5270,8 @@ extension Inspector2 {
         /// The vulnerability IDs of the findings.
         public let vulnerabilityIds: [StringFilter]?
 
-        public init(resourceType: AggregationResourceType? = nil, sortBy: TitleSortBy? = nil, sortOrder: SortOrder? = nil, titles: [StringFilter]? = nil, vulnerabilityIds: [StringFilter]? = nil) {
+        public init(findingType: AggregationFindingType? = nil, resourceType: AggregationResourceType? = nil, sortBy: TitleSortBy? = nil, sortOrder: SortOrder? = nil, titles: [StringFilter]? = nil, vulnerabilityIds: [StringFilter]? = nil) {
+            self.findingType = findingType
             self.resourceType = resourceType
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -4698,6 +5293,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case findingType = "findingType"
             case resourceType = "resourceType"
             case sortBy = "sortBy"
             case sortOrder = "sortOrder"
@@ -4831,6 +5427,35 @@ extension Inspector2 {
             case packagePaths = "packagePaths"
             case status = "status"
         }
+    }
+
+    public struct UpdateEncryptionKeyRequest: AWSEncodableShape {
+        /// A KMS key ID for the encryption key.
+        public let kmsKeyId: String
+        /// The resource type for the encryption key.
+        public let resourceType: ResourceType
+        /// The scan type for the encryption key.
+        public let scanType: ScanType
+
+        public init(kmsKeyId: String, resourceType: ResourceType, scanType: ScanType) {
+            self.kmsKeyId = kmsKeyId
+            self.resourceType = resourceType
+            self.scanType = scanType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^arn:aws(-(us-gov|cn))?:kms:([a-z0-9][-.a-z0-9]{0,62})?:[0-9]{12}?:key/(([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})|(mrk-[0-9a-zA-Z]{32}))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "kmsKeyId"
+            case resourceType = "resourceType"
+            case scanType = "scanType"
+        }
+    }
+
+    public struct UpdateEncryptionKeyResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateFilterRequest: AWSEncodableShape {
@@ -5000,7 +5625,7 @@ extension Inspector2 {
         public let description: String?
         /// Platforms that the vulnerability can be detected on.
         public let detectionPlatforms: [String]?
-        /// An object that contains the Exploit Prediction Scoring System (EPSS) score.
+        /// An object that contains the Exploit Prediction Scoring System (EPSS) score for a vulnerability.
         public let epss: Epss?
         /// An object that contains details on when the exploit was observed.
         public let exploitObserved: ExploitObserved?

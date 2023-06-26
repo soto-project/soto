@@ -1225,6 +1225,7 @@ extension FSx {
     public struct CreateFileSystemLustreConfiguration: AWSEncodableShape {
         ///  (Optional) When you create your file system, your existing S3 objects appear as file and directory listings.  Use this parameter to choose how Amazon FSx keeps your file and directory listings up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:    NONE - (Default) AutoImport is off. Amazon FSx only updates  file and directory listings from the linked S3 bucket  when the file system is created. FSx does not update file and directory  listings for any new or changed objects after choosing this option.    NEW - AutoImport is on. Amazon FSx automatically imports directory listings of any new objects added to the linked S3 bucket that  do not currently exist in the FSx file system.     NEW_CHANGED - AutoImport is on. Amazon FSx automatically imports  file and directory listings of any new objects added to the S3 bucket and any  existing objects that are changed in the S3 bucket after you choose this option.    NEW_CHANGED_DELETED - AutoImport is on. Amazon FSx automatically imports file and directory listings of any new objects added to the S3 bucket, any  existing objects that are changed in the S3 bucket, and any objects that were deleted in the S3 bucket.   For more information, see  Automatically import updates from your S3 bucket.  This parameter is not supported for file systems with a data repository association.
         public let autoImportPolicy: AutoImportPolicyType?
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 0.
         public let automaticBackupRetentionDays: Int?
         /// (Optional) Not available for use with file systems that are linked to a data repository. A boolean flag indicating whether tags for the file system should be copied to backups. The default value is false. If CopyTagsToBackups is set to true, all file system tags are copied to all automatic and user-initiated backups when the user doesn't specify any backup-specific tags. If CopyTagsToBackups is set to true and you specify one or more backup tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value. (Default = false) For more information, see  Working with backups in the Amazon FSx for Lustre User Guide.
         public let copyTagsToBackups: Bool?
@@ -1390,12 +1391,12 @@ extension FSx {
         /// A Boolean value indicating whether tags for the file system should be copied to volumes. This value defaults to false. If it's set to true, all tags for the file system are copied to volumes where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to volumes. If you specify one or more tags when creating the volume, no tags are copied from the file system, regardless of this value.
         public let copyTagsToVolumes: Bool?
         public let dailyAutomaticBackupStartTime: String?
-        /// Specifies the file system deployment type. Single AZ deployment types are configured for redundancy within a single Availability Zone in an Amazon Web Services Region . Valid values are the following:    SINGLE_AZ_1- (Default) Creates file systems with throughput capacities of 64 - 4,096 MB/s. Single_AZ_1 is available in all Amazon Web Services Regions where Amazon FSx  for OpenZFS is available, except US West (Oregon).    SINGLE_AZ_2- Creates file systems with throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache. Single_AZ_2 is available only in the US East (N. Virginia), US East (Ohio),  US West (Oregon), and Europe (Ireland) Amazon Web Services Regions.   For more information, see: Deployment type availability and File system performance in the Amazon FSx for OpenZFS User Guide.
+        /// Specifies the file system deployment type. Single AZ deployment types are configured for redundancy within a single Availability Zone in an Amazon Web Services Region . Valid values are the following:    SINGLE_AZ_1- (Default) Creates file systems with throughput capacities of 64 - 4,096 MBps. Single_AZ_1 is available in all Amazon Web Services Regions where Amazon FSx  for OpenZFS is available.    SINGLE_AZ_2- Creates file systems with throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache. Single_AZ_2 is available only in the US East (N. Virginia), US East (Ohio),  US West (Oregon), and Europe (Ireland) Amazon Web Services Regions.   For more information, see: Deployment type availability and File system performance in the Amazon FSx for OpenZFS User Guide.
         public let deploymentType: OpenZFSDeploymentType
         public let diskIopsConfiguration: DiskIopsConfiguration?
         /// The configuration Amazon FSx uses when creating the root value of the Amazon FSx for OpenZFS file system. All volumes are children of the root volume.
         public let rootVolumeConfiguration: OpenZFSCreateRootVolumeConfiguration?
-        /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second (MB/s). Valid values depend on the DeploymentType you choose, as follows:   For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MB/s.   For SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MB/s.   You pay for additional throughput capacity that you provision.
+        /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second (MBps). Valid values depend on the DeploymentType you choose, as follows:   For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MBps.   For SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MBps.   You pay for additional throughput capacity that you provision.
         public let throughputCapacity: Int
         public let weeklyMaintenanceStartTime: String?
 
@@ -1552,7 +1553,7 @@ extension FSx {
         public let aliases: [String]?
         /// The configuration that Amazon FSx for Windows File Server uses to audit and log user accesses of files, folders, and file shares on the Amazon FSx for Windows File Server file system.
         public let auditLogConfiguration: WindowsAuditLogCreateConfiguration?
-        /// The number of days to retain automatic backups. The default is to retain backups for 7 days. Setting this value to 0 disables the creation of automatic backups. The maximum retention period for backups is 90 days.
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public let automaticBackupRetentionDays: Int?
         /// A boolean flag indicating whether tags for the file system should be copied to backups. This value defaults to false. If it's set to true, all tags for the file system are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
         public let copyTagsToBackups: Bool?
@@ -3357,7 +3358,7 @@ extension FSx {
     public struct DiskIopsConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The total number of SSD IOPS provisioned for the file system.
         public let iops: Int64?
-        /// Specifies whether the number of IOPS for the file system is using the system default (AUTOMATIC) or was provisioned by the customer (USER_PROVISIONED).
+        /// Specifies whether the file system is  using the AUTOMATIC setting of SSD IOPS of 3 IOPS per GB of storage capacity, , or  if it using a USER_PROVISIONED value.
         public let mode: DiskIopsConfigurationMode?
 
         public init(iops: Int64? = nil, mode: DiskIopsConfigurationMode? = nil) {
@@ -4026,19 +4027,22 @@ extension FSx {
         public let endpointIpAddressRange: String?
         /// The Management and Intercluster endpoints that are used to access data or to manage the file system using the NetApp ONTAP CLI, REST API, or NetApp SnapMirror.
         public let endpoints: FileSystemEndpoints?
+        /// You can use the fsxadmin user account to access the NetApp ONTAP CLI and  REST API. The password value is always redacted in the response.
+        public let fsxAdminPassword: String?
         public let preferredSubnetId: String?
         /// (Multi-AZ only) The VPC route tables in which your file system's endpoints are created.
         public let routeTableIds: [String]?
         public let throughputCapacity: Int?
         public let weeklyMaintenanceStartTime: String?
 
-        public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OntapDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddressRange: String? = nil, endpoints: FileSystemEndpoints? = nil, preferredSubnetId: String? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OntapDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddressRange: String? = nil, endpoints: FileSystemEndpoints? = nil, fsxAdminPassword: String? = nil, preferredSubnetId: String? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddressRange = endpointIpAddressRange
             self.endpoints = endpoints
+            self.fsxAdminPassword = fsxAdminPassword
             self.preferredSubnetId = preferredSubnetId
             self.routeTableIds = routeTableIds
             self.throughputCapacity = throughputCapacity
@@ -4052,6 +4056,7 @@ extension FSx {
             case diskIopsConfiguration = "DiskIopsConfiguration"
             case endpointIpAddressRange = "EndpointIpAddressRange"
             case endpoints = "Endpoints"
+            case fsxAdminPassword = "FsxAdminPassword"
             case preferredSubnetId = "PreferredSubnetId"
             case routeTableIds = "RouteTableIds"
             case throughputCapacity = "ThroughputCapacity"
@@ -4566,15 +4571,24 @@ extension FSx {
     }
 
     public struct SelfManagedActiveDirectoryConfigurationUpdates: AWSEncodableShape {
-        /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
+        /// A list of up to three DNS server or domain controller IP addresses in your self-managed AD domain.
         public let dnsIps: [String]?
-        /// The password for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain.
+        /// Specifies an updated fully qualified domain name of your self-managed AD configuration.
+        public let domainName: String?
+        /// Specifies the updated name of the self-managed AD domain group whose members are granted administrative privileges for the Amazon FSx resource.
+        public let fileSystemAdministratorsGroup: String?
+        /// Specifies an updated fully qualified distinguished name of the organization unit within your self-managed AD.
+        public let organizationalUnitDistinguishedName: String?
+        /// Specifies the updated password for the service account on your self-managed AD domain.  Amazon FSx uses this account to join to your self-managed AD domain.
         public let password: String?
-        /// The user name for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain. This account must have the permission to join computers to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName.
+        /// Specifies the updated user name for the service account on your self-managed AD domain. Amazon FSx uses this account to join to your self-managed AD domain. This account must have the permissions required to join computers to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName.
         public let userName: String?
 
-        public init(dnsIps: [String]? = nil, password: String? = nil, userName: String? = nil) {
+        public init(dnsIps: [String]? = nil, domainName: String? = nil, fileSystemAdministratorsGroup: String? = nil, organizationalUnitDistinguishedName: String? = nil, password: String? = nil, userName: String? = nil) {
             self.dnsIps = dnsIps
+            self.domainName = domainName
+            self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
+            self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
             self.password = password
             self.userName = userName
         }
@@ -4587,6 +4601,15 @@ extension FSx {
             }
             try self.validate(self.dnsIps, name: "dnsIps", parent: name, max: 3)
             try self.validate(self.dnsIps, name: "dnsIps", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,255}$")
+            try self.validate(self.fileSystemAdministratorsGroup, name: "fileSystemAdministratorsGroup", parent: name, max: 256)
+            try self.validate(self.fileSystemAdministratorsGroup, name: "fileSystemAdministratorsGroup", parent: name, min: 1)
+            try self.validate(self.fileSystemAdministratorsGroup, name: "fileSystemAdministratorsGroup", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,256}$")
+            try self.validate(self.organizationalUnitDistinguishedName, name: "organizationalUnitDistinguishedName", parent: name, max: 2000)
+            try self.validate(self.organizationalUnitDistinguishedName, name: "organizationalUnitDistinguishedName", parent: name, min: 1)
+            try self.validate(self.organizationalUnitDistinguishedName, name: "organizationalUnitDistinguishedName", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,2000}$")
             try self.validate(self.password, name: "password", parent: name, max: 256)
             try self.validate(self.password, name: "password", parent: name, min: 1)
             try self.validate(self.password, name: "password", parent: name, pattern: "^.{1,256}$")
@@ -4597,6 +4620,9 @@ extension FSx {
 
         private enum CodingKeys: String, CodingKey {
             case dnsIps = "DnsIps"
+            case domainName = "DomainName"
+            case fileSystemAdministratorsGroup = "FileSystemAdministratorsGroup"
+            case organizationalUnitDistinguishedName = "OrganizationalUnitDistinguishedName"
             case password = "Password"
             case userName = "UserName"
         }
@@ -4753,7 +4779,7 @@ extension FSx {
     }
 
     public struct SvmActiveDirectoryConfiguration: AWSDecodableShape {
-        /// The NetBIOS name of the Active Directory computer object that is joined to your SVM.
+        /// The NetBIOS name of the AD computer object to which the SVM is joined.
         public let netBiosName: String?
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes?
 
@@ -5035,6 +5061,7 @@ extension FSx {
     public struct UpdateFileSystemLustreConfiguration: AWSEncodableShape {
         ///  (Optional) When you create your file system, your existing S3 objects appear as file and directory listings.  Use this property to choose how Amazon FSx keeps your file and directory listing up to date  as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:    NONE - (Default) AutoImport is off. Amazon FSx only updates  file and directory listings from the linked S3 bucket  when the file system is created. FSx does not update the file and directory  listing for any new or changed objects after choosing this option.    NEW - AutoImport is on. Amazon FSx automatically imports directory listings of any new objects added to the linked S3 bucket that  do not currently exist in the FSx file system.     NEW_CHANGED - AutoImport is on. Amazon FSx automatically imports  file and directory listings of any new objects added to the S3 bucket and any  existing objects that are changed in the S3 bucket after you choose this option.    NEW_CHANGED_DELETED - AutoImport is on. Amazon FSx automatically imports file and directory listings of any new objects added to the S3 bucket, any  existing objects that are changed in the S3 bucket, and any objects that were deleted in the S3 bucket.   This parameter is not supported for file systems with a data repository association.
         public let autoImportPolicy: AutoImportPolicyType?
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 0.
         public let automaticBackupRetentionDays: Int?
         public let dailyAutomaticBackupStartTime: String?
         /// Sets the data compression configuration for the file system. DataCompressionType can have the following values:    NONE - Data compression is turned off for the file system.    LZ4 - Data compression is turned on with the LZ4 algorithm.   If you don't use DataCompressionType, the file system retains its current data compression configuration. For more information, see Lustre data compression.
@@ -5085,13 +5112,13 @@ extension FSx {
         public let addRouteTableIds: [String]?
         public let automaticBackupRetentionDays: Int?
         public let dailyAutomaticBackupStartTime: String?
-        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned.
+        /// The SSD IOPS (input output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned.  For more information, see  Updating SSD storage capacity and IOPS.
         public let diskIopsConfiguration: DiskIopsConfiguration?
-        /// The ONTAP administrative password for the fsxadmin user.
+        /// Update the password for the fsxadmin user by entering a new password.  You use the fsxadmin user to access the NetApp ONTAP CLI and REST API to manage your file system resources.  For more information, see  Managing resources using NetApp Applicaton.
         public let fsxAdminPassword: String?
         /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route tables to disassociate (remove) from your Amazon FSx for NetApp ONTAP file system. You can use the  API operation to retrieve the list of VPC route table IDs for a file system.
         public let removeRouteTableIds: [String]?
-        /// Specifies the throughput of an FSx for NetApp ONTAP file system, measured in megabytes per second (MBps). Valid values are 128, 256, 512, 1024, 2048, and 4096 MBps.
+        /// Enter a new value to change the amount of throughput capacity for the file system. Throughput capacity is measured in megabytes per second (MBps). Valid values are 128, 256, 512, 1024, 2048, and 4096 MBps. For more information, see  Managing throughput capacity  in the FSx for ONTAP User Guide.
         public let throughputCapacity: Int?
         public let weeklyMaintenanceStartTime: String?
 
@@ -5201,9 +5228,9 @@ extension FSx {
         public let fileSystemId: String
         public let lustreConfiguration: UpdateFileSystemLustreConfiguration?
         public let ontapConfiguration: UpdateFileSystemOntapConfiguration?
-        /// The configuration updates for an Amazon FSx for OpenZFS file system.
+        /// The configuration updates for an FSx for OpenZFS file system.
         public let openZFSConfiguration: UpdateFileSystemOpenZFSConfiguration?
-        /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. Specifies the storage capacity target value, in GiB, to increase the storage capacity for the file system that you're updating.   You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress.  For Lustre file systems, the storage capacity target value can be the following:   For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater than the current storage capacity.   For PERSISTENT HDD file systems, valid values are multiples of 6000 GiB for 12-MBps throughput per TiB file systems and multiples of 1800 GiB for 40-MBps throughput per TiB file systems. The values must be greater than the current storage capacity.   For SCRATCH_1 file systems, you can't increase the storage capacity.   For more information, see Managing storage and throughput capacity in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see Managing storage capacity in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see Managing storage capacity in the Amazon FSx for Windows File Server User Guide. For ONTAP file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value.  For more information, see Managing storage capacity and provisioned IOPS in the Amazon FSx for NetApp ONTAP User Guide.
+        /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. Specifies the storage capacity target value, in GiB, to increase the storage capacity for the file system that you're updating.   You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress.  For Lustre file systems, the storage capacity target value can be the following:   For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater than the current storage capacity.   For PERSISTENT HDD file systems, valid values are multiples of 6000 GiB for 12-MBps throughput per TiB file systems and multiples of 1800 GiB for 40-MBps throughput per TiB file systems. The values must be greater than the current storage capacity.   For SCRATCH_1 file systems, you can't increase the storage capacity.   For more information, see Managing storage and throughput capacity in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see Managing storage capacity in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see Managing storage capacity in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value.  For more information, see Managing storage capacity and provisioned IOPS in the Amazon FSx for NetApp ONTAP User Guide.
         public let storageCapacity: Int?
         /// The configuration updates for an Amazon FSx for Windows File Server file system.
         public let windowsConfiguration: UpdateFileSystemWindowsConfiguration?
@@ -5260,7 +5287,7 @@ extension FSx {
     public struct UpdateFileSystemWindowsConfiguration: AWSEncodableShape {
         /// The configuration that Amazon FSx for Windows File Server uses to audit and log user accesses of files, folders, and file shares on the Amazon FSx for Windows File Server file system..
         public let auditLogConfiguration: WindowsAuditLogCreateConfiguration?
-        /// The number of days to retain automatic daily backups. Setting this to zero (0) disables automatic daily backups. You can retain automatic daily backups for a maximum of 90 days. For more information, see Working with Automatic Daily Backups.
+        /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30. For more information, see Working with Automatic Daily Backups.
         public let automaticBackupRetentionDays: Int?
         /// The preferred time to start the daily automatic backup, in the UTC time zone, for example, 02:00
         public let dailyAutomaticBackupStartTime: String?
@@ -5453,12 +5480,12 @@ extension FSx {
     }
 
     public struct UpdateStorageVirtualMachineRequest: AWSEncodableShape {
-        /// Updates the Microsoft Active Directory (AD) configuration for an SVM that is joined to an AD.
+        /// Specifies updates to an SVM's Microsoft Active Directory (AD) configuration.
         public let activeDirectoryConfiguration: UpdateSvmActiveDirectoryConfiguration?
         public let clientRequestToken: String?
         /// The ID of the SVM that you want to update, in the format svm-0123456789abcdef0.
         public let storageVirtualMachineId: String
-        /// Enter a new SvmAdminPassword if you are updating it.
+        /// Specifies a new SvmAdminPassword.
         public let svmAdminPassword: String?
 
         public init(activeDirectoryConfiguration: UpdateSvmActiveDirectoryConfiguration? = nil, clientRequestToken: String? = UpdateStorageVirtualMachineRequest.idempotencyToken(), storageVirtualMachineId: String, svmAdminPassword: String? = nil) {
@@ -5502,17 +5529,24 @@ extension FSx {
     }
 
     public struct UpdateSvmActiveDirectoryConfiguration: AWSEncodableShape {
+        /// Specifies an updated NetBIOS name of the AD computer object NetBiosName to which an SVM is joined.
+        public let netBiosName: String?
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates?
 
-        public init(selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates? = nil) {
+        public init(netBiosName: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates? = nil) {
+            self.netBiosName = netBiosName
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.netBiosName, name: "netBiosName", parent: name, max: 15)
+            try self.validate(self.netBiosName, name: "netBiosName", parent: name, min: 1)
+            try self.validate(self.netBiosName, name: "netBiosName", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,255}$")
             try self.selfManagedActiveDirectoryConfiguration?.validate(name: "\(name).selfManagedActiveDirectoryConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case netBiosName = "NetBiosName"
             case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
         }
     }

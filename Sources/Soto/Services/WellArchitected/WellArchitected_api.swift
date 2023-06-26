@@ -68,6 +68,11 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "AssociateLenses", path: "/workloads/{WorkloadId}/associateLenses", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Associate a profile with a workload.
+    @discardableResult public func associateProfiles(_ input: AssociateProfilesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "AssociateProfiles", path: "/workloads/{WorkloadId}/associateProfiles", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared.  Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the organization or OU are granted access to the lens. For more information, see Sharing a custom lens in the Well-Architected Tool User Guide.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
     public func createLensShare(_ input: CreateLensShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLensShareOutput> {
         return self.client.execute(operation: "CreateLensShare", path: "/lenses/{LensAlias}/shares", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -81,6 +86,16 @@ public struct WellArchitected: AWSService {
     /// Create a milestone for an existing workload.
     public func createMilestone(_ input: CreateMilestoneInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMilestoneOutput> {
         return self.client.execute(operation: "CreateMilestone", path: "/workloads/{WorkloadId}/milestones", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Create a profile.
+    public func createProfile(_ input: CreateProfileInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProfileOutput> {
+        return self.client.execute(operation: "CreateProfile", path: "/profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Create a profile share.
+    public func createProfileShare(_ input: CreateProfileShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProfileShareOutput> {
+        return self.client.execute(operation: "CreateProfileShare", path: "/profiles/{ProfileArn}/shares", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs)  in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide.  Either AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also must specify ReviewOwner, even though the parameter is listed as not being required in the following section.
@@ -103,6 +118,16 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "DeleteLensShare", path: "/lenses/{LensAlias}/shares/{ShareId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Delete a profile.   Disclaimer  By sharing your profile with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your profile available to those  other accounts. Those other accounts may continue to access and use your  shared profile even if you delete the profile  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
+    @discardableResult public func deleteProfile(_ input: DeleteProfileInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteProfile", path: "/profiles/{ProfileArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete a profile share.
+    @discardableResult public func deleteProfileShare(_ input: DeleteProfileShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteProfileShare", path: "/profiles/{ProfileArn}/shares/{ShareId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Delete an existing workload.
     @discardableResult public func deleteWorkload(_ input: DeleteWorkloadInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteWorkload", path: "/workloads/{WorkloadId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -116,6 +141,11 @@ public struct WellArchitected: AWSService {
     /// Disassociate a lens from a workload. Up to 10 lenses can be disassociated from a workload in a single API operation.  The Amazon Web Services Well-Architected Framework lens (wellarchitected) cannot be removed from a workload.
     @discardableResult public func disassociateLenses(_ input: DisassociateLensesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DisassociateLenses", path: "/workloads/{WorkloadId}/disassociateLenses", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Disassociate a profile from a workload.
+    @discardableResult public func disassociateProfiles(_ input: DisassociateProfilesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DisassociateProfiles", path: "/workloads/{WorkloadId}/disassociateProfiles", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content)  cannot be exported. Lenses are defined in JSON. For more information, see JSON format specification  in the Well-Architected Tool User Guide.   Disclaimer  Do not include or gather personal identifiable information (PII) of end users or  other identifiable individuals in or via your custom lenses. If your custom  lens or those shared with you and used in your account do include or collect  PII you are responsible for: ensuring that the included PII is processed in accordance  with applicable law, providing adequate privacy notices, and obtaining necessary  consents for processing such data.
@@ -156,6 +186,16 @@ public struct WellArchitected: AWSService {
     /// Get a milestone for an existing workload.
     public func getMilestone(_ input: GetMilestoneInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMilestoneOutput> {
         return self.client.execute(operation: "GetMilestone", path: "/workloads/{WorkloadId}/milestones/{MilestoneNumber}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get profile information.
+    public func getProfile(_ input: GetProfileInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetProfileOutput> {
+        return self.client.execute(operation: "GetProfile", path: "/profiles/{ProfileArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get profile template.
+    public func getProfileTemplate(_ input: GetProfileTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetProfileTemplateOutput> {
+        return self.client.execute(operation: "GetProfileTemplate", path: "/profileTemplate", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Get an existing workload.
@@ -213,12 +253,27 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "ListNotifications", path: "/notifications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// List profile notifications.
+    public func listProfileNotifications(_ input: ListProfileNotificationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProfileNotificationsOutput> {
+        return self.client.execute(operation: "ListProfileNotifications", path: "/profileNotifications", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List profile shares.
+    public func listProfileShares(_ input: ListProfileSharesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProfileSharesOutput> {
+        return self.client.execute(operation: "ListProfileShares", path: "/profiles/{ProfileArn}/shares", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List profiles.
+    public func listProfiles(_ input: ListProfilesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProfilesOutput> {
+        return self.client.execute(operation: "ListProfiles", path: "/profileSummaries", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// List  the workload invitations.
     public func listShareInvitations(_ input: ListShareInvitationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListShareInvitationsOutput> {
         return self.client.execute(operation: "ListShareInvitations", path: "/shareInvitations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List the tags for a resource.  The WorkloadArn parameter can be either a workload ARN or a custom lens ARN.
+    /// List the tags for a resource.  The WorkloadArn parameter can be a workload ARN, a custom lens ARN, or a profile ARN.
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{WorkloadArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -233,12 +288,12 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "ListWorkloads", path: "/workloadsSummaries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds one or more tags to the specified resource.  The WorkloadArn parameter can be either a workload ARN or a custom lens ARN.
+    /// Adds one or more tags to the specified resource.  The WorkloadArn parameter can be a workload ARN, a custom lens ARN, or a profile ARN.
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
         return self.client.execute(operation: "TagResource", path: "/tags/{WorkloadArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes specified tags from a resource.  The WorkloadArn parameter can be either a workload ARN or a custom lens ARN.  To specify multiple tags, use separate tagKeys parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2
+    /// Deletes specified tags from a resource.  The WorkloadArn parameter can be a workload ARN, a custom lens ARN, or a profile ARN.  To specify multiple tags, use separate tagKeys parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
         return self.client.execute(operation: "UntagResource", path: "/tags/{WorkloadArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -256,6 +311,11 @@ public struct WellArchitected: AWSService {
     /// Update lens review for a particular workload.
     public func updateLensReview(_ input: UpdateLensReviewInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLensReviewOutput> {
         return self.client.execute(operation: "UpdateLensReview", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update a profile.
+    public func updateProfile(_ input: UpdateProfileInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProfileOutput> {
+        return self.client.execute(operation: "UpdateProfile", path: "/profiles/{ProfileArn}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Update a workload or custom lens share invitation.  This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified.
@@ -276,6 +336,11 @@ public struct WellArchitected: AWSService {
     /// Upgrade lens review for a particular workload.
     @discardableResult public func upgradeLensReview(_ input: UpgradeLensReviewInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpgradeLensReview", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/upgrade", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Upgrade a profile.
+    @discardableResult public func upgradeProfileVersion(_ input: UpgradeProfileVersionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpgradeProfileVersion", path: "/workloads/{WorkloadId}/profiles/{ProfileArn}/upgrade", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 
@@ -821,6 +886,165 @@ extension WellArchitected {
         )
     }
 
+    /// List profile notifications.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listProfileNotificationsPaginator<Result>(
+        _ input: ListProfileNotificationsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListProfileNotificationsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listProfileNotifications,
+            inputKey: \ListProfileNotificationsInput.nextToken,
+            outputKey: \ListProfileNotificationsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listProfileNotificationsPaginator(
+        _ input: ListProfileNotificationsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListProfileNotificationsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listProfileNotifications,
+            inputKey: \ListProfileNotificationsInput.nextToken,
+            outputKey: \ListProfileNotificationsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// List profile shares.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listProfileSharesPaginator<Result>(
+        _ input: ListProfileSharesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListProfileSharesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listProfileShares,
+            inputKey: \ListProfileSharesInput.nextToken,
+            outputKey: \ListProfileSharesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listProfileSharesPaginator(
+        _ input: ListProfileSharesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListProfileSharesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listProfileShares,
+            inputKey: \ListProfileSharesInput.nextToken,
+            outputKey: \ListProfileSharesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// List profiles.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listProfilesPaginator<Result>(
+        _ input: ListProfilesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListProfilesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listProfiles,
+            inputKey: \ListProfilesInput.nextToken,
+            outputKey: \ListProfilesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listProfilesPaginator(
+        _ input: ListProfilesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListProfilesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listProfiles,
+            inputKey: \ListProfilesInput.nextToken,
+            outputKey: \ListProfilesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     /// List  the workload invitations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1000,6 +1224,7 @@ extension WellArchitected.ListAnswersInput: AWSPaginateToken {
             milestoneNumber: self.milestoneNumber,
             nextToken: token,
             pillarId: self.pillarId,
+            questionPriority: self.questionPriority,
             workloadId: self.workloadId
         )
     }
@@ -1041,6 +1266,7 @@ extension WellArchitected.ListLensReviewImprovementsInput: AWSPaginateToken {
             milestoneNumber: self.milestoneNumber,
             nextToken: token,
             pillarId: self.pillarId,
+            questionPriority: self.questionPriority,
             workloadId: self.workloadId
         )
     }
@@ -1101,12 +1327,46 @@ extension WellArchitected.ListNotificationsInput: AWSPaginateToken {
     }
 }
 
+extension WellArchitected.ListProfileNotificationsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WellArchitected.ListProfileNotificationsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            workloadId: self.workloadId
+        )
+    }
+}
+
+extension WellArchitected.ListProfileSharesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WellArchitected.ListProfileSharesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            profileArn: self.profileArn,
+            sharedWithPrefix: self.sharedWithPrefix,
+            status: self.status
+        )
+    }
+}
+
+extension WellArchitected.ListProfilesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WellArchitected.ListProfilesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            profileNamePrefix: self.profileNamePrefix,
+            profileOwnerType: self.profileOwnerType
+        )
+    }
+}
+
 extension WellArchitected.ListShareInvitationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WellArchitected.ListShareInvitationsInput {
         return .init(
             lensNamePrefix: self.lensNamePrefix,
             maxResults: self.maxResults,
             nextToken: token,
+            profileNamePrefix: self.profileNamePrefix,
             shareResourceType: self.shareResourceType,
             workloadNamePrefix: self.workloadNamePrefix
         )

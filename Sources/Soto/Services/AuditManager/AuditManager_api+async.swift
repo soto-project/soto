@@ -46,7 +46,7 @@ extension AuditManager {
         return try await self.client.execute(operation: "BatchDisassociateAssessmentReportEvidence", path: "/assessments/{assessmentId}/batchDisassociateFromAssessmentReport", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Uploads one or more pieces of evidence to a control in an Audit Manager assessment. You can upload manual evidence from any Amazon Simple Storage Service (Amazon S3) bucket by specifying the S3 URI of the evidence.  You must upload manual evidence to your S3 bucket before you can upload it to your assessment. For instructions, see CreateBucket and PutObject in the Amazon Simple Storage Service API Reference.  The following restrictions apply to this action:   Maximum size of an individual evidence file: 100 MB   Number of daily manual evidence uploads per control: 100   Supported file formats: See Supported file types for manual evidence in the Audit Manager User Guide    For more information about Audit Manager service restrictions, see Quotas and restrictions for Audit Manager.
+    /// Adds one or more pieces of evidence to a control in an Audit Manager assessment.  You can import manual evidence from any S3 bucket by specifying the S3 URI of the object. You can also upload a file from your browser, or enter plain text in response to a risk assessment question.  The following restrictions apply to this action:    manualEvidence can be only one of the following: evidenceFileName, s3ResourcePath, or textResponse    Maximum size of an individual evidence file: 100 MB   Number of daily manual evidence uploads per control: 100   Supported file formats: See Supported file types for manual evidence in the Audit Manager User Guide    For more information about Audit Manager service restrictions, see Quotas and restrictions for Audit Manager.
     public func batchImportEvidenceToAssessmentControl(_ input: BatchImportEvidenceToAssessmentControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchImportEvidenceToAssessmentControlResponse {
         return try await self.client.execute(operation: "BatchImportEvidenceToAssessmentControl", path: "/assessments/{assessmentId}/controlSets/{controlSetId}/controls/{controlId}/evidence", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -91,7 +91,7 @@ extension AuditManager {
         return try await self.client.execute(operation: "DeleteAssessmentReport", path: "/assessments/{assessmentId}/reports/{assessmentReportId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Deletes a custom control in Audit Manager.
+    ///  Deletes a custom control in Audit Manager.   When you invoke this operation, the custom control is deleted from any frameworks or assessments that it’s currently part of. As a result, Audit Manager will stop collecting evidence for that custom control in all of your assessments. This includes assessments that you previously created before you deleted the custom control.
     public func deleteControl(_ input: DeleteControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteControlResponse {
         return try await self.client.execute(operation: "DeleteControl", path: "/controls/{controlId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -111,62 +111,67 @@ extension AuditManager {
         return try await self.client.execute(operation: "DisassociateAssessmentReportEvidenceFolder", path: "/assessments/{assessmentId}/disassociateFromAssessmentReport", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns the registration status of an account in Audit Manager.
+    ///  Gets the registration status of an account in Audit Manager.
     public func getAccountStatus(_ input: GetAccountStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAccountStatusResponse {
         return try await self.client.execute(operation: "GetAccountStatus", path: "/account/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns an assessment from Audit Manager.
+    /// Gets information about a specified assessment.
     public func getAssessment(_ input: GetAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAssessmentResponse {
         return try await self.client.execute(operation: "GetAssessment", path: "/assessments/{assessmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a framework from Audit Manager.
+    /// Gets information about a specified framework.
     public func getAssessmentFramework(_ input: GetAssessmentFrameworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAssessmentFrameworkResponse {
         return try await self.client.execute(operation: "GetAssessmentFramework", path: "/assessmentFrameworks/{frameworkId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns the URL of an assessment report in Audit Manager.
+    ///  Gets the URL of an assessment report in Audit Manager.
     public func getAssessmentReportUrl(_ input: GetAssessmentReportUrlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAssessmentReportUrlResponse {
         return try await self.client.execute(operation: "GetAssessmentReportUrl", path: "/assessments/{assessmentId}/reports/{assessmentReportId}/url", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of changelogs from Audit Manager.
+    ///  Gets a list of changelogs from Audit Manager.
     public func getChangeLogs(_ input: GetChangeLogsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetChangeLogsResponse {
         return try await self.client.execute(operation: "GetChangeLogs", path: "/assessments/{assessmentId}/changelogs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a control from Audit Manager.
+    ///  Gets information about a specified control.
     public func getControl(_ input: GetControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetControlResponse {
         return try await self.client.execute(operation: "GetControl", path: "/controls/{controlId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of delegations from an audit owner to a delegate.
+    ///  Gets a list of delegations from an audit owner to a delegate.
     public func getDelegations(_ input: GetDelegationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetDelegationsResponse {
         return try await self.client.execute(operation: "GetDelegations", path: "/delegations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns evidence from Audit Manager.
+    ///  Gets information about a specified evidence item.
     public func getEvidence(_ input: GetEvidenceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEvidenceResponse {
         return try await self.client.execute(operation: "GetEvidence", path: "/assessments/{assessmentId}/controlSets/{controlSetId}/evidenceFolders/{evidenceFolderId}/evidence/{evidenceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns all evidence from a specified evidence folder in Audit Manager.
+    ///  Gets all evidence from a specified evidence folder in Audit Manager.
     public func getEvidenceByEvidenceFolder(_ input: GetEvidenceByEvidenceFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEvidenceByEvidenceFolderResponse {
         return try await self.client.execute(operation: "GetEvidenceByEvidenceFolder", path: "/assessments/{assessmentId}/controlSets/{controlSetId}/evidenceFolders/{evidenceFolderId}/evidence", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns an evidence folder from the specified assessment in Audit Manager.
+    /// Creates a presigned Amazon S3 URL that can be used to upload a file as manual evidence. For instructions on how to use this operation, see Upload a file from your browser  in the Audit Manager User Guide. The following restrictions apply to this operation:   Maximum size of an individual evidence file: 100 MB   Number of daily manual evidence uploads per control: 100   Supported file formats: See Supported file types for manual evidence in the Audit Manager User Guide    For more information about Audit Manager service restrictions, see Quotas and restrictions for Audit Manager.
+    public func getEvidenceFileUploadUrl(_ input: GetEvidenceFileUploadUrlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEvidenceFileUploadUrlResponse {
+        return try await self.client.execute(operation: "GetEvidenceFileUploadUrl", path: "/evidenceFileUploadUrl", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Gets an evidence folder from a specified assessment in Audit Manager.
     public func getEvidenceFolder(_ input: GetEvidenceFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEvidenceFolderResponse {
         return try await self.client.execute(operation: "GetEvidenceFolder", path: "/assessments/{assessmentId}/controlSets/{controlSetId}/evidenceFolders/{evidenceFolderId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns the evidence folders from a specified assessment in Audit Manager.
+    ///  Gets the evidence folders from a specified assessment in Audit Manager.
     public func getEvidenceFoldersByAssessment(_ input: GetEvidenceFoldersByAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEvidenceFoldersByAssessmentResponse {
         return try await self.client.execute(operation: "GetEvidenceFoldersByAssessment", path: "/assessments/{assessmentId}/evidenceFolders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of evidence folders that are associated with a specified control in an Audit Manager assessment.
+    ///  Gets a list of evidence folders that are associated with a specified control in an Audit Manager assessment.
     public func getEvidenceFoldersByAssessmentControl(_ input: GetEvidenceFoldersByAssessmentControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEvidenceFoldersByAssessmentControlResponse {
         return try await self.client.execute(operation: "GetEvidenceFoldersByAssessmentControl", path: "/assessments/{assessmentId}/evidenceFolders-by-assessment-control/{controlSetId}/{controlId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -181,17 +186,17 @@ extension AuditManager {
         return try await self.client.execute(operation: "GetInsightsByAssessment", path: "/insights/assessments/{assessmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns the name of the delegated Amazon Web Services administrator account for the organization.
+    ///  Gets the name of the delegated Amazon Web Services administrator account for a specified organization.
     public func getOrganizationAdminAccount(_ input: GetOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetOrganizationAdminAccountResponse {
         return try await self.client.execute(operation: "GetOrganizationAdminAccount", path: "/account/organizationAdminAccount", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of all of the Amazon Web Services that you can choose to include in your assessment. When you create an assessment, specify which of these services you want to include to narrow the assessment's scope.
+    /// Gets a list of all of the Amazon Web Services that you can choose to include in your assessment. When you create an assessment, specify which of these services you want to include to narrow the assessment's scope.
     public func getServicesInScope(_ input: GetServicesInScopeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetServicesInScopeResponse {
         return try await self.client.execute(operation: "GetServicesInScope", path: "/services", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns the settings for the specified Amazon Web Services account.
+    ///  Gets the settings for a specified Amazon Web Services account.
     public func getSettings(_ input: GetSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSettingsResponse {
         return try await self.client.execute(operation: "GetSettings", path: "/settings/{attribute}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -331,7 +336,7 @@ extension AuditManager {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension AuditManager {
-    ///  Returns a list of changelogs from Audit Manager.
+    ///  Gets a list of changelogs from Audit Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -353,7 +358,7 @@ extension AuditManager {
         )
     }
 
-    ///  Returns a list of delegations from an audit owner to a delegate.
+    ///  Gets a list of delegations from an audit owner to a delegate.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -375,7 +380,7 @@ extension AuditManager {
         )
     }
 
-    ///  Returns all evidence from a specified evidence folder in Audit Manager.
+    ///  Gets all evidence from a specified evidence folder in Audit Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -397,7 +402,7 @@ extension AuditManager {
         )
     }
 
-    ///  Returns the evidence folders from a specified assessment in Audit Manager.
+    ///  Gets the evidence folders from a specified assessment in Audit Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -419,7 +424,7 @@ extension AuditManager {
         )
     }
 
-    ///  Returns a list of evidence folders that are associated with a specified control in an Audit Manager assessment.
+    ///  Gets a list of evidence folders that are associated with a specified control in an Audit Manager assessment.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

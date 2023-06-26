@@ -68,7 +68,7 @@ public struct AmplifyUIBuilder: AWSService {
         return self.client.execute(operation: "CreateComponent", path: "/app/{appId}/environment/{environmentName}/components", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new form for an Amplify app.
+    /// Creates a new form for an Amplify.
     public func createForm(_ input: CreateFormRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFormResponse> {
         return self.client.execute(operation: "CreateForm", path: "/app/{appId}/environment/{environmentName}/forms", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -113,6 +113,11 @@ public struct AmplifyUIBuilder: AWSService {
         return self.client.execute(operation: "ExportThemes", path: "/export/app/{appId}/environment/{environmentName}/themes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns an existing code generation job.
+    public func getCodegenJob(_ input: GetCodegenJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCodegenJobResponse> {
+        return self.client.execute(operation: "GetCodegenJob", path: "/app/{appId}/environment/{environmentName}/codegen-jobs/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns an existing component for an Amplify app.
     public func getComponent(_ input: GetComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetComponentResponse> {
         return self.client.execute(operation: "GetComponent", path: "/app/{appId}/environment/{environmentName}/components/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -131,6 +136,11 @@ public struct AmplifyUIBuilder: AWSService {
     /// Returns an existing theme for an Amplify app.
     public func getTheme(_ input: GetThemeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetThemeResponse> {
         return self.client.execute(operation: "GetTheme", path: "/app/{appId}/environment/{environmentName}/themes/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a list of code generation jobs for a specified Amplify app and backend environment.
+    public func listCodegenJobs(_ input: ListCodegenJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCodegenJobsResponse> {
+        return self.client.execute(operation: "ListCodegenJobs", path: "/app/{appId}/environment/{environmentName}/codegen-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves a list of components for a specified Amplify app and backend environment.
@@ -156,6 +166,11 @@ public struct AmplifyUIBuilder: AWSService {
     /// Refreshes a previously issued access token that might have expired.
     public func refreshToken(_ input: RefreshTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RefreshTokenResponse> {
         return self.client.execute(operation: "RefreshToken", path: "/tokens/{provider}/refresh", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts a code generation job for for a specified Amplify app and backend environment.
+    public func startCodegenJob(_ input: StartCodegenJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartCodegenJobResponse> {
+        return self.client.execute(operation: "StartCodegenJob", path: "/app/{appId}/environment/{environmentName}/codegen-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates an existing component.
@@ -340,6 +355,59 @@ extension AmplifyUIBuilder {
             command: self.exportThemes,
             inputKey: \ExportThemesRequest.nextToken,
             outputKey: \ExportThemesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Retrieves a list of code generation jobs for a specified Amplify app and backend environment.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCodegenJobsPaginator<Result>(
+        _ input: ListCodegenJobsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCodegenJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listCodegenJobs,
+            inputKey: \ListCodegenJobsRequest.nextToken,
+            outputKey: \ListCodegenJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCodegenJobsPaginator(
+        _ input: ListCodegenJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCodegenJobsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listCodegenJobs,
+            inputKey: \ListCodegenJobsRequest.nextToken,
+            outputKey: \ListCodegenJobsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -530,6 +598,17 @@ extension AmplifyUIBuilder.ExportThemesRequest: AWSPaginateToken {
         return .init(
             appId: self.appId,
             environmentName: self.environmentName,
+            nextToken: token
+        )
+    }
+}
+
+extension AmplifyUIBuilder.ListCodegenJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AmplifyUIBuilder.ListCodegenJobsRequest {
+        return .init(
+            appId: self.appId,
+            environmentName: self.environmentName,
+            maxResults: self.maxResults,
             nextToken: token
         )
     }

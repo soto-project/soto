@@ -306,6 +306,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoMLProblemTypeConfigName: String, CustomStringConvertible, Codable, Sendable {
+        case imageClassification = "ImageClassification"
+        case tabular = "Tabular"
+        case textClassification = "TextClassification"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AutoMLProcessingUnit: String, CustomStringConvertible, Codable, Sendable {
         case cpu = "CPU"
         case gpu = "GPU"
@@ -1152,6 +1159,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum ModelCompressionType: String, CustomStringConvertible, Codable, Sendable {
+        case gzip = "Gzip"
+        case none = "None"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ModelInfrastructureType: String, CustomStringConvertible, Codable, Sendable {
         case realTimeInference = "RealTimeInference"
         public var description: String { return self.rawValue }
@@ -1356,6 +1369,12 @@ extension SageMaker {
     public enum OrderKey: String, CustomStringConvertible, Codable, Sendable {
         case ascending = "Ascending"
         case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutputCompressionType: String, CustomStringConvertible, Codable, Sendable {
+        case gzip = "GZIP"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -1796,6 +1815,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum S3ModelDataType: String, CustomStringConvertible, Codable, Sendable {
+        case s3Object = "S3Object"
+        case s3Prefix = "S3Prefix"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SagemakerServicecatalogStatus: String, CustomStringConvertible, Codable, Sendable {
         case disabled = "Disabled"
         case enabled = "Enabled"
@@ -2004,10 +2029,12 @@ extension SageMaker {
         case mlEia2 = "ml_eia2"
         case mlG4Dn = "ml_g4dn"
         case mlInf1 = "ml_inf1"
+        case mlInf2 = "ml_inf2"
         case mlM4 = "ml_m4"
         case mlM5 = "ml_m5"
         case mlP2 = "ml_p2"
         case mlP3 = "ml_p3"
+        case mlTrn1 = "ml_trn1"
         case qcs603 = "qcs603"
         case qcs605 = "qcs605"
         case rasp3b = "rasp3b"
@@ -2112,6 +2139,7 @@ extension SageMaker {
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
         case mlTrn12Xlarge = "ml.trn1.2xlarge"
         case mlTrn132Xlarge = "ml.trn1.32xlarge"
+        case mlTrn1N32Xlarge = "ml.trn1n.32xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -2257,9 +2285,11 @@ extension SageMaker {
     }
 
     public enum AutoMLProblemTypeConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
-        /// Settings used to configure an AutoML job using the V2 API for the image classification problem type.
+        /// Settings used to configure an AutoML job V2 for the image classification problem type.
         case imageClassificationJobConfig(ImageClassificationJobConfig)
-        /// Settings used to configure an AutoML job using the V2 API for the text classification problem type.
+        /// Settings used to configure an AutoML job V2 for a tabular problem type (regression, classification).
+        case tabularJobConfig(TabularJobConfig)
+        /// Settings used to configure an AutoML job V2 for the text classification problem type.
         case textClassificationJobConfig(TextClassificationJobConfig)
 
         public init(from decoder: Decoder) throws {
@@ -2275,6 +2305,9 @@ extension SageMaker {
             case .imageClassificationJobConfig:
                 let value = try container.decode(ImageClassificationJobConfig.self, forKey: .imageClassificationJobConfig)
                 self = .imageClassificationJobConfig(value)
+            case .tabularJobConfig:
+                let value = try container.decode(TabularJobConfig.self, forKey: .tabularJobConfig)
+                self = .tabularJobConfig(value)
             case .textClassificationJobConfig:
                 let value = try container.decode(TextClassificationJobConfig.self, forKey: .textClassificationJobConfig)
                 self = .textClassificationJobConfig(value)
@@ -2286,6 +2319,8 @@ extension SageMaker {
             switch self {
             case .imageClassificationJobConfig(let value):
                 try container.encode(value, forKey: .imageClassificationJobConfig)
+            case .tabularJobConfig(let value):
+                try container.encode(value, forKey: .tabularJobConfig)
             case .textClassificationJobConfig(let value):
                 try container.encode(value, forKey: .textClassificationJobConfig)
             }
@@ -2295,6 +2330,8 @@ extension SageMaker {
             switch self {
             case .imageClassificationJobConfig(let value):
                 try value.validate(name: "\(name).imageClassificationJobConfig")
+            case .tabularJobConfig(let value):
+                try value.validate(name: "\(name).tabularJobConfig")
             case .textClassificationJobConfig(let value):
                 try value.validate(name: "\(name).textClassificationJobConfig")
             }
@@ -2302,6 +2339,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case imageClassificationJobConfig = "ImageClassificationJobConfig"
+            case tabularJobConfig = "TabularJobConfig"
             case textClassificationJobConfig = "TextClassificationJobConfig"
         }
     }
@@ -3269,7 +3307,7 @@ extension SageMaker {
         /// The failure reason.
         public let failureReason: String?
         public let finalAutoMLJobObjectiveMetric: FinalAutoMLJobObjectiveMetric?
-        /// The mapping of all supported processing unit (CPU, GPU, etc...) to inference container definitions for the candidate. This field is populated for the V2 API only (for example, for jobs created by calling CreateAutoMLJobV2).
+        /// The mapping of all supported processing unit (CPU, GPU, etc...) to inference container definitions for the candidate. This field is populated for the AutoML jobs V2 (for example, for jobs created by calling CreateAutoMLJobV2) related to image or text classification problem types only.
         public let inferenceContainerDefinitions: [AutoMLProcessingUnit: [AutoMLContainerDefinition]]?
         /// Information about the recommended inference container definitions.
         public let inferenceContainers: [AutoMLContainerDefinition]?
@@ -3475,11 +3513,11 @@ extension SageMaker {
     public struct AutoMLJobChannel: AWSEncodableShape & AWSDecodableShape {
         /// The type of channel. Defines whether the data are used for training or validation. The default value is training. Channels for training and validation must share the same ContentType
         public let channelType: AutoMLChannelType?
-        /// The allowed compression types depend on the input format. We allow the compression type Gzip for S3Prefix inputs only. For all other inputs, the compression type should be None. If no compression type is provided, we default to None.
+        /// The allowed compression types depend on the input format and problem type. We allow the compression type Gzip for S3Prefix inputs on tabular data only. For all other inputs, the compression type should be None. If no compression type is provided, we default to None.
         public let compressionType: CompressionType?
-        /// The content type of the data from the input source. The following are the allowed content types for different problems:   ImageClassification: image/png, image/jpeg, image/*    TextClassification: text/csv;header=present
+        /// The content type of the data from the input source. The following are the allowed content types for different problems:   For Tabular problem types: text/csv;header=present or x-application/vnd.amazon+parquet. The default value is text/csv;header=present.   For ImageClassification: image/png, image/jpeg, or image/*. The default value is image/*.   For TextClassification: text/csv;header=present or x-application/vnd.amazon+parquet. The default value is text/csv;header=present.
         public let contentType: String?
-        /// The data source for an AutoML channel.
+        /// The data source for an AutoML channel (Required).
         public let dataSource: AutoMLDataSource?
 
         public init(channelType: AutoMLChannelType? = nil, compressionType: CompressionType? = nil, contentType: String? = nil, dataSource: AutoMLDataSource? = nil) {
@@ -3506,9 +3544,9 @@ extension SageMaker {
     public struct AutoMLJobCompletionCriteria: AWSEncodableShape & AWSDecodableShape {
         /// The maximum runtime, in seconds, an AutoML job has to complete. If an AutoML job exceeds the maximum runtime, the job is stopped automatically and its processing is ended gracefully. The AutoML job identifies the best model whose training was completed and marks it as the best-performing model. Any unfinished steps of the job, such as automatic one-click Autopilot model deployment, are not completed.
         public let maxAutoMLJobRuntimeInSeconds: Int?
-        /// The maximum number of times a training job is allowed to run. For V2 jobs (jobs created by calling CreateAutoMLJobV2), the supported value is 1.
+        /// The maximum number of times a training job is allowed to run. For job V2s (jobs created by calling CreateAutoMLJobV2), the supported value is 1.
         public let maxCandidates: Int?
-        /// The maximum time, in seconds, that each training job executed inside hyperparameter tuning is allowed to run as part of a hyperparameter tuning job. For more information, see the StoppingCondition used by the CreateHyperParameterTuningJob action. For V2 jobs (jobs created by calling CreateAutoMLJobV2), this field controls the runtime of the job candidate.
+        /// The maximum time, in seconds, that each training job executed inside hyperparameter tuning is allowed to run as part of a hyperparameter tuning job. For more information, see the StoppingCondition used by the CreateHyperParameterTuningJob action. For job V2s (jobs created by calling CreateAutoMLJobV2), this field controls the runtime of the job candidate.
         public let maxRuntimePerTrainingJobInSeconds: Int?
 
         public init(maxAutoMLJobRuntimeInSeconds: Int? = nil, maxCandidates: Int? = nil, maxRuntimePerTrainingJobInSeconds: Int? = nil) {
@@ -3568,7 +3606,7 @@ extension SageMaker {
     }
 
     public struct AutoMLJobObjective: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the objective metric used to measure the predictive quality of a machine learning system. During training, the model's parameters are updated iteratively to optimize its performance based on the feedback provided by the objective metric when evaluating the model on the validation dataset. For the list of all available metrics supported by Autopilot, see Autopilot metrics. If you do not specify a metric explicitly, the default behavior is to automatically use:    MSE: for regression.    F1: for binary classification    Accuracy: for multiclass classification.
+        /// The name of the objective metric used to measure the predictive quality of a machine learning system. During training, the model's parameters are updated iteratively to optimize its performance based on the feedback provided by the objective metric when evaluating the model on the validation dataset. For the list of all available metrics supported by Autopilot, see Autopilot metrics. If you do not specify a metric explicitly, the default behavior is to automatically use:   For tabular problem types:   Regression: MSE.   Binary classification: F1.   Multiclass classification: Accuracy.     For image or text classification problem types: Accuracy
         public let metricName: AutoMLMetricEnum
 
         public init(metricName: AutoMLMetricEnum) {
@@ -3672,6 +3710,25 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case partialFailureMessage = "PartialFailureMessage"
+        }
+    }
+
+    public struct AutoMLResolvedAttributes: AWSDecodableShape {
+        public let autoMLJobObjective: AutoMLJobObjective?
+        /// Defines the resolved attributes specific to a problem type.
+        public let autoMLProblemTypeResolvedAttributes: AutoMLProblemTypeResolvedAttributes?
+        public let completionCriteria: AutoMLJobCompletionCriteria?
+
+        public init(autoMLJobObjective: AutoMLJobObjective? = nil, autoMLProblemTypeResolvedAttributes: AutoMLProblemTypeResolvedAttributes? = nil, completionCriteria: AutoMLJobCompletionCriteria? = nil) {
+            self.autoMLJobObjective = autoMLJobObjective
+            self.autoMLProblemTypeResolvedAttributes = autoMLProblemTypeResolvedAttributes
+            self.completionCriteria = completionCriteria
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLJobObjective = "AutoMLJobObjective"
+            case autoMLProblemTypeResolvedAttributes = "AutoMLProblemTypeResolvedAttributes"
+            case completionCriteria = "CompletionCriteria"
         }
     }
 
@@ -4095,6 +4152,26 @@ extension SageMaker {
         }
     }
 
+    public struct CandidateGenerationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Stores the configuration information for the selection of algorithms used to train model candidates on tabular data. The list of available algorithms to choose from depends on the training mode set in  TabularJobConfig.Mode .    AlgorithmsConfig should not be set in AUTO training mode.   When AlgorithmsConfig is provided, one AutoMLAlgorithms attribute must be set and one only. If the list of algorithms provided as values for AutoMLAlgorithms is empty, CandidateGenerationConfig uses the full set of algorithms for the given training mode.   When AlgorithmsConfig is not provided, CandidateGenerationConfig uses the full set of algorithms for the given training mode.   For the list of all algorithms per problem type and training mode, see  AutoMLAlgorithmConfig. For more information on each algorithm, see the Algorithm support section in Autopilot developer guide.
+        public let algorithmsConfig: [AutoMLAlgorithmConfig]?
+
+        public init(algorithmsConfig: [AutoMLAlgorithmConfig]? = nil) {
+            self.algorithmsConfig = algorithmsConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.algorithmsConfig?.forEach {
+                try $0.validate(name: "\(name).algorithmsConfig[]")
+            }
+            try self.validate(self.algorithmsConfig, name: "algorithmsConfig", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case algorithmsConfig = "AlgorithmsConfig"
+        }
+    }
+
     public struct CandidateProperties: AWSDecodableShape {
         /// The Amazon S3 prefix to the artifacts generated for an AutoML candidate.
         public let candidateArtifactLocations: CandidateArtifactLocations?
@@ -4287,7 +4364,7 @@ extension SageMaker {
         public let contentType: String?
         /// The location of the channel data.
         public let dataSource: DataSource
-        /// (Optional) The input mode to use for the data channel in a training job. If you don't set a value for InputMode, SageMaker uses the value set for TrainingInputMode. Use this parameter to override the TrainingInputMode setting in a AlgorithmSpecification  request when you have a channel that needs a different input mode from the training job's general setting. To download the data from Amazon Simple Storage Service (Amazon S3) to the provisioned ML storage volume, and mount the directory to a Docker volume, use File input mode. To stream data directly from Amazon S3 to the container, choose Pipe input mode. To use a model for incremental training, choose File input model.
+        /// (Optional) The input mode to use for the data channel in a training job. If you don't set a value for InputMode, SageMaker uses the value set for TrainingInputMode. Use this parameter to override the TrainingInputMode setting in a AlgorithmSpecification request when you have a channel that needs a different input mode from the training job's general setting. To download the data from Amazon Simple Storage Service (Amazon S3) to the provisioned ML storage volume, and mount the directory to a Docker volume, use File input mode. To stream data directly from Amazon S3 to the container, choose Pipe input mode. To use a model for incremental training, choose File input model.
         public let inputMode: TrainingInputMode?
         ///  Specify RecordIO as the value when input data is in raw format but the training algorithm requires the RecordIO format. In this case, SageMaker wraps each individual S3 object in a RecordIO record. If the input data is already in RecordIO format, you don't need to set this attribute. For more information, see Create a Dataset Using RecordIO.  In File mode, leave this field unset or set it to None.
         public let recordWrapperType: RecordWrapper?
@@ -4851,6 +4928,8 @@ extension SageMaker {
         public let inferenceSpecificationName: String?
         /// Whether the container hosts a single model or multiple models.
         public let mode: ContainerMode?
+        /// Specifies the location of ML model data to deploy.  Currently you cannot use ModelDataSource in conjuction with SageMaker batch transform, SageMaker serverless endpoints, SageMaker multi-model endpoints, and SageMaker Marketplace.
+        public let modelDataSource: ModelDataSource?
         /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The S3 path is required for SageMaker built-in algorithms, but not if you use your own algorithms. For more information on built-in algorithms, see Common Parameters.   The model artifacts must be in an S3 bucket that is in the same region as the model or endpoint you are creating.  If you provide a value for this parameter, SageMaker uses Amazon Web Services Security Token Service to download model artifacts from the S3 path you provide. Amazon Web Services STS is activated in your Amazon Web Services account by default. If you previously deactivated Amazon Web Services STS for a region, you need to reactivate Amazon Web Services STS for that region. For more information, see Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region in the Amazon Web Services Identity and Access Management User Guide.  If you use a built-in algorithm to create a model, SageMaker requires that you provide a S3 path to the model artifacts in ModelDataUrl.
         public let modelDataUrl: String?
         /// The name or Amazon Resource Name (ARN) of the model package to use to create the model.
@@ -4858,13 +4937,14 @@ extension SageMaker {
         /// Specifies additional configuration for multi-model endpoints.
         public let multiModelConfig: MultiModelConfig?
 
-        public init(containerHostname: String? = nil, environment: [String: String]? = nil, image: String? = nil, imageConfig: ImageConfig? = nil, inferenceSpecificationName: String? = nil, mode: ContainerMode? = nil, modelDataUrl: String? = nil, modelPackageName: String? = nil, multiModelConfig: MultiModelConfig? = nil) {
+        public init(containerHostname: String? = nil, environment: [String: String]? = nil, image: String? = nil, imageConfig: ImageConfig? = nil, inferenceSpecificationName: String? = nil, mode: ContainerMode? = nil, modelDataSource: ModelDataSource? = nil, modelDataUrl: String? = nil, modelPackageName: String? = nil, multiModelConfig: MultiModelConfig? = nil) {
             self.containerHostname = containerHostname
             self.environment = environment
             self.image = image
             self.imageConfig = imageConfig
             self.inferenceSpecificationName = inferenceSpecificationName
             self.mode = mode
+            self.modelDataSource = modelDataSource
             self.modelDataUrl = modelDataUrl
             self.modelPackageName = modelPackageName
             self.multiModelConfig = multiModelConfig
@@ -4886,6 +4966,7 @@ extension SageMaker {
             try self.validate(self.inferenceSpecificationName, name: "inferenceSpecificationName", parent: name, max: 63)
             try self.validate(self.inferenceSpecificationName, name: "inferenceSpecificationName", parent: name, min: 1)
             try self.validate(self.inferenceSpecificationName, name: "inferenceSpecificationName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.modelDataSource?.validate(name: "\(name).modelDataSource")
             try self.validate(self.modelDataUrl, name: "modelDataUrl", parent: name, max: 1024)
             try self.validate(self.modelDataUrl, name: "modelDataUrl", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
             try self.validate(self.modelPackageName, name: "modelPackageName", parent: name, max: 176)
@@ -4900,6 +4981,7 @@ extension SageMaker {
             case imageConfig = "ImageConfig"
             case inferenceSpecificationName = "InferenceSpecificationName"
             case mode = "Mode"
+            case modelDataSource = "ModelDataSource"
             case modelDataUrl = "ModelDataUrl"
             case modelPackageName = "ModelPackageName"
             case multiModelConfig = "MultiModelConfig"
@@ -5358,7 +5440,7 @@ extension SageMaker {
         public let autoMLJobConfig: AutoMLJobConfig?
         /// Identifies an Autopilot job. The name must be unique to your account and is case insensitive.
         public let autoMLJobName: String
-        /// Defines the objective metric used to measure the predictive quality of an AutoML job. You provide an AutoMLJobObjective$MetricName and Autopilot infers whether to minimize or maximize it. For CreateAutoMLJobV2, only Accuracy is supported.
+        /// Specifies a metric to minimize or maximize as the objective of a job. If not specified, the default objective metric depends on the problem type. See AutoMLJobObjective for the default values.
         public let autoMLJobObjective: AutoMLJobObjective?
         /// Generates possible candidates without training the models. A candidate is a combination of data preprocessors, algorithms, and algorithm parameter settings.
         public let generateCandidateDefinitionsOnly: Bool?
@@ -5437,15 +5519,15 @@ extension SageMaker {
     }
 
     public struct CreateAutoMLJobV2Request: AWSEncodableShape {
-        /// An array of channel objects describing the input data and their location. Each channel is a named input source. Similar to InputDataConfig supported by CreateAutoMLJob. The supported formats depend on the problem type:   ImageClassification: S3Prefix, ManifestFile, AugmentedManifestFile    TextClassification: S3Prefix
+        /// An array of channel objects describing the input data and their location. Each channel is a named input source. Similar to the InputDataConfig attribute in the CreateAutoMLJob input parameters. The supported formats depend on the problem type:   For Tabular problem types: S3Prefix, ManifestFile.   For ImageClassification: S3Prefix, ManifestFile, AugmentedManifestFile.   For TextClassification: S3Prefix.
         public let autoMLJobInputDataConfig: [AutoMLJobChannel]
         /// Identifies an Autopilot job. The name must be unique to your account and is case insensitive.
         public let autoMLJobName: String
-        /// Specifies a metric to minimize or maximize as the objective of a job. For CreateAutoMLJobV2, only Accuracy is supported.
+        /// Specifies a metric to minimize or maximize as the objective of a job. If not specified, the default objective metric depends on the problem type. For the list of default values per problem type, see AutoMLJobObjective.  For tabular problem types, you must either provide both the AutoMLJobObjective and indicate the type of supervised learning problem in AutoMLProblemTypeConfig (TabularJobConfig.ProblemType), or none at all.
         public let autoMLJobObjective: AutoMLJobObjective?
         /// Defines the configuration settings of one of the supported problem types.
         public let autoMLProblemTypeConfig: AutoMLProblemTypeConfig
-        /// This structure specifies how to split the data into train and validation datasets. If you are using the V1 API (for example CreateAutoMLJob) or the V2 API for Natural Language Processing problems (for example CreateAutoMLJobV2 with a TextClassificationJobConfig problem type), the validation and training datasets must contain the same headers. Also, for V1 API jobs, the validation dataset must be less than 2 GB in size.
+        /// This structure specifies how to split the data into train and validation datasets. The validation and training datasets must contain the same headers. For jobs created by calling CreateAutoMLJob, the validation dataset must be less than 2 GB in size.
         public let dataSplitConfig: AutoMLDataSplitConfig?
         /// Specifies how to generate the endpoint name for an automatic one-click Autopilot model deployment.
         public let modelDeployConfig: ModelDeployConfig?
@@ -10990,7 +11072,7 @@ extension SageMaker {
         public let partialFailureReasons: [AutoMLPartialFailureReason]?
         /// Returns the job's problem type.
         public let problemType: ProblemType?
-        /// Contains ProblemType, AutoMLJobObjective, and CompletionCriteria. If you do not provide these values, they are auto-inferred. If you do provide them, the values used are the ones you provide.
+        /// Contains ProblemType, AutoMLJobObjective, and CompletionCriteria. If you do not provide these values, they are inferred.
         public let resolvedAttributes: ResolvedAttributes?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
         public let roleArn: String
@@ -11045,7 +11127,7 @@ extension SageMaker {
     }
 
     public struct DescribeAutoMLJobV2Request: AWSEncodableShape {
-        /// Requests information about an AutoML V2 job using its unique name.
+        /// Requests information about an AutoML job V2 using its unique name.
         public let autoMLJobName: String
 
         public init(autoMLJobName: String) {
@@ -11064,29 +11146,32 @@ extension SageMaker {
     }
 
     public struct DescribeAutoMLJobV2Response: AWSDecodableShape {
-        /// Returns the Amazon Resource Name (ARN) of the AutoML V2 job.
+        /// Returns the Amazon Resource Name (ARN) of the AutoML job V2.
         public let autoMLJobArn: String
+        public let autoMLJobArtifacts: AutoMLJobArtifacts?
         /// Returns an array of channel objects describing the input data and their location.
         public let autoMLJobInputDataConfig: [AutoMLJobChannel]
-        /// Returns the name of the AutoML V2 job.
+        /// Returns the name of the AutoML job V2.
         public let autoMLJobName: String
         /// Returns the job's objective.
         public let autoMLJobObjective: AutoMLJobObjective?
-        /// Returns the secondary status of the AutoML V2 job.
+        /// Returns the secondary status of the AutoML job V2.
         public let autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus
-        /// Returns the status of the AutoML V2 job.
+        /// Returns the status of the AutoML job V2.
         public let autoMLJobStatus: AutoMLJobStatus
-        /// Returns the configuration settings of the problem type set for the AutoML V2 job.
+        /// Returns the configuration settings of the problem type set for the AutoML job V2.
         public let autoMLProblemTypeConfig: AutoMLProblemTypeConfig?
+        /// Returns the name of the problem type configuration set for the AutoML job V2.
+        public let autoMLProblemTypeConfigName: AutoMLProblemTypeConfigName?
         /// Information about the candidate produced by an AutoML training job V2, including its status, steps, and other properties.
         public let bestCandidate: AutoMLCandidate?
-        /// Returns the creation time of the AutoML V2 job.
+        /// Returns the creation time of the AutoML job V2.
         public let creationTime: Date
         /// Returns the configuration settings of how the data are split into train and validation datasets.
         public let dataSplitConfig: AutoMLDataSplitConfig?
-        /// Returns the end time of the AutoML V2 job.
+        /// Returns the end time of the AutoML job V2.
         public let endTime: Date?
-        /// Returns the reason for the failure of the AutoML V2 job, when applicable.
+        /// Returns the reason for the failure of the AutoML job V2, when applicable.
         public let failureReason: String?
         /// Returns the job's last modified time.
         public let lastModifiedTime: Date
@@ -11096,21 +11181,25 @@ extension SageMaker {
         public let modelDeployResult: ModelDeployResult?
         /// Returns the job's output data config.
         public let outputDataConfig: AutoMLOutputDataConfig
-        /// Returns a list of reasons for partial failures within an AutoML V2 job.
+        /// Returns a list of reasons for partial failures within an AutoML job V2.
         public let partialFailureReasons: [AutoMLPartialFailureReason]?
+        /// Returns the resolved attributes used by the AutoML job V2.
+        public let resolvedAttributes: AutoMLResolvedAttributes?
         /// The ARN of the Identity and Access Management role that has read permission to the input data location and write permission to the output data location in Amazon S3.
         public let roleArn: String
         /// Returns the security configuration for traffic encryption or Amazon VPC settings.
         public let securityConfig: AutoMLSecurityConfig?
 
-        public init(autoMLJobArn: String, autoMLJobInputDataConfig: [AutoMLJobChannel], autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, autoMLProblemTypeConfig: AutoMLProblemTypeConfig? = nil, bestCandidate: AutoMLCandidate? = nil, creationTime: Date, dataSplitConfig: AutoMLDataSplitConfig? = nil, endTime: Date? = nil, failureReason: String? = nil, lastModifiedTime: Date, modelDeployConfig: ModelDeployConfig? = nil, modelDeployResult: ModelDeployResult? = nil, outputDataConfig: AutoMLOutputDataConfig, partialFailureReasons: [AutoMLPartialFailureReason]? = nil, roleArn: String, securityConfig: AutoMLSecurityConfig? = nil) {
+        public init(autoMLJobArn: String, autoMLJobArtifacts: AutoMLJobArtifacts? = nil, autoMLJobInputDataConfig: [AutoMLJobChannel], autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, autoMLProblemTypeConfig: AutoMLProblemTypeConfig? = nil, autoMLProblemTypeConfigName: AutoMLProblemTypeConfigName? = nil, bestCandidate: AutoMLCandidate? = nil, creationTime: Date, dataSplitConfig: AutoMLDataSplitConfig? = nil, endTime: Date? = nil, failureReason: String? = nil, lastModifiedTime: Date, modelDeployConfig: ModelDeployConfig? = nil, modelDeployResult: ModelDeployResult? = nil, outputDataConfig: AutoMLOutputDataConfig, partialFailureReasons: [AutoMLPartialFailureReason]? = nil, resolvedAttributes: AutoMLResolvedAttributes? = nil, roleArn: String, securityConfig: AutoMLSecurityConfig? = nil) {
             self.autoMLJobArn = autoMLJobArn
+            self.autoMLJobArtifacts = autoMLJobArtifacts
             self.autoMLJobInputDataConfig = autoMLJobInputDataConfig
             self.autoMLJobName = autoMLJobName
             self.autoMLJobObjective = autoMLJobObjective
             self.autoMLJobSecondaryStatus = autoMLJobSecondaryStatus
             self.autoMLJobStatus = autoMLJobStatus
             self.autoMLProblemTypeConfig = autoMLProblemTypeConfig
+            self.autoMLProblemTypeConfigName = autoMLProblemTypeConfigName
             self.bestCandidate = bestCandidate
             self.creationTime = creationTime
             self.dataSplitConfig = dataSplitConfig
@@ -11121,18 +11210,21 @@ extension SageMaker {
             self.modelDeployResult = modelDeployResult
             self.outputDataConfig = outputDataConfig
             self.partialFailureReasons = partialFailureReasons
+            self.resolvedAttributes = resolvedAttributes
             self.roleArn = roleArn
             self.securityConfig = securityConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoMLJobArn = "AutoMLJobArn"
+            case autoMLJobArtifacts = "AutoMLJobArtifacts"
             case autoMLJobInputDataConfig = "AutoMLJobInputDataConfig"
             case autoMLJobName = "AutoMLJobName"
             case autoMLJobObjective = "AutoMLJobObjective"
             case autoMLJobSecondaryStatus = "AutoMLJobSecondaryStatus"
             case autoMLJobStatus = "AutoMLJobStatus"
             case autoMLProblemTypeConfig = "AutoMLProblemTypeConfig"
+            case autoMLProblemTypeConfigName = "AutoMLProblemTypeConfigName"
             case bestCandidate = "BestCandidate"
             case creationTime = "CreationTime"
             case dataSplitConfig = "DataSplitConfig"
@@ -11143,6 +11235,7 @@ extension SageMaker {
             case modelDeployResult = "ModelDeployResult"
             case outputDataConfig = "OutputDataConfig"
             case partialFailureReasons = "PartialFailureReasons"
+            case resolvedAttributes = "ResolvedAttributes"
             case roleArn = "RoleArn"
             case securityConfig = "SecurityConfig"
         }
@@ -11974,7 +12067,7 @@ extension SageMaker {
         public let endpointConfigName: String
         /// Name of the endpoint.
         public let endpointName: String
-        /// The status of the endpoint.    OutOfService: Endpoint is not available to take incoming requests.    Creating: CreateEndpoint is executing.    Updating: UpdateEndpoint or UpdateEndpointWeightsAndCapacities is executing.    SystemUpdating: Endpoint is undergoing maintenance and cannot be updated or deleted or re-scaled until it has completed. This maintenance operation does not change any customer-specified values such as VPC config, KMS encryption, model, instance type, or instance count.    RollingBack: Endpoint fails to scale up or down or change its variant weight and is in the process of rolling back to its previous configuration. Once the rollback completes, endpoint returns to an InService status. This transitional status only applies to an endpoint that has autoscaling enabled and is undergoing variant weight or capacity changes as part of an UpdateEndpointWeightsAndCapacities call or when the UpdateEndpointWeightsAndCapacities operation is called explicitly.    InService: Endpoint is available to process incoming requests.    Deleting: DeleteEndpoint is executing.    Failed: Endpoint could not be created, updated, or re-scaled. Use the  FailureReason value returned by DescribeEndpoint for information about the failure. DeleteEndpoint is the only operation that can be performed on a failed endpoint.
+        /// The status of the endpoint.    OutOfService: Endpoint is not available to take incoming requests.    Creating: CreateEndpoint is executing.    Updating: UpdateEndpoint or UpdateEndpointWeightsAndCapacities is executing.    SystemUpdating: Endpoint is undergoing maintenance and cannot be updated or deleted or re-scaled until it has completed. This maintenance operation does not change any customer-specified values such as VPC config, KMS encryption, model, instance type, or instance count.    RollingBack: Endpoint fails to scale up or down or change its variant weight and is in the process of rolling back to its previous configuration. Once the rollback completes, endpoint returns to an InService status. This transitional status only applies to an endpoint that has autoscaling enabled and is undergoing variant weight or capacity changes as part of an UpdateEndpointWeightsAndCapacities call or when the UpdateEndpointWeightsAndCapacities operation is called explicitly.    InService: Endpoint is available to process incoming requests.    Deleting: DeleteEndpoint is executing.    Failed: Endpoint could not be created, updated, or re-scaled. Use the FailureReason value returned by DescribeEndpoint for information about the failure. DeleteEndpoint is the only operation that can be performed on a failed endpoint.
         public let endpointStatus: EndpointStatus
         /// The configuration parameters for an explainer.
         public let explainerConfig: ExplainerConfig?
@@ -14087,7 +14180,7 @@ extension SageMaker {
     }
 
     public struct DescribePipelineRequest: AWSEncodableShape {
-        /// The name of the pipeline to describe.
+        /// The name or Amazon Resource Name (ARN) of the pipeline to describe.
         public let pipelineName: String
 
         public init(pipelineName: String) {
@@ -17705,7 +17798,7 @@ extension SageMaker {
     }
 
     public struct HyperParameterTuningInstanceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The number of instances of the type specified by InstanceType. Choose an instance count larger than 1 for distributed training algorithms. See SageMaker distributed training jobs for more information.
+        /// The number of instances of the type specified by InstanceType. Choose an instance count larger than 1 for distributed training algorithms. See Step 2: Launch a SageMaker Distributed Training Job Using the SageMaker Python SDK for more information.
         public let instanceCount: Int
         /// The instance type used for processing of hyperparameter optimization jobs. Choose from general purpose (no GPUs) instance types: ml.m5.xlarge, ml.m5.2xlarge, and ml.m5.4xlarge or compute optimized (no GPUs) instance types: ml.c5.xlarge and ml.c5.2xlarge. For more information about instance types, see instance type descriptions.
         public let instanceType: TrainingInstanceType
@@ -19464,7 +19557,7 @@ extension SageMaker {
         public let creationTimeAfter: Date?
         /// A filter that returns only AppImageConfigs created on or before the specified time.
         public let creationTimeBefore: Date?
-        /// The maximum number of AppImageConfigs to return in the response. The default value is 10.
+        /// The total number of items to return in the response. If the total number of items available is more than the value specified, a NextToken is provided in the response. To resume pagination, provide the NextToken value in the as part of a subsequent call. The default value is 10.
         public let maxResults: Int?
         /// A filter that returns only AppImageConfigs modified on or after the specified time.
         public let modifiedTimeAfter: Date?
@@ -19533,7 +19626,7 @@ extension SageMaker {
     public struct ListAppsRequest: AWSEncodableShape {
         /// A parameter to search for the domain ID.
         public let domainIdEquals: String?
-        /// Returns a list up to a specified limit.
+        /// The total number of items to return in the response. If the total number of items available is more than the value specified, a NextToken is provided in the response. To resume pagination, provide the NextToken value in the as part of a subsequent call. The default value is 10.
         public let maxResults: Int?
         /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
@@ -20300,7 +20393,7 @@ extension SageMaker {
     }
 
     public struct ListDomainsRequest: AWSEncodableShape {
-        /// Returns a list up to a specified limit.
+        /// The total number of items to return in the response. If the total number of items available is more than the value specified, a NextToken is provided in the response. To resume pagination, provide the NextToken value in the as part of a subsequent call. The default value is 10.
         public let maxResults: Int?
         /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
@@ -22962,7 +23055,7 @@ extension SageMaker {
         public let maxResults: Int?
         /// If the result of the previous ListPipelineExecutions request was truncated, the response includes a NextToken. To retrieve the next set of pipeline executions, use the token in the next request.
         public let nextToken: String?
-        /// The name of the pipeline.
+        /// The name or Amazon Resource Name (ARN) of the pipeline.
         public let pipelineName: String
         /// The field by which to sort results. The default is CreatedTime.
         public let sortBy: SortPipelineExecutionsBy?
@@ -23268,7 +23361,7 @@ extension SageMaker {
     public struct ListSpacesRequest: AWSEncodableShape {
         /// A parameter to search for the Domain ID.
         public let domainIdEquals: String?
-        /// Returns a list up to a specified limit.
+        /// The total number of items to return in the response. If the total number of items available is more than the value specified, a NextToken is provided in the response. To resume pagination, provide the NextToken value in the as part of a subsequent call. The default value is 10.
         public let maxResults: Int?
         /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
@@ -23390,7 +23483,7 @@ extension SageMaker {
         public let creationTimeAfter: Date?
         /// A filter that returns only Lifecycle Configurations created on or before the specified time.
         public let creationTimeBefore: Date?
-        /// The maximum number of Studio Lifecycle Configurations to return in the response. The default value is 10.
+        /// The total number of items to return in the response. If the total number of items available is more than the value specified, a NextToken is provided in the response. To resume pagination, provide the NextToken value in the as part of a subsequent call. The default value is 10.
         public let maxResults: Int?
         /// A filter that returns only Lifecycle Configurations modified after the specified time.
         public let modifiedTimeAfter: Date?
@@ -23442,7 +23535,7 @@ extension SageMaker {
     }
 
     public struct ListStudioLifecycleConfigsResponse: AWSDecodableShape {
-        /// A token for getting the next set of actions, if there are any.
+        /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
         /// A list of Lifecycle Configurations and their properties.
         public let studioLifecycleConfigs: [StudioLifecycleConfigDetails]?
@@ -23916,7 +24009,7 @@ extension SageMaker {
     public struct ListUserProfilesRequest: AWSEncodableShape {
         /// A parameter by which to filter the results.
         public let domainIdEquals: String?
-        /// Returns a list up to a specified limit.
+        /// The total number of items to return in the response. If the total number of items available is more than the value specified, a NextToken is provided in the response. To resume pagination, provide the NextToken value in the as part of a subsequent call. The default value is 10.
         public let maxResults: Int?
         /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
@@ -24839,6 +24932,23 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case constraints = "Constraints"
             case statistics = "Statistics"
+        }
+    }
+
+    public struct ModelDataSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the S3 location of ML model data to deploy.
+        public let s3DataSource: S3ModelDataSource
+
+        public init(s3DataSource: S3ModelDataSource) {
+            self.s3DataSource = s3DataSource
+        }
+
+        public func validate(name: String) throws {
+            try self.s3DataSource.validate(name: "\(name).s3DataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3DataSource = "S3DataSource"
         }
     }
 
@@ -26919,7 +27029,7 @@ extension SageMaker {
         public let kmsKeyId: String?
         /// Identifies the S3 bucket where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
         public let s3OutputLocation: String
-        /// Identifies the target device or the machine learning instance that you want to run your model on after the compilation has completed. Alternatively, you can specify OS, architecture, and accelerator using TargetPlatform fields. It can be used instead of TargetPlatform.
+        /// Identifies the target device or the machine learning instance that you want to run your model on after the compilation has completed. Alternatively, you can specify OS, architecture, and accelerator using TargetPlatform fields. It can be used instead of TargetPlatform.  Currently ml_trn1 is available only in US East (N. Virginia) Region, and ml_inf2 is available only in US East (Ohio) Region.
         public let targetDevice: TargetDevice?
         /// Contains information about a target platform that you want your model to run on, such as OS, architecture, and accelerators. It is an alternative of TargetDevice. The following examples show how to configure the TargetPlatform and CompilerOptions JSON strings for popular target platforms:    Raspberry Pi 3 Model B+  "TargetPlatform": {"Os": "LINUX", "Arch": "ARM_EABIHF"},   "CompilerOptions": {'mattr': ['+neon']}    Jetson TX2  "TargetPlatform": {"Os": "LINUX", "Arch": "ARM64", "Accelerator": "NVIDIA"},   "CompilerOptions": {'gpu-code': 'sm_62', 'trt-ver': '6.0.1', 'cuda-ver': '10.0'}    EC2 m5.2xlarge instance OS  "TargetPlatform": {"Os": "LINUX", "Arch": "X86_64", "Accelerator": "NVIDIA"},   "CompilerOptions": {'mcpu': 'skylake-avx512'}    RK3399  "TargetPlatform": {"Os": "LINUX", "Arch": "ARM64", "Accelerator": "MALI"}    ARMv7 phone (CPU)  "TargetPlatform": {"Os": "ANDROID", "Arch": "ARM_EABI"},   "CompilerOptions": {'ANDROID_PLATFORM': 25, 'mattr': ['+neon']}    ARMv8 phone (CPU)  "TargetPlatform": {"Os": "ANDROID", "Arch": "ARM64"},   "CompilerOptions": {'ANDROID_PLATFORM': 29}
         public let targetPlatform: TargetPlatform?
@@ -26952,12 +27062,15 @@ extension SageMaker {
     }
 
     public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The model output compression type. Select None to output an uncompressed model, recommended for large model outputs. Defaults to gzip.
+        public let compressionType: OutputCompressionType?
         /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you use a KMS key ID or an alias of your KMS key, the SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, SageMaker uses the default KMS key for Amazon S3 for your role's account. SageMaker uses server-side encryption with KMS-managed keys for OutputDataConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateTrainingJob, CreateTransformJob, or CreateHyperParameterTuningJob requests. For more information, see Using Key Policies in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// Identifies the S3 path where you want SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
         public let s3OutputPath: String
 
-        public init(kmsKeyId: String? = nil, s3OutputPath: String) {
+        public init(compressionType: OutputCompressionType? = nil, kmsKeyId: String? = nil, s3OutputPath: String) {
+            self.compressionType = compressionType
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
         }
@@ -26970,6 +27083,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compressionType = "CompressionType"
             case kmsKeyId = "KmsKeyId"
             case s3OutputPath = "S3OutputPath"
         }
@@ -29696,6 +29810,32 @@ extension SageMaker {
         }
     }
 
+    public struct S3ModelDataSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies how the ML model data is prepared. If you choose Gzip and choose S3Object as the value of S3DataType, S3Uri identifies an object that is a gzip-compressed TAR archive. SageMaker will attempt to decompress and untar the object during model deployment. If you choose None and chooose S3Object as the value of S3DataType, S3Uri identifies an object that represents an uncompressed ML model to deploy. If you choose None and choose S3Prefix as the value of S3DataType, S3Uri identifies a key name prefix, under which all objects represents the uncompressed ML model to deploy. If you choose None, then SageMaker will follow rules below when creating model data files under /opt/ml/model directory for use by your inference code:   If you choose S3Object as the value of S3DataType, then SageMaker will split the key of the S3 object referenced by S3Uri by slash (/), and use the last part as the filename of the file holding the content of the S3 object.   If you choose S3Prefix as the value of S3DataType, then for each S3 object under the key name pefix referenced by S3Uri, SageMaker will trim its key by the prefix, and use the remainder as the path (relative to /opt/ml/model) of the file holding the content of the S3 object. SageMaker will split the remainder by slash (/), using intermediate parts as directory names and the last part as filename of the file holding the content of the S3 object.   Do not use any of the following as file names or directory names:   An empty or blank string   A string which contains null bytes   A string longer than 255 bytes   A single dot (.)   A double dot (..)     Ambiguous file names will result in model deployment failure. For example, if your uncompressed ML model consists of two S3 objects s3://mybucket/model/weights and s3://mybucket/model/weights/part1 and you specify s3://mybucket/model/ as the value of S3Uri and S3Prefix as the value of S3DataType, then it will result in name clash between /opt/ml/model/weights (a regular file) and /opt/ml/model/weights/ (a directory).   Do not organize the model artifacts in S3 console using folders. When you create a folder in S3 console, S3 creates a 0-byte object with a key set to the folder name you provide. They key of the 0-byte object ends with a slash (/) which violates SageMaker restrictions on model artifact file names, leading to model deployment failure.
+        public let compressionType: ModelCompressionType
+        /// Specifies the type of ML model data to deploy. If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix as part of the ML model data to deploy. A valid key name prefix identified by S3Uri always ends with a forward slash (/). If you choose S3Object, S3Uri identifies an object that is the ML model data to deploy.
+        public let s3DataType: S3ModelDataType
+        /// Specifies the S3 path of ML model data to deploy.
+        public let s3Uri: String
+
+        public init(compressionType: ModelCompressionType, s3DataType: S3ModelDataType, s3Uri: String) {
+            self.compressionType = compressionType
+            self.s3DataType = s3DataType
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compressionType = "CompressionType"
+            case s3DataType = "S3DataType"
+            case s3Uri = "S3Uri"
+        }
+    }
+
     public struct S3StorageConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Web Services Key Management Service (KMS) key ARN of the key used to encrypt any objects written into the OfflineStore S3 location. The IAM roleARN that is passed as a parameter to CreateFeatureGroup must have below permissions to the KmsKeyId:    "kms:GenerateDataKey"
         public let kmsKeyId: String?
@@ -30475,7 +30615,7 @@ extension SageMaker {
         public let pipelineExecutionDescription: String?
         /// The display name of the pipeline execution.
         public let pipelineExecutionDisplayName: String?
-        /// The name of the pipeline.
+        /// The name or Amazon Resource Name (ARN) of the pipeline.
         public let pipelineName: String
         /// Contains a list of pipeline parameters. This list can be empty.
         public let pipelineParameters: [Parameter]?
@@ -30964,6 +31104,70 @@ extension SageMaker {
         }
     }
 
+    public struct TabularJobConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration information of how model candidates are generated.
+        public let candidateGenerationConfig: CandidateGenerationConfig?
+        public let completionCriteria: AutoMLJobCompletionCriteria?
+        /// A URL to the Amazon S3 data source containing selected features from the input data source to run an Autopilot job V2. You can input FeatureAttributeNames (optional) in JSON format as shown below:   { "FeatureAttributeNames":["col1", "col2", ...] }. You can also specify the data type of the feature (optional) in the format shown below:  { "FeatureDataTypes":{"col1":"numeric", "col2":"categorical" ... } }   These column keys may not include the target column.  In ensembling mode, Autopilot only supports the following data types: numeric, categorical, text, and datetime. In HPO mode, Autopilot can support numeric, categorical, text, datetime, and sequence. If only FeatureDataTypes is provided, the column keys (col1, col2,..) should be a subset of the column names in the input data.  If both FeatureDataTypes and FeatureAttributeNames are provided, then the column keys should be a subset of the column names provided in FeatureAttributeNames.  The key name FeatureAttributeNames is fixed. The values listed in ["col1", "col2", ...] are case sensitive and should be a list of strings containing unique values that are a subset of the column names in the input data. The list of columns provided must not include the target column.
+        public let featureSpecificationS3Uri: String?
+        /// Generates possible candidates without training the models. A model candidate is a combination of data preprocessors, algorithms, and algorithm parameter settings.
+        public let generateCandidateDefinitionsOnly: Bool?
+        /// The method that Autopilot uses to train the data. You can either specify the mode manually or let Autopilot choose for you based on the dataset size by selecting AUTO. In AUTO mode, Autopilot chooses ENSEMBLING for datasets smaller than 100 MB, and HYPERPARAMETER_TUNING for larger ones. The ENSEMBLING mode uses a multi-stack ensemble model to predict classification and regression tasks directly from your dataset. This machine learning mode combines several base models to produce an optimal predictive model. It then uses a stacking ensemble method to combine predictions from contributing members. A multi-stack ensemble model can provide better performance over a single model by combining the predictive capabilities of multiple models. See Autopilot algorithm support for a list of algorithms supported by ENSEMBLING mode. The HYPERPARAMETER_TUNING (HPO) mode uses the best hyperparameters to train the best version of a model. HPO automatically selects an algorithm for the type of problem you want to solve. Then HPO finds the best hyperparameters according to your objective metric. See Autopilot algorithm support for a list of algorithms supported by HYPERPARAMETER_TUNING mode.
+        public let mode: AutoMLMode?
+        /// The type of supervised learning problem available for the model candidates of the AutoML job V2. For more information, see  Amazon SageMaker Autopilot problem types.  You must either specify the type of supervised learning problem in ProblemType and provide the AutoMLJobObjective metric, or none at all.
+        public let problemType: ProblemType?
+        /// If specified, this column name indicates which column of the dataset should be treated as sample weights for use by the objective metric during the training, evaluation, and the selection of the best model. This column is not considered as a predictive feature. For more information on Autopilot metrics, see Metrics and validation. Sample weights should be numeric, non-negative, with larger values indicating which rows are more important than others. Data points that have invalid or no weight value are excluded. Support for sample weights is available in Ensembling mode only.
+        public let sampleWeightAttributeName: String?
+        /// The name of the target variable in supervised learning, usually represented by 'y'.
+        public let targetAttributeName: String
+
+        public init(candidateGenerationConfig: CandidateGenerationConfig? = nil, completionCriteria: AutoMLJobCompletionCriteria? = nil, featureSpecificationS3Uri: String? = nil, generateCandidateDefinitionsOnly: Bool? = nil, mode: AutoMLMode? = nil, problemType: ProblemType? = nil, sampleWeightAttributeName: String? = nil, targetAttributeName: String) {
+            self.candidateGenerationConfig = candidateGenerationConfig
+            self.completionCriteria = completionCriteria
+            self.featureSpecificationS3Uri = featureSpecificationS3Uri
+            self.generateCandidateDefinitionsOnly = generateCandidateDefinitionsOnly
+            self.mode = mode
+            self.problemType = problemType
+            self.sampleWeightAttributeName = sampleWeightAttributeName
+            self.targetAttributeName = targetAttributeName
+        }
+
+        public func validate(name: String) throws {
+            try self.candidateGenerationConfig?.validate(name: "\(name).candidateGenerationConfig")
+            try self.completionCriteria?.validate(name: "\(name).completionCriteria")
+            try self.validate(self.featureSpecificationS3Uri, name: "featureSpecificationS3Uri", parent: name, max: 1024)
+            try self.validate(self.featureSpecificationS3Uri, name: "featureSpecificationS3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.validate(self.sampleWeightAttributeName, name: "sampleWeightAttributeName", parent: name, max: 256)
+            try self.validate(self.sampleWeightAttributeName, name: "sampleWeightAttributeName", parent: name, min: 1)
+            try self.validate(self.sampleWeightAttributeName, name: "sampleWeightAttributeName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.targetAttributeName, name: "targetAttributeName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case candidateGenerationConfig = "CandidateGenerationConfig"
+            case completionCriteria = "CompletionCriteria"
+            case featureSpecificationS3Uri = "FeatureSpecificationS3Uri"
+            case generateCandidateDefinitionsOnly = "GenerateCandidateDefinitionsOnly"
+            case mode = "Mode"
+            case problemType = "ProblemType"
+            case sampleWeightAttributeName = "SampleWeightAttributeName"
+            case targetAttributeName = "TargetAttributeName"
+        }
+    }
+
+    public struct TabularResolvedAttributes: AWSDecodableShape {
+        /// The type of supervised learning problem available for the model candidates of the AutoML job V2 (Binary Classification, Multiclass Classification, Regression). For more information, see  Amazon SageMaker Autopilot problem types.
+        public let problemType: ProblemType?
+
+        public init(problemType: ProblemType? = nil) {
+            self.problemType = problemType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case problemType = "ProblemType"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The tag key. Tag keys must be unique per resource.
         public let key: String
@@ -31054,9 +31258,9 @@ extension SageMaker {
     public struct TextClassificationJobConfig: AWSEncodableShape & AWSDecodableShape {
         /// How long a job is allowed to run, or how many candidates a job is allowed to generate.
         public let completionCriteria: AutoMLJobCompletionCriteria?
-        /// The name of the column used to provide the sentences to be classified. It should not be the same as the target column.
+        /// The name of the column used to provide the sentences to be classified. It should not be the same as the target column (Required).
         public let contentColumn: String?
-        /// The name of the column used to provide the class labels. It should not be same as the content column.
+        /// The name of the column used to provide the class labels. It should not be same as the content column (Required).
         public let targetLabelColumn: String?
 
         public init(completionCriteria: AutoMLJobCompletionCriteria? = nil, contentColumn: String? = nil, targetLabelColumn: String? = nil) {
@@ -34518,6 +34722,19 @@ extension SageMaker {
             case workforceArn = "WorkforceArn"
             case workteamArn = "WorkteamArn"
             case workteamName = "WorkteamName"
+        }
+    }
+
+    public struct AutoMLProblemTypeResolvedAttributes: AWSDecodableShape {
+        /// Defines the resolved attributes for the TABULAR problem type.
+        public let tabularResolvedAttributes: TabularResolvedAttributes?
+
+        public init(tabularResolvedAttributes: TabularResolvedAttributes? = nil) {
+            self.tabularResolvedAttributes = tabularResolvedAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tabularResolvedAttributes = "TabularResolvedAttributes"
         }
     }
 }

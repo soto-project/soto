@@ -502,15 +502,58 @@ extension WAFV2 {
         }
     }
 
+    public struct AWSManagedRulesACFPRuleSet: AWSEncodableShape & AWSDecodableShape {
+        /// The path of the account creation endpoint for your application. This is the page on your website that accepts the completed registration form for a new user. This page must accept POST requests. For example, for the URL https://example.com/web/signup, you would provide the path /web/signup.
+        public let creationPath: String
+        /// Allow the use of regular expressions in the registration page path and the account creation path.
+        public let enableRegexInPath: Bool?
+        /// The path of the account registration endpoint for your application. This is the page on your website that presents the registration form to new users.   This page must accept GET text/html requests.  For example, for the URL https://example.com/web/register, you would provide the path /web/register.
+        public let registrationPagePath: String
+        /// The criteria for inspecting account creation requests, used by the ACFP rule group to validate and track account creation attempts.
+        public let requestInspection: RequestInspectionACFP
+        /// The criteria for inspecting responses to account creation requests, used by the ACFP rule group to track account creation success rates.   Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.  The ACFP rule group evaluates the responses that your protected resources send back to client account creation attempts, keeping count of successful and failed attempts from each IP address and client session. Using this information, the rule group labels  and mitigates requests from client sessions and IP addresses that have had too many successful account creation attempts in a short amount of time.
+        public let responseInspection: ResponseInspection?
+
+        public init(creationPath: String, enableRegexInPath: Bool? = nil, registrationPagePath: String, requestInspection: RequestInspectionACFP, responseInspection: ResponseInspection? = nil) {
+            self.creationPath = creationPath
+            self.enableRegexInPath = enableRegexInPath
+            self.registrationPagePath = registrationPagePath
+            self.requestInspection = requestInspection
+            self.responseInspection = responseInspection
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.creationPath, name: "creationPath", parent: name, max: 256)
+            try self.validate(self.creationPath, name: "creationPath", parent: name, min: 1)
+            try self.validate(self.creationPath, name: "creationPath", parent: name, pattern: "\\S")
+            try self.validate(self.registrationPagePath, name: "registrationPagePath", parent: name, max: 256)
+            try self.validate(self.registrationPagePath, name: "registrationPagePath", parent: name, min: 1)
+            try self.validate(self.registrationPagePath, name: "registrationPagePath", parent: name, pattern: "\\S")
+            try self.requestInspection.validate(name: "\(name).requestInspection")
+            try self.responseInspection?.validate(name: "\(name).responseInspection")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationPath = "CreationPath"
+            case enableRegexInPath = "EnableRegexInPath"
+            case registrationPagePath = "RegistrationPagePath"
+            case requestInspection = "RequestInspection"
+            case responseInspection = "ResponseInspection"
+        }
+    }
+
     public struct AWSManagedRulesATPRuleSet: AWSEncodableShape & AWSDecodableShape {
+        /// Allow the use of regular expressions in the login page path.
+        public let enableRegexInPath: Bool?
         /// The path of the login endpoint for your application. For example, for the URL https://example.com/web/login, you would provide the path /web/login. The rule group inspects only HTTP POST requests to your specified login endpoint.
         public let loginPath: String
         /// The criteria for inspecting login requests, used by the ATP rule group to validate credentials usage.
         public let requestInspection: RequestInspection?
-        /// The criteria for inspecting responses to login requests, used by the ATP rule group to track login failure rates.  The ATP rule group evaluates the responses that your protected resources send back to client login attempts, keeping count of successful and failed attempts from each IP address and client session. Using this information, the rule group labels  and mitigates requests from client sessions and IP addresses that submit too many failed login attempts in a short amount of time.   Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
+        /// The criteria for inspecting responses to login requests, used by the ATP rule group to track login failure rates.   Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.  The ATP rule group evaluates the responses that your protected resources send back to client login attempts, keeping count of successful and failed attempts for each IP address and client session. Using this information, the rule group labels  and mitigates requests from client sessions and IP addresses that have had too many failed login attempts in a short amount of time.
         public let responseInspection: ResponseInspection?
 
-        public init(loginPath: String, requestInspection: RequestInspection? = nil, responseInspection: ResponseInspection? = nil) {
+        public init(enableRegexInPath: Bool? = nil, loginPath: String, requestInspection: RequestInspection? = nil, responseInspection: ResponseInspection? = nil) {
+            self.enableRegexInPath = enableRegexInPath
             self.loginPath = loginPath
             self.requestInspection = requestInspection
             self.responseInspection = responseInspection
@@ -522,6 +565,7 @@ extension WAFV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableRegexInPath = "EnableRegexInPath"
             case loginPath = "LoginPath"
             case requestInspection = "RequestInspection"
             case responseInspection = "ResponseInspection"
@@ -551,6 +595,25 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
+        }
+    }
+
+    public struct AddressField: AWSEncodableShape & AWSDecodableShape {
+        /// The name of a single primary address field.  How you specify the address fields depends on the request inspection payload type.   For JSON payloads, specify the field identifiers in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "primaryaddressline1": "THE_ADDRESS1", "primaryaddressline2": "THE_ADDRESS2", "primaryaddressline3": "THE_ADDRESS3" } },  the address field idenfiers are /form/primaryaddressline1, /form/primaryaddressline2, and /form/primaryaddressline3.   For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named primaryaddressline1, primaryaddressline2, and primaryaddressline3, the address fields identifiers are primaryaddressline1, primaryaddressline2, and primaryaddressline3.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 512)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
         }
     }
 
@@ -1829,6 +1892,25 @@ extension WAFV2 {
         public init() {}
     }
 
+    public struct EmailField: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the email field.  How you specify this depends on the request inspection payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "email": "THE_EMAIL" } },  the email field specification is /form/email.   For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named email1, the email field specification is email1.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 512)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
+        }
+    }
+
     public struct ExcludedRule: AWSEncodableShape & AWSDecodableShape {
         /// The name of the rule whose action you want to override to Count.
         public let name: String
@@ -1856,7 +1938,7 @@ extension WAFV2 {
         /// Inspect the request cookies. You must configure scope and pattern matching filters in the Cookies object, to define the set of cookies and the parts of the cookies that WAF inspects.  Only the first 8 KB (8192 bytes) of a request's cookies and only the first 200 cookies are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize cookie content in the Cookies object. WAF applies the pattern matching filters to the cookies that it receives from the underlying host service.
         public let cookies: Cookies?
         /// Inspect a string containing the list of the request's header names, ordered as they appear in the web request
-        /// that WAF receives for inspection.  WAF generates the string and then uses that as the field to match component in its inspection.  WAF separates the header names in the string using commas and no added spaces. Matches against the header order string are case insensitive.
+        /// that WAF receives for inspection.  WAF generates the string and then uses that as the field to match component in its inspection.  WAF separates the header names in the string using colons and no added spaces, for example host:user-agent:accept:authorization:referer.
         public let headerOrder: HeaderOrder?
         /// Inspect the request headers. You must configure scope and pattern matching filters in the Headers object, to define the set of headers to and the parts of the headers that WAF inspects.  Only the first 8 KB (8192 bytes) of a request's headers and only the first 200 headers are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize header content in the Headers object. WAF applies the pattern matching filters to the headers that it receives from the underlying host service.
         public let headers: Headers?
@@ -2582,7 +2664,7 @@ extension WAFV2 {
     }
 
     public struct GetWebACLResponse: AWSDecodableShape {
-        /// The URL to use in SDK integrations with Amazon Web Services managed rule groups. For example, you can use the integration SDKs with the account takeover prevention managed rule group AWSManagedRulesATPRuleSet. This is only populated if you are using a rule group in your web ACL that integrates with your applications in this way. For more information, see WAF client application integration
+        /// The URL to use in SDK integrations with Amazon Web Services managed rule groups. For example, you can use the integration SDKs with the account takeover prevention managed rule group AWSManagedRulesATPRuleSet and the account creation fraud prevention managed rule group AWSManagedRulesACFPRuleSet. This is only populated if you are using a rule group in your web ACL that integrates with your applications in this way. For more information, see WAF client application integration
         /// in the WAF Developer Guide.
         public let applicationIntegrationURL: String?
         /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
@@ -3563,7 +3645,7 @@ extension WAFV2 {
         public let loggingFilter: LoggingFilter?
         /// Indicates whether the logging configuration was created by Firewall Manager, as part of an WAF policy configuration. If true, only Firewall Manager can modify or delete the configuration.
         public let managedByFirewallManager: Bool?
-        /// The parts of the request that you want to keep out of the logs. For example, if you redact the SingleHeader field, the HEADER field in the logs will be REDACTED.   You can specify only the following fields for redaction: UriPath, QueryString, SingleHeader, Method, and JsonBody.
+        /// The parts of the request that you want to keep out of the logs. For example, if you redact the SingleHeader field, the HEADER field in the logs will be REDACTED for all rules that use the SingleHeader FieldToMatch setting.  Redaction applies only to the component that's specified in the rule's FieldToMatch setting, so the SingleHeader redaction  doesn't apply to rules that use the Headers FieldToMatch.  You can specify only the following fields for redaction: UriPath, QueryString, SingleHeader, and Method.
         public let redactedFields: [FieldToMatch]?
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with LogDestinationConfigs.
         public let resourceArn: String
@@ -3673,20 +3755,23 @@ extension WAFV2 {
     }
 
     public struct ManagedRuleGroupConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Additional configuration for using the account creation fraud prevention (ACFP) managed rule group, AWSManagedRulesACFPRuleSet.  Use this to provide account creation request information to the rule group. For web ACLs that protect CloudFront distributions, use this to also provide the information about how your distribution responds to account creation requests.  For information  about using the ACFP managed rule group, see WAF Fraud Control account creation fraud prevention (ACFP) rule group  and WAF Fraud Control account creation fraud prevention (ACFP) in the WAF Developer Guide.
+        public let awsManagedRulesACFPRuleSet: AWSManagedRulesACFPRuleSet?
         /// Additional configuration for using the account takeover prevention (ATP) managed rule group, AWSManagedRulesATPRuleSet.  Use this to provide login request information to the rule group. For web ACLs that protect CloudFront distributions, use this to also provide the information about how your distribution responds to login requests.  This configuration replaces the individual configuration fields in ManagedRuleGroupConfig and provides additional feature configuration.  For information  about using the ATP managed rule group, see WAF Fraud Control account takeover prevention (ATP) rule group  and WAF Fraud Control account takeover prevention (ATP) in the WAF Developer Guide.
         public let awsManagedRulesATPRuleSet: AWSManagedRulesATPRuleSet?
         /// Additional configuration for using the Bot Control managed rule group. Use this to specify the  inspection level that you want to use. For information  about using the Bot Control managed rule group, see WAF Bot Control rule group  and WAF Bot Control in the WAF Developer Guide.
         public let awsManagedRulesBotControlRuleSet: AWSManagedRulesBotControlRuleSet?
         ///  Instead of this setting, provide your configuration under AWSManagedRulesATPRuleSet.
         public let loginPath: String?
-        ///  Instead of this setting, provide your configuration under AWSManagedRulesATPRuleSet RequestInspection.
+        ///  Instead of this setting, provide your configuration under the request inspection configuration for AWSManagedRulesATPRuleSet or AWSManagedRulesACFPRuleSet.
         public let passwordField: PasswordField?
-        ///  Instead of this setting, provide your configuration under AWSManagedRulesATPRuleSet RequestInspection.
+        ///  Instead of this setting, provide your configuration under the request inspection configuration for AWSManagedRulesATPRuleSet or AWSManagedRulesACFPRuleSet.
         public let payloadType: PayloadType?
-        ///  Instead of this setting, provide your configuration under AWSManagedRulesATPRuleSet RequestInspection.
+        ///  Instead of this setting, provide your configuration under the request inspection configuration for AWSManagedRulesATPRuleSet or AWSManagedRulesACFPRuleSet.
         public let usernameField: UsernameField?
 
-        public init(awsManagedRulesATPRuleSet: AWSManagedRulesATPRuleSet? = nil, awsManagedRulesBotControlRuleSet: AWSManagedRulesBotControlRuleSet? = nil) {
+        public init(awsManagedRulesACFPRuleSet: AWSManagedRulesACFPRuleSet? = nil, awsManagedRulesATPRuleSet: AWSManagedRulesATPRuleSet? = nil, awsManagedRulesBotControlRuleSet: AWSManagedRulesBotControlRuleSet? = nil) {
+            self.awsManagedRulesACFPRuleSet = awsManagedRulesACFPRuleSet
             self.awsManagedRulesATPRuleSet = awsManagedRulesATPRuleSet
             self.awsManagedRulesBotControlRuleSet = awsManagedRulesBotControlRuleSet
             self.loginPath = nil
@@ -3696,7 +3781,8 @@ extension WAFV2 {
         }
 
         @available(*, deprecated, message: "Members loginPath, passwordField, payloadType, usernameField have been deprecated")
-        public init(awsManagedRulesATPRuleSet: AWSManagedRulesATPRuleSet? = nil, awsManagedRulesBotControlRuleSet: AWSManagedRulesBotControlRuleSet? = nil, loginPath: String? = nil, passwordField: PasswordField? = nil, payloadType: PayloadType? = nil, usernameField: UsernameField? = nil) {
+        public init(awsManagedRulesACFPRuleSet: AWSManagedRulesACFPRuleSet? = nil, awsManagedRulesATPRuleSet: AWSManagedRulesATPRuleSet? = nil, awsManagedRulesBotControlRuleSet: AWSManagedRulesBotControlRuleSet? = nil, loginPath: String? = nil, passwordField: PasswordField? = nil, payloadType: PayloadType? = nil, usernameField: UsernameField? = nil) {
+            self.awsManagedRulesACFPRuleSet = awsManagedRulesACFPRuleSet
             self.awsManagedRulesATPRuleSet = awsManagedRulesATPRuleSet
             self.awsManagedRulesBotControlRuleSet = awsManagedRulesBotControlRuleSet
             self.loginPath = loginPath
@@ -3706,6 +3792,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.awsManagedRulesACFPRuleSet?.validate(name: "\(name).awsManagedRulesACFPRuleSet")
             try self.awsManagedRulesATPRuleSet?.validate(name: "\(name).awsManagedRulesATPRuleSet")
             try self.validate(self.loginPath, name: "loginPath", parent: name, max: 256)
             try self.validate(self.loginPath, name: "loginPath", parent: name, min: 1)
@@ -3715,6 +3802,7 @@ extension WAFV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case awsManagedRulesACFPRuleSet = "AWSManagedRulesACFPRuleSet"
             case awsManagedRulesATPRuleSet = "AWSManagedRulesATPRuleSet"
             case awsManagedRulesBotControlRuleSet = "AWSManagedRulesBotControlRuleSet"
             case loginPath = "LoginPath"
@@ -3727,7 +3815,7 @@ extension WAFV2 {
     public final class ManagedRuleGroupStatement: AWSEncodableShape & AWSDecodableShape {
         /// Rules in the referenced rule group whose actions are set to Count.   Instead of this option, use RuleActionOverrides. It accepts any valid action setting, including Count.
         public let excludedRules: [ExcludedRule]?
-        /// Additional information that's used by a managed rule group. Many managed rule groups don't require this. Use the AWSManagedRulesATPRuleSet configuration object for the account takeover prevention managed rule group, to provide information such as the sign-in page of your application and the type of content to accept or reject from the client.  Use the AWSManagedRulesBotControlRuleSet configuration object to configure the  protection level that you want the Bot Control rule group to use.
+        /// Additional information that's used by a managed rule group. Many managed rule groups don't require this. The rule groups used for intelligent threat mitigation require additional configuration:    Use the AWSManagedRulesACFPRuleSet configuration object to configure the account creation fraud prevention managed rule group. The configuration includes the registration and sign-up pages of your application and the locations in the account creation request payload of data, such as the user email and phone number fields.    Use the AWSManagedRulesATPRuleSet configuration object to configure the account takeover prevention managed rule group. The configuration includes the sign-in page of your application and the locations in the login request payload of data such as the username and password.    Use the AWSManagedRulesBotControlRuleSet configuration object to configure the  protection level that you want the Bot Control rule group to use.
         public let managedRuleGroupConfigs: [ManagedRuleGroupConfig]?
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         public let name: String
@@ -4024,7 +4112,26 @@ extension WAFV2 {
     }
 
     public struct PasswordField: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the password field. For example /form/password.
+        /// The name of the password field.  How you specify this depends on the request inspection payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "password": "THE_PASSWORD" } },  the password field specification is /form/password.   For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named password1, the password field specification is password1.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 512)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
+        }
+    }
+
+    public struct PhoneNumberField: AWSEncodableShape & AWSDecodableShape {
+        /// The name of a single primary phone number field.  How you specify the phone number fields depends on the request inspection payload type.   For JSON payloads, specify the field identifiers in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "primaryphoneline1": "THE_PHONE1", "primaryphoneline2": "THE_PHONE2", "primaryphoneline3": "THE_PHONE3" } },  the phone number field identifiers are /form/primaryphoneline1, /form/primaryphoneline2, and /form/primaryphoneline3.   For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named primaryphoneline1, primaryphoneline2, and primaryphoneline3, the phone number field identifiers are primaryphoneline1, primaryphoneline2, and primaryphoneline3.
         public let identifier: String
 
         public init(identifier: String) {
@@ -4582,11 +4689,11 @@ extension WAFV2 {
     }
 
     public struct RequestInspection: AWSEncodableShape & AWSDecodableShape {
-        /// Details about your login page password field.  How you specify this depends on the payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "login": { "username": "THE_USERNAME", "password": "THE_PASSWORD" } },  the username field specification is /login/username and the password field specification is /login/password.   For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named username1 and password1, the username field specification is username1 and the password field specification is password1.
+        /// The name of the field in the request payload that contains your customer's password.  How you specify this depends on the request inspection payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "password": "THE_PASSWORD" } },  the password field specification is /form/password.   For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named password1, the password field specification is password1.
         public let passwordField: PasswordField
         /// The payload type for your login endpoint, either JSON or form encoded.
         public let payloadType: PayloadType
-        /// Details about your login page username field.  How you specify this depends on the payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "login": { "username": "THE_USERNAME", "password": "THE_PASSWORD" } },  the username field specification is /login/username and the password field specification is /login/password.   For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named username1 and password1, the username field specification is username1 and the password field specification is password1.
+        /// The name of the field in the request payload that contains your customer's username.  How you specify this depends on the request inspection payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "username": "THE_USERNAME" } },  the username field specification is /form/username.    For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named username1, the username field specification is username1
         public let usernameField: UsernameField
 
         public init(passwordField: PasswordField, payloadType: PayloadType, usernameField: UsernameField) {
@@ -4607,14 +4714,59 @@ extension WAFV2 {
         }
     }
 
+    public struct RequestInspectionACFP: AWSEncodableShape & AWSDecodableShape {
+        /// The names of the fields in the request payload that contain your customer's primary physical address.  Order the address fields in the array exactly as they are ordered in the request payload.  How you specify the address fields depends on the request inspection payload type.   For JSON payloads, specify the field identifiers in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "primaryaddressline1": "THE_ADDRESS1", "primaryaddressline2": "THE_ADDRESS2", "primaryaddressline3": "THE_ADDRESS3" } },  the address field idenfiers are /form/primaryaddressline1, /form/primaryaddressline2, and /form/primaryaddressline3.   For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named primaryaddressline1, primaryaddressline2, and primaryaddressline3, the address fields identifiers are primaryaddressline1, primaryaddressline2, and primaryaddressline3.
+        public let addressFields: [AddressField]?
+        /// The name of the field in the request payload that contains your customer's email.  How you specify this depends on the request inspection payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "email": "THE_EMAIL" } },  the email field specification is /form/email.   For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named email1, the email field specification is email1.
+        public let emailField: EmailField?
+        /// The name of the field in the request payload that contains your customer's password.  How you specify this depends on the request inspection payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "password": "THE_PASSWORD" } },  the password field specification is /form/password.   For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named password1, the password field specification is password1.
+        public let passwordField: PasswordField?
+        /// The payload type for your account creation endpoint, either JSON or form encoded.
+        public let payloadType: PayloadType
+        /// The names of the fields in the request payload that contain your customer's primary phone number.  Order the phone number fields in the array exactly as they are ordered in the request payload.  How you specify the phone number fields depends on the request inspection payload type.   For JSON payloads, specify the field identifiers in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "primaryphoneline1": "THE_PHONE1", "primaryphoneline2": "THE_PHONE2", "primaryphoneline3": "THE_PHONE3" } },  the phone number field identifiers are /form/primaryphoneline1, /form/primaryphoneline2, and /form/primaryphoneline3.   For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named primaryphoneline1, primaryphoneline2, and primaryphoneline3, the phone number field identifiers are primaryphoneline1, primaryphoneline2, and primaryphoneline3.
+        public let phoneNumberFields: [PhoneNumberField]?
+        /// The name of the field in the request payload that contains your customer's username.  How you specify this depends on the request inspection payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "username": "THE_USERNAME" } },  the username field specification is /form/username.    For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named username1, the username field specification is username1
+        public let usernameField: UsernameField?
+
+        public init(addressFields: [AddressField]? = nil, emailField: EmailField? = nil, passwordField: PasswordField? = nil, payloadType: PayloadType, phoneNumberFields: [PhoneNumberField]? = nil, usernameField: UsernameField? = nil) {
+            self.addressFields = addressFields
+            self.emailField = emailField
+            self.passwordField = passwordField
+            self.payloadType = payloadType
+            self.phoneNumberFields = phoneNumberFields
+            self.usernameField = usernameField
+        }
+
+        public func validate(name: String) throws {
+            try self.addressFields?.forEach {
+                try $0.validate(name: "\(name).addressFields[]")
+            }
+            try self.emailField?.validate(name: "\(name).emailField")
+            try self.passwordField?.validate(name: "\(name).passwordField")
+            try self.phoneNumberFields?.forEach {
+                try $0.validate(name: "\(name).phoneNumberFields[]")
+            }
+            try self.usernameField?.validate(name: "\(name).usernameField")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressFields = "AddressFields"
+            case emailField = "EmailField"
+            case passwordField = "PasswordField"
+            case payloadType = "PayloadType"
+            case phoneNumberFields = "PhoneNumberFields"
+            case usernameField = "UsernameField"
+        }
+    }
+
     public struct ResponseInspection: AWSEncodableShape & AWSDecodableShape {
-        /// Configures inspection of the response body. WAF can inspect the first 65,536 bytes (64 KB) of the response body.
+        /// Configures inspection of the response body for success and failure indicators. WAF can inspect the first 65,536 bytes (64 KB) of the response body.
         public let bodyContains: ResponseInspectionBodyContains?
-        /// Configures inspection of the response header.
+        /// Configures inspection of the response header for success and failure indicators.
         public let header: ResponseInspectionHeader?
-        /// Configures inspection of the response JSON. WAF can inspect the first 65,536 bytes (64 KB) of the response JSON.
+        /// Configures inspection of the response JSON for success and failure indicators. WAF can inspect the first 65,536 bytes (64 KB) of the response JSON.
         public let json: ResponseInspectionJson?
-        /// Configures inspection of the response status code.
+        /// Configures inspection of the response status code for success and failure indicators.
         public let statusCode: ResponseInspectionStatusCode?
 
         public init(bodyContains: ResponseInspectionBodyContains? = nil, header: ResponseInspectionHeader? = nil, json: ResponseInspectionJson? = nil, statusCode: ResponseInspectionStatusCode? = nil) {
@@ -4640,9 +4792,9 @@ extension WAFV2 {
     }
 
     public struct ResponseInspectionBodyContains: AWSEncodableShape & AWSDecodableShape {
-        /// Strings in the body of the response that indicate a failed login attempt. To be counted as a failed login, the string can be anywhere in the body and must be an exact match, including case. Each string must be unique among the success and failure strings.  JSON example: "FailureStrings": [ "Login failed" ]
+        /// Strings in the body of the response that indicate a failed login or account creation attempt. To be counted as a failure, the string can be anywhere in the body and must be an exact match, including case. Each string must be unique among the success and failure strings.  JSON example: "FailureStrings": [ "Request failed" ]
         public let failureStrings: [String]
-        /// Strings in the body of the response that indicate a successful login attempt. To be counted as a successful login, the string can be anywhere in the body and must be an exact match, including case. Each string must be unique among the success and failure strings.  JSON example: "SuccessStrings": [ "Login successful", "Welcome to our site!" ]
+        /// Strings in the body of the response that indicate a successful login or account creation attempt. To be counted as a success, the string can be anywhere in the body and must be an exact match, including case. Each string must be unique among the success and failure strings.  JSON examples: "SuccessStrings": [ "Login successful" ] and "SuccessStrings": [ "Account creation successful", "Welcome to our site!" ]
         public let successStrings: [String]
 
         public init(failureStrings: [String], successStrings: [String]) {
@@ -4674,11 +4826,11 @@ extension WAFV2 {
     }
 
     public struct ResponseInspectionHeader: AWSEncodableShape & AWSDecodableShape {
-        /// Values in the response header with the specified name that indicate a failed login attempt. To be counted as a failed login, the value must be an exact match, including case. Each value must be unique among the success and failure values.  JSON example: "FailureValues": [ "LoginFailed", "Failed login" ]
+        /// Values in the response header with the specified name that indicate a failed login or account creation attempt. To be counted as a failure, the value must be an exact match, including case. Each value must be unique among the success and failure values.  JSON examples: "FailureValues": [ "LoginFailed", "Failed login" ] and "FailureValues": [ "AccountCreationFailed" ]
         public let failureValues: [String]
-        /// The name of the header to match against. The name must be an exact match, including case. JSON example: "Name": [ "LoginResult" ]
+        /// The name of the header to match against. The name must be an exact match, including case. JSON example: "Name": [ "RequestResult" ]
         public let name: String
-        /// Values in the response header with the specified name that indicate a successful login attempt. To be counted as a successful login, the value must be an exact match, including case. Each value must be unique among the success and failure values.  JSON example: "SuccessValues": [ "LoginPassed", "Successful login" ]
+        /// Values in the response header with the specified name that indicate a successful login or account creation attempt. To be counted as a success, the value must be an exact match, including case. Each value must be unique among the success and failure values.  JSON examples: "SuccessValues": [ "LoginPassed", "Successful login" ] and "SuccessValues": [ "AccountCreated", "Successful account creation" ]
         public let successValues: [String]
 
         public init(failureValues: [String], name: String, successValues: [String]) {
@@ -4715,11 +4867,11 @@ extension WAFV2 {
     }
 
     public struct ResponseInspectionJson: AWSEncodableShape & AWSDecodableShape {
-        /// Values for the specified identifier in the response JSON that indicate a failed login attempt. To be counted as a failed login, the value must be an exact match, including case. Each value must be unique among the success and failure values.  JSON example: "FailureValues": [ "False", "Failed" ]
+        /// Values for the specified identifier in the response JSON that indicate a failed login or account creation attempt. To be counted as a failure, the value must be an exact match, including case. Each value must be unique among the success and failure values.  JSON example: "FailureValues": [ "False", "Failed" ]
         public let failureValues: [String]
-        /// The identifier for the value to match against in the JSON. The identifier must be an exact match, including case. JSON example: "Identifier": [ "/login/success" ]
+        /// The identifier for the value to match against in the JSON. The identifier must be an exact match, including case. JSON examples: "Identifier": [ "/login/success" ] and "Identifier": [ "/sign-up/success" ]
         public let identifier: String
-        /// Values for the specified identifier in the response JSON that indicate a successful login attempt. To be counted as a successful login, the value must be an exact match, including case. Each value must be unique among the success and failure values.  JSON example: "SuccessValues": [ "True", "Succeeded" ]
+        /// Values for the specified identifier in the response JSON that indicate a successful login or account creation attempt. To be counted as a success, the value must be an exact match, including case. Each value must be unique among the success and failure values.  JSON example: "SuccessValues": [ "True", "Succeeded" ]
         public let successValues: [String]
 
         public init(failureValues: [String], identifier: String, successValues: [String]) {
@@ -4756,9 +4908,9 @@ extension WAFV2 {
     }
 
     public struct ResponseInspectionStatusCode: AWSEncodableShape & AWSDecodableShape {
-        /// Status codes in the response that indicate a failed login attempt. To be counted as a failed login, the response status code must match one of these. Each code must be unique among the success and failure status codes.  JSON example: "FailureCodes": [ 400, 404 ]
+        /// Status codes in the response that indicate a failed login or account creation attempt. To be counted as a failure, the response status code must match one of these. Each code must be unique among the success and failure status codes.  JSON example: "FailureCodes": [ 400, 404 ]
         public let failureCodes: [Int]
-        /// Status codes in the response that indicate a successful login attempt. To be counted as a successful login, the response status code must match one of these. Each code must be unique among the success and failure status codes.  JSON example: "SuccessCodes": [ 200, 201 ]
+        /// Status codes in the response that indicate a successful login or account creation attempt. To be counted as a success, the response status code must match one of these. Each code must be unique among the success and failure status codes.  JSON example: "SuccessCodes": [ 200, 201 ]
         public let successCodes: [Int]
 
         public init(failureCodes: [Int], successCodes: [Int]) {
@@ -5212,7 +5364,7 @@ extension WAFV2 {
         public let ipSetReferenceStatement: IPSetReferenceStatement?
         /// A rule statement to match against labels that have been added to the web request by rules that have already run in the web ACL.  The label match statement provides the label or namespace string to search for. The label string can represent a part or all of the fully qualified label name that had been added to the web request. Fully qualified labels have a prefix, optional namespaces, and label name. The prefix identifies the rule group or web ACL context of the rule that added the label.  If you do not provide the fully qualified name in your label match string, WAF performs the search for labels that were added in the same context as the label match statement.
         public let labelMatchStatement: LabelMatchStatement?
-        /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling ListAvailableManagedRuleGroups. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule.  You are charged additional fees when you use the WAF Bot Control managed rule group AWSManagedRulesBotControlRuleSet or the WAF Fraud Control account takeover prevention (ATP) managed rule group AWSManagedRulesATPRuleSet. For more information, see WAF Pricing.
+        /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling ListAvailableManagedRuleGroups. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule.  You are charged additional fees when you use the WAF Bot Control managed rule group AWSManagedRulesBotControlRuleSet, the WAF Fraud Control account takeover prevention (ATP) managed rule group AWSManagedRulesATPRuleSet, or the WAF Fraud Control account creation fraud prevention (ACFP) managed rule group AWSManagedRulesACFPRuleSet. For more information, see WAF Pricing.
         public let managedRuleGroupStatement: ManagedRuleGroupStatement?
         /// A logical rule statement used to negate the results of another rule statement. You provide one Statement within the NotStatement.
         public let notStatement: NotStatement?
@@ -5825,7 +5977,7 @@ extension WAFV2 {
     }
 
     public struct UsernameField: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the username field. For example /form/username.
+        /// The name of the username field.  How you specify this depends on the request inspection payload type.   For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "username": "THE_USERNAME" } },  the username field specification is /form/username.    For form encoded payload types, use the HTML form names. For example, for an HTML form with the input element named username1, the username field specification is username1
         public let identifier: String
 
         public init(identifier: String) {

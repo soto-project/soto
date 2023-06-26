@@ -239,7 +239,7 @@ public struct ECS: AWSService {
     /// 		count. You can't use a DELETE_IN_PROGRESS task definition revision to run new tasks
     /// 			or create new services. You also can't update an existing service to reference a
     /// 			DELETE_IN_PROGRESS task definition revision. A task definition revision will stay in DELETE_IN_PROGRESS status until
-    /// 			all the associated tasks and services have been terminated.
+    /// 			all the associated tasks and services have been terminated. When you delete all INACTIVE task definition revisions, the task definition name is not displayed in the console and not returned in the API. If a task definition revisions are in the DELETE_IN_PROGRESS state, the task definition name is displayed in the console and returned in the API. The task definition name is retained by  Amazon ECS and the revision is incremented the next time you create a task definition with that name.
     public func deleteTaskDefinitions(_ input: DeleteTaskDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTaskDefinitionsResponse> {
         return self.client.execute(operation: "DeleteTaskDefinitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

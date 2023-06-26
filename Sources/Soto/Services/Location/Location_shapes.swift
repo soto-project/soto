@@ -515,11 +515,14 @@ extension Location {
     public struct BatchPutGeofenceRequestEntry: AWSEncodableShape {
         /// The identifier for the geofence to be stored in a given geofence collection.
         public let geofenceId: String
+        /// Specifies additional user-defined properties to store with the Geofence. An array  of key-value pairs.
+        public let geofenceProperties: [String: String]?
         /// Contains the details of the position of the geofence. Can be either a  polygon or a circle. Including both will return a validation error.  Each  geofence polygon can have a maximum of 1,000 vertices.
         public let geometry: GeofenceGeometry
 
-        public init(geofenceId: String, geometry: GeofenceGeometry) {
+        public init(geofenceId: String, geofenceProperties: [String: String]? = nil, geometry: GeofenceGeometry) {
             self.geofenceId = geofenceId
+            self.geofenceProperties = geofenceProperties
             self.geometry = geometry
         }
 
@@ -527,11 +530,13 @@ extension Location {
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, max: 100)
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, min: 1)
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
+            try self.validate(self.geofenceProperties, name: "geofenceProperties", parent: name, max: 3)
             try self.geometry.validate(name: "\(name).geometry")
         }
 
         private enum CodingKeys: String, CodingKey {
             case geofenceId = "GeofenceId"
+            case geofenceProperties = "GeofenceProperties"
             case geometry = "Geometry"
         }
     }
@@ -605,7 +610,7 @@ extension Location {
 
         /// The name of the tracker resource to update.
         public let trackerName: String
-        /// Contains the position update details for each device.
+        /// Contains the position update details for each device, up to 10 devices.
         public let updates: [DevicePositionUpdate]
 
         public init(trackerName: String, updates: [DevicePositionUpdate]) {
@@ -2340,6 +2345,8 @@ extension Location {
         public var createTime: Date
         /// The geofence identifier.
         public let geofenceId: String
+        /// Contains additional user-defined properties stored with the geofence. An array of  key-value pairs.
+        public let geofenceProperties: [String: String]?
         /// Contains the geofence geometry details describing a polygon or a circle.
         public let geometry: GeofenceGeometry
         /// Identifies the state of the geofence. A geofence will hold one of the following states:    ACTIVE — The geofence has been indexed by the system.     PENDING — The geofence is being processed by the system.    FAILED — The geofence failed to be indexed by the system.    DELETED — The geofence has been deleted from the system index.    DELETING — The geofence is being deleted from the system index.
@@ -2348,9 +2355,10 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(createTime: Date, geofenceId: String, geometry: GeofenceGeometry, status: String, updateTime: Date) {
+        public init(createTime: Date, geofenceId: String, geofenceProperties: [String: String]? = nil, geometry: GeofenceGeometry, status: String, updateTime: Date) {
             self.createTime = createTime
             self.geofenceId = geofenceId
+            self.geofenceProperties = geofenceProperties
             self.geometry = geometry
             self.status = status
             self.updateTime = updateTime
@@ -2359,6 +2367,7 @@ extension Location {
         private enum CodingKeys: String, CodingKey {
             case createTime = "CreateTime"
             case geofenceId = "GeofenceId"
+            case geofenceProperties = "GeofenceProperties"
             case geometry = "Geometry"
             case status = "Status"
             case updateTime = "UpdateTime"
@@ -2872,6 +2881,8 @@ extension Location {
         public var createTime: Date
         /// The geofence identifier.
         public let geofenceId: String
+        /// Contains additional user-defined properties stored with the geofence. An array of  key-value pairs.
+        public let geofenceProperties: [String: String]?
         /// Contains the geofence geometry details describing a polygon or a circle.
         public let geometry: GeofenceGeometry
         /// Identifies the state of the geofence. A geofence will hold one of the following states:    ACTIVE — The geofence has been indexed by the system.     PENDING — The geofence is being processed by the system.    FAILED — The geofence failed to be indexed by the system.    DELETED — The geofence has been deleted from the system index.    DELETING — The geofence is being deleted from the system index.
@@ -2880,9 +2891,10 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(createTime: Date, geofenceId: String, geometry: GeofenceGeometry, status: String, updateTime: Date) {
+        public init(createTime: Date, geofenceId: String, geofenceProperties: [String: String]? = nil, geometry: GeofenceGeometry, status: String, updateTime: Date) {
             self.createTime = createTime
             self.geofenceId = geofenceId
+            self.geofenceProperties = geofenceProperties
             self.geometry = geometry
             self.status = status
             self.updateTime = updateTime
@@ -2891,6 +2903,7 @@ extension Location {
         private enum CodingKeys: String, CodingKey {
             case createTime = "CreateTime"
             case geofenceId = "GeofenceId"
+            case geofenceProperties = "GeofenceProperties"
             case geometry = "Geometry"
             case status = "Status"
             case updateTime = "UpdateTime"
@@ -3489,6 +3502,8 @@ extension Location {
     public struct Place: AWSDecodableShape {
         /// The numerical portion of an address, such as a building number.
         public let addressNumber: String?
+        /// The Amazon Location categories that describe this Place. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
+        public let categories: [String]?
         /// A country/region specified using ISO 3166 3-digit country/region code. For example, CAN.
         public let country: String?
         public let geometry: PlaceGeometry
@@ -3508,15 +3523,18 @@ extension Location {
         public let street: String?
         /// A county, or an area that's part of a larger region. For example, Metro Vancouver.
         public let subRegion: String?
-        /// The time zone in which the Place is located. Returned only when using HERE as the selected partner.
+        /// Categories from the data provider that describe the Place that are not mapped to any Amazon Location categories.
+        public let supplementalCategories: [String]?
+        /// The time zone in which the Place is located. Returned only when using HERE or Grab as the selected partner.
         public let timeZone: TimeZone?
-        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123.  Returned only for a place index that uses Esri as a data provider. Is not returned for SearchPlaceIndexForPosition.
+        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123.  Returned only for a place index that uses Esri or Grab as a data provider. Is  not returned for SearchPlaceIndexForPosition.
         public let unitNumber: String?
-        /// For addresses with a UnitNumber, the type of unit. For example, Apartment.
+        /// For addresses with a UnitNumber, the type of unit. For example, Apartment.  Returned only for a place index that uses Esri as a data provider.
         public let unitType: String?
 
-        public init(addressNumber: String? = nil, country: String? = nil, geometry: PlaceGeometry, interpolated: Bool? = nil, label: String? = nil, municipality: String? = nil, neighborhood: String? = nil, postalCode: String? = nil, region: String? = nil, street: String? = nil, subRegion: String? = nil, timeZone: TimeZone? = nil, unitNumber: String? = nil, unitType: String? = nil) {
+        public init(addressNumber: String? = nil, categories: [String]? = nil, country: String? = nil, geometry: PlaceGeometry, interpolated: Bool? = nil, label: String? = nil, municipality: String? = nil, neighborhood: String? = nil, postalCode: String? = nil, region: String? = nil, street: String? = nil, subRegion: String? = nil, supplementalCategories: [String]? = nil, timeZone: TimeZone? = nil, unitNumber: String? = nil, unitType: String? = nil) {
             self.addressNumber = addressNumber
+            self.categories = categories
             self.country = country
             self.geometry = geometry
             self.interpolated = interpolated
@@ -3527,6 +3545,7 @@ extension Location {
             self.region = region
             self.street = street
             self.subRegion = subRegion
+            self.supplementalCategories = supplementalCategories
             self.timeZone = timeZone
             self.unitNumber = unitNumber
             self.unitType = unitType
@@ -3534,6 +3553,7 @@ extension Location {
 
         private enum CodingKeys: String, CodingKey {
             case addressNumber = "AddressNumber"
+            case categories = "Categories"
             case country = "Country"
             case geometry = "Geometry"
             case interpolated = "Interpolated"
@@ -3544,6 +3564,7 @@ extension Location {
             case region = "Region"
             case street = "Street"
             case subRegion = "SubRegion"
+            case supplementalCategories = "SupplementalCategories"
             case timeZone = "TimeZone"
             case unitNumber = "UnitNumber"
             case unitType = "UnitType"
@@ -3586,12 +3607,15 @@ extension Location {
         public let collectionName: String
         /// An identifier for the geofence. For example, ExampleGeofence-1.
         public let geofenceId: String
+        /// Specifies additional user-defined properties to store with the Geofence. An array  of key-value pairs.
+        public let geofenceProperties: [String: String]?
         /// Contains the details to specify the position of the geofence. Can be either a  polygon or a circle. Including both will return a validation error.  Each  geofence polygon can have a maximum of 1,000 vertices.
         public let geometry: GeofenceGeometry
 
-        public init(collectionName: String, geofenceId: String, geometry: GeofenceGeometry) {
+        public init(collectionName: String, geofenceId: String, geofenceProperties: [String: String]? = nil, geometry: GeofenceGeometry) {
             self.collectionName = collectionName
             self.geofenceId = geofenceId
+            self.geofenceProperties = geofenceProperties
             self.geometry = geometry
         }
 
@@ -3602,10 +3626,12 @@ extension Location {
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, max: 100)
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, min: 1)
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
+            try self.validate(self.geofenceProperties, name: "geofenceProperties", parent: name, max: 3)
             try self.geometry.validate(name: "\(name).geometry")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case geofenceProperties = "GeofenceProperties"
             case geometry = "Geometry"
         }
     }
@@ -3693,18 +3719,26 @@ extension Location {
     }
 
     public struct SearchForSuggestionsResult: AWSDecodableShape {
-        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later.  For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
+        /// The Amazon Location categories that describe the Place. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
+        public let categories: [String]?
+        /// The unique identifier of the Place. You can use this with the GetPlace operation to find the place again later, or to get full information for the Place. The GetPlace request must use the same PlaceIndex  resource as the SearchPlaceIndexForSuggestions that generated the Place  ID.  For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
         public let placeId: String?
+        /// Categories from the data provider that describe the Place that are not mapped to any Amazon Location categories.
+        public let supplementalCategories: [String]?
         /// The text of the place suggestion, typically formatted as an address string.
         public let text: String
 
-        public init(placeId: String? = nil, text: String) {
+        public init(categories: [String]? = nil, placeId: String? = nil, supplementalCategories: [String]? = nil, text: String) {
+            self.categories = categories
             self.placeId = placeId
+            self.supplementalCategories = supplementalCategories
             self.text = text
         }
 
         private enum CodingKeys: String, CodingKey {
+            case categories = "Categories"
             case placeId = "PlaceId"
+            case supplementalCategories = "SupplementalCategories"
             case text = "Text"
         }
     }
@@ -3825,6 +3859,8 @@ extension Location {
         public let biasPosition: [Double]?
         /// An optional parameter that limits the search results by returning only suggestions within a specified bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
         public let filterBBox: [Double]?
+        /// A list of one or more Amazon Location categories to filter the returned places. If you  include more than one category, the results will include results that match  any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
+        public let filterCategories: [String]?
         /// An optional parameter that limits the search results by returning only suggestions within the provided list of countries.   Use the ISO 3166 3-digit country code. For example, Australia uses three upper-case characters: AUS.
         public let filterCountries: [String]?
         /// The name of the place index resource you want to use for the search.
@@ -3836,9 +3872,10 @@ extension Location {
         /// The free-form partial text to use to generate place suggestions. For example, eiffel tow.
         public let text: String
 
-        public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCountries: [String]? = nil, indexName: String, language: String? = nil, maxResults: Int? = nil, text: String) {
+        public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCategories: [String]? = nil, filterCountries: [String]? = nil, indexName: String, language: String? = nil, maxResults: Int? = nil, text: String) {
             self.biasPosition = biasPosition
             self.filterBBox = filterBBox
+            self.filterCategories = filterCategories
             self.filterCountries = filterCountries
             self.indexName = indexName
             self.language = language
@@ -3851,6 +3888,11 @@ extension Location {
             try self.validate(self.biasPosition, name: "biasPosition", parent: name, min: 2)
             try self.validate(self.filterBBox, name: "filterBBox", parent: name, max: 4)
             try self.validate(self.filterBBox, name: "filterBBox", parent: name, min: 4)
+            try self.filterCategories?.forEach {
+                try validate($0, name: "filterCategories[]", parent: name, max: 35)
+            }
+            try self.validate(self.filterCategories, name: "filterCategories", parent: name, max: 5)
+            try self.validate(self.filterCategories, name: "filterCategories", parent: name, min: 1)
             try self.filterCountries?.forEach {
                 try validate($0, name: "filterCountries[]", parent: name, pattern: "^[A-Z]{3}$")
             }
@@ -3866,6 +3908,7 @@ extension Location {
         private enum CodingKeys: String, CodingKey {
             case biasPosition = "BiasPosition"
             case filterBBox = "FilterBBox"
+            case filterCategories = "FilterCategories"
             case filterCountries = "FilterCountries"
             case language = "Language"
             case maxResults = "MaxResults"
@@ -3897,6 +3940,8 @@ extension Location {
         public let dataSource: String
         /// Contains the coordinates for the optional bounding box specified in the request.
         public let filterBBox: [Double]?
+        /// The optional category filter specified in the request.
+        public let filterCategories: [String]?
         /// Contains the optional country filter specified in the request.
         public let filterCountries: [String]?
         /// The preferred language used to return results. Matches the language in the request. The value is a valid BCP 47 language tag, for example, en for English.
@@ -3906,10 +3951,11 @@ extension Location {
         /// The free-form partial text input specified in the request.
         public let text: String
 
-        public init(biasPosition: [Double]? = nil, dataSource: String, filterBBox: [Double]? = nil, filterCountries: [String]? = nil, language: String? = nil, maxResults: Int? = nil, text: String) {
+        public init(biasPosition: [Double]? = nil, dataSource: String, filterBBox: [Double]? = nil, filterCategories: [String]? = nil, filterCountries: [String]? = nil, language: String? = nil, maxResults: Int? = nil, text: String) {
             self.biasPosition = biasPosition
             self.dataSource = dataSource
             self.filterBBox = filterBBox
+            self.filterCategories = filterCategories
             self.filterCountries = filterCountries
             self.language = language
             self.maxResults = maxResults
@@ -3920,6 +3966,7 @@ extension Location {
             case biasPosition = "BiasPosition"
             case dataSource = "DataSource"
             case filterBBox = "FilterBBox"
+            case filterCategories = "FilterCategories"
             case filterCountries = "FilterCountries"
             case language = "Language"
             case maxResults = "MaxResults"
@@ -3936,6 +3983,8 @@ extension Location {
         public let biasPosition: [Double]?
         /// An optional parameter that limits the search results by returning only places that are within the provided bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
         public let filterBBox: [Double]?
+        /// A list of one or more Amazon Location categories to filter the returned places. If you  include more than one category, the results will include results that match  any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
+        public let filterCategories: [String]?
         /// An optional parameter that limits the search results by returning only places that are in a specified list of countries.   Valid values include ISO 3166 3-digit country codes. For example, Australia uses three upper-case characters: AUS.
         public let filterCountries: [String]?
         /// The name of the place index resource you want to use for the search.
@@ -3947,9 +3996,10 @@ extension Location {
         /// The address, name, city, or region to be used in the search in free-form text format. For example, 123 Any Street.
         public let text: String
 
-        public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCountries: [String]? = nil, indexName: String, language: String? = nil, maxResults: Int? = nil, text: String) {
+        public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCategories: [String]? = nil, filterCountries: [String]? = nil, indexName: String, language: String? = nil, maxResults: Int? = nil, text: String) {
             self.biasPosition = biasPosition
             self.filterBBox = filterBBox
+            self.filterCategories = filterCategories
             self.filterCountries = filterCountries
             self.indexName = indexName
             self.language = language
@@ -3962,6 +4012,11 @@ extension Location {
             try self.validate(self.biasPosition, name: "biasPosition", parent: name, min: 2)
             try self.validate(self.filterBBox, name: "filterBBox", parent: name, max: 4)
             try self.validate(self.filterBBox, name: "filterBBox", parent: name, min: 4)
+            try self.filterCategories?.forEach {
+                try validate($0, name: "filterCategories[]", parent: name, max: 35)
+            }
+            try self.validate(self.filterCategories, name: "filterCategories", parent: name, max: 5)
+            try self.validate(self.filterCategories, name: "filterCategories", parent: name, min: 1)
             try self.filterCountries?.forEach {
                 try validate($0, name: "filterCountries[]", parent: name, pattern: "^[A-Z]{3}$")
             }
@@ -3979,6 +4034,7 @@ extension Location {
         private enum CodingKeys: String, CodingKey {
             case biasPosition = "BiasPosition"
             case filterBBox = "FilterBBox"
+            case filterCategories = "FilterCategories"
             case filterCountries = "FilterCountries"
             case language = "Language"
             case maxResults = "MaxResults"
@@ -4010,6 +4066,8 @@ extension Location {
         public let dataSource: String
         /// Contains the coordinates for the optional bounding box specified in the request.
         public let filterBBox: [Double]?
+        /// The optional category filter specified in the request.
+        public let filterCategories: [String]?
         /// Contains the optional country filter specified in the request.
         public let filterCountries: [String]?
         /// The preferred language used to return results. Matches the language in the request. The value is a valid BCP 47 language tag, for example, en for English.
@@ -4021,10 +4079,11 @@ extension Location {
         /// The search text specified in the request.
         public let text: String
 
-        public init(biasPosition: [Double]? = nil, dataSource: String, filterBBox: [Double]? = nil, filterCountries: [String]? = nil, language: String? = nil, maxResults: Int? = nil, resultBBox: [Double]? = nil, text: String) {
+        public init(biasPosition: [Double]? = nil, dataSource: String, filterBBox: [Double]? = nil, filterCategories: [String]? = nil, filterCountries: [String]? = nil, language: String? = nil, maxResults: Int? = nil, resultBBox: [Double]? = nil, text: String) {
             self.biasPosition = biasPosition
             self.dataSource = dataSource
             self.filterBBox = filterBBox
+            self.filterCategories = filterCategories
             self.filterCountries = filterCountries
             self.language = language
             self.maxResults = maxResults
@@ -4036,6 +4095,7 @@ extension Location {
             case biasPosition = "BiasPosition"
             case dataSource = "DataSource"
             case filterBBox = "FilterBBox"
+            case filterCategories = "FilterCategories"
             case filterCountries = "FilterCountries"
             case language = "Language"
             case maxResults = "MaxResults"

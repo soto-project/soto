@@ -19,8 +19,7 @@
 
 /// Service object for interacting with AWS DynamoDBStreams service.
 ///
-/// Amazon DynamoDB
-///  Amazon DynamoDB Streams provides API actions for accessing streams and processing stream records. To learn more about application development with Streams, see Capturing Table Activity with DynamoDB Streams in the Amazon DynamoDB Developer Guide.
+/// Amazon DynamoDB Amazon DynamoDB Streams provides API actions for accessing streams and processing stream records. To learn more about application development with Streams, see Capturing Table Activity with DynamoDB Streams in the Amazon DynamoDB Developer Guide.
 public struct DynamoDBStreams: AWSService {
     // MARK: Member variables
 

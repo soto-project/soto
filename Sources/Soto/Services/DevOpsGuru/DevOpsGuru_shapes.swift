@@ -219,6 +219,12 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServerSideEncryptionType: String, CustomStringConvertible, Codable, Sendable {
+        case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
+        case customerManagedKey = "CUSTOMER_MANAGED_KEY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceName: String, CustomStringConvertible, Codable, Sendable {
         case apiGateway = "API_GATEWAY"
         case applicationElb = "APPLICATION_ELB"
@@ -1484,6 +1490,69 @@ extension DevOpsGuru {
         }
     }
 
+    public struct KMSServerSideEncryptionIntegration: AWSDecodableShape {
+        /// 			Describes the specified KMS key.
+        /// 		 To specify a KMS key, use its key ID, key ARN,
+        /// 			alias name, or alias ARN. When using an alias name,
+        /// 			prefix it with "alias/". If you specify a predefined Amazon Web Services alias
+        /// 			(an Amazon Web Services alias with no key ID), Amazon Web Services KMS associates the alias with an
+        /// 			Amazon Web Services managed key and returns its KeyId and Arn in the response.
+        /// 			To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:  Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab Alias name: alias/ExampleAlias Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+        public let kmsKeyId: String?
+        /// 			Specifies if DevOps Guru is enabled for customer managed keys.
+        ///
+        public let optInStatus: OptInStatus?
+        /// 			The type of KMS key used. Customer managed keys are the KMS keys that you create. Amazon Web Services owned keys are keys that are owned and managed by DevOps Guru.
+        ///
+        public let type: ServerSideEncryptionType?
+
+        public init(kmsKeyId: String? = nil, optInStatus: OptInStatus? = nil, type: ServerSideEncryptionType? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.optInStatus = optInStatus
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KMSKeyId"
+            case optInStatus = "OptInStatus"
+            case type = "Type"
+        }
+    }
+
+    public struct KMSServerSideEncryptionIntegrationConfig: AWSEncodableShape {
+        /// 				Describes the specified KMS key. To specify a KMS key, use its key ID, key ARN,
+        /// 				alias name, or alias ARN. When using an alias name,
+        /// 				prefix it with "alias/". If you specify a predefined Amazon Web Services alias
+        /// 				(an Amazon Web Services alias with no key ID), Amazon Web Services KMS associates the alias with an
+        /// 				Amazon Web Services managed key and returns its KeyId and Arn in the response.
+        /// 				To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:  Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab Alias name: alias/ExampleAlias Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+        public let kmsKeyId: String?
+        /// 			Specifies if DevOps Guru is enabled for KMS integration.
+        ///
+        public let optInStatus: OptInStatus?
+        /// 			The type of KMS key used. Customer managed keys are the KMS keys that you create. Amazon Web Services owned keys are keys that are owned and managed by DevOps Guru.
+        ///
+        public let type: ServerSideEncryptionType?
+
+        public init(kmsKeyId: String? = nil, optInStatus: OptInStatus? = nil, type: ServerSideEncryptionType? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.optInStatus = optInStatus
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KMSKeyId"
+            case optInStatus = "OptInStatus"
+            case type = "Type"
+        }
+    }
+
     public struct ListAnomaliesForInsightFilters: AWSEncodableShape {
         public let serviceCollection: ServiceCollection?
 
@@ -2227,9 +2296,9 @@ extension DevOpsGuru {
         public let filters: NotificationFilterConfig?
         ///  Information about a notification channel configured in DevOps Guru to send notifications
         /// 			when insights are created.  If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission
-        /// 				to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics.
+        /// 				to send it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics.
         /// 				For more information, see Permissions
-        /// 				for cross account Amazon SNS topics. If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. For more information, see Permissions for cross account Amazon SNS topics. If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions
+        /// 				for Amazon SNS topics. If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions
         /// 				to the CMK. For more information, see Permissions for
         /// 				Amazon Web Services KMS–encrypted Amazon SNS topics.
         public let sns: SnsChannelConfig
@@ -3564,6 +3633,9 @@ extension DevOpsGuru {
     }
 
     public struct ServiceIntegrationConfig: AWSDecodableShape {
+        /// 			Information about whether DevOps Guru is configured to encrypt server-side data using KMS.
+        ///
+        public let kmsServerSideEncryption: KMSServerSideEncryptionIntegration?
         /// 			Information about whether DevOps Guru is configured to perform log anomaly detection on Amazon CloudWatch log groups.
         ///
         public let logsAnomalyDetection: LogsAnomalyDetectionIntegration?
@@ -3571,12 +3643,14 @@ extension DevOpsGuru {
         /// 			OpsCenter for each created insight.
         public let opsCenter: OpsCenterIntegration?
 
-        public init(logsAnomalyDetection: LogsAnomalyDetectionIntegration? = nil, opsCenter: OpsCenterIntegration? = nil) {
+        public init(kmsServerSideEncryption: KMSServerSideEncryptionIntegration? = nil, logsAnomalyDetection: LogsAnomalyDetectionIntegration? = nil, opsCenter: OpsCenterIntegration? = nil) {
+            self.kmsServerSideEncryption = kmsServerSideEncryption
             self.logsAnomalyDetection = logsAnomalyDetection
             self.opsCenter = opsCenter
         }
 
         private enum CodingKeys: String, CodingKey {
+            case kmsServerSideEncryption = "KMSServerSideEncryption"
             case logsAnomalyDetection = "LogsAnomalyDetection"
             case opsCenter = "OpsCenter"
         }
@@ -3937,17 +4011,26 @@ extension DevOpsGuru {
     }
 
     public struct UpdateServiceIntegrationConfig: AWSEncodableShape {
+        /// 			Information about whether DevOps Guru is configured to encrypt server-side data using KMS.
+        ///
+        public let kmsServerSideEncryption: KMSServerSideEncryptionIntegrationConfig?
         /// 			Information about whether DevOps Guru is configured to perform log anomaly detection on Amazon CloudWatch log groups.
         ///
         public let logsAnomalyDetection: LogsAnomalyDetectionIntegrationConfig?
         public let opsCenter: OpsCenterIntegrationConfig?
 
-        public init(logsAnomalyDetection: LogsAnomalyDetectionIntegrationConfig? = nil, opsCenter: OpsCenterIntegrationConfig? = nil) {
+        public init(kmsServerSideEncryption: KMSServerSideEncryptionIntegrationConfig? = nil, logsAnomalyDetection: LogsAnomalyDetectionIntegrationConfig? = nil, opsCenter: OpsCenterIntegrationConfig? = nil) {
+            self.kmsServerSideEncryption = kmsServerSideEncryption
             self.logsAnomalyDetection = logsAnomalyDetection
             self.opsCenter = opsCenter
         }
 
+        public func validate(name: String) throws {
+            try self.kmsServerSideEncryption?.validate(name: "\(name).kmsServerSideEncryption")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case kmsServerSideEncryption = "KMSServerSideEncryption"
             case logsAnomalyDetection = "LogsAnomalyDetection"
             case opsCenter = "OpsCenter"
         }
@@ -3960,6 +4043,10 @@ extension DevOpsGuru {
 
         public init(serviceIntegration: UpdateServiceIntegrationConfig) {
             self.serviceIntegration = serviceIntegration
+        }
+
+        public func validate(name: String) throws {
+            try self.serviceIntegration.validate(name: "\(name).serviceIntegration")
         }
 
         private enum CodingKeys: String, CodingKey {
