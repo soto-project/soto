@@ -4,11 +4,13 @@ on:
   push:
     branches:
     - main
+    - 7.x.x
     paths:
     - '**.swift'
   pull_request:
     branches:
     - main
+    - 7.x.x
     paths:
     - '**.swift'
   workflow_dispatch:
