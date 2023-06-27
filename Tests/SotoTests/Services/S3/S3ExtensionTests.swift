@@ -106,7 +106,7 @@ extension S3Tests {
             }
 
             let getResponse = try await s3.getObject(.init(bucket: name, key: filename))
-            let responseBody = try await getResponse.body?.collect(upTo: .max)
+            let responseBody = try await getResponse.body.collect(upTo: .max)
             XCTAssertEqual(responseBody, buffer)
         }
     }
@@ -162,7 +162,7 @@ extension S3Tests {
                 }
             }
             let getResponse = try await s3.getObject(.init(bucket: name, key: filename))
-            let responseBody = try await getResponse.body?.collect(upTo: .max)
+            let responseBody = try await getResponse.body.collect(upTo: .max)
             XCTAssertEqual(responseBody, buffer)
         }
     }
@@ -177,8 +177,8 @@ extension S3Tests {
 
             let getRequest = S3.GetObjectRequest(bucket: name, key: name)
             let response = try await s3.getObject(getRequest, logger: TestEnvironment.logger)
-            let responseBody = try await response.body?.collect(upTo: .max)
-            XCTAssertEqual(responseBody?.readableBytes, 0) // Empty
+            let responseBody = try await response.body.collect(upTo: .max)
+            XCTAssertEqual(responseBody.readableBytes, 0) // Empty
         }
     }
 
@@ -219,7 +219,7 @@ extension S3Tests {
             _ = try await s3Euwest2.multipartCopy(copyRequest)
 
             let getResponse = try await s3Euwest2.getObject(.init(bucket: name2, key: filename2))
-            let responseBuffer = try await getResponse.body?.collect(upTo: .max)
+            let responseBuffer = try await getResponse.body.collect(upTo: .max)
             XCTAssertEqual(responseBuffer, buffer)
         }
     }

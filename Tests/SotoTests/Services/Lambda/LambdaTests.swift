@@ -158,8 +158,8 @@ class LambdaTests: XCTestCase {
         XCTAssertNil(response.functionError)
 
         // check the payload matches the one from the Lambda function
-        let payloadBuffer = try await response.payload?.collect(upTo: .max)
-        let payload = payloadBuffer.map { String(buffer: $0) }
+        let payloadBuffer = try await response.payload.collect(upTo: .max)
+        let payload = String(buffer: payloadBuffer)
         XCTAssertEqual(payload, "\"hello world\"")
     }
 

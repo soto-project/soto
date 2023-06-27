@@ -119,10 +119,7 @@ extension S3 {
 
         // save part task
         func savePart(downloadedPart: GetObjectOutput) async throws {
-            guard let body = downloadedPart.body else {
-                throw S3ErrorType.multipart.downloadEmpty(message: "Body is unexpectedly nil")
-            }
-            try await outputStream(body.collect(upTo: .max), contentLength)
+            try await outputStream(downloadedPart.body.collect(upTo: .max), contentLength)
         }
 
         let partSize: Int64 = numericCast(partSize)
@@ -353,8 +350,7 @@ extension S3 {
             // send upload part copy requests to AWS
             let parts: [S3.CompletedPart] = try await uploadPartRequests.concurrentMap(maxConcurrentTasks: 8) {
                 let response = try await self.uploadPartCopy($0, logger: logger)
-                guard let copyPartResult = response.copyPartResult else { throw S3ErrorType.multipart.noCopyPartResult }
-                return S3.CompletedPart(eTag: copyPartResult.eTag, partNumber: $0.partNumber)
+                return S3.CompletedPart(eTag: response.copyPartResult.eTag, partNumber: $0.partNumber)
             }
             // complete upload
             let completeRequest = S3.CompleteMultipartUploadRequest(

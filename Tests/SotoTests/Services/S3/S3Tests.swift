@@ -110,7 +110,7 @@ class S3Tests: XCTestCase {
             XCTAssertNotNil(putResponse.eTag)
             let getResponse = try await s3.getObject(.init(bucket: name, key: filename, responseExpires: Date()))
             let requestContents = try await contents.collect(upTo: .max)
-            let responseContents = try await getResponse.body?.collect(upTo: .max) ?? .init()
+            let responseContents = try await getResponse.body.collect(upTo: .max)
             XCTAssertEqual(responseContents, requestContents)
             XCTAssertNotNil(getResponse.lastModified)
         }
@@ -158,7 +158,7 @@ class S3Tests: XCTestCase {
             let copyRequest = S3.CopyObjectRequest(bucket: name, copySource: "\(name)/\(keyName)", key: newKeyName)
             _ = try await Self.s3.copyObject(copyRequest)
             let getResponse = try await Self.s3.getObject(.init(bucket: name, key: newKeyName, responseExpires: Date()))
-            let responseContents = try await getResponse.body?.collect(upTo: .max) ?? .init()
+            let responseContents = try await getResponse.body.collect(upTo: .max)
             XCTAssertEqual(String(buffer: responseContents), contents)
             XCTAssertNotNil(getResponse.lastModified)
         }
@@ -313,7 +313,7 @@ class S3Tests: XCTestCase {
                     )
                 )
                 let getResponse = try await Self.s3.getObject(.init(bucket: name, key: filename))
-                let buffer = try await getResponse.body?.collect(upTo: .max) ?? .init()
+                let buffer = try await getResponse.body.collect(upTo: .max)
                 XCTAssertEqual(String(buffer: buffer), body)
             }
         }
@@ -511,7 +511,7 @@ class S3Tests: XCTestCase {
             let putResponse = try await s3Accelerated.putObject(putRequest)
             XCTAssertNotNil(putResponse.eTag)
             let getResponse = try await s3Accelerated.getObject(.init(bucket: name, key: filename, responseExpires: Date()))
-            let responseContents = try await getResponse.body?.collect(upTo: .max) ?? .init()
+            let responseContents = try await getResponse.body.collect(upTo: .max)
             XCTAssertEqual(String(buffer: responseContents), contents)
             XCTAssertNotNil(getResponse.lastModified)
         }
