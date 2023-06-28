@@ -183,6 +183,11 @@ public struct Redshift: AWSService {
         return self.client.execute(operation: "CreateClusterSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Used to create a custom domain name for a cluster. Properties include the custom domain name, the  cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN).
+    public func createCustomDomainAssociation(_ input: CreateCustomDomainAssociationMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCustomDomainAssociationResult> {
+        return self.client.execute(operation: "CreateCustomDomainAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a Redshift-managed VPC endpoint.
     public func createEndpointAccess(_ input: CreateEndpointAccessMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EndpointAccess> {
         return self.client.execute(operation: "CreateEndpointAccess", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -273,6 +278,11 @@ public struct Redshift: AWSService {
     /// Deletes the specified cluster subnet group.
     @discardableResult public func deleteClusterSubnetGroup(_ input: DeleteClusterSubnetGroupMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteClusterSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Contains information about deleting a custom domain association for a cluster.
+    @discardableResult public func deleteCustomDomainAssociation(_ input: DeleteCustomDomainAssociationMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteCustomDomainAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a Redshift-managed VPC endpoint.
@@ -393,6 +403,11 @@ public struct Redshift: AWSService {
     /// in the Amazon Redshift Cluster Management Guide. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all clusters that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all clusters that have any combination of those values are returned. If both tag keys and values are omitted from the request, clusters are returned regardless of whether they have tag keys or values associated with them.
     public func describeClusters(_ input: DescribeClustersMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ClustersMessage> {
         return self.client.execute(operation: "DescribeClusters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Contains information for custom domain associations for a cluster.
+    public func describeCustomDomainAssociations(_ input: DescribeCustomDomainAssociationsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CustomDomainAssociationsMessage> {
+        return self.client.execute(operation: "DescribeCustomDomainAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Shows the status of any inbound or outbound datashares available in the specified account.
@@ -636,6 +651,11 @@ public struct Redshift: AWSService {
     /// Modifies a cluster subnet group to include the specified list of VPC subnets. The operation replaces the existing list of subnets with the new list of subnets.
     public func modifyClusterSubnetGroup(_ input: ModifyClusterSubnetGroupMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyClusterSubnetGroupResult> {
         return self.client.execute(operation: "ModifyClusterSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Contains information for changing a custom domain association.
+    public func modifyCustomDomainAssociation(_ input: ModifyCustomDomainAssociationMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyCustomDomainAssociationResult> {
+        return self.client.execute(operation: "ModifyCustomDomainAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Modifies a Redshift-managed VPC endpoint.
@@ -1253,6 +1273,59 @@ extension Redshift {
             command: self.describeClusters,
             inputKey: \DescribeClustersMessage.marker,
             outputKey: \ClustersMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Contains information for custom domain associations for a cluster.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeCustomDomainAssociationsPaginator<Result>(
+        _ input: DescribeCustomDomainAssociationsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, CustomDomainAssociationsMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeCustomDomainAssociations,
+            inputKey: \DescribeCustomDomainAssociationsMessage.marker,
+            outputKey: \CustomDomainAssociationsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeCustomDomainAssociationsPaginator(
+        _ input: DescribeCustomDomainAssociationsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (CustomDomainAssociationsMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeCustomDomainAssociations,
+            inputKey: \DescribeCustomDomainAssociationsMessage.marker,
+            outputKey: \CustomDomainAssociationsMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -2596,6 +2669,17 @@ extension Redshift.DescribeClustersMessage: AWSPaginateToken {
             maxRecords: self.maxRecords,
             tagKeys: self.tagKeys,
             tagValues: self.tagValues
+        )
+    }
+}
+
+extension Redshift.DescribeCustomDomainAssociationsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeCustomDomainAssociationsMessage {
+        return .init(
+            customDomainCertificateArn: self.customDomainCertificateArn,
+            customDomainName: self.customDomainName,
+            marker: token,
+            maxRecords: self.maxRecords
         )
     }
 }

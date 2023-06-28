@@ -597,12 +597,14 @@ extension Transfer {
         public let protocols: [`Protocol`]?
         /// Specifies the name of the security policy that is attached to the server.
         public let securityPolicyName: String?
+        /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
+        public let structuredLogDestinations: [String]?
         /// Key-value pairs that can be used to group and search for servers.
         public let tags: [Tag]?
         /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded.
         public let workflowDetails: WorkflowDetails?
 
-        public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, tags: [Tag]? = nil, workflowDetails: WorkflowDetails? = nil) {
+        public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, structuredLogDestinations: [String]? = nil, tags: [Tag]? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.certificate = certificate
             self.domain = domain
             self.endpointDetails = endpointDetails
@@ -616,6 +618,7 @@ extension Transfer {
             self.protocolDetails = protocolDetails
             self.protocols = protocols
             self.securityPolicyName = securityPolicyName
+            self.structuredLogDestinations = structuredLogDestinations
             self.tags = tags
             self.workflowDetails = workflowDetails
         }
@@ -637,6 +640,12 @@ extension Transfer {
             try self.validate(self.protocols, name: "protocols", parent: name, min: 1)
             try self.validate(self.securityPolicyName, name: "securityPolicyName", parent: name, max: 100)
             try self.validate(self.securityPolicyName, name: "securityPolicyName", parent: name, pattern: "^TransferSecurityPolicy-.+$")
+            try self.structuredLogDestinations?.forEach {
+                try validate($0, name: "structuredLogDestinations[]", parent: name, max: 1600)
+                try validate($0, name: "structuredLogDestinations[]", parent: name, min: 20)
+                try validate($0, name: "structuredLogDestinations[]", parent: name, pattern: "^arn:")
+            }
+            try self.validate(self.structuredLogDestinations, name: "structuredLogDestinations", parent: name, max: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -659,6 +668,7 @@ extension Transfer {
             case protocolDetails = "ProtocolDetails"
             case protocols = "Protocols"
             case securityPolicyName = "SecurityPolicyName"
+            case structuredLogDestinations = "StructuredLogDestinations"
             case tags = "Tags"
             case workflowDetails = "WorkflowDetails"
         }
@@ -1916,6 +1926,8 @@ extension Transfer {
         public let serverId: String?
         /// The condition of the server that was described. A value of ONLINE indicates that the server can accept jobs and transfer files. A State value of OFFLINE means that the server cannot perform file transfer operations. The states of STARTING and STOPPING indicate that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of START_FAILED or STOP_FAILED can indicate an error condition.
         public let state: State?
+        /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
+        public let structuredLogDestinations: [String]?
         /// Specifies the key-value pairs that you can use to search for and group servers that were assigned to the server that was described.
         public let tags: [Tag]?
         /// Specifies the number of users that are assigned to a server you specified with the ServerId.
@@ -1923,7 +1935,7 @@ extension Transfer {
         /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded.
         public let workflowDetails: WorkflowDetails?
 
-        public init(arn: String, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil, workflowDetails: WorkflowDetails? = nil) {
+        public init(arn: String, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, structuredLogDestinations: [String]? = nil, tags: [Tag]? = nil, userCount: Int? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.arn = arn
             self.certificate = certificate
             self.domain = domain
@@ -1940,6 +1952,7 @@ extension Transfer {
             self.securityPolicyName = securityPolicyName
             self.serverId = serverId
             self.state = state
+            self.structuredLogDestinations = structuredLogDestinations
             self.tags = tags
             self.userCount = userCount
             self.workflowDetails = workflowDetails
@@ -1962,6 +1975,7 @@ extension Transfer {
             case securityPolicyName = "SecurityPolicyName"
             case serverId = "ServerId"
             case state = "State"
+            case structuredLogDestinations = "StructuredLogDestinations"
             case tags = "Tags"
             case userCount = "UserCount"
             case workflowDetails = "WorkflowDetails"
@@ -4179,10 +4193,12 @@ extension Transfer {
         public let securityPolicyName: String?
         /// A system-assigned unique identifier for a server instance that the Transfer Family user is assigned to.
         public let serverId: String
+        /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
+        public let structuredLogDestinations: [String]?
         /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
         public let workflowDetails: WorkflowDetails?
 
-        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, serverId: String, workflowDetails: WorkflowDetails? = nil) {
+        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, serverId: String, structuredLogDestinations: [String]? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.certificate = certificate
             self.endpointDetails = endpointDetails
             self.endpointType = endpointType
@@ -4195,6 +4211,7 @@ extension Transfer {
             self.protocols = protocols
             self.securityPolicyName = securityPolicyName
             self.serverId = serverId
+            self.structuredLogDestinations = structuredLogDestinations
             self.workflowDetails = workflowDetails
         }
 
@@ -4217,6 +4234,12 @@ extension Transfer {
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try self.structuredLogDestinations?.forEach {
+                try validate($0, name: "structuredLogDestinations[]", parent: name, max: 1600)
+                try validate($0, name: "structuredLogDestinations[]", parent: name, min: 20)
+                try validate($0, name: "structuredLogDestinations[]", parent: name, pattern: "^arn:")
+            }
+            try self.validate(self.structuredLogDestinations, name: "structuredLogDestinations", parent: name, max: 1)
             try self.workflowDetails?.validate(name: "\(name).workflowDetails")
         }
 
@@ -4233,6 +4256,7 @@ extension Transfer {
             case protocols = "Protocols"
             case securityPolicyName = "SecurityPolicyName"
             case serverId = "ServerId"
+            case structuredLogDestinations = "StructuredLogDestinations"
             case workflowDetails = "WorkflowDetails"
         }
     }

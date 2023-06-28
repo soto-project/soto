@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS CloudTrail service.
 ///
-/// CloudTrail This is the CloudTrail API Reference. It provides descriptions of actions, data types, common parameters, and common errors for CloudTrail. CloudTrail is a web service that records Amazon Web Services API calls for your Amazon Web Services account and delivers log files to an Amazon S3 bucket. The recorded information includes the identity of the user, the start time of the Amazon Web Services API call, the source IP address, the request parameters, and the response elements returned by the service.  As an alternative to the API, you can use one of the Amazon Web Services SDKs, which consist of libraries and sample code for various programming languages and platforms (Java, Ruby, .NET, iOS, Android, etc.). The SDKs provide programmatic access to CloudTrail. For example, the SDKs handle cryptographically signing requests, managing errors, and retrying requests automatically. For more information about the Amazon Web Services SDKs, including how to download and install them, see Tools to Build on Amazon Web Services.  See the CloudTrail User Guide for information about the data that is included with each Amazon Web Services API call listed in the log files.  Actions available for CloudTrail trails  The following actions are available for CloudTrail trails.    AddTags     CreateTrail     DeleteTrail     DescribeTrails     GetEventSelectors     GetInsightSelectors     GetTrail     GetTrailStatus     ListTags     ListTrails     PutEventSelectors     PutInsightSelectors     RemoveTags     StartLogging     StopLogging     UpdateTrail     Actions available for CloudTrail event data stores  The following actions are available for CloudTrail event data stores.    AddTags     CancelQuery     CreateEventDataStore     DeleteEventDataStore     DescribeQuery     GetEventDataStore     GetQueryResults     ListEventDataStores     ListTags     ListQueries     RemoveTags     RestoreEventDataStore     StartEventDataStoreIngestion     StartImport  The following additional actions are available for imports.    GetImport     ListImportFailures     ListImports     StopImport       StartQuery     StartEventDataStoreIngestion     UpdateEventDataStore     Actions available for CloudTrail channels  The following actions are available for CloudTrail channels.    AddTags     CreateChannel     DeleteChannel     DeleteResourcePolicy     GetChannel     GetResourcePolicy     ListChannels     ListTags     PutResourcePolicy     RemoveTags     UpdateChannel     Actions available for managing delegated administrators  The following actions are available for adding or a removing a delegated administrator to manage an Organizations organization’s CloudTrail resources.    DeregisterOrganizationDelegatedAdmin     RegisterOrganizationDelegatedAdmin
+/// CloudTrail This is the CloudTrail API Reference. It provides descriptions of actions, data types, common parameters, and common errors for CloudTrail. CloudTrail is a web service that records Amazon Web Services API calls for your Amazon Web Services account and delivers log files to an Amazon S3 bucket. The recorded information includes the identity of the user, the start time of the Amazon Web Services API call, the source IP address, the request parameters, and the response elements returned by the service.  As an alternative to the API, you can use one of the Amazon Web Services SDKs, which consist of libraries and sample code for various programming languages and platforms (Java, Ruby, .NET, iOS, Android, etc.). The SDKs provide programmatic access to CloudTrail. For example, the SDKs handle cryptographically signing requests, managing errors, and retrying requests automatically. For more information about the Amazon Web Services SDKs, including how to download and install them, see Tools to Build on Amazon Web Services.  See the CloudTrail User Guide for information about the data that is included with each Amazon Web Services API call listed in the log files.
 public struct CloudTrail: AWSService {
     // MARK: Member variables
 
@@ -125,7 +125,7 @@ public struct CloudTrail: AWSService {
         return self.client.execute(operation: "DeregisterOrganizationDelegatedAdmin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. You must specify an ARN for EventDataStore, and a value for QueryID.
+    /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket,  the response also provides the S3 URI and the delivery status. You must specify either a QueryID or a QueryAlias. Specifying the QueryAlias parameter returns information about the last query run for the alias.
     public func describeQuery(_ input: DescribeQueryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeQueryResponse> {
         return self.client.execute(operation: "DescribeQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -160,7 +160,7 @@ public struct CloudTrail: AWSService {
         return self.client.execute(operation: "GetInsightSelectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation, and an ARN for EventDataStore.
+    /// Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation.
     public func getQueryResults(_ input: GetQueryResultsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetQueryResultsResponse> {
         return self.client.execute(operation: "GetQueryResults", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -270,7 +270,7 @@ public struct CloudTrail: AWSService {
         return self.client.execute(operation: "StartLogging", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts a CloudTrail Lake query. The required QueryStatement parameter provides your SQL query, enclosed in single quotation marks. Use the optional DeliveryS3Uri parameter to deliver the query results to an S3 bucket.
+    /// Starts a CloudTrail Lake query. Use the QueryStatement parameter to provide your SQL query, enclosed in single quotation marks. Use the optional DeliveryS3Uri parameter to deliver the query results to an S3 bucket.  StartQuery requires you specify either the QueryStatement parameter, or a QueryAlias and any QueryParameters. In the current release,  the QueryAlias and QueryParameters parameters are used only for the queries that populate the CloudTrail Lake dashboards.
     public func startQuery(_ input: StartQueryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartQueryResponse> {
         return self.client.execute(operation: "StartQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -295,7 +295,7 @@ public struct CloudTrail: AWSService {
         return self.client.execute(operation: "UpdateChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are integers between 90 and 2557. By default, TerminationProtection is enabled. For event data stores for CloudTrail events, AdvancedEventSelectors includes or excludes management and data events in your event data store. For more information about AdvancedEventSelectors, see PutEventSelectorsRequest$AdvancedEventSelectors.  For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events of that type in your event data store.
+    /// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are integers between 90 and 2557. By default, TerminationProtection is enabled. For event data stores for CloudTrail events, AdvancedEventSelectors includes or excludes management and data events in your event data store. For more information about AdvancedEventSelectors, see  AdvancedEventSelectors. For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events of that type in your event data store.
     public func updateEventDataStore(_ input: UpdateEventDataStoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEventDataStoreResponse> {
         return self.client.execute(operation: "UpdateEventDataStore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -318,7 +318,7 @@ extension CloudTrail {
 // MARK: Paginators
 
 extension CloudTrail {
-    /// Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation, and an ARN for EventDataStore.
+    /// Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

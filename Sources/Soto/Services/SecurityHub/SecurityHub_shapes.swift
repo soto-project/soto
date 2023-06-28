@@ -44,6 +44,11 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutomationRulesActionType: String, CustomStringConvertible, Codable, Sendable {
+        case findingFieldsUpdate = "FINDING_FIELDS_UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AwsIamAccessKeyStatus: String, CustomStringConvertible, Codable, Sendable {
         case active = "Active"
         case inactive = "Inactive"
@@ -148,6 +153,12 @@ extension SecurityHub {
     public enum RegionAvailabilityStatus: String, CustomStringConvertible, Codable, Sendable {
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleStatus: String, CustomStringConvertible, Codable, Sendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -606,6 +617,441 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case state = "State"
             case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct AutomationRulesAction: AWSEncodableShape & AWSDecodableShape {
+        ///  Specifies that the automation rule action is an update to a finding field.
+        public let findingFieldsUpdate: AutomationRulesFindingFieldsUpdate?
+        ///  Specifies that the rule action should update the Types finding field. The Types  finding field provides one or more finding types in the format of  namespace/category/classifier that classify a finding. For more information, see Types taxonomy for ASFF in  the Security Hub User Guide.
+        public let type: AutomationRulesActionType?
+
+        public init(findingFieldsUpdate: AutomationRulesFindingFieldsUpdate? = nil, type: AutomationRulesActionType? = nil) {
+            self.findingFieldsUpdate = findingFieldsUpdate
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.findingFieldsUpdate?.validate(name: "\(name).findingFieldsUpdate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingFieldsUpdate = "FindingFieldsUpdate"
+            case type = "Type"
+        }
+    }
+
+    public struct AutomationRulesConfig: AWSDecodableShape {
+        ///  One or more actions to update finding fields if a finding matches the defined criteria  of the rule.
+        public let actions: [AutomationRulesAction]?
+        ///  A timestamp that indicates when the rule was created.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        ///  The principal that created a rule.
+        public let createdBy: String?
+        ///  A set of Amazon Web Services Security Finding Format finding field attributes and corresponding expected values that  Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+        public let criteria: AutomationRulesFindingFilters?
+        ///  A description of the rule.
+        public let description: String?
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful  when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this  field is set to true for a rule, Security Hub applies the rule action to a finding that matches  the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        public let isTerminal: Bool?
+        ///  The Amazon Resource Name (ARN) of a rule.
+        public let ruleArn: String?
+        ///  The name of the rule.
+        public let ruleName: String?
+        ///  An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
+        public let ruleOrder: Int?
+        ///  Whether the rule is active after it is created. If  this parameter is equal to >ENABLED, Security Hub will apply the rule to findings  and finding updates after the rule is created.
+        public let ruleStatus: RuleStatus?
+        ///  A timestamp that indicates when the rule was most recently updated.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        public init(actions: [AutomationRulesAction]? = nil, createdAt: Date? = nil, createdBy: String? = nil, criteria: AutomationRulesFindingFilters? = nil, description: String? = nil, isTerminal: Bool? = nil, ruleArn: String? = nil, ruleName: String? = nil, ruleOrder: Int? = nil, ruleStatus: RuleStatus? = nil, updatedAt: Date? = nil) {
+            self.actions = actions
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.criteria = criteria
+            self.description = description
+            self.isTerminal = isTerminal
+            self.ruleArn = ruleArn
+            self.ruleName = ruleName
+            self.ruleOrder = ruleOrder
+            self.ruleStatus = ruleStatus
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case createdAt = "CreatedAt"
+            case createdBy = "CreatedBy"
+            case criteria = "Criteria"
+            case description = "Description"
+            case isTerminal = "IsTerminal"
+            case ruleArn = "RuleArn"
+            case ruleName = "RuleName"
+            case ruleOrder = "RuleOrder"
+            case ruleStatus = "RuleStatus"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct AutomationRulesFindingFieldsUpdate: AWSEncodableShape & AWSDecodableShape {
+        ///  The rule action will update the Confidence field of a finding.
+        public let confidence: Int?
+        ///  The rule action will update the Criticality field of a finding.
+        public let criticality: Int?
+        public let note: NoteUpdate?
+        ///  A list of findings that are related to a finding.
+        public let relatedFindings: [RelatedFinding]?
+        public let severity: SeverityUpdate?
+        ///  The rule action will update the Types field of a finding.
+        public let types: [String]?
+        ///  The rule action will update the UserDefinedFields field of a finding.
+        public let userDefinedFields: [String: String]?
+        ///  The rule action will update the VerificationState field of a finding.
+        public let verificationState: VerificationState?
+        public let workflow: WorkflowUpdate?
+
+        public init(confidence: Int? = nil, criticality: Int? = nil, note: NoteUpdate? = nil, relatedFindings: [RelatedFinding]? = nil, severity: SeverityUpdate? = nil, types: [String]? = nil, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, workflow: WorkflowUpdate? = nil) {
+            self.confidence = confidence
+            self.criticality = criticality
+            self.note = note
+            self.relatedFindings = relatedFindings
+            self.severity = severity
+            self.types = types
+            self.userDefinedFields = userDefinedFields
+            self.verificationState = verificationState
+            self.workflow = workflow
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.confidence, name: "confidence", parent: name, max: 100)
+            try self.validate(self.confidence, name: "confidence", parent: name, min: 0)
+            try self.validate(self.criticality, name: "criticality", parent: name, max: 100)
+            try self.validate(self.criticality, name: "criticality", parent: name, min: 0)
+            try self.note?.validate(name: "\(name).note")
+            try self.relatedFindings?.forEach {
+                try $0.validate(name: "\(name).relatedFindings[]")
+            }
+            try self.severity?.validate(name: "\(name).severity")
+            try self.types?.forEach {
+                try validate($0, name: "types[]", parent: name, pattern: "\\S")
+            }
+            try self.userDefinedFields?.forEach {
+                try validate($0.key, name: "userDefinedFields.key", parent: name, pattern: "\\S")
+                try validate($0.value, name: "userDefinedFields[\"\($0.key)\"]", parent: name, pattern: "\\S")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case criticality = "Criticality"
+            case note = "Note"
+            case relatedFindings = "RelatedFindings"
+            case severity = "Severity"
+            case types = "Types"
+            case userDefinedFields = "UserDefinedFields"
+            case verificationState = "VerificationState"
+            case workflow = "Workflow"
+        }
+    }
+
+    public struct AutomationRulesFindingFilters: AWSEncodableShape & AWSDecodableShape {
+        ///  The Amazon Web Services account ID in which a finding was generated.
+        public let awsAccountId: [StringFilter]?
+        ///  The name of the company for the product that generated the finding.  For control-based findings, the company is Amazon Web Services.
+        public let companyName: [StringFilter]?
+        /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of  the Amazon Resource Name (ARN) returned for a standard in the DescribeStandards API response.
+        public let complianceAssociatedStandardsId: [StringFilter]?
+        ///  The security control ID for which a finding was generated. Security control IDs are the same across standards.
+        public let complianceSecurityControlId: [StringFilter]?
+        ///  The result of a security check. This field is only used for findings generated  from controls.
+        public let complianceStatus: [StringFilter]?
+        /// The likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0–100 basis using a ratio scale. A value of 0 means 0 percent confidence, and a value of 100 means 100 percent confidence. For example, a data exfiltration detection based on a statistical deviation of network traffic has low confidence because an actual exfiltration hasn't been verified. For more information, see Confidence in the Security Hub User Guide.
+        public let confidence: [NumberFilter]?
+        ///  A timestamp that indicates when this finding record was created.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let createdAt: [DateFilter]?
+        ///  The level of importance that is assigned to the resources that are associated with a  finding. Criticality is scored on a 0–100 basis, using a ratio scale that supports  only full integers. A score of 0 means that the underlying resources have no  criticality, and a score of 100 is reserved for the most critical resources. For  more information, see Criticality in the Security Hub User Guide.
+        public let criticality: [NumberFilter]?
+        ///  A finding's description.
+        public let description: [StringFilter]?
+        ///  A timestamp that indicates when the potential security issue captured by a  finding was first observed by the security findings product.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let firstObservedAt: [DateFilter]?
+        ///  The identifier for the solution-specific component that  generated a finding.
+        public let generatorId: [StringFilter]?
+        ///  The product-specific identifier for a finding.
+        public let id: [StringFilter]?
+        ///  A timestamp that indicates when the potential security issue captured by a finding  was most recently observed by the security findings product.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let lastObservedAt: [DateFilter]?
+        ///  The text of a user-defined note that's added to a finding.
+        public let noteText: [StringFilter]?
+        ///  The timestamp of when the note was updated. Uses the date-time format specified in  RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces.  For example, 2020-03-22T13:22:13.933Z.
+        public let noteUpdatedAt: [DateFilter]?
+        ///  The principal that created a note.
+        public let noteUpdatedBy: [StringFilter]?
+        ///  The Amazon Resource Name (ARN) for a third-party product that generated a finding in  Security Hub.
+        public let productArn: [StringFilter]?
+        ///  Provides the name of the product that generated the finding. For  control-based findings, the product name is Security Hub.
+        public let productName: [StringFilter]?
+        ///  Provides the current state of a finding.
+        public let recordState: [StringFilter]?
+        ///  The product-generated identifier for a related finding.
+        public let relatedFindingsId: [StringFilter]?
+        ///  The ARN for the product that generated a related finding.
+        public let relatedFindingsProductArn: [StringFilter]?
+        ///  Custom fields and values about the resource that a finding pertains to.
+        public let resourceDetailsOther: [MapFilter]?
+        ///  The identifier for the given resource type. For Amazon Web Services resources that are identified by  Amazon Resource Names (ARNs), this is the ARN. For Amazon Web Services resources that lack ARNs,  this is the identifier as defined by the Amazon Web Service that created the resource.  For non-Amazon Web Services resources, this is a unique identifier that is associated with the  resource.
+        public let resourceId: [StringFilter]?
+        ///  The partition in which the resource that the finding pertains to is located.  A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one partition.
+        public let resourcePartition: [StringFilter]?
+        ///  The Amazon Web Services Region where the resource that a finding pertains to is located.
+        public let resourceRegion: [StringFilter]?
+        ///  A list of Amazon Web Services tags associated with a resource at the time the finding was processed.
+        public let resourceTags: [MapFilter]?
+        ///  The type of resource that the finding pertains to.
+        public let resourceType: [StringFilter]?
+        ///  The severity value of the finding.
+        public let severityLabel: [StringFilter]?
+        ///  Provides a URL that links to a page about the current finding in the finding product.
+        public let sourceUrl: [StringFilter]?
+        ///  A finding's title.
+        public let title: [StringFilter]?
+        ///  One or more finding types in the format of namespace/category/classifier that classify a finding. For a list of namespaces, classifiers, and categories, see Types taxonomy for ASFF in the Security Hub User Guide.
+        public let type: [StringFilter]?
+        ///  A timestamp that indicates when the finding record was most recently updated.   Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let updatedAt: [DateFilter]?
+        ///  A list of user-defined name and value string pairs added to a finding.
+        public let userDefinedFields: [MapFilter]?
+        ///  Provides the veracity of a finding.
+        public let verificationState: [StringFilter]?
+        ///  Provides information about the status of the investigation into a finding.
+        public let workflowStatus: [StringFilter]?
+
+        public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceAssociatedStandardsId: [StringFilter]? = nil, complianceSecurityControlId: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, productArn: [StringFilter]? = nil, productName: [StringFilter]? = nil, recordState: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.companyName = companyName
+            self.complianceAssociatedStandardsId = complianceAssociatedStandardsId
+            self.complianceSecurityControlId = complianceSecurityControlId
+            self.complianceStatus = complianceStatus
+            self.confidence = confidence
+            self.createdAt = createdAt
+            self.criticality = criticality
+            self.description = description
+            self.firstObservedAt = firstObservedAt
+            self.generatorId = generatorId
+            self.id = id
+            self.lastObservedAt = lastObservedAt
+            self.noteText = noteText
+            self.noteUpdatedAt = noteUpdatedAt
+            self.noteUpdatedBy = noteUpdatedBy
+            self.productArn = productArn
+            self.productName = productName
+            self.recordState = recordState
+            self.relatedFindingsId = relatedFindingsId
+            self.relatedFindingsProductArn = relatedFindingsProductArn
+            self.resourceDetailsOther = resourceDetailsOther
+            self.resourceId = resourceId
+            self.resourcePartition = resourcePartition
+            self.resourceRegion = resourceRegion
+            self.resourceTags = resourceTags
+            self.resourceType = resourceType
+            self.severityLabel = severityLabel
+            self.sourceUrl = sourceUrl
+            self.title = title
+            self.type = type
+            self.updatedAt = updatedAt
+            self.userDefinedFields = userDefinedFields
+            self.verificationState = verificationState
+            self.workflowStatus = workflowStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.awsAccountId?.forEach {
+                try $0.validate(name: "\(name).awsAccountId[]")
+            }
+            try self.companyName?.forEach {
+                try $0.validate(name: "\(name).companyName[]")
+            }
+            try self.complianceAssociatedStandardsId?.forEach {
+                try $0.validate(name: "\(name).complianceAssociatedStandardsId[]")
+            }
+            try self.complianceSecurityControlId?.forEach {
+                try $0.validate(name: "\(name).complianceSecurityControlId[]")
+            }
+            try self.complianceStatus?.forEach {
+                try $0.validate(name: "\(name).complianceStatus[]")
+            }
+            try self.createdAt?.forEach {
+                try $0.validate(name: "\(name).createdAt[]")
+            }
+            try self.description?.forEach {
+                try $0.validate(name: "\(name).description[]")
+            }
+            try self.firstObservedAt?.forEach {
+                try $0.validate(name: "\(name).firstObservedAt[]")
+            }
+            try self.generatorId?.forEach {
+                try $0.validate(name: "\(name).generatorId[]")
+            }
+            try self.id?.forEach {
+                try $0.validate(name: "\(name).id[]")
+            }
+            try self.lastObservedAt?.forEach {
+                try $0.validate(name: "\(name).lastObservedAt[]")
+            }
+            try self.noteText?.forEach {
+                try $0.validate(name: "\(name).noteText[]")
+            }
+            try self.noteUpdatedAt?.forEach {
+                try $0.validate(name: "\(name).noteUpdatedAt[]")
+            }
+            try self.noteUpdatedBy?.forEach {
+                try $0.validate(name: "\(name).noteUpdatedBy[]")
+            }
+            try self.productArn?.forEach {
+                try $0.validate(name: "\(name).productArn[]")
+            }
+            try self.productName?.forEach {
+                try $0.validate(name: "\(name).productName[]")
+            }
+            try self.recordState?.forEach {
+                try $0.validate(name: "\(name).recordState[]")
+            }
+            try self.relatedFindingsId?.forEach {
+                try $0.validate(name: "\(name).relatedFindingsId[]")
+            }
+            try self.relatedFindingsProductArn?.forEach {
+                try $0.validate(name: "\(name).relatedFindingsProductArn[]")
+            }
+            try self.resourceDetailsOther?.forEach {
+                try $0.validate(name: "\(name).resourceDetailsOther[]")
+            }
+            try self.resourceId?.forEach {
+                try $0.validate(name: "\(name).resourceId[]")
+            }
+            try self.resourcePartition?.forEach {
+                try $0.validate(name: "\(name).resourcePartition[]")
+            }
+            try self.resourceRegion?.forEach {
+                try $0.validate(name: "\(name).resourceRegion[]")
+            }
+            try self.resourceTags?.forEach {
+                try $0.validate(name: "\(name).resourceTags[]")
+            }
+            try self.resourceType?.forEach {
+                try $0.validate(name: "\(name).resourceType[]")
+            }
+            try self.severityLabel?.forEach {
+                try $0.validate(name: "\(name).severityLabel[]")
+            }
+            try self.sourceUrl?.forEach {
+                try $0.validate(name: "\(name).sourceUrl[]")
+            }
+            try self.title?.forEach {
+                try $0.validate(name: "\(name).title[]")
+            }
+            try self.type?.forEach {
+                try $0.validate(name: "\(name).type[]")
+            }
+            try self.updatedAt?.forEach {
+                try $0.validate(name: "\(name).updatedAt[]")
+            }
+            try self.userDefinedFields?.forEach {
+                try $0.validate(name: "\(name).userDefinedFields[]")
+            }
+            try self.verificationState?.forEach {
+                try $0.validate(name: "\(name).verificationState[]")
+            }
+            try self.workflowStatus?.forEach {
+                try $0.validate(name: "\(name).workflowStatus[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case companyName = "CompanyName"
+            case complianceAssociatedStandardsId = "ComplianceAssociatedStandardsId"
+            case complianceSecurityControlId = "ComplianceSecurityControlId"
+            case complianceStatus = "ComplianceStatus"
+            case confidence = "Confidence"
+            case createdAt = "CreatedAt"
+            case criticality = "Criticality"
+            case description = "Description"
+            case firstObservedAt = "FirstObservedAt"
+            case generatorId = "GeneratorId"
+            case id = "Id"
+            case lastObservedAt = "LastObservedAt"
+            case noteText = "NoteText"
+            case noteUpdatedAt = "NoteUpdatedAt"
+            case noteUpdatedBy = "NoteUpdatedBy"
+            case productArn = "ProductArn"
+            case productName = "ProductName"
+            case recordState = "RecordState"
+            case relatedFindingsId = "RelatedFindingsId"
+            case relatedFindingsProductArn = "RelatedFindingsProductArn"
+            case resourceDetailsOther = "ResourceDetailsOther"
+            case resourceId = "ResourceId"
+            case resourcePartition = "ResourcePartition"
+            case resourceRegion = "ResourceRegion"
+            case resourceTags = "ResourceTags"
+            case resourceType = "ResourceType"
+            case severityLabel = "SeverityLabel"
+            case sourceUrl = "SourceUrl"
+            case title = "Title"
+            case type = "Type"
+            case updatedAt = "UpdatedAt"
+            case userDefinedFields = "UserDefinedFields"
+            case verificationState = "VerificationState"
+            case workflowStatus = "WorkflowStatus"
+        }
+    }
+
+    public struct AutomationRulesMetadata: AWSDecodableShape {
+        ///  A timestamp that indicates when the rule was created.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        ///  The principal that created a rule.
+        public let createdBy: String?
+        ///  A description of the rule.
+        public let description: String?
+        ///  Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful  when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this  field is set to true for a rule, Security Hub applies the rule action to a finding that matches  the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        public let isTerminal: Bool?
+        ///  The Amazon Resource Name (ARN) for the rule.
+        public let ruleArn: String?
+        ///  The name of the rule.
+        public let ruleName: String?
+        /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
+        public let ruleOrder: Int?
+        ///  Whether the rule is active after it is created. If  this parameter is equal to ENABLED, Security Hub will apply the rule to findings  and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+        public let ruleStatus: RuleStatus?
+        ///  A timestamp that indicates when the rule was most recently updated.  Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, isTerminal: Bool? = nil, ruleArn: String? = nil, ruleName: String? = nil, ruleOrder: Int? = nil, ruleStatus: RuleStatus? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.isTerminal = isTerminal
+            self.ruleArn = ruleArn
+            self.ruleName = ruleName
+            self.ruleOrder = ruleOrder
+            self.ruleStatus = ruleStatus
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case createdBy = "CreatedBy"
+            case description = "Description"
+            case isTerminal = "IsTerminal"
+            case ruleArn = "RuleArn"
+            case ruleName = "RuleName"
+            case ruleOrder = "RuleOrder"
+            case ruleStatus = "RuleStatus"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -17697,6 +18143,44 @@ extension SecurityHub {
         }
     }
 
+    public struct BatchDeleteAutomationRulesRequest: AWSEncodableShape {
+        ///  A list of Amazon Resource Names (ARNs) for the rules that are to be deleted.
+        public let automationRulesArns: [String]
+
+        public init(automationRulesArns: [String]) {
+            self.automationRulesArns = automationRulesArns
+        }
+
+        public func validate(name: String) throws {
+            try self.automationRulesArns.forEach {
+                try validate($0, name: "automationRulesArns[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.automationRulesArns, name: "automationRulesArns", parent: name, max: 100)
+            try self.validate(self.automationRulesArns, name: "automationRulesArns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automationRulesArns = "AutomationRulesArns"
+        }
+    }
+
+    public struct BatchDeleteAutomationRulesResponse: AWSDecodableShape {
+        ///  A list of properly processed rule ARNs.
+        public let processedAutomationRules: [String]?
+        ///  A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter  tells you which automation rules the request didn't delete and why.
+        public let unprocessedAutomationRules: [UnprocessedAutomationRule]?
+
+        public init(processedAutomationRules: [String]? = nil, unprocessedAutomationRules: [UnprocessedAutomationRule]? = nil) {
+            self.processedAutomationRules = processedAutomationRules
+            self.unprocessedAutomationRules = unprocessedAutomationRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case processedAutomationRules = "ProcessedAutomationRules"
+            case unprocessedAutomationRules = "UnprocessedAutomationRules"
+        }
+    }
+
     public struct BatchDisableStandardsRequest: AWSEncodableShape {
         /// The ARNs of the standards subscriptions to disable.
         public let standardsSubscriptionArns: [String]
@@ -17762,6 +18246,44 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case standardsSubscriptions = "StandardsSubscriptions"
+        }
+    }
+
+    public struct BatchGetAutomationRulesRequest: AWSEncodableShape {
+        ///  A list of rule ARNs to get details for.
+        public let automationRulesArns: [String]
+
+        public init(automationRulesArns: [String]) {
+            self.automationRulesArns = automationRulesArns
+        }
+
+        public func validate(name: String) throws {
+            try self.automationRulesArns.forEach {
+                try validate($0, name: "automationRulesArns[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.automationRulesArns, name: "automationRulesArns", parent: name, max: 100)
+            try self.validate(self.automationRulesArns, name: "automationRulesArns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automationRulesArns = "AutomationRulesArns"
+        }
+    }
+
+    public struct BatchGetAutomationRulesResponse: AWSDecodableShape {
+        ///  A list of rule details for the provided rule ARNs.
+        public let rules: [AutomationRulesConfig]?
+        ///  A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter  tells you which automation rules the request didn't retrieve and why.
+        public let unprocessedAutomationRules: [UnprocessedAutomationRule]?
+
+        public init(rules: [AutomationRulesConfig]? = nil, unprocessedAutomationRules: [UnprocessedAutomationRule]? = nil) {
+            self.rules = rules
+            self.unprocessedAutomationRules = unprocessedAutomationRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
+            case unprocessedAutomationRules = "UnprocessedAutomationRules"
         }
     }
 
@@ -17876,6 +18398,44 @@ extension SecurityHub {
             case failedCount = "FailedCount"
             case failedFindings = "FailedFindings"
             case successCount = "SuccessCount"
+        }
+    }
+
+    public struct BatchUpdateAutomationRulesRequest: AWSEncodableShape {
+        ///  An array of ARNs for the rules that are to be updated. Optionally, you can also include  RuleStatus and RuleOrder.
+        public let updateAutomationRulesRequestItems: [UpdateAutomationRulesRequestItem]
+
+        public init(updateAutomationRulesRequestItems: [UpdateAutomationRulesRequestItem]) {
+            self.updateAutomationRulesRequestItems = updateAutomationRulesRequestItems
+        }
+
+        public func validate(name: String) throws {
+            try self.updateAutomationRulesRequestItems.forEach {
+                try $0.validate(name: "\(name).updateAutomationRulesRequestItems[]")
+            }
+            try self.validate(self.updateAutomationRulesRequestItems, name: "updateAutomationRulesRequestItems", parent: name, max: 100)
+            try self.validate(self.updateAutomationRulesRequestItems, name: "updateAutomationRulesRequestItems", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updateAutomationRulesRequestItems = "UpdateAutomationRulesRequestItems"
+        }
+    }
+
+    public struct BatchUpdateAutomationRulesResponse: AWSDecodableShape {
+        ///  A list of properly processed rule ARNs.
+        public let processedAutomationRules: [String]?
+        ///  A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter  tells you which automation rules the request didn't update and why.
+        public let unprocessedAutomationRules: [UnprocessedAutomationRule]?
+
+        public init(processedAutomationRules: [String]? = nil, unprocessedAutomationRules: [UnprocessedAutomationRule]? = nil) {
+            self.processedAutomationRules = processedAutomationRules
+            self.unprocessedAutomationRules = unprocessedAutomationRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case processedAutomationRules = "ProcessedAutomationRules"
+            case unprocessedAutomationRules = "UnprocessedAutomationRules"
         }
     }
 
@@ -18322,6 +18882,81 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case actionTargetArn = "ActionTargetArn"
+        }
+    }
+
+    public struct CreateAutomationRuleRequest: AWSEncodableShape {
+        ///  One or more actions to update finding fields if a finding matches the conditions  specified in Criteria.
+        public let actions: [AutomationRulesAction]
+        ///  A set of ASFF finding field attributes and corresponding expected values that  Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+        public let criteria: AutomationRulesFindingFilters
+        ///  A description of the rule.
+        public let description: String
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding  matches the criteria for multiple rules, and each rule has different actions. If the value of this field is  set to true for a rule, Security Hub applies the rule action to a finding that matches  the rule criteria and won't evaluate other rules for the finding. The default value of this field is false.
+        public let isTerminal: Bool?
+        ///  The name of the rule.
+        public let ruleName: String
+        /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
+        public let ruleOrder: Int
+        ///  Whether the rule is active after it is created. If  this parameter is equal to Enabled, Security Hub will apply the rule to findings  and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+        public let ruleStatus: RuleStatus?
+        ///  User-defined tags that help you label the purpose of a rule.
+        public let tags: [String: String]?
+
+        public init(actions: [AutomationRulesAction], criteria: AutomationRulesFindingFilters, description: String, isTerminal: Bool? = nil, ruleName: String, ruleOrder: Int = 0, ruleStatus: RuleStatus? = nil, tags: [String: String]? = nil) {
+            self.actions = actions
+            self.criteria = criteria
+            self.description = description
+            self.isTerminal = isTerminal
+            self.ruleName = ruleName
+            self.ruleOrder = ruleOrder
+            self.ruleStatus = ruleStatus
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.actions.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 1)
+            try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.criteria.validate(name: "\(name).criteria")
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "\\S")
+            try self.validate(self.ruleOrder, name: "ruleOrder", parent: name, max: 1000)
+            try self.validate(self.ruleOrder, name: "ruleOrder", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case criteria = "Criteria"
+            case description = "Description"
+            case isTerminal = "IsTerminal"
+            case ruleName = "RuleName"
+            case ruleOrder = "RuleOrder"
+            case ruleStatus = "RuleStatus"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAutomationRuleResponse: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the automation rule that you created.
+        public let ruleArn: String?
+
+        public init(ruleArn: String? = nil) {
+            self.ruleArn = ruleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleArn = "RuleArn"
         }
     }
 
@@ -20157,6 +20792,47 @@ extension SecurityHub {
         }
     }
 
+    public struct ListAutomationRulesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
+        ]
+
+        ///  The maximum number of rules to return in the response. This currently ranges from 1 to 100.
+        public let maxResults: Int?
+        ///  A token to specify where to start paginating the response. This is the NextToken  from a previously truncated response. On your first call to the ListAutomationRules  API, set the value of this parameter to NULL.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAutomationRulesResponse: AWSDecodableShape {
+        ///  Metadata for rules in the calling account. The response includes rules with a  RuleStatus of ENABLED and DISABLED.
+        public let automationRulesMetadata: [AutomationRulesMetadata]?
+        ///  A pagination token for the response.
+        public let nextToken: String?
+
+        public init(automationRulesMetadata: [AutomationRulesMetadata]? = nil, nextToken: String? = nil) {
+            self.automationRulesMetadata = automationRulesMetadata
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automationRulesMetadata = "AutomationRulesMetadata"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListEnabledProductsForImportRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
@@ -20836,7 +21512,7 @@ extension SecurityHub {
         }
     }
 
-    public struct NoteUpdate: AWSEncodableShape {
+    public struct NoteUpdate: AWSEncodableShape & AWSDecodableShape {
         /// The updated note text.
         public let text: String
         /// The principal that updated the note.
@@ -22534,7 +23210,7 @@ extension SecurityHub {
         }
     }
 
-    public struct SeverityUpdate: AWSEncodableShape {
+    public struct SeverityUpdate: AWSEncodableShape & AWSDecodableShape {
         /// The severity value of the finding. The allowed values are the following.    INFORMATIONAL - No issue was found.    LOW - The issue does not require action on its own.    MEDIUM - The issue must be addressed but not urgently.    HIGH - The issue must be addressed as a priority.    CRITICAL - The issue must be remediated immediately to avoid it escalating.
         public let label: SeverityLabel?
         /// The normalized severity for the finding. This attribute is to be deprecated in favor of Label. If you provide Normalized and do not provide Label, Label is set automatically as follows.   0 - INFORMATIONAL    1–39 - LOW    40–69 - MEDIUM    70–89 - HIGH    90–100 - CRITICAL
@@ -23169,6 +23845,27 @@ extension SecurityHub {
         }
     }
 
+    public struct UnprocessedAutomationRule: AWSDecodableShape {
+        ///  The error code associated with the unprocessed automation rule.
+        public let errorCode: Int?
+        ///  An error message describing why a request didn't process a specific rule.
+        public let errorMessage: String?
+        ///  The Amazon Resource Name (ARN) for the unprocessed automation rule.
+        public let ruleArn: String?
+
+        public init(errorCode: Int? = nil, errorMessage: String? = nil, ruleArn: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.ruleArn = ruleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case ruleArn = "RuleArn"
+        }
+    }
+
     public struct UnprocessedSecurityControl: AWSDecodableShape {
         ///  The error code for the unprocessed security control.
         public let errorCode: UnprocessedErrorCode
@@ -23298,6 +23995,61 @@ extension SecurityHub {
 
     public struct UpdateActionTargetResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateAutomationRulesRequestItem: AWSEncodableShape {
+        ///  One or more actions to update finding fields if a finding matches the conditions  specified in Criteria.
+        public let actions: [AutomationRulesAction]?
+        ///  A set of ASFF finding field attributes and corresponding expected values that  Security Hub uses to filter findings. If a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+        public let criteria: AutomationRulesFindingFilters?
+        ///  A description of the rule.
+        public let description: String?
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful  when a finding matches the criteria for multiple rules, and each rule has different actions. If the value of this  field is set to true for a rule, Security Hub applies the rule action to a finding that matches  the rule criteria and won't evaluate other rules for the finding.  The default value of this field is false.
+        public let isTerminal: Bool?
+        ///  The Amazon Resource Name (ARN) for the rule.
+        public let ruleArn: String
+        ///  The name of the rule.
+        public let ruleName: String?
+        ///  An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
+        public let ruleOrder: Int?
+        ///  Whether the rule is active after it is created. If  this parameter is equal to ENABLED, Security Hub will apply the rule to findings  and finding updates after the rule is created. To change the value of this parameter after creating a rule, use BatchUpdateAutomationRules.
+        public let ruleStatus: RuleStatus?
+
+        public init(actions: [AutomationRulesAction]? = nil, criteria: AutomationRulesFindingFilters? = nil, description: String? = nil, isTerminal: Bool? = nil, ruleArn: String, ruleName: String? = nil, ruleOrder: Int? = nil, ruleStatus: RuleStatus? = nil) {
+            self.actions = actions
+            self.criteria = criteria
+            self.description = description
+            self.isTerminal = isTerminal
+            self.ruleArn = ruleArn
+            self.ruleName = ruleName
+            self.ruleOrder = ruleOrder
+            self.ruleStatus = ruleStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 1)
+            try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.criteria?.validate(name: "\(name).criteria")
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.ruleArn, name: "ruleArn", parent: name, pattern: "\\S")
+            try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "\\S")
+            try self.validate(self.ruleOrder, name: "ruleOrder", parent: name, max: 1000)
+            try self.validate(self.ruleOrder, name: "ruleOrder", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case criteria = "Criteria"
+            case description = "Description"
+            case isTerminal = "IsTerminal"
+            case ruleArn = "RuleArn"
+            case ruleName = "RuleName"
+            case ruleOrder = "RuleOrder"
+            case ruleStatus = "RuleStatus"
+        }
     }
 
     public struct UpdateFindingAggregatorRequest: AWSEncodableShape {
@@ -23733,7 +24485,7 @@ extension SecurityHub {
         }
     }
 
-    public struct WorkflowUpdate: AWSEncodableShape {
+    public struct WorkflowUpdate: AWSEncodableShape & AWSDecodableShape {
         /// The status of the investigation into the finding. The workflow status is specific to an individual finding. It does not affect the generation of new findings. For example, setting the workflow status to SUPPRESSED or RESOLVED does not prevent a new finding for the same issue. The allowed values are the following.    NEW - The initial state of a finding, before it is reviewed. Security Hub also resets WorkFlowStatus from NOTIFIED or RESOLVED to NEW in the following cases:   The record state changes from ARCHIVED to ACTIVE.   The compliance status changes from PASSED to either WARNING, FAILED, or NOT_AVAILABLE.      NOTIFIED - Indicates that you notified the resource owner about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner.    RESOLVED - The finding was reviewed and remediated and is now considered resolved.    SUPPRESSED - Indicates that you reviewed the finding and do not believe that any action is needed. The finding is no longer updated.
         public let status: WorkflowStatus?
 

@@ -104,7 +104,7 @@ extension SimSpaceWeaver {
     }
 
     public struct CreateSnapshotInput: AWSEncodableShape {
-        /// The Amazon S3 bucket and optional folder (object key prefix) where SimSpace Weaver creates the snapshot file.
+        /// The Amazon S3 bucket and optional folder (object key prefix) where SimSpace Weaver creates the snapshot file. The Amazon S3 bucket must be in the same Amazon Web Services Region as the simulation.
         public let destination: S3Destination
         /// The name of the simulation.
         public let simulation: String
@@ -524,7 +524,7 @@ extension SimSpaceWeaver {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(?:aws|aws-cn):simspaceweaver:([a-z]{2}-[a-z]+-\\d{1}):(\\d{12})?:([a-z]+)\\/(.+)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov):simspaceweaver:([a-z]{2}-[a-z]+-\\d{1}):(\\d{12})?:([a-z]+)\\/(.+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -848,7 +848,7 @@ extension SimSpaceWeaver {
         public let roleArn: String
         /// The location of the simulation schema in Amazon Simple Storage Service (Amazon S3). For more information about Amazon S3, see the  Amazon Simple Storage Service User Guide . Provide a SchemaS3Location to start your simulation from a schema. If you provide a SchemaS3Location then you can't provide a SnapshotS3Location.
         public let schemaS3Location: S3Location?
-        /// The location of the snapshot .zip file in Amazon Simple Storage Service (Amazon S3). For more information about Amazon S3, see the  Amazon Simple Storage Service User Guide . Provide a SnapshotS3Location to start your simulation from a snapshot. If you provide a SnapshotS3Location then you can't provide a SchemaS3Location.
+        /// The location of the snapshot .zip file in Amazon Simple Storage Service (Amazon S3). For more information about Amazon S3, see the  Amazon Simple Storage Service User Guide . Provide a SnapshotS3Location to start your simulation from a snapshot. The Amazon S3 bucket must be in the same Amazon Web Services Region as the simulation. If you provide a SnapshotS3Location then you can't provide a SchemaS3Location.
         public let snapshotS3Location: S3Location?
         /// A list of tags for the simulation. For more information about tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference.
         public let tags: [String: String]?
@@ -876,7 +876,7 @@ extension SimSpaceWeaver {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(?:aws|aws-cn):iam::(\\d{12})?:role\\/(.+)$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov):iam::(\\d{12})?:role\\/(.+)$")
             try self.schemaS3Location?.validate(name: "\(name).schemaS3Location")
             try self.snapshotS3Location?.validate(name: "\(name).snapshotS3Location")
             try self.tags?.forEach {
@@ -1021,7 +1021,7 @@ extension SimSpaceWeaver {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(?:aws|aws-cn):simspaceweaver:([a-z]{2}-[a-z]+-\\d{1}):(\\d{12})?:([a-z]+)\\/(.+)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov):simspaceweaver:([a-z]{2}-[a-z]+-\\d{1}):(\\d{12})?:([a-z]+)\\/(.+)$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1058,7 +1058,7 @@ extension SimSpaceWeaver {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(?:aws|aws-cn):simspaceweaver:([a-z]{2}-[a-z]+-\\d{1}):(\\d{12})?:([a-z]+)\\/(.+)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov):simspaceweaver:([a-z]{2}-[a-z]+-\\d{1}):(\\d{12})?:([a-z]+)\\/(.+)$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)

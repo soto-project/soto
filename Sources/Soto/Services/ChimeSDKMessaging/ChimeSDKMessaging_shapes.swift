@@ -628,9 +628,9 @@ extension ChimeSDKMessaging {
     public struct ChannelMessage: AWSDecodableShape {
         /// The ARN of the channel.
         public let channelArn: String?
-        /// The message content.
+        /// The content of the channel message. For Amazon Lex V2 bot responses, this field holds a list of messages originating from the bot. For more information, refer to  Processing responses from an AppInstanceBot in the  Amazon Chime SDK Messaging Developer Guide.
         public let content: String?
-        /// The content type of the channel message.
+        /// The content type of the channel message. For Amazon Lex V2 bot responses, the content type is application/amz-chime-lex-msgs for success responses and  application/amz-chime-lex-error for failure responses. For more information, refer to  Processing responses from an AppInstanceBot in the  Amazon Chime SDK Messaging Developer Guide.
         public let contentType: String?
         /// The time at which the message was created.
         public let createdTimestamp: Date?
@@ -638,7 +638,7 @@ extension ChimeSDKMessaging {
         public let lastEditedTimestamp: Date?
         /// The time at which a message was updated.
         public let lastUpdatedTimestamp: Date?
-        /// The attributes for the message, used for message filtering along with a FilterRule defined in the PushNotificationPreferences.
+        /// The attributes for the channel message. For Amazon Lex V2 bot responses, the attributes are mapped to specific fields from the bot. For more information, refer to  Processing responses from an AppInstanceBot in the  Amazon Chime SDK Messaging Developer Guide.
         public let messageAttributes: [String: MessageAttributeValue]?
         /// The ID of a message.
         public let messageId: String?
@@ -654,10 +654,12 @@ extension ChimeSDKMessaging {
         public let status: ChannelMessageStatusStructure?
         /// The ID of the SubChannel.
         public let subChannelId: String?
+        /// The target of a message, a sender, a user, or a bot.  Only the target and the sender can view targeted messages. Only users who can see targeted messages can take actions on them. However, administrators can delete targeted messages that they can’t see.
+        public let target: [Target]?
         /// The message type.
         public let type: ChannelMessageType?
 
-        public init(channelArn: String? = nil, content: String? = nil, contentType: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String? = nil, metadata: String? = nil, persistence: ChannelMessagePersistenceType? = nil, redacted: Bool? = nil, sender: Identity? = nil, status: ChannelMessageStatusStructure? = nil, subChannelId: String? = nil, type: ChannelMessageType? = nil) {
+        public init(channelArn: String? = nil, content: String? = nil, contentType: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String? = nil, metadata: String? = nil, persistence: ChannelMessagePersistenceType? = nil, redacted: Bool? = nil, sender: Identity? = nil, status: ChannelMessageStatusStructure? = nil, subChannelId: String? = nil, target: [Target]? = nil, type: ChannelMessageType? = nil) {
             self.channelArn = channelArn
             self.content = content
             self.contentType = contentType
@@ -672,6 +674,7 @@ extension ChimeSDKMessaging {
             self.sender = sender
             self.status = status
             self.subChannelId = subChannelId
+            self.target = target
             self.type = type
         }
 
@@ -690,16 +693,17 @@ extension ChimeSDKMessaging {
             case sender = "Sender"
             case status = "Status"
             case subChannelId = "SubChannelId"
+            case target = "Target"
             case type = "Type"
         }
     }
 
     public struct ChannelMessageCallback: AWSEncodableShape {
-        /// The message content.
+        /// The message content. For Amazon Lex V2 bot responses, this field holds a list of messages originating from the bot. For more information, refer to  Processing responses from an AppInstanceBot in the  Amazon Chime SDK Messaging Developer Guide.
         public let content: String?
-        /// The content type of the call-back message.
+        /// The content type of the call-back message. For Amazon Lex V2 bot responses, the content type is application/amz-chime-lex-msgs for success responses and  application/amz-chime-lex-error for failure responses. For more information, refer to  Processing responses from an AppInstanceBot in the  Amazon Chime SDK Messaging Developer Guide.
         public let contentType: String?
-        /// The attributes for the message, used for message filtering along with a FilterRule defined in the PushNotificationPreferences.
+        /// The attributes for the channel message. For Amazon Lex V2 bot responses, the attributes are mapped to specific fields from the bot. For more information, refer to  Processing responses from an AppInstanceBot in the  Amazon Chime SDK Messaging Developer Guide.
         public let messageAttributes: [String: MessageAttributeValue]?
         /// The message ID.
         public let messageId: String
@@ -754,7 +758,7 @@ extension ChimeSDKMessaging {
     }
 
     public struct ChannelMessageStatusStructure: AWSDecodableShape {
-        /// Contains more details about the messasge status.
+        /// Contains more details about the message status.
         public let detail: String?
         /// The message status value.
         public let value: ChannelMessageStatus?
@@ -771,9 +775,9 @@ extension ChimeSDKMessaging {
     }
 
     public struct ChannelMessageSummary: AWSDecodableShape {
-        /// The content of the message.
+        /// The content of the channel message. For Amazon Lex V2 bot responses, this field holds a list of messages originating from the bot. For more information, refer to  Processing responses from an AppInstanceBot in the  Amazon Chime SDK Messaging Developer Guide.
         public let content: String?
-        /// The content type of the channel messsage listed in the summary.
+        /// The content type of the channel message listed in the summary. For Amazon Lex V2 bot responses, the content type is application/amz-chime-lex-msgs for success responses and  application/amz-chime-lex-error for failure responses. For more information, refer to  Processing responses from an AppInstanceBot in the  Amazon Chime SDK Messaging Developer Guide.
         public let contentType: String?
         /// The time at which the message summary was created.
         public let createdTimestamp: Date?
@@ -781,7 +785,7 @@ extension ChimeSDKMessaging {
         public let lastEditedTimestamp: Date?
         /// The time at which a message was last updated.
         public let lastUpdatedTimestamp: Date?
-        /// The message attribues listed in a the summary of a channel message.
+        /// The attributes for the channel message. For Amazon Lex V2 bot responses, the attributes are mapped to specific fields from the bot. For more information, refer to  Processing responses from an AppInstanceBot in the  Amazon Chime SDK Messaging Developer Guide.
         public let messageAttributes: [String: MessageAttributeValue]?
         /// The ID of the message.
         public let messageId: String?
@@ -793,10 +797,12 @@ extension ChimeSDKMessaging {
         public let sender: Identity?
         /// The message status. The status value is SENT for messages sent to a channel without a channel flow. For channels associated with channel flow, the value determines the  processing stage.
         public let status: ChannelMessageStatusStructure?
+        /// The target of a message, a sender, a user, or a bot. Only the target and the sender can view targeted messages. Only users who can see targeted messages can take actions on them. However, administrators can delete targeted messages that they can’t see.
+        public let target: [Target]?
         /// The type of message.
         public let type: ChannelMessageType?
 
-        public init(content: String? = nil, contentType: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String? = nil, metadata: String? = nil, redacted: Bool? = nil, sender: Identity? = nil, status: ChannelMessageStatusStructure? = nil, type: ChannelMessageType? = nil) {
+        public init(content: String? = nil, contentType: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String? = nil, metadata: String? = nil, redacted: Bool? = nil, sender: Identity? = nil, status: ChannelMessageStatusStructure? = nil, target: [Target]? = nil, type: ChannelMessageType? = nil) {
             self.content = content
             self.contentType = contentType
             self.createdTimestamp = createdTimestamp
@@ -808,6 +814,7 @@ extension ChimeSDKMessaging {
             self.redacted = redacted
             self.sender = sender
             self.status = status
+            self.target = target
             self.type = type
         }
 
@@ -823,6 +830,7 @@ extension ChimeSDKMessaging {
             case redacted = "Redacted"
             case sender = "Sender"
             case status = "Status"
+            case target = "Target"
             case type = "Type"
         }
     }
@@ -881,7 +889,7 @@ extension ChimeSDKMessaging {
     public struct ChannelSummary: AWSDecodableShape {
         /// The ARN of the channel.
         public let channelArn: String?
-        /// The time at which the last persistent message in a channel was sent.
+        /// The time at which the last persistent message visible to the caller in a channel was sent.
         public let lastMessageTimestamp: Date?
         /// The metadata of the channel.
         public let metadata: String?
@@ -3264,7 +3272,7 @@ extension ChimeSDKMessaging {
         public let chimeBearer: String
         /// The Idempotency token for each client request.
         public let clientRequestToken: String
-        /// The content of the message.
+        /// The content of the channel message.
         public let content: String
         /// The content type of the channel message.
         public let contentType: String?
@@ -3278,10 +3286,12 @@ extension ChimeSDKMessaging {
         public let pushNotification: PushNotificationConfiguration?
         /// The ID of the SubChannel in the request.
         public let subChannelId: String?
-        /// The type of message, STANDARD or CONTROL.
+        /// The target of a message. Must be a member of the channel, such as another user, a bot, or the sender. Only the target and the sender can view targeted messages. Only users who can see targeted messages can take actions on them. However, administrators can delete targeted messages that they can’t see.
+        public let target: [Target]?
+        /// The type of message, STANDARD or CONTROL.  STANDARD messages can be up to 4KB in size and contain metadata. Metadata is arbitrary,  and you can use it in a variety of ways, such as containing a link to an attachment.  CONTROL messages are limited to 30 bytes and do not contain metadata.
         public let type: ChannelMessageType
 
-        public init(channelArn: String, chimeBearer: String, clientRequestToken: String = SendChannelMessageRequest.idempotencyToken(), content: String, contentType: String? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, metadata: String? = nil, persistence: ChannelMessagePersistenceType, pushNotification: PushNotificationConfiguration? = nil, subChannelId: String? = nil, type: ChannelMessageType) {
+        public init(channelArn: String, chimeBearer: String, clientRequestToken: String = SendChannelMessageRequest.idempotencyToken(), content: String, contentType: String? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, metadata: String? = nil, persistence: ChannelMessagePersistenceType, pushNotification: PushNotificationConfiguration? = nil, subChannelId: String? = nil, target: [Target]? = nil, type: ChannelMessageType) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.clientRequestToken = clientRequestToken
@@ -3292,6 +3302,7 @@ extension ChimeSDKMessaging {
             self.persistence = persistence
             self.pushNotification = pushNotification
             self.subChannelId = subChannelId
+            self.target = target
             self.type = type
         }
 
@@ -3321,6 +3332,11 @@ extension ChimeSDKMessaging {
             try self.validate(self.subChannelId, name: "subChannelId", parent: name, max: 128)
             try self.validate(self.subChannelId, name: "subChannelId", parent: name, min: 1)
             try self.validate(self.subChannelId, name: "subChannelId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.target?.forEach {
+                try $0.validate(name: "\(name).target[]")
+            }
+            try self.validate(self.target, name: "target", parent: name, max: 1)
+            try self.validate(self.target, name: "target", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3332,6 +3348,7 @@ extension ChimeSDKMessaging {
             case persistence = "Persistence"
             case pushNotification = "PushNotification"
             case subChannelId = "SubChannelId"
+            case target = "Target"
             case type = "Type"
         }
     }
@@ -3453,6 +3470,25 @@ extension ChimeSDKMessaging {
         }
     }
 
+    public struct Target: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the target channel member.
+        public let memberArn: String?
+
+        public init(memberArn: String? = nil) {
+            self.memberArn = memberArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
+            try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
+            try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberArn = "MemberArn"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The resource ARN.
         public let resourceARN: String
@@ -3544,7 +3580,7 @@ extension ChimeSDKMessaging {
         public let channelArn: String
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
         public let chimeBearer: String
-        /// The content of the message being updated.
+        /// The content of the channel message.
         public let content: String
         /// The content type of the channel message.
         public let contentType: String?

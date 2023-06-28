@@ -308,6 +308,45 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
+    public enum UnsearchedFaceReason: String, CustomStringConvertible, Codable, Sendable {
+        case exceedsMaxFaces = "EXCEEDS_MAX_FACES"
+        case extremePose = "EXTREME_POSE"
+        case faceNotLargest = "FACE_NOT_LARGEST"
+        case lowBrightness = "LOW_BRIGHTNESS"
+        case lowConfidence = "LOW_CONFIDENCE"
+        case lowFaceQuality = "LOW_FACE_QUALITY"
+        case lowSharpness = "LOW_SHARPNESS"
+        case smallBoundingBox = "SMALL_BOUNDING_BOX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UnsuccessfulFaceAssociationReason: String, CustomStringConvertible, Codable, Sendable {
+        case associatedToADifferentUser = "ASSOCIATED_TO_A_DIFFERENT_USER"
+        case faceNotFound = "FACE_NOT_FOUND"
+        case lowMatchConfidence = "LOW_MATCH_CONFIDENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UnsuccessfulFaceDeletionReason: String, CustomStringConvertible, Codable, Sendable {
+        case associatedToAnExistingUser = "ASSOCIATED_TO_AN_EXISTING_USER"
+        case faceNotFound = "FACE_NOT_FOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UnsuccessfulFaceDisassociationReason: String, CustomStringConvertible, Codable, Sendable {
+        case associatedToADifferentUser = "ASSOCIATED_TO_A_DIFFERENT_USER"
+        case faceNotFound = "FACE_NOT_FOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserStatus: String, CustomStringConvertible, Codable, Sendable {
+        case active = "ACTIVE"
+        case created = "CREATED"
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum VideoColorRange: String, CustomStringConvertible, Codable, Sendable {
         case full = "FULL"
         case limited = "LIMITED"
@@ -353,6 +392,88 @@ extension Rekognition {
 
         private enum CodingKeys: String, CodingKey {
             case groundTruthManifest = "GroundTruthManifest"
+        }
+    }
+
+    public struct AssociateFacesRequest: AWSEncodableShape {
+        /// Idempotent token used to identify the request to AssociateFaces. If you use the same token with multiple AssociateFaces requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once.
+        public let clientRequestToken: String?
+        /// The ID of an existing collection containing the UserID.
+        public let collectionId: String
+        /// An array of FaceIDs to associate with the UserID.
+        public let faceIds: [String]
+        /// The ID for the existing UserID.
+        public let userId: String
+        /// An optional value specifying the minimum confidence in the UserID match to return. The default value is 75.
+        public let userMatchThreshold: Float?
+
+        public init(clientRequestToken: String? = AssociateFacesRequest.idempotencyToken(), collectionId: String, faceIds: [String], userId: String, userMatchThreshold: Float? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.collectionId = collectionId
+            self.faceIds = faceIds
+            self.userId = userId
+            self.userMatchThreshold = userMatchThreshold
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-zA-Z0-9_.\\-]+$")
+            try self.faceIds.forEach {
+                try validate($0, name: "faceIds[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.faceIds, name: "faceIds", parent: name, max: 100)
+            try self.validate(self.faceIds, name: "faceIds", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, max: 128)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9_.\\-:]+$")
+            try self.validate(self.userMatchThreshold, name: "userMatchThreshold", parent: name, max: 100.0)
+            try self.validate(self.userMatchThreshold, name: "userMatchThreshold", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case collectionId = "CollectionId"
+            case faceIds = "FaceIds"
+            case userId = "UserId"
+            case userMatchThreshold = "UserMatchThreshold"
+        }
+    }
+
+    public struct AssociateFacesResponse: AWSDecodableShape {
+        /// An array of AssociatedFace objects containing FaceIDs that are successfully associated with the UserID is returned. Returned if the AssociateFaces action is successful.
+        public let associatedFaces: [AssociatedFace]?
+        /// An array of UnsuccessfulAssociation objects containing FaceIDs that are not successfully associated along with the reasons. Returned if the AssociateFaces action is successful.
+        public let unsuccessfulFaceAssociations: [UnsuccessfulFaceAssociation]?
+        /// The status of an update made to a UserID. Reflects if the UserID has been updated for every requested change.
+        public let userStatus: UserStatus?
+
+        public init(associatedFaces: [AssociatedFace]? = nil, unsuccessfulFaceAssociations: [UnsuccessfulFaceAssociation]? = nil, userStatus: UserStatus? = nil) {
+            self.associatedFaces = associatedFaces
+            self.unsuccessfulFaceAssociations = unsuccessfulFaceAssociations
+            self.userStatus = userStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedFaces = "AssociatedFaces"
+            case unsuccessfulFaceAssociations = "UnsuccessfulFaceAssociations"
+            case userStatus = "UserStatus"
+        }
+    }
+
+    public struct AssociatedFace: AWSDecodableShape {
+        /// Unique identifier assigned to the face.
+        public let faceId: String?
+
+        public init(faceId: String? = nil) {
+            self.faceId = faceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faceId = "FaceId"
         }
     }
 
@@ -1205,6 +1326,43 @@ extension Rekognition {
         }
     }
 
+    public struct CreateUserRequest: AWSEncodableShape {
+        /// Idempotent token used to identify the request to CreateUser. If you use the same token with multiple CreateUser requests, the same response is returned.  Use ClientRequestToken to prevent the same request from being processed more than once.
+        public let clientRequestToken: String?
+        /// The ID of an existing collection to which the new UserID needs to be created.
+        public let collectionId: String
+        /// ID for the UserID to be created. This ID needs to be unique within the collection.
+        public let userId: String
+
+        public init(clientRequestToken: String? = CreateUserRequest.idempotencyToken(), collectionId: String, userId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.collectionId = collectionId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-zA-Z0-9_.\\-]+$")
+            try self.validate(self.userId, name: "userId", parent: name, max: 128)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9_.\\-:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case collectionId = "CollectionId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct CreateUserResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct CustomLabel: AWSDecodableShape {
         /// The confidence that the model has in the detection of the custom label. The  range is 0-100. A higher value indicates a higher confidence.
         public let confidence: Float?
@@ -1479,13 +1637,17 @@ extension Rekognition {
     public struct DeleteFacesResponse: AWSDecodableShape {
         /// An array of strings (face IDs) of the faces that were deleted.
         public let deletedFaces: [String]?
+        /// An array of any faces that weren't deleted.
+        public let unsuccessfulFaceDeletions: [UnsuccessfulFaceDeletion]?
 
-        public init(deletedFaces: [String]? = nil) {
+        public init(deletedFaces: [String]? = nil, unsuccessfulFaceDeletions: [UnsuccessfulFaceDeletion]? = nil) {
             self.deletedFaces = deletedFaces
+            self.unsuccessfulFaceDeletions = unsuccessfulFaceDeletions
         }
 
         private enum CodingKeys: String, CodingKey {
             case deletedFaces = "DeletedFaces"
+            case unsuccessfulFaceDeletions = "UnsuccessfulFaceDeletions"
         }
     }
 
@@ -1612,6 +1774,43 @@ extension Rekognition {
         public init() {}
     }
 
+    public struct DeleteUserRequest: AWSEncodableShape {
+        /// Idempotent token used to identify the request to DeleteUser. If you use the same token with multiple DeleteUser requests, the same response is returned.  Use ClientRequestToken to prevent the same request from being processed more than once.
+        public let clientRequestToken: String?
+        /// The ID of an existing collection from which the UserID needs to be deleted.
+        public let collectionId: String
+        /// ID for the UserID to be deleted.
+        public let userId: String
+
+        public init(clientRequestToken: String? = DeleteUserRequest.idempotencyToken(), collectionId: String, userId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.collectionId = collectionId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-zA-Z0-9_.\\-]+$")
+            try self.validate(self.userId, name: "userId", parent: name, max: 128)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9_.\\-:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case collectionId = "CollectionId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct DeleteUserResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DescribeCollectionRequest: AWSEncodableShape {
         /// The ID of the collection to describe.
         public let collectionId: String
@@ -1640,12 +1839,15 @@ extension Rekognition {
         public let faceCount: Int64?
         /// The version of the face model that's used by the collection for face detection. For more information, see Model versioning in the  Amazon Rekognition Developer Guide.
         public let faceModelVersion: String?
+        /// The number of UserIDs assigned to the specified colleciton.
+        public let userCount: Int64?
 
-        public init(collectionARN: String? = nil, creationTimestamp: Date? = nil, faceCount: Int64? = nil, faceModelVersion: String? = nil) {
+        public init(collectionARN: String? = nil, creationTimestamp: Date? = nil, faceCount: Int64? = nil, faceModelVersion: String? = nil, userCount: Int64? = nil) {
             self.collectionARN = collectionARN
             self.creationTimestamp = creationTimestamp
             self.faceCount = faceCount
             self.faceModelVersion = faceModelVersion
+            self.userCount = userCount
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1653,6 +1855,7 @@ extension Rekognition {
             case creationTimestamp = "CreationTimestamp"
             case faceCount = "FaceCount"
             case faceModelVersion = "FaceModelVersion"
+            case userCount = "UserCount"
         }
     }
 
@@ -2330,6 +2533,82 @@ extension Rekognition {
         }
     }
 
+    public struct DisassociateFacesRequest: AWSEncodableShape {
+        /// Idempotent token used to identify the request to DisassociateFaces. If you use the same token with multiple DisassociateFaces requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once.
+        public let clientRequestToken: String?
+        /// The ID of an existing collection containing the UserID.
+        public let collectionId: String
+        /// An array of face IDs to disassociate from the UserID.
+        public let faceIds: [String]
+        /// ID for the existing UserID.
+        public let userId: String
+
+        public init(clientRequestToken: String? = DisassociateFacesRequest.idempotencyToken(), collectionId: String, faceIds: [String], userId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.collectionId = collectionId
+            self.faceIds = faceIds
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-zA-Z0-9_.\\-]+$")
+            try self.faceIds.forEach {
+                try validate($0, name: "faceIds[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.faceIds, name: "faceIds", parent: name, max: 100)
+            try self.validate(self.faceIds, name: "faceIds", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, max: 128)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9_.\\-:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case collectionId = "CollectionId"
+            case faceIds = "FaceIds"
+            case userId = "UserId"
+        }
+    }
+
+    public struct DisassociateFacesResponse: AWSDecodableShape {
+        /// An array of DissociatedFace objects containing FaceIds that are successfully disassociated with the UserID is returned. Returned if the DisassociatedFaces action is successful.
+        public let disassociatedFaces: [DisassociatedFace]?
+        /// An array of UnsuccessfulDisassociation objects containing FaceIds that are not successfully associated, along with the reasons for the failure to associate. Returned if the DisassociateFaces action is successful.
+        public let unsuccessfulFaceDisassociations: [UnsuccessfulFaceDisassociation]?
+        /// The status of an update made to a User. Reflects if the User has been updated for every requested change.
+        public let userStatus: UserStatus?
+
+        public init(disassociatedFaces: [DisassociatedFace]? = nil, unsuccessfulFaceDisassociations: [UnsuccessfulFaceDisassociation]? = nil, userStatus: UserStatus? = nil) {
+            self.disassociatedFaces = disassociatedFaces
+            self.unsuccessfulFaceDisassociations = unsuccessfulFaceDisassociations
+            self.userStatus = userStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disassociatedFaces = "DisassociatedFaces"
+            case unsuccessfulFaceDisassociations = "UnsuccessfulFaceDisassociations"
+            case userStatus = "UserStatus"
+        }
+    }
+
+    public struct DisassociatedFace: AWSDecodableShape {
+        /// Unique identifier assigned to the face.
+        public let faceId: String?
+
+        public init(faceId: String? = nil) {
+            self.faceId = faceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faceId = "FaceId"
+        }
+    }
+
     public struct DistributeDataset: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the dataset that you want to use.
         public let arn: String
@@ -2538,14 +2817,17 @@ extension Rekognition {
         public let imageId: String?
         ///  The version of the face detect and storage model that was used when indexing the face vector.
         public let indexFacesModelVersion: String?
+        /// Unique identifier assigned to the user.
+        public let userId: String?
 
-        public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil, externalImageId: String? = nil, faceId: String? = nil, imageId: String? = nil, indexFacesModelVersion: String? = nil) {
+        public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil, externalImageId: String? = nil, faceId: String? = nil, imageId: String? = nil, indexFacesModelVersion: String? = nil, userId: String? = nil) {
             self.boundingBox = boundingBox
             self.confidence = confidence
             self.externalImageId = externalImageId
             self.faceId = faceId
             self.imageId = imageId
             self.indexFacesModelVersion = indexFacesModelVersion
+            self.userId = userId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2555,6 +2837,7 @@ extension Rekognition {
             case faceId = "FaceId"
             case imageId = "ImageId"
             case indexFacesModelVersion = "IndexFacesModelVersion"
+            case userId = "UserId"
         }
     }
 
@@ -4113,30 +4396,46 @@ extension Rekognition {
     public struct ListFacesRequest: AWSEncodableShape {
         /// ID of the collection from which to list the faces.
         public let collectionId: String
+        /// An array of face IDs to match when listing faces in a collection.
+        public let faceIds: [String]?
         /// Maximum number of faces to return.
         public let maxResults: Int?
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
         public let nextToken: String?
+        /// An array of user IDs to match when listing faces in a collection.
+        public let userId: String?
 
-        public init(collectionId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(collectionId: String, faceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, userId: String? = nil) {
             self.collectionId = collectionId
+            self.faceIds = faceIds
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.userId = userId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
             try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
             try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-zA-Z0-9_.\\-]+$")
+            try self.faceIds?.forEach {
+                try validate($0, name: "faceIds[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.faceIds, name: "faceIds", parent: name, max: 4096)
+            try self.validate(self.faceIds, name: "faceIds", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 4096)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+            try self.validate(self.userId, name: "userId", parent: name, max: 128)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9_.\\-:]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case collectionId = "CollectionId"
+            case faceIds = "FaceIds"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case userId = "UserId"
         }
     }
 
@@ -4278,6 +4577,53 @@ extension Rekognition {
         }
     }
 
+    public struct ListUsersRequest: AWSEncodableShape {
+        /// The ID of an existing collection.
+        public let collectionId: String
+        /// Maximum number of UsersID to return.
+        public let maxResults: Int?
+        /// Pagingation token to receive the next set of UsersID.
+        public let nextToken: String?
+
+        public init(collectionId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.collectionId = collectionId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-zA-Z0-9_.\\-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionId = "CollectionId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListUsersResponse: AWSDecodableShape {
+        /// A pagination token to be used with the subsequent request if the response is truncated.
+        public let nextToken: String?
+        /// List of UsersID associated with the specified collection.
+        public let users: [User]?
+
+        public init(nextToken: String? = nil, users: [User]? = nil) {
+            self.nextToken = nextToken
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case users = "Users"
+        }
+    }
+
     public struct LivenessOutputConfig: AWSEncodableShape {
         /// The path to an AWS Amazon S3 bucket used to store Face Liveness session results.
         public let s3Bucket: String
@@ -4300,6 +4646,23 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case s3Bucket = "S3Bucket"
             case s3KeyPrefix = "S3KeyPrefix"
+        }
+    }
+
+    public struct MatchedUser: AWSDecodableShape {
+        /// A provided ID for the UserID. Unique within the collection.
+        public let userId: String?
+        /// The status of the user matched to a provided FaceID.
+        public let userStatus: UserStatus?
+
+        public init(userId: String? = nil, userStatus: UserStatus? = nil) {
+            self.userId = userId
+            self.userStatus = userStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId = "UserId"
+            case userStatus = "UserStatus"
         }
     }
 
@@ -5011,6 +5374,176 @@ extension Rekognition {
             case faceMatches = "FaceMatches"
             case faceModelVersion = "FaceModelVersion"
             case searchedFaceId = "SearchedFaceId"
+        }
+    }
+
+    public struct SearchUsersByImageRequest: AWSEncodableShape {
+        /// The ID of an existing collection containing the UserID.
+        public let collectionId: String
+        public let image: Image
+        /// Maximum number of UserIDs to return.
+        public let maxUsers: Int?
+        /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't searched for in the collection. The default value is NONE.
+        public let qualityFilter: QualityFilter?
+        /// Specifies the minimum confidence in the UserID match to return. Default value is 80.
+        public let userMatchThreshold: Float?
+
+        public init(collectionId: String, image: Image, maxUsers: Int? = nil, qualityFilter: QualityFilter? = nil, userMatchThreshold: Float? = nil) {
+            self.collectionId = collectionId
+            self.image = image
+            self.maxUsers = maxUsers
+            self.qualityFilter = qualityFilter
+            self.userMatchThreshold = userMatchThreshold
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-zA-Z0-9_.\\-]+$")
+            try self.image.validate(name: "\(name).image")
+            try self.validate(self.maxUsers, name: "maxUsers", parent: name, max: 500)
+            try self.validate(self.maxUsers, name: "maxUsers", parent: name, min: 1)
+            try self.validate(self.userMatchThreshold, name: "userMatchThreshold", parent: name, max: 100.0)
+            try self.validate(self.userMatchThreshold, name: "userMatchThreshold", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionId = "CollectionId"
+            case image = "Image"
+            case maxUsers = "MaxUsers"
+            case qualityFilter = "QualityFilter"
+            case userMatchThreshold = "UserMatchThreshold"
+        }
+    }
+
+    public struct SearchUsersByImageResponse: AWSDecodableShape {
+        /// Version number of the face detection model associated with the input collection CollectionId.
+        public let faceModelVersion: String?
+        /// A list of FaceDetail objects containing the BoundingBox for the largest face in image, as well as the confidence in the bounding box, that was searched for matches. If no valid face is detected in the image the response will contain no SearchedFace object.
+        public let searchedFace: SearchedFaceDetails?
+        /// List of UnsearchedFace objects. Contains the face details infered from the specified image but not used for search. Contains reasons that describe why a face wasn't used for Search.
+        public let unsearchedFaces: [UnsearchedFace]?
+        /// An array of UserID objects that matched the input face, along with the confidence in the match. The returned structure will be empty if there are no matches. Returned if the SearchUsersByImageResponse action is successful.
+        public let userMatches: [UserMatch]?
+
+        public init(faceModelVersion: String? = nil, searchedFace: SearchedFaceDetails? = nil, unsearchedFaces: [UnsearchedFace]? = nil, userMatches: [UserMatch]? = nil) {
+            self.faceModelVersion = faceModelVersion
+            self.searchedFace = searchedFace
+            self.unsearchedFaces = unsearchedFaces
+            self.userMatches = userMatches
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faceModelVersion = "FaceModelVersion"
+            case searchedFace = "SearchedFace"
+            case unsearchedFaces = "UnsearchedFaces"
+            case userMatches = "UserMatches"
+        }
+    }
+
+    public struct SearchUsersRequest: AWSEncodableShape {
+        /// The ID of an existing collection containing the UserID, used with a UserId or FaceId. If a FaceId is provided, UserId isn’t required to be present in the Collection.
+        public let collectionId: String
+        /// ID for the existing face.
+        public let faceId: String?
+        /// Maximum number of identities to return.
+        public let maxUsers: Int?
+        /// ID for the existing User.
+        public let userId: String?
+        /// Optional value that specifies the minimum confidence in the matched UserID to return. Default value of 80.
+        public let userMatchThreshold: Float?
+
+        public init(collectionId: String, faceId: String? = nil, maxUsers: Int? = nil, userId: String? = nil, userMatchThreshold: Float? = nil) {
+            self.collectionId = collectionId
+            self.faceId = faceId
+            self.maxUsers = maxUsers
+            self.userId = userId
+            self.userMatchThreshold = userMatchThreshold
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-zA-Z0-9_.\\-]+$")
+            try self.validate(self.faceId, name: "faceId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxUsers, name: "maxUsers", parent: name, max: 500)
+            try self.validate(self.maxUsers, name: "maxUsers", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, max: 128)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9_.\\-:]+$")
+            try self.validate(self.userMatchThreshold, name: "userMatchThreshold", parent: name, max: 100.0)
+            try self.validate(self.userMatchThreshold, name: "userMatchThreshold", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionId = "CollectionId"
+            case faceId = "FaceId"
+            case maxUsers = "MaxUsers"
+            case userId = "UserId"
+            case userMatchThreshold = "UserMatchThreshold"
+        }
+    }
+
+    public struct SearchUsersResponse: AWSDecodableShape {
+        /// Version number of the face detection model associated with the input CollectionId.
+        public let faceModelVersion: String?
+        /// Contains the ID of a face that was used to search for matches in a collection.
+        public let searchedFace: SearchedFace?
+        /// Contains the ID of the UserID that was used to search for matches in a collection.
+        public let searchedUser: SearchedUser?
+        /// An array of UserMatch objects that matched the input face along with the confidence in the match. Array will be empty if there are no matches.
+        public let userMatches: [UserMatch]?
+
+        public init(faceModelVersion: String? = nil, searchedFace: SearchedFace? = nil, searchedUser: SearchedUser? = nil, userMatches: [UserMatch]? = nil) {
+            self.faceModelVersion = faceModelVersion
+            self.searchedFace = searchedFace
+            self.searchedUser = searchedUser
+            self.userMatches = userMatches
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faceModelVersion = "FaceModelVersion"
+            case searchedFace = "SearchedFace"
+            case searchedUser = "SearchedUser"
+            case userMatches = "UserMatches"
+        }
+    }
+
+    public struct SearchedFace: AWSDecodableShape {
+        ///  Unique identifier assigned to the face.
+        public let faceId: String?
+
+        public init(faceId: String? = nil) {
+            self.faceId = faceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faceId = "FaceId"
+        }
+    }
+
+    public struct SearchedFaceDetails: AWSDecodableShape {
+        public let faceDetail: FaceDetail?
+
+        public init(faceDetail: FaceDetail? = nil) {
+            self.faceDetail = faceDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faceDetail = "FaceDetail"
+        }
+    }
+
+    public struct SearchedUser: AWSDecodableShape {
+        ///  A provided ID for the UserID. Unique within the collection.
+        public let userId: String?
+
+        public init(userId: String? = nil) {
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId = "UserId"
         }
     }
 
@@ -6179,6 +6712,89 @@ extension Rekognition {
         }
     }
 
+    public struct UnsearchedFace: AWSDecodableShape {
+        public let faceDetails: FaceDetail?
+        ///  Reasons why a face wasn't used for Search.
+        public let reasons: [UnsearchedFaceReason]?
+
+        public init(faceDetails: FaceDetail? = nil, reasons: [UnsearchedFaceReason]? = nil) {
+            self.faceDetails = faceDetails
+            self.reasons = reasons
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faceDetails = "FaceDetails"
+            case reasons = "Reasons"
+        }
+    }
+
+    public struct UnsuccessfulFaceAssociation: AWSDecodableShape {
+        /// Match confidence with the UserID, provides information regarding if a face association was unsuccessful because it didn't meet UserMatchThreshold.
+        public let confidence: Float?
+        /// A unique identifier assigned to the face.
+        public let faceId: String?
+        ///  The reason why the association was unsuccessful.
+        public let reasons: [UnsuccessfulFaceAssociationReason]?
+        /// A provided ID for the UserID. Unique within the collection.
+        public let userId: String?
+
+        public init(confidence: Float? = nil, faceId: String? = nil, reasons: [UnsuccessfulFaceAssociationReason]? = nil, userId: String? = nil) {
+            self.confidence = confidence
+            self.faceId = faceId
+            self.reasons = reasons
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case faceId = "FaceId"
+            case reasons = "Reasons"
+            case userId = "UserId"
+        }
+    }
+
+    public struct UnsuccessfulFaceDeletion: AWSDecodableShape {
+        ///  A unique identifier assigned to the face.
+        public let faceId: String?
+        /// The reason why the deletion was unsuccessful.
+        public let reasons: [UnsuccessfulFaceDeletionReason]?
+        ///  A provided ID for the UserID. Unique within the collection.
+        public let userId: String?
+
+        public init(faceId: String? = nil, reasons: [UnsuccessfulFaceDeletionReason]? = nil, userId: String? = nil) {
+            self.faceId = faceId
+            self.reasons = reasons
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faceId = "FaceId"
+            case reasons = "Reasons"
+            case userId = "UserId"
+        }
+    }
+
+    public struct UnsuccessfulFaceDisassociation: AWSDecodableShape {
+        /// A unique identifier assigned to the face.
+        public let faceId: String?
+        /// The reason why the deletion was unsuccessful.
+        public let reasons: [UnsuccessfulFaceDisassociationReason]?
+        /// A provided ID for the UserID. Unique within the collection.
+        public let userId: String?
+
+        public init(faceId: String? = nil, reasons: [UnsuccessfulFaceDisassociationReason]? = nil, userId: String? = nil) {
+            self.faceId = faceId
+            self.reasons = reasons
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faceId = "FaceId"
+            case reasons = "Reasons"
+            case userId = "UserId"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         ///  Amazon Resource Name (ARN) of the model, collection, or stream processor that you want to remove the tags from.
         public let resourceArn: String
@@ -6280,6 +6896,40 @@ extension Rekognition {
         public init() {}
     }
 
+    public struct User: AWSDecodableShape {
+        ///  A provided ID for the User. Unique within the collection.
+        public let userId: String?
+        ///  Communicates if the UserID has been updated with latest set of faces to be associated with the UserID.
+        public let userStatus: UserStatus?
+
+        public init(userId: String? = nil, userStatus: UserStatus? = nil) {
+            self.userId = userId
+            self.userStatus = userStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId = "UserId"
+            case userStatus = "UserStatus"
+        }
+    }
+
+    public struct UserMatch: AWSDecodableShape {
+        ///  Describes the UserID metadata.
+        public let similarity: Float?
+        ///  Confidence in the match of this UserID with the input face.
+        public let user: MatchedUser?
+
+        public init(similarity: Float? = nil, user: MatchedUser? = nil) {
+            self.similarity = similarity
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case similarity = "Similarity"
+            case user = "User"
+        }
+    }
+
     public struct ValidationData: AWSDecodableShape {
         /// The assets that comprise the validation data.
         public let assets: [Asset]?
@@ -6354,6 +7004,7 @@ extension Rekognition {
 public struct RekognitionErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case humanLoopQuotaExceededException = "HumanLoopQuotaExceededException"
         case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
         case imageTooLargeException = "ImageTooLargeException"
@@ -6396,6 +7047,8 @@ public struct RekognitionErrorType: AWSErrorType {
 
     /// You are not authorized to perform the action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    ///  A User with the same Id already exists within the collection, or the update or deletion of the User caused an inconsistent state. **
+    public static var conflictException: Self { .init(.conflictException) }
     /// The number of in-progress human reviews you have has exceeded the number allowed.
     public static var humanLoopQuotaExceededException: Self { .init(.humanLoopQuotaExceededException) }
     /// A ClientRequestToken input parameter was reused with an operation, but at least one of the other input parameters is different from the previous call to the operation.

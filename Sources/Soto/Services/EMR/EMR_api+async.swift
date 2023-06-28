@@ -191,6 +191,11 @@ extension EMR {
         return try await self.client.execute(operation: "ListStudios", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// A list of the instance types that Amazon EMR supports. You can filter the list by Amazon Web Services Region and Amazon EMR release.
+    public func listSupportedInstanceTypes(_ input: ListSupportedInstanceTypesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListSupportedInstanceTypesOutput {
+        return try await self.client.execute(operation: "ListSupportedInstanceTypes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Modifies the number of steps that can be executed concurrently for the cluster specified using ClusterID.
     public func modifyCluster(_ input: ModifyClusterInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyClusterOutput {
         return try await self.client.execute(operation: "ModifyCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -528,6 +533,28 @@ extension EMR {
             command: self.listStudios,
             inputKey: \ListStudiosInput.marker,
             outputKey: \ListStudiosOutput.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// A list of the instance types that Amazon EMR supports. You can filter the list by Amazon Web Services Region and Amazon EMR release.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSupportedInstanceTypesPaginator(
+        _ input: ListSupportedInstanceTypesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutput> {
+        return .init(
+            input: input,
+            command: self.listSupportedInstanceTypes,
+            inputKey: \ListSupportedInstanceTypesInput.marker,
+            outputKey: \ListSupportedInstanceTypesOutput.marker,
             logger: logger,
             on: eventLoop
         )

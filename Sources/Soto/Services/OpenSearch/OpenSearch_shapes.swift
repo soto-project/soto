@@ -369,6 +369,12 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum SkipUnavailableStatus: String, CustomStringConvertible, Codable, Sendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable, Sendable {
         case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
         case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
@@ -1236,15 +1242,23 @@ extension OpenSearch {
         }
     }
 
-    public struct ConnectionProperties: AWSDecodableShape {
-        /// The endpoint of the remote domain.
+    public struct ConnectionProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The connection properties for cross cluster search.
+        public let crossClusterSearch: CrossClusterSearchConnectionProperties?
+        ///  The Endpoint attribute cannot be modified.   The endpoint of the remote domain. Applicable for VPC_ENDPOINT connection mode.
         public let endpoint: String?
 
-        public init(endpoint: String? = nil) {
+        public init(crossClusterSearch: CrossClusterSearchConnectionProperties? = nil, endpoint: String? = nil) {
+            self.crossClusterSearch = crossClusterSearch
             self.endpoint = endpoint
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.endpoint, name: "endpoint", parent: name, pattern: "^[A-Za-z0-9\\-\\.]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case crossClusterSearch = "CrossClusterSearch"
             case endpoint = "Endpoint"
         }
     }
@@ -1371,14 +1385,17 @@ extension OpenSearch {
         public let connectionAlias: String
         /// The connection mode.
         public let connectionMode: ConnectionMode?
+        /// The ConnectionProperties for the outbound connection.
+        public let connectionProperties: ConnectionProperties?
         /// Name and Region of the source (local) domain.
         public let localDomainInfo: DomainInformationContainer
         /// Name and Region of the destination (remote) domain.
         public let remoteDomainInfo: DomainInformationContainer
 
-        public init(connectionAlias: String, connectionMode: ConnectionMode? = nil, localDomainInfo: DomainInformationContainer, remoteDomainInfo: DomainInformationContainer) {
+        public init(connectionAlias: String, connectionMode: ConnectionMode? = nil, connectionProperties: ConnectionProperties? = nil, localDomainInfo: DomainInformationContainer, remoteDomainInfo: DomainInformationContainer) {
             self.connectionAlias = connectionAlias
             self.connectionMode = connectionMode
+            self.connectionProperties = connectionProperties
             self.localDomainInfo = localDomainInfo
             self.remoteDomainInfo = remoteDomainInfo
         }
@@ -1387,6 +1404,7 @@ extension OpenSearch {
             try self.validate(self.connectionAlias, name: "connectionAlias", parent: name, max: 100)
             try self.validate(self.connectionAlias, name: "connectionAlias", parent: name, min: 2)
             try self.validate(self.connectionAlias, name: "connectionAlias", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9\\-\\_]+$")
+            try self.connectionProperties?.validate(name: "\(name).connectionProperties")
             try self.localDomainInfo.validate(name: "\(name).localDomainInfo")
             try self.remoteDomainInfo.validate(name: "\(name).remoteDomainInfo")
         }
@@ -1394,6 +1412,7 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case connectionAlias = "ConnectionAlias"
             case connectionMode = "ConnectionMode"
+            case connectionProperties = "ConnectionProperties"
             case localDomainInfo = "LocalDomainInfo"
             case remoteDomainInfo = "RemoteDomainInfo"
         }
@@ -1521,6 +1540,19 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case vpcEndpoint = "VpcEndpoint"
+        }
+    }
+
+    public struct CrossClusterSearchConnectionProperties: AWSEncodableShape & AWSDecodableShape {
+        /// Status of SkipUnavailable param for outbound connection.
+        public let skipUnavailable: SkipUnavailableStatus?
+
+        public init(skipUnavailable: SkipUnavailableStatus? = nil) {
+            self.skipUnavailable = skipUnavailable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case skipUnavailable = "SkipUnavailable"
         }
     }
 
@@ -2198,7 +2230,6 @@ extension OpenSearch {
             try self.value?.forEach {
                 try validate($0, name: "value[]", parent: name, pattern: "^[0-9a-zA-Z\\*\\.\\\\/\\?-]*$")
             }
-            try self.validate(self.value, name: "value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

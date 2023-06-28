@@ -5422,30 +5422,38 @@ extension Lightsail {
         public let certificateStatuses: [CertificateStatus]?
         /// Indicates whether to include detailed information about the certificates in the response. When omitted, the response includes only the certificate names, Amazon Resource Names (ARNs), domain names, and tags.
         public let includeCertificateDetails: Bool?
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetCertificates request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+        public let pageToken: String?
 
-        public init(certificateName: String? = nil, certificateStatuses: [CertificateStatus]? = nil, includeCertificateDetails: Bool? = nil) {
+        public init(certificateName: String? = nil, certificateStatuses: [CertificateStatus]? = nil, includeCertificateDetails: Bool? = nil, pageToken: String? = nil) {
             self.certificateName = certificateName
             self.certificateStatuses = certificateStatuses
             self.includeCertificateDetails = includeCertificateDetails
+            self.pageToken = pageToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificateName = "certificateName"
             case certificateStatuses = "certificateStatuses"
             case includeCertificateDetails = "includeCertificateDetails"
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetCertificatesResult: AWSDecodableShape {
         /// An object that describes certificates.
         public let certificates: [CertificateSummary]?
+        /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
+        public let nextPageToken: String?
 
-        public init(certificates: [CertificateSummary]? = nil) {
+        public init(certificates: [CertificateSummary]? = nil, nextPageToken: String? = nil) {
             self.certificates = certificates
+            self.nextPageToken = nextPageToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificates = "certificates"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -5747,11 +5755,11 @@ extension Lightsail {
     }
 
     public struct GetCostEstimateRequest: AWSEncodableShape {
-        /// The cost estimate end time. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
+        /// The cost estimate end time. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you want to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
         public let endTime: Date
         /// The resource name.
         public let resourceName: String
-        /// The cost estimate start time. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
+        /// The cost estimate start time. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you want to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
         public let startTime: Date
 
         public init(endTime: Date, resourceName: String, startTime: Date) {

@@ -366,6 +366,30 @@ extension Redshift {
         }
     }
 
+    public struct Association: AWSDecodableShape {
+        public struct _CertificateAssociationsEncoding: ArrayCoderProperties { public static let member = "CertificateAssociation" }
+
+        /// A list of all associated clusters and domain names tied to a specific certificate.
+        @OptionalCustomCoding<ArrayCoder<_CertificateAssociationsEncoding, CertificateAssociation>>
+        public var certificateAssociations: [CertificateAssociation]?
+        /// The Amazon Resource Name (ARN) for the certificate associated with the custom domain.
+        public let customDomainCertificateArn: String?
+        /// The expiration date for the certificate.
+        public let customDomainCertificateExpiryDate: Date?
+
+        public init(certificateAssociations: [CertificateAssociation]? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryDate: Date? = nil) {
+            self.certificateAssociations = certificateAssociations
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainCertificateExpiryDate = customDomainCertificateExpiryDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAssociations = "CertificateAssociations"
+            case customDomainCertificateArn = "CustomDomainCertificateArn"
+            case customDomainCertificateExpiryDate = "CustomDomainCertificateExpiryDate"
+        }
+    }
+
     public struct AttributeValueTarget: AWSDecodableShape {
         /// The value of the attribute.
         public let attributeValue: String?
@@ -499,7 +523,7 @@ extension Redshift {
         public let accountWithRestoreAccess: String
         /// The Amazon Resource Name (ARN) of the snapshot to authorize access to.
         public let snapshotArn: String?
-        /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
+        /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public let snapshotClusterIdentifier: String?
         /// The identifier of the snapshot the account is authorized to restore.
         public let snapshotIdentifier: String?
@@ -670,6 +694,23 @@ extension Redshift {
         }
     }
 
+    public struct CertificateAssociation: AWSDecodableShape {
+        /// The cluster identifier for the certificate association.
+        public let clusterIdentifier: String?
+        /// The custom domain name for the certificate association.
+        public let customDomainName: String?
+
+        public init(clusterIdentifier: String? = nil, customDomainName: String? = nil) {
+            self.clusterIdentifier = clusterIdentifier
+            self.customDomainName = customDomainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case customDomainName = "CustomDomainName"
+        }
+    }
+
     public struct Cluster: AWSDecodableShape {
         public struct _ClusterParameterGroupsEncoding: ArrayCoderProperties { public static let member = "ClusterParameterGroup" }
         public struct _ClusterSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "ClusterSecurityGroup" }
@@ -717,6 +758,12 @@ extension Redshift {
         public let clusterSubnetGroupName: String?
         /// The version ID of the Amazon Redshift engine that is running on the cluster.
         public let clusterVersion: String?
+        /// The certificate Amazon Resource Name (ARN) for the custom domain name.
+        public let customDomainCertificateArn: String?
+        /// The expiration date for the certificate associated with the custom domain name.
+        public let customDomainCertificateExpiryDate: Date?
+        /// The custom domain name associated with the cluster.
+        public let customDomainName: String?
         public let dataTransferProgress: DataTransferProgress?
         /// The name of the initial database that was created when the cluster was created. This same name is returned for the life of the cluster. If an initial database was not specified, a database named devdev was created by default.
         public let dbName: String?
@@ -790,7 +837,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeExchangeStatus: ReservedNodeExchangeStatus? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryDate: Date? = nil, customDomainName: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeExchangeStatus: ReservedNodeExchangeStatus? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfiguration = aquaConfiguration
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -809,6 +856,9 @@ extension Redshift {
             self.clusterStatus = clusterStatus
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.clusterVersion = clusterVersion
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainCertificateExpiryDate = customDomainCertificateExpiryDate
+            self.customDomainName = customDomainName
             self.dataTransferProgress = dataTransferProgress
             self.dbName = dbName
             self.defaultIamRoleArn = defaultIamRoleArn
@@ -864,6 +914,9 @@ extension Redshift {
             case clusterStatus = "ClusterStatus"
             case clusterSubnetGroupName = "ClusterSubnetGroupName"
             case clusterVersion = "ClusterVersion"
+            case customDomainCertificateArn = "CustomDomainCertificateArn"
+            case customDomainCertificateExpiryDate = "CustomDomainCertificateExpiryDate"
+            case customDomainName = "CustomDomainName"
             case dataTransferProgress = "DataTransferProgress"
             case dbName = "DBName"
             case defaultIamRoleArn = "DefaultIamRoleArn"
@@ -1399,7 +1452,7 @@ extension Redshift {
     public struct CopyClusterSnapshotMessage: AWSEncodableShape {
         /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
         public let manualSnapshotRetentionPeriod: Int?
-        /// The identifier of the cluster the source snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints:   Must be the identifier for a valid cluster.
+        /// The identifier of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints:   Must be the identifier for a valid cluster.
         public let sourceSnapshotClusterIdentifier: String?
         /// The identifier for the source snapshot. Constraints:   Must be the identifier for a valid automated snapshot whose state is available.
         public let sourceSnapshotIdentifier: String
@@ -1535,9 +1588,9 @@ extension Redshift {
         public let maintenanceTrackName: String?
         /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.
         public let manualSnapshotRetentionPeriod: Int?
-        /// The user name associated with the admin user for the cluster that is being created. Constraints:   Must be 1 - 128 alphanumeric characters or hyphens. The user name can't be PUBLIC.   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   The first character must be a letter.   Must not contain a colon (:) or a slash (/).   Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
+        /// The user name associated with the admin user account for the cluster that is being created. Constraints:   Must be 1 - 128 alphanumeric characters or hyphens. The user name can't be PUBLIC.   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   The first character must be a letter.   Must not contain a colon (:) or a slash (/).   Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
         public let masterUsername: String
-        /// The password associated with the admin user for the cluster that is being created. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \, /, or @.
+        /// The password associated with the admin user account for the cluster that is being created. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \, /, or @.
         public let masterUserPassword: String
         /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge |  dc2.large | dc2.8xlarge |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
         public let nodeType: String
@@ -1871,6 +1924,62 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case clusterSubnetGroup = "ClusterSubnetGroup"
+        }
+    }
+
+    public struct CreateCustomDomainAssociationMessage: AWSEncodableShape {
+        /// The cluster identifier that the custom domain is associated with.
+        public let clusterIdentifier: String
+        /// The certificate Amazon Resource Name (ARN) for the custom domain name association.
+        public let customDomainCertificateArn: String
+        /// The custom domain name for a custom domain association.
+        public let customDomainName: String
+
+        public init(clusterIdentifier: String, customDomainCertificateArn: String, customDomainName: String) {
+            self.clusterIdentifier = clusterIdentifier
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainName = customDomainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2147483647)
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, max: 2048)
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, min: 20)
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, max: 253)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, min: 1)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, pattern: "^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case customDomainCertificateArn = "CustomDomainCertificateArn"
+            case customDomainName = "CustomDomainName"
+        }
+    }
+
+    public struct CreateCustomDomainAssociationResult: AWSDecodableShape {
+        /// The identifier of the cluster that the custom domain is associated with.
+        public let clusterIdentifier: String?
+        /// The expiration time for the certificate for the custom domain.
+        public let customDomainCertExpiryTime: String?
+        /// The Amazon Resource Name (ARN) for the certificate associated with the custom domain name.
+        public let customDomainCertificateArn: String?
+        /// The custom domain name for the association result.
+        public let customDomainName: String?
+
+        public init(clusterIdentifier: String? = nil, customDomainCertExpiryTime: String? = nil, customDomainCertificateArn: String? = nil, customDomainName: String? = nil) {
+            self.clusterIdentifier = clusterIdentifier
+            self.customDomainCertExpiryTime = customDomainCertExpiryTime
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainName = customDomainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case customDomainCertExpiryTime = "CustomDomainCertExpiryTime"
+            case customDomainCertificateArn = "CustomDomainCertificateArn"
+            case customDomainName = "CustomDomainName"
         }
     }
 
@@ -2309,6 +2418,26 @@ extension Redshift {
         }
     }
 
+    public struct CustomDomainAssociationsMessage: AWSDecodableShape {
+        public struct _AssociationsEncoding: ArrayCoderProperties { public static let member = "Association" }
+
+        /// The associations for the custom domain.
+        @OptionalCustomCoding<ArrayCoder<_AssociationsEncoding, Association>>
+        public var associations: [Association]?
+        /// The marker for the custom domain association.
+        public let marker: String?
+
+        public init(associations: [Association]? = nil, marker: String? = nil) {
+            self.associations = associations
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associations = "Associations"
+            case marker = "Marker"
+        }
+    }
+
     public struct CustomerStorageMessage: AWSDecodableShape {
         /// The total amount of storage currently used for snapshots.
         public let totalBackupSizeInMegaBytes: Double?
@@ -2593,7 +2722,7 @@ extension Redshift {
     }
 
     public struct DeleteClusterSnapshotMessage: AWSEncodableShape {
-        /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
+        /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
         public let snapshotClusterIdentifier: String?
         /// The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available, failed, or cancelled state.
         public let snapshotIdentifier: String
@@ -2640,6 +2769,23 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case clusterSubnetGroupName = "ClusterSubnetGroupName"
+        }
+    }
+
+    public struct DeleteCustomDomainAssociationMessage: AWSEncodableShape {
+        /// The identifier of the cluster to delete a custom domain association for.
+        public let clusterIdentifier: String
+
+        public init(clusterIdentifier: String) {
+            self.clusterIdentifier = clusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2147483647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
         }
     }
 
@@ -3020,7 +3166,7 @@ extension Redshift {
         public let endTime: Date?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterSnapshots request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
-        /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 500.
+        /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int?
         /// The Amazon Web Services account used to create or copy the snapshot. Use this field to filter the results to snapshots owned by a particular account. To describe snapshots you own, either specify your Amazon Web Services account, or do not specify the parameter.
         public let ownerAccount: String?
@@ -3233,6 +3379,41 @@ extension Redshift {
             case maxRecords = "MaxRecords"
             case tagKeys = "TagKeys"
             case tagValues = "TagValues"
+        }
+    }
+
+    public struct DescribeCustomDomainAssociationsMessage: AWSEncodableShape {
+        /// The certificate Amazon Resource Name (ARN) for the custom domain association.
+        public let customDomainCertificateArn: String?
+        /// The custom domain name for the custom domain association.
+        public let customDomainName: String?
+        /// The marker for the custom domain association.
+        public let marker: String?
+        /// The maximum records setting for the associated custom domain.
+        public let maxRecords: Int?
+
+        public init(customDomainCertificateArn: String? = nil, customDomainName: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainName = customDomainName
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, max: 2048)
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, min: 20)
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, max: 253)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, min: 1)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, pattern: "^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$")
+            try self.validate(self.marker, name: "marker", parent: name, max: 2147483647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDomainCertificateArn = "CustomDomainCertificateArn"
+            case customDomainName = "CustomDomainName"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
         }
     }
 
@@ -4839,7 +5020,9 @@ extension Redshift {
         /// Create a database user with the name specified for the user named in DbUser if one does not exist.
         public let autoCreate: Bool?
         /// The unique identifier of the cluster that contains the database for which you are requesting credentials. This parameter is case sensitive.
-        public let clusterIdentifier: String
+        public let clusterIdentifier: String?
+        /// The custom domain name for the cluster credentials.
+        public let customDomainName: String?
         /// A list of the names of existing database groups that the user named in DbUser will join for the current session, in addition to any group memberships for an existing user. If not specified, a new user is added only to PUBLIC. Database group name constraints   Must be 1 to 64 alphanumeric characters or hyphens   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   First character must be a letter.   Must not contain a colon ( : ) or slash ( / ).    Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
         @OptionalCustomCoding<ArrayCoder<_DbGroupsEncoding, String>>
         public var dbGroups: [String]?
@@ -4850,9 +5033,10 @@ extension Redshift {
         /// The number of seconds until the returned temporary password expires. Constraint: minimum 900, maximum 3600. Default: 900
         public let durationSeconds: Int?
 
-        public init(autoCreate: Bool? = nil, clusterIdentifier: String, dbGroups: [String]? = nil, dbName: String? = nil, dbUser: String, durationSeconds: Int? = nil) {
+        public init(autoCreate: Bool? = nil, clusterIdentifier: String? = nil, customDomainName: String? = nil, dbGroups: [String]? = nil, dbName: String? = nil, dbUser: String, durationSeconds: Int? = nil) {
             self.autoCreate = autoCreate
             self.clusterIdentifier = clusterIdentifier
+            self.customDomainName = customDomainName
             self.dbGroups = dbGroups
             self.dbName = dbName
             self.dbUser = dbUser
@@ -4861,6 +5045,7 @@ extension Redshift {
 
         public func validate(name: String) throws {
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2147483647)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, max: 2147483647)
             try self.dbGroups?.forEach {
                 try validate($0, name: "dbGroups[]", parent: name, max: 2147483647)
             }
@@ -4871,6 +5056,7 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case autoCreate = "AutoCreate"
             case clusterIdentifier = "ClusterIdentifier"
+            case customDomainName = "CustomDomainName"
             case dbGroups = "DbGroups"
             case dbName = "DbName"
             case dbUser = "DbUser"
@@ -4880,25 +5066,30 @@ extension Redshift {
 
     public struct GetClusterCredentialsWithIAMMessage: AWSEncodableShape {
         /// The unique identifier of the cluster that contains the database for which you are requesting credentials.
-        public let clusterIdentifier: String
+        public let clusterIdentifier: String?
+        /// The custom domain name for the IAM message cluster credentials.
+        public let customDomainName: String?
         /// The name of the database for which you are requesting credentials. If the database name is specified, the IAM policy must allow access to the resource dbname for the specified database name. If the database name is not specified, access to all databases is allowed.
         public let dbName: String?
         /// The number of seconds until the returned temporary password expires. Range: 900-3600. Default: 900.
         public let durationSeconds: Int?
 
-        public init(clusterIdentifier: String, dbName: String? = nil, durationSeconds: Int? = nil) {
+        public init(clusterIdentifier: String? = nil, customDomainName: String? = nil, dbName: String? = nil, durationSeconds: Int? = nil) {
             self.clusterIdentifier = clusterIdentifier
+            self.customDomainName = customDomainName
             self.dbName = dbName
             self.durationSeconds = durationSeconds
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2147483647)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, max: 2147483647)
             try self.validate(self.dbName, name: "dbName", parent: name, max: 2147483647)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterIdentifier = "ClusterIdentifier"
+            case customDomainName = "CustomDomainName"
             case dbName = "DbName"
             case durationSeconds = "DurationSeconds"
         }
@@ -5465,7 +5656,7 @@ extension Redshift {
         public let maintenanceTrackName: String?
         /// The default for number of days that a newly created manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. This value doesn't retroactively change the retention periods of existing manual snapshots. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
         public let manualSnapshotRetentionPeriod: Int?
-        /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.   Operations never return the password, so this operation provides a way to regain access to the admin user for a cluster if the password is lost.  Default: Uses existing setting. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \, /, or @.
+        /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.   Operations never return the password, so this operation provides a way to regain access to the admin user account for a cluster if the password is lost.  Default: Uses existing setting. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \, /, or @.
         public let masterUserPassword: String?
         /// The new identifier for the cluster. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an Amazon Web Services account.   Example: examplecluster
         public let newClusterIdentifier: String?
@@ -5712,6 +5903,62 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case clusterSubnetGroup = "ClusterSubnetGroup"
+        }
+    }
+
+    public struct ModifyCustomDomainAssociationMessage: AWSEncodableShape {
+        /// The identifier of the cluster to change a custom domain association for.
+        public let clusterIdentifier: String
+        /// The certificate Amazon Resource Name (ARN) for the changed custom domain association.
+        public let customDomainCertificateArn: String?
+        /// The custom domain name for a changed custom domain association.
+        public let customDomainName: String?
+
+        public init(clusterIdentifier: String, customDomainCertificateArn: String? = nil, customDomainName: String? = nil) {
+            self.clusterIdentifier = clusterIdentifier
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainName = customDomainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2147483647)
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, max: 2048)
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, min: 20)
+            try self.validate(self.customDomainCertificateArn, name: "customDomainCertificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, max: 253)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, min: 1)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, pattern: "^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case customDomainCertificateArn = "CustomDomainCertificateArn"
+            case customDomainName = "CustomDomainName"
+        }
+    }
+
+    public struct ModifyCustomDomainAssociationResult: AWSDecodableShape {
+        /// The identifier of the cluster associated with the result for the changed custom domain association.
+        public let clusterIdentifier: String?
+        /// The certificate expiration time associated with the result for the changed custom domain association.
+        public let customDomainCertExpiryTime: String?
+        /// The certificate Amazon Resource Name (ARN) associated with the result for the changed custom domain association.
+        public let customDomainCertificateArn: String?
+        /// The custom domain name associated with the result for the changed custom domain association.
+        public let customDomainName: String?
+
+        public init(clusterIdentifier: String? = nil, customDomainCertExpiryTime: String? = nil, customDomainCertificateArn: String? = nil, customDomainName: String? = nil) {
+            self.clusterIdentifier = clusterIdentifier
+            self.customDomainCertExpiryTime = customDomainCertExpiryTime
+            self.customDomainCertificateArn = customDomainCertificateArn
+            self.customDomainName = customDomainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case customDomainCertExpiryTime = "CustomDomainCertExpiryTime"
+            case customDomainCertificateArn = "CustomDomainCertificateArn"
+            case customDomainName = "CustomDomainName"
         }
     }
 
@@ -6876,7 +7123,7 @@ extension Redshift {
         public let reservedNodeId: String?
         /// The Amazon Resource Name (ARN) of the snapshot associated with the message to restore from a cluster. You must specify this parameter or snapshotIdentifier, but not both.
         public let snapshotArn: String?
-        /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
+        /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public let snapshotClusterIdentifier: String?
         /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. You must specify this parameter or snapshotArn, but not both. Example: my-snapshot-id
         public let snapshotIdentifier: String?
@@ -7241,7 +7488,7 @@ extension Redshift {
         public let accountWithRestoreAccess: String
         /// The Amazon Resource Name (ARN) of the snapshot associated with the message to revoke access.
         public let snapshotArn: String?
-        /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
+        /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public let snapshotClusterIdentifier: String?
         /// The identifier of the snapshot that the account can no longer access.
         public let snapshotIdentifier: String?
@@ -8158,6 +8405,8 @@ public struct RedshiftErrorType: AWSErrorType {
         case clusterSubnetGroupQuotaExceededFault = "ClusterSubnetGroupQuotaExceeded"
         case clusterSubnetQuotaExceededFault = "ClusterSubnetQuotaExceededFault"
         case copyToRegionDisabledFault = "CopyToRegionDisabledFault"
+        case customCnameAssociationFault = "CustomCnameAssociationFault"
+        case customDomainAssociationNotFoundFault = "CustomDomainAssociationNotFoundFault"
         case dependentServiceRequestThrottlingFault = "DependentServiceRequestThrottlingFault"
         case dependentServiceUnavailableFault = "DependentServiceUnavailableFault"
         case endpointAlreadyExistsFault = "EndpointAlreadyExists"
@@ -8343,6 +8592,10 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var clusterSubnetQuotaExceededFault: Self { .init(.clusterSubnetQuotaExceededFault) }
     /// Cross-region snapshot copy was temporarily disabled. Try your request again.
     public static var copyToRegionDisabledFault: Self { .init(.copyToRegionDisabledFault) }
+    /// An error occurred when an attempt was made to change the custom domain association.
+    public static var customCnameAssociationFault: Self { .init(.customCnameAssociationFault) }
+    /// An error occurred. The custom domain name couldn't be found.
+    public static var customDomainAssociationNotFoundFault: Self { .init(.customDomainAssociationNotFoundFault) }
     /// The request cannot be completed because a dependent service is throttling requests made by Amazon Redshift on your behalf. Wait and retry the request.
     public static var dependentServiceRequestThrottlingFault: Self { .init(.dependentServiceRequestThrottlingFault) }
     /// Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.

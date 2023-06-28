@@ -151,6 +151,30 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProfileNotificationType: String, CustomStringConvertible, Codable, Sendable {
+        case profileAnswersUpdated = "PROFILE_ANSWERS_UPDATED"
+        case profileDeleted = "PROFILE_DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProfileOwnerType: String, CustomStringConvertible, Codable, Sendable {
+        case _self = "SELF"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuestionPriority: String, CustomStringConvertible, Codable, Sendable {
+        case none = "NONE"
+        case prioritized = "PRIORITIZED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuestionType: String, CustomStringConvertible, Codable, Sendable {
+        case nonPrioritized = "NON_PRIORITIZED"
+        case prioritized = "PRIORITIZED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReportFormat: String, CustomStringConvertible, Codable, Sendable {
         case json = "JSON"
         case pdf = "PDF"
@@ -174,6 +198,7 @@ extension WellArchitected {
 
     public enum ShareResourceType: String, CustomStringConvertible, Codable, Sendable {
         case lens = "LENS"
+        case profile = "PROFILE"
         case workload = "WORKLOAD"
         public var description: String { return self.rawValue }
     }
@@ -292,18 +317,21 @@ extension WellArchitected {
         public let pillarId: String?
         public let questionId: String?
         public let questionTitle: String?
+        /// The type of the question.
+        public let questionType: QuestionType?
         /// The reason why a choice is non-applicable to a question in your workload.
         public let reason: AnswerReason?
         public let risk: Risk?
         public let selectedChoices: [String]?
 
-        public init(choiceAnswerSummaries: [ChoiceAnswerSummary]? = nil, choices: [Choice]? = nil, isApplicable: Bool? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, reason: AnswerReason? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
+        public init(choiceAnswerSummaries: [ChoiceAnswerSummary]? = nil, choices: [Choice]? = nil, isApplicable: Bool? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, questionType: QuestionType? = nil, reason: AnswerReason? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
             self.choiceAnswerSummaries = choiceAnswerSummaries
             self.choices = choices
             self.isApplicable = isApplicable
             self.pillarId = pillarId
             self.questionId = questionId
             self.questionTitle = questionTitle
+            self.questionType = questionType
             self.reason = reason
             self.risk = risk
             self.selectedChoices = selectedChoices
@@ -316,6 +344,7 @@ extension WellArchitected {
             case pillarId = "PillarId"
             case questionId = "QuestionId"
             case questionTitle = "QuestionTitle"
+            case questionType = "QuestionType"
             case reason = "Reason"
             case risk = "Risk"
             case selectedChoices = "SelectedChoices"
@@ -341,11 +370,43 @@ extension WellArchitected {
                 try validate($0, name: "lensAliases[]", parent: name, min: 1)
             }
             try self.validate(self.lensAliases, name: "lensAliases", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case lensAliases = "LensAliases"
+        }
+    }
+
+    public struct AssociateProfilesInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
+        ]
+
+        /// The list of profile ARNs to associate with the workload.
+        public let profileArns: [String]
+        public let workloadId: String
+
+        public init(profileArns: [String], workloadId: String) {
+            self.profileArns = profileArns
+            self.workloadId = workloadId
+        }
+
+        public func validate(name: String) throws {
+            try self.profileArns.forEach {
+                try validate($0, name: "profileArns[]", parent: name, max: 2084)
+                try validate($0, name: "profileArns[]", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            }
+            try self.validate(self.profileArns, name: "profileArns", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileArns = "ProfileArns"
         }
     }
 
@@ -656,6 +717,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.sharedWith, name: "sharedWith", parent: name, max: 2048)
@@ -700,6 +763,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.lensVersion, name: "lensVersion", parent: name, max: 32)
@@ -746,8 +811,12 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, max: 100)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, min: 3)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -772,6 +841,119 @@ extension WellArchitected {
         }
     }
 
+    public struct CreateProfileInput: AWSEncodableShape {
+        public let clientRequestToken: String
+        /// The profile description.
+        public let profileDescription: String
+        /// Name of the profile.
+        public let profileName: String
+        /// The profile questions.
+        public let profileQuestions: [ProfileQuestionUpdate]
+        /// The tags assigned to the profile.
+        public let tags: [String: String]?
+
+        public init(clientRequestToken: String = CreateProfileInput.idempotencyToken(), profileDescription: String, profileName: String, profileQuestions: [ProfileQuestionUpdate], tags: [String: String]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.profileDescription = profileDescription
+            self.profileName = profileName
+            self.profileQuestions = profileQuestions
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.profileDescription, name: "profileDescription", parent: name, max: 100)
+            try self.validate(self.profileDescription, name: "profileDescription", parent: name, min: 3)
+            try self.validate(self.profileDescription, name: "profileDescription", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
+            try self.validate(self.profileName, name: "profileName", parent: name, max: 100)
+            try self.validate(self.profileName, name: "profileName", parent: name, min: 3)
+            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
+            try self.profileQuestions.forEach {
+                try $0.validate(name: "\(name).profileQuestions[]")
+            }
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case profileDescription = "ProfileDescription"
+            case profileName = "ProfileName"
+            case profileQuestions = "ProfileQuestions"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateProfileOutput: AWSDecodableShape {
+        /// The profile ARN.
+        public let profileArn: String?
+        /// Version of the profile.
+        public let profileVersion: String?
+
+        public init(profileArn: String? = nil, profileVersion: String? = nil) {
+            self.profileArn = profileArn
+            self.profileVersion = profileVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileArn = "ProfileArn"
+            case profileVersion = "ProfileVersion"
+        }
+    }
+
+    public struct CreateProfileShareInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "profileArn", location: .uri("ProfileArn"))
+        ]
+
+        public let clientRequestToken: String
+        /// The profile ARN.
+        public let profileArn: String
+        public let sharedWith: String
+
+        public init(clientRequestToken: String = CreateProfileShareInput.idempotencyToken(), profileArn: String, sharedWith: String) {
+            self.clientRequestToken = clientRequestToken
+            self.profileArn = profileArn
+            self.sharedWith = sharedWith
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            try self.validate(self.sharedWith, name: "sharedWith", parent: name, max: 2048)
+            try self.validate(self.sharedWith, name: "sharedWith", parent: name, min: 12)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case sharedWith = "SharedWith"
+        }
+    }
+
+    public struct CreateProfileShareOutput: AWSDecodableShape {
+        /// The profile ARN.
+        public let profileArn: String?
+        public let shareId: String?
+
+        public init(profileArn: String? = nil, shareId: String? = nil) {
+            self.profileArn = profileArn
+            self.shareId = shareId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileArn = "ProfileArn"
+            case shareId = "ShareId"
+        }
+    }
+
     public struct CreateWorkloadInput: AWSEncodableShape {
         public let accountIds: [String]?
         /// List of AppRegistry application ARNs associated to the workload.
@@ -789,12 +971,14 @@ extension WellArchitected {
         public let nonAwsRegions: [String]?
         public let notes: String?
         public let pillarPriorities: [String]?
+        /// The list of profile ARNs associated with the workload.
+        public let profileArns: [String]?
         public let reviewOwner: String?
         /// The tags to be associated with the workload.
         public let tags: [String: String]?
         public let workloadName: String
 
-        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, clientRequestToken: String = CreateWorkloadInput.idempotencyToken(), description: String, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment, industry: String? = nil, industryType: String? = nil, lenses: [String], nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, tags: [String: String]? = nil, workloadName: String) {
+        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, clientRequestToken: String = CreateWorkloadInput.idempotencyToken(), description: String, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment, industry: String? = nil, industryType: String? = nil, lenses: [String], nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, profileArns: [String]? = nil, reviewOwner: String? = nil, tags: [String: String]? = nil, workloadName: String) {
             self.accountIds = accountIds
             self.applications = applications
             self.architecturalDesign = architecturalDesign
@@ -809,6 +993,7 @@ extension WellArchitected {
             self.nonAwsRegions = nonAwsRegions
             self.notes = notes
             self.pillarPriorities = pillarPriorities
+            self.profileArns = profileArns
             self.reviewOwner = reviewOwner
             self.tags = tags
             self.workloadName = workloadName
@@ -816,6 +1001,8 @@ extension WellArchitected {
 
         public func validate(name: String) throws {
             try self.accountIds?.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^[0-9]{12}$")
             }
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 100)
@@ -830,6 +1017,8 @@ extension WellArchitected {
                 try validate($0, name: "awsRegions[]", parent: name, max: 100)
             }
             try self.validate(self.awsRegions, name: "awsRegions", parent: name, max: 50)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.description, name: "description", parent: name, min: 3)
             try self.validate(self.industry, name: "industry", parent: name, max: 100)
@@ -848,6 +1037,11 @@ extension WellArchitected {
                 try validate($0, name: "pillarPriorities[]", parent: name, max: 64)
                 try validate($0, name: "pillarPriorities[]", parent: name, min: 1)
             }
+            try self.profileArns?.forEach {
+                try validate($0, name: "profileArns[]", parent: name, max: 2084)
+                try validate($0, name: "profileArns[]", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            }
+            try self.validate(self.profileArns, name: "profileArns", parent: name, max: 1)
             try self.validate(self.reviewOwner, name: "reviewOwner", parent: name, max: 255)
             try self.validate(self.reviewOwner, name: "reviewOwner", parent: name, min: 3)
             try self.tags?.forEach {
@@ -876,6 +1070,7 @@ extension WellArchitected {
             case nonAwsRegions = "NonAwsRegions"
             case notes = "Notes"
             case pillarPriorities = "PillarPriorities"
+            case profileArns = "ProfileArns"
             case reviewOwner = "ReviewOwner"
             case tags = "Tags"
             case workloadName = "WorkloadName"
@@ -915,8 +1110,12 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.sharedWith, name: "sharedWith", parent: name, max: 2048)
             try self.validate(self.sharedWith, name: "sharedWith", parent: name, min: 12)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -961,6 +1160,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
         }
@@ -986,8 +1187,64 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.validate(self.shareId, name: "shareId", parent: name, pattern: "^[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteProfileInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientRequestToken", location: .querystring("ClientRequestToken")),
+            AWSMemberEncoding(label: "profileArn", location: .uri("ProfileArn"))
+        ]
+
+        public let clientRequestToken: String
+        /// The profile ARN.
+        public let profileArn: String
+
+        public init(clientRequestToken: String = DeleteProfileInput.idempotencyToken(), profileArn: String) {
+            self.clientRequestToken = clientRequestToken
+            self.profileArn = profileArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteProfileShareInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientRequestToken", location: .querystring("ClientRequestToken")),
+            AWSMemberEncoding(label: "profileArn", location: .uri("ProfileArn")),
+            AWSMemberEncoding(label: "shareId", location: .uri("ShareId"))
+        ]
+
+        public let clientRequestToken: String
+        /// The profile ARN.
+        public let profileArn: String
+        public let shareId: String
+
+        public init(clientRequestToken: String = DeleteProfileShareInput.idempotencyToken(), profileArn: String, shareId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.profileArn = profileArn
+            self.shareId = shareId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
             try self.validate(self.shareId, name: "shareId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1009,6 +1266,10 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1033,7 +1294,11 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.shareId, name: "shareId", parent: name, pattern: "^[0-9a-f]{32}$")
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1059,11 +1324,43 @@ extension WellArchitected {
                 try validate($0, name: "lensAliases[]", parent: name, min: 1)
             }
             try self.validate(self.lensAliases, name: "lensAliases", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case lensAliases = "LensAliases"
+        }
+    }
+
+    public struct DisassociateProfilesInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
+        ]
+
+        /// The list of profile ARNs to disassociate from the workload.
+        public let profileArns: [String]
+        public let workloadId: String
+
+        public init(profileArns: [String], workloadId: String) {
+            self.profileArns = profileArns
+            self.workloadId = workloadId
+        }
+
+        public func validate(name: String) throws {
+            try self.profileArns.forEach {
+                try validate($0, name: "profileArns[]", parent: name, max: 2084)
+                try validate($0, name: "profileArns[]", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            }
+            try self.validate(self.profileArns, name: "profileArns", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileArns = "ProfileArns"
         }
     }
 
@@ -1132,6 +1429,8 @@ extension WellArchitected {
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
             try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
             try self.validate(self.questionId, name: "questionId", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1273,6 +1572,8 @@ extension WellArchitected {
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1319,6 +1620,8 @@ extension WellArchitected {
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1422,6 +1725,8 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1443,6 +1748,63 @@ extension WellArchitected {
         }
     }
 
+    public struct GetProfileInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "profileArn", location: .uri("ProfileArn")),
+            AWSMemberEncoding(label: "profileVersion", location: .querystring("ProfileVersion"))
+        ]
+
+        /// The profile ARN.
+        public let profileArn: String
+        /// The profile version.
+        public let profileVersion: String?
+
+        public init(profileArn: String, profileVersion: String? = nil) {
+            self.profileArn = profileArn
+            self.profileVersion = profileVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            try self.validate(self.profileVersion, name: "profileVersion", parent: name, max: 32)
+            try self.validate(self.profileVersion, name: "profileVersion", parent: name, min: 1)
+            try self.validate(self.profileVersion, name: "profileVersion", parent: name, pattern: "^[A-Za-z0-9-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetProfileOutput: AWSDecodableShape {
+        /// The profile.
+        public let profile: Profile?
+
+        public init(profile: Profile? = nil) {
+            self.profile = profile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profile = "Profile"
+        }
+    }
+
+    public struct GetProfileTemplateInput: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetProfileTemplateOutput: AWSDecodableShape {
+        /// The profile template.
+        public let profileTemplate: ProfileTemplate?
+
+        public init(profileTemplate: ProfileTemplate? = nil) {
+            self.profileTemplate = profileTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileTemplate = "ProfileTemplate"
+        }
+    }
+
     public struct GetWorkloadInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
@@ -1455,6 +1817,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1489,6 +1853,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.jsonString, name: "jsonString", parent: name, max: 500000)
             try self.validate(self.jsonString, name: "jsonString", parent: name, min: 2)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
@@ -1622,10 +1988,13 @@ extension WellArchitected {
         public let nextToken: String?
         public let notes: String?
         public let pillarReviewSummaries: [PillarReviewSummary]?
+        public let prioritizedRiskCounts: [Risk: Int]?
+        /// The profiles associated with the workload.
+        public let profiles: [WorkloadProfile]?
         public let riskCounts: [Risk: Int]?
         public let updatedAt: Date?
 
-        public init(lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, nextToken: String? = nil, notes: String? = nil, pillarReviewSummaries: [PillarReviewSummary]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
+        public init(lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, nextToken: String? = nil, notes: String? = nil, pillarReviewSummaries: [PillarReviewSummary]? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
             self.lensAlias = lensAlias
             self.lensArn = lensArn
             self.lensName = lensName
@@ -1634,6 +2003,8 @@ extension WellArchitected {
             self.nextToken = nextToken
             self.notes = notes
             self.pillarReviewSummaries = pillarReviewSummaries
+            self.prioritizedRiskCounts = prioritizedRiskCounts
+            self.profiles = profiles
             self.riskCounts = riskCounts
             self.updatedAt = updatedAt
         }
@@ -1647,6 +2018,8 @@ extension WellArchitected {
             case nextToken = "NextToken"
             case notes = "Notes"
             case pillarReviewSummaries = "PillarReviewSummaries"
+            case prioritizedRiskCounts = "PrioritizedRiskCounts"
+            case profiles = "Profiles"
             case riskCounts = "RiskCounts"
             case updatedAt = "UpdatedAt"
         }
@@ -1680,15 +2053,20 @@ extension WellArchitected {
         public let lensStatus: LensStatus?
         /// The version of the lens.
         public let lensVersion: String?
+        public let prioritizedRiskCounts: [Risk: Int]?
+        /// The profiles associated with the workload.
+        public let profiles: [WorkloadProfile]?
         public let riskCounts: [Risk: Int]?
         public let updatedAt: Date?
 
-        public init(lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
+        public init(lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
             self.lensAlias = lensAlias
             self.lensArn = lensArn
             self.lensName = lensName
             self.lensStatus = lensStatus
             self.lensVersion = lensVersion
+            self.prioritizedRiskCounts = prioritizedRiskCounts
+            self.profiles = profiles
             self.riskCounts = riskCounts
             self.updatedAt = updatedAt
         }
@@ -1699,6 +2077,8 @@ extension WellArchitected {
             case lensName = "LensName"
             case lensStatus = "LensStatus"
             case lensVersion = "LensVersion"
+            case prioritizedRiskCounts = "PrioritizedRiskCounts"
+            case profiles = "Profiles"
             case riskCounts = "RiskCounts"
             case updatedAt = "UpdatedAt"
         }
@@ -1806,6 +2186,7 @@ extension WellArchitected {
             AWSMemberEncoding(label: "milestoneNumber", location: .querystring("MilestoneNumber")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
             AWSMemberEncoding(label: "pillarId", location: .querystring("PillarId")),
+            AWSMemberEncoding(label: "questionPriority", location: .querystring("QuestionPriority")),
             AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
@@ -1815,14 +2196,17 @@ extension WellArchitected {
         public let milestoneNumber: Int?
         public let nextToken: String?
         public let pillarId: String?
+        /// The priority of the question.
+        public let questionPriority: QuestionPriority?
         public let workloadId: String
 
-        public init(lensAlias: String, maxResults: Int? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, workloadId: String) {
+        public init(lensAlias: String, maxResults: Int? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, questionPriority: QuestionPriority? = nil, workloadId: String) {
             self.lensAlias = lensAlias
             self.maxResults = maxResults
             self.milestoneNumber = milestoneNumber
             self.nextToken = nextToken
             self.pillarId = pillarId
+            self.questionPriority = questionPriority
             self.workloadId = workloadId
         }
 
@@ -1835,6 +2219,8 @@ extension WellArchitected {
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
             try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1902,6 +2288,8 @@ extension WellArchitected {
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
             try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
             try self.validate(self.questionId, name: "questionId", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -1964,6 +2352,8 @@ extension WellArchitected {
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
             try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
             try self.validate(self.questionId, name: "questionId", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -2000,6 +2390,7 @@ extension WellArchitected {
             AWSMemberEncoding(label: "milestoneNumber", location: .querystring("MilestoneNumber")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
             AWSMemberEncoding(label: "pillarId", location: .querystring("PillarId")),
+            AWSMemberEncoding(label: "questionPriority", location: .querystring("QuestionPriority")),
             AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
         ]
 
@@ -2009,14 +2400,17 @@ extension WellArchitected {
         public let milestoneNumber: Int?
         public let nextToken: String?
         public let pillarId: String?
+        /// The priority of the question.
+        public let questionPriority: QuestionPriority?
         public let workloadId: String
 
-        public init(lensAlias: String, maxResults: Int? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, workloadId: String) {
+        public init(lensAlias: String, maxResults: Int? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, pillarId: String? = nil, questionPriority: QuestionPriority? = nil, workloadId: String) {
             self.lensAlias = lensAlias
             self.maxResults = maxResults
             self.milestoneNumber = milestoneNumber
             self.nextToken = nextToken
             self.pillarId = pillarId
+            self.questionPriority = questionPriority
             self.workloadId = workloadId
         }
 
@@ -2029,6 +2423,8 @@ extension WellArchitected {
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
             try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -2088,6 +2484,8 @@ extension WellArchitected {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -2235,6 +2633,8 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -2277,6 +2677,8 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -2303,11 +2705,157 @@ extension WellArchitected {
         }
     }
 
+    public struct ListProfileNotificationsInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "workloadId", location: .querystring("WorkloadId"))
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+        public let workloadId: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, workloadId: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workloadId = workloadId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListProfileNotificationsOutput: AWSDecodableShape {
+        public let nextToken: String?
+        /// Notification summaries.
+        public let notificationSummaries: [ProfileNotificationSummary]?
+
+        public init(nextToken: String? = nil, notificationSummaries: [ProfileNotificationSummary]? = nil) {
+            self.nextToken = nextToken
+            self.notificationSummaries = notificationSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case notificationSummaries = "NotificationSummaries"
+        }
+    }
+
+    public struct ListProfileSharesInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "profileArn", location: .uri("ProfileArn")),
+            AWSMemberEncoding(label: "sharedWithPrefix", location: .querystring("SharedWithPrefix")),
+            AWSMemberEncoding(label: "status", location: .querystring("Status"))
+        ]
+
+        /// The maximum number of results to return for this request.
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The profile ARN.
+        public let profileArn: String
+        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the profile is shared.
+        public let sharedWithPrefix: String?
+        public let status: ShareStatus?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, profileArn: String, sharedWithPrefix: String? = nil, status: ShareStatus? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.profileArn = profileArn
+            self.sharedWithPrefix = sharedWithPrefix
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            try self.validate(self.sharedWithPrefix, name: "sharedWithPrefix", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListProfileSharesOutput: AWSDecodableShape {
+        public let nextToken: String?
+        /// Profile share summaries.
+        public let profileShareSummaries: [ProfileShareSummary]?
+
+        public init(nextToken: String? = nil, profileShareSummaries: [ProfileShareSummary]? = nil) {
+            self.nextToken = nextToken
+            self.profileShareSummaries = profileShareSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case profileShareSummaries = "ProfileShareSummaries"
+        }
+    }
+
+    public struct ListProfilesInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "profileNamePrefix", location: .querystring("ProfileNamePrefix")),
+            AWSMemberEncoding(label: "profileOwnerType", location: .querystring("ProfileOwnerType"))
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// Prefix for profile name.
+        public let profileNamePrefix: String?
+        /// Profile owner type.
+        public let profileOwnerType: ProfileOwnerType?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, profileNamePrefix: String? = nil, profileOwnerType: ProfileOwnerType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.profileNamePrefix = profileNamePrefix
+            self.profileOwnerType = profileOwnerType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.profileNamePrefix, name: "profileNamePrefix", parent: name, max: 100)
+            try self.validate(self.profileNamePrefix, name: "profileNamePrefix", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListProfilesOutput: AWSDecodableShape {
+        public let nextToken: String?
+        /// Profile summaries.
+        public let profileSummaries: [ProfileSummary]?
+
+        public init(nextToken: String? = nil, profileSummaries: [ProfileSummary]? = nil) {
+            self.nextToken = nextToken
+            self.profileSummaries = profileSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case profileSummaries = "ProfileSummaries"
+        }
+    }
+
     public struct ListShareInvitationsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "lensNamePrefix", location: .querystring("LensNamePrefix")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "profileNamePrefix", location: .querystring("ProfileNamePrefix")),
             AWSMemberEncoding(label: "shareResourceType", location: .querystring("ShareResourceType")),
             AWSMemberEncoding(label: "workloadNamePrefix", location: .querystring("WorkloadNamePrefix"))
         ]
@@ -2317,14 +2865,17 @@ extension WellArchitected {
         /// The maximum number of results to return for this request.
         public let maxResults: Int?
         public let nextToken: String?
+        /// Profile name prefix.
+        public let profileNamePrefix: String?
         /// The type of share invitations to be returned.
         public let shareResourceType: ShareResourceType?
         public let workloadNamePrefix: String?
 
-        public init(lensNamePrefix: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, shareResourceType: ShareResourceType? = nil, workloadNamePrefix: String? = nil) {
+        public init(lensNamePrefix: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, profileNamePrefix: String? = nil, shareResourceType: ShareResourceType? = nil, workloadNamePrefix: String? = nil) {
             self.lensNamePrefix = lensNamePrefix
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.profileNamePrefix = profileNamePrefix
             self.shareResourceType = shareResourceType
             self.workloadNamePrefix = workloadNamePrefix
         }
@@ -2333,6 +2884,8 @@ extension WellArchitected {
             try self.validate(self.lensNamePrefix, name: "lensNamePrefix", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.profileNamePrefix, name: "profileNamePrefix", parent: name, max: 100)
+            try self.validate(self.profileNamePrefix, name: "profileNamePrefix", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
             try self.validate(self.workloadNamePrefix, name: "workloadNamePrefix", parent: name, max: 100)
         }
 
@@ -2411,6 +2964,8 @@ extension WellArchitected {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.sharedWithPrefix, name: "sharedWithPrefix", parent: name, max: 100)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -2580,12 +3135,14 @@ extension WellArchitected {
         public let notes: String?
         public let pillarId: String?
         public let pillarName: String?
+        public let prioritizedRiskCounts: [Risk: Int]?
         public let riskCounts: [Risk: Int]?
 
-        public init(notes: String? = nil, pillarId: String? = nil, pillarName: String? = nil, riskCounts: [Risk: Int]? = nil) {
+        public init(notes: String? = nil, pillarId: String? = nil, pillarName: String? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, riskCounts: [Risk: Int]? = nil) {
             self.notes = notes
             self.pillarId = pillarId
             self.pillarName = pillarName
+            self.prioritizedRiskCounts = prioritizedRiskCounts
             self.riskCounts = riskCounts
         }
 
@@ -2593,7 +3150,293 @@ extension WellArchitected {
             case notes = "Notes"
             case pillarId = "PillarId"
             case pillarName = "PillarName"
+            case prioritizedRiskCounts = "PrioritizedRiskCounts"
             case riskCounts = "RiskCounts"
+        }
+    }
+
+    public struct Profile: AWSDecodableShape {
+        public let createdAt: Date?
+        public let owner: String?
+        /// The profile ARN.
+        public let profileArn: String?
+        /// The profile description.
+        public let profileDescription: String?
+        /// The profile name.
+        public let profileName: String?
+        /// Profile questions.
+        public let profileQuestions: [ProfileQuestion]?
+        /// The profile version.
+        public let profileVersion: String?
+        /// The ID assigned to the share invitation.
+        public let shareInvitationId: String?
+        /// The tags assigned to the profile.
+        public let tags: [String: String]?
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, owner: String? = nil, profileArn: String? = nil, profileDescription: String? = nil, profileName: String? = nil, profileQuestions: [ProfileQuestion]? = nil, profileVersion: String? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.owner = owner
+            self.profileArn = profileArn
+            self.profileDescription = profileDescription
+            self.profileName = profileName
+            self.profileQuestions = profileQuestions
+            self.profileVersion = profileVersion
+            self.shareInvitationId = shareInvitationId
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case owner = "Owner"
+            case profileArn = "ProfileArn"
+            case profileDescription = "ProfileDescription"
+            case profileName = "ProfileName"
+            case profileQuestions = "ProfileQuestions"
+            case profileVersion = "ProfileVersion"
+            case shareInvitationId = "ShareInvitationId"
+            case tags = "Tags"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ProfileChoice: AWSDecodableShape {
+        public let choiceDescription: String?
+        public let choiceId: String?
+        public let choiceTitle: String?
+
+        public init(choiceDescription: String? = nil, choiceId: String? = nil, choiceTitle: String? = nil) {
+            self.choiceDescription = choiceDescription
+            self.choiceId = choiceId
+            self.choiceTitle = choiceTitle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case choiceDescription = "ChoiceDescription"
+            case choiceId = "ChoiceId"
+            case choiceTitle = "ChoiceTitle"
+        }
+    }
+
+    public struct ProfileNotificationSummary: AWSDecodableShape {
+        /// The current profile version.
+        public let currentProfileVersion: String?
+        /// The latest profile version.
+        public let latestProfileVersion: String?
+        /// The profile ARN.
+        public let profileArn: String?
+        /// The profile name.
+        public let profileName: String?
+        /// Type of notification.
+        public let type: ProfileNotificationType?
+        public let workloadId: String?
+        public let workloadName: String?
+
+        public init(currentProfileVersion: String? = nil, latestProfileVersion: String? = nil, profileArn: String? = nil, profileName: String? = nil, type: ProfileNotificationType? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+            self.currentProfileVersion = currentProfileVersion
+            self.latestProfileVersion = latestProfileVersion
+            self.profileArn = profileArn
+            self.profileName = profileName
+            self.type = type
+            self.workloadId = workloadId
+            self.workloadName = workloadName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentProfileVersion = "CurrentProfileVersion"
+            case latestProfileVersion = "LatestProfileVersion"
+            case profileArn = "ProfileArn"
+            case profileName = "ProfileName"
+            case type = "Type"
+            case workloadId = "WorkloadId"
+            case workloadName = "WorkloadName"
+        }
+    }
+
+    public struct ProfileQuestion: AWSDecodableShape {
+        /// The maximum number of selected choices.
+        public let maxSelectedChoices: Int?
+        /// The minimum number of selected choices.
+        public let minSelectedChoices: Int?
+        /// The question choices.
+        public let questionChoices: [ProfileChoice]?
+        public let questionDescription: String?
+        public let questionId: String?
+        public let questionTitle: String?
+        /// The selected choices.
+        public let selectedChoiceIds: [String]?
+
+        public init(maxSelectedChoices: Int? = nil, minSelectedChoices: Int? = nil, questionChoices: [ProfileChoice]? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil, selectedChoiceIds: [String]? = nil) {
+            self.maxSelectedChoices = maxSelectedChoices
+            self.minSelectedChoices = minSelectedChoices
+            self.questionChoices = questionChoices
+            self.questionDescription = questionDescription
+            self.questionId = questionId
+            self.questionTitle = questionTitle
+            self.selectedChoiceIds = selectedChoiceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxSelectedChoices = "MaxSelectedChoices"
+            case minSelectedChoices = "MinSelectedChoices"
+            case questionChoices = "QuestionChoices"
+            case questionDescription = "QuestionDescription"
+            case questionId = "QuestionId"
+            case questionTitle = "QuestionTitle"
+            case selectedChoiceIds = "SelectedChoiceIds"
+        }
+    }
+
+    public struct ProfileQuestionUpdate: AWSEncodableShape {
+        public let questionId: String?
+        /// The selected choices.
+        public let selectedChoiceIds: [String]?
+
+        public init(questionId: String? = nil, selectedChoiceIds: [String]? = nil) {
+            self.questionId = questionId
+            self.selectedChoiceIds = selectedChoiceIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
+            try self.validate(self.questionId, name: "questionId", parent: name, min: 1)
+            try self.selectedChoiceIds?.forEach {
+                try validate($0, name: "selectedChoiceIds[]", parent: name, max: 64)
+                try validate($0, name: "selectedChoiceIds[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case questionId = "QuestionId"
+            case selectedChoiceIds = "SelectedChoiceIds"
+        }
+    }
+
+    public struct ProfileShareSummary: AWSDecodableShape {
+        public let sharedWith: String?
+        public let shareId: String?
+        public let status: ShareStatus?
+        /// Profile share invitation status message.
+        public let statusMessage: String?
+
+        public init(sharedWith: String? = nil, shareId: String? = nil, status: ShareStatus? = nil, statusMessage: String? = nil) {
+            self.sharedWith = sharedWith
+            self.shareId = shareId
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sharedWith = "SharedWith"
+            case shareId = "ShareId"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct ProfileSummary: AWSDecodableShape {
+        public let createdAt: Date?
+        public let owner: String?
+        /// The profile ARN.
+        public let profileArn: String?
+        /// The profile description.
+        public let profileDescription: String?
+        /// The profile name.
+        public let profileName: String?
+        /// The profile version.
+        public let profileVersion: String?
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, owner: String? = nil, profileArn: String? = nil, profileDescription: String? = nil, profileName: String? = nil, profileVersion: String? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.owner = owner
+            self.profileArn = profileArn
+            self.profileDescription = profileDescription
+            self.profileName = profileName
+            self.profileVersion = profileVersion
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case owner = "Owner"
+            case profileArn = "ProfileArn"
+            case profileDescription = "ProfileDescription"
+            case profileName = "ProfileName"
+            case profileVersion = "ProfileVersion"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ProfileTemplate: AWSDecodableShape {
+        public let createdAt: Date?
+        /// The name of the profile template.
+        public let templateName: String?
+        /// Profile template questions.
+        public let templateQuestions: [ProfileTemplateQuestion]?
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, templateName: String? = nil, templateQuestions: [ProfileTemplateQuestion]? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.templateName = templateName
+            self.templateQuestions = templateQuestions
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case templateName = "TemplateName"
+            case templateQuestions = "TemplateQuestions"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ProfileTemplateChoice: AWSDecodableShape {
+        public let choiceDescription: String?
+        public let choiceId: String?
+        public let choiceTitle: String?
+
+        public init(choiceDescription: String? = nil, choiceId: String? = nil, choiceTitle: String? = nil) {
+            self.choiceDescription = choiceDescription
+            self.choiceId = choiceId
+            self.choiceTitle = choiceTitle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case choiceDescription = "ChoiceDescription"
+            case choiceId = "ChoiceId"
+            case choiceTitle = "ChoiceTitle"
+        }
+    }
+
+    public struct ProfileTemplateQuestion: AWSDecodableShape {
+        /// The maximum number of choices selected.
+        public let maxSelectedChoices: Int?
+        /// The minimum number of choices selected.
+        public let minSelectedChoices: Int?
+        /// The question choices.
+        public let questionChoices: [ProfileTemplateChoice]?
+        public let questionDescription: String?
+        public let questionId: String?
+        public let questionTitle: String?
+
+        public init(maxSelectedChoices: Int? = nil, minSelectedChoices: Int? = nil, questionChoices: [ProfileTemplateChoice]? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil) {
+            self.maxSelectedChoices = maxSelectedChoices
+            self.minSelectedChoices = minSelectedChoices
+            self.questionChoices = questionChoices
+            self.questionDescription = questionDescription
+            self.questionId = questionId
+            self.questionTitle = questionTitle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxSelectedChoices = "MaxSelectedChoices"
+            case minSelectedChoices = "MinSelectedChoices"
+            case questionChoices = "QuestionChoices"
+            case questionDescription = "QuestionDescription"
+            case questionId = "QuestionId"
+            case questionTitle = "QuestionTitle"
         }
     }
 
@@ -2639,15 +3482,18 @@ extension WellArchitected {
         public let lensAlias: String?
         /// The ARN for the lens.
         public let lensArn: String?
+        /// The profile ARN.
+        public let profileArn: String?
         /// The ID assigned to the share invitation.
         public let shareInvitationId: String?
         /// The resource type of the share invitation.
         public let shareResourceType: ShareResourceType?
         public let workloadId: String?
 
-        public init(lensAlias: String? = nil, lensArn: String? = nil, shareInvitationId: String? = nil, shareResourceType: ShareResourceType? = nil, workloadId: String? = nil) {
+        public init(lensAlias: String? = nil, lensArn: String? = nil, profileArn: String? = nil, shareInvitationId: String? = nil, shareResourceType: ShareResourceType? = nil, workloadId: String? = nil) {
             self.lensAlias = lensAlias
             self.lensArn = lensArn
+            self.profileArn = profileArn
             self.shareInvitationId = shareInvitationId
             self.shareResourceType = shareResourceType
             self.workloadId = workloadId
@@ -2656,6 +3502,7 @@ extension WellArchitected {
         private enum CodingKeys: String, CodingKey {
             case lensAlias = "LensAlias"
             case lensArn = "LensArn"
+            case profileArn = "ProfileArn"
             case shareInvitationId = "ShareInvitationId"
             case shareResourceType = "ShareResourceType"
             case workloadId = "WorkloadId"
@@ -2667,6 +3514,10 @@ extension WellArchitected {
         public let lensArn: String?
         public let lensName: String?
         public let permissionType: PermissionType?
+        /// The profile ARN.
+        public let profileArn: String?
+        /// The profile name.
+        public let profileName: String?
         public let sharedBy: String?
         public let sharedWith: String?
         /// The ID assigned to the share invitation.
@@ -2676,10 +3527,12 @@ extension WellArchitected {
         public let workloadId: String?
         public let workloadName: String?
 
-        public init(lensArn: String? = nil, lensName: String? = nil, permissionType: PermissionType? = nil, sharedBy: String? = nil, sharedWith: String? = nil, shareInvitationId: String? = nil, shareResourceType: ShareResourceType? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+        public init(lensArn: String? = nil, lensName: String? = nil, permissionType: PermissionType? = nil, profileArn: String? = nil, profileName: String? = nil, sharedBy: String? = nil, sharedWith: String? = nil, shareInvitationId: String? = nil, shareResourceType: ShareResourceType? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.lensArn = lensArn
             self.lensName = lensName
             self.permissionType = permissionType
+            self.profileArn = profileArn
+            self.profileName = profileName
             self.sharedBy = sharedBy
             self.sharedWith = sharedWith
             self.shareInvitationId = shareInvitationId
@@ -2692,6 +3545,8 @@ extension WellArchitected {
             case lensArn = "LensArn"
             case lensName = "LensName"
             case permissionType = "PermissionType"
+            case profileArn = "ProfileArn"
+            case profileName = "ProfileName"
             case sharedBy = "SharedBy"
             case sharedWith = "SharedWith"
             case shareInvitationId = "ShareInvitationId"
@@ -2809,6 +3664,8 @@ extension WellArchitected {
                 try validate($0, name: "selectedChoices[]", parent: name, max: 64)
                 try validate($0, name: "selectedChoices[]", parent: name, min: 1)
             }
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -2887,6 +3744,8 @@ extension WellArchitected {
                 try validate($0.key, name: "pillarNotes.key", parent: name, min: 1)
                 try validate($0.value, name: "pillarNotes[\"\($0.key)\"]", parent: name, max: 2084)
             }
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -2908,6 +3767,54 @@ extension WellArchitected {
         private enum CodingKeys: String, CodingKey {
             case lensReview = "LensReview"
             case workloadId = "WorkloadId"
+        }
+    }
+
+    public struct UpdateProfileInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "profileArn", location: .uri("ProfileArn"))
+        ]
+
+        /// The profile ARN.
+        public let profileArn: String
+        /// The profile description.
+        public let profileDescription: String?
+        /// Profile questions.
+        public let profileQuestions: [ProfileQuestionUpdate]?
+
+        public init(profileArn: String, profileDescription: String? = nil, profileQuestions: [ProfileQuestionUpdate]? = nil) {
+            self.profileArn = profileArn
+            self.profileDescription = profileDescription
+            self.profileQuestions = profileQuestions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            try self.validate(self.profileDescription, name: "profileDescription", parent: name, max: 100)
+            try self.validate(self.profileDescription, name: "profileDescription", parent: name, min: 3)
+            try self.validate(self.profileDescription, name: "profileDescription", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
+            try self.profileQuestions?.forEach {
+                try $0.validate(name: "\(name).profileQuestions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileDescription = "ProfileDescription"
+            case profileQuestions = "ProfileQuestions"
+        }
+    }
+
+    public struct UpdateProfileOutput: AWSDecodableShape {
+        /// The profile.
+        public let profile: Profile?
+
+        public init(profile: Profile? = nil) {
+            self.profile = profile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profile = "Profile"
         }
     }
 
@@ -2995,6 +3902,8 @@ extension WellArchitected {
 
         public func validate(name: String) throws {
             try self.accountIds?.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^[0-9]{12}$")
             }
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 100)
@@ -3025,6 +3934,8 @@ extension WellArchitected {
             }
             try self.validate(self.reviewOwner, name: "reviewOwner", parent: name, max: 255)
             try self.validate(self.reviewOwner, name: "reviewOwner", parent: name, min: 3)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
             try self.validate(self.workloadName, name: "workloadName", parent: name, max: 100)
             try self.validate(self.workloadName, name: "workloadName", parent: name, min: 3)
@@ -3080,6 +3991,8 @@ extension WellArchitected {
 
         public func validate(name: String) throws {
             try self.validate(self.shareId, name: "shareId", parent: name, pattern: "^[0-9a-f]{32}$")
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -3122,10 +4035,51 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, max: 100)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, min: 3)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case milestoneName = "MilestoneName"
+        }
+    }
+
+    public struct UpgradeProfileVersionInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "profileArn", location: .uri("ProfileArn")),
+            AWSMemberEncoding(label: "workloadId", location: .uri("WorkloadId"))
+        ]
+
+        public let clientRequestToken: String?
+        public let milestoneName: String?
+        /// The profile ARN.
+        public let profileArn: String
+        public let workloadId: String
+
+        public init(clientRequestToken: String? = UpgradeProfileVersionInput.idempotencyToken(), milestoneName: String? = nil, profileArn: String, workloadId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.milestoneName = milestoneName
+            self.profileArn = profileArn
+            self.workloadId = workloadId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.milestoneName, name: "milestoneName", parent: name, max: 100)
+            try self.validate(self.milestoneName, name: "milestoneName", parent: name, min: 3)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
         }
 
@@ -3168,6 +4122,9 @@ extension WellArchitected {
         public let notes: String?
         public let owner: String?
         public let pillarPriorities: [String]?
+        public let prioritizedRiskCounts: [Risk: Int]?
+        /// Profile associated with a workload.
+        public let profiles: [WorkloadProfile]?
         public let reviewOwner: String?
         public let reviewRestrictionDate: Date?
         public let riskCounts: [Risk: Int]?
@@ -3180,7 +4137,7 @@ extension WellArchitected {
         public let workloadId: String?
         public let workloadName: String?
 
-        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, owner: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, reviewRestrictionDate: Date? = nil, riskCounts: [Risk: Int]? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, owner: String? = nil, pillarPriorities: [String]? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, reviewOwner: String? = nil, reviewRestrictionDate: Date? = nil, riskCounts: [Risk: Int]? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.accountIds = accountIds
             self.applications = applications
             self.architecturalDesign = architecturalDesign
@@ -3197,6 +4154,8 @@ extension WellArchitected {
             self.notes = notes
             self.owner = owner
             self.pillarPriorities = pillarPriorities
+            self.prioritizedRiskCounts = prioritizedRiskCounts
+            self.profiles = profiles
             self.reviewOwner = reviewOwner
             self.reviewRestrictionDate = reviewRestrictionDate
             self.riskCounts = riskCounts
@@ -3225,6 +4184,8 @@ extension WellArchitected {
             case notes = "Notes"
             case owner = "Owner"
             case pillarPriorities = "PillarPriorities"
+            case prioritizedRiskCounts = "PrioritizedRiskCounts"
+            case profiles = "Profiles"
             case reviewOwner = "ReviewOwner"
             case reviewRestrictionDate = "ReviewRestrictionDate"
             case riskCounts = "RiskCounts"
@@ -3251,6 +4212,23 @@ extension WellArchitected {
         private enum CodingKeys: String, CodingKey {
             case trustedAdvisorIntegrationStatus = "TrustedAdvisorIntegrationStatus"
             case workloadResourceDefinition = "WorkloadResourceDefinition"
+        }
+    }
+
+    public struct WorkloadProfile: AWSDecodableShape {
+        /// The profile ARN.
+        public let profileArn: String?
+        /// The profile version.
+        public let profileVersion: String?
+
+        public init(profileArn: String? = nil, profileVersion: String? = nil) {
+            self.profileArn = profileArn
+            self.profileVersion = profileVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileArn = "ProfileArn"
+            case profileVersion = "ProfileVersion"
         }
     }
 
@@ -3313,16 +4291,21 @@ extension WellArchitected {
         public let improvementStatus: WorkloadImprovementStatus?
         public let lenses: [String]?
         public let owner: String?
+        public let prioritizedRiskCounts: [Risk: Int]?
+        /// Profile associated with a workload.
+        public let profiles: [WorkloadProfile]?
         public let riskCounts: [Risk: Int]?
         public let updatedAt: Date?
         public let workloadArn: String?
         public let workloadId: String?
         public let workloadName: String?
 
-        public init(improvementStatus: WorkloadImprovementStatus? = nil, lenses: [String]? = nil, owner: String? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+        public init(improvementStatus: WorkloadImprovementStatus? = nil, lenses: [String]? = nil, owner: String? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.improvementStatus = improvementStatus
             self.lenses = lenses
             self.owner = owner
+            self.prioritizedRiskCounts = prioritizedRiskCounts
+            self.profiles = profiles
             self.riskCounts = riskCounts
             self.updatedAt = updatedAt
             self.workloadArn = workloadArn
@@ -3334,6 +4317,8 @@ extension WellArchitected {
             case improvementStatus = "ImprovementStatus"
             case lenses = "Lenses"
             case owner = "Owner"
+            case prioritizedRiskCounts = "PrioritizedRiskCounts"
+            case profiles = "Profiles"
             case riskCounts = "RiskCounts"
             case updatedAt = "UpdatedAt"
             case workloadArn = "WorkloadArn"

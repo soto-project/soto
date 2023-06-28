@@ -4105,6 +4105,50 @@ extension Appflow {
         }
     }
 
+    public struct ResetConnectorMetadataCacheRequest: AWSEncodableShape {
+        /// The API version that you specified in the connector profile that you’re resetting cached metadata for. You must use this parameter only if the connector supports multiple API versions or if the connector type is CustomConnector. To look up how many versions a connector supports, use the DescribeConnectors action. In the response, find the value that Amazon AppFlow returns for the connectorVersion parameter. To look up the connector type, use the DescribeConnectorProfiles action. In the response, find the value that Amazon AppFlow returns for the connectorType parameter. To look up the API version that you specified in a connector profile, use the DescribeConnectorProfiles action.
+        public let apiVersion: String?
+        /// Use this parameter if you want to reset cached metadata about the details for an individual entity. If you don't include this parameter in your request, Amazon AppFlow only resets cached metadata about entity names, not entity details.
+        public let connectorEntityName: String?
+        /// The name of the connector profile that you want to reset cached metadata for. You can omit this parameter if you're resetting the cache for any of the following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you must include this parameter in your request.
+        public let connectorProfileName: String?
+        /// The type of connector to reset cached metadata for. You must include this parameter in your request if you're resetting the cache for any of the following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you can omit this parameter from your request.
+        public let connectorType: ConnectorType?
+        /// Use this parameter only if you’re resetting the cached metadata about a nested entity. Only some connectors support nested entities. A nested entity is one that has another entity as a parent. To use this parameter, specify the name of the parent entity. To look up the parent-child relationship of entities, you can send a ListConnectorEntities request that omits the entitiesPath parameter. Amazon AppFlow will return a list of top-level entities. For each one, it indicates whether the entity has nested entities. Then, in a subsequent ListConnectorEntities request, you can specify a parent entity name for the entitiesPath parameter. Amazon AppFlow will return a list of the child entities for that parent.
+        public let entitiesPath: String?
+
+        public init(apiVersion: String? = nil, connectorEntityName: String? = nil, connectorProfileName: String? = nil, connectorType: ConnectorType? = nil, entitiesPath: String? = nil) {
+            self.apiVersion = apiVersion
+            self.connectorEntityName = connectorEntityName
+            self.connectorProfileName = connectorProfileName
+            self.connectorType = connectorType
+            self.entitiesPath = entitiesPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.apiVersion, name: "apiVersion", parent: name, max: 256)
+            try self.validate(self.apiVersion, name: "apiVersion", parent: name, pattern: "^\\S+$")
+            try self.validate(self.connectorEntityName, name: "connectorEntityName", parent: name, max: 1024)
+            try self.validate(self.connectorEntityName, name: "connectorEntityName", parent: name, pattern: "^\\S+$")
+            try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
+            try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "^[\\w/!@#+=.-]+$")
+            try self.validate(self.entitiesPath, name: "entitiesPath", parent: name, max: 256)
+            try self.validate(self.entitiesPath, name: "entitiesPath", parent: name, pattern: "^[\\s\\w/!@#+=,.-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiVersion = "apiVersion"
+            case connectorEntityName = "connectorEntityName"
+            case connectorProfileName = "connectorProfileName"
+            case connectorType = "connectorType"
+            case entitiesPath = "entitiesPath"
+        }
+    }
+
+    public struct ResetConnectorMetadataCacheResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct S3DestinationProperties: AWSEncodableShape & AWSDecodableShape {
         ///  The Amazon S3 bucket name in which Amazon AppFlow places the transferred data.
         public let bucketName: String

@@ -246,6 +246,11 @@ public struct EMR: AWSService {
         return self.client.execute(operation: "ListStudios", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// A list of the instance types that Amazon EMR supports. You can filter the list by Amazon Web Services Region and Amazon EMR release.
+    public func listSupportedInstanceTypes(_ input: ListSupportedInstanceTypesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSupportedInstanceTypesOutput> {
+        return self.client.execute(operation: "ListSupportedInstanceTypes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Modifies the number of steps that can be executed concurrently for the cluster specified using ClusterID.
     public func modifyCluster(_ input: ModifyClusterInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyClusterOutput> {
         return self.client.execute(operation: "ModifyCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -936,6 +941,59 @@ extension EMR {
             onPage: onPage
         )
     }
+
+    /// A list of the instance types that Amazon EMR supports. You can filter the list by Amazon Web Services Region and Amazon EMR release.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listSupportedInstanceTypesPaginator<Result>(
+        _ input: ListSupportedInstanceTypesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListSupportedInstanceTypesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listSupportedInstanceTypes,
+            inputKey: \ListSupportedInstanceTypesInput.marker,
+            outputKey: \ListSupportedInstanceTypesOutput.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listSupportedInstanceTypesPaginator(
+        _ input: ListSupportedInstanceTypesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListSupportedInstanceTypesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listSupportedInstanceTypes,
+            inputKey: \ListSupportedInstanceTypesInput.marker,
+            outputKey: \ListSupportedInstanceTypesOutput.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension EMR.ListBootstrapActionsInput: AWSPaginateToken {
@@ -1046,6 +1104,15 @@ extension EMR.ListStudiosInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EMR.ListStudiosInput {
         return .init(
             marker: token
+        )
+    }
+}
+
+extension EMR.ListSupportedInstanceTypesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EMR.ListSupportedInstanceTypesInput {
+        return .init(
+            marker: token,
+            releaseLabel: self.releaseLabel
         )
     }
 }

@@ -4988,6 +4988,7 @@ public struct LambdaErrorType: AWSErrorType {
         case policyLengthExceededException = "PolicyLengthExceededException"
         case preconditionFailedException = "PreconditionFailedException"
         case provisionedConcurrencyConfigNotFoundException = "ProvisionedConcurrencyConfigNotFoundException"
+        case recursiveInvocationException = "RecursiveInvocationException"
         case requestTooLargeException = "RequestTooLargeException"
         case resourceConflictException = "ResourceConflictException"
         case resourceInUseException = "ResourceInUseException"
@@ -5070,6 +5071,8 @@ public struct LambdaErrorType: AWSErrorType {
     public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
     /// The specified configuration does not exist.
     public static var provisionedConcurrencyConfigNotFoundException: Self { .init(.provisionedConcurrencyConfigNotFoundException) }
+    /// Lambda has detected your function being invoked in a recursive loop with other Amazon Web Services resources and stopped your function's invocation.
+    public static var recursiveInvocationException: Self { .init(.recursiveInvocationException) }
     /// The request payload exceeded the Invoke request body JSON input quota. For more information, see Lambda quotas.
     public static var requestTooLargeException: Self { .init(.requestTooLargeException) }
     /// The resource already exists, or another operation is in progress.

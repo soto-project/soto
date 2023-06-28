@@ -101,6 +101,11 @@ extension Appflow {
         return try await self.client.execute(operation: "RegisterConnector", path: "/register-connector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Resets metadata about your connector entities that Amazon AppFlow stored in its cache. Use this action when you want Amazon AppFlow to return the latest information about the data that you have in a source application. Amazon AppFlow returns metadata about your entities when you use the ListConnectorEntities or DescribeConnectorEntities actions. Following these actions, Amazon AppFlow caches the metadata to reduce the number of API requests that it must send to the source application. Amazon AppFlow automatically resets the cache once every hour, but you can use this action when you want to get the latest metadata right away.
+    public func resetConnectorMetadataCache(_ input: ResetConnectorMetadataCacheRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ResetConnectorMetadataCacheResponse {
+        return try await self.client.execute(operation: "ResetConnectorMetadataCache", path: "/reset-connector-metadata-cache", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Activates an existing flow. For on-demand flows, this operation runs the flow immediately. For schedule and event-triggered flows, this operation activates the flow.
     public func startFlow(_ input: StartFlowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartFlowResponse {
         return try await self.client.execute(operation: "StartFlow", path: "/start-flow", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

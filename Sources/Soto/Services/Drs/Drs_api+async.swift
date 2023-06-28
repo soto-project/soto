@@ -21,6 +21,11 @@ import SotoCore
 extension Drs {
     // MARK: Async API Calls
 
+    /// Associate a Source Network to an existing CloudFormation Stack and modify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks.
+    public func associateSourceNetworkStack(_ input: AssociateSourceNetworkStackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateSourceNetworkStackResponse {
+        return try await self.client.execute(operation: "AssociateSourceNetworkStack", path: "/AssociateSourceNetworkStack", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Create an extended source server in the target Account based on the source server in staging account.
     public func createExtendedSourceServer(_ input: CreateExtendedSourceServerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateExtendedSourceServerResponse {
         return try await self.client.execute(operation: "CreateExtendedSourceServer", path: "/CreateExtendedSourceServer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -34,6 +39,11 @@ extension Drs {
     /// Creates a new ReplicationConfigurationTemplate.
     public func createReplicationConfigurationTemplate(_ input: CreateReplicationConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ReplicationConfigurationTemplate {
         return try await self.client.execute(operation: "CreateReplicationConfigurationTemplate", path: "/CreateReplicationConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Create a new Source Network resource for a provided VPC ID.
+    public func createSourceNetwork(_ input: CreateSourceNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateSourceNetworkResponse {
+        return try await self.client.execute(operation: "CreateSourceNetwork", path: "/CreateSourceNetwork", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a single Job by ID.
@@ -54,6 +64,11 @@ extension Drs {
     /// Deletes a single Replication Configuration Template by ID
     public func deleteReplicationConfigurationTemplate(_ input: DeleteReplicationConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteReplicationConfigurationTemplateResponse {
         return try await self.client.execute(operation: "DeleteReplicationConfigurationTemplate", path: "/DeleteReplicationConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete Source Network resource.
+    public func deleteSourceNetwork(_ input: DeleteSourceNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteSourceNetworkResponse {
+        return try await self.client.execute(operation: "DeleteSourceNetwork", path: "/DeleteSourceNetwork", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a single Source Server by ID. The Source Server must be disconnected first.
@@ -91,6 +106,11 @@ extension Drs {
         return try await self.client.execute(operation: "DescribeReplicationConfigurationTemplates", path: "/DescribeReplicationConfigurationTemplates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists all Source Networks or multiple Source Networks filtered by ID.
+    public func describeSourceNetworks(_ input: DescribeSourceNetworksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeSourceNetworksResponse {
+        return try await self.client.execute(operation: "DescribeSourceNetworks", path: "/DescribeSourceNetworks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists all Source Servers or multiple Source Servers filtered by ID.
     public func describeSourceServers(_ input: DescribeSourceServersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeSourceServersResponse {
         return try await self.client.execute(operation: "DescribeSourceServers", path: "/DescribeSourceServers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -104,6 +124,11 @@ extension Drs {
     /// Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Source Server will be terminated / deleted within 90 minutes. You cannot disconnect a Source Server if it has a Recovery Instance. If the agent on the Source Server has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     public func disconnectSourceServer(_ input: DisconnectSourceServerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SourceServer {
         return try await self.client.execute(operation: "DisconnectSourceServer", path: "/DisconnectSourceServer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Export the Source Network CloudFormation template to an S3 bucket.
+    public func exportSourceNetworkCfnTemplate(_ input: ExportSourceNetworkCfnTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ExportSourceNetworkCfnTemplateResponse {
+        return try await self.client.execute(operation: "ExportSourceNetworkCfnTemplate", path: "/ExportSourceNetworkCfnTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
@@ -167,6 +192,16 @@ extension Drs {
         return try await self.client.execute(operation: "StartReplication", path: "/StartReplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack.
+    public func startSourceNetworkRecovery(_ input: StartSourceNetworkRecoveryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartSourceNetworkRecoveryResponse {
+        return try await self.client.execute(operation: "StartSourceNetworkRecovery", path: "/StartSourceNetworkRecovery", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts replication for a Source Network. This action would make the Source Network protected.
+    public func startSourceNetworkReplication(_ input: StartSourceNetworkReplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartSourceNetworkReplicationResponse {
+        return try await self.client.execute(operation: "StartSourceNetworkReplication", path: "/StartSourceNetworkReplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED.
     public func stopFailback(_ input: StopFailbackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "StopFailback", path: "/StopFailback", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -175,6 +210,11 @@ extension Drs {
     /// Stops replication for a Source Server. This action would make the Source Server unprotected, delete its existing snapshots and stop billing for it.
     public func stopReplication(_ input: StopReplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StopReplicationResponse {
         return try await self.client.execute(operation: "StopReplication", path: "/StopReplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Stops replication for a Source Network. This action would make the Source Network unprotected.
+    public func stopSourceNetworkReplication(_ input: StopSourceNetworkReplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StopSourceNetworkReplicationResponse {
+        return try await self.client.execute(operation: "StopSourceNetworkReplication", path: "/StopSourceNetworkReplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Adds or overwrites only the specified tags for the specified Elastic Disaster Recovery resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
@@ -349,6 +389,28 @@ extension Drs {
             command: self.describeReplicationConfigurationTemplates,
             inputKey: \DescribeReplicationConfigurationTemplatesRequest.nextToken,
             outputKey: \DescribeReplicationConfigurationTemplatesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Lists all Source Networks or multiple Source Networks filtered by ID.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeSourceNetworksPaginator(
+        _ input: DescribeSourceNetworksRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeSourceNetworksRequest, DescribeSourceNetworksResponse> {
+        return .init(
+            input: input,
+            command: self.describeSourceNetworks,
+            inputKey: \DescribeSourceNetworksRequest.nextToken,
+            outputKey: \DescribeSourceNetworksResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

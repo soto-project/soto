@@ -157,7 +157,7 @@ extension SFN {
         public let activityArn: String
         /// The date the activity is created.
         public let creationDate: Date
-        /// The name of the activity.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the activity. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
 
         public init(activityArn: String, creationDate: Date, name: String) {
@@ -315,9 +315,9 @@ extension SFN {
     }
 
     public struct CreateActivityInput: AWSEncodableShape {
-        /// The name of the activity to create. This name must be unique for your Amazon Web Services account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the Step Functions Developer Guide.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the activity to create. This name must be unique for your Amazon Web Services account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the Step Functions Developer Guide. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
-        /// The list of tags to add to a resource.  An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide, and Controlling Access Using IAM Tags.  Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
+        /// The list of tags to add to a resource. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]?
 
         public init(name: String, tags: [Tag]? = nil) {
@@ -356,30 +356,86 @@ extension SFN {
         }
     }
 
+    public struct CreateStateMachineAliasInput: AWSEncodableShape {
+        /// A description for the state machine alias.
+        public let description: String?
+        /// The name of the state machine alias. To avoid conflict with version ARNs, don't use an integer in the name of the alias.
+        public let name: String
+        /// The routing configuration of a state machine alias. The routing configuration shifts execution traffic between two state machine versions. routingConfiguration contains an array of RoutingConfig objects that specify up to two state machine versions. Step Functions then randomly choses which version to run an execution with based on the weight assigned to each RoutingConfig.
+        public let routingConfiguration: [RoutingConfigurationListItem]
+
+        public init(description: String? = nil, name: String, routingConfiguration: [RoutingConfigurationListItem]) {
+            self.description = description
+            self.name = name
+            self.routingConfiguration = routingConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, max: 80)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?=.*[a-zA-Z_\\-\\.])[a-zA-Z0-9_\\-\\.]+$")
+            try self.routingConfiguration.forEach {
+                try $0.validate(name: "\(name).routingConfiguration[]")
+            }
+            try self.validate(self.routingConfiguration, name: "routingConfiguration", parent: name, max: 2)
+            try self.validate(self.routingConfiguration, name: "routingConfiguration", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case routingConfiguration = "routingConfiguration"
+        }
+    }
+
+    public struct CreateStateMachineAliasOutput: AWSDecodableShape {
+        /// The date the state machine alias was created.
+        public let creationDate: Date
+        /// The Amazon Resource Name (ARN) that identifies the created state machine alias.
+        public let stateMachineAliasArn: String
+
+        public init(creationDate: Date, stateMachineAliasArn: String) {
+            self.creationDate = creationDate
+            self.stateMachineAliasArn = stateMachineAliasArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case stateMachineAliasArn = "stateMachineAliasArn"
+        }
+    }
+
     public struct CreateStateMachineInput: AWSEncodableShape {
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
         /// Defines what execution history events are logged and where they are logged.  By default, the level is set to OFF. For more information see Log Levels in the Step Functions User Guide.
         public let loggingConfiguration: LoggingConfiguration?
-        /// The name of the state machine.   A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the state machine.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
+        /// Set to true to publish the first version of the state machine during creation. The default is false.
+        public let publish: Bool?
         /// The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
         public let roleArn: String
-        /// Tags to be added when creating a state machine.  An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide, and Controlling Access Using IAM Tags.  Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
+        /// Tags to be added when creating a state machine. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]?
         /// Selects whether X-Ray tracing is enabled.
         public let tracingConfiguration: TracingConfiguration?
         /// Determines whether a Standard or Express state machine is created. The default is STANDARD. You cannot update the type of a state machine once it has been created.
         public let type: StateMachineType?
+        /// Sets description about the state machine version. You can only set the description if the publish parameter is set to true. Otherwise, if you set versionDescription, but publish to false, this API action throws ValidationException.
+        public let versionDescription: String?
 
-        public init(definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, tags: [Tag]? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType? = nil) {
+        public init(definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, publish: Bool? = nil, roleArn: String, tags: [Tag]? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType? = nil, versionDescription: String? = nil) {
             self.definition = definition
             self.loggingConfiguration = loggingConfiguration
             self.name = name
+            self.publish = publish
             self.roleArn = roleArn
             self.tags = tags
             self.tracingConfiguration = tracingConfiguration
             self.type = type
+            self.versionDescription = versionDescription
         }
 
         public func validate(name: String) throws {
@@ -393,16 +449,19 @@ extension SFN {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
             case definition = "definition"
             case loggingConfiguration = "loggingConfiguration"
             case name = "name"
+            case publish = "publish"
             case roleArn = "roleArn"
             case tags = "tags"
             case tracingConfiguration = "tracingConfiguration"
             case type = "type"
+            case versionDescription = "versionDescription"
         }
     }
 
@@ -411,15 +470,19 @@ extension SFN {
         public let creationDate: Date
         /// The Amazon Resource Name (ARN) that identifies the created state machine.
         public let stateMachineArn: String
+        /// The Amazon Resource Name (ARN) that identifies the created state machine version. If you do not set the publish parameter to true, this field returns null value.
+        public let stateMachineVersionArn: String?
 
-        public init(creationDate: Date, stateMachineArn: String) {
+        public init(creationDate: Date, stateMachineArn: String, stateMachineVersionArn: String? = nil) {
             self.creationDate = creationDate
             self.stateMachineArn = stateMachineArn
+            self.stateMachineVersionArn = stateMachineVersionArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case creationDate = "creationDate"
             case stateMachineArn = "stateMachineArn"
+            case stateMachineVersionArn = "stateMachineVersionArn"
         }
     }
 
@@ -445,6 +508,28 @@ extension SFN {
         public init() {}
     }
 
+    public struct DeleteStateMachineAliasInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the state machine alias to delete.
+        public let stateMachineAliasArn: String
+
+        public init(stateMachineAliasArn: String) {
+            self.stateMachineAliasArn = stateMachineAliasArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.stateMachineAliasArn, name: "stateMachineAliasArn", parent: name, max: 256)
+            try self.validate(self.stateMachineAliasArn, name: "stateMachineAliasArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stateMachineAliasArn = "stateMachineAliasArn"
+        }
+    }
+
+    public struct DeleteStateMachineAliasOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteStateMachineInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the state machine to delete.
         public let stateMachineArn: String
@@ -464,6 +549,28 @@ extension SFN {
     }
 
     public struct DeleteStateMachineOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteStateMachineVersionInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the state machine version to delete.
+        public let stateMachineVersionArn: String
+
+        public init(stateMachineVersionArn: String) {
+            self.stateMachineVersionArn = stateMachineVersionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.stateMachineVersionArn, name: "stateMachineVersionArn", parent: name, max: 2000)
+            try self.validate(self.stateMachineVersionArn, name: "stateMachineVersionArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stateMachineVersionArn = "stateMachineVersionArn"
+        }
+    }
+
+    public struct DeleteStateMachineVersionOutput: AWSDecodableShape {
         public init() {}
     }
 
@@ -490,7 +597,7 @@ extension SFN {
         public let activityArn: String
         /// The date the activity is created.
         public let creationDate: Date
-        /// The name of the activity.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the activity. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
 
         public init(activityArn: String, creationDate: Date, name: String) {
@@ -536,23 +643,27 @@ extension SFN {
         public let inputDetails: CloudWatchEventsExecutionDataDetails?
         /// The Amazon Resource Name (ARN) that identifies a Map Run, which dispatched this execution.
         public let mapRunArn: String?
-        /// The name of the execution.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the execution. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String?
         /// The JSON output data of the execution. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.  This field is set only if the execution succeeds. If the execution fails, this field is null.
         public let output: String?
         public let outputDetails: CloudWatchEventsExecutionDataDetails?
         /// The date the execution is started.
         public let startDate: Date
+        /// The Amazon Resource Name (ARN) of the state machine alias associated with the execution. The alias ARN is a combination of state machine ARN and the alias name separated by a colon (:). For example, stateMachineARN:PROD. If you start an execution from a StartExecution request with a state machine version ARN, this field will be null.
+        public let stateMachineAliasArn: String?
         /// The Amazon Resource Name (ARN) of the executed stated machine.
         public let stateMachineArn: String
+        /// The Amazon Resource Name (ARN) of the state machine version associated with the execution. The version ARN is a combination of state machine ARN and the version number separated by a colon (:). For example, stateMachineARN:1. If you start an execution from a StartExecution request without specifying a state machine version or alias ARN, Step Functions returns a null value.
+        public let stateMachineVersionArn: String?
         /// The current status of the execution.
         public let status: ExecutionStatus
-        /// If the execution has already ended, the date the execution stopped.
+        /// If the execution ended, the date the execution stopped.
         public let stopDate: Date?
         /// The X-Ray trace header that was passed to the execution.
         public let traceHeader: String?
 
-        public init(cause: String? = nil, error: String? = nil, executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, mapRunArn: String? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, startDate: Date, stateMachineArn: String, status: ExecutionStatus, stopDate: Date? = nil, traceHeader: String? = nil) {
+        public init(cause: String? = nil, error: String? = nil, executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, mapRunArn: String? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, startDate: Date, stateMachineAliasArn: String? = nil, stateMachineArn: String, stateMachineVersionArn: String? = nil, status: ExecutionStatus, stopDate: Date? = nil, traceHeader: String? = nil) {
             self.cause = cause
             self.error = error
             self.executionArn = executionArn
@@ -563,7 +674,9 @@ extension SFN {
             self.output = output
             self.outputDetails = outputDetails
             self.startDate = startDate
+            self.stateMachineAliasArn = stateMachineAliasArn
             self.stateMachineArn = stateMachineArn
+            self.stateMachineVersionArn = stateMachineVersionArn
             self.status = status
             self.stopDate = stopDate
             self.traceHeader = traceHeader
@@ -580,7 +693,9 @@ extension SFN {
             case output = "output"
             case outputDetails = "outputDetails"
             case startDate = "startDate"
+            case stateMachineAliasArn = "stateMachineAliasArn"
             case stateMachineArn = "stateMachineArn"
+            case stateMachineVersionArn = "stateMachineVersionArn"
             case status = "status"
             case stopDate = "stopDate"
             case traceHeader = "traceHeader"
@@ -654,6 +769,57 @@ extension SFN {
         }
     }
 
+    public struct DescribeStateMachineAliasInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the state machine alias.
+        public let stateMachineAliasArn: String
+
+        public init(stateMachineAliasArn: String) {
+            self.stateMachineAliasArn = stateMachineAliasArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.stateMachineAliasArn, name: "stateMachineAliasArn", parent: name, max: 256)
+            try self.validate(self.stateMachineAliasArn, name: "stateMachineAliasArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stateMachineAliasArn = "stateMachineAliasArn"
+        }
+    }
+
+    public struct DescribeStateMachineAliasOutput: AWSDecodableShape {
+        /// The date the state machine alias was created.
+        public let creationDate: Date?
+        /// A description of the alias.
+        public let description: String?
+        /// The name of the state machine alias.
+        public let name: String?
+        /// The routing configuration of the alias.
+        public let routingConfiguration: [RoutingConfigurationListItem]?
+        /// The Amazon Resource Name (ARN) of the state machine alias.
+        public let stateMachineAliasArn: String?
+        /// The date the state machine alias was last updated. For a newly created state machine, this is the same as the creation date.
+        public let updateDate: Date?
+
+        public init(creationDate: Date? = nil, description: String? = nil, name: String? = nil, routingConfiguration: [RoutingConfigurationListItem]? = nil, stateMachineAliasArn: String? = nil, updateDate: Date? = nil) {
+            self.creationDate = creationDate
+            self.description = description
+            self.name = name
+            self.routingConfiguration = routingConfiguration
+            self.stateMachineAliasArn = stateMachineAliasArn
+            self.updateDate = updateDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case description = "description"
+            case name = "name"
+            case routingConfiguration = "routingConfiguration"
+            case stateMachineAliasArn = "stateMachineAliasArn"
+            case updateDate = "updateDate"
+        }
+    }
+
     public struct DescribeStateMachineForExecutionInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the execution you want state machine information for.
         public let executionArn: String
@@ -682,6 +848,8 @@ extension SFN {
         public let mapRunArn: String?
         /// The name of the state machine associated with the execution.
         public let name: String
+        /// The revision identifier for the state machine. The first revision ID when you create the state machine is null. Use the state machine revisionId parameter to compare the revision of a state machine with the configuration of the state machine used for executions without performing a diff of the properties, such as definition and roleArn.
+        public let revisionId: String?
         /// The Amazon Resource Name (ARN) of the IAM role of the State Machine for the execution.
         public let roleArn: String
         /// The Amazon Resource Name (ARN) of the state machine associated with the execution.
@@ -691,12 +859,13 @@ extension SFN {
         /// The date and time the state machine associated with an execution was updated. For a newly created state machine, this is the creation date.
         public let updateDate: Date
 
-        public init(definition: String, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, mapRunArn: String? = nil, name: String, roleArn: String, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil, updateDate: Date) {
+        public init(definition: String, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, mapRunArn: String? = nil, name: String, revisionId: String? = nil, roleArn: String, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil, updateDate: Date) {
             self.definition = definition
             self.label = label
             self.loggingConfiguration = loggingConfiguration
             self.mapRunArn = mapRunArn
             self.name = name
+            self.revisionId = revisionId
             self.roleArn = roleArn
             self.stateMachineArn = stateMachineArn
             self.tracingConfiguration = tracingConfiguration
@@ -709,6 +878,7 @@ extension SFN {
             case loggingConfiguration = "loggingConfiguration"
             case mapRunArn = "mapRunArn"
             case name = "name"
+            case revisionId = "revisionId"
             case roleArn = "roleArn"
             case stateMachineArn = "stateMachineArn"
             case tracingConfiguration = "tracingConfiguration"
@@ -717,7 +887,7 @@ extension SFN {
     }
 
     public struct DescribeStateMachineInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the state machine to describe.
+        /// The Amazon Resource Name (ARN) of the state machine for which you want the information. If you specify a state machine version ARN, this API returns details about that version. The version ARN is a combination of state machine ARN and the version number separated by a colon (:). For example, stateMachineARN:1.
         public let stateMachineArn: String
 
         public init(stateMachineArn: String) {
@@ -735,18 +905,22 @@ extension SFN {
     }
 
     public struct DescribeStateMachineOutput: AWSDecodableShape {
-        /// The date the state machine is created.
+        /// The date the state machine is created. For a state machine version, creationDate is the date the version was created.
         public let creationDate: Date
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
+        /// The description of the state machine version.
+        public let description: String?
         /// A user-defined or an auto-generated string that identifies a Map state. This parameter is present only if the stateMachineArn specified in input is a qualified state machine ARN.
         public let label: String?
         public let loggingConfiguration: LoggingConfiguration?
-        /// The name of the state machine.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the state machine. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
+        /// The revision identifier for the state machine. Use the revisionId parameter to compare between versions of a state machine configuration used for executions without performing a diff of the properties, such as definition and roleArn.
+        public let revisionId: String?
         /// The Amazon Resource Name (ARN) of the IAM role used when creating this state machine. (The IAM role maintains security by granting Step Functions access to Amazon Web Services resources.)
         public let roleArn: String
-        /// The Amazon Resource Name (ARN) that identifies the state machine.
+        /// The Amazon Resource Name (ARN) that identifies the state machine. If you specified a state machine version ARN in your request, the API returns the version ARN. The version ARN is a combination of state machine ARN and the version number separated by a colon (:). For example, stateMachineARN:1.
         public let stateMachineArn: String
         /// The current status of the state machine.
         public let status: StateMachineStatus?
@@ -755,12 +929,14 @@ extension SFN {
         /// The type of the state machine (STANDARD or EXPRESS).
         public let type: StateMachineType
 
-        public init(creationDate: Date, definition: String, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType) {
+        public init(creationDate: Date, definition: String, description: String? = nil, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, name: String, revisionId: String? = nil, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType) {
             self.creationDate = creationDate
             self.definition = definition
+            self.description = description
             self.label = label
             self.loggingConfiguration = loggingConfiguration
             self.name = name
+            self.revisionId = revisionId
             self.roleArn = roleArn
             self.stateMachineArn = stateMachineArn
             self.status = status
@@ -771,9 +947,11 @@ extension SFN {
         private enum CodingKeys: String, CodingKey {
             case creationDate = "creationDate"
             case definition = "definition"
+            case description = "description"
             case label = "label"
             case loggingConfiguration = "loggingConfiguration"
             case name = "name"
+            case revisionId = "revisionId"
             case roleArn = "roleArn"
             case stateMachineArn = "stateMachineArn"
             case status = "status"
@@ -823,24 +1001,30 @@ extension SFN {
         public let itemCount: Int?
         /// The Amazon Resource Name (ARN) of a Map Run. This field is returned only if mapRunArn was specified in the ListExecutions API action. If stateMachineArn was specified in ListExecutions, the mapRunArn isn't returned.
         public let mapRunArn: String?
-        /// The name of the execution.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the execution. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
         /// The date the execution started.
         public let startDate: Date
-        /// The Amazon Resource Name (ARN) of the executed state machine.
+        /// The Amazon Resource Name (ARN) of the state machine alias used to start an execution. If the state machine execution was started with an unqualified ARN or a version ARN, it returns null.
+        public let stateMachineAliasArn: String?
+        /// The Amazon Resource Name (ARN) of the state machine that ran the execution.
         public let stateMachineArn: String
+        /// The Amazon Resource Name (ARN) of the state machine version associated with the execution. If the state machine execution was started with an unqualified ARN, it returns null. If the execution was started using a stateMachineAliasArn, both the stateMachineAliasArn and stateMachineVersionArn parameters contain the respective values.
+        public let stateMachineVersionArn: String?
         /// The current status of the execution.
         public let status: ExecutionStatus
         /// If the execution already ended, the date the execution stopped.
         public let stopDate: Date?
 
-        public init(executionArn: String, itemCount: Int? = nil, mapRunArn: String? = nil, name: String, startDate: Date, stateMachineArn: String, status: ExecutionStatus, stopDate: Date? = nil) {
+        public init(executionArn: String, itemCount: Int? = nil, mapRunArn: String? = nil, name: String, startDate: Date, stateMachineAliasArn: String? = nil, stateMachineArn: String, stateMachineVersionArn: String? = nil, status: ExecutionStatus, stopDate: Date? = nil) {
             self.executionArn = executionArn
             self.itemCount = itemCount
             self.mapRunArn = mapRunArn
             self.name = name
             self.startDate = startDate
+            self.stateMachineAliasArn = stateMachineAliasArn
             self.stateMachineArn = stateMachineArn
+            self.stateMachineVersionArn = stateMachineVersionArn
             self.status = status
             self.stopDate = stopDate
         }
@@ -851,7 +1035,9 @@ extension SFN {
             case mapRunArn = "mapRunArn"
             case name = "name"
             case startDate = "startDate"
+            case stateMachineAliasArn = "stateMachineAliasArn"
             case stateMachineArn = "stateMachineArn"
+            case stateMachineVersionArn = "stateMachineVersionArn"
             case status = "status"
             case stopDate = "stopDate"
         }
@@ -864,17 +1050,25 @@ extension SFN {
         public let inputDetails: HistoryEventExecutionDataDetails?
         /// The Amazon Resource Name (ARN) of the IAM role used for executing Lambda tasks.
         public let roleArn: String?
+        /// The Amazon Resource Name (ARN) that identifies a state machine alias used for starting the state machine execution.
+        public let stateMachineAliasArn: String?
+        /// The Amazon Resource Name (ARN) that identifies a state machine version used for starting the state machine execution.
+        public let stateMachineVersionArn: String?
 
-        public init(input: String? = nil, inputDetails: HistoryEventExecutionDataDetails? = nil, roleArn: String? = nil) {
+        public init(input: String? = nil, inputDetails: HistoryEventExecutionDataDetails? = nil, roleArn: String? = nil, stateMachineAliasArn: String? = nil, stateMachineVersionArn: String? = nil) {
             self.input = input
             self.inputDetails = inputDetails
             self.roleArn = roleArn
+            self.stateMachineAliasArn = stateMachineAliasArn
+            self.stateMachineVersionArn = stateMachineVersionArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case input = "input"
             case inputDetails = "inputDetails"
             case roleArn = "roleArn"
+            case stateMachineAliasArn = "stateMachineAliasArn"
+            case stateMachineVersionArn = "stateMachineVersionArn"
         }
     }
 
@@ -958,7 +1152,7 @@ extension SFN {
         public let executionArn: String
         /// You can select whether execution data (input or output of a history event) is returned. The default is true.
         public let includeExecutionData: Bool?
-        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default.  This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
@@ -1281,7 +1475,7 @@ extension SFN {
     }
 
     public struct ListActivitiesInput: AWSEncodableShape {
-        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default.  This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
@@ -1324,11 +1518,11 @@ extension SFN {
     public struct ListExecutionsInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Map Run that started the child workflow executions. If the mapRunArn field is specified, a list of all of the child workflow executions started by a Map Run is returned. For more information, see Examining Map Run in the Step Functions Developer Guide. You can specify either a mapRunArn or a stateMachineArn, but not both.
         public let mapRunArn: String?
-        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default.  This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
-        /// The Amazon Resource Name (ARN) of the state machine whose executions is listed. You can specify either a mapRunArn or a stateMachineArn, but not both.
+        /// The Amazon Resource Name (ARN) of the state machine whose executions is listed. You can specify either a mapRunArn or a stateMachineArn, but not both. You can also return a list of executions associated with a specific alias or version, by specifying an alias ARN or a version ARN in the stateMachineArn parameter.
         public let stateMachineArn: String?
         /// If specified, only list the executions whose current execution status matches the given filter.
         public let statusFilter: ExecutionStatus?
@@ -1381,7 +1575,7 @@ extension SFN {
     public struct ListMapRunsInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the execution for which the Map Runs must be listed.
         public let executionArn: String
-        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default.  This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
@@ -1425,8 +1619,102 @@ extension SFN {
         }
     }
 
+    public struct ListStateMachineAliasesInput: AWSEncodableShape {
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+        public let maxResults: Int?
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the state machine for which you want to list aliases. If you specify a state machine version ARN, this API returns a list of aliases for that version.
+        public let stateMachineArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, stateMachineArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.stateMachineArn = stateMachineArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
+            try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case stateMachineArn = "stateMachineArn"
+        }
+    }
+
+    public struct ListStateMachineAliasesOutput: AWSDecodableShape {
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+        /// Aliases for the state machine.
+        public let stateMachineAliases: [StateMachineAliasListItem]
+
+        public init(nextToken: String? = nil, stateMachineAliases: [StateMachineAliasListItem]) {
+            self.nextToken = nextToken
+            self.stateMachineAliases = stateMachineAliases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case stateMachineAliases = "stateMachineAliases"
+        }
+    }
+
+    public struct ListStateMachineVersionsInput: AWSEncodableShape {
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+        public let maxResults: Int?
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the state machine.
+        public let stateMachineArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, stateMachineArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.stateMachineArn = stateMachineArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
+            try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case stateMachineArn = "stateMachineArn"
+        }
+    }
+
+    public struct ListStateMachineVersionsOutput: AWSDecodableShape {
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+        /// Versions for the state machine.
+        public let stateMachineVersions: [StateMachineVersionListItem]
+
+        public init(nextToken: String? = nil, stateMachineVersions: [StateMachineVersionListItem]) {
+            self.nextToken = nextToken
+            self.stateMachineVersions = stateMachineVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case stateMachineVersions = "stateMachineVersions"
+        }
+    }
+
     public struct ListStateMachinesInput: AWSEncodableShape {
-        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default.  This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
@@ -1711,6 +1999,74 @@ extension SFN {
         }
     }
 
+    public struct PublishStateMachineVersionInput: AWSEncodableShape {
+        /// An optional description of the state machine version.
+        public let description: String?
+        /// Only publish the state machine version if the current state machine's revision ID matches the specified ID. Use this option to avoid publishing a version if the state machine changed since you last updated it. If the specified revision ID doesn't match the state machine's current revision ID, the API returns ConflictException.  To specify an initial revision ID for a state machine with no revision ID assigned, specify the string INITIAL for the revisionId parameter. For example, you can specify a revisionID of INITIAL when you create a state machine using the CreateStateMachine API action.
+        public let revisionId: String?
+        /// The Amazon Resource Name (ARN) of the state machine.
+        public let stateMachineArn: String
+
+        public init(description: String? = nil, revisionId: String? = nil, stateMachineArn: String) {
+            self.description = description
+            self.revisionId = revisionId
+            self.stateMachineArn = stateMachineArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
+            try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case revisionId = "revisionId"
+            case stateMachineArn = "stateMachineArn"
+        }
+    }
+
+    public struct PublishStateMachineVersionOutput: AWSDecodableShape {
+        /// The date the version was created.
+        public let creationDate: Date
+        /// The Amazon Resource Name (ARN) (ARN) that identifies the state machine version.
+        public let stateMachineVersionArn: String
+
+        public init(creationDate: Date, stateMachineVersionArn: String) {
+            self.creationDate = creationDate
+            self.stateMachineVersionArn = stateMachineVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case stateMachineVersionArn = "stateMachineVersionArn"
+        }
+    }
+
+    public struct RoutingConfigurationListItem: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that identifies one or two state machine versions defined in the routing configuration. If you specify the ARN of a second version, it must belong to the same state machine as the first version.
+        public let stateMachineVersionArn: String
+        /// The percentage of traffic you want to route to the second state machine version. The sum of the weights in the routing configuration must be equal to 100.
+        public let weight: Int
+
+        public init(stateMachineVersionArn: String, weight: Int) {
+            self.stateMachineVersionArn = stateMachineVersionArn
+            self.weight = weight
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.stateMachineVersionArn, name: "stateMachineVersionArn", parent: name, max: 256)
+            try self.validate(self.stateMachineVersionArn, name: "stateMachineVersionArn", parent: name, min: 1)
+            try self.validate(self.weight, name: "weight", parent: name, max: 100)
+            try self.validate(self.weight, name: "weight", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stateMachineVersionArn = "stateMachineVersionArn"
+            case weight = "weight"
+        }
+    }
+
     public struct SendTaskFailureInput: AWSEncodableShape {
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1795,9 +2151,9 @@ extension SFN {
     public struct StartExecutionInput: AWSEncodableShape {
         /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"   Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
-        /// The name of the execution. This name must be unique for your Amazon Web Services account, region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the Step Functions Developer Guide.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// Optional name of the execution. This name must be unique for your Amazon Web Services account, Region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the Step Functions Developer Guide. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String?
-        /// The Amazon Resource Name (ARN) of the state machine to execute.
+        /// The Amazon Resource Name (ARN) of the state machine to execute. The stateMachineArn parameter accepts one of the following inputs:    An unqualified state machine ARN – Refers to a state machine ARN that isn't qualified with a version or alias ARN. The following is an example of an unqualified state machine ARN.  arn::states:::stateMachine:  Step Functions doesn't associate state machine executions that you start with an unqualified ARN with a version. This is true even if that version uses the same revision that the execution used.    A state machine version ARN – Refers to a version ARN, which is a combination of state machine ARN and the version number separated by a colon (:). The following is an example of the ARN for version 10.   arn::states:::stateMachine::10  Step Functions doesn't associate executions that you start with a version ARN with any aliases that point to that version.    A state machine alias ARN – Refers to an alias ARN, which is a combination of state machine ARN and the alias name separated by a colon (:). The following is an example of the ARN for an alias named PROD.  arn::states:::stateMachine:  Step Functions associates executions that you start with an alias ARN with that alias and the state machine version used for that execution.
         public let stateMachineArn: String
         /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.
         public let traceHeader: String?
@@ -1984,10 +2340,27 @@ extension SFN {
         }
     }
 
+    public struct StateMachineAliasListItem: AWSDecodableShape {
+        /// The creation date of a state machine alias.
+        public let creationDate: Date
+        /// The Amazon Resource Name (ARN) that identifies a state machine alias. The alias ARN is a combination of state machine ARN and the alias name separated by a colon (:). For example, stateMachineARN:PROD.
+        public let stateMachineAliasArn: String
+
+        public init(creationDate: Date, stateMachineAliasArn: String) {
+            self.creationDate = creationDate
+            self.stateMachineAliasArn = stateMachineAliasArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case stateMachineAliasArn = "stateMachineAliasArn"
+        }
+    }
+
     public struct StateMachineListItem: AWSDecodableShape {
         /// The date the state machine is created.
         public let creationDate: Date
-        /// The name of the state machine.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
+        /// The name of the state machine. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         public let stateMachineArn: String
@@ -2005,6 +2378,23 @@ extension SFN {
             case name = "name"
             case stateMachineArn = "stateMachineArn"
             case type = "type"
+        }
+    }
+
+    public struct StateMachineVersionListItem: AWSDecodableShape {
+        /// The creation date of a state machine version.
+        public let creationDate: Date
+        /// The Amazon Resource Name (ARN) that identifies a state machine version. The version ARN is a combination of state machine ARN and the version number separated by a colon (:). For example, stateMachineARN:1.
+        public let stateMachineVersionArn: String
+
+        public init(creationDate: Date, stateMachineVersionArn: String) {
+            self.creationDate = creationDate
+            self.stateMachineVersionArn = stateMachineVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case stateMachineVersionArn = "stateMachineVersionArn"
         }
     }
 
@@ -2075,7 +2465,7 @@ extension SFN {
     public struct TagResourceInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
         public let resourceArn: String
-        /// The list of tags to add to a resource.  Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
+        /// The list of tags to add to a resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -2399,24 +2789,75 @@ extension SFN {
         public init() {}
     }
 
+    public struct UpdateStateMachineAliasInput: AWSEncodableShape {
+        /// A description of the state machine alias.
+        public let description: String?
+        /// The routing configuration of the state machine alias. An array of RoutingConfig objects that specifies up to two state machine versions that the alias starts executions for.
+        public let routingConfiguration: [RoutingConfigurationListItem]?
+        /// The Amazon Resource Name (ARN) of the state machine alias.
+        public let stateMachineAliasArn: String
+
+        public init(description: String? = nil, routingConfiguration: [RoutingConfigurationListItem]? = nil, stateMachineAliasArn: String) {
+            self.description = description
+            self.routingConfiguration = routingConfiguration
+            self.stateMachineAliasArn = stateMachineAliasArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.routingConfiguration?.forEach {
+                try $0.validate(name: "\(name).routingConfiguration[]")
+            }
+            try self.validate(self.routingConfiguration, name: "routingConfiguration", parent: name, max: 2)
+            try self.validate(self.routingConfiguration, name: "routingConfiguration", parent: name, min: 1)
+            try self.validate(self.stateMachineAliasArn, name: "stateMachineAliasArn", parent: name, max: 256)
+            try self.validate(self.stateMachineAliasArn, name: "stateMachineAliasArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case routingConfiguration = "routingConfiguration"
+            case stateMachineAliasArn = "stateMachineAliasArn"
+        }
+    }
+
+    public struct UpdateStateMachineAliasOutput: AWSDecodableShape {
+        /// The date and time the state machine alias was updated.
+        public let updateDate: Date
+
+        public init(updateDate: Date) {
+            self.updateDate = updateDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updateDate = "updateDate"
+        }
+    }
+
     public struct UpdateStateMachineInput: AWSEncodableShape {
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String?
-        /// The LoggingConfiguration data type is used to set CloudWatch Logs options.
+        /// Use the LoggingConfiguration data type to set CloudWatch Logs options.
         public let loggingConfiguration: LoggingConfiguration?
+        /// Specifies whether the state machine version is published. The default is false. To publish a version after updating the state machine, set publish to true.
+        public let publish: Bool?
         /// The Amazon Resource Name (ARN) of the IAM role of the state machine.
         public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the state machine.
         public let stateMachineArn: String
         /// Selects whether X-Ray tracing is enabled.
         public let tracingConfiguration: TracingConfiguration?
+        /// An optional description of the state machine version to publish. You can only specify the versionDescription parameter if you've set publish to true.
+        public let versionDescription: String?
 
-        public init(definition: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, roleArn: String? = nil, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil) {
+        public init(definition: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, publish: Bool? = nil, roleArn: String? = nil, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil, versionDescription: String? = nil) {
             self.definition = definition
             self.loggingConfiguration = loggingConfiguration
+            self.publish = publish
             self.roleArn = roleArn
             self.stateMachineArn = stateMachineArn
             self.tracingConfiguration = tracingConfiguration
+            self.versionDescription = versionDescription
         }
 
         public func validate(name: String) throws {
@@ -2427,26 +2868,37 @@ extension SFN {
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, min: 1)
+            try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
             case definition = "definition"
             case loggingConfiguration = "loggingConfiguration"
+            case publish = "publish"
             case roleArn = "roleArn"
             case stateMachineArn = "stateMachineArn"
             case tracingConfiguration = "tracingConfiguration"
+            case versionDescription = "versionDescription"
         }
     }
 
     public struct UpdateStateMachineOutput: AWSDecodableShape {
+        /// The revision identifier for the updated state machine.
+        public let revisionId: String?
+        /// The Amazon Resource Name (ARN) of the published state machine version. If the publish parameter isn't set to true, this field returns null.
+        public let stateMachineVersionArn: String?
         /// The date and time the state machine was updated.
         public let updateDate: Date
 
-        public init(updateDate: Date) {
+        public init(revisionId: String? = nil, stateMachineVersionArn: String? = nil, updateDate: Date) {
+            self.revisionId = revisionId
+            self.stateMachineVersionArn = stateMachineVersionArn
             self.updateDate = updateDate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case revisionId = "revisionId"
+            case stateMachineVersionArn = "stateMachineVersionArn"
             case updateDate = "updateDate"
         }
     }
@@ -2460,6 +2912,7 @@ public struct SFNErrorType: AWSErrorType {
         case activityDoesNotExist = "ActivityDoesNotExist"
         case activityLimitExceeded = "ActivityLimitExceeded"
         case activityWorkerLimitExceeded = "ActivityWorkerLimitExceeded"
+        case conflictException = "ConflictException"
         case executionAlreadyExists = "ExecutionAlreadyExists"
         case executionDoesNotExist = "ExecutionDoesNotExist"
         case executionLimitExceeded = "ExecutionLimitExceeded"
@@ -2473,6 +2926,7 @@ public struct SFNErrorType: AWSErrorType {
         case invalidTracingConfiguration = "InvalidTracingConfiguration"
         case missingRequiredParameter = "MissingRequiredParameter"
         case resourceNotFound = "ResourceNotFound"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case stateMachineAlreadyExists = "StateMachineAlreadyExists"
         case stateMachineDeleting = "StateMachineDeleting"
         case stateMachineDoesNotExist = "StateMachineDoesNotExist"
@@ -2508,6 +2962,8 @@ public struct SFNErrorType: AWSErrorType {
     public static var activityLimitExceeded: Self { .init(.activityLimitExceeded) }
     /// The maximum number of workers concurrently polling for activity tasks has been reached.
     public static var activityWorkerLimitExceeded: Self { .init(.activityWorkerLimitExceeded) }
+    /// Updating or deleting a resource can cause an inconsistent state. This error occurs when there're concurrent requests for DeleteStateMachineVersion, PublishStateMachineVersion, or UpdateStateMachine with the publish parameter set to true. HTTP Status Code: 409
+    public static var conflictException: Self { .init(.conflictException) }
     /// The execution has the same name as another execution (but a different input).  Executions with the same name and input are considered idempotent.
     public static var executionAlreadyExists: Self { .init(.executionAlreadyExists) }
     /// The specified execution does not exist.
@@ -2531,8 +2987,10 @@ public struct SFNErrorType: AWSErrorType {
     public static var invalidTracingConfiguration: Self { .init(.invalidTracingConfiguration) }
     /// Request is missing a required parameter. This error occurs if both definition and roleArn are not specified.
     public static var missingRequiredParameter: Self { .init(.missingRequiredParameter) }
-    /// Could not find the referenced resource. Only state machine and activity ARNs are supported.
+    /// Could not find the referenced resource.
     public static var resourceNotFound: Self { .init(.resourceNotFound) }
+    /// The request would cause a service quota to be exceeded. HTTP Status Code: 402
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// A state machine with the same name but a different definition or role ARN already exists.
     public static var stateMachineAlreadyExists: Self { .init(.stateMachineAlreadyExists) }
     /// The specified state machine is being deleted.

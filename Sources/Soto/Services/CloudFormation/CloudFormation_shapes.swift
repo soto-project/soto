@@ -201,6 +201,13 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum OnStackFailure: String, CustomStringConvertible, Codable, Sendable {
+        case delete = "DELETE"
+        case doNothing = "DO_NOTHING"
+        case rollback = "ROLLBACK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OperationResultFilterName: String, CustomStringConvertible, Codable, Sendable {
         case operationResultStatus = "OPERATION_RESULT_STATUS"
         public var description: String { return self.rawValue }
@@ -913,6 +920,8 @@ extension CloudFormation {
         /// The Amazon Resource Names (ARNs) of Amazon Simple Notification Service (Amazon SNS) topics that CloudFormation associates with the stack. To remove all associated notification topics, specify an empty list.
         @OptionalCustomCoding<StandardArrayCoder>
         public var notificationARNs: [String]?
+        /// Determines what action will be taken if stack creation fails. If this parameter is specified, the DisableRollback parameter to the ExecuteChangeSet API operation must not be specified. This must be one of these values:    DELETE - Deletes the change set if the stack creation fails. This is only valid when the ChangeSetType parameter is set to CREATE. If the deletion of the stack fails, the status of the stack is DELETE_FAILED.    DO_NOTHING - if the stack creation fails, do nothing. This is equivalent to specifying true for the DisableRollback parameter to the ExecuteChangeSet API operation.    ROLLBACK - if the stack creation fails, roll back the stack. This is equivalent to specifying false for the DisableRollback parameter to the ExecuteChangeSet API operation.   For nested stacks, when the OnStackFailure parameter is set to DELETE for the change set for the parent stack, any failure in a child stack will cause the parent stack creation to fail and all stacks to be deleted.
+        public let onStackFailure: OnStackFailure?
         /// A list of Parameter structures that specify input parameters for the change set. For more information, see the Parameter data type.
         @OptionalCustomCoding<StandardArrayCoder>
         public var parameters: [Parameter]?
@@ -938,7 +947,7 @@ extension CloudFormation {
         /// Whether to reuse the template that's associated with the stack to create the change set.
         public let usePreviousTemplate: Bool?
 
-        public init(capabilities: [Capability]? = nil, changeSetName: String, changeSetType: ChangeSetType? = nil, clientToken: String? = nil, description: String? = nil, includeNestedStacks: Bool? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourcesToImport: [ResourceToImport]? = nil, resourceTypes: [String]? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
+        public init(capabilities: [Capability]? = nil, changeSetName: String, changeSetType: ChangeSetType? = nil, clientToken: String? = nil, description: String? = nil, includeNestedStacks: Bool? = nil, notificationARNs: [String]? = nil, onStackFailure: OnStackFailure? = nil, parameters: [Parameter]? = nil, resourcesToImport: [ResourceToImport]? = nil, resourceTypes: [String]? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
             self.capabilities = capabilities
             self.changeSetName = changeSetName
             self.changeSetType = changeSetType
@@ -946,6 +955,7 @@ extension CloudFormation {
             self.description = description
             self.includeNestedStacks = includeNestedStacks
             self.notificationARNs = notificationARNs
+            self.onStackFailure = onStackFailure
             self.parameters = parameters
             self.resourcesToImport = resourcesToImport
             self.resourceTypes = resourceTypes
@@ -997,6 +1007,7 @@ extension CloudFormation {
             case description = "Description"
             case includeNestedStacks = "IncludeNestedStacks"
             case notificationARNs = "NotificationARNs"
+            case onStackFailure = "OnStackFailure"
             case parameters = "Parameters"
             case resourcesToImport = "ResourcesToImport"
             case resourceTypes = "ResourceTypes"
@@ -1762,6 +1773,8 @@ extension CloudFormation {
         /// The ARNs of the Amazon Simple Notification Service (Amazon SNS) topics that will be associated with the stack if you execute the change set.
         @OptionalCustomCoding<StandardArrayCoder>
         public var notificationARNs: [String]?
+        /// Determines what action will be taken if stack creation fails. When this parameter is specified, the DisableRollback parameter to the ExecuteChangeSet API operation must not be specified. This must be one of these values:    DELETE - Deletes the change set if the stack creation fails. This is only valid when the ChangeSetType parameter is set to CREATE. If the deletion of the stack fails, the status of the stack is DELETE_FAILED.    DO_NOTHING - if the stack creation fails, do nothing. This is equivalent to specifying true for the DisableRollback parameter to the ExecuteChangeSet API operation.    ROLLBACK - if the stack creation fails, roll back the stack. This is equivalent to specifying false for the DisableRollback parameter to the ExecuteChangeSet API operation.
+        public let onStackFailure: OnStackFailure?
         /// A list of Parameter structures that describes the input parameters and their values used to create the change set. For more information, see the Parameter data type.
         @OptionalCustomCoding<StandardArrayCoder>
         public var parameters: [Parameter]?
@@ -1783,7 +1796,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
 
-        public init(capabilities: [Capability]? = nil, changes: [Change]? = nil, changeSetId: String? = nil, changeSetName: String? = nil, creationTime: Date? = nil, description: String? = nil, executionStatus: ExecutionStatus? = nil, includeNestedStacks: Bool? = nil, nextToken: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, parentChangeSetId: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, rootChangeSetId: String? = nil, stackId: String? = nil, stackName: String? = nil, status: ChangeSetStatus? = nil, statusReason: String? = nil, tags: [Tag]? = nil) {
+        public init(capabilities: [Capability]? = nil, changes: [Change]? = nil, changeSetId: String? = nil, changeSetName: String? = nil, creationTime: Date? = nil, description: String? = nil, executionStatus: ExecutionStatus? = nil, includeNestedStacks: Bool? = nil, nextToken: String? = nil, notificationARNs: [String]? = nil, onStackFailure: OnStackFailure? = nil, parameters: [Parameter]? = nil, parentChangeSetId: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, rootChangeSetId: String? = nil, stackId: String? = nil, stackName: String? = nil, status: ChangeSetStatus? = nil, statusReason: String? = nil, tags: [Tag]? = nil) {
             self.capabilities = capabilities
             self.changes = changes
             self.changeSetId = changeSetId
@@ -1794,6 +1807,7 @@ extension CloudFormation {
             self.includeNestedStacks = includeNestedStacks
             self.nextToken = nextToken
             self.notificationARNs = notificationARNs
+            self.onStackFailure = onStackFailure
             self.parameters = parameters
             self.parentChangeSetId = parentChangeSetId
             self.rollbackConfiguration = rollbackConfiguration
@@ -1816,6 +1830,7 @@ extension CloudFormation {
             case includeNestedStacks = "IncludeNestedStacks"
             case nextToken = "NextToken"
             case notificationARNs = "NotificationARNs"
+            case onStackFailure = "OnStackFailure"
             case parameters = "Parameters"
             case parentChangeSetId = "ParentChangeSetId"
             case rollbackConfiguration = "RollbackConfiguration"
@@ -2642,7 +2657,7 @@ extension CloudFormation {
         public let changeSetName: String
         /// A unique identifier for this ExecuteChangeSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to execute a change set to update a stack with the same name. You might retry ExecuteChangeSet requests to ensure that CloudFormation successfully received them.
         public let clientRequestToken: String?
-        /// Preserves the state of previously provisioned resources when an operation fails. Default: True
+        /// Preserves the state of previously provisioned resources when an operation fails. This parameter can't be specified when the OnStackFailure parameter to the CreateChangeSet API operation was specified.    True - if the stack creation fails, do nothing. This is equivalent to specifying DO_NOTHING for the OnStackFailure parameter to the CreateChangeSet API operation.    False - if the stack creation fails, roll back the stack. This is equivalent to specifying ROLLBACK for the OnStackFailure parameter to the CreateChangeSet API operation.   Default: True
         public let disableRollback: Bool?
         /// If you specified the name of a change set, specify the stack name or Amazon Resource Name (ARN) that's associated with the change set you want to execute.
         public let stackName: String?

@@ -409,6 +409,7 @@ extension S3 {
     public enum ServerSideEncryption: String, CustomStringConvertible, Codable, Sendable {
         case aes256 = "AES256"
         case awsKms = "aws:kms"
+        case awsKmsDsse = "aws:kms:dsse"
         public var description: String { return self.rawValue }
     }
 
@@ -1193,7 +1194,7 @@ extension S3 {
 
         /// The name of the bucket that contains the newly created object. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String?
-        /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+        /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
         public let bucketKeyEnabled: Bool?
         /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
@@ -1214,7 +1215,7 @@ extension S3 {
         public let requestCharged: RequestCharged?
         /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
-        /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
+        /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
         public let ssekmsKeyId: String?
         /// Version ID of the newly created object, in case the bucket has versioning turned on.
         public let versionId: String?
@@ -1408,7 +1409,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .header("x-amz-version-id"))
         ]
 
-        /// Indicates whether the copied object uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+        /// Indicates whether the copied object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
         public let bucketKeyEnabled: Bool?
         /// Container for all response elements.
         public let copyObjectResult: CopyObjectResult?
@@ -1417,7 +1418,7 @@ extension S3 {
         /// If the object expiration is configured, the response includes this header.
         public let expiration: String?
         public let requestCharged: RequestCharged?
-        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sseCustomerAlgorithm: String?
@@ -1425,7 +1426,7 @@ extension S3 {
         public let sseCustomerKeyMD5: String?
         /// If present, specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
         public let ssekmsEncryptionContext: String?
-        /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
+        /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
         public let ssekmsKeyId: String?
         /// Version ID of the newly created copy.
         public let versionId: String?
@@ -1508,7 +1509,7 @@ extension S3 {
         public let acl: ObjectCannedACL?
         /// The name of the destination bucket. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
-        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS.  Specifying this header with a COPY action doesn’t affect bucket-level settings for S3 Bucket Key.
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS.  Specifying this header with a COPY action doesn’t affect bucket-level settings for S3 Bucket Key.
         public let bucketKeyEnabled: Bool?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
@@ -1569,7 +1570,7 @@ extension S3 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var objectLockRetainUntilDate: Date?
         public let requestPayer: RequestPayer?
-        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
         public let serverSideEncryption: ServerSideEncryption?
         /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sseCustomerAlgorithm: String?
@@ -1579,7 +1580,7 @@ extension S3 {
         public let sseCustomerKeyMD5: String?
         /// Specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
         public let ssekmsEncryptionContext: String?
-        /// Specifies the Amazon Web Services KMS key ID to use for object encryption. All GET and PUT requests for an object protected by Amazon Web Services KMS will fail if not made via SSL or using SigV4. For information about configuring using any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see Specifying the Signature Version in Request Authentication in the Amazon S3 User Guide.
+        /// Specifies the KMS key ID to use for object encryption. All GET and PUT requests for an object protected by KMS will fail if they're not made via SSL or using SigV4. For information about configuring any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see Specifying the Signature Version in Request Authentication in the Amazon S3 User Guide.
         public let ssekmsKeyId: String?
         /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see Storage Classes in the Amazon S3 User Guide.
         public let storageClass: StorageClass?
@@ -1813,7 +1814,7 @@ extension S3 {
         public let abortRuleId: String?
         /// The name of the bucket to which the multipart upload was initiated. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String?
-        /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+        /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
         public let bucketKeyEnabled: Bool?
         /// The algorithm that was used to create a checksum of the object.
         public let checksumAlgorithm: ChecksumAlgorithm?
@@ -1828,7 +1829,7 @@ extension S3 {
         public let sseCustomerKeyMD5: String?
         /// If present, specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
         public let ssekmsEncryptionContext: String?
-        /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
+        /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
         public let ssekmsKeyId: String?
         /// ID for the initiated multipart upload.
         public let uploadId: String?
@@ -1904,7 +1905,7 @@ extension S3 {
         public let acl: ObjectCannedACL?
         /// The name of the bucket to which to initiate the upload When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
-        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key.
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key.
         public let bucketKeyEnabled: Bool?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
@@ -1953,7 +1954,7 @@ extension S3 {
         public let sseCustomerKeyMD5: String?
         /// Specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
         public let ssekmsEncryptionContext: String?
-        /// Specifies the ID of the symmetric encryption customer managed key to use for object encryption. All GET and PUT requests for an object protected by Amazon Web Services KMS will fail if not made via SSL or using SigV4. For information about configuring using any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see Specifying the Signature Version in Request Authentication in the Amazon S3 User Guide.
+        /// Specifies the ID of the symmetric encryption customer managed key to use for object encryption. All GET and PUT requests for an object protected by KMS will fail if they're not made via SSL or using SigV4. For information about configuring any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see Specifying the Signature Version in Request Authentication in the Amazon S3 User Guide.
         public let ssekmsKeyId: String?
         /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see Storage Classes in the Amazon S3 User Guide.
         public let storageClass: StorageClass?
@@ -2024,7 +2025,7 @@ extension S3 {
     }
 
     public struct Delete: AWSEncodableShape {
-        /// The objects to delete.
+        /// The object to delete.
         public let objects: [ObjectIdentifier]
         /// Element to enable quiet mode for the request. When you add this element, you must set its value to true.
         public let quiet: Bool?
@@ -2620,7 +2621,7 @@ extension S3 {
         public let encryptionType: ServerSideEncryption
         /// If the encryption type is aws:kms, this optional value can be used to specify the encryption context for the restore results.
         public let kmsContext: String?
-        /// If the encryption type is aws:kms, this optional value specifies the ID of the symmetric encryption customer managed key to use for encryption of job results. Amazon S3 only supports symmetric encryption KMS keys. For more information, see Asymmetric keys in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide.
+        /// If the encryption type is aws:kms, this optional value specifies the ID of the symmetric encryption customer managed key to use for encryption of job results. Amazon S3 only supports symmetric encryption KMS keys. For more information, see Asymmetric keys in KMS in the Amazon Web Services Key Management Service Developer Guide.
         public let kmsKeyId: String?
 
         public init(encryptionType: ServerSideEncryption, kmsContext: String? = nil, kmsKeyId: String? = nil) {
@@ -2730,14 +2731,21 @@ extension S3 {
     }
 
     public struct GetBucketAccelerateConfigurationOutput: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
+        ]
+
+        public let requestCharged: RequestCharged?
         /// The accelerate configuration of the bucket.
         public let status: BucketAccelerateStatus?
 
-        public init(status: BucketAccelerateStatus? = nil) {
+        public init(requestCharged: RequestCharged? = nil, status: BucketAccelerateStatus? = nil) {
+            self.requestCharged = requestCharged
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case requestCharged = "x-amz-request-charged"
             case status = "Status"
         }
     }
@@ -2745,17 +2753,20 @@ extension S3 {
     public struct GetBucketAccelerateConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner"))
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer"))
         ]
 
         /// The name of the bucket for which the accelerate configuration is retrieved.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
+        public let requestPayer: RequestPayer?
 
-        public init(bucket: String, expectedBucketOwner: String? = nil) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
+            self.requestPayer = requestPayer
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3800,7 +3811,7 @@ extension S3 {
         public let acceptRanges: String?
         /// Object data.
         public let body: AWSPayload?
-        /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+        /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
         public let bucketKeyEnabled: Bool?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
@@ -3854,13 +3865,13 @@ extension S3 {
         public let requestCharged: RequestCharged?
         /// Provides information about object restoration action and expiration time of the restored object copy.
         public let restore: String?
-        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sseCustomerAlgorithm: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
         public let sseCustomerKeyMD5: String?
-        /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
+        /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
         public let ssekmsKeyId: String?
         /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects.
         public let storageClass: StorageClass?
@@ -4375,7 +4386,7 @@ extension S3 {
         public let acceptRanges: String?
         /// The archive state of the head object.
         public let archiveStatus: ArchiveStatus?
-        /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+        /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
         public let bucketKeyEnabled: Bool?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
@@ -4427,13 +4438,13 @@ extension S3 {
         public let requestCharged: RequestCharged?
         /// If the object is an archived object (an object whose storage class is GLACIER), the response includes this header if either the archive restoration is in progress (see RestoreObject or an archive copy is already restored. If an archive copy is already restored, the header value indicates when Amazon S3 is scheduled to delete the object copy. For example:  x-amz-restore: ongoing-request="false", expiry-date="Fri, 21 Dec 2012 00:00:00 GMT"  If the object restoration is in progress, the header returns the value ongoing-request="true". For more information about archiving objects, see Transitioning Objects: General Considerations.
         public let restore: String?
-        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sseCustomerAlgorithm: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
         public let sseCustomerKeyMD5: String?
-        /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
+        /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
         public let ssekmsKeyId: String?
         /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects. For more information, see Storage Classes.
         public let storageClass: StorageClass?
@@ -5221,6 +5232,10 @@ extension S3 {
     }
 
     public struct ListMultipartUploadsOutput: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
+        ]
+
         /// The name of the bucket to which the multipart upload was initiated. Does not return the access point ARN or access point alias if used.
         public let bucket: String?
         /// If you specify a delimiter in the request, then the result returns each distinct key prefix containing the delimiter in a CommonPrefixes element. The distinct key prefixes are returned in the Prefix child element.
@@ -5241,12 +5256,13 @@ extension S3 {
         public let nextUploadIdMarker: String?
         /// When a prefix is provided in the request, this field contains the specified prefix. The result contains only keys starting with the specified prefix.
         public let prefix: String?
+        public let requestCharged: RequestCharged?
         /// Upload ID after which listing began.
         public let uploadIdMarker: String?
         /// Container for elements related to a particular multipart upload. A response can contain zero or more Upload elements.
         public let uploads: [MultipartUpload]?
 
-        public init(bucket: String? = nil, commonPrefixes: [CommonPrefix]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, maxUploads: Int? = nil, nextKeyMarker: String? = nil, nextUploadIdMarker: String? = nil, prefix: String? = nil, uploadIdMarker: String? = nil, uploads: [MultipartUpload]? = nil) {
+        public init(bucket: String? = nil, commonPrefixes: [CommonPrefix]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, maxUploads: Int? = nil, nextKeyMarker: String? = nil, nextUploadIdMarker: String? = nil, prefix: String? = nil, requestCharged: RequestCharged? = nil, uploadIdMarker: String? = nil, uploads: [MultipartUpload]? = nil) {
             self.bucket = bucket
             self.commonPrefixes = commonPrefixes
             self.delimiter = delimiter
@@ -5257,6 +5273,7 @@ extension S3 {
             self.nextKeyMarker = nextKeyMarker
             self.nextUploadIdMarker = nextUploadIdMarker
             self.prefix = prefix
+            self.requestCharged = requestCharged
             self.uploadIdMarker = uploadIdMarker
             self.uploads = uploads
         }
@@ -5272,6 +5289,7 @@ extension S3 {
             case nextKeyMarker = "NextKeyMarker"
             case nextUploadIdMarker = "NextUploadIdMarker"
             case prefix = "Prefix"
+            case requestCharged = "x-amz-request-charged"
             case uploadIdMarker = "UploadIdMarker"
             case uploads = "Upload"
         }
@@ -5286,6 +5304,7 @@ extension S3 {
             AWSMemberEncoding(label: "keyMarker", location: .querystring("key-marker")),
             AWSMemberEncoding(label: "maxUploads", location: .querystring("max-uploads")),
             AWSMemberEncoding(label: "prefix", location: .querystring("prefix")),
+            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
             AWSMemberEncoding(label: "uploadIdMarker", location: .querystring("upload-id-marker"))
         ]
 
@@ -5302,10 +5321,11 @@ extension S3 {
         public let maxUploads: Int?
         /// Lists in-progress uploads only for those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different grouping of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.)
         public let prefix: String?
+        public let requestPayer: RequestPayer?
         /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be included in the list only if they have an upload ID lexicographically greater than the specified upload-id-marker.
         public let uploadIdMarker: String?
 
-        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, keyMarker: String? = nil, maxUploads: Int? = nil, prefix: String? = nil, uploadIdMarker: String? = nil) {
+        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, keyMarker: String? = nil, maxUploads: Int? = nil, prefix: String? = nil, requestPayer: RequestPayer? = nil, uploadIdMarker: String? = nil) {
             self.bucket = bucket
             self.delimiter = delimiter
             self.encodingType = encodingType
@@ -5313,6 +5333,7 @@ extension S3 {
             self.keyMarker = keyMarker
             self.maxUploads = maxUploads
             self.prefix = prefix
+            self.requestPayer = requestPayer
             self.uploadIdMarker = uploadIdMarker
         }
 
@@ -5320,6 +5341,10 @@ extension S3 {
     }
 
     public struct ListObjectVersionsOutput: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
+        ]
+
         /// All of the keys rolled up into a common prefix count as a single return when calculating the number of returns.
         public let commonPrefixes: [CommonPrefix]?
         /// Container for an object that is a delete marker.
@@ -5342,12 +5367,13 @@ extension S3 {
         public let nextVersionIdMarker: String?
         /// Selects objects that start with the value supplied by this parameter.
         public let prefix: String?
+        public let requestCharged: RequestCharged?
         /// Marks the last version of the key returned in a truncated response.
         public let versionIdMarker: String?
         /// Container for version information.
         public let versions: [ObjectVersion]?
 
-        public init(commonPrefixes: [CommonPrefix]? = nil, deleteMarkers: [DeleteMarkerEntry]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, maxKeys: Int? = nil, name: String? = nil, nextKeyMarker: String? = nil, nextVersionIdMarker: String? = nil, prefix: String? = nil, versionIdMarker: String? = nil, versions: [ObjectVersion]? = nil) {
+        public init(commonPrefixes: [CommonPrefix]? = nil, deleteMarkers: [DeleteMarkerEntry]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, maxKeys: Int? = nil, name: String? = nil, nextKeyMarker: String? = nil, nextVersionIdMarker: String? = nil, prefix: String? = nil, requestCharged: RequestCharged? = nil, versionIdMarker: String? = nil, versions: [ObjectVersion]? = nil) {
             self.commonPrefixes = commonPrefixes
             self.deleteMarkers = deleteMarkers
             self.delimiter = delimiter
@@ -5359,6 +5385,7 @@ extension S3 {
             self.nextKeyMarker = nextKeyMarker
             self.nextVersionIdMarker = nextVersionIdMarker
             self.prefix = prefix
+            self.requestCharged = requestCharged
             self.versionIdMarker = versionIdMarker
             self.versions = versions
         }
@@ -5375,6 +5402,7 @@ extension S3 {
             case nextKeyMarker = "NextKeyMarker"
             case nextVersionIdMarker = "NextVersionIdMarker"
             case prefix = "Prefix"
+            case requestCharged = "x-amz-request-charged"
             case versionIdMarker = "VersionIdMarker"
             case versions = "Version"
         }
@@ -5389,6 +5417,7 @@ extension S3 {
             AWSMemberEncoding(label: "keyMarker", location: .querystring("key-marker")),
             AWSMemberEncoding(label: "maxKeys", location: .querystring("max-keys")),
             AWSMemberEncoding(label: "prefix", location: .querystring("prefix")),
+            AWSMemberEncoding(label: "requestPayer", location: .header("x-amz-request-payer")),
             AWSMemberEncoding(label: "versionIdMarker", location: .querystring("version-id-marker"))
         ]
 
@@ -5405,10 +5434,11 @@ extension S3 {
         public let maxKeys: Int?
         /// Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes.
         public let prefix: String?
+        public let requestPayer: RequestPayer?
         /// Specifies the object version you want to start listing from.
         public let versionIdMarker: String?
 
-        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, keyMarker: String? = nil, maxKeys: Int? = nil, prefix: String? = nil, versionIdMarker: String? = nil) {
+        public init(bucket: String, delimiter: String? = nil, encodingType: EncodingType? = nil, expectedBucketOwner: String? = nil, keyMarker: String? = nil, maxKeys: Int? = nil, prefix: String? = nil, requestPayer: RequestPayer? = nil, versionIdMarker: String? = nil) {
             self.bucket = bucket
             self.delimiter = delimiter
             self.encodingType = encodingType
@@ -5416,6 +5446,7 @@ extension S3 {
             self.keyMarker = keyMarker
             self.maxKeys = maxKeys
             self.prefix = prefix
+            self.requestPayer = requestPayer
             self.versionIdMarker = versionIdMarker
         }
 
@@ -5423,6 +5454,10 @@ extension S3 {
     }
 
     public struct ListObjectsOutput: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
+        ]
+
         /// All of the keys (up to 1,000) rolled up in a common prefix count as a single return when calculating the number of returns.  A response can contain CommonPrefixes only if you specify a delimiter. CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by the delimiter. CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
         public let commonPrefixes: [CommonPrefix]?
         /// Metadata about each object returned.
@@ -5443,8 +5478,9 @@ extension S3 {
         public let nextMarker: String?
         /// Keys that begin with the indicated prefix.
         public let prefix: String?
+        public let requestCharged: RequestCharged?
 
-        public init(commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, marker: String? = nil, maxKeys: Int? = nil, name: String? = nil, nextMarker: String? = nil, prefix: String? = nil) {
+        public init(commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, marker: String? = nil, maxKeys: Int? = nil, name: String? = nil, nextMarker: String? = nil, prefix: String? = nil, requestCharged: RequestCharged? = nil) {
             self.commonPrefixes = commonPrefixes
             self.contents = contents
             self.delimiter = delimiter
@@ -5455,6 +5491,7 @@ extension S3 {
             self.name = name
             self.nextMarker = nextMarker
             self.prefix = prefix
+            self.requestCharged = requestCharged
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5468,6 +5505,7 @@ extension S3 {
             case name = "Name"
             case nextMarker = "NextMarker"
             case prefix = "Prefix"
+            case requestCharged = "x-amz-request-charged"
         }
     }
 
@@ -5514,6 +5552,10 @@ extension S3 {
     }
 
     public struct ListObjectsV2Output: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
+        ]
+
         /// All of the keys (up to 1,000) rolled up into a common prefix count as a single return when calculating the number of returns. A response can contain CommonPrefixes only if you specify a delimiter.  CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by a delimiter.  CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
         public let commonPrefixes: [CommonPrefix]?
         /// Metadata about each object returned.
@@ -5536,10 +5578,11 @@ extension S3 {
         public let nextContinuationToken: String?
         ///  Keys that begin with the indicated prefix.
         public let prefix: String?
+        public let requestCharged: RequestCharged?
         /// If StartAfter was sent with the request, it is included in the response.
         public let startAfter: String?
 
-        public init(commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, continuationToken: String? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyCount: Int? = nil, maxKeys: Int? = nil, name: String? = nil, nextContinuationToken: String? = nil, prefix: String? = nil, startAfter: String? = nil) {
+        public init(commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, continuationToken: String? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, isTruncated: Bool? = nil, keyCount: Int? = nil, maxKeys: Int? = nil, name: String? = nil, nextContinuationToken: String? = nil, prefix: String? = nil, requestCharged: RequestCharged? = nil, startAfter: String? = nil) {
             self.commonPrefixes = commonPrefixes
             self.contents = contents
             self.continuationToken = continuationToken
@@ -5551,6 +5594,7 @@ extension S3 {
             self.name = name
             self.nextContinuationToken = nextContinuationToken
             self.prefix = prefix
+            self.requestCharged = requestCharged
             self.startAfter = startAfter
         }
 
@@ -5566,6 +5610,7 @@ extension S3 {
             case name = "Name"
             case nextContinuationToken = "NextContinuationToken"
             case prefix = "Prefix"
+            case requestCharged = "x-amz-request-charged"
             case startAfter = "StartAfter"
         }
     }
@@ -7261,7 +7306,7 @@ extension S3 {
             AWSMemberEncoding(label: "versionId", location: .header("x-amz-version-id"))
         ]
 
-        /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+        /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
         public let bucketKeyEnabled: Bool?
         /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
@@ -7276,7 +7321,7 @@ extension S3 {
         /// If the expiration is configured for the object (see PutBucketLifecycleConfiguration), the response includes this header. It includes the expiry-date and rule-id key-value pairs that provide information about object expiration. The value of the rule-id is URL-encoded.
         public let expiration: String?
         public let requestCharged: RequestCharged?
-        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
         public let serverSideEncryption: ServerSideEncryption?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sseCustomerAlgorithm: String?
@@ -7284,7 +7329,7 @@ extension S3 {
         public let sseCustomerKeyMD5: String?
         /// If present, specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs. This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject or CopyObject operations on this object.
         public let ssekmsEncryptionContext: String?
-        /// If x-amz-server-side-encryption is has a valid value of aws:kms, this header specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
+        /// If x-amz-server-side-encryption has a valid value of aws:kms or aws:kms:dsse, this header specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
         public let ssekmsKeyId: String?
         /// Version of the object.
         public let versionId: String?
@@ -7373,7 +7418,7 @@ extension S3 {
         public let body: AWSPayload?
         /// The bucket name to which the PUT action was initiated.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
-        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a PUT action doesn’t affect bucket-level settings for S3 Bucket Key.
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a PUT action doesn’t affect bucket-level settings for S3 Bucket Key.
         public let bucketKeyEnabled: Bool?
         ///  Can be used to specify caching behavior along the request/reply chain. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
         public let cacheControl: String?
@@ -7424,7 +7469,7 @@ extension S3 {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var objectLockRetainUntilDate: Date?
         public let requestPayer: RequestPayer?
-        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+        /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
         public let serverSideEncryption: ServerSideEncryption?
         /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
         public let sseCustomerAlgorithm: String?
@@ -7434,7 +7479,7 @@ extension S3 {
         public let sseCustomerKeyMD5: String?
         /// Specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs. This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject or CopyObject operations on this object.
         public let ssekmsEncryptionContext: String?
-        /// If x-amz-server-side-encryption has a valid value of aws:kms, this header specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object. If you specify x-amz-server-side-encryption:aws:kms, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed key to protect the data. If the KMS key does not exist in the same account issuing the command, you must use the full ARN and not just the ID.
+        /// If x-amz-server-side-encryption has a valid value of aws:kms or aws:kms:dsse, this header specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object. If you specify x-amz-server-side-encryption:aws:kms or x-amz-server-side-encryption:aws:kms:dsse, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed key (aws/s3) to protect the data. If the KMS key does not exist in the same account that's issuing the command, you must use the full ARN and not just the ID.
         public let ssekmsKeyId: String?
         /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see Storage Classes in the Amazon S3 User Guide.
         public let storageClass: StorageClass?
@@ -8111,7 +8156,7 @@ extension S3 {
     }
 
     public struct SSEKMS: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key to use for encrypting inventory reports.
+        /// Specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key to use for encrypting inventory reports.
         public let keyId: String
 
         public init(keyId: String) {
@@ -8529,7 +8574,7 @@ extension S3 {
             AWSMemberEncoding(label: "ssekmsKeyId", location: .header("x-amz-server-side-encryption-aws-kms-key-id"))
         ]
 
-        /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+        /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
         public let bucketKeyEnabled: Bool?
         /// Container for all response elements.
         public let copyPartResult: CopyPartResult?
@@ -8542,7 +8587,7 @@ extension S3 {
         public let sseCustomerAlgorithm: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
         public let sseCustomerKeyMD5: String?
-        /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
+        /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
         public let ssekmsKeyId: String?
 
         public init(bucketKeyEnabled: Bool? = nil, copyPartResult: CopyPartResult? = nil, copySourceVersionId: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil) {
@@ -8676,7 +8721,7 @@ extension S3 {
             AWSMemberEncoding(label: "ssekmsKeyId", location: .header("x-amz-server-side-encryption-aws-kms-key-id"))
         ]
 
-        /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
+        /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
         public let bucketKeyEnabled: Bool?
         /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
@@ -8695,7 +8740,7 @@ extension S3 {
         public let sseCustomerAlgorithm: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
         public let sseCustomerKeyMD5: String?
-        /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key was used for the object.
+        /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key was used for the object.
         public let ssekmsKeyId: String?
 
         public init(bucketKeyEnabled: Bool? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil) {

@@ -127,6 +127,11 @@ extension Redshift {
         return try await self.client.execute(operation: "CreateClusterSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Used to create a custom domain name for a cluster. Properties include the custom domain name, the  cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN).
+    public func createCustomDomainAssociation(_ input: CreateCustomDomainAssociationMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateCustomDomainAssociationResult {
+        return try await self.client.execute(operation: "CreateCustomDomainAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a Redshift-managed VPC endpoint.
     public func createEndpointAccess(_ input: CreateEndpointAccessMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EndpointAccess {
         return try await self.client.execute(operation: "CreateEndpointAccess", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -217,6 +222,11 @@ extension Redshift {
     /// Deletes the specified cluster subnet group.
     public func deleteClusterSubnetGroup(_ input: DeleteClusterSubnetGroupMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteClusterSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Contains information about deleting a custom domain association for a cluster.
+    public func deleteCustomDomainAssociation(_ input: DeleteCustomDomainAssociationMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "DeleteCustomDomainAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a Redshift-managed VPC endpoint.
@@ -337,6 +347,11 @@ extension Redshift {
     /// in the Amazon Redshift Cluster Management Guide. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all clusters that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all clusters that have any combination of those values are returned. If both tag keys and values are omitted from the request, clusters are returned regardless of whether they have tag keys or values associated with them.
     public func describeClusters(_ input: DescribeClustersMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ClustersMessage {
         return try await self.client.execute(operation: "DescribeClusters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Contains information for custom domain associations for a cluster.
+    public func describeCustomDomainAssociations(_ input: DescribeCustomDomainAssociationsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CustomDomainAssociationsMessage {
+        return try await self.client.execute(operation: "DescribeCustomDomainAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Shows the status of any inbound or outbound datashares available in the specified account.
@@ -580,6 +595,11 @@ extension Redshift {
     /// Modifies a cluster subnet group to include the specified list of VPC subnets. The operation replaces the existing list of subnets with the new list of subnets.
     public func modifyClusterSubnetGroup(_ input: ModifyClusterSubnetGroupMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyClusterSubnetGroupResult {
         return try await self.client.execute(operation: "ModifyClusterSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Contains information for changing a custom domain association.
+    public func modifyCustomDomainAssociation(_ input: ModifyCustomDomainAssociationMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyCustomDomainAssociationResult {
+        return try await self.client.execute(operation: "ModifyCustomDomainAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Modifies a Redshift-managed VPC endpoint.
@@ -910,6 +930,28 @@ extension Redshift {
             command: self.describeClusters,
             inputKey: \DescribeClustersMessage.marker,
             outputKey: \ClustersMessage.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    /// Contains information for custom domain associations for a cluster.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeCustomDomainAssociationsPaginator(
+        _ input: DescribeCustomDomainAssociationsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeCustomDomainAssociationsMessage, CustomDomainAssociationsMessage> {
+        return .init(
+            input: input,
+            command: self.describeCustomDomainAssociations,
+            inputKey: \DescribeCustomDomainAssociationsMessage.marker,
+            outputKey: \CustomDomainAssociationsMessage.marker,
             logger: logger,
             on: eventLoop
         )

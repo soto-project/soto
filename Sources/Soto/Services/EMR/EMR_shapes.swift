@@ -3656,6 +3656,40 @@ extension EMR {
         }
     }
 
+    public struct ListSupportedInstanceTypesInput: AWSEncodableShape {
+        /// The pagination token that marks the next set of results to retrieve.
+        public let marker: String?
+        /// The Amazon EMR release label determines the versions of open-source application packages that Amazon EMR has installed on the cluster. Release labels are in the format emr-x.x.x, where x.x.x is an Amazon EMR release number such as emr-6.10.0. For more information about Amazon EMR releases and their included application versions and features, see the  Amazon EMR Release Guide .
+        public let releaseLabel: String
+
+        public init(marker: String? = nil, releaseLabel: String) {
+            self.marker = marker
+            self.releaseLabel = releaseLabel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case releaseLabel = "ReleaseLabel"
+        }
+    }
+
+    public struct ListSupportedInstanceTypesOutput: AWSDecodableShape {
+        /// The pagination token that marks the next set of results to retrieve.
+        public let marker: String?
+        /// The list of instance types that the release specified in ListSupportedInstanceTypesInput$ReleaseLabel supports, filtered by Amazon Web Services Region.
+        public let supportedInstanceTypes: [SupportedInstanceType]?
+
+        public init(marker: String? = nil, supportedInstanceTypes: [SupportedInstanceType]? = nil) {
+            self.marker = marker
+            self.supportedInstanceTypes = supportedInstanceTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case supportedInstanceTypes = "SupportedInstanceTypes"
+        }
+    }
+
     public struct ManagedScalingPolicy: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon EC2 unit limits for a managed scaling policy. The managed scaling activity of a cluster is not allowed to go above or below these limits. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration.
         public let computeLimits: ComputeLimits?
@@ -4792,7 +4826,7 @@ extension EMR {
     }
 
     public struct SpotProvisioningSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies one of the following strategies to launch Spot Instance fleets: price-capacity-optimized, capacity-optimized, lowest-price, or  diversified. For more information on the provisioning strategies, see Allocation strategies for Spot Instances in the Amazon EC2 User Guide for Linux Instances.  When you launch a Spot Instance fleet with the old console, it automatically launches with the capacity-optimized strategy. You can't change the allocation strategy from the old console.
+        ///  Specifies the strategy to use in launching Spot Instance fleets. Currently, the only option is capacity-optimized (the default), which launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
         public let allocationStrategy: SpotProvisioningAllocationStrategy?
         /// The defined duration for Spot Instances (also known as Spot blocks) in minutes. When specified, the Spot Instance does not terminate before the defined duration expires, and defined duration pricing for Spot Instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot Instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot Instance for termination and provides a Spot Instance termination notice, which gives the instance a two-minute warning before it terminates.   Spot Instances with a defined duration (also known as Spot blocks) are no longer available to new customers from July 1, 2021. For customers who have previously used the feature, we will continue to support Spot Instances with a defined duration until December 31, 2022.
         public let blockDurationMinutes: Int?
@@ -5259,6 +5293,59 @@ extension EMR {
             case studioId = "StudioId"
             case url = "Url"
             case vpcId = "VpcId"
+        }
+    }
+
+    public struct SupportedInstanceType: AWSDecodableShape {
+        /// The CPU architecture, for example X86_64 or AARCH64.
+        public let architecture: String?
+        /// Indicates whether the SupportedInstanceType supports Amazon EBS optimization.
+        public let ebsOptimizedAvailable: Bool?
+        /// Indicates whether the SupportedInstanceType uses Amazon EBS optimization by default.
+        public let ebsOptimizedByDefault: Bool?
+        /// Indicates whether the SupportedInstanceType only supports Amazon EBS.
+        public let ebsStorageOnly: Bool?
+        /// The Amazon EC2 family and generation for the SupportedInstanceType.
+        public let instanceFamilyId: String?
+        /// Indicates whether the SupportedInstanceType only supports 64-bit architecture.
+        public let is64BitsOnly: Bool?
+        /// The amount of memory that is available to Amazon EMR from the SupportedInstanceType. The kernel and hypervisor software consume some memory, so this value might be lower than the overall memory for the instance type.
+        public let memoryGB: Float?
+        /// Number of disks for the SupportedInstanceType. This value is 0 for Amazon EBS-only instance types.
+        public let numberOfDisks: Int?
+        ///  StorageGB represents the storage capacity of the SupportedInstanceType. This value is 0 for Amazon EBS-only instance types.
+        public let storageGB: Int?
+        /// The Amazon EC2 instance type, for example m5.xlarge, of the SupportedInstanceType.
+        public let type: String?
+        /// The number of vCPUs available for the SupportedInstanceType.
+        public let vcpu: Int?
+
+        public init(architecture: String? = nil, ebsOptimizedAvailable: Bool? = nil, ebsOptimizedByDefault: Bool? = nil, ebsStorageOnly: Bool? = nil, instanceFamilyId: String? = nil, is64BitsOnly: Bool? = nil, memoryGB: Float? = nil, numberOfDisks: Int? = nil, storageGB: Int? = nil, type: String? = nil, vcpu: Int? = nil) {
+            self.architecture = architecture
+            self.ebsOptimizedAvailable = ebsOptimizedAvailable
+            self.ebsOptimizedByDefault = ebsOptimizedByDefault
+            self.ebsStorageOnly = ebsStorageOnly
+            self.instanceFamilyId = instanceFamilyId
+            self.is64BitsOnly = is64BitsOnly
+            self.memoryGB = memoryGB
+            self.numberOfDisks = numberOfDisks
+            self.storageGB = storageGB
+            self.type = type
+            self.vcpu = vcpu
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architecture = "Architecture"
+            case ebsOptimizedAvailable = "EbsOptimizedAvailable"
+            case ebsOptimizedByDefault = "EbsOptimizedByDefault"
+            case ebsStorageOnly = "EbsStorageOnly"
+            case instanceFamilyId = "InstanceFamilyId"
+            case is64BitsOnly = "Is64BitsOnly"
+            case memoryGB = "MemoryGB"
+            case numberOfDisks = "NumberOfDisks"
+            case storageGB = "StorageGB"
+            case type = "Type"
+            case vcpu = "VCPU"
         }
     }
 

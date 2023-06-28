@@ -283,6 +283,7 @@ extension Connect {
         case mediaStreams = "MEDIA_STREAMS"
         case realTimeContactAnalysisSegments = "REAL_TIME_CONTACT_ANALYSIS_SEGMENTS"
         case scheduledReports = "SCHEDULED_REPORTS"
+        case screenRecordings = "SCREEN_RECORDINGS"
         public var description: String { return self.rawValue }
     }
 
@@ -7084,6 +7085,8 @@ extension Connect {
         public let identityManagementType: DirectoryType?
         /// Whether inbound calls are enabled.
         public let inboundCallsEnabled: Bool?
+        /// This URL allows contact center users to access Amazon Connect admin website.
+        public let instanceAccessUrl: String?
         /// The alias of instance.
         public let instanceAlias: String?
         /// The state of the instance.
@@ -7095,12 +7098,13 @@ extension Connect {
         /// Relevant details why the instance was not successfully created.
         public let statusReason: InstanceStatusReason?
 
-        public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, identityManagementType: DirectoryType? = nil, inboundCallsEnabled: Bool? = nil, instanceAlias: String? = nil, instanceStatus: InstanceStatus? = nil, outboundCallsEnabled: Bool? = nil, serviceRole: String? = nil, statusReason: InstanceStatusReason? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, identityManagementType: DirectoryType? = nil, inboundCallsEnabled: Bool? = nil, instanceAccessUrl: String? = nil, instanceAlias: String? = nil, instanceStatus: InstanceStatus? = nil, outboundCallsEnabled: Bool? = nil, serviceRole: String? = nil, statusReason: InstanceStatusReason? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
             self.identityManagementType = identityManagementType
             self.inboundCallsEnabled = inboundCallsEnabled
+            self.instanceAccessUrl = instanceAccessUrl
             self.instanceAlias = instanceAlias
             self.instanceStatus = instanceStatus
             self.outboundCallsEnabled = outboundCallsEnabled
@@ -7114,6 +7118,7 @@ extension Connect {
             case id = "Id"
             case identityManagementType = "IdentityManagementType"
             case inboundCallsEnabled = "InboundCallsEnabled"
+            case instanceAccessUrl = "InstanceAccessUrl"
             case instanceAlias = "InstanceAlias"
             case instanceStatus = "InstanceStatus"
             case outboundCallsEnabled = "OutboundCallsEnabled"
@@ -7186,6 +7191,8 @@ extension Connect {
         public let identityManagementType: DirectoryType?
         /// Whether inbound calls are enabled.
         public let inboundCallsEnabled: Bool?
+        /// This URL allows contact center users to access Amazon Connect admin website.
+        public let instanceAccessUrl: String?
         /// The alias of the instance.
         public let instanceAlias: String?
         /// The state of the instance.
@@ -7195,12 +7202,13 @@ extension Connect {
         /// The service role of the instance.
         public let serviceRole: String?
 
-        public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, identityManagementType: DirectoryType? = nil, inboundCallsEnabled: Bool? = nil, instanceAlias: String? = nil, instanceStatus: InstanceStatus? = nil, outboundCallsEnabled: Bool? = nil, serviceRole: String? = nil) {
+        public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, identityManagementType: DirectoryType? = nil, inboundCallsEnabled: Bool? = nil, instanceAccessUrl: String? = nil, instanceAlias: String? = nil, instanceStatus: InstanceStatus? = nil, outboundCallsEnabled: Bool? = nil, serviceRole: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
             self.identityManagementType = identityManagementType
             self.inboundCallsEnabled = inboundCallsEnabled
+            self.instanceAccessUrl = instanceAccessUrl
             self.instanceAlias = instanceAlias
             self.instanceStatus = instanceStatus
             self.outboundCallsEnabled = outboundCallsEnabled
@@ -7213,6 +7221,7 @@ extension Connect {
             case id = "Id"
             case identityManagementType = "IdentityManagementType"
             case inboundCallsEnabled = "InboundCallsEnabled"
+            case instanceAccessUrl = "InstanceAccessUrl"
             case instanceAlias = "InstanceAlias"
             case instanceStatus = "InstanceStatus"
             case outboundCallsEnabled = "OutboundCallsEnabled"

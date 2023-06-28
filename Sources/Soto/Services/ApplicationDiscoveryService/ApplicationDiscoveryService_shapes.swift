@@ -69,7 +69,6 @@ extension ApplicationDiscoveryService {
 
     public enum ExportDataFormat: String, CustomStringConvertible, Codable, Sendable {
         case csv = "CSV"
-        case graphml = "GRAPHML"
         public var description: String { return self.rawValue }
     }
 
@@ -102,20 +101,45 @@ extension ApplicationDiscoveryService {
         public var description: String { return self.rawValue }
     }
 
+    public enum OfferingClass: String, CustomStringConvertible, Codable, Sendable {
+        case convertible = "CONVERTIBLE"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OrderString: String, CustomStringConvertible, Codable, Sendable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
+    public enum PurchasingOption: String, CustomStringConvertible, Codable, Sendable {
+        case allUpfront = "ALL_UPFRONT"
+        case noUpfront = "NO_UPFRONT"
+        case partialUpfront = "PARTIAL_UPFRONT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Tenancy: String, CustomStringConvertible, Codable, Sendable {
+        case dedicated = "DEDICATED"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TermLength: String, CustomStringConvertible, Codable, Sendable {
+        case oneYear = "ONE_YEAR"
+        case threeYear = "THREE_YEAR"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AgentConfigurationStatus: AWSDecodableShape {
-        /// The agent/connector ID.
+        /// The agent ID.
         public let agentId: String?
         /// A description of the operation performed.
         public let description: String?
-        /// Information about the status of the StartDataCollection and StopDataCollection operations. The system has recorded the data collection operation. The agent/connector receives this command the next time it polls for a new command.
+        /// Information about the status of the StartDataCollection and StopDataCollection operations. The system has recorded the data collection operation. The agent receives this command the next time it polls for a new command.
         public let operationSucceeded: Bool?
 
         public init(agentId: String? = nil, description: String? = nil, operationSucceeded: Bool? = nil) {
@@ -132,25 +156,25 @@ extension ApplicationDiscoveryService {
     }
 
     public struct AgentInfo: AWSDecodableShape {
-        /// The agent or connector ID.
+        /// The agent or collector ID.
         public let agentId: String?
-        /// Network details about the host where the agent or connector resides.
+        /// Network details about the host where the agent or collector resides.
         public let agentNetworkInfoList: [AgentNetworkInfo]?
         /// Type of agent.
         public let agentType: String?
-        /// Status of the collection process for an agent or connector.
+        /// Status of the collection process for an agent.
         public let collectionStatus: String?
         /// The ID of the connector.
         public let connectorId: String?
-        /// The health of the agent or connector.
+        /// The health of the agent.
         public let health: AgentStatus?
-        /// The name of the host where the agent or connector resides. The host can be a server or virtual machine.
+        /// The name of the host where the agent or collector resides. The host can be a server or virtual machine.
         public let hostName: String?
-        /// Time since agent or connector health was reported.
+        /// Time since agent health was reported.
         public let lastHealthPingTime: String?
         /// Agent's first registration timestamp in UTC.
         public let registeredTime: String?
-        /// The agent or connector version.
+        /// The agent or collector version.
         public let version: String?
 
         public init(agentId: String? = nil, agentNetworkInfoList: [AgentNetworkInfo]? = nil, agentType: String? = nil, collectionStatus: String? = nil, connectorId: String? = nil, health: AgentStatus? = nil, hostName: String? = nil, lastHealthPingTime: String? = nil, registeredTime: String? = nil, version: String? = nil) {
@@ -181,9 +205,9 @@ extension ApplicationDiscoveryService {
     }
 
     public struct AgentNetworkInfo: AWSDecodableShape {
-        /// The IP address for the host where the agent/connector resides.
+        /// The IP address for the host where the agent/collector resides.
         public let ipAddress: String?
-        /// The MAC address for the host where the agent/connector resides.
+        /// The MAC address for the host where the agent/collector resides.
         public let macAddress: String?
 
         public init(ipAddress: String? = nil, macAddress: String? = nil) {
@@ -325,7 +349,7 @@ extension ApplicationDiscoveryService {
         public let startTime: Date?
         /// Describes the status of the export. Can be one of the following values:   START_IN_PROGRESS - setting up resources to start continuous export.   START_FAILED - an error occurred setting up continuous export. To recover, call start-continuous-export again.   ACTIVE - data is being exported to the customer bucket.   ERROR - an error occurred during export. To fix the issue, call stop-continuous-export and start-continuous-export.   STOP_IN_PROGRESS - stopping the export.   STOP_FAILED - an error occurred stopping the export. To recover, call stop-continuous-export again.   INACTIVE - the continuous export has been stopped. Data is no longer being exported to the customer bucket.
         public let status: ContinuousExportStatus?
-        /// Contains information about any errors that have occurred. This data type can have the following values:   ACCESS_DENIED - You don’t have permission to start Data Exploration in Amazon Athena. Contact your Amazon Web Services administrator for help. For more information, see Setting Up Amazon Web Services Application Discovery Service in the Application Discovery Service User Guide.   DELIVERY_STREAM_LIMIT_FAILURE - You reached the limit for Amazon Kinesis Data Firehose delivery streams. Reduce the number of streams or request a limit increase and try again. For more information, see Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide.   FIREHOSE_ROLE_MISSING - The Data Exploration feature is in an error state because your IAM User is missing the AWSApplicationDiscoveryServiceFirehose role. Turn on Data Exploration in Amazon Athena and try again. For more information, see Step 3: Provide Application Discovery Service Access to Non-Administrator Users by Attaching Policies in the Application Discovery Service User Guide.   FIREHOSE_STREAM_DOES_NOT_EXIST - The Data Exploration feature is in an error state because your IAM User is missing one or more of the Kinesis data delivery streams.   INTERNAL_FAILURE - The Data Exploration feature is in an error state because of an internal failure. Try again later. If this problem persists, contact Amazon Web Services Support.   LAKE_FORMATION_ACCESS_DENIED - You don't have sufficient lake formation permissions to start continuous export. For more information, see  Upgrading Amazon Web Services Glue Data Permissions to the Amazon Web Services Lake Formation Model  in the Amazon Web Services Lake Formation Developer Guide.  You can use one of the following two ways to resolve this issue.   If you don’t want to use the Lake Formation permission model, you can change the default Data Catalog settings to use only Amazon Web Services Identity and Access Management (IAM) access control for new databases. For more information, see Change Data Catalog Settings in the Lake Formation Developer Guide.   You can give the service-linked IAM roles AWSServiceRoleForApplicationDiscoveryServiceContinuousExport and AWSApplicationDiscoveryServiceFirehose the required Lake Formation permissions. For more information, see  Granting Database Permissions in the Lake Formation Developer Guide.    AWSServiceRoleForApplicationDiscoveryServiceContinuousExport - Grant database creator permissions, which gives the role database creation ability and implicit permissions for any created tables. For more information, see  Implicit Lake Formation Permissions  in the Lake Formation Developer Guide.   AWSApplicationDiscoveryServiceFirehose - Grant describe permissions for all tables in the database.       S3_BUCKET_LIMIT_FAILURE - You reached the limit for Amazon S3 buckets. Reduce the number of S3 buckets or request a limit increase and try again. For more information, see Bucket Restrictions and Limitations in the Amazon Simple Storage Service Developer Guide.   S3_NOT_SIGNED_UP - Your account is not signed up for the Amazon S3 service. You must sign up before you can use Amazon S3. You can sign up at the following URL: https://aws.amazon.com/s3.
+        /// Contains information about any errors that have occurred. This data type can have the following values:   ACCESS_DENIED - You don’t have permission to start Data Exploration in Amazon Athena. Contact your Amazon Web Services administrator for help. For more information, see Setting Up Amazon Web Services Application Discovery Service in the Application Discovery Service User Guide.   DELIVERY_STREAM_LIMIT_FAILURE - You reached the limit for Amazon Kinesis Data Firehose delivery streams. Reduce the number of streams or request a limit increase and try again. For more information, see Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide.   FIREHOSE_ROLE_MISSING - The Data Exploration feature is in an error state because your user is missing the Amazon Web ServicesApplicationDiscoveryServiceFirehose role. Turn on Data Exploration in Amazon Athena and try again. For more information, see Creating the Amazon Web ServicesApplicationDiscoveryServiceFirehose Role in the Application Discovery Service User Guide.   FIREHOSE_STREAM_DOES_NOT_EXIST - The Data Exploration feature is in an error state because your user is missing one or more of the Kinesis data delivery streams.   INTERNAL_FAILURE - The Data Exploration feature is in an error state because of an internal failure. Try again later. If this problem persists, contact Amazon Web Services Support.   LAKE_FORMATION_ACCESS_DENIED - You don't have sufficient lake formation permissions to start continuous export. For more information, see  Upgrading Amazon Web Services Glue Data Permissions to the Amazon Web Services Lake Formation Model  in the Amazon Web Services Lake Formation Developer Guide.  You can use one of the following two ways to resolve this issue.   If you don’t want to use the Lake Formation permission model, you can change the default Data Catalog settings to use only Amazon Web Services Identity and Access Management (IAM) access control for new databases. For more information, see Change Data Catalog Settings in the Lake Formation Developer Guide.   You can give the service-linked IAM roles AWSServiceRoleForApplicationDiscoveryServiceContinuousExport and AWSApplicationDiscoveryServiceFirehose the required Lake Formation permissions. For more information, see  Granting Database Permissions in the Lake Formation Developer Guide.    AWSServiceRoleForApplicationDiscoveryServiceContinuousExport - Grant database creator permissions, which gives the role database creation ability and implicit permissions for any created tables. For more information, see  Implicit Lake Formation Permissions  in the Lake Formation Developer Guide.   AWSApplicationDiscoveryServiceFirehose - Grant describe permissions for all tables in the database.       S3_BUCKET_LIMIT_FAILURE - You reached the limit for Amazon S3 buckets. Reduce the number of S3 buckets or request a limit increase and try again. For more information, see Bucket Restrictions and Limitations in the Amazon Simple Storage Service Developer Guide.   S3_NOT_SIGNED_UP - Your account is not signed up for the  Amazon S3 service. You must sign up before you can use Amazon S3. You can sign up at the following URL: https://aws.amazon.com/s3.
         public let statusDetail: String?
         /// The timestamp that represents when this continuous export was stopped.
         public let stopTime: Date?
@@ -456,12 +480,19 @@ extension ApplicationDiscoveryService {
     }
 
     public struct CustomerAgentlessCollectorInfo: AWSDecodableShape {
+        /// The number of active Agentless Collector collectors.
         public let activeAgentlessCollectors: Int
+        /// The number of deny-listed Agentless Collector collectors.
         public let denyListedAgentlessCollectors: Int
+        /// The number of healthy Agentless Collector collectors.
         public let healthyAgentlessCollectors: Int
+        /// The number of Agentless Collector collectors with SHUTDOWN status.
         public let shutdownAgentlessCollectors: Int
+        ///  The total number of Agentless Collector collectors.
         public let totalAgentlessCollectors: Int
+        ///  The number of unhealthy Agentless Collector collectors.
         public let unhealthyAgentlessCollectors: Int
+        ///  The number of unknown Agentless Collector collectors.
         public let unknownAgentlessCollectors: Int
 
         public init(activeAgentlessCollectors: Int, denyListedAgentlessCollectors: Int, healthyAgentlessCollectors: Int, shutdownAgentlessCollectors: Int, totalAgentlessCollectors: Int, unhealthyAgentlessCollectors: Int, unknownAgentlessCollectors: Int) {
@@ -612,11 +643,11 @@ extension ApplicationDiscoveryService {
     }
 
     public struct DescribeAgentsRequest: AWSEncodableShape {
-        /// The agent or the Connector IDs for which you want information. If you specify no IDs, the system returns information about all agents/Connectors associated with your Amazon Web Services user account.
+        /// The agent or the collector IDs for which you want information. If you specify no IDs, the system returns information about all agents/collectors associated with your user.
         public let agentIds: [String]?
         /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "collectionStatus", "value": "STARTED"}
         public let filters: [Filter]?
-        /// The total number of agents/Connectors to return in a single page of output. The maximum value is 100.
+        /// The total number of agents/collectors to return in a single page of output. The maximum value is 100.
         public let maxResults: Int?
         /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
         public let nextToken: String?
@@ -648,7 +679,7 @@ extension ApplicationDiscoveryService {
     }
 
     public struct DescribeAgentsResponse: AWSDecodableShape {
-        /// Lists agents or the Connector by ID or lists all agents/Connectors associated with your user account if you did not specify an agent/Connector ID. The output includes agent/Connector IDs, IP addresses, media access control (MAC) addresses, agent/Connector health, host name where the agent/Connector resides, and the version number of each agent/Connector.
+        /// Lists agents or the collector by ID or lists all agents/collectors associated with your user, if you did not specify an agent/collector ID. The output includes agent/collector IDs, IP addresses, media access control (MAC) addresses, agent/collector health, host name where the agent/collector resides, and the version number of each agent/collector.
         public let agentsInfo: [AgentInfo]?
         /// Token to retrieve the next set of results. For example, if you specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
         public let nextToken: String?
@@ -960,6 +991,56 @@ extension ApplicationDiscoveryService {
         public init() {}
     }
 
+    public struct Ec2RecommendationsExportPreferences: AWSEncodableShape {
+        ///  The recommended EC2 instance type that matches the CPU usage metric of server performance data.
+        public let cpuPerformanceMetricBasis: UsageMetricBasis?
+        ///  If set to true, the export  preferences is set to Ec2RecommendationsExportPreferences.
+        public let enabled: Bool?
+        ///  An array of instance types to exclude from recommendations.
+        public let excludedInstanceTypes: [String]?
+        ///  The target Amazon Web Services Region for the recommendations.  You can use any of the Region codes available for the chosen service,  as listed in Amazon Web Services service endpoints in the Amazon Web Services General Reference.
+        public let preferredRegion: String?
+        ///  The recommended EC2 instance type that matches the Memory usage metric of server performance data.
+        public let ramPerformanceMetricBasis: UsageMetricBasis?
+        ///  The contract type for a reserved instance.  If blank, we assume an On-Demand instance is preferred.
+        public let reservedInstanceOptions: ReservedInstanceOptions?
+        ///  The target tenancy to use for your recommended EC2 instances.
+        public let tenancy: Tenancy?
+
+        public init(cpuPerformanceMetricBasis: UsageMetricBasis? = nil, enabled: Bool? = nil, excludedInstanceTypes: [String]? = nil, preferredRegion: String? = nil, ramPerformanceMetricBasis: UsageMetricBasis? = nil, reservedInstanceOptions: ReservedInstanceOptions? = nil, tenancy: Tenancy? = nil) {
+            self.cpuPerformanceMetricBasis = cpuPerformanceMetricBasis
+            self.enabled = enabled
+            self.excludedInstanceTypes = excludedInstanceTypes
+            self.preferredRegion = preferredRegion
+            self.ramPerformanceMetricBasis = ramPerformanceMetricBasis
+            self.reservedInstanceOptions = reservedInstanceOptions
+            self.tenancy = tenancy
+        }
+
+        public func validate(name: String) throws {
+            try self.cpuPerformanceMetricBasis?.validate(name: "\(name).cpuPerformanceMetricBasis")
+            try self.excludedInstanceTypes?.forEach {
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, max: 25)
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, min: 1)
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\d\\.\\-]+$")
+            }
+            try self.validate(self.preferredRegion, name: "preferredRegion", parent: name, max: 30)
+            try self.validate(self.preferredRegion, name: "preferredRegion", parent: name, min: 1)
+            try self.validate(self.preferredRegion, name: "preferredRegion", parent: name, pattern: "^[a-z]{2}-[a-z\\-]+-[0-9]+$")
+            try self.ramPerformanceMetricBasis?.validate(name: "\(name).ramPerformanceMetricBasis")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cpuPerformanceMetricBasis = "cpuPerformanceMetricBasis"
+            case enabled = "enabled"
+            case excludedInstanceTypes = "excludedInstanceTypes"
+            case preferredRegion = "preferredRegion"
+            case ramPerformanceMetricBasis = "ramPerformanceMetricBasis"
+            case reservedInstanceOptions = "reservedInstanceOptions"
+            case tenancy = "tenancy"
+        }
+    }
+
     public struct ExportConfigurationsResponse: AWSDecodableShape {
         /// A unique identifier that you can use to query the export status.
         public let exportId: String?
@@ -1083,6 +1164,7 @@ extension ApplicationDiscoveryService {
     }
 
     public struct GetDiscoverySummaryResponse: AWSDecodableShape {
+        ///  Details about Agentless Collector collectors, including status.
         public let agentlessCollectorSummary: CustomerAgentlessCollectorInfo?
         /// Details about discovered agents, including agent status and health.
         public let agentSummary: CustomerAgentInfo?
@@ -1376,6 +1458,27 @@ extension ApplicationDiscoveryService {
         }
     }
 
+    public struct ReservedInstanceOptions: AWSEncodableShape {
+        ///  The flexibility to change the instance types needed for your Reserved Instance.
+        public let offeringClass: OfferingClass
+        ///  The payment plan to use for your Reserved Instance.
+        public let purchasingOption: PurchasingOption
+        ///  The preferred duration of the Reserved Instance term.
+        public let termLength: TermLength
+
+        public init(offeringClass: OfferingClass, purchasingOption: PurchasingOption, termLength: TermLength) {
+            self.offeringClass = offeringClass
+            self.purchasingOption = purchasingOption
+            self.termLength = termLength
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offeringClass = "offeringClass"
+            case purchasingOption = "purchasingOption"
+            case termLength = "termLength"
+        }
+    }
+
     public struct StartContinuousExportRequest: AWSEncodableShape {
         public init() {}
     }
@@ -1410,7 +1513,7 @@ extension ApplicationDiscoveryService {
     }
 
     public struct StartDataCollectionByAgentIdsRequest: AWSEncodableShape {
-        /// The IDs of the agents or connectors from which to start collecting data. If you send a request to an agent/connector ID that you do not have permission to contact, according to your Amazon Web Services account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/connectors and you do not have permission to contact some of those agents/connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
+        /// The IDs of the agents from which to start collecting data. If you send a request to an agent ID that you do not have permission to contact, according to your Amazon Web Services account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents and you do not have permission to contact some of those agents, the system does not throw an exception. Instead, the system shows Failed in the Description field.
         public let agentIds: [String]
 
         public init(agentIds: [String]) {
@@ -1431,7 +1534,7 @@ extension ApplicationDiscoveryService {
     }
 
     public struct StartDataCollectionByAgentIdsResponse: AWSDecodableShape {
-        /// Information about agents or the connector that were instructed to start collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
+        /// Information about agents that were instructed to start collecting data. Information includes the agent ID, a description of the operation performed, and whether the agent configuration was updated.
         public let agentsConfigurationStatus: [AgentConfigurationStatus]?
 
         public init(agentsConfigurationStatus: [AgentConfigurationStatus]? = nil) {
@@ -1448,15 +1551,18 @@ extension ApplicationDiscoveryService {
         public let endTime: Date?
         /// The file format for the returned export data. Default value is CSV. Note: The GRAPHML option has been deprecated.
         public let exportDataFormat: [ExportDataFormat]?
-        /// If a filter is present, it selects the single agentId of the Application Discovery Agent for which data is exported. The agentId can be found in the results of the DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and exported data includes both Agentless Discovery Connector data and summary data from Application Discovery agents.
+        /// If a filter is present, it selects the single agentId of the Application Discovery Agent for which data is exported. The agentId can be found in the results of the DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and exported data includes both Amazon Web Services Application Discovery Service Agentless Collector collectors data and summary data from Application Discovery Agent agents.
         public let filters: [ExportFilter]?
+        ///  Indicates the type of data that needs to be exported. Only one  ExportPreferences can be enabled at any time.
+        public let preferences: ExportPreferences?
         /// The start timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, data is exported starting from the first data collected by the agent.
         public let startTime: Date?
 
-        public init(endTime: Date? = nil, exportDataFormat: [ExportDataFormat]? = nil, filters: [ExportFilter]? = nil, startTime: Date? = nil) {
+        public init(endTime: Date? = nil, exportDataFormat: [ExportDataFormat]? = nil, filters: [ExportFilter]? = nil, preferences: ExportPreferences? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.exportDataFormat = exportDataFormat
             self.filters = filters
+            self.preferences = preferences
             self.startTime = startTime
         }
 
@@ -1464,12 +1570,14 @@ extension ApplicationDiscoveryService {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.preferences?.validate(name: "\(name).preferences")
         }
 
         private enum CodingKeys: String, CodingKey {
             case endTime = "endTime"
             case exportDataFormat = "exportDataFormat"
             case filters = "filters"
+            case preferences = "preferences"
             case startTime = "startTime"
         }
     }
@@ -1568,7 +1676,7 @@ extension ApplicationDiscoveryService {
     }
 
     public struct StopDataCollectionByAgentIdsRequest: AWSEncodableShape {
-        /// The IDs of the agents or connectors from which to stop collecting data.
+        /// The IDs of the agents from which to stop collecting data.
         public let agentIds: [String]
 
         public init(agentIds: [String]) {
@@ -1589,7 +1697,7 @@ extension ApplicationDiscoveryService {
     }
 
     public struct StopDataCollectionByAgentIdsResponse: AWSDecodableShape {
-        /// Information about the agents or connector that were instructed to stop collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
+        /// Information about the agents that were instructed to stop collecting data. Information includes the agent ID, a description of the operation performed, and whether the agent configuration was updated.
         public let agentsConfigurationStatus: [AgentConfigurationStatus]?
 
         public init(agentsConfigurationStatus: [AgentConfigurationStatus]? = nil) {
@@ -1677,6 +1785,46 @@ extension ApplicationDiscoveryService {
     public struct UpdateApplicationResponse: AWSDecodableShape {
         public init() {}
     }
+
+    public struct UsageMetricBasis: AWSEncodableShape {
+        ///  A utilization metric that is used by the recommendations.
+        public let name: String?
+        ///  Specifies the percentage of the specified utilization metric that is used by the recommendations.
+        public let percentageAdjust: Double?
+
+        public init(name: String? = nil, percentageAdjust: Double? = nil) {
+            self.name = name
+            self.percentageAdjust = percentageAdjust
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(p(\\d{1,2}|100)|AVG|SPEC|MAX)$")
+            try self.validate(self.percentageAdjust, name: "percentageAdjust", parent: name, max: 100.0)
+            try self.validate(self.percentageAdjust, name: "percentageAdjust", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case percentageAdjust = "percentageAdjust"
+        }
+    }
+
+    public struct ExportPreferences: AWSEncodableShape {
+        ///  If enabled, exported data includes EC2 instance type matches for on-premises servers  discovered through Amazon Web Services Application Discovery Service.
+        public let ec2RecommendationsPreferences: Ec2RecommendationsExportPreferences?
+
+        public init(ec2RecommendationsPreferences: Ec2RecommendationsExportPreferences? = nil) {
+            self.ec2RecommendationsPreferences = ec2RecommendationsPreferences
+        }
+
+        public func validate(name: String) throws {
+            try self.ec2RecommendationsPreferences?.validate(name: "\(name).ec2RecommendationsPreferences")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2RecommendationsPreferences = "ec2RecommendationsPreferences"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -1713,10 +1861,10 @@ public struct ApplicationDiscoveryServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// The user does not have permission to perform the action. Check the IAM policy associated with this user.
     public static var authorizationErrorException: Self { .init(.authorizationErrorException) }
     public static var conflictErrorException: Self { .init(.conflictErrorException) }
-    /// The home region is not set. Set the home region to continue.
+    /// The home Region is not set. Set the home Region to continue.
     public static var homeRegionNotSetException: Self { .init(.homeRegionNotSetException) }
     /// One or more parameters are not valid. Verify the parameters and try again.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }

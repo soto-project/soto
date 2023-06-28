@@ -668,15 +668,15 @@ extension Kendra {
             try self.validate(self.entityFilter, name: "entityFilter", parent: name, max: 3)
             try self.validate(self.entityFilter, name: "entityFilter", parent: name, min: 1)
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 250)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 250)
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
@@ -1334,20 +1334,20 @@ extension Kendra {
             try self.validate(self.enterpriseId, name: "enterpriseId", parent: name, min: 1)
             try self.validate(self.enterpriseId, name: "enterpriseId", parent: name, pattern: "^[A-Z0-9]*$")
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 250)
             try self.fileFieldMappings?.forEach {
                 try $0.validate(name: "\(name).fileFieldMappings[]")
             }
             try self.validate(self.fileFieldMappings, name: "fileFieldMappings", parent: name, max: 100)
             try self.validate(self.fileFieldMappings, name: "fileFieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 250)
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
@@ -1648,15 +1648,15 @@ extension Kendra {
             try self.attachmentConfiguration?.validate(name: "\(name).attachmentConfiguration")
             try self.blogConfiguration?.validate(name: "\(name).blogConfiguration")
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 250)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 250)
             try self.pageConfiguration?.validate(name: "\(name).pageConfiguration")
             try self.proxyConfiguration?.validate(name: "\(name).proxyConfiguration")
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
@@ -2152,7 +2152,7 @@ extension Kendra {
         public let clientToken: String?
         /// A description for the FAQ.
         public let description: String?
-        /// The format of the FAQ input file. You can choose between a basic CSV format, a CSV format that includes customs attributes in a header, and a JSON format that includes custom attributes. The format must match the format of the file stored in the S3 bucket identified in the S3Path parameter. For more information, see Adding questions and answers.
+        /// The format of the FAQ input file. You can choose between a basic CSV format, a CSV format that includes customs attributes in a header, and a JSON format that includes custom attributes. The default format is CSV. The format must match the format of the file stored in the S3 bucket identified in  the S3Path parameter. For more information, see Adding questions and answers.
         public let fileFormat: FaqFileFormat?
         /// The identifier of the index for the FAQ.
         public let indexId: String
@@ -2271,10 +2271,6 @@ extension Kendra {
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
-            try self.queryTexts?.forEach {
-                try validate($0, name: "queryTexts[]", parent: name, max: 1000)
-                try validate($0, name: "queryTexts[]", parent: name, min: 1)
-            }
             try self.validate(self.queryTexts, name: "queryTexts", parent: name, max: 49)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -2567,7 +2563,7 @@ extension Kendra {
     }
 
     public struct DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Provides the configuration information to connect to Alfresco as your data source.
+        /// Provides the configuration information to connect to Alfresco as your data source. Support for AlfrescoConfiguration ended May 2023.  We recommend migrating to or using the Alfresco data source template  schema / TemplateConfiguration API.
         public let alfrescoConfiguration: AlfrescoConfiguration?
         /// Provides the configuration information to connect to Box as your data source.
         public let boxConfiguration: BoxConfiguration?
@@ -2603,6 +2599,28 @@ extension Kendra {
         /// Provides the configuration information to connect to Amazon WorkDocs as your data source.
         public let workDocsConfiguration: WorkDocsConfiguration?
 
+        public init(boxConfiguration: BoxConfiguration? = nil, confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, fsxConfiguration: FsxConfiguration? = nil, gitHubConfiguration: GitHubConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, jiraConfiguration: JiraConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, quipConfiguration: QuipConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, slackConfiguration: SlackConfiguration? = nil, templateConfiguration: TemplateConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil, workDocsConfiguration: WorkDocsConfiguration? = nil) {
+            self.alfrescoConfiguration = nil
+            self.boxConfiguration = boxConfiguration
+            self.confluenceConfiguration = confluenceConfiguration
+            self.databaseConfiguration = databaseConfiguration
+            self.fsxConfiguration = fsxConfiguration
+            self.gitHubConfiguration = gitHubConfiguration
+            self.googleDriveConfiguration = googleDriveConfiguration
+            self.jiraConfiguration = jiraConfiguration
+            self.oneDriveConfiguration = oneDriveConfiguration
+            self.quipConfiguration = quipConfiguration
+            self.s3Configuration = s3Configuration
+            self.salesforceConfiguration = salesforceConfiguration
+            self.serviceNowConfiguration = serviceNowConfiguration
+            self.sharePointConfiguration = sharePointConfiguration
+            self.slackConfiguration = slackConfiguration
+            self.templateConfiguration = templateConfiguration
+            self.webCrawlerConfiguration = webCrawlerConfiguration
+            self.workDocsConfiguration = workDocsConfiguration
+        }
+
+        @available(*, deprecated, message: "Members alfrescoConfiguration have been deprecated")
         public init(alfrescoConfiguration: AlfrescoConfiguration? = nil, boxConfiguration: BoxConfiguration? = nil, confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, fsxConfiguration: FsxConfiguration? = nil, gitHubConfiguration: GitHubConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, jiraConfiguration: JiraConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, quipConfiguration: QuipConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, slackConfiguration: SlackConfiguration? = nil, templateConfiguration: TemplateConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil, workDocsConfiguration: WorkDocsConfiguration? = nil) {
             self.alfrescoConfiguration = alfrescoConfiguration
             self.boxConfiguration = boxConfiguration
@@ -4029,7 +4047,7 @@ extension Kendra {
         public let attributes: [DocumentAttribute]?
         /// The contents of the document.  Documents passed to the Blob parameter must be base64 encoded. Your code might not need to encode the document file bytes if you're using an Amazon Web Services SDK to call Amazon Kendra APIs. If you are calling the Amazon Kendra endpoint directly using REST, you must base64 encode the contents before sending.
         public let blob: AWSBase64Data?
-        /// The file type of the document in the Blob field.
+        /// The file type of the document in the Blob field. If you want to index snippets or subsets of HTML documents instead of the entirety  of the HTML documents, you must add the HTML start and closing tags  (content) around the content.
         public let contentType: ContentType?
         /// The list of principal lists that define the hierarchy for which documents users should have access to.
         public let hierarchicalAccessControlList: [HierarchicalPrincipal]?
@@ -4793,10 +4811,10 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 250)
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
@@ -4806,10 +4824,10 @@ extension Kendra {
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, min: 11)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 250)
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
@@ -5201,20 +5219,20 @@ extension Kendra {
             }
             try self.validate(self.excludeUserAccounts, name: "excludeUserAccounts", parent: name, max: 100)
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 250)
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 250)
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
@@ -5525,15 +5543,15 @@ extension Kendra {
             try self.validate(self.commentFieldMappings, name: "commentFieldMappings", parent: name, max: 100)
             try self.validate(self.commentFieldMappings, name: "commentFieldMappings", parent: name, min: 1)
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 250)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 250)
             try self.issueFieldMappings?.forEach {
                 try $0.validate(name: "\(name).issueFieldMappings[]")
             }
@@ -6411,20 +6429,20 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 250)
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 250)
             try self.oneDriveUsers.validate(name: "\(name).oneDriveUsers")
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
@@ -6615,25 +6633,25 @@ extension Kendra {
     }
 
     public struct QueryRequest: AWSEncodableShape {
-        /// Enables filtered searches based on document attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter enables you to create a set of filtering rules that a document must satisfy to be included in the query results.
+        /// Filters search results by document fields/attributes. You can only provide  one attribute filter; however, the AndAllFilters, NotFilter,  and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of  filtering rules that a document must satisfy to be included in the query results.
         public let attributeFilter: AttributeFilter?
-        /// Overrides relevance tuning configurations of fields or attributes set at the index level. If you use this API to override the relevance tuning configured at the index level, but there is no relevance tuning configured at the index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance tuning configured at the index level, but you do not use this API to override any relevance tuning in the index, then Amazon Kendra uses the relevance tuning that is configured at the index level. If there is relevance tuning configured for fields at the index level, but you use this API to override only some of these fields, then for the fields you did not override, the importance is set to 1.
+        /// Overrides relevance tuning configurations of fields/attributes set at the index level. If you use this API to override the relevance tuning configured at the index level, but there  is no relevance tuning configured at the index level, then Amazon Kendra does not apply any  relevance tuning. If there is relevance tuning configured for fields at the index level, and you use this API to  override only some of these fields, then for the fields you did not override, the importance is  set to 1.
         public let documentRelevanceOverrideConfigurations: [DocumentRelevanceConfiguration]?
-        /// An array of documents attributes. Amazon Kendra returns a count for each attribute key specified. This helps your users narrow their search.
+        /// An array of documents fields/attributes for faceted search. Amazon Kendra returns a  count for each field key specified. This helps your users narrow their search.
         public let facets: [Facet]?
-        /// The identifier of the index to search. The identifier is returned in the response from the CreateIndex API.
+        /// The identifier of the index for the search.
         public let indexId: String
-        /// Query results are returned in pages the size of the PageSize parameter. By default, Amazon Kendra returns the first page of results. Use this parameter to get result pages after the first one.
+        /// Query results are returned in pages the size of the PageSize parameter.  By default, Amazon Kendra returns the first page of results. Use this parameter to  get result pages after the first one.
         public let pageNumber: Int?
         /// Sets the number of results that are returned in each page of results. The default page size is 10. The maximum number of results returned is 100. If you ask for more than 100 results, only 100 are returned.
         public let pageSize: Int?
-        /// Sets the type of query. Only results for the specified query type are returned.
+        /// Sets the type of query result or response. Only results for the specified type are  returned.
         public let queryResultTypeFilter: QueryResultType?
         /// The input query text for the search. Amazon Kendra truncates queries at 30 token words, which excludes punctuation and stop words. Truncation still applies if you use Boolean or more advanced, complex queries.
         public let queryText: String?
-        /// An array of document attributes to include in the response. You can limit the response to include certain document attributes. By default all document attributes are included in the response.
+        /// An array of document fields/attributes to include in the response. You can limit the  response to include certain document fields. By default, all document attributes are  included in the response.
         public let requestedDocumentAttributes: [String]?
-        /// Provides information that determines how the results of the query are sorted. You can set the field that Amazon Kendra should sort the results on, and specify whether the results should be sorted in ascending or descending order. In the case of ties in sorting the results, the results are sorted by relevance. If you don't provide sorting configuration, the results are sorted by the relevance that Amazon Kendra determines for the result.
+        /// Provides information that determines how the results of the query are sorted. You can set the field that Amazon Kendra should sort the results on, and specify whether the results should be sorted in ascending or descending order. In the case of ties in sorting the results, the results are sorted by relevance. If you don't provide sorting configuration, the results are sorted by the relevance that  Amazon Kendra determines for the result.
         public let sortingConfiguration: SortingConfiguration?
         /// Enables suggested spell corrections for queries.
         public let spellCorrectionConfiguration: SpellCorrectionConfiguration?
@@ -6670,8 +6688,6 @@ extension Kendra {
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
-            try self.validate(self.queryText, name: "queryText", parent: name, max: 1000)
-            try self.validate(self.queryText, name: "queryText", parent: name, min: 1)
             try self.requestedDocumentAttributes?.forEach {
                 try validate($0, name: "requestedDocumentAttributes[]", parent: name, max: 200)
                 try validate($0, name: "requestedDocumentAttributes[]", parent: name, min: 1)
@@ -6704,17 +6720,17 @@ extension Kendra {
     }
 
     public struct QueryResult: AWSDecodableShape {
-        /// Contains the facet results. A FacetResult contains the counts for each attribute key that was specified in the Facets input parameter.
+        /// Contains the facet results. A FacetResult contains the counts for each field/attribute key that was specified in the Facets input parameter.
         public let facetResults: [FacetResult]?
         /// The list of featured result items. Featured results are displayed at  the top of the search results page, placed above all other results for  certain queries. If there's an exact match of a query, then certain  documents are featured in the search results.
         public let featuredResultsItems: [FeaturedResultsItem]?
-        /// The identifier for the search. You use QueryId to identify the search when using the feedback API.
+        /// The identifier for the search. You also use QueryId to identify the search when using the SubmitFeedback API.
         public let queryId: String?
         /// The results of the search.
         public let resultItems: [QueryResultItem]?
         /// A list of information related to suggested spell corrections for a query.
         public let spellCorrectedQueries: [SpellCorrectedQuery]?
-        /// The total number of items found by the search; however, you can only retrieve up to 100 items. For example, if the search found 192 items, you can only retrieve the first 100 of the items.
+        /// The total number of items found by the search. However, you can only retrieve up to  100 items. For example, if the search found 192 items, you can only retrieve the first  100 of the items.
         public let totalNumberOfResults: Int?
         /// A list of warning codes and their messages on problems with your query. Amazon Kendra currently only supports one type of warning, which is a warning on invalid syntax used in the query. For examples of invalid query syntax, see Searching with advanced query syntax.
         public let warnings: [Warning]?
@@ -6741,9 +6757,9 @@ extension Kendra {
     }
 
     public struct QueryResultItem: AWSDecodableShape {
-        /// One or more additional attributes associated with the query result.
+        /// One or more additional fields/attributes associated with the query result.
         public let additionalAttributes: [AdditionalResultAttribute]?
-        /// An array of document attributes assigned to a document in the search results. For example, the document author (_author) or the source URI (_source_uri) of the document.
+        /// An array of document fields/attributes assigned to a document in the search results.  For example, the document author (_author) or the source URI  (_source_uri) of the document.
         public let documentAttributes: [DocumentAttribute]?
         /// An extract of the text in the document. Contains information about highlighting the relevant terms in the excerpt.
         public let documentExcerpt: TextWithHighlights?
@@ -6753,13 +6769,13 @@ extension Kendra {
         public let documentTitle: TextWithHighlights?
         /// The URI of the original location of the document.
         public let documentURI: String?
-        /// A token that identifies a particular result from a particular query. Use this token to provide click-through feedback for the result. For more information, see Submitting feedback .
+        /// A token that identifies a particular result from a particular query. Use this token to provide click-through feedback for the result. For more information, see Submitting feedback.
         public let feedbackToken: String?
         /// If the Type of document within the response is ANSWER, then it is either a TABLE answer or TEXT answer. If it's a table answer, a table excerpt is returned in TableExcerpt. If it's a text answer, a text excerpt is returned in DocumentExcerpt.
         public let format: QueryResultFormat?
         /// The identifier for the query result.
         public let id: String?
-        /// Indicates the confidence that Amazon Kendra has that a result matches the query that you provided. Each result is placed into a bin that indicates the confidence, VERY_HIGH, HIGH, MEDIUM and LOW. You can use the score to determine if a response meets the confidence needed for your application. The field is only set to LOW when the Type field is set to DOCUMENT and Amazon Kendra is not confident that the result matches the query.
+        /// Indicates the confidence level of Amazon Kendra providing a relevant result for  the query. Each result is placed into a bin that indicates the confidence, VERY_HIGH, HIGH, MEDIUM and LOW.  You can use the score to determine if a response meets the confidence needed for your application. The field is only set to LOW when the Type field is set to DOCUMENT and Amazon Kendra is not confident that the result is  relevant to the query.
         public let scoreAttributes: ScoreAttributes?
         /// An excerpt from a table within a document.
         public let tableExcerpt: TableExcerpt?
@@ -6881,19 +6897,19 @@ extension Kendra {
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^(?!-)[A-Za-z0-9-].*(?<!-)$")
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 250)
             try self.folderIds?.forEach {
                 try validate($0, name: "folderIds[]", parent: name, max: 500)
                 try validate($0, name: "folderIds[]", parent: name, min: 1)
             }
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 250)
             try self.messageFieldMappings?.forEach {
                 try $0.validate(name: "\(name).messageFieldMappings[]")
             }
@@ -6991,6 +7007,116 @@ extension Kendra {
         }
     }
 
+    public struct RetrieveRequest: AWSEncodableShape {
+        /// Filters search results by document fields/attributes. You can only provide  one attribute filter; however, the AndAllFilters, NotFilter,  and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of  filtering rules that a document must satisfy to be included in the query results.
+        public let attributeFilter: AttributeFilter?
+        /// Overrides relevance tuning configurations of fields/attributes set at the index  level. If you use this API to override the relevance tuning configured at the index level,  but there is no relevance tuning configured at the index level, then  Amazon Kendra does not apply any relevance tuning. If there is relevance tuning configured for fields at the index level, and you use  this API to override only some of these fields, then for the fields you did not  override, the importance is set to 1.
+        public let documentRelevanceOverrideConfigurations: [DocumentRelevanceConfiguration]?
+        /// The identifier of the index to retrieve relevant passages for the  search.
+        public let indexId: String
+        /// Retrieved relevant passages are returned in pages the size of the  PageSize parameter. By default, Amazon Kendra returns the first page  of results. Use this parameter to get result pages after the first one.
+        public let pageNumber: Int?
+        /// Sets the number of retrieved relevant passages that are returned in each page of  results. The default page size is 10. The maximum number of results returned is 100.  If you ask for more than 100 results, only 100 are returned.
+        public let pageSize: Int?
+        /// The input query text to retrieve relevant passages for the search.  Amazon Kendra truncates queries at 30 token words, which excludes  punctuation and stop words. Truncation still applies if you use Boolean  or more advanced, complex queries.
+        public let queryText: String
+        /// A list of document fields/attributes to include in the response. You can limit  the response to include certain document fields. By default, all document  fields are included in the response.
+        public let requestedDocumentAttributes: [String]?
+        /// The user context token or user and group information.
+        public let userContext: UserContext?
+
+        public init(attributeFilter: AttributeFilter? = nil, documentRelevanceOverrideConfigurations: [DocumentRelevanceConfiguration]? = nil, indexId: String, pageNumber: Int? = nil, pageSize: Int? = nil, queryText: String, requestedDocumentAttributes: [String]? = nil, userContext: UserContext? = nil) {
+            self.attributeFilter = attributeFilter
+            self.documentRelevanceOverrideConfigurations = documentRelevanceOverrideConfigurations
+            self.indexId = indexId
+            self.pageNumber = pageNumber
+            self.pageSize = pageSize
+            self.queryText = queryText
+            self.requestedDocumentAttributes = requestedDocumentAttributes
+            self.userContext = userContext
+        }
+
+        public func validate(name: String) throws {
+            try self.attributeFilter?.validate(name: "\(name).attributeFilter")
+            try self.documentRelevanceOverrideConfigurations?.forEach {
+                try $0.validate(name: "\(name).documentRelevanceOverrideConfigurations[]")
+            }
+            try self.validate(self.documentRelevanceOverrideConfigurations, name: "documentRelevanceOverrideConfigurations", parent: name, max: 500)
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+            try self.requestedDocumentAttributes?.forEach {
+                try validate($0, name: "requestedDocumentAttributes[]", parent: name, max: 200)
+                try validate($0, name: "requestedDocumentAttributes[]", parent: name, min: 1)
+                try validate($0, name: "requestedDocumentAttributes[]", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]*$")
+            }
+            try self.validate(self.requestedDocumentAttributes, name: "requestedDocumentAttributes", parent: name, max: 100)
+            try self.validate(self.requestedDocumentAttributes, name: "requestedDocumentAttributes", parent: name, min: 1)
+            try self.userContext?.validate(name: "\(name).userContext")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeFilter = "AttributeFilter"
+            case documentRelevanceOverrideConfigurations = "DocumentRelevanceOverrideConfigurations"
+            case indexId = "IndexId"
+            case pageNumber = "PageNumber"
+            case pageSize = "PageSize"
+            case queryText = "QueryText"
+            case requestedDocumentAttributes = "RequestedDocumentAttributes"
+            case userContext = "UserContext"
+        }
+    }
+
+    public struct RetrieveResult: AWSDecodableShape {
+        /// The identifier of query used for the search. You also use QueryId to  identify the search when using the Submitfeedback API.
+        public let queryId: String?
+        /// The results of the retrieved relevant passages for the search.
+        public let resultItems: [RetrieveResultItem]?
+
+        public init(queryId: String? = nil, resultItems: [RetrieveResultItem]? = nil) {
+            self.queryId = queryId
+            self.resultItems = resultItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryId = "QueryId"
+            case resultItems = "ResultItems"
+        }
+    }
+
+    public struct RetrieveResultItem: AWSDecodableShape {
+        /// The contents of the relevant passage.
+        public let content: String?
+        /// An array of document fields/attributes assigned to a document in the  search results. For example, the document author (_author)  or the source URI (_source_uri) of the document.
+        public let documentAttributes: [DocumentAttribute]?
+        /// The identifier of the document.
+        public let documentId: String?
+        /// The title of the document.
+        public let documentTitle: String?
+        /// The URI of the original location of the document.
+        public let documentURI: String?
+        /// The identifier of the relevant passage result.
+        public let id: String?
+
+        public init(content: String? = nil, documentAttributes: [DocumentAttribute]? = nil, documentId: String? = nil, documentTitle: String? = nil, documentURI: String? = nil, id: String? = nil) {
+            self.content = content
+            self.documentAttributes = documentAttributes
+            self.documentId = documentId
+            self.documentTitle = documentTitle
+            self.documentURI = documentURI
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case documentAttributes = "DocumentAttributes"
+            case documentId = "DocumentId"
+            case documentTitle = "DocumentTitle"
+            case documentURI = "DocumentURI"
+            case id = "Id"
+        }
+    }
+
     public struct S3DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Provides the path to the S3 bucket that contains the user context filtering files for the data source. For the format of the file, see Access control for S3 data sources.
         public let accessControlListConfiguration: AccessControlListConfiguration?
@@ -7020,20 +7146,20 @@ extension Kendra {
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
             try self.documentsMetadataConfiguration?.validate(name: "\(name).documentsMetadataConfiguration")
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 250)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 250)
             try self.inclusionPrefixes?.forEach {
-                try validate($0, name: "inclusionPrefixes[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPrefixes[]", parent: name, max: 300)
                 try validate($0, name: "inclusionPrefixes[]", parent: name, min: 1)
             }
-            try self.validate(self.inclusionPrefixes, name: "inclusionPrefixes", parent: name, max: 100)
+            try self.validate(self.inclusionPrefixes, name: "inclusionPrefixes", parent: name, max: 250)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7173,15 +7299,15 @@ extension Kendra {
         public func validate(name: String) throws {
             try self.chatterFeedConfiguration?.validate(name: "\(name).chatterFeedConfiguration")
             try self.excludeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 300)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 100)
+            try self.validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 250)
             try self.includeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 300)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 100)
+            try self.validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 250)
             try self.knowledgeArticleConfiguration?.validate(name: "\(name).knowledgeArticleConfiguration")
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
@@ -7387,7 +7513,7 @@ extension Kendra {
     }
 
     public struct ScoreAttributes: AWSDecodableShape {
-        /// A relative ranking for how well the response matches the query.
+        /// A relative ranking for how relevant the response is to the query.
         public let scoreConfidence: ScoreConfidence?
 
         public init(scoreConfidence: ScoreConfidence? = nil) {
@@ -7427,7 +7553,7 @@ extension Kendra {
     public struct SeedUrlConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The list of seed or starting point URLs of the websites you want to crawl. The list can include a maximum of 100 seed URLs.
         public let seedUrls: [String]
-        /// You can choose one of the following modes:    HOST_ONLY – crawl only the website host names. For example, if the seed URL is "abc.example.com", then only URLs with host name "abc.example.com" are crawled.    SUBDOMAINS – crawl the website host names with subdomains. For example, if the seed URL is "abc.example.com", then "a.abc.example.com" and "b.abc.example.com" are also crawled.    EVERYTHING – crawl the website host names with subdomains and other domains that the web pages link to.   The default mode is set to HOST_ONLY.
+        /// You can choose one of the following modes:    HOST_ONLY—crawl only the website host names. For example, if the seed URL is "abc.example.com", then only URLs with host name "abc.example.com" are crawled.    SUBDOMAINS—crawl the website host names with subdomains. For example, if the seed URL is "abc.example.com", then "a.abc.example.com" and "b.abc.example.com" are also crawled.    EVERYTHING—crawl the website host names with subdomains and other domains that the web pages link to.   The default mode is set to HOST_ONLY.
         public let webCrawlerMode: WebCrawlerMode?
 
         public init(seedUrls: [String], webCrawlerMode: WebCrawlerMode? = nil) {
@@ -7519,13 +7645,13 @@ extension Kendra {
         public let documentDataFieldName: String
         /// The name of the ServiceNow field that is mapped to the index document title field.
         public let documentTitleFieldName: String?
-        /// A list of regular expression patterns to exclude certain attachments of knowledge articles in your ServiceNow. Item that match the patterns are excluded from the index. Items that don't match the patterns are included in the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index. The regex is applied to the field specified in the PatternTargetField.
+        /// A list of regular expression patterns applied to exclude certain knowledge article attachments. Attachments that match the patterns are excluded from the index. Items that don't match the patterns are included in the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index.
         public let excludeAttachmentFilePatterns: [String]?
         /// Maps attributes or field names of knoweldge articles to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to ServiceNow fields. For more information, see Mapping data source fields. The ServiceNow data source field names must exist in your ServiceNow custom metadata.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
         /// A query that selects the knowledge articles to index. The query can return articles from multiple knowledge bases, and the knowledge bases can be public or private. The query string must be one generated by the ServiceNow console. For more information, see Specifying documents to index with a query.
         public let filterQuery: String?
-        /// A list of regular expression patterns to include certain attachments of knowledge articles in your ServiceNow. Item that match the patterns are included in the index. Items that don't match the patterns are excluded from the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index. The regex is applied to the field specified in the PatternTargetField.
+        /// A list of regular expression patterns applied to include knowledge article attachments. Attachments that match the patterns are included in the index. Items that don't match the patterns are excluded from the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index.
         public let includeAttachmentFilePatterns: [String]?
 
         public init(crawlAttachments: Bool? = nil, documentDataFieldName: String, documentTitleFieldName: String? = nil, excludeAttachmentFilePatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, filterQuery: String? = nil, includeAttachmentFilePatterns: [String]? = nil) {
@@ -7546,10 +7672,10 @@ extension Kendra {
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.excludeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 300)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 100)
+            try self.validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 250)
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
@@ -7559,10 +7685,10 @@ extension Kendra {
             try self.validate(self.filterQuery, name: "filterQuery", parent: name, min: 1)
             try self.validate(self.filterQuery, name: "filterQuery", parent: name, pattern: "^\\P{C}*$")
             try self.includeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 300)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 100)
+            try self.validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 250)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7607,20 +7733,20 @@ extension Kendra {
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.excludeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 300)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 100)
+            try self.validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 250)
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.includeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 300)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 100)
+            try self.validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 250)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7685,20 +7811,20 @@ extension Kendra {
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 250)
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 250)
             try self.proxyConfiguration?.validate(name: "\(name).proxyConfiguration")
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
@@ -7803,20 +7929,20 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 250)
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 250)
             try self.validate(self.lookBackPeriod, name: "lookBackPeriod", parent: name, max: 168)
             try self.validate(self.lookBackPeriod, name: "lookBackPeriod", parent: name, min: 0)
             try self.privateChannelFilter?.forEach {
@@ -8620,10 +8746,6 @@ extension Kendra {
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
-            try self.queryTexts?.forEach {
-                try validate($0, name: "queryTexts[]", parent: name, max: 1000)
-                try validate($0, name: "queryTexts[]", parent: name, min: 1)
-            }
             try self.validate(self.queryTexts, name: "queryTexts", parent: name, max: 49)
         }
 
@@ -9007,7 +9129,7 @@ extension Kendra {
     public struct WebCrawlerConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Configuration information required to connect to websites using authentication. You can connect to websites using basic authentication of user name and password. You use a secret in Secrets Manager to store your authentication credentials. You must provide the website host name and port number. For example, the host name of https://a.example.com/page1.html is "a.example.com" and the port is 443, the standard port for HTTPS.
         public let authenticationConfiguration: AuthenticationConfiguration?
-        /// Specifies the number of levels in a website that you want to crawl. The first level begins from the website seed or starting point URL. For example, if a website has three levels—index level (the seed in this example), sections level, and subsections level—and you are only interested in crawling information up to the sections level (levels 0-1), you can set your depth to 1. The default crawl depth is set to 2.
+        /// The 'depth' or number of levels from the seed level to crawl. For example, the seed  URL page is depth 1 and any hyperlinks on this page that are also crawled are depth 2.
         public let crawlDepth: Int?
         /// The maximum size (in MB) of a web page or attachment to crawl. Files larger than this size (in MB) are skipped/not crawled. The default maximum size of a web page or attachment is set to 50 MB.
         public let maxContentSizePerPageInMegaBytes: Float?
@@ -9048,15 +9170,15 @@ extension Kendra {
             try self.validate(self.maxUrlsPerMinuteCrawlRate, name: "maxUrlsPerMinuteCrawlRate", parent: name, min: 1)
             try self.proxyConfiguration?.validate(name: "\(name).proxyConfiguration")
             try self.urlExclusionPatterns?.forEach {
-                try validate($0, name: "urlExclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "urlExclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "urlExclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.urlExclusionPatterns, name: "urlExclusionPatterns", parent: name, max: 100)
+            try self.validate(self.urlExclusionPatterns, name: "urlExclusionPatterns", parent: name, max: 250)
             try self.urlInclusionPatterns?.forEach {
-                try validate($0, name: "urlInclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "urlInclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "urlInclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.urlInclusionPatterns, name: "urlInclusionPatterns", parent: name, max: 100)
+            try self.validate(self.urlInclusionPatterns, name: "urlInclusionPatterns", parent: name, max: 250)
             try self.urls.validate(name: "\(name).urls")
         }
 
@@ -9098,20 +9220,20 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 250)
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 300)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
-            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 250)
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 12)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 12)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^d-[0-9a-fA-F]{10}$")

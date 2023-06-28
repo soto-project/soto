@@ -6188,10 +6188,13 @@ extension Glue {
         public let catalogId: String?
         /// The name of the catalog database.
         public let databaseName: String?
+        /// Region of the target database.
+        public let region: String?
 
-        public init(catalogId: String? = nil, databaseName: String? = nil) {
+        public init(catalogId: String? = nil, databaseName: String? = nil, region: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
+            self.region = region
         }
 
         public func validate(name: String) throws {
@@ -6201,11 +6204,15 @@ extension Glue {
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.region, name: "region", parent: name, max: 255)
+            try self.validate(self.region, name: "region", parent: name, min: 1)
+            try self.validate(self.region, name: "region", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
+            case region = "Region"
         }
     }
 
@@ -18545,11 +18552,14 @@ extension Glue {
         public let databaseName: String?
         /// The name of the target table.
         public let name: String?
+        /// Region of the target table.
+        public let region: String?
 
-        public init(catalogId: String? = nil, databaseName: String? = nil, name: String? = nil) {
+        public init(catalogId: String? = nil, databaseName: String? = nil, name: String? = nil, region: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.name = name
+            self.region = region
         }
 
         public func validate(name: String) throws {
@@ -18562,12 +18572,16 @@ extension Glue {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.region, name: "region", parent: name, max: 255)
+            try self.validate(self.region, name: "region", parent: name, min: 1)
+            try self.validate(self.region, name: "region", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case name = "Name"
+            case region = "Region"
         }
     }
 
