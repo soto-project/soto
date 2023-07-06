@@ -73,9 +73,8 @@ extension S3 {
     /// - parameters:
     ///     - input: The GetObjectRequest shape that contains the details of the object request.
     ///     - partSize: Size of each part to be downloaded
-    ///     - on: an EventLoop to process each downloaded part on
     ///     - outputStream: Function to be called for each downloaded part. Called with data block and file size
-    /// - returns: An EventLoopFuture that will receive the complete file size once the multipart download has finished.
+    /// - returns: The complete file size once the multipart download has finished.
     public func multipartDownload(
         _ input: GetObjectRequest,
         partSize: Int = 5 * 1024 * 1024,
@@ -155,15 +154,17 @@ extension S3 {
     ///     - input: The GetObjectRequest shape that contains the details of the object request.
     ///     - partSize: Size of each part to be downloaded
     ///     - filename: Filename to save download to
+    ///     - threadPoolProvider: Where to get the thread pool used by the file loader
+    ///     - logger: logger
     ///     - progress: Callback that returns the progress of the download. It is called after each part is downloaded with a value
     ///         between 0.0 and 1.0 indicating how far the download is complete (1.0 meaning finished).
-    /// - returns: An EventLoopFuture that will receive the complete file size once the multipart download has finished.
+    /// - returns: The complete file size once the multipart download has finished.
     public func multipartDownload(
         _ input: GetObjectRequest,
         partSize: Int = 5 * 1024 * 1024,
         filename: String,
-        logger: Logger = AWSClient.loggingDisabled,
         threadPoolProvider: ThreadPoolProvider = .createNew,
+        logger: Logger = AWSClient.loggingDisabled,
         progress: @escaping (Double) throws -> Void = { _ in }
     ) async throws -> Int64 {
         let eventLoop = self.client.eventLoopGroup.any()
@@ -209,18 +210,18 @@ extension S3 {
     ///     - filename: Full path of file to upload
     ///     - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after a fail this should
     ///         be set to false
-    ///     - eventLoop: Eventloop to run upload on
     ///     - threadPoolProvider: Provide a thread pool to use or create a new one
+    ///     - logger: logger
     ///     - progress: Callback that returns the progress of the upload. It is called after each part is uploaded with a value between
     ///         0.0 and 1.0 indicating how far the upload is complete (1.0 meaning finished).
-    /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
+    /// - returns: The output from CompleteMultipartUploadOutput once the multipart upload has finished.
     public func multipartUpload(
         _ input: CreateMultipartUploadRequest,
         partSize: Int = 5 * 1024 * 1024,
         filename: String,
         abortOnFail: Bool = true,
-        logger: Logger = AWSClient.loggingDisabled,
         threadPoolProvider: ThreadPoolProvider = .createNew,
+        logger: Logger = AWSClient.loggingDisabled,
         progress: @escaping @Sendable (Double) throws -> Void = { _ in }
     ) async throws -> CompleteMultipartUploadOutput {
         let eventLoop = self.client.eventLoopGroup.any()
@@ -310,8 +311,8 @@ extension S3 {
     /// - parameters:
     ///     - input: The CopyObjectRequest structure that contains the details about the copy
     ///     - partSize: Size of each part to copy. This has to be at least 5MB
-    ///     - eventLoop: an EventLoop to process each part to upload
-    /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
+    ///     - logger: logger
+    /// - returns: The output from the CompleteMultipartUploadOutput once the multipart upload has finished.
     public func multipartCopy(
         _ input: CopyObjectRequest,
         partSize: Int = 8 * 1024 * 1024,
@@ -378,7 +379,6 @@ extension S3 {
     }
 }
 
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension S3 {
     /// Do all the work for opening a file and closing it for MultiUpload function
     func openFileForMultipartUpload(
@@ -425,7 +425,7 @@ extension S3 {
     ///     - filename: Full path of file to upload
     ///     - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after
     ///         a fail this should be set to false
-    ///     - eventLoop: EventLoop to process parts for upload, if nil an eventLoop is taken from the clients eventLoopGroup
+    ///     - logger: logger
     ///     - progress: Callback that returns the progress of the upload. It is called after each part and is called with how
     ///         many bytes have been uploaded so far.
     /// - returns: Output from CompleteMultipartUpload.
@@ -449,8 +449,8 @@ extension S3 {
                 input,
                 uploadId: uploadId,
                 partSequence: bufferSequence.fixedSizeSequence(chunkSize: partSize).enumerated(),
-                progress: progress,
-                logger: logger
+                logger: logger,
+                progress: progress
             )
 
             // complete multipart upload
@@ -501,7 +501,7 @@ extension S3 {
     ///   - bufferSequence: Sequence of ByteBuffers to upload
     ///   - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after
     ///         a fail this should be set to false
-    ///   - eventLoop: EventLoop to process parts for upload, if nil an eventLoop is taken from the clients eventLoopGroup
+    ///   - logger: logger
     ///   - progress: Callback that returns the progress of the upload. It is called after each part and is called with how
     ///         many bytes have been uploaded so far.
     /// - Returns: Output from CompleteMultipartUpload.
@@ -525,8 +525,8 @@ extension S3 {
             partSize: partSize,
             partSequence: partSequence,
             abortOnFail: abortOnFail,
-            progress: progress,
-            logger: logger
+            logger: logger,
+            progress: progress
         )
     }
 
@@ -538,7 +538,7 @@ extension S3 {
     ///   - bufferSequence: Sequence of ByteBuffers to upload
     ///   - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after
     ///         a fail this should be set to false
-    ///   - eventLoop: EventLoop to process parts for upload, if nil an eventLoop is taken from the clients eventLoopGroup
+    ///   - logger: logger
     ///   - progress: Callback that returns the progress of the upload. It is called after each part and is called with how
     ///         many bytes have been uploaded so far.
     /// - Returns: Output from CompleteMultipartUpload.
@@ -547,8 +547,8 @@ extension S3 {
         partSize: Int = 5 * 1024 * 1024,
         partSequence: PartsSequence,
         abortOnFail: Bool = true,
-        progress: (@Sendable (Int) throws -> Void)? = nil,
-        logger: Logger = AWSClient.loggingDisabled
+        logger: Logger = AWSClient.loggingDisabled,
+        progress: (@Sendable (Int) throws -> Void)? = nil
     ) async throws -> CompleteMultipartUploadOutput where PartsSequence.Element == (Int, ByteBuffer) {
         let uploadRequest = input.uploadRequest
 
@@ -559,8 +559,8 @@ extension S3 {
                 uploadId: input.uploadId,
                 partSequence: partSequence,
                 initialProgress: input.completedParts.count * partSize,
-                progress: progress,
-                logger: logger
+                logger: logger,
+                progress: progress
             )
             // combine array of already uploaded parts prior to the resume with the parts just uploaded
             let completedParts = (input.completedParts + parts).sorted { $0.partNumber! < $1.partNumber! }
@@ -610,17 +610,16 @@ extension S3 {
     ///   - input: multipart upload request
     ///   - uploadId: upload id
     ///   - bufferSequence: AsyncSequence supplying fixed size ByteBuffers
-    ///   - progress: Progress function updated with accumulated amount uploaded.
     ///   - logger: logger
-    ///   - eventLoop: eventloop to run Soto calls on
+    ///   - progress: Progress function updated with accumulated amount uploaded.
     /// - Returns: Array of completed parts
     func multipartUploadParts<PartSequence: AsyncSequence>(
         _ input: CreateMultipartUploadRequest,
         uploadId: String,
         partSequence: PartSequence,
         initialProgress: Int = 0,
-        progress: (@Sendable (Int) throws -> Void)? = nil,
-        logger: Logger
+        logger: Logger,
+        progress: (@Sendable (Int) throws -> Void)? = nil
     ) async throws -> [S3.CompletedPart] where PartSequence.Element == (Int, ByteBuffer) {
         var newProgress: (@Sendable (Int) throws -> Void)?
         if let progress = progress {
